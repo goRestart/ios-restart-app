@@ -1,4 +1,5 @@
 import Core
+import Application
 
 protocol ProductSummaryProvider {
   func makeProductSummary() -> UIViewController
@@ -20,7 +21,8 @@ extension Assembly: ProductSummaryProvider {
   private var viewModel: ProductSummaryViewModelType {
     return ProductSummaryViewModel(
       getProductDraft: productDraftActions,
-      productDraftViewMapper: productDraftViewMapper
+      productDraftViewMapper: productDraftViewMapper,
+      uploadProduct: uploadProduct
     )
   }
   
@@ -36,6 +38,10 @@ extension Assembly: ProductSummaryProvider {
   
   private var numberFormatter: NumberFormatter {
     return NumberFormatter()
+  }
+  
+  private var uploadProduct: UploadProduct {
+    return UploadProduct()
   }
 }
 

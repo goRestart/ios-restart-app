@@ -38,6 +38,9 @@
 		2E71A8E82131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8E72131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift */; };
 		2E71A8EB213157D6009D24A9 /* ProductExtraMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8EA213157D6009D24A9 /* ProductExtraMapper.swift */; };
 		2E71A8ED21315C2D009D24A9 /* ProductRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8EC21315C2D009D24A9 /* ProductRepository.swift */; };
+		2E9D41CE214E97AB00AFDB4C /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41CD214E97AB00AFDB4C /* ProductService.swift */; };
+		2E9D41D1214E982900AFDB4C /* PublishProductEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41D0214E982900AFDB4C /* PublishProductEndpoint.swift */; };
+		2E9D41D4214EB82E00AFDB4C /* ProductApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41D3214EB82E00AFDB4C /* ProductApiDataSource.swift */; };
 		2EB2B144212B2EF500705ACA /* AuthFirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B143212B2EF500705ACA /* AuthFirebaseDataSource.swift */; };
 		2EB2B147212B2F5700705ACA /* SignInUserFirebaseAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B146212B2F5700705ACA /* SignInUserFirebaseAction.swift */; };
 		2EB2B14A212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */; };
@@ -96,6 +99,9 @@
 		2E71A8E72131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProductExtrasAlgoliaAction.swift; sourceTree = "<group>"; };
 		2E71A8EA213157D6009D24A9 /* ProductExtraMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtraMapper.swift; sourceTree = "<group>"; };
 		2E71A8EC21315C2D009D24A9 /* ProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRepository.swift; sourceTree = "<group>"; };
+		2E9D41CD214E97AB00AFDB4C /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
+		2E9D41D0214E982900AFDB4C /* PublishProductEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishProductEndpoint.swift; sourceTree = "<group>"; };
+		2E9D41D3214EB82E00AFDB4C /* ProductApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductApiDataSource.swift; sourceTree = "<group>"; };
 		2EB2B143212B2EF500705ACA /* AuthFirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFirebaseDataSource.swift; sourceTree = "<group>"; };
 		2EB2B146212B2F5700705ACA /* SignInUserFirebaseAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserFirebaseAction.swift; sourceTree = "<group>"; };
 		2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserFirebaseErrorAdapter.swift; sourceTree = "<group>"; };
@@ -283,6 +289,7 @@
 		1C913A171FF0650600646884 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				2E9D41CC214E979D00AFDB4C /* Product */,
 				1CACCE8B1FF30A380001B321 /* Protocol */,
 			);
 			path = Network;
@@ -465,6 +472,7 @@
 			isa = PBXGroup;
 			children = (
 				2E71A8E12131523F009D24A9 /* ProductDataSource.swift */,
+				2E9D41D2214EB82300AFDB4C /* Api */,
 				2E71A8E321315695009D24A9 /* Algolia */,
 			);
 			path = "Data Source";
@@ -494,6 +502,31 @@
 				2E71A8EA213157D6009D24A9 /* ProductExtraMapper.swift */,
 			);
 			path = Mapper;
+			sourceTree = "<group>";
+		};
+		2E9D41CC214E979D00AFDB4C /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				2E9D41CD214E97AB00AFDB4C /* ProductService.swift */,
+				2E9D41CF214E981700AFDB4C /* Endpoint */,
+			);
+			path = Product;
+			sourceTree = "<group>";
+		};
+		2E9D41CF214E981700AFDB4C /* Endpoint */ = {
+			isa = PBXGroup;
+			children = (
+				2E9D41D0214E982900AFDB4C /* PublishProductEndpoint.swift */,
+			);
+			path = Endpoint;
+			sourceTree = "<group>";
+		};
+		2E9D41D2214EB82300AFDB4C /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				2E9D41D3214EB82E00AFDB4C /* ProductApiDataSource.swift */,
+			);
+			path = Api;
 			sourceTree = "<group>";
 		};
 		2EB2B142212B2EE500705ACA /* Firebase */ = {
@@ -706,6 +739,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E9D41D1214E982900AFDB4C /* PublishProductEndpoint.swift in Sources */,
 				2E2F7ABF2129F83000CDED0F /* RegisterUserFirebaseAction.swift in Sources */,
 				1C913A2F1FF2B2D400646884 /* AuthDataSource.swift in Sources */,
 				1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */,
@@ -725,8 +759,10 @@
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
 				2E71A8E82131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift in Sources */,
 				2EE4A3BB212CA63C00380467 /* Algolia+Rx.swift in Sources */,
+				2E9D41CE214E97AB00AFDB4C /* ProductService.swift in Sources */,
 				1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */,
 				2E2F7ABC2129F71600CDED0F /* RegisterUserFirebaseErrorAdapter.swift in Sources */,
+				2E9D41D4214EB82E00AFDB4C /* ProductApiDataSource.swift in Sources */,
 				1C40D8BA1FFD38CA006D5BE4 /* Assembly+Moya.swift in Sources */,
 				2EE4A3B8212CA55800380467 /* GameAlgoliaDataSource.swift in Sources */,
 				1C913A291FF0670300646884 /* AuthRepository.swift in Sources */,

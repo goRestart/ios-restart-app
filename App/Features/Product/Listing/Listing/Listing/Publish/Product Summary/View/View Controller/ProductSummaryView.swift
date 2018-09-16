@@ -100,4 +100,8 @@ extension Reactive where Base: ProductSummaryView {
       view.imageCarousel.set(images)
     }
   }
+  
+  var publishButtonWasTapped: Observable<Void> {
+    return base.publishButton.rx.buttonWasTapped
+  }
 }

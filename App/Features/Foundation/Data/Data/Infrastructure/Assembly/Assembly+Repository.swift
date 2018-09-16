@@ -5,13 +5,20 @@ import Core
 extension Assembly {
   public var productRepository: ProductRepository {
     return ProductRepository(
-      algoliaDataSource: productAlgoliaDataSource
+      algoliaDataSource: productAlgoliaDataSource,
+      apiDataSource: productApiDataSource
     )
   }
   
-  private var productAlgoliaDataSource: ProductDataSource {
+  private var productAlgoliaDataSource: ProductExtrasDataSource {
     return ProductAlgoliaDataSource(
       getProductExtrasAlgoliaAction: getProductExtrasAlgoliaAction
+    )
+  }
+  
+  private var productApiDataSource: ProductDataSource {
+    return ProductApiDataSource(
+      provider: moyaProvider()
     )
   }
   

@@ -1,7 +1,7 @@
 import RxSwift
 import Domain
 
-struct ProductAlgoliaDataSource: ProductDataSource {
+struct ProductAlgoliaDataSource: ProductExtrasDataSource {
   
   private let getProductExtrasAlgoliaAction: GetProductExtrasAlgoliaAction
   
