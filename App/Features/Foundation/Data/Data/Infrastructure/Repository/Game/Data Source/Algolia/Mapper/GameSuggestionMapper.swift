@@ -6,8 +6,8 @@ protocol GameSuggestionMapperProvider {
 }
 
 private enum JSONKey {
-  static let id = "id"
-  static let value = "value"
+  static let id = "objectID"
+  static let value = "title"
 }
 
 struct GameSuggestionMapper: Mappable {
