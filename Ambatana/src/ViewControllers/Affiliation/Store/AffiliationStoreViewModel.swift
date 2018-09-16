@@ -45,7 +45,6 @@ final class AffiliationStoreViewModel: BaseViewModel {
     private func openHistory() {
         navigator?.openHistory()
     }
-
 }
 
 private extension AffiliationStoreViewModel {
