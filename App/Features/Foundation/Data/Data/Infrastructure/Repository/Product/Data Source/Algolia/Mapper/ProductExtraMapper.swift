@@ -2,7 +2,7 @@ import Domain
 import Core
 
 private enum JSONKey {
-  static let id = "objectID"
+  static let id = "type"
   static let type = "type"
 }
 

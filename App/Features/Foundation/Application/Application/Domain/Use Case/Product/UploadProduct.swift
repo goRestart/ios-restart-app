@@ -22,7 +22,26 @@ public struct UploadProduct: UploadProductUseCase {
     return imageOptimizer
       .optimize(images: productDraft.productImages)
       .flatMap(uploadImages.execute)
-      .asCompletable()
+      .flatMapCompletable { images in
+        let request = self.toRequest(with: productDraft, images: images)
+        return self.productRepository.publish(with: request)
+    }
+  }
+  
+  private func toRequest(with productDraft: ProductDraft, images: [URL]) -> PublishProductRequest {
+    guard let title = productDraft.title,
+      let description = productDraft.description,
+      let price = productDraft.price else {
+        fatalError()
+    }
+
+    return PublishProductRequest(
+      title: title,
+      description: description,
+      price: price,
+      productExtras: productDraft.productExtras,
+      images: images
+    )
   }
 }
 

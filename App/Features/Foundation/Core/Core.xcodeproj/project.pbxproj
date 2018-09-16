@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1C1D227B1FFEC2C200BC0316 /* EmailValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D227A1FFEC2C200BC0316 /* EmailValidator.swift */; };
-		1C89D72E1FF3D7C500B3FA98 /* ObservableType+Completable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D72D1FF3D7C500B3FA98 /* ObservableType+Completable.swift */; };
 		1C913A5D1FF2C1C700646884 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C913A4F1FF2C1C700646884 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CACCE751FF2D37F0001B321 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE741FF2D37F0001B321 /* Mappable.swift */; };
 		1CACDA671FF7200A00538B78 /* String+Trim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA661FF7200A00538B78 /* String+Trim.swift */; };
@@ -17,7 +16,6 @@
 
 /* Begin PBXFileReference section */
 		1C1D227A1FFEC2C200BC0316 /* EmailValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidator.swift; sourceTree = "<group>"; };
-		1C89D72D1FF3D7C500B3FA98 /* ObservableType+Completable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObservableType+Completable.swift"; sourceTree = "<group>"; };
 		1C913A4C1FF2C1C700646884 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C913A4F1FF2C1C700646884 /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		1C913A501FF2C1C700646884 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -57,17 +55,8 @@
 			isa = PBXGroup;
 			children = (
 				1CACDA651FF7200200538B78 /* String */,
-				1C89D72C1FF3D7AE00B3FA98 /* RxSwift */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		1C89D72C1FF3D7AE00B3FA98 /* RxSwift */ = {
-			isa = PBXGroup;
-			children = (
-				1C89D72D1FF3D7C500B3FA98 /* ObservableType+Completable.swift */,
-			);
-			path = RxSwift;
 			sourceTree = "<group>";
 		};
 		1C89D72F1FF3D7F900B3FA98 /* Frameworks */ = {
@@ -237,7 +226,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CC209B11FF2C26A00EE0B5B /* Assembly.swift in Sources */,
-				1C89D72E1FF3D7C500B3FA98 /* ObservableType+Completable.swift in Sources */,
 				1C1D227B1FFEC2C200BC0316 /* EmailValidator.swift in Sources */,
 				1CACDA671FF7200A00538B78 /* String+Trim.swift in Sources */,
 				1CACCE751FF2D37F0001B321 /* Mappable.swift in Sources */,
