@@ -5,7 +5,7 @@ import RxCocoa
 
 // TODO: @juolgon Localize all texts
 
-final class P2PPaymentsEnterPayCodeViewController: BaseViewController {
+final class P2PPaymentsEnterPayCodeViewController: BaseViewController, VerificationCodeTextFieldDelegate {
     private let viewModel: P2PPaymentsEnterPayCodeViewModel
     private let disposeBag = DisposeBag()
 
@@ -36,6 +36,12 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController {
         return label
     }()
 
+    private let activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        view.hidesWhenStopped = true
+        return view
+    }()
+
     init(viewModel: P2PPaymentsEnterPayCodeViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
@@ -52,7 +58,6 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController {
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setupNavigationBar()
-        verificationCodetextField.becomeFirstResponder()
     }
 
     private func setupNavigationBar() {
@@ -62,10 +67,12 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController {
 
     private func setup() {
         view.backgroundColor = UIColor.white
+        verificationCodetextField.delegate = self
         view.addSubviewsForAutoLayout([buyerImageView,
                                        descriptionLabel,
                                        verificationCodetextField,
-                                       attemptsTextLabel])
+                                       attemptsTextLabel,
+                                       activityIndicator])
         setupConstraints()
         setupRx()
     }
@@ -85,12 +92,32 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController {
 
             attemptsTextLabel.topAnchor.constraint(equalTo: verificationCodetextField.bottomAnchor, constant: 12),
             attemptsTextLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
     }
 
     private func setupRx() {
-//        let bindings = [
-//        ]
-//        bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
+        let bindings = [
+            viewModel.showLoadingIndicator.drive(activityIndicator.rx.isAnimating),
+            viewModel.descriptionText.drive(descriptionLabel.rx.text),
+            viewModel.hideCodeTextField.drive(verificationCodetextField.rx.isHidden),
+            viewModel.hideCodeTextField.drive(attemptsTextLabel.rx.isHidden),
+        ]
+        viewModel.hideCodeTextField.drive(onNext: { [weak self] hide in
+            guard !hide else { return }
+            self?.verificationCodetextField.clearText()
+            self?.verificationCodetextField.becomeFirstResponder()
+        }).disposed(by: disposeBag)
+        viewModel.buyerImageURL.drive(onNext: { [weak self] url in
+            guard let url = url else { return }
+            self?.buyerImageView.lg_setImageWithURL(url)
+        }).disposed(by: disposeBag)
+        bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
+    }
+
+    func didEndEditingWith(code: String) {
+        viewModel.payCodeEntered(code)
     }
 }

@@ -214,7 +214,8 @@ extension P2PPaymentsOfferStatusViewModel {
     }
 
     func enterCodeButtonPressed() {
-        navigator?.openEnterPayCode()
+        guard let buyer = buyer else { return }
+        navigator?.openEnterPayCode(buyer: buyer)
     }
 }
 
