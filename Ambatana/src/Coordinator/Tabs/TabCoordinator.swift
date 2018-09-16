@@ -286,6 +286,18 @@ extension TabCoordinator: ChatDetailNavigator {
         let vc = P2PPaymentsOfferStatusBuilder.modal.buildOfferStatus(offerId: offerId)
         navigationController.present(vc, animated: true)
     }
+
+    func openOfferPayCode(offerId: String) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildGetPayCode(offerId: offerId)
+        navigationController.present(vc, animated: true)
+    }
+
+    func openEnterPayCode(offerId: String, buyerName: String, buyerAvatar: File?) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildEnterPayCode(offerId: offerId,
+                                                                       buyerName: buyerName,
+                                                                       buyerAvatar: buyerAvatar)
+        navigationController.present(vc, animated: true)
+    }
 }
 
 // MARK: - UINavigationControllerDelegate
