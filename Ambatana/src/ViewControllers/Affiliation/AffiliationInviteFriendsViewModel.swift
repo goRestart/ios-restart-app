@@ -11,4 +11,8 @@ final class AffiliationInviteFriendsViewModel: BaseViewModel {
     func inviteSMSContactsButtonPressed() {
         navigator?.openAffiliationInviteSMSContacts()
     }
+    
+    func termsButtonPressed() {
+        navigator?.openInviteTerms()
+    }
 }

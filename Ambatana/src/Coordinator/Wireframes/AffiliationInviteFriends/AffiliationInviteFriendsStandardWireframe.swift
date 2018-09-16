@@ -1,3 +1,5 @@
+import LGComponents
+
 final class AffiliationInviteFriendsStandardWireframe: AffiliationInviteFriendsNavigator {
     private let navigationController: UINavigationController
     private let affiliationInviteSMSContactsAssembly: AffiliationInviteSMSContactsAssembly
@@ -21,5 +23,10 @@ final class AffiliationInviteFriendsStandardWireframe: AffiliationInviteFriendsN
     func openAffiliationInviteSMSContacts() {
         let viewController = affiliationInviteSMSContactsAssembly.buildAffiliationInviteSMSContacts()
         navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    func openInviteTerms() {
+        guard let termsURL = LetgoURLHelper.buildInviteFriendsTermsURL() else { return }
+        navigationController.openInAppWebViewWith(url: termsURL)
     }
 }

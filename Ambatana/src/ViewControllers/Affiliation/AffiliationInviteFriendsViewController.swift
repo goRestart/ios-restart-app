@@ -96,8 +96,8 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
     }
 
     private func setupTermsButton() {
-        inviteOthersButton.rx.tap.bind { [weak viewModel] in
-            // viewModel?.termsButtonPressed
+        termsAndConditionsButton.rx.tap.bind { [weak viewModel] in
+            viewModel?.termsButtonPressed()
             }.disposed(by: disposeBag)
     }
     
