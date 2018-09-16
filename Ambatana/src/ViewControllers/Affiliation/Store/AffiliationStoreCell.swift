@@ -43,7 +43,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
 
     private let redeemButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .medium))
-        button.setTitle("Redeem", for: .normal) // TODO: Localize
+        button.setTitle(R.Strings.affiliationStoreRedeemGift, for: .normal)
         return button
     }()
 

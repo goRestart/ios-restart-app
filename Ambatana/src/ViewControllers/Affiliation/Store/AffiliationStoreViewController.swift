@@ -21,13 +21,30 @@ final class AffiliationStoreViewController: BaseViewController {
         constraintViewToSafeRootView(storeView)
     }
 
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        setupNavigationBar()
+    }
+
     override func viewDidLoad() {
-        title = "Store"
         view.backgroundColor = storeView.backgroundColor
         storeView.collectionView.dataSource = self
         automaticallyAdjustsScrollViewInsets = false
         
         setupRx()
+    }
+
+    private func setupNavigationBar() {
+        setNavBarBackgroundStyle(.transparent(substyle: .light))
+        setNavBarTitle(R.Strings.affiliationStoreTitle)
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.view.backgroundColor = .clear
+
+        // TODO: Include gray dots
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: R.Asset.IconsButtons.icMoreOptions.image,
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(didTapMoreActions))
     }
 
     private func setupRx() {
@@ -48,6 +65,12 @@ final class AffiliationStoreViewController: BaseViewController {
         case .empty(_):
             break
         }
+    }
+}
+
+extension AffiliationStoreViewController {
+    @objc func didTapMoreActions() {
+        showActionSheet(R.Strings.commonCancel, actions: viewModel.moreActions, barButtonItem: nil)
     }
 }
 
