@@ -129,6 +129,10 @@
 		0942C7B42148FE0F00779DF1 /* P2PPaymentsGetPayCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942C7B22148FE0F00779DF1 /* P2PPaymentsGetPayCodeViewController.swift */; };
 		0942C7B62148FE1E00779DF1 /* P2PPaymentsGetPayCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942C7B52148FE1E00779DF1 /* P2PPaymentsGetPayCodeViewModel.swift */; };
 		0942C7B72148FE1E00779DF1 /* P2PPaymentsGetPayCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942C7B52148FE1E00779DF1 /* P2PPaymentsGetPayCodeViewModel.swift */; };
+		0944899D214F213600F6EACB /* P2PPaymentsPayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944899C214F213600F6EACB /* P2PPaymentsPayoutViewController.swift */; };
+		0944899E214F213600F6EACB /* P2PPaymentsPayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944899C214F213600F6EACB /* P2PPaymentsPayoutViewController.swift */; };
+		094489A0214F214A00F6EACB /* P2PPaymentsPayoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944899F214F214A00F6EACB /* P2PPaymentsPayoutViewModel.swift */; };
+		094489A1214F214B00F6EACB /* P2PPaymentsPayoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944899F214F214A00F6EACB /* P2PPaymentsPayoutViewModel.swift */; };
 		0975238C2147D97D00F76F54 /* P2PPaymentsStepLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0975238B2147D97D00F76F54 /* P2PPaymentsStepLineView.swift */; };
 		0975238D2147D97D00F76F54 /* P2PPaymentsStepLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0975238B2147D97D00F76F54 /* P2PPaymentsStepLineView.swift */; };
 		0975238F2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0975238E2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift */; };
@@ -2660,6 +2664,8 @@
 		0941DF012147C15900576659 /* P2PPaymentsNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsNumberView.swift; sourceTree = "<group>"; };
 		0942C7B22148FE0F00779DF1 /* P2PPaymentsGetPayCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsGetPayCodeViewController.swift; sourceTree = "<group>"; };
 		0942C7B52148FE1E00779DF1 /* P2PPaymentsGetPayCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsGetPayCodeViewModel.swift; sourceTree = "<group>"; };
+		0944899C214F213600F6EACB /* P2PPaymentsPayoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutViewController.swift; sourceTree = "<group>"; };
+		0944899F214F214A00F6EACB /* P2PPaymentsPayoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutViewModel.swift; sourceTree = "<group>"; };
 		0975238B2147D97D00F76F54 /* P2PPaymentsStepLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsStepLineView.swift; sourceTree = "<group>"; };
 		0975238E2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusBuyerView.swift; sourceTree = "<group>"; };
 		097523912148AE6B00F76F54 /* P2PPaymentsBuyerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsBuyerHeaderView.swift; sourceTree = "<group>"; };
@@ -4179,6 +4185,7 @@
 				0915FB922140FDE20003D5B0 /* OfferStatus */,
 				0942C7B12148FDDB00779DF1 /* GetPayCode */,
 				097BC1CE214925230024D9F8 /* EnterPayCode */,
+				0944899B214F205200F6EACB /* Payout */,
 			);
 			path = P2PPayments;
 			sourceTree = "<group>";
@@ -4226,6 +4233,15 @@
 				0942C7B22148FE0F00779DF1 /* P2PPaymentsGetPayCodeViewController.swift */,
 			);
 			path = GetPayCode;
+			sourceTree = "<group>";
+		};
+		0944899B214F205200F6EACB /* Payout */ = {
+			isa = PBXGroup;
+			children = (
+				0944899F214F214A00F6EACB /* P2PPaymentsPayoutViewModel.swift */,
+				0944899C214F213600F6EACB /* P2PPaymentsPayoutViewController.swift */,
+			);
+			path = Payout;
 			sourceTree = "<group>";
 		};
 		0975239D2148B8F500F76F54 /* UI State */ = {
@@ -9827,6 +9843,7 @@
 				72FE02D91F97A155005BD672 /* ListingCreationParams+LG.swift in Sources */,
 				50146BCD1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				0A6FECC22130344000B57004 /* FiltersModalWireframe.swift in Sources */,
+				094489A0214F214A00F6EACB /* P2PPaymentsPayoutViewModel.swift in Sources */,
 				C2DC548420A3343E0052EB12 /* AppEventsManager.swift in Sources */,
 				C7111F051CA438C2000C5C5A /* UriScheme.swift in Sources */,
 				50C2E1A71E701BE8006639BB /* PostListingFooter.swift in Sources */,
@@ -10019,6 +10036,7 @@
 				0A75147D214272570049E135 /* UserRatingCell.swift in Sources */,
 				2EBC92051E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
 				016328F720DBCFF000FA618B /* NotificationSettingsPlaceholderView.swift in Sources */,
+				0944899D214F213600F6EACB /* P2PPaymentsPayoutViewController.swift in Sources */,
 				2ED296C1213E87A8003E26A3 /* ChatOtherInfoAssistantView.swift in Sources */,
 				50C63B711DC3A79100836D85 /* SocialMessage.swift in Sources */,
 				C7B5884B1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
@@ -10692,6 +10710,7 @@
 				3221E5382060619E0006B12B /* ProductPriceAndTitleView.swift in Sources */,
 				0A82A18B213FFF41005ECA58 /* DashedLine.swift in Sources */,
 				C6FFC4A520F7492500B9F53A /* FilterPriceRange.swift in Sources */,
+				094489A1214F214B00F6EACB /* P2PPaymentsPayoutViewModel.swift in Sources */,
 				C7DB41981C5138B500400945 /* CollectionViewFooter.swift in Sources */,
 				0A2F51F42122E41B0034EF85 /* VerifyAccountsBuilder.swift in Sources */,
 				017E608320D15D4F007025C0 /* NotificationSettingsListDetailViewController.swift in Sources */,
@@ -11498,6 +11517,7 @@
 				3237C6A62108ABB500B7359B /* ListingCellSizeMetrics.swift in Sources */,
 				C7DB421E1C5138B500400945 /* FacebookTracker.swift in Sources */,
 				3221E539206061A10006B12B /* DiscardedView.swift in Sources */,
+				0944899E214F213600F6EACB /* P2PPaymentsPayoutViewController.swift in Sources */,
 				0AEB4FF62018C791003365DE /* ListingDeckOnBoardingBinder.swift in Sources */,
 				F51A082C2031B5380008D744 /* AspectRatio.swift in Sources */,
 				C7B5889B1CE1E025009B3975 /* ConversationCell.swift in Sources */,
