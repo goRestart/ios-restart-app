@@ -16,14 +16,49 @@
 // Affiliation Invite SMS contacts screen. Title.
 "affiliation_invite_sms_contacts_title" = "Connect contacts";
 
+// Affiliation Invite SMS contacts screen. Select all title
+"affiliation_invite_sms_contacts_select_all" = "Select / Unselect";
+
+// Affiliation invite sms contacts search bar placeholder
+"affiliation_invite_sms_contacts_search_placeholder" = "Search or enter a name or phone";
+
+// Affiliation Invite message text
+"affiliation_invite_message_text" = "has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
+
+// Affiliation invite friends main title label
+"affiliation_invite_friends_title_label" = "Invite your friends";
+
+// Affiliation invite friends subtitle label
+"affiliation_invite_friends_subtitle_label" = "Invite 3 friends, and earn $10 when they start using letgo. Invite 10 friends, and earn $50! (Your friends will each get a $5 gift card, too. Just because.)";
+
 // Affilation Invite friends screen. Title.
 "affiliation_invite_friends_title" = "Invite friends";
+
+// Affilation Invite friends screen. Others Button.
+"affiliation_invite_friends_others_button" = "Others ways to share";
+
+// Affilation Invite friends screen. Terms and conditions
+"affiliation_invite_friends_terms_button" = "Terms and Conditions";
 
 // Affilation Invite friends screen. SMS Button.
 "affiliation_invite_friends_sms_button" = "Invite via text";
 
-// Affilation FAQ screen. Title.
 "affiliation_faq_title" = "How it works";
+
+// Affiliation Store screen. Country unavailable error message
+"affiliation_store_country_error_message" = "Oops! This feature is not available in your country.";
+
+// Affiliation Store screen. Unknown error message
+"affiliation_store_unknown_error_message" = "Oops! We are currently experimenting some issues with out store.";
+
+// Affilation Store screen. Title
+"affiliation_store_title" = "Store";
+
+// Affiliation Store screen. History
+"affiliation_store_history" = "History";
+
+// Affilation Store screen. Redeem button
+"affiliation_store_redeem_gift" = "Redeem gift card";
 
 // Affiliation challenges screen. Wallet View. Title.
 "affiliation_wallet_title" = "YOUR WALLET";
@@ -1333,7 +1368,7 @@
 "filters_navbar_reset" = "Reset";
 
 // Filters save button
-"filters_save_button" = "Save filters";
+"filters_save_button" = "Apply filters";
 
 // Filters section car info
 "filters_section_car_info" = "Car Info";

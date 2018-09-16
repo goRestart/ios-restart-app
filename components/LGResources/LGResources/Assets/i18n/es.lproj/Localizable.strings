@@ -491,7 +491,7 @@
 "filters_real_estate_property_type_not_set" = "No definido";
 "filters_real_estate_size_from_feed_filter_cell" = "De";
 "filters_real_estate_size_to_feed_filter_cell" = "A";
-"filters_save_button" = "Guardar filtros";
+"filters_save_button" = "Aplicar filtros";
 "filters_section_car_info" = "Características del coche";
 "filters_section_categories" = "Categorías";
 "filters_section_distance" = "Distancia";

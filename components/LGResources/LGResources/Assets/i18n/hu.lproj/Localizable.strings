@@ -267,10 +267,10 @@
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
 "chat_with_yourself_alert_msg" = "A saját hirdetésedről nem indíthatsz csevegést.";
 "click_to_talk_smoketest_action_button" = "Első lépések";
-"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
+"click_to_talk_smoketest_banner_title" = "Bemutatkozik a „Hívás gombnyomásra”";
 "click_to_talk_smoketest_description" = "Pillanatok alatt kapcsolatba léphetsz a legesélyesebb vásárlóval, és akár kétszer gyorsabban nyélbe ütheted az üzletet.";
 "click_to_talk_smoketest_subtitle" = "Hívásfogadás";
-"click_to_talk_smoketest_title" = "A beszédhez kattints";
+"click_to_talk_smoketest_title" = "Hívás gombnyomásra";
 "collection_explore_button" = "Felfedezés";
 "collection_furniture_title" = "Az én váram...";
 "collection_transport_title" = "Utazz stílusosan";
@@ -491,7 +491,7 @@
 "filters_real_estate_property_type_not_set" = "Nincs megadva";
 "filters_real_estate_size_from_feed_filter_cell" = "Legalább";
 "filters_real_estate_size_to_feed_filter_cell" = "Legfeljebb";
-"filters_save_button" = "Szűrők mentése";
+"filters_save_button" = "Szűrők alkalmazása";
 "filters_section_car_info" = "Autóinfók";
 "filters_section_categories" = "Kategóriák";
 "filters_section_distance" = "Távolság";
@@ -1350,9 +1350,9 @@
 "reset_password_title" = "Jelszóhelyreállítás";
 "rewards_faq_title" = "Hogyan működik?";
 "rewards_invite_contacts_title" = "Csatlakoztass ismerősöket";
-"rewards_invite_friends_button" = "Hívd meg barátaid";
+"rewards_invite_friends_button" = "Barátok meghívása";
 "rewards_invite_friends_contact_button" = "Hívj meg szöveges üzenettel";
-"rewards_invite_friends_title" = "Hívd meg barátaid";
+"rewards_invite_friends_title" = "Barátok meghívása";
 "rewards_title" = "Jutalmak";
 "search_alert_delete_error_message" = "Hoppá! Hiba történt a keresési figyelmeztetés törlése során.";
 "search_alert_disable_error_message" = "Hoppá! Hiba történt a keresési figyelmeztetés kikapcsolása során.";
@@ -1408,7 +1408,7 @@
 "services_service_type_list_title" = "Szolgáltatás kategória";
 "services_service_type_title" = "Szolgáltatás kategória";
 "services_unified_filter_title" = "Válassz kategóriát";
-"settings_affililation_button" = "Rewards";
+"settings_affililation_button" = "Jutalmak";
 "settings_change_email_button" = "E-mail";
 "settings_change_location_button" = "Tartózkodási hely";
 "settings_change_password_button" = "Jelszóváltás";
