@@ -167,6 +167,14 @@
 		0A376D9F214C511300DFFB7F /* AffiliationStorePointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */; };
 		0A35E6EA20FCDE49002701ED /* ListingCardMediaCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */; };
 		0A35E6EB20FCDF64002701ED /* ListingCardMediaCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */; };
+		0A376DB5214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */; };
+		0A376DB6214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */; };
+		0A376DB8214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */; };
+		0A376DB9214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */; };
+		0A376DBB214FACE100DFFB7F /* AffiliationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */; };
+		0A376DBC214FACE100DFFB7F /* AffiliationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */; };
+		0A376DBF214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */; };
+		0A376DC0214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */; };
 		0A38625420EB7E8500DD997F /* LPMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */; };
 		0A38625520EB7E8C00DD997F /* LPMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */; };
 		0A3AF6B8213D46610034143B /* ListingFullDetailNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AF6B7213D46600034143B /* ListingFullDetailNavigator.swift */; };
@@ -180,8 +188,6 @@
 		0A3AF6C5213D84B70034143B /* ListingDeckNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AF6C4213D84B70034143B /* ListingDeckNavigator.swift */; };
 		0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DD44E211089CD003E5EC2 /* PaymentFrequency+LG.swift */; };
 		0A3F3FEB210B75A50070F6A1 /* DropdownSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */; };
-		0A45A875214ADD990045ACFA /* RxSwift+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A874214ADD990045ACFA /* RxSwift+LG.swift */; };
-		0A45A876214ADDD00045ACFA /* RxSwift+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A874214ADD990045ACFA /* RxSwift+LG.swift */; };
 		0A45A879214BC66F0045ACFA /* AffiliationStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A878214BC66F0045ACFA /* AffiliationStoreViewController.swift */; };
 		0A45A87A214BC66F0045ACFA /* AffiliationStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A878214BC66F0045ACFA /* AffiliationStoreViewController.swift */; };
 		0A45A87C214BC6900045ACFA /* AffiliationStoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A87B214BC6900045ACFA /* AffiliationStoreView.swift */; };
@@ -2524,13 +2530,16 @@
 		0A31CF611FA1EBEB00FE84E0 /* ListingDeckViewModelBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModelBinder.swift; sourceTree = "<group>"; };
 		0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStorePointsView.swift; sourceTree = "<group>"; };
 		0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardMediaCarousel.swift; sourceTree = "<group>"; };
+		0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalViewController.swift; sourceTree = "<group>"; };
+		0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalViewModel.swift; sourceTree = "<group>"; };
+		0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalView.swift; sourceTree = "<group>"; };
+		0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalBuilder.swift; sourceTree = "<group>"; };
 		0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMessageViewModel.swift; sourceTree = "<group>"; };
 		0A3AF6B7213D46600034143B /* ListingFullDetailNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailNavigator.swift; sourceTree = "<group>"; };
 		0A3AF6B9213D46D10034143B /* ListingFullDetailWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailWireframe.swift; sourceTree = "<group>"; };
 		0A3AF6BE213D48480034143B /* ListingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingBuilder.swift; sourceTree = "<group>"; };
 		0A3AF6C1213D62BD0034143B /* DeckViewCollectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckViewCollectionDelegate.swift; sourceTree = "<group>"; };
 		0A3AF6C4213D84B70034143B /* ListingDeckNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckNavigator.swift; sourceTree = "<group>"; };
-		0A45A874214ADD990045ACFA /* RxSwift+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxSwift+LG.swift"; sourceTree = "<group>"; };
 		0A45A878214BC66F0045ACFA /* AffiliationStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreViewController.swift; sourceTree = "<group>"; };
 		0A45A87B214BC6900045ACFA /* AffiliationStoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreView.swift; sourceTree = "<group>"; };
 		0A45A87E214BC7470045ACFA /* AffiliationStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreCell.swift; sourceTree = "<group>"; };
@@ -4018,6 +4027,24 @@
 			path = PromoteBump;
 			sourceTree = "<group>";
 		};
+		0A376DB3214FAC2600DFFB7F /* ModalView */ = {
+			isa = PBXGroup;
+			children = (
+				0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */,
+				0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */,
+				0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */,
+			);
+			path = ModalView;
+			sourceTree = "<group>";
+		};
+		0A376DBD214FE28B00DFFB7F /* AffiliationModalView */ = {
+			isa = PBXGroup;
+			children = (
+				0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */,
+			);
+			path = AffiliationModalView;
+			sourceTree = "<group>";
+		};
 		0A3AF6BD213D48410034143B /* Listing */ = {
 			isa = PBXGroup;
 			children = (
@@ -4543,6 +4570,7 @@
 				50D15400214A5BFE00221B06 /* AffiliationChallenges */,
 				50D15404214A5BFE00221B06 /* AffiliationInviteFriends */,
 				50D15402214A5BFE00221B06 /* AffiliationInviteSMSContacts */,
+				0A376DBD214FE28B00DFFB7F /* AffiliationModalView */,
 				0A45A88B214C01B20045ACFA /* AffiliationStore */,
 				0AF28D84213ECEBA005A6F8C /* ListingsMap */,
 				A47C4A62213D5574005AA387 /* Search */,
@@ -6182,6 +6210,7 @@
 		50D153E7214A5BE600221B06 /* Affiliation */ = {
 			isa = PBXGroup;
 			children = (
+				0A376DB3214FAC2600DFFB7F /* ModalView */,
 				0A45A877214BC6550045ACFA /* Store */,
 				50D153E8214A5BE600221B06 /* AffiliationFAQViewController.swift */,
 				50D153E9214A5BE600221B06 /* AffiliationFAQViewModel.swift */,
@@ -6416,7 +6445,6 @@
 				6A5E19B91D548F5400F92692 /* FBSDKSharing+LG.swift */,
 				6A5E19BA1D548F5400F92692 /* GoogleLoginHelper.swift */,
 				5061ACBC1DE3637D002E5423 /* ExternalAuthHelper.swift */,
-				0A45A874214ADD990045ACFA /* RxSwift+LG.swift */,
 			);
 			path = 3rdPartyExtensions;
 			sourceTree = "<group>";
@@ -9374,6 +9402,7 @@
 				6A4E80611C77620900C6423E /* LetgoAvatar.swift in Sources */,
 				0A04D5CF20760A9D00471B9D /* ABDynamicVar.swift in Sources */,
 				725BD5562077C37E00563926 /* VerticalsABGroup.swift in Sources */,
+				0A376DB5214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */,
 				50FEFA1E20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */,
 				0A6FED1E2130344000B57004 /* RateUserStandardWireframe.swift in Sources */,
 				0178C8E2214AC41000FE23D2 /* ShareScreenshotViewModel.swift in Sources */,
@@ -9545,6 +9574,7 @@
 				F5BBF6791FD06488000E37A0 /* ListingAttributePickerTableView.swift in Sources */,
 				2E4A9DBA1D8054DE00F99026 /* ListingListMultiRequester.swift in Sources */,
 				C7C61E041D633FDB00F9505D /* SearchType.swift in Sources */,
+				0A376DB8214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */,
 				50D934D91E81283100BDD5FF /* PostListingState.swift in Sources */,
 				50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */,
 				A4605829212D9A8100386DFC /* TourBuilder.swift in Sources */,
@@ -9722,6 +9752,7 @@
 				723A45C91DDC4D470001D02C /* UILabel+LG.swift in Sources */,
 				32448E802101F3CC00EFF33A /* LoadingViewController.swift in Sources */,
 				6A12E0551C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
+				0A376DBF214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */,
 				0A75147B214272570049E135 /* PossibleBuyerCell.swift in Sources */,
 				C7DE8AC71C888761005CF37E /* EditListingViewController.swift in Sources */,
 				6ADACDC71CEDC68A008A5603 /* ChatStickersView.swift in Sources */,
@@ -9771,6 +9802,7 @@
 				0AE405B720EDF7F10041E3F1 /* ListingCardView.swift in Sources */,
 				2E4ADEC2200515FC00D07D8A /* BumpUpPayViewController.swift in Sources */,
 				55FABE1620762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift in Sources */,
+				0A376DBB214FACE100DFFB7F /* AffiliationModalView.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
 				72E8A5861EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
 				6AF75D071CF449AF00EACCF0 /* ChatViewMessage.swift in Sources */,
@@ -9787,7 +9819,6 @@
 				F51A082B2031B5360008D744 /* AspectRatio.swift in Sources */,
 				0A6FECD62130344000B57004 /* ProfessionalDealerAskPhoneModalWireframe.swift in Sources */,
 				0AB63DD32136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */,
-				0A45A875214ADD990045ACFA /* RxSwift+LG.swift in Sources */,
 				0A04D5DB20760A9D00471B9D /* ChatABGroup.swift in Sources */,
 				50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */,
 				0ADD39BD211306E90071DF87 /* LGUserBuilder.swift in Sources */,
@@ -10056,7 +10087,6 @@
 				01A171C4208DE5B800C98D4C /* SearchAlertSwitchCell.swift in Sources */,
 				C71C5D5F1D95897F006EB3CE /* BumperFeatures.swift in Sources */,
 				C7DB41921C5138B500400945 /* FilterSection.swift in Sources */,
-				0A45A876214ADDD00045ACFA /* RxSwift+LG.swift in Sources */,
 				0AAC7956207F73F30096F156 /* FeedViewModel.swift in Sources */,
 				8E80F70820D938FD005256D9 /* ChatBaseViewModel.swift in Sources */,
 				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
@@ -10378,9 +10408,11 @@
 				42F1DE0020BD9C28002E2EE7 /* FilterServicesSection.swift in Sources */,
 				C7905B881DF1D090009CD191 /* UITextView+Lines.swift in Sources */,
 				506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
+				0A376DBC214FACE100DFFB7F /* AffiliationModalView.swift in Sources */,
 				C79842021CC8E8C900C300FF /* User+LG.swift in Sources */,
 				F59755FB20B5A8AA00C5103F /* UIApplication+AnalyticsApplication.swift in Sources */,
 				50D250051DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */,
+				0A376DC0214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */,
 				507532E31FEA47D400FCF9D5 /* UILabel+Rx.swift in Sources */,
 				C7798EA31D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
 				2EFF0D9D1E69732E00FBF3D5 /* Dictionary+Filter.swift in Sources */,
@@ -10500,6 +10532,7 @@
 				72C7A1C41FA73AC80089F175 /* ListingPrice+LG.swift in Sources */,
 				6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
 				0A75146021426EC60049E135 /* InterestedStateUpdater.swift in Sources */,
+				0A376DB6214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */,
 				0A6FECE92130344000B57004 /* MediaViewerStandardWireframe.swift in Sources */,
 				0187407B1FD59391009C1363 /* BlockingPostingQueuedRequestsViewController.swift in Sources */,
 				C7D23FE21DCC96BA00931803 /* CarouselUIHelper.swift in Sources */,
@@ -10578,6 +10611,7 @@
 				C75B5DD21D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				2E4EBFC11EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */,
 				50D15423214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift in Sources */,
+				0A376DB9214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */,
 				0A04D5D820760A9D00471B9D /* RetentionABGroup.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
 				72CD80D3203469FB0042E1E0 /* LGTutorialView.swift in Sources */,

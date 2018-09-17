@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "Promoter ditt produkt";
 "bump_up_banner_free_text" = "Promoter gratis for å selge raskere";
 "bump_up_banner_loading_text" = "Laster mer info…";
+"bump_up_banner_multi_day_progress_title" = "inntil den flyttes til toppen igjen";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_top_tag" = "TOPP";
 "bump_up_banner_pay_text" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement" = "Selg raskere nå";
 "bump_up_banner_pay_text_improvement_english_a" = "Selg raskere nå";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Promoter din annonse i 7 dager for en rabattert pris. Vi flytter annonsen til toppen hver 24. time slik at du selger raskere!";
 "bump_up_view_multi_day_7_days_tag" = "7 DAGER";
 "bump_up_view_multi_day_7_days_title" = "Tiltrekk 14x flere kjøpere";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_title" = "Annonsen din er promotert!";
 "bump_up_view_multi_day_title" = "Selg raskere nå";
 "bump_up_view_pay_button_title" = "Fremhev annonsen i %@";
 "bump_up_view_pay_subtitle" = "Vi vil fremheve din annonse i 24 timer slik at flere kjøpere ser ditt produkt og du vil selge raskere";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "Oops! Fant ikke bruker.";
 "common_user_review_not_available" = "Oops! Kunne ikke finne vurderingen.";
 "common_yes" = "Ja";
+"communication_offer_accepted_expired" = "Tilbudet har utløpt";
+"communication_offer_accepted_expiring" = "Tilbudet utløper snart";
+"communication_offer_completed_expired" = "Tilbudet har utløpt";
+"communication_offer_pending_expiring" = "Tilbudet utløper snart";
 "community_banner_title" = "Bli med i letgo's fellesskap!";
 "contact_subject_option_location" = "Problemer for plassering";
 "contact_subject_option_login" = "Innloggingstilgang";
@@ -1353,7 +1364,7 @@
 "rewards_invite_friends_button" = "Inviter venner";
 "rewards_invite_friends_contact_button" = "Inviter via tekstmelding";
 "rewards_invite_friends_title" = "Inviter venner";
-"rewards_title" = "Utmerkelser";
+"rewards_title" = "Belønninger";
 "search_alert_delete_error_message" = "Oops! En feil oppstod ved sletting av søkevarsling.";
 "search_alert_disable_error_message" = "Oops! En feil oppstod ved deaktivering av din søkevarsling.";
 "search_alert_enable_error_message" = "Oops! En feil oppstod ved aktivering av din søkevarsling.";
@@ -1408,7 +1419,7 @@
 "services_service_type_list_title" = "Tjenestekategori";
 "services_service_type_title" = "Tjenestekategori";
 "services_unified_filter_title" = "Velg en kategori";
-"settings_affililation_button" = "Utmerkelser";
+"settings_affililation_button" = "Belønninger";
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plassering";
 "settings_change_password_button" = "Passord";
@@ -1437,7 +1448,7 @@
 "settings_notifications_push_notifications" = "Push-varslinger";
 "settings_notifications_search_alerts" = "Søkevarslinger";
 "settings_notifications_title" = "Varslinger";
-"settings_rewards_button" = "Utmerkelser";
+"settings_rewards_button" = "Belønninger";
 "settings_section_profile" = "Profil";
 "settings_section_promote" = "Promoter";
 "settings_section_support" = "Support";

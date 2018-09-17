@@ -45,7 +45,11 @@ extension UIView {
 }
 
 extension Array where Element: NSLayoutConstraint {
-  public func activate() {
-    NSLayoutConstraint.activate(self)
-  }
+    public func activate() {
+        NSLayoutConstraint.activate(self)
+    }
+
+    public func deactivate() {
+        NSLayoutConstraint.deactivate(self)
+    }
 }
