@@ -3,11 +3,42 @@ import LGComponents
 
 // TODO: @juolgon localize all texts
 
+struct P2PPaymentsPayoutPaymentSelectorState {
+    enum Kind {
+        case standard
+        case instant
+    }
+
+    let kind: Kind
+    let isSelected: Bool
+    let feeText: String?
+    let fundsAvailableText: String?
+
+    static let empty = P2PPaymentsPayoutPaymentSelectorState(kind: .standard,
+                                                             isSelected: false,
+                                                             feeText: nil,
+                                                             fundsAvailableText: nil)
+
+    fileprivate var paymentTypeText: String {
+        switch kind {
+        case .standard: return "Standard payment"
+        case .instant: return "Instant payment"
+        }
+    }
+}
+
 final class P2PPaymentsPayoutPaymentSelectorView: UIView {
+    var state: P2PPaymentsPayoutPaymentSelectorState = .empty {
+        didSet {
+            configureForCurrentState()
+        }
+    }
+
     private let paymentTypeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemBoldFont(size: 20)
         label.textColor = UIColor.lgBlack
+        label.text = "Standard payment"
         return label
     }()
 
@@ -48,16 +79,15 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
     init() {
         super.init(frame: .zero)
         setup()
+        configureForCurrentState()
     }
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     private func setup() {
-        backgroundColor = UIColor.white
         cornerRadius = 12
         layer.borderWidth = 1
-        layer.borderColor = UIColor.grayRegular.cgColor
         addSubviewsForAutoLayout([
             paymentTypeLabel,
             freeTitleLabel,
@@ -77,13 +107,13 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
             freeTitleLabel.topAnchor.constraint(equalTo: paymentTypeLabel.bottomAnchor, constant: 4),
             freeTitleLabel.leadingAnchor.constraint(equalTo: paymentTypeLabel.leadingAnchor),
 
-            freeSubtitleLabel.topAnchor.constraint(equalTo: freeTitleLabel.bottomAnchor, constant: 2),
+            freeSubtitleLabel.topAnchor.constraint(equalTo: freeTitleLabel.bottomAnchor, constant: 4),
             freeSubtitleLabel.leadingAnchor.constraint(equalTo: paymentTypeLabel.leadingAnchor),
 
             instantTitleLabel.topAnchor.constraint(equalTo: paymentTypeLabel.bottomAnchor, constant: 4),
             instantTitleLabel.leadingAnchor.constraint(equalTo: paymentTypeLabel.leadingAnchor),
 
-            instantSubtitleLabel.topAnchor.constraint(equalTo: instantTitleLabel.bottomAnchor, constant: 2),
+            instantSubtitleLabel.topAnchor.constraint(equalTo: instantTitleLabel.bottomAnchor, constant: 4),
             instantSubtitleLabel.leadingAnchor.constraint(equalTo: paymentTypeLabel.leadingAnchor),
 
             checkboxView.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -95,5 +125,19 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
 
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 114)
+    }
+
+    private func configureForCurrentState() {
+        paymentTypeLabel.text = state.paymentTypeText
+        checkboxView.update(withState: state.isSelected ? .selected : .deselected)
+        freeTitleLabel.isHidden = state.kind != .standard
+        freeSubtitleLabel.isHidden = state.kind != .standard
+        instantTitleLabel.isHidden = state.kind != .instant
+        instantSubtitleLabel.isHidden = state.kind != .instant
+        instantTitleLabel.text = "Transaction fee \(state.feeText ?? "")"
+        freeSubtitleLabel.text = "Get the money in \(state.fundsAvailableText ?? "")"
+        instantSubtitleLabel.text = "Get the money in \(state.fundsAvailableText ?? "")"
+        backgroundColor = state.isSelected ? UIColor.veryLightGray : UIColor.white
+        layer.borderColor = state.isSelected ? UIColor.primaryColor.cgColor : UIColor.grayRegular.cgColor
     }
 }
