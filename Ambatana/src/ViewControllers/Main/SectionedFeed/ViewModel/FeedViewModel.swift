@@ -108,6 +108,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     // page and the locations changes and it also request the first too,
     // so when the request arrives it must detect if the fist page was loaded
     // or not and if it correspond to the correct location.
+    // This is a patch we have to find the real solution for this situation.
     private var isFirstPageAlreadyLoadedWithLocation: LGLocation?
 
     private var isCurrentLocationAutomatic: Bool?
@@ -212,11 +213,10 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         updatePermissionBanner()
-        refreshFeed()
         setupLocation()
         
         guard firstTime else { return }
-        
+        refreshFeed()
         setupRx()
     }
     
@@ -541,7 +541,10 @@ extension FeedViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel,
                                    filters: ListingFilters) {
-        defer { refreshFeedUponLocationChange() }
+        defer {
+            isFirstPageAlreadyLoadedWithLocation = nil
+            refreshFeedUponLocationChange()
+        }
         self.filters = filters
         guard !filters.isDefault() else { return }
         // For the moment when the user wants to filter something the app
