@@ -18,6 +18,32 @@ extension R {
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Invite friends
     public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
+    /// %@ pts
+    public static func affiliationChallengesInviteFriendsMilestoneLabel(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_invite_friends_milestone_label", p1)
+    }
+    /// INVITE YOUR FRIENDS
+    public static let affiliationChallengesInviteFriendsTitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_title")
+    /// Complete the following steps to get your gift cards
+    public static let affiliationChallengesJoinLetgoDescription = Strings.tr("Localizable", "affiliation_challenges_join_letgo_description")
+    /// Processing... We'll let you know when it's ready!
+    public static let affiliationChallengesJoinLetgoProcessing = Strings.tr("Localizable", "affiliation_challenges_join_letgo_processing")
+    /// Verify phone number
+    public static let affiliationChallengesJoinLetgoStepPhoneButton = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_button")
+    /// Verify your phone number
+    public static let affiliationChallengesJoinLetgoStepPhoneLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_label")
+    /// Post listing
+    public static let affiliationChallengesJoinLetgoStepPostButton = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_post_button")
+    /// Post your first listing
+    public static let affiliationChallengesJoinLetgoStepPostLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_post_label")
+    /// Get an Amazon Gift Card
+    public static let affiliationChallengesJoinLetgoSubtitle = Strings.tr("Localizable", "affiliation_challenges_join_letgo_subtitle")
+    /// JOIN LETGO
+    public static let affiliationChallengesJoinLetgoTitle = Strings.tr("Localizable", "affiliation_challenges_join_letgo_title")
+    /// %@ points
+    public static func affiliationChallengesPoints(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_points", p1)
+    }
     /// Earn Points
     public static let affiliationChallengesSubtitle = Strings.tr("Localizable", "affiliation_challenges_subtitle")
     /// Rewards
@@ -36,16 +62,16 @@ extension R {
     public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
     /// Invite your friends
     public static let affiliationInviteFriendsTitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_title_label")
-    /// has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
-    public static let affiliationInviteMessageText = Strings.tr("Localizable", "affiliation_invite_message_text")
+    /// %@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
+    public static func affiliationInviteMessageText(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_invite_message_text", p1)
+    }
     /// Search or enter a name or phone
     public static let affiliationInviteSmsContactsSearchPlaceholder = Strings.tr("Localizable", "affiliation_invite_sms_contacts_search_placeholder")
     /// Select / Unselect
     public static let affiliationInviteSmsContactsSelectAll = Strings.tr("Localizable", "affiliation_invite_sms_contacts_select_all")
     /// Connect contacts
     public static let affiliationInviteSmsContactsTitle = Strings.tr("Localizable", "affiliation_invite_sms_contacts_title")
-<<<<<<< HEAD
-=======
     /// Oops! This feature is not available in your country.
     public static let affiliationStoreCountryErrorMessage = Strings.tr("Localizable", "affiliation_store_country_error_message")
     /// History
@@ -56,13 +82,18 @@ extension R {
     public static let affiliationStoreTitle = Strings.tr("Localizable", "affiliation_store_title")
     /// Oops! We are currently experimenting some issues with our store.
     public static let affiliationStoreUnknownErrorMessage = Strings.tr("Localizable", "affiliation_store_unknown_error_message")
->>>>>>> master
     /// View Rewards
     public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
     /// PTS
     public static let affiliationWalletPointsLabel = Strings.tr("Localizable", "affiliation_wallet_points_label")
     /// YOUR WALLET
     public static let affiliationWalletTitle = Strings.tr("Localizable", "affiliation_wallet_title")
+    /// Oops! Unfortunately gift cards are not available in your country.
+    public static let affiliationWrongCountryErrorHeadline = Strings.tr("Localizable", "affiliation_wrong_country_error_headline")
+    /// But you can still make cash!
+    public static let affiliationWrongCountryErrorSubheadline = Strings.tr("Localizable", "affiliation_wrong_country_error_subheadline")
+    /// Keep browsing
+    public static let affiliationWrongCountryKeepBrowsing = Strings.tr("Localizable", "affiliation_wrong_country_keep_browsing")
     /// Reply
     public static let appNotificationReply = Strings.tr("Localizable", "app_notification_reply")
     /// Download
@@ -93,6 +124,12 @@ extension R {
     public static let bumpUpBannerFreeText = Strings.tr("Localizable", "bump_up_banner_free_text")
     /// Loading more info…
     public static let bumpUpBannerLoadingText = Strings.tr("Localizable", "bump_up_banner_loading_text")
+    /// until it moves to the top again
+    public static let bumpUpBannerMultiDayProgressTitle = Strings.tr("Localizable", "bump_up_banner_multi_day_progress_title")
+    /// remaining
+    public static let bumpUpBannerMultiDayProgressTitle1DayRemaining = Strings.tr("Localizable", "bump_up_banner_multi_day_progress_title_1_day_remaining")
+    /// TOP
+    public static let bumpUpBannerMultiDayProgressTopTag = Strings.tr("Localizable", "bump_up_banner_multi_day_progress_top_tag")
     /// Sell faster now
     public static let bumpUpBannerPayText = Strings.tr("Localizable", "bump_up_banner_pay_text")
     /// Sell faster now
@@ -209,6 +246,14 @@ extension R {
     public static let bumpUpViewMultiDay7DaysTag = Strings.tr("Localizable", "bump_up_view_multi_day_7_days_tag")
     /// Attract 14x more buyers
     public static let bumpUpViewMultiDay7DaysTitle = Strings.tr("Localizable", "bump_up_view_multi_day_7_days_title")
+    /// Your listing has increased visibility
+    public static let bumpUpViewMultiDayInfo1DaySubtitle = Strings.tr("Localizable", "bump_up_view_multi_day_info_1_day_subtitle")
+    /// We'll move your listing to the top 3 times- once every 24 hours.
+    public static let bumpUpViewMultiDayInfo3DaysSubtitle = Strings.tr("Localizable", "bump_up_view_multi_day_info_3_days_subtitle")
+    /// We'll move your listing to the top 7 times- once every 24 hours.
+    public static let bumpUpViewMultiDayInfo7DaysSubtitle = Strings.tr("Localizable", "bump_up_view_multi_day_info_7_days_subtitle")
+    /// Your listing is featured!
+    public static let bumpUpViewMultiDayInfoTitle = Strings.tr("Localizable", "bump_up_view_multi_day_info_title")
     /// Sell faster now
     public static let bumpUpViewMultiDayTitle = Strings.tr("Localizable", "bump_up_view_multi_day_title")
     /// Feature it for %@
