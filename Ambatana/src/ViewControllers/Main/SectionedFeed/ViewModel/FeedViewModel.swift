@@ -108,7 +108,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     // page and the locations changes and it also request the first too,
     // so when the request arrives it must detect if the fist page was loaded
     // or not and if it correspond to the correct location.
-    // This is a patch we have to find the real solution for this situation.
+    // https://ambatana.atlassian.net/browse/ABIOS-5133
     private var isFirstPageAlreadyLoadedWithLocation: LGLocation?
 
     private var isCurrentLocationAutomatic: Bool?
@@ -120,6 +120,9 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     // as nil because it is not coming from any section.
     private var comingSectionPosition: UInt? = nil
     private var comingSectionIdentifier: String? = nil
+    
+    // https://ambatana.atlassian.net/browse/ABIOS-5133
+    private var isComingFromASection: Bool = false
     
     //  Ads
     
@@ -698,7 +701,6 @@ extension FeedViewModel: HorizontalSectionDelegate {
 //  MARK: - ProductListing Actions
 
 extension FeedViewModel: ListingActionDelegate {
-
     func chatButtonPressedFor(listing: Listing) {
         let chatDetailData = ChatDetailData.listingAPI(listing: listing)
         openChat(withData: chatDetailData)
@@ -850,11 +852,24 @@ extension FeedViewModel {
         listingWireframe?.openListing(
             data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
     }
-    
-    func didSelectListing(_ listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?) {
+
+    func didSelectListing(_ listing: Listing,
+                          thumbnailImage: UIImage?,
+                          originFrame: CGRect?,
+                          index: Int?,
+                          sectionIdentifier: String?,
+                          sectionIndex: UInt?) {
+        // https://ambatana.atlassian.net/browse/ABIOS-5133
+        isComingFromASection = sectionIdentifier != nil
+        
         let frame = feedRenderingDelegate?.convertViewRectInFeed(from: originFrame ?? .zero)
         let data = ListingDetailData.sectionedRelatedListing(
-            listing: listing, thumbnailImage: thumbnailImage, originFrame: frame)
+            listing: listing,
+            thumbnailImage: thumbnailImage,
+            originFrame: frame,
+            index: (index != nil) ? index! : 0,
+            sectionIdentifier: sectionIdentifier,
+            sectionIndex: sectionIndex)
         listingWireframe?.openListing(
             data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
     }
@@ -894,6 +909,12 @@ extension FeedViewModel {
         if hasFilters {
             return filters.selectedCategories.isEmpty ? .filter : .category
         }
+        if !isComingFromASection {
+            return .listingList
+        }
+        // Reset the flag in order to know if the item is not in a section
+        isComingFromASection = false
+        
         return .section
     }
     

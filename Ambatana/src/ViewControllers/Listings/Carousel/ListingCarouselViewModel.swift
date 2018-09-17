@@ -269,7 +269,8 @@ final class ListingCarouselViewModel: BaseViewModel {
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?,
-                     sectionIndex: UInt?) {
+                     sectionIndex: UInt?,
+                     trackingIdentifier: String?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   viewModelMaker: viewModelMaker,
@@ -279,7 +280,7 @@ final class ListingCarouselViewModel: BaseViewModel {
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   sectionIndex: sectionIndex,
-                  trackingIdentifier: nil,
+                  trackingIdentifier: trackingIdentifier,
                   firstProductSyncRequired: false)
     }
 
