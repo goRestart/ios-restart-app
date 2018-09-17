@@ -9435,7 +9435,6 @@
 				A411960B2122D49500EBB210 /* RememberPasswordBuilder.swift in Sources */,
 				F5F2113920EE5EE000CD137A /* EnvironmentsHelper.swift in Sources */,
 				C708C83C1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
-				09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
 				2EF4E3AE1D3688AB00A09DFD /* LGConfigManager.swift in Sources */,
 				C25C371620A18DE700B0C9E0 /* ProductsABGroup.swift in Sources */,
