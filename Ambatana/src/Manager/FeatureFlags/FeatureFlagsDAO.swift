@@ -15,6 +15,8 @@ protocol FeatureFlagsDAO {
     func save(advancedReputationSystem11: AdvancedReputationSystem11)
     func retrieveAdvancedReputationSystem12() -> AdvancedReputationSystem12?
     func save(advancedReputationSystem12: AdvancedReputationSystem12)
+    func retrieveAdvancedReputationSystem13() -> AdvancedReputationSystem13?
+    func save(advancedReputationSystem13: AdvancedReputationSystem13)
     func retrieveMutePushNotifications() -> MutePushNotificationFeatureFlagHelper?
     func save(mutePushNotifications: MutePushNotifications, hourStart: Int, hourEnd: Int)
 }

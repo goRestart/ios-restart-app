@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "강조하기";
 "bump_up_banner_free_text" = "빠르게 판매하기 위해 무료로 강조해보세요";
 "bump_up_banner_loading_text" = "더 많은 정보 로딩 중...";
+"bump_up_banner_multi_day_progress_title" = "다시 상단으로 이동할 때까지";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_top_tag" = "상단";
 "bump_up_banner_pay_text" = "상품을 빨리 판매해보세요";
 "bump_up_banner_pay_text_improvement" = "지금 빨리 판매하기";
 "bump_up_banner_pay_text_improvement_english_a" = "지금 빨리 판매하기";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "3일동안 할인된 가격으로 상품을 강조합니다. 저희는 사용자분께서 더 빨리 판매할 수 있도록 상품목록을 상단으로 이동하여 드립니다!";
 "bump_up_view_multi_day_7_days_tag" = "7 일";
 "bump_up_view_multi_day_7_days_title" = "14배 더 많은 구매자들의 관심 끌기";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_title" = "상품 목록이 강조되었습니다!";
 "bump_up_view_multi_day_title" = "지금 빨리 판매하기";
 "bump_up_view_pay_button_title" = "%@ 상품 강조하기";
 "bump_up_view_pay_subtitle" = "더 많은 사용자가 상품 목록을 확인하고 판매를 빠르게 진행할 수 있도록 사용자 분의 상품 목록은 24시간 동안 강조됩니다.";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "이런! 사용자를 찾을 수 없습니다.";
 "common_user_review_not_available" = "이런! 리뷰를 찾을 수 없습니다.";
 "common_yes" = "예";
+"communication_offer_accepted_expired" = "할인이 종료되었습니다";
+"communication_offer_accepted_expiring" = "할인이 곧 종료됩니다";
+"communication_offer_completed_expired" = "할인이 종료되었습니다";
+"communication_offer_pending_expiring" = "할인이 곧 종료됩니다";
 "community_banner_title" = "letgo 커뮤니티에 가입하세요!";
 "contact_subject_option_location" = "위치 파악하는데 문제가 있습니다";
 "contact_subject_option_login" = "로그인 허가";

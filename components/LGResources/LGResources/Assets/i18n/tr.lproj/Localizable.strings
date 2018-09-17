@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "Üste çıkar";
 "bump_up_banner_free_text" = "Daha hızlı satmak için üste çıkar";
 "bump_up_banner_loading_text" = "Daha fazla bilgi yükleniyor…";
+"bump_up_banner_multi_day_progress_title" = "yeniden en üste çıkana kadar";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_top_tag" = "EN ÜST";
 "bump_up_banner_pay_text" = "Hemen sat";
 "bump_up_banner_pay_text_improvement" = "Hemen sat";
 "bump_up_banner_pay_text_improvement_english_a" = "Hemen sat";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "İlanını 7 gün boyunca indirimli fiyattan öne çıkar. Daha hızlı satış yapman için, ilanını her 24 saatte bir yukarı çıkaracağız!";
 "bump_up_view_multi_day_7_days_tag" = "7 GÜN";
 "bump_up_view_multi_day_7_days_title" = "İlgilenen alıcı sayısını 14'e katla";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_title" = "İlanın öne çıkarıldı!";
 "bump_up_view_multi_day_title" = "Hemen sat";
 "bump_up_view_pay_button_title" = "%@ karşılığında öne çıkar";
 "bump_up_view_pay_subtitle" = "İlanını 24 saat boyunca öne çıkaracağız böylece daha çok alıcı ilanını görecek ve daha hızlı satacaksın";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "Oops! Kullanıcı bulunamadı.";
 "common_user_review_not_available" = "Oops! Yorum bulunamadı.";
 "common_yes" = "Evet";
+"communication_offer_accepted_expired" = "Teklifin süresi doldu";
+"communication_offer_accepted_expiring" = "Teklifin süresi yakında doluyor";
+"communication_offer_completed_expired" = "Teklifin süresi doldu";
+"communication_offer_pending_expiring" = "Teklifin süresi yakında doluyor";
 "community_banner_title" = "letgo topluluğuna katıl!";
 "contact_subject_option_location" = "Konum sorunları";
 "contact_subject_option_login" = "Uygulamaya giriş/erişim";

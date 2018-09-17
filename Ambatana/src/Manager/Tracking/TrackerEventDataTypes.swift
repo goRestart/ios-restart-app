@@ -38,8 +38,6 @@ enum EventName: String {
     case listingDetailVisit                 = "product-detail-visit"
     case listingDetailVisitMoreInfo         = "product-detail-visit-more-info"
     case listingNotAvailable                = "product-not-available"
-    case listingVisitPhotoViewer            = "product-visit-photo-viewer"
-    case listingVisitPhotoChat              = "product-visit-photo-chat"
 
     case listingFavorite                    = "product-detail-favorite"
     case listingShare                       = "product-detail-share"
@@ -406,7 +404,6 @@ enum EventParameterName: String {
     case chatsDeleted         = "chats-deleted"
     case chatContainsEmoji    = "contain-emoji"
     case inactiveConversations = "inactive-conversations"
-    case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
     case searchAlertSource    = "alert-source"
     case sellerReputationBadge = "seller-reputation-badge"
@@ -458,7 +455,8 @@ enum EventParameterName: String {
     // Sectioned Feed
     case sectionShown = "sections-shown" // lists the sections shown in the sectioned feed
     case sectionIdentifier = "section-identifier" // section identifier
-    case sectionPosition = "section-number" // Position of the section in the feed
+    case itemPositionInSection = "item-position-in-section" // Position of the section in the feed
+    case sectionPosition = "section-number"
     case numberOfItemsInSection = "number-of-items-section"
 
     // Engagement badging
@@ -1152,6 +1150,21 @@ enum EventParameterRelatedListingsVisitSource: String {
 
 enum EventParameterFeedPosition {
     case position(index: Int)
+    case none
+    
+    var value: String {
+        switch self {
+        case let .position(index):
+            let value = index + 1
+            return String(value)
+        case .none:
+            return "N/A"
+        }
+    }
+}
+
+enum EventParameterSectionPosition {
+    case position(index: UInt)
     case none
     
     var value: String {

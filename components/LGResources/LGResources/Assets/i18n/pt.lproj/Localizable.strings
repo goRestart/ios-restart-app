@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "Bump Up";
 "bump_up_banner_free_text" = "Bump Up for free to sell faster";
 "bump_up_banner_loading_text" = "Loading more info…";
+"bump_up_banner_multi_day_progress_title" = "until it moves to the top again";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_top_tag" = "TOP";
 "bump_up_banner_pay_text" = "Sell faster now";
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_pay_text_improvement_english_a" = "Sell faster now";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Feature your listing for 7 days at a discounted rate. We'll move it to the top every 24 hours so you'll sell faster!";
 "bump_up_view_multi_day_7_days_tag" = "7 DAYS";
 "bump_up_view_multi_day_7_days_title" = "Attract 14x more buyers";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_title" = "Your listing is featured!";
 "bump_up_view_multi_day_title" = "Sell faster now";
 "bump_up_view_pay_button_title" = "Feature it for %@";
 "bump_up_view_pay_subtitle" = "We’ll feature your listing for 24 hours so more buyers will see your listing and you’ll sell faster";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "Oops! User not found.";
 "common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Yes";
+"communication_offer_accepted_expired" = "The offer has expired";
+"communication_offer_accepted_expiring" = "The offer's expiring soon";
+"communication_offer_completed_expired" = "The offer has expired";
+"communication_offer_pending_expiring" = "The offer's expiring soon";
 "community_banner_title" = "Join the letgo community!";
 "contact_subject_option_location" = "Location issues";
 "contact_subject_option_login" = "Issues logging in";
@@ -491,7 +502,7 @@
 "filters_real_estate_property_type_not_set" = "Not set";
 "filters_real_estate_size_from_feed_filter_cell" = "From";
 "filters_real_estate_size_to_feed_filter_cell" = "To";
-"filters_save_button" = "Save filters";
+"filters_save_button" = "Apply filters";
 "filters_section_car_info" = "Car Info";
 "filters_section_categories" = "Categories";
 "filters_section_distance" = "Distance";

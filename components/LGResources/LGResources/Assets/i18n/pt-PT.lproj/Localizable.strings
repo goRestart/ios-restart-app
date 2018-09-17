@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "Priorizar";
 "bump_up_banner_free_text" = "Dê prioridade gratuitamente para vender mais rápido";
 "bump_up_banner_loading_text" = "A carregar mais informações…";
+"bump_up_banner_multi_day_progress_title" = "até voltar novamente para o topo";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_top_tag" = "TOPO";
 "bump_up_banner_pay_text" = "Venda mais rápido";
 "bump_up_banner_pay_text_improvement" = "Vender mais rápido agora";
 "bump_up_banner_pay_text_improvement_english_a" = "Venda mais rápido";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Destaque o seu anúncio durante 7 dias a um preço promocional. Iremos enviá-lo para o topo a cada 24 horas para que assim possa vender mais rápido!";
 "bump_up_view_multi_day_7_days_tag" = "7 DIAS";
 "bump_up_view_multi_day_7_days_title" = "Atraia 14x mais compradores";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_title" = "O seu anúncio foi destacado!";
 "bump_up_view_multi_day_title" = "Venda mais rápido";
 "bump_up_view_pay_button_title" = "Destaque por %@";
 "bump_up_view_pay_subtitle" = "Destacaremos a sua publicação durante 24 horas para que mais compradores a vejam e possa assim vender mais rápido";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "Ops! Utilizador não encontrado.";
 "common_user_review_not_available" = "Ups! Comentário não encontrado.";
 "common_yes" = "Sim";
+"communication_offer_accepted_expired" = "A oferta expirou";
+"communication_offer_accepted_expiring" = "A oferta expira em breve";
+"communication_offer_completed_expired" = "A oferta expirou";
+"communication_offer_pending_expiring" = "A oferta expira em breve";
 "community_banner_title" = "Junte-se à comunidade letgo!";
 "contact_subject_option_location" = "Problemas com a localização";
 "contact_subject_option_login" = "Acesso login";

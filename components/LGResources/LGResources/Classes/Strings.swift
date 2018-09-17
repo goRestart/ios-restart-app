@@ -24,12 +24,39 @@ extension R {
     public static let affiliationChallengesTitle = Strings.tr("Localizable", "affiliation_challenges_title")
     /// How it works
     public static let affiliationFaqTitle = Strings.tr("Localizable", "affiliation_faq_title")
+    /// Others ways to share
+    public static let affiliationInviteFriendsOthersButton = Strings.tr("Localizable", "affiliation_invite_friends_others_button")
     /// Invite via text
     public static let affiliationInviteFriendsSmsButton = Strings.tr("Localizable", "affiliation_invite_friends_sms_button")
+    /// Invite 3 friends, and earn $10 when they start using letgo. Invite 10 friends, and earn $50! (Your friends will each get a $5 gift card, too. Just because.)
+    public static let affiliationInviteFriendsSubtitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_subtitle_label")
+    /// Terms and Conditions
+    public static let affiliationInviteFriendsTermsButton = Strings.tr("Localizable", "affiliation_invite_friends_terms_button")
     /// Invite friends
     public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
+    /// Invite your friends
+    public static let affiliationInviteFriendsTitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_title_label")
+    /// has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
+    public static let affiliationInviteMessageText = Strings.tr("Localizable", "affiliation_invite_message_text")
+    /// Search or enter a name or phone
+    public static let affiliationInviteSmsContactsSearchPlaceholder = Strings.tr("Localizable", "affiliation_invite_sms_contacts_search_placeholder")
+    /// Select / Unselect
+    public static let affiliationInviteSmsContactsSelectAll = Strings.tr("Localizable", "affiliation_invite_sms_contacts_select_all")
     /// Connect contacts
     public static let affiliationInviteSmsContactsTitle = Strings.tr("Localizable", "affiliation_invite_sms_contacts_title")
+<<<<<<< HEAD
+=======
+    /// Oops! This feature is not available in your country.
+    public static let affiliationStoreCountryErrorMessage = Strings.tr("Localizable", "affiliation_store_country_error_message")
+    /// History
+    public static let affiliationStoreHistory = Strings.tr("Localizable", "affiliation_store_history")
+    /// Redeem gift card
+    public static let affiliationStoreRedeemGift = Strings.tr("Localizable", "affiliation_store_redeem_gift")
+    /// Store
+    public static let affiliationStoreTitle = Strings.tr("Localizable", "affiliation_store_title")
+    /// Oops! We are currently experimenting some issues with our store.
+    public static let affiliationStoreUnknownErrorMessage = Strings.tr("Localizable", "affiliation_store_unknown_error_message")
+>>>>>>> master
     /// View Rewards
     public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
     /// PTS
@@ -1090,7 +1117,7 @@ extension R {
     public static let filtersRealEstateSizeFromFeedFilterCell = Strings.tr("Localizable", "filters_real_estate_size_from_feed_filter_cell")
     /// To
     public static let filtersRealEstateSizeToFeedFilterCell = Strings.tr("Localizable", "filters_real_estate_size_to_feed_filter_cell")
-    /// Save filters
+    /// Apply filters
     public static let filtersSaveButton = Strings.tr("Localizable", "filters_save_button")
     /// Car Info
     public static let filtersSectionCarInfo = Strings.tr("Localizable", "filters_section_car_info")

@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "Destacar";
 "bump_up_banner_free_text" = "Destaca gratis para vender más rápido";
 "bump_up_banner_loading_text" = "Cargando más información…";
+"bump_up_banner_multi_day_progress_title" = "hasta que se mueva arriba de nuevo";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "restantes";
+"bump_up_banner_multi_day_progress_top_tag" = "ARRIBA";
 "bump_up_banner_pay_text" = "Destaca para vender más rápido";
 "bump_up_banner_pay_text_improvement" = "Vender más rápido";
 "bump_up_banner_pay_text_improvement_english_a" = "Vender más rápido";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Destaca tu anuncio durante 7 días a un precio descontado. ¡Tu anuncio volverá arriba cada 24 horas para que vendas más rápido!";
 "bump_up_view_multi_day_7_days_tag" = "7 DÍAS";
 "bump_up_view_multi_day_7_days_title" = "Multiplica tu visibilidad por 14";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Tu anuncio tiene visibilidad superior";
+"bump_up_view_multi_day_info_3_days_subtitle" = "Tu anuncio se moverá arriba 3 veces, una vez cada 24 horas.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "Tu anuncio se moverá arriba 7 veces, una vez cada 24 horas.";
+"bump_up_view_multi_day_info_title" = "¡Tu anuncio está destacado!";
 "bump_up_view_multi_day_title" = "Vender más rápido";
 "bump_up_view_pay_button_title" = "Activar por %@";
 "bump_up_view_pay_subtitle" = "Destacaremos tu anuncio durante 24 horas para que lo vean más compradores y lo vendas más rápido";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "¡Ups! No se ha encontrado el usuario.";
 "common_user_review_not_available" = "¡Ups! Valoración no encontrada.";
 "common_yes" = "Sí";
+"communication_offer_accepted_expired" = "La oferta ha caducado";
+"communication_offer_accepted_expiring" = "La oferta caduca pronto";
+"communication_offer_completed_expired" = "La oferta ha caducado";
+"communication_offer_pending_expiring" = "La oferta caduca pronto";
 "community_banner_title" = "¡Únete a la comunidad de letgo!";
 "contact_subject_option_location" = "Problemas de ubicación";
 "contact_subject_option_login" = "Problemas al iniciar sesión";
@@ -491,7 +502,7 @@
 "filters_real_estate_property_type_not_set" = "No definido";
 "filters_real_estate_size_from_feed_filter_cell" = "De";
 "filters_real_estate_size_to_feed_filter_cell" = "A";
-"filters_save_button" = "Guardar filtros";
+"filters_save_button" = "Aplicar filtros";
 "filters_section_car_info" = "Características del coche";
 "filters_section_categories" = "Categorías";
 "filters_section_distance" = "Distancia";

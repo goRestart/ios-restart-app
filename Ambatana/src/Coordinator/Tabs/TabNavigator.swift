@@ -14,7 +14,7 @@ enum ListingDetailData {
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool, index: Int)
     case listingChat(chatConversation: ChatConversation)
     case sectionedRelatedListing(listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?)
-    case sectionedNonRelatedListing(listing: Listing, feedListingDatas: [FeedListingData], thumbnailImage: UIImage?, originFrame: CGRect?, index: Int, sectionIdentifier: String)
+    case sectionedNonRelatedListing(listing: Listing, feedListingDatas: [FeedListingData], thumbnailImage: UIImage?, originFrame: CGRect?, index: Int, sectionIdentifier: String, sectionIndex: UInt?)
 }
 
 enum ChatDetailData {
@@ -30,6 +30,7 @@ enum ProductCarouselActionOnFirstAppear {
     case showKeyboard
     case showShareSheet
     case triggerBumpUp(bumpUpProductData: BumpUpProductData?,
+        maxCountdown: TimeInterval,
         bumpUpType: BumpUpType?,
         triggerBumpUpSource: BumpUpSource,
         typePage: EventParameterTypePage?)
@@ -108,7 +109,6 @@ protocol ListingDetailNavigator: class {
     func openFeaturedInfo()
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?)
-    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource)
     
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)
     func closeListingAttributeTable()
