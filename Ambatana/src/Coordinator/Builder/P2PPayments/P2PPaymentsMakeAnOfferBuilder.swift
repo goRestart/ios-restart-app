@@ -18,6 +18,7 @@ extension P2PPaymentsMakeAnOfferBuilder: P2PPaymentsMakeAnOfferAssembly {
         switch self {
         case .modal:
             let nc = UINavigationController(rootViewController: vc)
+            nc.modalPresentationStyle = .formSheet
             vm.navigator = P2PPaymentsMakeAnOfferWireframe(chatConversation: chatConversation, navigationController: nc)
             return nc
         case .standard(nc: let nc):
@@ -32,6 +33,7 @@ extension P2PPaymentsMakeAnOfferBuilder: P2PPaymentsMakeAnOfferAssembly {
         switch self {
         case .modal:
             let nc = UINavigationController(rootViewController: vc)
+            nc.modalPresentationStyle = .formSheet
             vm.navigator = P2PPaymentsMakeAnOfferWireframe(chatConversation: chatConversation, navigationController: nc)
             return nc
         case .standard(nc: let nc):
