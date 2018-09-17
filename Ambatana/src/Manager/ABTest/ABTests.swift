@@ -148,6 +148,7 @@ extension ABTests {
     var community: LeanplumABVariable<Int> { return users.community }
     var advancedReputationSystem11: LeanplumABVariable<Int> { return users.advancedReputationSystem11 }
     var advancedReputationSystem12: LeanplumABVariable<Int> { return users.advancedReputationSystem12 }
+    var advancedReputationSystem13: LeanplumABVariable<Int> { return users.advancedReputationSystem13 }
 }
 
 //  MARK: Core

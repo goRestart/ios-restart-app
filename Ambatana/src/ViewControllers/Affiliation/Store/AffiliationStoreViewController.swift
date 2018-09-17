@@ -4,6 +4,8 @@ import RxCocoa
 
 final class AffiliationStoreViewController: BaseViewController {
     private let storeView = AffiliationStoreView()
+    private let errorView = AffiliationStoreErrorView()
+
     private let viewModel: AffiliationStoreViewModel
     private let disposeBag = DisposeBag()
 
@@ -57,11 +59,19 @@ final class AffiliationStoreViewController: BaseViewController {
     fileprivate func update(with state: ViewState) {
         switch state {
         case .loading:
-            break
+            errorView.removeFromSuperview()
         case .data:
+            errorView.removeFromSuperview()
             storeView.collectionView.reloadData()
-        case .error(_):
-            break
+        case .error(let errorModel):
+            let action = UIAction(interface: .button(R.Strings.commonErrorListRetryButton,
+                                                     .primary(fontSize: .medium)),
+                                  action: errorModel.action ?? {} )
+            errorView.populate(message: errorModel.title ?? R.Strings.affiliationStoreUnknownErrorMessage,
+                               image: R.Asset.IconsButtons.icReportSpammer.image,
+                               action: action)
+            view.addSubviewForAutoLayout(errorView)
+            constraintViewToSafeRootView(errorView)
         case .empty(_):
             break
         }

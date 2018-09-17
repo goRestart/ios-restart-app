@@ -235,10 +235,12 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         case .showShareSheet:
             viewModel.shareButtonPressed()
         case let .triggerBumpUp(bumpUpProductData,
+                                maxCountdown,
                                 bumpUpType,
                                 triggerBumpUpSource,
                                 typePage):
             viewModel.showBumpUpView(bumpUpProductData: bumpUpProductData,
+                                     maxCountdown: maxCountdown,
                                      bumpUpType: bumpUpType,
                                      bumpUpSource: triggerBumpUpSource,
                                      typePage: typePage)

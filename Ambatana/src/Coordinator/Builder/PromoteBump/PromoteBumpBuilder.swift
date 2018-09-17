@@ -1,6 +1,7 @@
 protocol PromoteBumpAssembly {
     func buildPromoteBump(listingId: String,
                           bumpUpProductData: BumpUpProductData,
+                          maxCountdown: TimeInterval,
                           typePage: EventParameterTypePage?,
                           sellAction: SellAction?) -> UIViewController
 }
@@ -12,10 +13,12 @@ enum PromoteBumpBuilder {
 extension PromoteBumpBuilder: PromoteBumpAssembly {
     func buildPromoteBump(listingId: String,
                           bumpUpProductData: BumpUpProductData,
+                          maxCountdown: TimeInterval,
                           typePage: EventParameterTypePage?,
                           sellAction action: SellAction?) -> UIViewController {
         let vm = PromoteBumpViewModel(listingId: listingId,
                                       bumpUpProductData: bumpUpProductData,
+                                      maxCountdown: maxCountdown,
                                       typePage: typePage)
         let vc = PromoteBumpViewController(viewModel: vm)
         switch self {

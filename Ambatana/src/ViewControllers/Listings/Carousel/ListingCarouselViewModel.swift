@@ -499,10 +499,12 @@ final class ListingCarouselViewModel: BaseViewModel {
     }
 
     func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        maxCountdown: TimeInterval,
                         bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
         currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
+                                                maxCountdown: maxCountdown,
                                                 bumpUpType: bumpUpType,
                                                 bumpUpSource: bumpUpSource,
                                                 typePage: typePage)

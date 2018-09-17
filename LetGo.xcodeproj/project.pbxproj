@@ -247,6 +247,10 @@
 		0A45A887214BFF3B0045ACFA /* AffiliationStoreNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A885214BFF3B0045ACFA /* AffiliationStoreNavigator.swift */; };
 		0A45A889214BFF540045ACFA /* AffiliationStoreWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A888214BFF540045ACFA /* AffiliationStoreWireframe.swift */; };
 		0A45A88A214BFF540045ACFA /* AffiliationStoreWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A888214BFF540045ACFA /* AffiliationStoreWireframe.swift */; };
+		0A45A88D214C01BA0045ACFA /* AffiliationStoreBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A88C214C01BA0045ACFA /* AffiliationStoreBuilder.swift */; };
+		0A45A88E214C01BA0045ACFA /* AffiliationStoreBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A88C214C01BA0045ACFA /* AffiliationStoreBuilder.swift */; };
+		0A45A890214C03180045ACFA /* AffiliationStoreErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A88F214C03180045ACFA /* AffiliationStoreErrorView.swift */; };
+		0A45A891214C06450045ACFA /* AffiliationStoreErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A88F214C03180045ACFA /* AffiliationStoreErrorView.swift */; };
 		0A45A875214ADD990045ACFA /* RxSwift+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A874214ADD990045ACFA /* RxSwift+LG.swift */; };
 		0A45A876214ADDD00045ACFA /* RxSwift+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A874214ADD990045ACFA /* RxSwift+LG.swift */; };
 		0A4766C91FC58DFF005B176F /* ListingCardViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */; };
@@ -2615,6 +2619,8 @@
 		0A45A881214BDCC50045ACFA /* AffiliationStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreViewModel.swift; sourceTree = "<group>"; };
 		0A45A885214BFF3B0045ACFA /* AffiliationStoreNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreNavigator.swift; sourceTree = "<group>"; };
 		0A45A888214BFF540045ACFA /* AffiliationStoreWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreWireframe.swift; sourceTree = "<group>"; };
+		0A45A88C214C01BA0045ACFA /* AffiliationStoreBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreBuilder.swift; sourceTree = "<group>"; };
+		0A45A88F214C03180045ACFA /* AffiliationStoreErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreErrorView.swift; sourceTree = "<group>"; };
 		0A4766CA1FC5BB2A005B176F /* ProductStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductStatusView.swift; sourceTree = "<group>"; };
 		0A3AF6B7213D46600034143B /* ListingFullDetailNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailNavigator.swift; sourceTree = "<group>"; };
 		0A3AF6B9213D46D10034143B /* ListingFullDetailWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailWireframe.swift; sourceTree = "<group>"; };
@@ -4239,6 +4245,7 @@
 				0A45A87B214BC6900045ACFA /* AffiliationStoreView.swift */,
 				0A45A87E214BC7470045ACFA /* AffiliationStoreCell.swift */,
 				0A45A881214BDCC50045ACFA /* AffiliationStoreViewModel.swift */,
+				0A45A88F214C03180045ACFA /* AffiliationStoreErrorView.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -4248,6 +4255,14 @@
 			children = (
 				0A45A885214BFF3B0045ACFA /* AffiliationStoreNavigator.swift */,
 				0A45A888214BFF540045ACFA /* AffiliationStoreWireframe.swift */,
+			);
+			path = AffiliationStore;
+			sourceTree = "<group>";
+		};
+		0A45A88B214C01B20045ACFA /* AffiliationStore */ = {
+			isa = PBXGroup;
+			children = (
+				0A45A88C214C01BA0045ACFA /* AffiliationStoreBuilder.swift */,
 			);
 			path = AffiliationStore;
 			sourceTree = "<group>";   
@@ -4748,6 +4763,7 @@
 				50D15400214A5BFE00221B06 /* AffiliationChallenges */,
 				50D15404214A5BFE00221B06 /* AffiliationInviteFriends */,
 				50D15402214A5BFE00221B06 /* AffiliationInviteSMSContacts */,
+				0A45A88B214C01B20045ACFA /* AffiliationStore */,
 				0AF28D84213ECEBA005A6F8C /* ListingsMap */,
 				A47C4A62213D5574005AA387 /* Search */,
 				A47C4A5A213D304F005AA387 /* TrendingSearches */,
@@ -9582,6 +9598,7 @@
 				6A5E1A121D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
 				72FE02DF1F98D38F005BD672 /* PostingAddDetailPriceView.swift in Sources */,
 				0AE6F4F320F8CBBB00D58BCE /* SearchViewController.swift in Sources */,
+				0A45A890214C03180045ACFA /* AffiliationStoreErrorView.swift in Sources */,
 				326C72D22088820F009D21DB /* WaterFallLayout.swift in Sources */,
 				0133D90E2139474B00AD9959 /* ShareScreenshotNavigator.swift in Sources */,
 				3237C69C21072A4400B7359B /* ErrorView.swift in Sources */,
@@ -9918,6 +9935,7 @@
 				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				0A73F1FC209216070016CC72 /* LGTimer.swift in Sources */,
 				6A5E19EA1D548F5400F92692 /* Date+LG.swift in Sources */,
+				0A45A88D214C01BA0045ACFA /* AffiliationStoreBuilder.swift in Sources */,
 				329ACF3E20EA339E00A1C6A4 /* WaterFallListAdapter.swift in Sources */,
 				5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				0975238F2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift in Sources */,
@@ -10487,6 +10505,7 @@
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2ED5E52E1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */,
 				A4E09391211B199B002235FC /* LGLoginBuilder.swift in Sources */,
+				0A45A88E214C01BA0045ACFA /* AffiliationStoreBuilder.swift in Sources */,
 				72854D141F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */,
 				0A06C3EF20FCD01400D41982 /* ListingCardPageControl.swift in Sources */,
 				2E92CC0420248E2800451B65 /* MeetingAssistantViewModel.swift in Sources */,
@@ -10994,6 +11013,7 @@
 				0A82A181213FBFF2005ECA58 /* ModularNotificationCell.swift in Sources */,
 				0A6FED1F2130344000B57004 /* RateUserStandardWireframe.swift in Sources */,
 				6A5E19EB1D548F5400F92692 /* Date+LG.swift in Sources */,
+				0A45A891214C06450045ACFA /* AffiliationStoreErrorView.swift in Sources */,
 				0A6FED172130344000B57004 /* EditLocationStandardWireframe.swift in Sources */,
 				6A38A9AF2077610400F3B292 /* UserVerificationCell.swift in Sources */,
 				0A7A05892018A9AE0009D74C /* ListingDeckOnBoardingViewController.swift in Sources */,

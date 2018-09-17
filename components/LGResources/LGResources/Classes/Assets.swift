@@ -46,6 +46,10 @@ extension R {
   // swiftlint:disable identifier_name line_length nesting type_body_length type_name
   public enum Asset {
     public enum Affiliation {
+      public enum Error {
+        public static let errorFeatureUnavailable = ImageAsset(name: "error_feature_unavailable")
+        public static let errorOops = ImageAsset(name: "error_oops")
+      }
       public enum Partners {
         public static let amazon = ImageAsset(name: "amazon")
       }
@@ -56,6 +60,8 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
+        Error.errorFeatureUnavailable,
+        Error.errorOops,
         Partners.amazon,
         affiliationIcon,
         icnThreeDots,

@@ -662,10 +662,12 @@ final class ListingViewModel: BaseViewModel {
     }
 
     func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        maxCountdown: TimeInterval,
                         bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
         self.bumpUpSource = bumpUpSource
+        self.bumpMaxCountdown = maxCountdown
         guard let bumpUpProductData = bumpUpProductData, let bumpUpType = bumpUpType else { return }
         
         switch bumpUpType {

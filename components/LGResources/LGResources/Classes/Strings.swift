@@ -52,7 +52,7 @@ extension R {
     public static let affiliationStoreRedeemGift = Strings.tr("Localizable", "affiliation_store_redeem_gift")
     /// Store
     public static let affiliationStoreTitle = Strings.tr("Localizable", "affiliation_store_title")
-    /// Oops! We are currently experimenting some issues with out store.
+    /// Oops! We are currently experimenting some issues with our store.
     public static let affiliationStoreUnknownErrorMessage = Strings.tr("Localizable", "affiliation_store_unknown_error_message")
     /// View Rewards
     public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
