@@ -190,6 +190,8 @@
 		0A45A88A214BFF540045ACFA /* AffiliationStoreWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A888214BFF540045ACFA /* AffiliationStoreWireframe.swift */; };
 		0A45A88D214C01BA0045ACFA /* AffiliationStoreBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A88C214C01BA0045ACFA /* AffiliationStoreBuilder.swift */; };
 		0A45A88E214C01BA0045ACFA /* AffiliationStoreBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A88C214C01BA0045ACFA /* AffiliationStoreBuilder.swift */; };
+		0A45A890214C03180045ACFA /* AffiliationStoreErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A88F214C03180045ACFA /* AffiliationStoreErrorView.swift */; };
+		0A45A891214C06450045ACFA /* AffiliationStoreErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A88F214C03180045ACFA /* AffiliationStoreErrorView.swift */; };
 		0A45A875214ADD990045ACFA /* RxSwift+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A874214ADD990045ACFA /* RxSwift+LG.swift */; };
 		0A45A876214ADDD00045ACFA /* RxSwift+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45A874214ADD990045ACFA /* RxSwift+LG.swift */; };
 		0A4766C91FC58DFF005B176F /* ListingCardViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */; };
@@ -2521,6 +2523,7 @@
 		0A45A885214BFF3B0045ACFA /* AffiliationStoreNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreNavigator.swift; sourceTree = "<group>"; };
 		0A45A888214BFF540045ACFA /* AffiliationStoreWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreWireframe.swift; sourceTree = "<group>"; };
 		0A45A88C214C01BA0045ACFA /* AffiliationStoreBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreBuilder.swift; sourceTree = "<group>"; };
+		0A45A88F214C03180045ACFA /* AffiliationStoreErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStoreErrorView.swift; sourceTree = "<group>"; };
 		0A4766CA1FC5BB2A005B176F /* ProductStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductStatusView.swift; sourceTree = "<group>"; };
 		0A3AF6B7213D46600034143B /* ListingFullDetailNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailNavigator.swift; sourceTree = "<group>"; };
 		0A3AF6B9213D46D10034143B /* ListingFullDetailWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailWireframe.swift; sourceTree = "<group>"; };
@@ -4014,6 +4017,7 @@
 				0A45A87B214BC6900045ACFA /* AffiliationStoreView.swift */,
 				0A45A87E214BC7470045ACFA /* AffiliationStoreCell.swift */,
 				0A45A881214BDCC50045ACFA /* AffiliationStoreViewModel.swift */,
+				0A45A88F214C03180045ACFA /* AffiliationStoreErrorView.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -9337,6 +9341,7 @@
 				6A5E1A121D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
 				72FE02DF1F98D38F005BD672 /* PostingAddDetailPriceView.swift in Sources */,
 				0AE6F4F320F8CBBB00D58BCE /* SearchViewController.swift in Sources */,
+				0A45A890214C03180045ACFA /* AffiliationStoreErrorView.swift in Sources */,
 				326C72D22088820F009D21DB /* WaterFallLayout.swift in Sources */,
 				0133D90E2139474B00AD9959 /* ShareScreenshotNavigator.swift in Sources */,
 				3237C69C21072A4400B7359B /* ErrorView.swift in Sources */,
@@ -10709,6 +10714,7 @@
 				0A82A181213FBFF2005ECA58 /* ModularNotificationCell.swift in Sources */,
 				0A6FED1F2130344000B57004 /* RateUserStandardWireframe.swift in Sources */,
 				6A5E19EB1D548F5400F92692 /* Date+LG.swift in Sources */,
+				0A45A891214C06450045ACFA /* AffiliationStoreErrorView.swift in Sources */,
 				0A6FED172130344000B57004 /* EditLocationStandardWireframe.swift in Sources */,
 				6A38A9AF2077610400F3B292 /* UserVerificationCell.swift in Sources */,
 				0A7A05892018A9AE0009D74C /* ListingDeckOnBoardingViewController.swift in Sources */,

@@ -22,7 +22,6 @@ struct AffiliationPurchase {
 final class AffiliationStoreViewModel: BaseViewModel {
     fileprivate let state: PublishSubject<ViewState> = .init()
     var navigator: AffiliationStoreNavigator?
-
     private(set) var purchases: [AffiliationPurchase] = []
     var moreActions: [UIAction] {
         return [UIAction(interface: .text(R.Strings.affiliationStoreHistory),

@@ -49,7 +49,7 @@
 "affiliation_store_country_error_message" = "Oops! This feature is not available in your country.";
 
 // Affiliation Store screen. Unknown error message
-"affiliation_store_unknown_error_message" = "Oops! We are currently experimenting some issues with out store.";
+"affiliation_store_unknown_error_message" = "Oops! We are currently experimenting some issues with our store.";
 
 // Affilation Store screen. Title
 "affiliation_store_title" = "Store";

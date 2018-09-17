@@ -608,9 +608,8 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
 extension UserProfileViewModel {
     private func makeErrorState(for viewModel: ListingListViewModel, with error: RepositoryError) -> LGEmptyViewModel? {
         let action: (() -> ())? = { [weak viewModel] in viewModel?.refresh() }
-        var errorState = LGEmptyViewModel.map(from: error, action: action)
-        errorState?.icon = nil
-        return errorState
+        guard let errorState = LGEmptyViewModel.map(from: error, action: action) else { return nil }
+        return LGEmptyViewModel.Lenses.icon.set(nil, errorState)
     }
 
     private func makeEmptyState(for viewModel: ListingListViewModel)  -> LGEmptyViewModel? {
