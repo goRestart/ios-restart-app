@@ -5,58 +5,49 @@ public enum ChatCarouselCardType: String, Decodable {
 public protocol ChatCarouselCard {
     var type: ChatCarouselCardType { get }
     var actions: [ChatCallToAction] { get }
-    var product: ChatCarouselProduct? { get }
-    var user: ChatCarouselCardUser? { get }
     var imageURL: URL? { get }
-    var title: String? { get }
-    var text: String? { get }
     var deeplinkURL: URL? { get }
     var trackingKey: String? { get }
-}
-
-enum PriceCodingKeys: String, CodingKey {
-    case amount
-    case currency
-    case flag = "price_flag"
-}
-
-public struct ChatCarouselProduct: Decodable, Equatable {
-    public let id: String
-    public let price: ListingPrice
-    public let currency: Currency?
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
-        
-        let priceContainer = try container.nestedContainer(keyedBy: PriceCodingKeys.self, forKey: .price)
-        let priceDecoded = try priceContainer.decodeIfPresent(Double.self, forKey: .amount)
-
-        let flag = try priceContainer.decodeIfPresent(ListingPriceFlag.self, forKey: .flag)
-
-        let currencyCode = try priceContainer.decode(String.self, forKey: .currency)
-        
-        currency = Currency.currencyWithCode(currencyCode)
-        price = ListingPrice.fromPrice(priceDecoded, andFlag: flag)
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case price
-    }
+    var user: ChatCarouselCardUser? { get }
+    var price: ListingPrice? { get }
+    var currency: Currency? { get }
+    var title: String? { get }
+    var text: String? { get }
 }
 
 struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
-    
     let type: ChatCarouselCardType
     let actions: [ChatCallToAction]
-    let product: ChatCarouselProduct?
-    let user: ChatCarouselCardUser?
     let imageURL: URL?
-    let title: String?
-    let text: String?
     let deeplinkURL: URL?
     let trackingKey: String?
+    let user: ChatCarouselCardUser?
+    let price: ListingPrice?
+    let currency: Currency?
+    let title: String?
+    let text: String?
+    
+    init(type: ChatCarouselCardType,
+         actions: [ChatCallToAction],
+         imageURL: URL?,
+         deeplinkURL: URL?,
+         trackingKey: String?,
+         user: ChatCarouselCardUser?,
+         price: ListingPrice?,
+         currency: Currency?,
+         title: String?,
+         text: String?) {
+        self.type = type
+        self.actions = actions
+        self.imageURL = imageURL
+        self.deeplinkURL = deeplinkURL
+        self.trackingKey = trackingKey
+        self.user = user
+        self.price = price
+        self.currency = currency
+        self.title = title
+        self.text = text
+    }
     
     //  MARK: Decodable
     
@@ -64,31 +55,28 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
      {
      "type": "listing",
      "actions": [{
-     "id": "11111111-1111-1111-1111-111111111111",
-     "key": "track_call_to_action",
-     "content": {
-     "text": "Text 1",
-     "deeplink": "letgo://users/dbc364b6-4e26-49dc-a015-dc7820262715",
-     "link": "http://..."
-     }
-     }],
+         "id": "11111111-1111-1111-1111-111111111111",
+         "key": "track_call_to_action",
+         "content": {
+             "text": "Text 1",
+             "deeplink": "letgo://users/dbc364b6-4e26-49dc-a015-dc7820262715",
+             "link": "http://..."
+         }
+    }],
      "image": {
-     "url" : "https://img.letgo.com/images/27/db/06/4a/27db064a33b1025c66465fb69e0f06e0.jpeg?impolicy=img_600"
+        "url" : "https://img.letgo.com/images/27/db/06/4a/27db064a33b1025c66465fb69e0f06e0.jpeg?impolicy=img_600"
      },
      "user": {
-     "avatar_url": "http://...",
-     "name": "Pepe",
-     "stars": 5,
-     "deeplink": "letgo://users/dbc364b6-4e26-49dc-a015-dc7820262715",
-     "link": "http://..."
+         "avatar_url": "http://...",
+         "name": "Pepe",
+         "stars": 5,
+         "deeplink": "letgo://users/dbc364b6-4e26-49dc-a015-dc7820262715",
+         "link": "http://..."
      },
-     "product": {
-     "id": "11111111-1111-1111-1111-111111111111"
      "price": {
-     "amount" : 500,
-     "currency": "USD",
-     "price_flag": 1
-     },
+         "amount" : 500,
+         "currency": "USD",
+         "price_flag": 1
      },
      "title": "Find other people who are changing the world like you!",
      "text": "Description",
@@ -111,18 +99,32 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
             } else {
                 deeplinkURL = nil
             }
-            
             trackingKey =  (try? keyedContainer.decodeIfPresent(String.self, forKey: .key)) ?? nil
-            product = try keyedContainer.decodeIfPresent(ChatCarouselProduct.self, forKey: .product)
             user = (try? keyedContainer.decodeIfPresent(LGChatCarouselCardUser.self, forKey: .user)) ?? nil
             title = (try? keyedContainer.decodeIfPresent(String.self, forKey: .title)) ?? nil
             text = (try? keyedContainer.decodeIfPresent(String.self, forKey: .text)) ?? nil
+            if let priceContainer = try? keyedContainer.nestedContainer(keyedBy: PriceCodingKeys.self, forKey: .price),
+                let priceDecoded = try priceContainer.decodeIfPresent(Double.self, forKey: .amount),
+                let currencyDecoded = try priceContainer.decodeIfPresent(String.self, forKey: .currency),
+                let flag = try priceContainer.decodeIfPresent(ListingPriceFlag.self, forKey: .flag) {
+                currency = Currency.currencyWithCode(currencyDecoded)
+                price = ListingPrice.fromPrice(priceDecoded, andFlag: flag)
+            } else {
+                currency = nil
+                price = nil
+            }
         } else {
             throw DecodingError.typeMismatch(
                 ChatCarouselCardType.self,
                 DecodingError.Context(codingPath: [],
                                       debugDescription: "Could not parse a known ChatCarouselCardType type from \(decoder)"))
         }
+    }
+    
+    enum PriceCodingKeys: String, CodingKey {
+        case amount
+        case currency
+        case flag = "price_flag"
     }
     
     enum ImageCodingKeys: String, CodingKey {
@@ -134,7 +136,6 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
         case actions
         case image
         case user
-        case product
         case price
         case title
         case text
@@ -153,7 +154,7 @@ struct LGChatCarouselCard: ChatCarouselCard, Decodable, Equatable {
             && lhsLGActions == rhsLGActions
             && lhs.imageURL == rhs.imageURL
             && lhsLGChatCarouselCardUser == rhsLGChatCarouselCardUser
-            && lhs.product == rhs.product
+            && lhs.price == rhs.price
             && lhs.title == rhs.title
             && lhs.text == rhs.text
     }

@@ -19,6 +19,7 @@ enum ChatMessageTypeDecodable: String, Decodable {
     case multiAnswer = "multi_answer"
     case cta = "call_to_action"
     case carousel = "carousel"
+    case system = "system"
 }
 
 public protocol ChatMessageContent {
@@ -125,6 +126,17 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
                 } else {
                     type = .unsupported(defaultText: defaultText)
                 }
+            case .system:
+                text = nil
+                if let localizedKey = try? keyedContainer.decode(String.self, forKey: .localizedKey),
+                    let localizedText = try? keyedContainer.decode(String.self, forKey: .localizedText) {
+                    let severity = (try? keyedContainer.decode(ChatMessageSystemSeverity.self, forKey: .severity)) ?? .info
+                    type = .system(message: LGChatMessageSystem(localizedKey: localizedKey,
+                                                                localizedText: localizedText,
+                                                                severity: severity))
+                } else {
+                    type = .unsupported(defaultText: defaultText)
+                }
             }
         } else {
             type = .unsupported(defaultText: defaultText)
@@ -142,6 +154,9 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
         case title
         case image
         case cards
+        case localizedKey = "key_text"
+        case localizedText = "default_text"
+        case severity
     }
     
     // MARK: Equatable

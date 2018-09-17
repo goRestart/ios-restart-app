@@ -20,7 +20,6 @@ final class ChatCallToActionCell: ChatBubbleCell, ReusableCell {
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = UIScreen.main.scale
         view.backgroundColor = .chatOthersBubbleBgColorWhite
-        view.applyDefaultShadow()
         return view
     }()
 

@@ -98,6 +98,8 @@ final class ChatViewMessageAdapter {
         // ABIOS-4837 waiting for back-end implementation to show this new message type
 //        case .carousel(let cards, let answers):
 //            type = ChatViewMessageType.carousel(cards: cards, answers: answers)
+        case .system(let message):
+            type = ChatViewMessageType.system(message: message)
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
@@ -138,7 +140,8 @@ final class ChatViewMessageAdapter {
             type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
         // ABIOS-4837 waiting for back-end implementation to show this new message type
 //        case .carousel(let cards, let answers):
-//            type = ChatViewMessageType.carousel(cards: cards, answers: answers)
+        case .system(let message):
+            type = ChatViewMessageType.system(message: message)
         }
         return ChatViewMessage(objectId: message.objectId,
                                talkerId: message.talkerId,

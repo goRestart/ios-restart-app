@@ -4,4 +4,5 @@ enum ChatBubbleCellType {
     case askPhoneNumber
     case callToAction
     case carousel
+    case system
 }
