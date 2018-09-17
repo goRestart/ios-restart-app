@@ -20,6 +20,7 @@ extension P2PPaymentsOfferStatusBuilder: P2PPaymentsOfferStatusAssembly {
         switch self {
         case .modal:
             let nc = UINavigationController(rootViewController: vc)
+            nc.modalPresentationStyle = .formSheet
             vm.navigator = P2PPaymentsOfferStatusWireframe(offerId: offerId, navigationController: nc)
             return nc
         case .standard(nc: let nc):
@@ -34,6 +35,7 @@ extension P2PPaymentsOfferStatusBuilder: P2PPaymentsOfferStatusAssembly {
         switch self {
         case .modal:
             let nc = UINavigationController(rootViewController: vc)
+            nc.modalPresentationStyle = .formSheet
             vm.navigator = P2PPaymentsOfferStatusWireframe(offerId: offerId, navigationController: nc)
             return nc
         case .standard(nc: let nc):
@@ -48,6 +50,7 @@ extension P2PPaymentsOfferStatusBuilder: P2PPaymentsOfferStatusAssembly {
         switch self {
         case .modal:
             let nc = UINavigationController(rootViewController: vc)
+            nc.modalPresentationStyle = .formSheet
             vm.navigator = P2PPaymentsOfferStatusWireframe(offerId: offerId, navigationController: nc)
             return nc
         case .standard(nc: let nc):
@@ -62,6 +65,7 @@ extension P2PPaymentsOfferStatusBuilder: P2PPaymentsOfferStatusAssembly {
         switch self {
         case .modal:
             let nc = UINavigationController(rootViewController: vc)
+            nc.modalPresentationStyle = .formSheet
             vm.navigator = P2PPaymentsOfferStatusWireframe(offerId: offerId, navigationController: nc)
             return nc
         case .standard(nc: let nc):
