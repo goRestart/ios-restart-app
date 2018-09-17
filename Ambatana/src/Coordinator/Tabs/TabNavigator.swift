@@ -30,6 +30,7 @@ enum ProductCarouselActionOnFirstAppear {
     case showKeyboard
     case showShareSheet
     case triggerBumpUp(bumpUpProductData: BumpUpProductData?,
+        maxCountdown: TimeInterval,
         bumpUpType: BumpUpType?,
         triggerBumpUpSource: BumpUpSource,
         typePage: EventParameterTypePage?)

@@ -114,6 +114,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
     private var currentBumpLetgoItemId: String?
     private var currentBumpStoreProductId: String?
+    private var currentBumpMaxCountdown: TimeInterval = 0
     private var currentBumpTypePage: EventParameterTypePage?
 
     private var recentBumpsCache: [String: (Date, TimeInterval)] = [:]
@@ -217,6 +218,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         currentBumpLetgoItemId = letgoItemId
         currentBumpStoreProductId = ids.first
         currentBumpTypePage = typePage
+        currentBumpMaxCountdown = maxCountdown
 
         // check cached products
         let alreadyChosenProducts = appstoreProductsCache.filter(keys: ids).map { $0.value }
@@ -637,7 +639,7 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
                                                                               withProducts: response.purchaseableProducts,
                                                                               letgoItemId: currentBumpLetgoItemId,
                                                                               storeProductId: currentBumpStoreProductId,
-                                                                              maxCountdown: paymentProcessingMaxCountdown,
+                                                                              maxCountdown: currentBumpMaxCountdown,
                                                                               typePage: currentBumpTypePage)
         currentListingId = nil
     }

@@ -300,6 +300,7 @@ extension ListingDeckViewController {
 }
 
 extension ListingDeckViewController {
+
     private func currentPageCell() -> ListingCardView? {
         return listingDeckView.cardAtIndex(viewModel.currentIndex)
     }

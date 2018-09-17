@@ -429,10 +429,12 @@ final class ListingDeckViewModel: BaseViewModel {
 
     func showBumpUpView(_ action: DeckActionOnFirstAppear) {
         if case .triggerBumpUp(let bumpUpProductData,
+                               let maxCountdown,
                                let bumpUpType,
                                let triggerBumpUpSource,
                                let typePage) = action {
             currentListingViewModel.showBumpUpView(bumpUpProductData: bumpUpProductData,
+                                                   maxCountdown: maxCountdown,
                                                    bumpUpType: bumpUpType,
                                                    bumpUpSource: triggerBumpUpSource,
                                                    typePage: typePage)
