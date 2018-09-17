@@ -112,6 +112,11 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let vc = AffiliationStoreViewController(viewModel: AffiliationStoreViewModel())
+            self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+        }
+
         if #available(iOS 11.0, *) {
             listingListView.collectionView.contentInsetAdjustmentBehavior = .never
         } else {
