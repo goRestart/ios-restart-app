@@ -8,8 +8,8 @@ import RxCocoa
 final class P2PPaymentsPayoutViewController: BaseViewController {
     private let viewModel: P2PPaymentsPayoutViewModel
     private let disposeBag = DisposeBag()
-
     private let personalInfoView = P2PPaymentsPayoutPersonalInfoView()
+    private let bankAccountView = P2PPaymentsPayoutBankAccountView()
 
     init(viewModel: P2PPaymentsPayoutViewModel) {
         self.viewModel = viewModel
@@ -41,15 +41,15 @@ final class P2PPaymentsPayoutViewController: BaseViewController {
 
     private func setup() {
         view.backgroundColor = UIColor.white
-        view.addSubviewForAutoLayout(personalInfoView)
+        view.addSubviewsForAutoLayout([personalInfoView, bankAccountView])
+        personalInfoView.isHidden = true
         setupConstraints()
         setupRx()
     }
 
     private func setupConstraints() {
         personalInfoView.constraintToEdges(in: view)
-//        NSLayoutConstraint.activate([
-//        ])
+        bankAccountView.constraintToEdges(in: view)
     }
 
     private func setupRx() {
