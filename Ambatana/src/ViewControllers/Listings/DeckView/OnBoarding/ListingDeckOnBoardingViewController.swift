@@ -9,7 +9,7 @@ protocol ListingDeckOnBoardingViewControllerType: class {
     func close()
 }
 
-final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeckOnBoardingViewControllerType, UIViewControllerTransitioningDelegate {
+final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeckOnBoardingViewControllerType {
 
     private let onboardingView = ListingDeckOnBoardingView()
     private let viewModel: ListingDeckOnBoardingViewModelType
@@ -70,13 +70,13 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
         viewModel.close()
     }
 
-    func animationController(forPresented presented: UIViewController,
+    override func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return animator
     }
 
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    override func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         animator?.presenting = false
         return animator
     }

@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Verify your email to chat";
 "chat_with_yourself_alert_msg" = "You can't start a conversation about your own listing.";
 "click_to_talk_smoketest_action_button" = "Get Started";
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
 "click_to_talk_smoketest_description" = "Connect with your most interested buyers quickly and sell your items twice as fast.";
 "click_to_talk_smoketest_subtitle" = "Receive calls";
 "click_to_talk_smoketest_title" = "Click to Talk";
@@ -490,7 +491,7 @@
 "filters_real_estate_property_type_not_set" = "Not set";
 "filters_real_estate_size_from_feed_filter_cell" = "From";
 "filters_real_estate_size_to_feed_filter_cell" = "To";
-"filters_save_button" = "Save filters";
+"filters_save_button" = "Apply filters";
 "filters_section_car_info" = "Car Info";
 "filters_section_categories" = "Categories";
 "filters_section_distance" = "Distance";
@@ -765,6 +766,9 @@
 "phone_verification_number_input_view_textfield_placeholder" = "Phone number";
 "phone_verification_number_input_view_title" = "Number verification";
 "photo_viewer_chat_button" = "Chat";
+"post_another_listing_button" = "Post another listing";
+"post_another_listing_description" = "You're on a roll, keep it going!";
+"post_another_listing_title" = "MAKING MONEY!";
 "post_category_detail_add_make" = "Add Make";
 "post_category_detail_add_model" = "Add Model";
 "post_category_detail_car_make" = "Make";
@@ -1345,7 +1349,9 @@
 "reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reset password";
 "rewards_faq_title" = "How it works";
+"rewards_invite_contacts_title" = "Connect contacts";
 "rewards_invite_friends_button" = "Invite friends";
+"rewards_invite_friends_contact_button" = "Invite via text";
 "rewards_invite_friends_title" = "Invite friends";
 "rewards_title" = "Rewards";
 "search_alert_delete_error_message" = "Oops! An error occurred while deleting your search alert.";
@@ -1402,6 +1408,7 @@
 "services_service_type_list_title" = "Service category";
 "services_service_type_title" = "Service category";
 "services_unified_filter_title" = "Select a category";
+"settings_affililation_button" = "Rewards";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Location";
 "settings_change_password_button" = "Password";

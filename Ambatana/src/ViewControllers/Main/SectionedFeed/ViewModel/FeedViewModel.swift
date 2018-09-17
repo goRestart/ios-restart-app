@@ -38,7 +38,20 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     }
     
     var shouldShowInviteButton: Bool {
+        guard !shouldShowAffiliateButton else { return false }
         return navigator?.canOpenAppInvite() ?? false
+    }
+    
+    var shouldShowAffiliateButton: Bool {
+        return featureFlags.affiliationEnabled.isActive
+    }
+    
+    var shouldShowCommunityButton: Bool {
+        return featureFlags.community.shouldShowOnNavBar
+    }
+    
+    var shouldShowUserProfileButton: Bool {
+        return featureFlags.community.shouldShowOnTab
     }
     
     private(set) var viewState: ViewState {
@@ -62,6 +75,12 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
             return filters.place ?? Place(postalAddress: currentLocation?.postalAddress,
                                           location: currentLocation?.location)
     }
+    
+    var rx_userAvatar: BehaviorRelay<UIImage?> { return userAvatar }
+    
+    // RX
+    
+    var userAvatar = BehaviorRelay<UIImage?>(value: nil)
 
     // Private vars
     
@@ -85,7 +104,21 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     
     private var sectionControllerFactory: SectionControllerFactory
     
+    // This var extens due a issue when the controller request the first
+    // page and the locations changes and it also request the first too,
+    // so when the request arrives it must detect if the fist page was loaded
+    // or not and if it correspond to the correct location.
+    private var isFirstPageAlreadyLoadedWithLocation: LGLocation?
+
+    private var isCurrentLocationAutomatic: Bool?
+
     private var showingRetryState: Bool = false
+
+    // This var contians the position of the correct section for
+    // the feed, if the feed is the main it must set this variable
+    // as nil because it is not coming from any section.
+    private var comingSectionPosition: UInt? = nil
+    private var comingSectionIdentifier: String? = nil
     
     //  Ads
     
@@ -131,7 +164,9 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
          adsImpressionConfigurable: AdsImpressionConfigurable = LGAdsImpressionConfigurable(),
          sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper = SectionedFeedVMTrackerHelper(),
          interestedStateManager: InterestedStateUpdater = LGInterestedStateUpdater(),
-         shouldShowEditOnLocationHeader: Bool = true) {
+         shouldShowEditOnLocationHeader: Bool = true,
+         comingSectionPosition: UInt? = nil,
+         comingSectionIdentifier: String? = nil) {
 
         self.filters = filters
         self.filtersVar = Variable<ListingFilters>(filters)
@@ -163,6 +198,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         self.interestedStateManager = interestedStateManager
         self.sectionedFeedVMTrackerHelper = sectionedFeedVMTrackerHelper
         self.sectionedFeedRequester = SectionedFeedRequester()
+        self.comingSectionPosition = comingSectionPosition
+        self.comingSectionIdentifier = comingSectionIdentifier
         super.init()
         setup()
     }
@@ -176,6 +213,11 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         super.didBecomeActive(firstTime)
         updatePermissionBanner()
         refreshFeed()
+        setupLocation()
+        
+        guard firstTime else { return }
+        
+        setupRx()
     }
     
     //  MARK: - Filter
@@ -228,7 +270,20 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private func setup() {
         sectionControllerFactory.delegate = self
         setupPermissionsNotification()
-        setupSesstionAndLocation()
+        setupSession()
+    }
+    
+    private func setupRx() {
+        myUserRepository
+            .rx_myUser
+            .distinctUntilChanged { $0?.objectId == $1?.objectId }
+            .filter { _ in
+                return self.featureFlags.advancedReputationSystem11.isActive
+            }
+            .subscribe(onNext: { [weak self] myUser in
+                self?.loadAvatar(for: myUser)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func refreshFeed() {
@@ -250,15 +305,17 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
 
 extension FeedViewModel {
     
-    private func setupSesstionAndLocation() {
+    private func setupSession() {
         sessionManager.sessionEvents.bind { [weak self] _ in
             guard self?.active == true else { return }
             self?.sessionDidChange() }
             .disposed(by: disposeBag)
+    }
+    
+    private func setupLocation() {
         locationManager.locationEvents.filter { $0 == .locationUpdate }.bind { [weak self] _ in
-            guard self?.active == true else { return }
             self?.locationDidChange()
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func sessionDidChange() {
@@ -267,9 +324,14 @@ extension FeedViewModel {
     
     private func locationDidChange() {
         guard let newLocation = locationManager.currentLocation else { return }
+
+        if let safeCurrentLocation = isCurrentLocationAutomatic,
+            safeCurrentLocation && newLocation.isAuto {
+            return
+        }
+        
         lastReceivedLocation = locationManager.currentLocation
-        filters.place =  Place(postalAddress: newLocation.postalAddress,
-                               location: newLocation.location)
+        isCurrentLocationAutomatic = newLocation.isAuto
         trackLocationTypeChange(from: lastReceivedLocation?.type, to: newLocation.type)
         refreshFeedUponLocationChange()
     }
@@ -286,6 +348,8 @@ extension FeedViewModel {
             listingRetrievalState = .loading
             sectionedFeedRequester.retrieveNext(withUrl: nextFeedPageURL, completion: completion)
         } else {
+            guard isFirstPageAlreadyLoadedWithLocation != locationManager.currentLocation else { return }
+            isFirstPageAlreadyLoadedWithLocation = locationManager.currentLocation
             viewState = .loading
             sectionedFeedRequester.retrieveFirst(completion)
         }
@@ -402,6 +466,29 @@ extension FeedViewModel {
     }
 }
 
+
+
+extension FeedViewModel {
+    private func loadAvatar(for user: User?) {
+        guard let avatarUrl = user?.avatar?.fileURL else {
+            self.userAvatar.accept(nil)
+            return
+        }
+        
+        if let cachedImage = ImageDownloader.sharedInstance.cachedImageForUrl(avatarUrl) {
+            self.userAvatar.accept(cachedImage)
+            return
+        }
+        
+        ImageDownloader
+            .sharedInstance
+            .downloadImageWithURL(avatarUrl) { [weak self] (result, _) in
+                guard case .success((let image, _)) = result else { return }
+                self?.userAvatar.accept(image)
+        }
+    }
+}
+
 extension FeedViewModel {
     
     func openInvite() {
@@ -430,11 +517,22 @@ extension FeedViewModel {
         tracker.trackEvent(TrackerEvent.filterStart())
     }
     
+    func openAffiliationChallenges() {
+        wireframe?.openAffiliationChallenges()
+    }
+    
     func refreshControlTriggered() {
+        isFirstPageAlreadyLoadedWithLocation = nil
         resetFeed()
         updatePermissionBanner()
         loadFeedItems()
     }
+
+    func resetFirstLoadState() { isFirstPageAlreadyLoadedWithLocation = nil }
+
+    func openCommunity() { navigator?.openCommunity() }
+    
+    func openUserProfile() { navigator?.openPrivateUserProfile() }
 }
 
 // MARK:- FiltersViewModelDataDelegate
@@ -509,8 +607,18 @@ extension FeedViewModel: EditLocationDelegate, LocationEditable {
     }
     
     func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
+        var newFiltersWithLocationAndDistance = filters
+        newFiltersWithLocationAndDistance.place = place
+        newFiltersWithLocationAndDistance.distanceRadius = distanceRadius
         filters.place = place
-        filters.distanceRadius = distanceRadius
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openClassicFeed(
+            navigator: safeNavigator,
+            withSearchType: searchType,
+            listingFilters: newFiltersWithLocationAndDistance,
+            shouldCloseOnRemoveAllFilters: true,
+            tagsDelegate: self
+        )
         refreshFeedUponLocationChange()
     }
     
@@ -571,12 +679,15 @@ extension FeedViewModel: RetryFooterDelegate {
 // MARK: - Horizontal selection delegate
 
 extension FeedViewModel: HorizontalSectionDelegate {
-    func didTapSeeAll(page: SearchType) {
+    func didTapSeeAll(page: SearchType, section: UInt, identifier: String) {
         guard let navigator = navigator else { return }
         wireframe?.openProFeed(
             navigator: navigator,
             withSearchType: page,
-            andFilters: filters)
+            andFilters: filters,
+            andComingSectionPosition: section,
+            andComingSectionIdentifier: identifier
+        )
     }
 }
 
@@ -722,14 +833,16 @@ extension FeedViewModel {
                           thumbnailImage: UIImage?,
                           originFrame: CGRect?,
                           index: Int,
-                          sectionIdentifier: String) {
+                          sectionIdentifier: String,
+                          sectionIndex: UInt?) {
         let data = ListingDetailData.sectionedNonRelatedListing(
             listing: listing,
             feedListingDatas: feedDataArray,
             thumbnailImage: thumbnailImage,
             originFrame: originFrame,
             index: index,
-            sectionIdentifier: sectionIdentifier
+            sectionIdentifier: sectionIdentifier,
+            sectionIndex: sectionIndex
         )
         listingWireframe?.openListing(
             data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
@@ -797,7 +910,9 @@ extension FeedViewModel {
                                                            user: myUserRepository.myUser,
                                                            categories: filters.selectedCategories,
                                                            searchQuery: queryString,
-                                                           feedSource: feedSource)
+                                                           feedSource: feedSource,
+                                                           sectionPosition: comingSectionPosition,
+                                                           sectionIdentifier: comingSectionIdentifier)
     }
     
     private func trackFirstMessage(info: SendMessageTrackingInfo,
@@ -806,6 +921,7 @@ extension FeedViewModel {
         sectionedFeedVMTrackerHelper.trackFirstMessage(info: info,
                                                        listingVisitSource: listingVisitSource,
                                                        sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo,
+                                                       sectionPosition: .none,
                                                        listing: listing)
     }
     

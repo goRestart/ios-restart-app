@@ -6,10 +6,6 @@ import LGComponents
 
 protocol ListingCardDetailsViewModel: class {
     var cardProductInfo: Observable<ListingVMProductInfo?> { get }
-    var cardProductStats: Observable<ListingStats?> { get }
-    var cardSocialSharer: SocialSharer { get }
-    var cardSocialMessage: Observable<SocialMessage?> { get }
-    var cardShowExactLocationOnMap: Observable<Bool> { get }
 }
 
 protocol ListingCardViewCellModel: ListingCardDetailsViewModel {
@@ -22,13 +18,10 @@ protocol ListingCardViewCellModel: ListingCardDetailsViewModel {
     var cardIsFeatured: Observable<Bool> { get  }
 
     var productIsFavorite: Observable<Bool> { get }
-    var cardUserInfo: Observable<ListingVMUserInfo> { get }
-    var cardProductPreview: Observable<(URL?, Int)> { get }
-    
+
     var cardQuickAnswers: [QuickAnswer] { get }
     var cardDirectChatEnabled: Observable<Bool> { get }
     var cardDirectChatMessages: Observable<CollectionChange<ChatViewMessage>> { get }
-    var cardDirectChatPlaceholder: String { get }
     var cardBumpUpBannerInfo: Observable<BumpUpInfo?> { get }
 }
 
@@ -36,9 +29,6 @@ extension ListingViewModel: ListingCardViewCellModel {
 
     // MARK: ListingCardDetailsViewModel
     var cardProductInfo: Observable<ListingVMProductInfo?> { return productInfo.asObservable() }
-    var cardProductStats: Observable<ListingStats?> { return listingStats.asObservable() }
-    var cardSocialSharer: SocialSharer { return socialSharer }
-    var cardSocialMessage: Observable<SocialMessage?> { return socialMessage.asObservable() }
 
     // MARK: ListingCardViewCellModel
     var cardListingObs: Observable<Listing> { return listing.asObservable() }
@@ -48,13 +38,10 @@ extension ListingViewModel: ListingCardViewCellModel {
     var cardIsFavoritable: Bool { return !isMine }
     var cardIsFeatured: Observable<Bool> { return isShowingFeaturedStripe.asObservable() }
     var productIsFavorite: Observable<Bool> { return isFavorite.asObservable() }
-    var cardUserInfo: Observable<ListingVMUserInfo> { return userInfo.asObservable() }
-    var cardProductPreview: Observable<(URL?, Int)> { return previewURL.asObservable()}
 
     var cardQuickAnswers: [QuickAnswer] { return quickAnswers }
     var cardDirectChatEnabled: Observable<Bool> { return directChatEnabled.asObservable() }
     var cardDirectChatMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
-    var cardDirectChatPlaceholder: String { return directChatPlaceholder }
 
     var cardBumpUpBannerInfo: Observable<BumpUpInfo?> { return bumpUpBannerInfo.asObservable() }
 

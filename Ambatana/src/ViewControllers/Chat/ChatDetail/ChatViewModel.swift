@@ -1705,6 +1705,7 @@ fileprivate extension ChatViewModel {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
+                                                         sectionPosition: .none,
                                                          userBadge: badgeParameter,
                                                          containsVideo: .notAvailable,
                                                          isProfessional: isProfessional,

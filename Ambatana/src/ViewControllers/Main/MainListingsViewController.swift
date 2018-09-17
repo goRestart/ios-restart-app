@@ -111,7 +111,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if #available(iOS 11.0, *) {
             listingListView.collectionView.contentInsetAdjustmentBehavior = .never
         } else {
@@ -374,6 +374,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @objc func openFilters(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
         viewModel.showFilters()
+    }
+    
+    @objc func openAffiliationChallenges(_ sender: AnyObject) {
+        viewModel.openAffiliationChallenges()
     }
     
     @objc func openMap(_ sender: AnyObject) {

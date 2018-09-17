@@ -16,7 +16,8 @@ protocol FeatureFlaggeable: class {
     func variablesUpdated()
 
     var realEstateEnabled: RealEstateEnabled { get }
-    var deckItemPage: DeckItemPage { get }
+    var deckItemPage: NewItemPageV3 { get }
+
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     var searchImprovements: SearchImprovements { get }
@@ -97,7 +98,9 @@ protocol FeatureFlaggeable: class {
     var offensiveReportAlert: OffensiveReportAlert { get }
     var community: ShowCommunity { get }
     var advancedReputationSystem11: AdvancedReputationSystem11 { get }
-    
+    var advancedReputationSystem12: AdvancedReputationSystem12 { get }
+    var advancedReputationSystem13: AdvancedReputationSystem13 { get }
+
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS { get }
@@ -114,6 +117,7 @@ protocol FeatureFlaggeable: class {
     var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
     var imInterestedInProfile: ImInterestedInProfile { get }
+    var shareAfterScreenshot: ShareAfterScreenshot { get }
     var affiliationEnabled: AffiliationEnabled { get }
 }
 
@@ -186,16 +190,16 @@ extension RealEstatePromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+extension NewItemPageV3 {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
 extension ProUsersExtraImages {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
 extension ClickToTalk {
     var isActive: Bool { return self != .control && self != .baseline }
-}
-
-extension DeckItemPage {
-    var isActive: Bool {get { return self == .active }}
 }
 
 extension CopyForChatNowInTurkey {
@@ -308,6 +312,14 @@ extension AdvancedReputationSystem11 {
     var isActive: Bool { return self == .active }
 }
 
+extension AdvancedReputationSystem12 {
+    var isActive: Bool { return self == .active }
+}
+
+extension AdvancedReputationSystem13 {
+    var isActive: Bool { return self == .active }
+}
+
 // MARK: Products
 
 extension ServicesCategoryOnSalchichasMenu {
@@ -404,6 +416,10 @@ extension ImInterestedInProfile {
     var isActive: Bool { return self == .active }
 }
 
+extension ShareAfterScreenshot {
+    var isActive: Bool { return self == .active }
+}
+
 extension AffiliationEnabled {
     var isActive: Bool { return self == .active }
 }
@@ -477,11 +493,21 @@ final class FeatureFlags: FeatureFlaggeable {
 
     func variablesUpdated() {
         defer { abTests.variablesUpdated() }
-        guard !Bumper.enabled else { return }
-        
-        dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
-        dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
-        dao.save(advancedReputationSystem11: AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value))
+        if Bumper.enabled {
+            dao.save(mutePushNotifications: Bumper.mutePushNotifications,
+                     hourStart: abTests.core.mutePushNotificationsStartHour.value,
+                     hourEnd: abTests.core.mutePushNotificationsEndHour.value)
+
+        } else {
+            dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
+            dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
+            dao.save(advancedReputationSystem11: AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value))
+            dao.save(advancedReputationSystem12: AdvancedReputationSystem12.fromPosition(abTests.advancedReputationSystem12.value))
+            dao.save(advancedReputationSystem13: AdvancedReputationSystem13.fromPosition(abTests.advancedReputationSystem13.value))
+            dao.save(mutePushNotifications: MutePushNotifications.fromPosition(abTests.core.mutePushNotifications.value),
+                     hourStart: abTests.core.mutePushNotificationsStartHour.value,
+                     hourEnd: abTests.core.mutePushNotificationsEndHour.value)
+        }
     }
 
     var realEstateEnabled: RealEstateEnabled {
@@ -491,11 +517,11 @@ final class FeatureFlags: FeatureFlaggeable {
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
     }
 
-    var deckItemPage: DeckItemPage {
+    var deckItemPage: NewItemPageV3 {
         if Bumper.enabled {
-            return Bumper.deckItemPage
+            return Bumper.newItemPageV3
         }
-        return DeckItemPage.fromPosition(abTests.deckItemPage.value)
+        return NewItemPageV3.fromPosition(abTests.deckItemPage.value)
     }
 
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
@@ -537,7 +563,8 @@ final class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.mutePushNotifications
         }
-        return MutePushNotifications.control // MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
+        let cached = dao.retrieveMutePushNotifications()?.toMutePushNotifications()
+        return cached ?? MutePushNotifications.fromPosition(abTests.mutePushNotifications.value)
     }
 
     var mutePushNotificationsStartHour: Int {
@@ -598,6 +625,22 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveAdvancedReputationSystem11()
         return cached ?? AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value)
+    }
+
+    var advancedReputationSystem12: AdvancedReputationSystem12 {
+        if Bumper.enabled {
+            return Bumper.advancedReputationSystem12
+        }
+        let cached = dao.retrieveAdvancedReputationSystem12()
+        return cached ?? AdvancedReputationSystem12.fromPosition(abTests.advancedReputationSystem12.value)
+    }
+
+    var advancedReputationSystem13: AdvancedReputationSystem13 {
+        if Bumper.enabled {
+            return Bumper.advancedReputationSystem13
+        }
+        let cached = dao.retrieveAdvancedReputationSystem13()
+        return cached ?? AdvancedReputationSystem13.fromPosition(abTests.advancedReputationSystem13.value)
     }
 
     // MARK: - Country features
@@ -1291,6 +1334,13 @@ extension FeatureFlags {
             return Bumper.imInterestedInProfile
         }
         return ImInterestedInProfile.fromPosition(abTests.imInterestedInProfile.value)
+    }
+    
+    var shareAfterScreenshot: ShareAfterScreenshot {
+        if Bumper.enabled {
+            return Bumper.shareAfterScreenshot
+        }
+        return ShareAfterScreenshot.fromPosition(abTests.shareAfterScreenshot.value)
     }
 
     var affiliationEnabled: AffiliationEnabled {

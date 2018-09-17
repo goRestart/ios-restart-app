@@ -46,6 +46,24 @@ extension UIImage {
         return UIImage(data: data)
     }
     
+    func tint(color: UIColor) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        guard let context = UIGraphicsGetCurrentContext() else { return self }
+        guard let cgImage = cgImage else { return self }
+        context.scaleBy(x: 1.0, y: -1.0)
+        context.translateBy(x: 0.0, y: -size.height)
+        context.setBlendMode(.multiply)
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        context.clip(to: rect, mask: cgImage)
+        color.setFill()
+        context.fill(rect)
+        
+        guard let newImage = UIGraphicsGetImageFromCurrentImageContext() else { return self }
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+    
     func withAlpha(_ value: CGFloat) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
         draw(at: CGPoint.zero, blendMode: .normal, alpha: value)
