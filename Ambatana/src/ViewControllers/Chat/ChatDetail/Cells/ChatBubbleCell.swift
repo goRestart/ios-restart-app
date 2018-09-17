@@ -29,7 +29,7 @@ enum ChatBubbleCellPosition {
     // For iOS11 or newer
     func maskedCorners(for type: ChatBubbleCellType) -> CACornerMask {
         switch (type, self) {
-        case (.askPhoneNumber, _), (_, .individualCell), (.callToAction, _), (.carousel, _):
+        case (.askPhoneNumber, _), (_, .individualCell), (.callToAction, _), (.carousel, _), (.system, _):
             return [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         case (.myMessage, .firstInGroup):
             return [.layerMinXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -50,7 +50,7 @@ enum ChatBubbleCellPosition {
     // For ios10 or older
     func roundedCorners(for type: ChatBubbleCellType) -> UIRectCorner {
         switch (type, self) {
-        case (.askPhoneNumber, _), (_, .individualCell), (.callToAction, _), (.carousel, _):
+        case (.askPhoneNumber, _), (_, .individualCell), (.callToAction, _), (.carousel, _), (.system, _):
             return .allCorners
         case (.myMessage, .firstInGroup):
             return [.topLeft, .bottomLeft, .topRight]
