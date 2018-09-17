@@ -1,5 +1,7 @@
 import UIKit
 import LGComponents
+import RxSwift
+import RxCocoa
 
 final class P2PPaymentsTextField: UITextField {
     weak var nextResponderTextField: UIResponder?
@@ -49,5 +51,11 @@ final class P2PPaymentsTextField: UITextField {
         attributedPlaceholder = NSAttributedString(string: text,
                                                    attributes: [.foregroundColor: UIColor.grayRegular,
                                                                 .font: UIFont.boldSystemFont(ofSize: 20)])
+    }
+}
+
+extension Reactive where Base: P2PPaymentsTextField {
+    var isEmpty: Driver<Bool> {
+        return text.asDriver().map { $0?.isEmpty ?? true }
     }
 }
