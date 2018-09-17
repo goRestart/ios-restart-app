@@ -167,7 +167,6 @@ final class FeedViewController: BaseViewController {
     }
     
     private func setupInviteNavBarButton() {
-        guard isRootViewController() else { return }
         guard viewModel.shouldShowInviteButton  else { return }
 
         let invite = UIBarButtonItem(title: R.Strings.mainProductsInviteNavigationBarButton,
@@ -179,6 +178,7 @@ final class FeedViewController: BaseViewController {
     }
 
     private func setLeftNavBarButtons(withAvatar avatar: UIImage? = nil) {
+        guard isRootViewController() else { return }
         if viewModel.shouldShowCommunityButton {
             setCommunityButton()
         } else if viewModel.shouldShowUserProfileButton {
