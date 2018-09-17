@@ -18,6 +18,22 @@ extension R {
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Invite friends
     public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
+    /// Invite %1$@ friends to earn %2$@pts. Invite %3$@ friends and earn %4$@pts more!
+    public static func affiliationChallengesInviteFriendsDescription(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_invite_friends_description", p1, p2, p3, p4)
+    }
+    /// %@ pts
+    public static func affiliationChallengesInviteFriendsMilestoneLabel(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_invite_friends_milestone_label", p1)
+    }
+    /// Score a $60 Amazon Gift Card
+    public static let affiliationChallengesInviteFriendsSubtitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_subtitle")
+    /// Invite friends
+    public static let affiliationChallengesInviteFriendsTitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_title")
+    /// %@ points
+    public static func affiliationChallengesPoints(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_points", p1)
+    }
     /// Earn Points
     public static let affiliationChallengesSubtitle = Strings.tr("Localizable", "affiliation_challenges_subtitle")
     /// Rewards
@@ -36,8 +52,10 @@ extension R {
     public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
     /// Invite your friends
     public static let affiliationInviteFriendsTitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_title_label")
-    /// has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
-    public static let affiliationInviteMessageText = Strings.tr("Localizable", "affiliation_invite_message_text")
+    /// %@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
+    public static func affiliationInviteMessageText(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_invite_message_text", p1)
+    }
     /// Search or enter a name or phone
     public static let affiliationInviteSmsContactsSearchPlaceholder = Strings.tr("Localizable", "affiliation_invite_sms_contacts_search_placeholder")
     /// Select / Unselect
