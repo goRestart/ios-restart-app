@@ -43,6 +43,7 @@ final class UserVerificationAwarenessViewController: BaseViewController {
         label.textColor = .lgBlack
         label.textAlignment = .center
         label.numberOfLines = 0
+        label.minimumScaleFactor = 0.5
         return label
     }()
 
@@ -78,6 +79,7 @@ final class UserVerificationAwarenessViewController: BaseViewController {
         super.viewDidLoad()
         viewModel.viewDidLoad()
         setupUI()
+        setupAccessibilityIds()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -113,10 +115,13 @@ final class UserVerificationAwarenessViewController: BaseViewController {
     }
 
     private func animateBadge() {
-        self.badgeImageView.transform = CGAffineTransform.init(scaleX: 0.1, y: 0.1)
-        UIView.animate(withDuration: 0.5, delay: 0.5,
-                       usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5,
-                       options: [], animations: {
+        badgeImageView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        UIView.animate(withDuration: 0.5,
+                       delay: 0.5,
+                       usingSpringWithDamping: 0.5,
+                       initialSpringVelocity: 0.5,
+                       options: [],
+                       animations: {
                         self.badgeImageView.alpha = 1.0
                         self.badgeImageView.transform = .identity
         }, completion: nil)
@@ -153,5 +158,12 @@ final class UserVerificationAwarenessViewController: BaseViewController {
 
     @objc private func didTapClose() {
         viewModel.close()
+    }
+
+    private func setupAccessibilityIds() {
+        avatarImageView.set(accessibilityId: .verificationAwarenessAvatar)
+        label.set(accessibilityId: .verificationAwarenessLabel)
+        button.set(accessibilityId: .verificationAwarenessButton)
+        laterButton.set(accessibilityId: .verificationAwarenessLaterButton)
     }
 }

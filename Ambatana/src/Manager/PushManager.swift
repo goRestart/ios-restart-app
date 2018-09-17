@@ -177,7 +177,7 @@ final class PushManager {
     }
 
     private func showVerificationAwarenessView() {
-        // TODO: Guard abtest is active
+        guard featureFlags.advancedReputationSystem12.isActive else { return }
         guard let navigator = navigator, navigator.shouldShowVerificationAwareness() else { return }
         if navigator.canOpenModalView() {
             navigator.openVerificationAwarenessView()
