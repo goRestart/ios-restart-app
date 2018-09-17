@@ -300,6 +300,11 @@
          "description": "[USERS] ARS v1.2"
      },
      {
+         "name": "AdvancedReputationSystem13",
+         "values": ["control", "baseline", "active"],
+         "description": "[USERS] ARS v1.3"
+     },
+     {
          "name": "ProUsersExtraImages",
          "values": ["control", "baseline", "active"],
          "description": "[Cars] allow up to 25 images to be displayed on the product detail page"

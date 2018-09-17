@@ -76,6 +76,7 @@ extension Bumper  {
         flags.append(RealEstatePromoCells.self)
         flags.append(AdvancedReputationSystem11.self)
         flags.append(AdvancedReputationSystem12.self)
+        flags.append(AdvancedReputationSystem13.self)
         flags.append(ProUsersExtraImages.self)
         flags.append(SectionedDiscoveryFeed.self)
         flags.append(ServicesPromoCells.self)
@@ -865,6 +866,19 @@ extension Bumper  {
     static var advancedReputationSystem12Observable: Observable<AdvancedReputationSystem12> {
         return Bumper.observeValue(for: AdvancedReputationSystem12.key).map {
             AdvancedReputationSystem12(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var advancedReputationSystem13: AdvancedReputationSystem13 {
+        guard let value = Bumper.value(for: AdvancedReputationSystem13.key) else { return .control }
+        return AdvancedReputationSystem13(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var advancedReputationSystem13Observable: Observable<AdvancedReputationSystem13> {
+        return Bumper.observeValue(for: AdvancedReputationSystem13.key).map {
+            AdvancedReputationSystem13(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1955,6 +1969,22 @@ enum AdvancedReputationSystem12: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[USERS] ARS v1.2" } 
     static func fromPosition(_ position: Int) -> AdvancedReputationSystem12 {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AdvancedReputationSystem13: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AdvancedReputationSystem13.control.rawValue }
+    static var enumValues: [AdvancedReputationSystem13] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[USERS] ARS v1.3" } 
+    static func fromPosition(_ position: Int) -> AdvancedReputationSystem13 {
         switch position { 
             case 0: return .control
             case 1: return .baseline

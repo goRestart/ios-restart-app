@@ -98,6 +98,7 @@ protocol FeatureFlaggeable: class {
     var community: ShowCommunity { get }
     var advancedReputationSystem11: AdvancedReputationSystem11 { get }
     var advancedReputationSystem12: AdvancedReputationSystem12 { get }
+    var advancedReputationSystem13: AdvancedReputationSystem13 { get }
 
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
@@ -294,10 +295,6 @@ extension CopyForSellFasterNowInTurkish {
     }
 }
 
-extension AdvancedReputationSystem12 {
-    var isActive: Bool { return self == .active }
-}
-
 extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
 }
@@ -311,6 +308,14 @@ extension EngagementBadging {
 }
 
 extension AdvancedReputationSystem11 {
+    var isActive: Bool { return self == .active }
+}
+
+extension AdvancedReputationSystem12 {
+    var isActive: Bool { return self == .active }
+}
+
+extension AdvancedReputationSystem13 {
     var isActive: Bool { return self == .active }
 }
 
@@ -497,6 +502,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
             dao.save(advancedReputationSystem11: AdvancedReputationSystem11.fromPosition(abTests.advancedReputationSystem11.value))
             dao.save(advancedReputationSystem12: AdvancedReputationSystem12.fromPosition(abTests.advancedReputationSystem12.value))
+            dao.save(advancedReputationSystem13: AdvancedReputationSystem13.fromPosition(abTests.advancedReputationSystem13.value))
             dao.save(mutePushNotifications: MutePushNotifications.fromPosition(abTests.core.mutePushNotifications.value),
                      hourStart: abTests.core.mutePushNotificationsStartHour.value,
                      hourEnd: abTests.core.mutePushNotificationsEndHour.value)
@@ -626,6 +632,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveAdvancedReputationSystem12()
         return cached ?? AdvancedReputationSystem12.fromPosition(abTests.advancedReputationSystem12.value)
+    }
+
+    var advancedReputationSystem13: AdvancedReputationSystem13 {
+        if Bumper.enabled {
+            return Bumper.advancedReputationSystem13
+        }
+        let cached = dao.retrieveAdvancedReputationSystem13()
+        return cached ?? AdvancedReputationSystem13.fromPosition(abTests.advancedReputationSystem13.value)
     }
 
     // MARK: - Country features

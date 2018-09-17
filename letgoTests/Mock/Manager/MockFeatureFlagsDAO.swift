@@ -14,6 +14,7 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     var community: ShowCommunity?
     var advancedReputationSystem11: AdvancedReputationSystem11?
     var advancedReputationSystem12: AdvancedReputationSystem12?
+    var advancedReputationSystem13: AdvancedReputationSystem13?
     var mutePushNotifications: (MutePushNotifications, Int, Int)?
 
     func retrieveTimeoutForRequests() -> TimeInterval? {
@@ -54,6 +55,14 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
 
     func save(advancedReputationSystem12: AdvancedReputationSystem12) {
         self.advancedReputationSystem12 = advancedReputationSystem12
+    }
+
+    func retrieveAdvancedReputationSystem13() -> AdvancedReputationSystem13? {
+        return advancedReputationSystem13
+    }
+
+    func save(advancedReputationSystem13: AdvancedReputationSystem13) {
+        self.advancedReputationSystem13 = advancedReputationSystem13
     }
 
     func retrieveMutePushNotifications() -> (MutePushNotifications, hourStart: Int, hourEnd: Int)? {
