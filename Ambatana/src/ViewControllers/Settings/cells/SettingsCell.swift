@@ -117,7 +117,7 @@ fileprivate extension LetGoSetting {
         case .notifications:
             return R.Asset.IconsButtons.icSettingNotifications.image
         case .affiliation:
-            return R.Asset.IconsButtons.icSettingAffiliation.image
+            return R.Asset.Affiliation.affiliationIcon.image.tint(color: UIColor.primaryColor)
         }
     }
 

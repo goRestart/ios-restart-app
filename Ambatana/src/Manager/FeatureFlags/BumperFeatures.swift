@@ -18,7 +18,6 @@ extension Bumper  {
         var flags = [BumperFeature.Type]()
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
-        flags.append(DeckItemPage.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RealEstateNewCopy.self)
@@ -50,6 +49,7 @@ extension Bumper  {
         flags.append(CarExtraFieldsEnabled.self)
         flags.append(ReportingFostaSesta.self)
         flags.append(ShowChatHeaderWithoutUser.self)
+        flags.append(NewItemPageV3.self)
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
         flags.append(EnableCTAMessageType.self)
@@ -82,6 +82,7 @@ extension Bumper  {
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(ShareAfterScreenshot.self)
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
@@ -111,19 +112,6 @@ extension Bumper  {
     static var requestsTimeOutObservable: Observable<RequestsTimeOut> {
         return Bumper.observeValue(for: RequestsTimeOut.key).map {
             RequestsTimeOut(rawValue: $0 ?? "") ?? .baseline
-        }
-    }
-    #endif
-
-    static var deckItemPage: DeckItemPage {
-        guard let value = Bumper.value(for: DeckItemPage.key) else { return .control }
-        return DeckItemPage(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var deckItemPageObservable: Observable<DeckItemPage> {
-        return Bumper.observeValue(for: DeckItemPage.key).map {
-            DeckItemPage(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -527,6 +515,19 @@ extension Bumper  {
     static var showChatHeaderWithoutUserObservable: Observable<Bool> {
         return Bumper.observeValue(for: ShowChatHeaderWithoutUser.key).map {
             ShowChatHeaderWithoutUser(rawValue: $0 ?? "")?.asBool ?? true
+        }
+    }
+    #endif
+
+    static var newItemPageV3: NewItemPageV3 {
+        guard let value = Bumper.value(for: NewItemPageV3.key) else { return .control }
+        return NewItemPageV3(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var newItemPageV3Observable: Observable<NewItemPageV3> {
+        return Bumper.observeValue(for: NewItemPageV3.key).map {
+            NewItemPageV3(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -947,6 +948,19 @@ extension Bumper  {
     }
     #endif
 
+    static var shareAfterScreenshot: ShareAfterScreenshot {
+        guard let value = Bumper.value(for: ShareAfterScreenshot.key) else { return .control }
+        return ShareAfterScreenshot(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var shareAfterScreenshotObservable: Observable<ShareAfterScreenshot> {
+        return Bumper.observeValue(for: ShareAfterScreenshot.key).map {
+            ShareAfterScreenshot(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var mutePushNotifications: MutePushNotifications {
         guard let value = Bumper.value(for: MutePushNotifications.key) else { return .control }
         return MutePushNotifications(rawValue: value) ?? .control 
@@ -1031,22 +1045,6 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
-        }
-    }
-}
-
-enum DeckItemPage: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return DeckItemPage.control.rawValue }
-    static var enumValues: [DeckItemPage] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Deck item page with card appearance and different navigation" } 
-    static func fromPosition(_ position: Int) -> DeckItemPage {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }
@@ -1542,6 +1540,25 @@ enum ShowChatHeaderWithoutUser: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[CHAT] Use the new header WITHOUT USER in chat detail" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum NewItemPageV3: String, BumperFeature  {
+    case control, baseline, infoWithLaterals, infoWithoutLaterals, buttonWithLaterals, buttonWithoutLaterals
+    static var defaultValue: String { return NewItemPageV3.control.rawValue }
+    static var enumValues: [NewItemPageV3] { return [.control, .baseline, .infoWithLaterals, .infoWithoutLaterals, .buttonWithLaterals, .buttonWithoutLaterals]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[Products] New item page V3 -- all in" } 
+    static func fromPosition(_ position: Int) -> NewItemPageV3 {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .infoWithLaterals
+            case 3: return .infoWithoutLaterals
+            case 4: return .buttonWithLaterals
+            case 5: return .buttonWithoutLaterals
+            default: return .control
+        }
+    }
 }
 
 enum RealEstateMapTooltip: String, BumperFeature  {
@@ -2049,6 +2066,22 @@ enum ClickToTalk: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[VERTICALS] Show Click to talk" } 
     static func fromPosition(_ position: Int) -> ClickToTalk {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShareAfterScreenshot: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShareAfterScreenshot.control.rawValue }
+    static var enumValues: [ShareAfterScreenshot] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Show a share view after the user takes a screenshot" } 
+    static func fromPosition(_ position: Int) -> ShareAfterScreenshot {
         switch position { 
             case 0: return .control
             case 1: return .baseline

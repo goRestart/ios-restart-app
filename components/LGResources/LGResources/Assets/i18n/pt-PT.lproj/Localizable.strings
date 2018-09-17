@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Verifique o seu email para conversar";
 "chat_with_yourself_alert_msg" = "Não pode iniciar uma conversa sobre a sua própria publicação.";
 "click_to_talk_smoketest_action_button" = "Começar";
+"click_to_talk_smoketest_banner_title" = "A apresentar o \"Clicar para conversar\"";
 "click_to_talk_smoketest_description" = "Conecte-se com os seus compradores mais interessados rapidamente e venda os seus artigos duas vezes mais rápido.";
 "click_to_talk_smoketest_subtitle" = "Receber chamadas";
 "click_to_talk_smoketest_title" = "Clique para falar";
@@ -1348,9 +1349,9 @@
 "reset_password_send_too_many_requests" = "Já lhe enviamos um email para redefinir a sua password. Por favor verifique o seu email e siga as instruções.";
 "reset_password_title" = "Redefinir password";
 "rewards_faq_title" = "Como funciona";
-"rewards_invite_contacts_title" = "Connect contacts";
+"rewards_invite_contacts_title" = "Conectar contactos";
 "rewards_invite_friends_button" = "Convidar amigos";
-"rewards_invite_friends_contact_button" = "Invite via text";
+"rewards_invite_friends_contact_button" = "Convidar via texto";
 "rewards_invite_friends_title" = "Convidar amigos";
 "rewards_title" = "Recompensas";
 "search_alert_delete_error_message" = "Ups! Surgiu um erro ao eliminar o seu alerta de pesquisa.";
@@ -1407,7 +1408,7 @@
 "services_service_type_list_title" = "Categoria do serviço";
 "services_service_type_title" = "Categoria do serviço";
 "services_unified_filter_title" = "Selecione uma categoria";
-"settings_affililation_button" = "Rewards";
+"settings_affililation_button" = "Recompensas";
 "settings_change_email_button" = "Email";
 "settings_change_location_button" = "Localização";
 "settings_change_password_button" = "Password";

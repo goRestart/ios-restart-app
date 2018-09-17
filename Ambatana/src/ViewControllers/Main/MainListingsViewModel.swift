@@ -99,7 +99,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
         if shouldShowAffiliateButton {
-            rightButtonItems.append((image: R.Asset.IconsButtons.icCloseDark.image, selector: #selector(MainListingsViewController.openAffiliationChallenges)))
+            rightButtonItems.append((image: R.Asset.Affiliation.affiliationIcon.image.tint(color: .primaryColor), selector: #selector(MainListingsViewController.openAffiliationChallenges)))
         }
         return rightButtonItems
     }

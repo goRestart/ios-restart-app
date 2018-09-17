@@ -267,6 +267,7 @@
 "chat_verify_alert_title" = "Bekräfta din e-postadress för att chatta";
 "chat_with_yourself_alert_msg" = "Du kan inte starta en chatt som gäller din egen annons.";
 "click_to_talk_smoketest_action_button" = "Kom igång";
+"click_to_talk_smoketest_banner_title" = "Introducerar \"Klicka & Prata\"";
 "click_to_talk_smoketest_description" = "Få kontakt med dina köpare snabbare och sälj dina prylar dubbelt så fort.";
 "click_to_talk_smoketest_subtitle" = "Ta emot samtal";
 "click_to_talk_smoketest_title" = "Tryck för att prata";
@@ -490,7 +491,7 @@
 "filters_real_estate_property_type_not_set" = "inte vald";
 "filters_real_estate_size_from_feed_filter_cell" = "Från";
 "filters_real_estate_size_to_feed_filter_cell" = "Till";
-"filters_save_button" = "Spara filter";
+"filters_save_button" = "Tillämpa filter";
 "filters_section_car_info" = "Biluppgifter";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstånd";
@@ -1348,7 +1349,7 @@
 "reset_password_send_too_many_requests" = "Vi har redan skickat ett mejl till dig för att återställa ditt lösenord. Kolla i din inkorg och följ instruktionerna i mejlet.";
 "reset_password_title" = "Återställ lösenord";
 "rewards_faq_title" = "Hur det fungerar";
-"rewards_invite_contacts_title" = "Bjud in kontakter";
+"rewards_invite_contacts_title" = "Anslut kontakter";
 "rewards_invite_friends_button" = "Bjud in vänner";
 "rewards_invite_friends_contact_button" = "Bjud in via text";
 "rewards_invite_friends_title" = "Bjud in vänner";
@@ -1407,7 +1408,7 @@
 "services_service_type_list_title" = "Tjänstekategori";
 "services_service_type_title" = "Tjänstekategori";
 "services_unified_filter_title" = "Välj en kategori";
-"settings_affililation_button" = "Rewards";
+"settings_affililation_button" = "Belöningar";
 "settings_change_email_button" = "E-post";
 "settings_change_location_button" = "Plats";
 "settings_change_password_button" = "Lösenord";

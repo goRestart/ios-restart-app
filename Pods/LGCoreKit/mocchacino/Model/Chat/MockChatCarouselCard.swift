@@ -5,8 +5,7 @@ public struct MockChatCarouselCard: ChatCarouselCard {
     public var deeplinkURL: URL?
     public var trackingKey: String?
     public var user: ChatCarouselCardUser?
-    public var price: ListingPrice?
-    public var currency: Currency?
+    public var product: ChatCarouselProduct?
     public var title: String?
     public var text: String?
     
@@ -16,8 +15,7 @@ public struct MockChatCarouselCard: ChatCarouselCard {
                 deeplinkURL: URL?,
                 trackingKey: String?,
                 user: ChatCarouselCardUser?,
-                price: ListingPrice?,
-                currency: Currency?,
+                product: ChatCarouselProduct?,
                 title: String?,
                 text: String?) {
         self.type = type
@@ -26,8 +24,7 @@ public struct MockChatCarouselCard: ChatCarouselCard {
         self.deeplinkURL = deeplinkURL
         self.trackingKey = trackingKey
         self.user = user
-        self.price = price
-        self.currency = currency
+        self.product = product
         self.title = title
         self.text = text
     }
@@ -39,8 +36,7 @@ public struct MockChatCarouselCard: ChatCarouselCard {
         self.deeplinkURL = chatCarouselCard.deeplinkURL
         self.trackingKey = chatCarouselCard.trackingKey
         self.user = chatCarouselCard.user
-        self.price = chatCarouselCard.price
-        self.currency = chatCarouselCard.currency
+        self.product = chatCarouselCard.product
         self.title = chatCarouselCard.title
         self.text = chatCarouselCard.text
     }
@@ -51,9 +47,7 @@ public struct MockChatCarouselCard: ChatCarouselCard {
         result[LGChatCarouselCard.CodingKeys.actions.rawValue] = actions.map { MockChatCallToAction(from: $0).makeDictionary() }
         result[LGChatCarouselCard.CodingKeys.image.rawValue] = [LGChatCarouselCard.ImageCodingKeys.url.rawValue: imageURL?.absoluteString]
         result[LGChatCarouselCard.CodingKeys.user.rawValue] = user
-        result[LGChatCarouselCard.CodingKeys.price.rawValue] = [LGChatCarouselCard.PriceCodingKeys.amount.rawValue: price?.value ?? 0,
-                                                                LGChatCarouselCard.PriceCodingKeys.currency.rawValue: currency?.code ?? "USD",
-                                                                LGChatCarouselCard.PriceCodingKeys.flag.rawValue: price?.priceFlag.rawValue ?? "1"]
+        result[LGChatCarouselCard.CodingKeys.product.rawValue] = product
         result[LGChatCarouselCard.CodingKeys.title.rawValue] = title
         result[LGChatCarouselCard.CodingKeys.text.rawValue] = text
         result[LGChatCarouselCard.CodingKeys.deeplink.rawValue] = deeplinkURL?.absoluteString

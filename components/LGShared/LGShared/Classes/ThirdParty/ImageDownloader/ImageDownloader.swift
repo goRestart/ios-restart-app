@@ -66,7 +66,9 @@ public final class ImageDownloader: ImageDownloaderType {
 
 public extension UIImageView {
     func lg_setImageWithURL(_ url: URL, placeholderImage: UIImage? = nil, completion: ImageDownloadCompletion? = nil) {
-        ImageDownloader.sharedInstance.setImageView(self, url: url, placeholderImage: placeholderImage,
+        ImageDownloader.sharedInstance.setImageView(self,
+                                                    url: url,
+                                                    placeholderImage: placeholderImage,
                                                     completion: completion)
     }
 }

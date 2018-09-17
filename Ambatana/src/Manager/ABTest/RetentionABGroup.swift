@@ -19,6 +19,7 @@ struct RetentionABGroup: ABGroupType {
         static let notificationCenterRedesign = "20180731NotificationCenterRedesign"
         static let randomImInterestedMessages = "20180817RandomImInterestedMessages"
         static let imInterestedInProfile = "20180828ImInterestedInProfile"
+        static let shareAfterScreenshot = "20180905ShareAfterScreenshot"
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>
     let onboardingIncentivizePosting: LeanplumABVariable<Int>
@@ -29,6 +30,7 @@ struct RetentionABGroup: ABGroupType {
     let notificationCenterRedesign: LeanplumABVariable<Int>
     let randomImInterestedMessages: LeanplumABVariable<Int>
     let imInterestedInProfile: LeanplumABVariable<Int>
+    let shareAfterScreenshot: LeanplumABVariable<Int>
     
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -44,7 +46,8 @@ struct RetentionABGroup: ABGroupType {
          searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int>,
          notificationCenterRedesign: LeanplumABVariable<Int>,
          randomImInterestedMessages: LeanplumABVariable<Int>,
-         imInterestedInProfile: LeanplumABVariable<Int>) {
+         imInterestedInProfile: LeanplumABVariable<Int>,
+         shareAfterScreenshot: LeanplumABVariable<Int>) {
         self.dummyUsersInfoProfile = dummyUsersInfoProfile
         self.onboardingIncentivizePosting = onboardingIncentivizePosting
         self.notificationSettings = notificationSettings
@@ -54,6 +57,7 @@ struct RetentionABGroup: ABGroupType {
         self.notificationCenterRedesign = notificationCenterRedesign
         self.randomImInterestedMessages = randomImInterestedMessages
         self.imInterestedInProfile = imInterestedInProfile
+        self.shareAfterScreenshot = shareAfterScreenshot
 
         intVariables.append(contentsOf: [dummyUsersInfoProfile,
                                         onboardingIncentivizePosting,
@@ -63,7 +67,8 @@ struct RetentionABGroup: ABGroupType {
                                         searchAlertsDisableOldestIfMaximumReached,
                                         notificationCenterRedesign,
                                         randomImInterestedMessages,
-                                        imInterestedInProfile])
+                                        imInterestedInProfile,
+                                        shareAfterScreenshot])
     }
 
     static func make() -> RetentionABGroup {
@@ -93,6 +98,9 @@ struct RetentionABGroup: ABGroupType {
                                                                      groupType: .retention),
                                 imInterestedInProfile: .makeInt(key: Keys.imInterestedInProfile,
                                                                 defaultValue: 0,
-                                                                groupType: .retention))
+                                                                groupType: .retention),
+                                shareAfterScreenshot: .makeInt(key: Keys.shareAfterScreenshot,
+                                                               defaultValue: 0,
+                                                               groupType: .retention))
     }
 }
