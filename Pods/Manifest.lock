@@ -173,7 +173,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - LGCoreKit (from `../letgo-ios-lgcorekit`)
+  - LGCoreKit (= 4.74.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -195,6 +195,7 @@ SPEC REPOS:
   "git@github.com:letgoapp/letgo-ios-specs.git":
     - bumper
     - LGCollapsibleLabel
+    - LGCoreKit
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - AlamofireImage
@@ -249,8 +250,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGComponents:
     :path: components
-  LGCoreKit:
-    :path: "../letgo-ios-lgcorekit"
 
 CHECKOUT OPTIONS:
   KMPlaceholderTextView:
@@ -310,6 +309,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 6107f0d313a8bb1d49c27ccba74be345f57a084e
+PODFILE CHECKSUM: 5b63b650899c8f931b4056aea4f6de50e1aab266
 
 COCOAPODS: 1.5.3

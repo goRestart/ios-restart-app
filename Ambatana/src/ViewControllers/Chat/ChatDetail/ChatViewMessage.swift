@@ -35,6 +35,7 @@ enum ChatViewMessageType {
     case interlocutorIsTyping
     case cta(ctaData: ChatCallToActionData, ctas: [ChatCallToAction])
     case carousel(cards: [ChatCarouselCard], answers: [ChatAnswer])
+    case system(message: ChatMessageSystem)
     case unsupported(text: String)
 
     var isAskPhoneNumber: Bool {
@@ -123,6 +124,12 @@ enum ChatViewMessageType {
                     && rhsCards.map { $0.text } == lhsCards.map { $0.text }
                     && rhsAnswsers.map { $0.id } == lhsAnswsers.map { $0.id }
             }
+        case .system(let rhsMessage):
+            if case .system(let lhsMessage) = lhs {
+                return rhsMessage.localizedKey == lhsMessage.localizedKey
+                    && rhsMessage.localizedText == lhsMessage.localizedText
+                    && rhsMessage.severity == lhsMessage.severity
+            }
         case .unsupported(let lhsText):
             switch rhs {
             case .unsupported(let rhsText):
@@ -182,7 +189,7 @@ struct ChatViewMessage: BaseModel {
         case .text, .offer:
             return true
         case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .meeting, .interlocutorIsTyping, .unsupported, .multiAnswer,
-             .cta, .carousel:
+             .cta, .carousel, .system:
             return false
         }
     }
@@ -211,6 +218,8 @@ struct ChatViewMessage: BaseModel {
             return ctaData.title ?? ctaData.text ?? ""
         case .carousel:
             return ""
+        case .system(let message):
+            return message.localizedText
         case .unsupported(let text):
             return text
         }
