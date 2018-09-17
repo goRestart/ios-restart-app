@@ -177,7 +177,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openUser(user: User, source: UserSource) {
-        userNavigator.openUser(user: user, source: source)
+        userNavigator.openUser(user: user, source: source, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
     }
 
     var hidesBottomBarWhenPushed: Bool {

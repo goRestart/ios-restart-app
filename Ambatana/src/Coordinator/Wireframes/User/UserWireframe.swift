@@ -14,6 +14,10 @@ final class UserWireframe {
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
     
+    var hidesBottomBarWhenPushed: Bool {
+        return nc.viewControllers.count == 1
+    }
+    
     convenience init(nc: UINavigationController){
         self.init(nc: nc,
                   userAssembly: LGUserBuilder.standard(nc),
@@ -41,12 +45,11 @@ final class UserWireframe {
     }
 
     func openUser(_ data: UserDetailData) {
-        let hidesBottomBarWhenPushed = nc.viewControllers.count == 1
         switch data {
         case let .id(userId, source):
             openUser(userId: userId, source: source)
         case let .userAPI(user, source):
-            openUser(user: user, source: source)
+            openUser(user: user, source: source, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         case let .userChat(user):
             openUser(user, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         }
@@ -57,7 +60,8 @@ final class UserWireframe {
         userRepository.show(userId) { [weak self] result in
             if let user = result.value {
                 self?.nc.dismissLoadingMessageAlert {
-                    self?.openUser(user: user, source: source)
+                    self?.openUser(user: user, source: source,
+                                   hidesBottomBarWhenPushed: self?.hidesBottomBarWhenPushed ?? false)
                 }
             } else if let error = result.error {
                 let message: String
@@ -80,20 +84,15 @@ final class UserWireframe {
         openUser(interlocutor, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
     }
 
-    func openUser(user: User, source: UserSource) {
+    func openUser(user: User, source: UserSource, hidesBottomBarWhenPushed: Bool) {
         // If it's me do not then open the user profile
         guard myUserRepository.myUser?.objectId != user.objectId else { return }
-        let vc = userAssembly.buildUser(user: user, source: source)
+        let vc = userAssembly.buildUser(user: user, source: source, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         nc.pushViewController(vc, animated: true)
     }
 
     func openUser(_ interlocutor: ChatInterlocutor, hidesBottomBarWhenPushed: Bool) {
         let vc = userAssembly.buildUser(interlocutor: interlocutor, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-        nc.pushViewController(vc, animated: true)
-    }
-
-    func openUserVerification() {
-        let vc = verificationAssembly.buildUserVerification()
         nc.pushViewController(vc, animated: true)
     }
 }
