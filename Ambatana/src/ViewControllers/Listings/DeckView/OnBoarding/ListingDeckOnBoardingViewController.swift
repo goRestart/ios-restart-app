@@ -25,7 +25,6 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
         self.viewModel = viewModel
         self.animator = animator
         super.init(viewModel: viewModel, nibName: nil)
-        self.transitioningDelegate = self
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -70,13 +69,13 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
         viewModel.close()
     }
 
-    override func animationController(forPresented presented: UIViewController,
+    func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return animator
     }
 
-    override func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         animator?.presenting = false
         return animator
     }
