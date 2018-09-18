@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "Promuovi";
 "bump_up_banner_free_text" = "Promuovi gratuitamente per vendere più velocemente";
 "bump_up_banner_loading_text" = "Caricamento ulteriori informazioni...";
+"bump_up_banner_multi_day_progress_title" = "prima che venga spostato nuovamente in alto";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_top_tag" = "IN ALTO";
 "bump_up_banner_pay_text" = "Vendi subito più rapidamente";
 "bump_up_banner_pay_text_improvement" = "Vendi più rapidamente";
 "bump_up_banner_pay_text_improvement_english_a" = "Vendi più rapidamente";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Sponsorizza il tuo annuncio per 7 giorni a prezzo scontato. Lo sposteremo verso l'alto ogni 24 ore per fartelo vendere più velocemente!";
 "bump_up_view_multi_day_7_days_tag" = "7 GIORNI";
 "bump_up_view_multi_day_7_days_title" = "Attira 14 volte in più di acquirenti";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_title" = "Il tuo annuncio è sponsorizzato!";
 "bump_up_view_multi_day_title" = "Vendi più rapidamente";
 "bump_up_view_pay_button_title" = "Sponsorizzalo per %@";
 "bump_up_view_pay_subtitle" = "Sponsorizzeremo il tuo annuncio per 24 ore, così sarà visto da più acquirenti e potrai vendere più rapidamente";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "Ops! Utente non trovato.";
 "common_user_review_not_available" = "Ops! Recensione non trovata.";
 "common_yes" = "Sì";
+"communication_offer_accepted_expired" = "L'offerta è scaduta";
+"communication_offer_accepted_expiring" = "L'offerta scadrà a breve";
+"communication_offer_completed_expired" = "L'offerta è scaduta";
+"communication_offer_pending_expiring" = "L'offerta scadrà a breve";
 "community_banner_title" = "Unisciti alla comunità di letgo!";
 "contact_subject_option_location" = "Problemi di posizione";
 "contact_subject_option_login" = "Accesso";

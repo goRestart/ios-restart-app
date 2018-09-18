@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "Felugrasztás";
 "bump_up_banner_free_text" = "Ingyenesen felugraszthatva gyorsabban eladhatsz";
 "bump_up_banner_loading_text" = "Részletek betöltése…";
+"bump_up_banner_multi_day_progress_title" = "múlva ismét a lista tetejére kerül";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_top_tag" = "TETEJE";
 "bump_up_banner_pay_text" = "Add el gyorsabban";
 "bump_up_banner_pay_text_improvement" = "Add el gyorsabban";
 "bump_up_banner_pay_text_improvement_english_a" = "Add el gyorsabban";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Emeld ki hirdetésedet 7 napra kedvezményes áron. 24 óránként a lista tetejére küldjük, hogy gyorsabban eladhasd!";
 "bump_up_view_multi_day_7_days_tag" = "7 NAP";
 "bump_up_view_multi_day_7_days_title" = "14x több vásárló";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_title" = "Hirdetésed kiemelve!";
 "bump_up_view_multi_day_title" = "Add el gyorsabban";
 "bump_up_view_pay_button_title" = "Kiemelés: %@";
 "bump_up_view_pay_subtitle" = "24 órára kiemeljük hirdetésedet, hogy többen láthassák és gyorsabban eladhasd";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "Hoppá! A felhasználó nem található.";
 "common_user_review_not_available" = "Hoppá! Az értékelés nem található.";
 "common_yes" = "Igen";
+"communication_offer_accepted_expired" = "Az ajánlat lejárt";
+"communication_offer_accepted_expiring" = "Az ajánlat hamarosan lejár";
+"communication_offer_completed_expired" = "Az ajánlat lejárt";
+"communication_offer_pending_expiring" = "Az ajánlat hamarosan lejár";
 "community_banner_title" = "Csatlakozz a letgo közösségéhez!";
 "contact_subject_option_location" = "Problémák a helyadatokkal";
 "contact_subject_option_login" = "Bejelentkezés";

@@ -52,6 +52,9 @@ final class ProductListingSectionController: ListSectionController {
                                                     from: nil)
         listingActionDelegate?.didSelectListing(listing,
                                                 thumbnailImage: cell.thumbnailImage,
-                                                originFrame: newFrame)
+                                                originFrame: newFrame,
+                                                index: 0,
+                                                sectionIdentifier: nil,
+                                                sectionIndex: nil)
     }
 }

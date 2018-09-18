@@ -40,7 +40,6 @@ final class AppEventsManager {
         guard let image = UIApplication.shared.takeWindowSnapshot() else { return }
         let shareScreenshotAssembly = LGShareScreenshotBuilder.modal(root: topVC)
         let shareScreenshotVC = shareScreenshotAssembly.buildShareScreenshot(screenshotImage: image)
-        shareScreenshotVC.transitioningDelegate = topVC
         topVC.present(shareScreenshotVC, animated: true, completion: nil)
     }
     

@@ -56,12 +56,14 @@ final class ListingWireframe {
                         index: index)
         case let .listingChat(chatConversation):
             openListing(chatConversation: chatConversation, source: source)
-        case let .sectionedRelatedListing(listing, thumbnailImage, originFrame):
+        case let .sectionedRelatedListing(listing, thumbnailImage, originFrame, index, identifier, section):
             openListingRelated(listing,
                                thumbnailImage: thumbnailImage,
                                originFrame: originFrame,
                                source: source,
-                               index: 0)
+                               index: index,
+                               identifier: identifier,
+                               section: section)
         case let .sectionedNonRelatedListing(listing, feedListingDatas, thumbnailImage, originFrame, index, identifier, section):
             openListingNonRelated(listing,
                                   feedListingDataArray: feedListingDatas,
@@ -150,7 +152,9 @@ final class ListingWireframe {
                      requester: ListingListRequester? = nil,
                      index: Int,
                      discover: Bool,
-                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
+                     identifier: String? = nil,
+                     section: UInt? = nil) {
         guard let listingId = listing.objectId else { return }
         var requestersArray: [ListingListRequester] = []
         let listingListRequester: ListingListRequester?
@@ -194,7 +198,8 @@ final class ListingWireframe {
                                               source: source,
                                               actionOnFirstAppear: actionOnFirstAppear,
                                               trackingIndex: index,
-                                              sectionIndex: nil)
+                                              sectionIndex: section,
+                                              trackingIdentifier: identifier)
             vm.navigator = detailNavigator
             openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
         }
@@ -208,7 +213,9 @@ final class ListingWireframe {
                                thumbnailImage: thumbnailImage,
                                originFrame: originFrame,
                                source: source,
-                               index: index)
+                               index: index,
+                               identifier: nil,
+                               section: nil)
         } else if featureFlags.deckItemPage.isActive {
             openListingNewItemPage(listing,
                                    thumbnailImage: thumbnailImage,
@@ -240,14 +247,18 @@ final class ListingWireframe {
                             thumbnailImage: UIImage?,
                             originFrame: CGRect?,
                             source: EventParameterListingVisitSource,
-                            index: Int) {
+                            index: Int,
+                            identifier: String?,
+                            section: UInt? = nil) {
         openListing(listing: listing,
                     thumbnailImage: thumbnailImage,
                     originFrame: originFrame,
                     source: source,
                     index: index,
                     discover: false,
-                    actionOnFirstAppear: .nonexistent)
+                    actionOnFirstAppear: .nonexistent,
+                    identifier: identifier,
+                    section: section)
     }
 
     func openListing(chatConversation: ChatConversation, source: EventParameterListingVisitSource) {

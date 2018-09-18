@@ -16,13 +16,13 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
     }
     
     private let inviteContactsButton: UIButton = {
-        let button = LetgoButton(withStyle: .primary(fontSize: .medium))
+        let button = LetgoButton(withStyle: .primary(fontSize: .big))
         button.setTitle(R.Strings.affiliationInviteFriendsSmsButton, for: .normal)
         return button
     }()
     
     private let inviteOthersButton: UIButton = {
-        let button = LetgoButton(withStyle: .secondary(fontSize: .small, withBorder: true))
+        let button = LetgoButton(withStyle: .secondary(fontSize: .big, withBorder: true))
         button.setTitle(R.Strings.affiliationInviteFriendsOthersButton, for: .normal)
         return button
     }()
@@ -91,10 +91,10 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
     
     private func setupInviteOthersButton() {
         inviteOthersButton.rx.tap.bind { [weak viewModel] in
-           // viewModel?.inviteOthersButtonPressed
+            viewModel?.buildShare(type: .native(restricted: true), viewController: self)
             }.disposed(by: disposeBag)
     }
-
+    
     private func setupTermsButton() {
         termsAndConditionsButton.rx.tap.bind { [weak viewModel] in
             viewModel?.termsButtonPressed()
@@ -139,7 +139,18 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
         NSLayoutConstraint.activate([titleConstraints, subtitleLabelConstraints, termsAndConditionsButtonConstraints, inviteOthersButtonConstraints, inviteContactsButtonConstraints].flatMap {$0})
     }
 
-
     private func setAccessibilityIds() {
+    }
+}
+
+// MARK: - SocialSharerDelegate
+
+extension AffiliationInviteFriendsViewController: SocialSharerDelegate {
+    func shareStartedIn(_ shareType: ShareType) {
+        //TODO: Trackings on ABIOS-5106
+    }
+    
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
+        //TODO: Trackings on ABIOS-5106
     }
 }

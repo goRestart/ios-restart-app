@@ -24,9 +24,9 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     var feedItems: [ListDiffable] { get }
     var waterfallColumnCount: Int { get }
     var locationSectionIndex: Int? { get }
-    
+
     var rx_userAvatar: BehaviorRelay<UIImage?> { get }
-    
+
     func openInvite()
     func openSearches()
     func showFilters()

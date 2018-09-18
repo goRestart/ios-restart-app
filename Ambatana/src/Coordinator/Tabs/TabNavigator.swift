@@ -13,7 +13,7 @@ enum ListingDetailData {
     case listingList(listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool, index: Int)
     case listingChat(chatConversation: ChatConversation)
-    case sectionedRelatedListing(listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?)
+    case sectionedRelatedListing(listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?, index: Int, sectionIdentifier: String?, sectionIndex: UInt?)
     case sectionedNonRelatedListing(listing: Listing, feedListingDatas: [FeedListingData], thumbnailImage: UIImage?, originFrame: CGRect?, index: Int, sectionIdentifier: String, sectionIndex: UInt?)
 }
 
