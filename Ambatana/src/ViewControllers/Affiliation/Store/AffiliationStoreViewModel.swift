@@ -52,7 +52,9 @@ final class AffiliationStoreViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        reloadAll()
+        if firstTime {
+            reloadAll()
+        }
     }
 
     private func reloadAll() {
@@ -103,7 +105,7 @@ final class AffiliationStoreViewModel: BaseViewModel {
         }
     }
 
-    private func openHistory() {
+    func openHistory() {
         navigator?.openHistory()
     }
 
@@ -121,7 +123,7 @@ final class AffiliationStoreViewModel: BaseViewModel {
     }
 }
 
-private extension RewardType {
+extension RewardType {
     var cardTitle: String {
         switch self {
         case .amazon5: return R.Strings.affiliationStoreRewardsAmazon5

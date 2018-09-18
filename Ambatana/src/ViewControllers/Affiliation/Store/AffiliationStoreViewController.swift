@@ -36,13 +36,15 @@ final class AffiliationStoreViewController: BaseViewController {
         automaticallyAdjustsScrollViewInsets = false
         
         setupRx()
+        storeView.setHistory(enabled: true)
     }
 
     private func setupNavigationBar() {
         setNavBarBackgroundStyle(.transparent(substyle: .light))
         setNavBarTitle(R.Strings.affiliationStoreTitle)
         navigationController?.navigationBar.isTranslucent = true
-        navigationController?.view.backgroundColor = .clear
+        navigationController?.navigationBar.backgroundColor = .clear
+
 
         let button = UIBarButtonItem(image: R.Asset.Affiliation.icnThreeDots.image,
                                      style: .plain,
@@ -56,7 +58,8 @@ final class AffiliationStoreViewController: BaseViewController {
 
     private func setupRx() {
         let bindings = [
-            viewModel.rx.state.drive(rx.state)
+            viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
+            storeView.viewHistoryButton.rx.tap.bind { [weak self] in self?.viewModel.openHistory() }
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -101,6 +104,10 @@ final class AffiliationStoreViewController: BaseViewController {
 
         pointsView.alpha = 0
     }
+
+    fileprivate func setHistory(enabled: Bool) {
+        storeView.setHistory(enabled: enabled)
+    }
 }
 
 extension AffiliationStoreViewController {
@@ -113,6 +120,12 @@ extension Reactive where Base: AffiliationStoreViewController {
     var state: Binder<ViewState> {
         return Binder(self.base) { controller, state in
             controller.update(with: state)
+        }
+    }
+
+    var historyEnabled: Binder<Bool> {
+        return Binder(self.base) { controller, enabled in
+            controller.setHistory(enabled: enabled)
         }
     }
 }

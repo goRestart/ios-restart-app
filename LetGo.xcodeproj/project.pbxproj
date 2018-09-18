@@ -164,6 +164,16 @@
 		0A35E6EB20FCDF64002701ED /* ListingCardMediaCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */; };
 		0A376D9E214C4CFC00DFFB7F /* AffiliationStorePointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */; };
 		0A376D9F214C511300DFFB7F /* AffiliationStorePointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */; };
+		0A376DC72150173200DFFB7F /* AffiliationVouchersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DC62150173200DFFB7F /* AffiliationVouchersViewController.swift */; };
+		0A376DC82150173200DFFB7F /* AffiliationVouchersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DC62150173200DFFB7F /* AffiliationVouchersViewController.swift */; };
+		0A376DCA2150173B00DFFB7F /* AffiliationVouchersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DC92150173B00DFFB7F /* AffiliationVouchersView.swift */; };
+		0A376DCB2150173B00DFFB7F /* AffiliationVouchersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DC92150173B00DFFB7F /* AffiliationVouchersView.swift */; };
+		0A376DCD2150175E00DFFB7F /* AffiliationVoucherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DCC2150175E00DFFB7F /* AffiliationVoucherCell.swift */; };
+		0A376DCE2150175E00DFFB7F /* AffiliationVoucherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DCC2150175E00DFFB7F /* AffiliationVoucherCell.swift */; };
+		0A376DD02150177700DFFB7F /* AffiliationVouchersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DCF2150177700DFFB7F /* AffiliationVouchersViewModel.swift */; };
+		0A376DD12150177700DFFB7F /* AffiliationVouchersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DCF2150177700DFFB7F /* AffiliationVouchersViewModel.swift */; };
+		0A376DD321501A3100DFFB7F /* AffiliationVouchersDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DD221501A3100DFFB7F /* AffiliationVouchersDataSource.swift */; };
+		0A376DD421501A3100DFFB7F /* AffiliationVouchersDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DD221501A3100DFFB7F /* AffiliationVouchersDataSource.swift */; };
 		0A376DB5214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */; };
 		0A376DB6214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */; };
 		0A376DB8214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */; };
@@ -477,6 +487,8 @@
 		0ACC843521357BC800803D66 /* TourNotificationPushWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACC843321357B6300803D66 /* TourNotificationPushWireframe.swift */; };
 		0ACC84392135837C00803D66 /* TourNotificationsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACC84382135837C00803D66 /* TourNotificationsBuilder.swift */; };
 		0ACC843A2135838400803D66 /* TourNotificationsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACC84382135837C00803D66 /* TourNotificationsBuilder.swift */; };
+		0ACE01262150502F002C039C /* AffiliationHistoryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE01252150502F002C039C /* AffiliationHistoryBuilder.swift */; };
+		0ACE01272150502F002C039C /* AffiliationHistoryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE01252150502F002C039C /* AffiliationHistoryBuilder.swift */; };
 		0AD5A4332146C2320053E86C /* MoreInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD5A4312146C2310053E86C /* MoreInfoLabel.swift */; };
 		0AD5A4342146C2320053E86C /* MoreInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD5A4312146C2310053E86C /* MoreInfoLabel.swift */; };
 		0AD5A4352146C2320053E86C /* ListingCardInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD5A4322146C2310053E86C /* ListingCardInfoView.swift */; };
@@ -2532,6 +2544,11 @@
 		0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckSnapshotType.swift; sourceTree = "<group>"; };
 		0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardMediaCarousel.swift; sourceTree = "<group>"; };
 		0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStorePointsView.swift; sourceTree = "<group>"; };
+		0A376DC62150173200DFFB7F /* AffiliationVouchersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationVouchersViewController.swift; sourceTree = "<group>"; };
+		0A376DC92150173B00DFFB7F /* AffiliationVouchersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationVouchersView.swift; sourceTree = "<group>"; };
+		0A376DCC2150175E00DFFB7F /* AffiliationVoucherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationVoucherCell.swift; sourceTree = "<group>"; };
+		0A376DCF2150177700DFFB7F /* AffiliationVouchersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationVouchersViewModel.swift; sourceTree = "<group>"; };
+		0A376DD221501A3100DFFB7F /* AffiliationVouchersDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationVouchersDataSource.swift; sourceTree = "<group>"; };
 		0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalViewController.swift; sourceTree = "<group>"; };
 		0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalViewModel.swift; sourceTree = "<group>"; };
 		0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalView.swift; sourceTree = "<group>"; };
@@ -2690,6 +2707,7 @@
 		0ACB145F20FF92110038BC8F /* ListingOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingOwner.swift; sourceTree = "<group>"; };
 		0ACC843321357B6300803D66 /* TourNotificationPushWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourNotificationPushWireframe.swift; sourceTree = "<group>"; };
 		0ACC84382135837C00803D66 /* TourNotificationsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourNotificationsBuilder.swift; sourceTree = "<group>"; };
+		0ACE01252150502F002C039C /* AffiliationHistoryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationHistoryBuilder.swift; sourceTree = "<group>"; };
 		0AD5A4312146C2310053E86C /* MoreInfoLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInfoLabel.swift; sourceTree = "<group>"; };
 		0AD5A4322146C2310053E86C /* ListingCardInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardInfoView.swift; sourceTree = "<group>"; };
 		0AD5A4372146C2550053E86C /* DeckMoreInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckMoreInfoView.swift; sourceTree = "<group>"; };
@@ -4033,6 +4051,18 @@
 			path = PromoteBump;
 			sourceTree = "<group>";
 		};
+		0A376DC52150172900DFFB7F /* Vouchers */ = {
+			isa = PBXGroup;
+			children = (
+				0A376DC62150173200DFFB7F /* AffiliationVouchersViewController.swift */,
+				0A376DC92150173B00DFFB7F /* AffiliationVouchersView.swift */,
+				0A376DCC2150175E00DFFB7F /* AffiliationVoucherCell.swift */,
+				0A376DCF2150177700DFFB7F /* AffiliationVouchersViewModel.swift */,
+				0A376DD221501A3100DFFB7F /* AffiliationVouchersDataSource.swift */,
+			);
+			path = Vouchers;
+			sourceTree = "<group>"; 
+		};
 		0A376DB3214FAC2600DFFB7F /* ModalView */ = {
 			isa = PBXGroup;
 			children = (
@@ -4574,6 +4604,7 @@
 			children = (
 				0A3AF6BD213D48410034143B /* Listing */,
 				50D15400214A5BFE00221B06 /* AffiliationChallenges */,
+				0ACE012421505023002C039C /* AffiliationHistory */,
 				50D15404214A5BFE00221B06 /* AffiliationInviteFriends */,
 				50D15402214A5BFE00221B06 /* AffiliationInviteSMSContacts */,
 				0A376DBD214FE28B00DFFB7F /* AffiliationModalView */,
@@ -4665,6 +4696,14 @@
 				0A3AF6C1213D62BD0034143B /* DeckViewCollectionDelegate.swift */,
 			);
 			path = DeckView;
+			sourceTree = "<group>";
+		};
+		0ACE012421505023002C039C /* AffiliationHistory */ = {
+			isa = PBXGroup;
+			children = (
+				0ACE01252150502F002C039C /* AffiliationHistoryBuilder.swift */,
+			);
+			path = AffiliationHistory;
 			sourceTree = "<group>";
 		};
 		0AD5A4302146C2310053E86C /* MoreInfoView */ = {
@@ -6216,6 +6255,7 @@
 		50D153E7214A5BE600221B06 /* Affiliation */ = {
 			isa = PBXGroup;
 			children = (
+				0A376DC52150172900DFFB7F /* Vouchers */,
 				72DBA6B9214F88F9008D6F39 /* AffiliationInviteSMSContacts */,
 				0A376DB3214FAC2600DFFB7F /* ModalView */,
 				0A45A877214BC6550045ACFA /* Store */,
@@ -9124,6 +9164,7 @@
 				0A2077AE2114C05700BFD3D7 /* GoogleAdxNativeContentView.swift in Sources */,
 				6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
 				C77593E11BF0B8C60097D62F /* FiltersViewModel.swift in Sources */,
+				0A376DD321501A3100DFFB7F /* AffiliationVouchersDataSource.swift in Sources */,
 				4273565720A32F5000C71D49 /* Listing+Map.swift in Sources */,
 				C29F01832067A03E00A43E2F /* Camera.swift in Sources */,
 				42F0688820FF442B009AC898 /* DropdownViewController.swift in Sources */,
@@ -9231,6 +9272,7 @@
 				A411960B2122D49500EBB210 /* RememberPasswordBuilder.swift in Sources */,
 				F5F2113920EE5EE000CD137A /* EnvironmentsHelper.swift in Sources */,
 				C708C83C1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
+				0A376DCA2150173B00DFFB7F /* AffiliationVouchersView.swift in Sources */,
 				09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
 				2EF4E3AE1D3688AB00A09DFD /* LGConfigManager.swift in Sources */,
@@ -9440,6 +9482,7 @@
 				3212ADF62119A1C600945110 /* WaterfallLayoutItemRenderPolicy.swift in Sources */,
 				C6687F3620C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				0A29CF0720EF6C76007F35F6 /* ListingTracker.swift in Sources */,
+				0A376DD02150177700DFFB7F /* AffiliationVouchersViewModel.swift in Sources */,
 				42F64F7F20AAE99900CF97AD /* ListingFilters+LG.swift in Sources */,
 				42E17F8720FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */,
 				014448392110BEF900A459F9 /* NotificationCenterHeader.swift in Sources */,
@@ -9817,6 +9860,7 @@
 				726E35C01FE13FB200F98776 /* RetrieveListingParams+LG.swift in Sources */,
 				0A3AF6BF213D48480034143B /* ListingBuilder.swift in Sources */,
 				6A0B6A102052BC9F00EAA1F5 /* UserProfileRelationView.swift in Sources */,
+				0A376DC72150173200DFFB7F /* AffiliationVouchersViewController.swift in Sources */,
 				72D928DC1E83DD340030F4C3 /* ConfigManager.swift in Sources */,
 				016328F620DBCFF000FA618B /* NotificationSettingsCompleteListViewModel.swift in Sources */,
 				0AE405B720EDF7F10041E3F1 /* ListingCardView.swift in Sources */,
@@ -9882,11 +9926,13 @@
 				C6BEE65120EE65A9008AEA0B /* CarAttributeItem.swift in Sources */,
 				C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				320843B820A1FDF7009A1DC5 /* DiscoveryABGroup.swift in Sources */,
+				0A376DCD2150175E00DFFB7F /* AffiliationVoucherCell.swift in Sources */,
 				4219244120761CF900862CEF /* PromoCell.swift in Sources */,
 				0A751487214272570049E135 /* UserRatingListViewModel.swift in Sources */,
 				42566BF020ED211600120431 /* TooltipStyle.swift in Sources */,
 				0183BB18203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
 				0A14D275212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */,
+				0ACE01262150502F002C039C /* AffiliationHistoryBuilder.swift in Sources */,
 				2E151D7020A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift in Sources */,
 				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
 				C7B588871CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
@@ -10154,6 +10200,7 @@
 				01A171C1208DD1B900C98D4C /* SearchAlertsListViewModel.swift in Sources */,
 				0A82A183213FBFF2005ECA58 /* NotificationCenterModularCell.swift in Sources */,
 				6A5691541D255D27000B7365 /* ListingCellModel.swift in Sources */,
+				0A376DCB2150173B00DFFB7F /* AffiliationVouchersView.swift in Sources */,
 				C75B5DC21D59E09500112368 /* ListingCarouselViewController.swift in Sources */,
 				0A9035151FCC6E0600FDE795 /* GradientView.swift in Sources */,
 				C7B5884A1CE1DE1C009B3975 /* ChatViewController.swift in Sources */,
@@ -10353,6 +10400,7 @@
 				5095988E1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
 				A47C4A5D213D309A005AA387 /* TrendingSearchesBuilder.swift in Sources */,
 				0A04D5DA20760A9D00471B9D /* ABTests.swift in Sources */,
+				0A376DD421501A3100DFFB7F /* AffiliationVouchersDataSource.swift in Sources */,
 				3237C6A021072A5000B7359B /* ActivityView.swift in Sources */,
 				0A3AF6C0213D48480034143B /* ListingBuilder.swift in Sources */,
 				729912F6200FABD9000541CF /* NumberOfRooms.swift in Sources */,
@@ -10470,6 +10518,7 @@
 				C7B588801CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
 				0AB63DD42136EA9900FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */,
 				0A6FED072130344000B57004 /* BumpUpsStandardWireframe.swift in Sources */,
+				0A376DC82150173200DFFB7F /* AffiliationVouchersViewController.swift in Sources */,
 				72B935F71E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
 				C627573320A3436900B401E7 /* OrderCondition.swift in Sources */,
 				C7B588861CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift in Sources */,
@@ -10753,6 +10802,7 @@
 				556E26F7203C3C0D0098ECF0 /* UserProfileViewController.swift in Sources */,
 				6A5E1A111D548F5400F92692 /* UIImage+LG.swift in Sources */,
 				2E2FF6E920AC64C800C9A5DA /* ChatUserConversationCell.swift in Sources */,
+				0ACE01272150502F002C039C /* AffiliationHistoryBuilder.swift in Sources */,
 				0AE405BD20EDF8530041E3F1 /* ListingCardOnBoardingView.swift in Sources */,
 				50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
 				425EE38E211AEE070002DAB8 /* FeedSection+Mapping.swift in Sources */,
@@ -10894,6 +10944,7 @@
 				016328FA20DBCFFD00FA618B /* NotificationSettingsCompleteListViewController.swift in Sources */,
 				0A6FED232130344000B57004 /* ChangePasswordModalWireframe.swift in Sources */,
 				C63A589B20EE22A1007C0816 /* CarAttributes+LG.swift in Sources */,
+				0A376DD12150177700DFFB7F /* AffiliationVouchersViewModel.swift in Sources */,
 				C7DE8AE11C88A98B005CF37E /* PostListingViewController.swift in Sources */,
 				C690704B21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */,
 				50146BE31D4F910B00B0F635 /* ProfileTabNavigator.swift in Sources */,
@@ -10960,6 +11011,7 @@
 				C7E5902E1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */,
 				8E814F431F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */,
 				C7841AF51E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
+				0A376DCE2150175E00DFFB7F /* AffiliationVoucherCell.swift in Sources */,
 				2ECB416C20065FB200482EF7 /* BumpUpFreeViewController.swift in Sources */,
 				C66105E12130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */,
 				C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
