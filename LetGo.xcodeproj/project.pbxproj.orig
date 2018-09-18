@@ -162,8 +162,10 @@
 		0A3048282041E1DE00C11498 /* ListingDeckSnapshotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */; };
 		0A35E6EA20FCDE49002701ED /* ListingCardMediaCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */; };
 		0A35E6EB20FCDF64002701ED /* ListingCardMediaCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */; };
+<<<<<<< HEAD
 		0A376D9E214C4CFC00DFFB7F /* AffiliationStorePointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */; };
 		0A376D9F214C511300DFFB7F /* AffiliationStorePointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */; };
+=======
 		0A376DB5214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */; };
 		0A376DB6214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */; };
 		0A376DB8214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */; };
@@ -172,6 +174,7 @@
 		0A376DBC214FACE100DFFB7F /* AffiliationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */; };
 		0A376DBF214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */; };
 		0A376DC0214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */; };
+>>>>>>> master
 		0A38625420EB7E8500DD997F /* LPMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */; };
 		0A38625520EB7E8C00DD997F /* LPMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */; };
 		0A3AF6B8213D46610034143B /* ListingFullDetailNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AF6B7213D46600034143B /* ListingFullDetailNavigator.swift */; };
@@ -2531,11 +2534,14 @@
 		0A2F52BF21232AC90034EF85 /* PromoteBumpBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoteBumpBuilder.swift; sourceTree = "<group>"; };
 		0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckSnapshotType.swift; sourceTree = "<group>"; };
 		0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardMediaCarousel.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStorePointsView.swift; sourceTree = "<group>"; };
+=======
 		0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalViewController.swift; sourceTree = "<group>"; };
 		0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalViewModel.swift; sourceTree = "<group>"; };
 		0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalView.swift; sourceTree = "<group>"; };
 		0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalBuilder.swift; sourceTree = "<group>"; };
+>>>>>>> master
 		0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMessageViewModel.swift; sourceTree = "<group>"; };
 		0A3AF6B7213D46600034143B /* ListingFullDetailNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailNavigator.swift; sourceTree = "<group>"; };
 		0A3AF6B9213D46D10034143B /* ListingFullDetailWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailWireframe.swift; sourceTree = "<group>"; };
@@ -6216,8 +6222,11 @@
 		50D153E7214A5BE600221B06 /* Affiliation */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				72DBA6B9214F88F9008D6F39 /* AffiliationInviteSMSContacts */,
+=======
 				0A376DB3214FAC2600DFFB7F /* ModalView */,
+>>>>>>> master
 				0A45A877214BC6550045ACFA /* Store */,
 				50D153E8214A5BE600221B06 /* AffiliationFAQViewController.swift */,
 				50D153E9214A5BE600221B06 /* AffiliationFAQViewModel.swift */,

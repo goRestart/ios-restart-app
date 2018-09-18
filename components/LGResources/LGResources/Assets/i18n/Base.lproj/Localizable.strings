@@ -67,6 +67,15 @@
 // Affiliation invite sms no permissions granted
 "affiliation_invite_sms_contacts_need_permissions" = "We need to get access to your contacts. Go to settings TBD";
 
+// Message sent 
+"affiliation_invite_sms_message_sent" = "Message sent";
+
+// Message cancelled by user
+"affiliation_invite_sms_message_cancel" = "Message has not been sent";
+
+// Error when sending message
+"affiliation_invite_sms_message_error" = "Something was wrong and message was not sent";
+
 // Affiliation Invite message text
 "affiliation_invite_message_text" = "%@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
 
@@ -94,11 +103,29 @@
 // Affiliation Store screen. Country unavailable error message
 "affiliation_store_country_error_message" = "Oops! This feature is not available in your country.";
 
+// Affiliation Store screen. Email alert. Title
+"affiliation_store_email_alert_title" = "Enter your email address";
+
+// Affiliation Store screen. Email alert. Subtitle
+"affiliation_store_email_alert_subtitle" = "The gift card will be sent to your email: %@";
+
 // Affiliation Store screen. Redeem Success. Modal headline
 "affiliation_store_redeem_gift_success_headline" = "Gift Card Requested";
 
 // Affiliation Store screen. Redeem Success. Modal subheadline
-"affiliation_store_redeem_gift_success_subheadline" = "We'll send you an email when your gift card is approved. This might take up to 24h.";
+"affiliation_store_redeem_gift_success_subheadline_with_email" = "We'll send you an email when your gift card is approved. This might take up to 24h.";
+
+// Affiliation Store screen. Redeem Success. Modal subheadline
+"affiliation_store_redeem_gift_success_subheadline_without_email" = "In order to get the gift card you need add an email to your account.";
+
+// Affiliation Store screen. Redeem Success. Modal action
+"affiliation_store_redeem_gift_add_email" = "Add email";
+
+// Affiliation Store screen. Redeem Success. Modal action
+"affiliation_store_redeem_gift_edit_email" = "Edit email";
+
+// Affiliation Store screen. Redeem Success. Modal action
+"affiliation_store_redeem_gift_send" = "Send";
 
 // Affiliation Store screen. Unknown error message
 "affiliation_store_unknown_error_message" = "Oops! We are currently experimenting some issues with our store.";
@@ -1200,6 +1227,57 @@
 
 // Title for the click to talk smoketest banner
 "click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
+
+// Subtitle for the click to talk smoketest - developing
+"smoketest_detail_developing" = "We are currently testing %@.";
+
+// Subtitle for the click to talk smoketest - no charge
+"smoketest_detail_no_charge" = "You won't be charged for using it.";
+
+// First click to talk feature
+"click_to_talk_smoketest_feature_1" = "Speak directly to buyers";
+
+// Second click to talk feature
+"click_to_talk_smoketest_feature_2" = "Masked phone, your number is private";
+
+// Third click to talk feature
+"click_to_talk_smoketest_feature_3" = "Receive calls about all of your listings";
+
+// Free trial title
+"click_to_talk_smoketest_seven_days_free" = "Includes a 7-day FREE trial";
+
+// Two months free description
+"click_to_talk_smoketest_two_months_free" = "2 free months";
+
+// Title for feedback screen
+"smoketest_feedback_title" = "Why wouldn’t you use it?";
+
+// Smoketest feedback sustitle
+"smoketest_feedback_subtitle" = "We are currently testing %@ and we'd like to hear your feedback. Please help us improve.";
+
+// Feedback first option
+"smoketest_feedback_expensive" = "It's too expensive";
+
+// Feedback second option
+"smoketest_feedback_option_no_phone_call" = "I don’t want phone calls";
+
+// Feedback third option
+"smoketest_feedback_other" = "Other";
+
+// Feedback text title
+"smoketest_feedback_tell_us" = "Tell us more";
+
+// Feedback button title
+"smoketest_feedback_send" = "Send";
+
+// Thank you page - subtitle
+"smoketest_thank_you_title" = "Thank for your feedback!";
+
+// Thank you page - second subtitle
+"smoketest_thank_you_register_interest" = "We've registered your interest.";
+
+// Subscription recommended label
+"smoketest_recommended" = "Recommended";
 
 // Chat direct answer as buyer
 "direct_answer_condition" = "What condition is it in?";

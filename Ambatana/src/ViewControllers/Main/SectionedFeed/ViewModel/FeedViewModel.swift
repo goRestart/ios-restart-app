@@ -53,7 +53,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     var shouldShowUserProfileButton: Bool {
         return featureFlags.community.shouldShowOnTab
     }
-    
+
     private(set) var viewState: ViewState {
         didSet {
             delegate?.vmDidUpdateState(self, state: viewState)
