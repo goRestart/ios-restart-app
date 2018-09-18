@@ -19,9 +19,17 @@ extension R {
     /// Invite friends
     public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
     /// %@ pts
+<<<<<<< HEAD
     public static func affiliationChallengesInviteFriendsMilestoneLabel(_ p1: String) -> String {
       return Strings.tr("Localizable", "affiliation_challenges_invite_friends_milestone_label", p1)
     }
+=======
+    public static func affiliationChallengesInviteFriendsDescription(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_invite_friends_description", p1)
+    }
+    /// Score a $60 Amazon Gift Card
+    public static let affiliationChallengesInviteFriendsSubtitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_subtitle")
+>>>>>>> master
     /// INVITE YOUR FRIENDS
     public static let affiliationChallengesInviteFriendsTitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_title")
     /// Complete the following steps to get your gift cards
@@ -76,8 +84,18 @@ extension R {
     public static let affiliationStoreCountryErrorMessage = Strings.tr("Localizable", "affiliation_store_country_error_message")
     /// History
     public static let affiliationStoreHistory = Strings.tr("Localizable", "affiliation_store_history")
+    /// %@ pts.
+    public static func affiliationStorePoints(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_store_points", p1)
+    }
     /// Redeem gift card
     public static let affiliationStoreRedeemGift = Strings.tr("Localizable", "affiliation_store_redeem_gift")
+    /// $10 Amazon Gift Card
+    public static let affiliationStoreRewardsAmazon10 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_10")
+    /// $5 Amazon Gift Card
+    public static let affiliationStoreRewardsAmazon5 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_5")
+    /// $50 Amazon Gift Card
+    public static let affiliationStoreRewardsAmazon50 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_50")
     /// Store
     public static let affiliationStoreTitle = Strings.tr("Localizable", "affiliation_store_title")
     /// Oops! We are currently experimenting some issues with our store.
@@ -114,6 +132,16 @@ extension R {
     public static let appShareWhatsappButton = Strings.tr("Localizable", "app_share_whatsapp_button")
     /// An error occurred while blocking this user.
     public static let blockUserErrorGeneric = Strings.tr("Localizable", "block_user_error_generic")
+    /// Edit
+    public static let bulkPostingCongratsEditButton = Strings.tr("Localizable", "bulk_posting_congrats_edit_button")
+    /// Add more details
+    public static let bulkPostingCongratsListingsSectionLabel = Strings.tr("Localizable", "bulk_posting_congrats_listings_section_label")
+    /// Post More Listings
+    public static let bulkPostingCongratsPostButton = Strings.tr("Localizable", "bulk_posting_congrats_post_button")
+    /// Congratulations!
+    public static let bulkPostingCongratsPrimaryLabel = Strings.tr("Localizable", "bulk_posting_congrats_primary_label")
+    /// Your listings has been posted.
+    public static let bulkPostingCongratsSecondaryLabel = Strings.tr("Localizable", "bulk_posting_congrats_secondary_label")
     /// Featured for the next
     public static let bumpUpBannerBoostProgressTitle = Strings.tr("Localizable", "bump_up_banner_boost_progress_title")
     /// Add an extra boost!

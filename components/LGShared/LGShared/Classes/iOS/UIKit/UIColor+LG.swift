@@ -227,6 +227,7 @@ public extension UIColor {
 
     static var listBackgroundColor: UIColor { return grayBackground }
 
+    static var chatSystemBubbleBgColor: UIColor { return UIColor(rgb: 0xDFE9F7) } // (223, 233, 247)
     static var chatMyBubbleBgColor: UIColor { return primaryColorAlpha16 }
     static var chatMyBubbleBgColorSelected: UIColor { return primaryColorAlpha30 }
 

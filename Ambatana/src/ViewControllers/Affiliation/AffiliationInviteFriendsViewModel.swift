@@ -1,7 +1,25 @@
 import LGComponents
+import LGCoreKit
 
 final class AffiliationInviteFriendsViewModel: BaseViewModel {
+    
+    private let myUserRepository: MyUserRepository
     var navigator: AffiliationInviteFriendsNavigator?
+    
+    let socialSharer: SocialSharer
+    
+    // MARK: - Lifecycle
+    
+    convenience override init() {
+        self.init(socialSharer: SocialSharer(),
+                  myUserRepository: Core.myUserRepository)
+    }
+    
+    init(socialSharer: SocialSharer, myUserRepository: MyUserRepository) {
+        self.socialSharer = socialSharer
+        self.myUserRepository = myUserRepository
+        super.init()
+    }
 
     override func backButtonPressed() -> Bool {
         navigator?.closeAffiliationInviteFriends()
@@ -10,6 +28,14 @@ final class AffiliationInviteFriendsViewModel: BaseViewModel {
 
     func inviteSMSContactsButtonPressed() {
         navigator?.openAffiliationInviteSMSContacts()
+    }
+    
+    func buildShare(type: ShareType, viewController: UIViewController) {
+        let myUserId = myUserRepository.myUser?.objectId
+        let myUserName = myUserRepository.myUser?.name
+        let socialMessage = AffiliationSocialMessage(myUserId:myUserId, myUserName: myUserName)
+        socialSharer.share(socialMessage, shareType: type, viewController: viewController)
+        socialSharer.delegate = viewController as? SocialSharerDelegate
     }
     
     func termsButtonPressed() {

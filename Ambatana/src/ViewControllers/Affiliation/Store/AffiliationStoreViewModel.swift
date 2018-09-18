@@ -27,7 +27,6 @@ final class AffiliationStoreViewModel: BaseViewModel {
         return [UIAction(interface: .text(R.Strings.affiliationStoreHistory),
                          action: { [weak self] in self?.openHistory() })]
     }
-
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         reloadPurchases()

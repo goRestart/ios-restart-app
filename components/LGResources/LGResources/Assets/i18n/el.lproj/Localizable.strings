@@ -17,7 +17,7 @@
 "bump_up_banner_free_text" = "Προωθήστε δωρεάν για να πουλήσετε γρηγορότερα";
 "bump_up_banner_loading_text" = "Φόρτωση περισσότερων πληροφοριών...";
 "bump_up_banner_multi_day_progress_title" = "μέχρι να φτάσει ξανά στην κορυφή";
-"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "απομένουν";
 "bump_up_banner_multi_day_progress_top_tag" = "ΚΟΡΥΦΗ";
 "bump_up_banner_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
 "bump_up_banner_pay_text_improvement" = "Πουλήστε τώρα γρηγορότερα";
@@ -74,9 +74,9 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Προωθήστε την καταχώρησή σας για 7 μέρες σε τιμή με έκπτωση. Θα τη μετακινούμε στην κορυφή κάθε 24 ώρες για να πουλάτε γρηγορότερα!";
 "bump_up_view_multi_day_7_days_tag" = "7 ΜΕΡΕΣ";
 "bump_up_view_multi_day_7_days_title" = "Αποκτήστε 14x περισσότερους αγοραστές";
-"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
-"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
-"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Η καταχώρησή σας έχει περισσότερη προβολή";
+"bump_up_view_multi_day_info_3_days_subtitle" = "Θα μεταφέρουμε την καταχώρησή σας στις πρώτες 3- μια φορά κάθε 24 ώρες.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "Θα μεταφέρουμε την καταχώρησή σας στις πρώτες 7- μια φορά κάθε 24 ώρες.";
 "bump_up_view_multi_day_info_title" = "Η καταχώρησή σας προωθήθηκε!";
 "bump_up_view_multi_day_title" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_view_pay_button_title" = "Προωθήστε το για %@";
@@ -502,7 +502,7 @@
 "filters_real_estate_property_type_not_set" = "Καμία ρύθμιση";
 "filters_real_estate_size_from_feed_filter_cell" = "Από";
 "filters_real_estate_size_to_feed_filter_cell" = "Mέχρι";
-"filters_save_button" = "Αποθήκευση φίλτρων";
+"filters_save_button" = "Εφαρμογή φίλτρων";
 "filters_section_car_info" = "Πληροφορίες αυτοκινήτου";
 "filters_section_categories" = "Κατηγορίες";
 "filters_section_distance" = "Απόσταση";

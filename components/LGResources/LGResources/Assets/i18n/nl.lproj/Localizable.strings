@@ -17,7 +17,7 @@
 "bump_up_banner_free_text" = "Gratis omhoog plaatsen om sneller te verkopen";
 "bump_up_banner_loading_text" = "Meer info laden…";
 "bump_up_banner_multi_day_progress_title" = "totdat het weer naar de top gaat";
-"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "resterend";
 "bump_up_banner_multi_day_progress_top_tag" = "TOP";
 "bump_up_banner_pay_text" = "Verkoop nu sneller";
 "bump_up_banner_pay_text_improvement" = "Verkoop nu sneller";
@@ -74,9 +74,9 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Plaats je advertentie 7 dagen als uitgelicht tegen een gereduceerd tarief. We zullen het elke 24 uur aan de top plaatsen zodat je sneller zal verkopen!";
 "bump_up_view_multi_day_7_days_tag" = "7 DAGEN";
 "bump_up_view_multi_day_7_days_title" = "Trek 14x meer kopers aan";
-"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
-"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
-"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Je advertentie is in zichtbaarheid verhoogd";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We verplaatsen je advertentie 3 keer naar de top - één keer per 24 uur.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We verplaatsen je advertentie 7 keer naar de top - één keer per 24 uur.";
 "bump_up_view_multi_day_info_title" = "Je advertentie is als uitgelicht geplaatst!";
 "bump_up_view_multi_day_title" = "Verkoop nu sneller";
 "bump_up_view_pay_button_title" = "Plaats als uitgelicht voor %@";
@@ -502,7 +502,7 @@
 "filters_real_estate_property_type_not_set" = "Niet ingesteld";
 "filters_real_estate_size_from_feed_filter_cell" = "Van";
 "filters_real_estate_size_to_feed_filter_cell" = "Tot";
-"filters_save_button" = "Filters opslaan";
+"filters_save_button" = "Filters toepassen";
 "filters_section_car_info" = "Info Auto";
 "filters_section_categories" = "Categorieen";
 "filters_section_distance" = "Afstand";

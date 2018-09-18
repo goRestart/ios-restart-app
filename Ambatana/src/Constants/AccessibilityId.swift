@@ -466,6 +466,7 @@ enum AccessibilityId: Equatable, Accessible {
     case chatCellMessageLabel
     case chatCellDateLabel
     case chatCellAvatar
+    case chatCellSystemLabel
 
     // ChatStickerCell
     case chatStickerCellContainer
@@ -1664,6 +1665,8 @@ enum AccessibilityId: Equatable, Accessible {
                 suffix = "CallToAction"
             case .carousel:
                 suffix = "Carousel"
+            case .system:
+                suffix = "System"
             }
             return "chatCellContainer\(suffix)"
         case .chatCellMessageLabel:
@@ -1672,6 +1675,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "chatCellDateLabel"
         case .chatCellAvatar:
             return "chatCellAvatar"
+        case .chatCellSystemLabel:
+            return "chatCellSystemLabel"
             
         // ChatStickerCell
         case .chatStickerCellContainer:

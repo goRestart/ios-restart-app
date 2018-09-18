@@ -7,6 +7,8 @@ final class AffiliationStoreViewController: BaseViewController {
     private let errorView = AffiliationStoreErrorView()
 
     private let viewModel: AffiliationStoreViewModel
+    private let pointsView = AffiliationStorePointsView()
+
     private let disposeBag = DisposeBag()
 
     init(viewModel: AffiliationStoreViewModel) {
@@ -43,10 +45,15 @@ final class AffiliationStoreViewController: BaseViewController {
         navigationController?.view.backgroundColor = .clear
 
         // TODO: Include gray dots
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: R.Asset.IconsButtons.icMoreOptions.image,
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(didTapMoreActions))
+        pointsView.populate(with: AffiliationPoints(points: 15))
+        let pointsItem = UIBarButtonItem.init(customView: pointsView)
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(image: R.Asset.IconsButtons.icMoreOptions.image,
+                            style: .plain,
+                            target: self,
+                            action: #selector(didTapMoreActions)),
+            pointsItem
+        ]
     }
 
     private func setupRx() {
@@ -76,6 +83,10 @@ final class AffiliationStoreViewController: BaseViewController {
             break
         }
     }
+
+    fileprivate func update(with points: UInt) {
+        pointsView.populate(with: AffiliationPoints(points: points))
+    }
 }
 
 extension AffiliationStoreViewController {
@@ -88,6 +99,12 @@ extension Reactive where Base: AffiliationStoreViewController {
     var state: Binder<ViewState> {
         return Binder(self.base) { controller, state in
             controller.update(with: state)
+        }
+    }
+
+    var points: Binder<UInt> {
+        return Binder(self.base) { controller, points in
+            controller.update(with: points)
         }
     }
 }

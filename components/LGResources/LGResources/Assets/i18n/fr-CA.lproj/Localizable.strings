@@ -17,7 +17,7 @@
 "bump_up_banner_free_text" = "Renvoyez vers le haut gratuitement pour vendre plus vite";
 "bump_up_banner_loading_text" = "Chargement de plus d'informations…";
 "bump_up_banner_multi_day_progress_title" = "jusqu'à ce que ce soit de nouveau déplacé en haut de la liste";
-"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "restant";
 "bump_up_banner_multi_day_progress_top_tag" = "TOP";
 "bump_up_banner_pay_text" = "Mettre en vedette pour vendre plus vite";
 "bump_up_banner_pay_text_improvement" = "Vendez au plus vite !";
@@ -74,9 +74,9 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Mettez votre annonce en vedette pendant 7 jours à un tarif réduit. Nous l'enverrons en haut de la liste toutes les 24 heures et vous vendrez donc plus vite !";
 "bump_up_view_multi_day_7_days_tag" = "7 JOURS";
 "bump_up_view_multi_day_7_days_title" = "Attirez 14 fois plus d'acheteurs";
-"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
-"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
-"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Votre annonce a gagné en visibilité";
+"bump_up_view_multi_day_info_3_days_subtitle" = "Nous allons renvoyer votre annonce vers le haut 3 fois - une fois toutes les 24 heures.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "Nous allons renvoyer votre annonce vers le haut 7 fois - une fois toutes les 24 heures.";
 "bump_up_view_multi_day_info_title" = "Votre annonce est mise en vedette !";
 "bump_up_view_multi_day_title" = "Vendez au plus vite !";
 "bump_up_view_pay_button_title" = "Mettez-le en vedette pour %@";
@@ -502,7 +502,7 @@
 "filters_real_estate_property_type_not_set" = "Non configuré";
 "filters_real_estate_size_from_feed_filter_cell" = "De";
 "filters_real_estate_size_to_feed_filter_cell" = "À";
-"filters_save_button" = "Sauvegarder les filtres";
+"filters_save_button" = "Appliquer les filtres";
 "filters_section_car_info" = "Informations voiture";
 "filters_section_categories" = "Catégories";
 "filters_section_distance" = "Distance";

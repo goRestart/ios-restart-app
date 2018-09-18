@@ -10,8 +10,14 @@
 // Affiliation challenges screen. Invite friends cell title.
 "affiliation_challenges_invite_friends_title" = "INVITE YOUR FRIENDS";
 
+// Affiliation challenges screen. Invite friends cell subtitle.
+"affiliation_challenges_invite_friends_subtitle" = "Score a $60 Amazon Gift Card";
+
+// Affiliation challenges screen. Invite friends cell description.
+"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@pts. Invite %3$@ friends and earn %4$@pts more!";
+
 // Affiliation challenges screen. Invite friends cell milestone label.
-"affiliation_challenges_invite_friends_milestone_label" = "%@ pts";
+"affiliation_challenges_invite_friends_milestone" = "%@ pts";
 
 // Affiliation challenges screen. Invite friends cell button.
 "affiliation_challenges_invite_friends_button" = "Invite friends";
@@ -55,6 +61,12 @@
 // Affiliation invite sms contacts search bar placeholder
 "affiliation_invite_sms_contacts_search_placeholder" = "Search or enter a name or phone";
 
+// Affiliation invite sms no contacts on the list
+"affiliation_invite_sms_contacts_empty_state" = "There is no contacts on your phone TBD";
+
+// Affiliation invite sms no permissions granted
+"affiliation_invite_sms_contacts_need_permissions" = "We need to get access to your contacts. Go to settings TBD";
+
 // Affiliation Invite message text
 "affiliation_invite_message_text" = "%@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
 
@@ -82,6 +94,12 @@
 // Affiliation Store screen. Country unavailable error message
 "affiliation_store_country_error_message" = "Oops! This feature is not available in your country.";
 
+// Affiliation Store screen. Redeem Success. Modal headline
+"affiliation_store_redeem_gift_success_headline" = "Gift Card Requested";
+
+// Affiliation Store screen. Redeem Success. Modal subheadline
+"affiliation_store_redeem_gift_success_subheadline" = "We'll send you an email when your gift card is approved. This might take up to 24h.";
+
 // Affiliation Store screen. Unknown error message
 "affiliation_store_unknown_error_message" = "Oops! We are currently experimenting some issues with our store.";
 
@@ -91,8 +109,26 @@
 // Affiliation Store screen. History
 "affiliation_store_history" = "History";
 
+// Affiliation Store screen. Points label
+"affiliation_store_points" = "%@ pts.";
+
 // Affilation Store screen. Redeem button
 "affiliation_store_redeem_gift" = "Redeem gift card";
+
+// Affiliation Store screen. 5$ reward
+"affiliation_store_rewards_amazon_5" = "$5 Amazon Gift Card";
+
+// Affiliation Store screen. 10$ reward
+"affiliation_store_rewards_amazon_10" = "$10 Amazon Gift Card";
+
+// Affiliation Store screen. 50$ reward
+"affiliation_store_rewards_amazon_50" = "$50 Amazon Gift Card";
+
+// Affiliation Store Vouchers screen. Resend button
+"affiliation_store_resend_voucher" = "Resend";
+
+// Affiliation Store screen. View history button
+"affiliation_store_view_history" = "View history";
 
 // Affiliation challenges screen. Wallet View. Title.
 "affiliation_wallet_title" = "YOUR WALLET";
@@ -141,6 +177,21 @@
 
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
+
+// Bulk posting congrats screen main label
+"bulk_posting_congrats_primary_label" = "Congratulations!";
+
+// Bulk posting congrats screen secondary label
+"bulk_posting_congrats_secondary_label" = "Your listings has been posted.";
+
+// Bulk posting congrats screen post button
+"bulk_posting_congrats_post_button" = "Post More Listings";
+
+// Bulk posting congrats screen posted listings section label
+"bulk_posting_congrats_listings_section_label" = "Add more details";
+
+// Bulk posting congrats screen edit button
+"bulk_posting_congrats_edit_button" = "Edit";
 
 // Text for bubble in free bump
 "bump_up_banner_free_text" = "Bump Up for free to sell faster";
