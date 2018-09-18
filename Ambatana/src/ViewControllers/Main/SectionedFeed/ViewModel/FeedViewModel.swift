@@ -521,7 +521,9 @@ extension FeedViewModel {
     }
     
     func openAffiliationChallenges() {
-        wireframe?.openAffiliationChallenges()
+        wireframe?.openLoginIfNeededFromFeed(from: .feed, loggedInAction: { [weak self] in
+            self?.wireframe?.openAffiliationChallenges()
+        })
     }
     
     func refreshControlTriggered() {

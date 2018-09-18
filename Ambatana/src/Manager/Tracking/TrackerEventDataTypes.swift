@@ -494,6 +494,7 @@ enum EventParameterLoginSourceValue: String {
     case directQuickAnswer = "direct-quick-answer"
     case chatProUser = "chat-pro-user"
     case community = "community"
+    case feed = "feed"
 }
 
 enum EventParameterProductItemType: String {

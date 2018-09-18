@@ -618,7 +618,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func openAffiliationChallenges() {
-        wireframe?.openAffiliationChallenges()
+        wireframe?.openLoginIfNeededFromFeed(from: .feed, loggedInAction: { [weak self] in
+            self?.wireframe?.openAffiliationChallenges()
+        })
     }
     
     func showMap() {

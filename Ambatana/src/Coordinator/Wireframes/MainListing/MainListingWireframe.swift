@@ -7,6 +7,8 @@ protocol MainListingNavigator: class {
     func openLocationSelection(with place: Place, distanceRadius: Int?, locationDelegate: EditLocationDelegate)
     func openMap(requester: ListingListMultiRequester, listingFilters: ListingFilters)
     func openAffiliationChallenges()
+    func openLoginIfNeededFromFeed(from: EventParameterLoginSourceValue,
+                                   loggedInAction: @escaping (() -> Void))
     func openClassicFeed(navigator: MainTabNavigator,
                          withSearchType searchType: SearchType?,
                          listingFilters: ListingFilters)
@@ -16,16 +18,26 @@ protocol MainListingNavigator: class {
 
 final class MainListingWireframe: MainListingNavigator {
     private let nc: UINavigationController
-    private let listingMapAssmebly: ListingsMapAssembly
+    private let listingsMapAssembly: ListingsMapAssembly
+    private let sessionManager: SessionManager
+    private let loginAssembly: LoginAssembly
     private lazy var affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(nc)
 
     convenience init(nc: UINavigationController) {
-        self.init(nc: nc, listingMapAssmebly: ListingsMapBuilder.standard(nc))
+        self.init(nc: nc,
+                  listingsMapAssembly: ListingsMapBuilder.standard(nc),
+                  sessionManager: Core.sessionManager,
+                  loginAssembly: LoginBuilder.standard(context: nc))
     }
 
-    init(nc: UINavigationController, listingMapAssmebly: ListingsMapAssembly) {
+    init(nc: UINavigationController,
+         listingsMapAssembly: ListingsMapAssembly,
+         sessionManager: SessionManager,
+         loginAssembly: LoginAssembly) {
         self.nc = nc
-        self.listingMapAssmebly = listingMapAssmebly
+        self.listingsMapAssembly = listingsMapAssembly
+        self.sessionManager = sessionManager
+        self.loginAssembly = loginAssembly
     }
     
     func openSearchResults(with searchType: SearchType, filters: ListingFilters, searchNavigator: SearchNavigator) {
@@ -59,13 +71,28 @@ final class MainListingWireframe: MainListingNavigator {
     
     func openMap(requester: ListingListMultiRequester,
                  listingFilters: ListingFilters) {
-        let vc = listingMapAssmebly.buildListingsMap(filters: listingFilters)
+        let vc = listingsMapAssembly.buildListingsMap(filters: listingFilters)
         nc.pushViewController(vc, animated: true)
     }
     
     func openAffiliationChallenges() {
         let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
         nc.pushViewController(vc, animated: true)
+    }
+    
+    func openLoginIfNeededFromFeed(from: EventParameterLoginSourceValue,
+                                   loggedInAction: @escaping (() -> Void)) {
+        guard !sessionManager.loggedIn else {
+            loggedInAction()
+            return
+        }
+        
+        let vc = LoginBuilder.modal.buildMainSignIn(
+            withSource: from,
+            loginAction: loggedInAction,
+            cancelAction: nil)
+        let nav = UINavigationController(rootViewController: vc)
+        nc.present(nav, animated: true, completion: nil)
     }
     
     func openClassicFeed(navigator: MainTabNavigator,

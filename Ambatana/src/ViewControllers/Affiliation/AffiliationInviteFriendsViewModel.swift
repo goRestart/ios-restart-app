@@ -6,7 +6,7 @@ final class AffiliationInviteFriendsViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     var navigator: AffiliationInviteFriendsNavigator?
     
-    let socialSharer: SocialSharer
+    private let socialSharer: SocialSharer
     
     // MARK: - Lifecycle
     
