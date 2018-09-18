@@ -188,6 +188,13 @@ struct UriScheme {
                                                   medium: medium,
                                                   source: source,
                                                   cardActionParameter: cardActionParameter))
+      case .p2paymentsOffer:
+         guard let offerId = components.first else { return nil }
+         return UriScheme(deepLink: DeepLink.link(.p2paymentsOffer(offerId: offerId),
+                                                  campaign: campaign,
+                                                  medium: medium,
+                                                  source: source,
+                                                  cardActionParameter: cardActionParameter))
       }
    }
 }
@@ -202,6 +209,7 @@ enum UriSchemeHost: String {
    case listingBumpUp = "products_bump_up"
    case listingMarkAsSold = "products_mark_as_sold"
    case listingEdit = "products_edit"
+   case p2paymentsOffer = "p2payments_offer"
    case user = "users"
    case chat = "chat"
    case chats = "chats"

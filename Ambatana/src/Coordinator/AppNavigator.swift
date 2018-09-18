@@ -28,4 +28,5 @@ protocol AppNavigator: class {
                                       alignment: BubbleNotificationView.Alignment,
                                       style: BubbleNotificationView.Style)
     func openCommunityTab()
+    func openP2PPaymentOfferStatus(offerId: String)
 }
