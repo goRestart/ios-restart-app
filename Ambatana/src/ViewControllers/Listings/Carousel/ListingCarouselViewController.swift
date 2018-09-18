@@ -1453,6 +1453,12 @@ extension ListingCarouselViewController {
     }
 }
 
+extension ListingCarouselViewController {
+    func retrieveSocialMessage() -> SocialMessage? {
+        return viewModel.makeSocialMessage()
+    }
+}
+
 
 // MARK: - Accessibility ids
 

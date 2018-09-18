@@ -5,7 +5,7 @@ import LGComponents
 
 typealias MessageWithURLCompletion = (String) -> ()
 typealias NativeShareItemsCompletion = ([Any]) -> ()
-typealias FBSDKShareLinkContentCompletion = (FBSDKShareLinkContent) -> ()
+typealias FBSDKShareLinkContentCompletion = (FBSDKSharePhotoContent) -> ()
 typealias AppsFlyerGenerateInviteURLCompletion = (URL?) -> ()
 
 
@@ -23,6 +23,9 @@ enum ShareSource: String {
     case native = "native"
 }
 
+protocol SocialMessageConvertible {
+    func retrieveSocialMessage() -> SocialMessage?
+}
 
 // MARK: - SocialMessage
 
@@ -42,15 +45,15 @@ protocol SocialMessage {
     var fallbackToStore: Bool { get }
     var controlParameter: String { get }
     
-    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion)
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion)
     func retrieveWhatsappShareText(completion: @escaping MessageWithURLCompletion)
     func retrieveTelegramShareText(completion: @escaping MessageWithURLCompletion)
     func retrieveSMSShareText(completion: @escaping MessageWithURLCompletion)
     func retrieveCopyLinkText(completion: @escaping MessageWithURLCompletion)
     func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion)
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion)
-    func retrieveFBShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
-    func retrieveFBMessengerShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
+    func retrieveFBShareContent(image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion)
+    func retrieveFBMessengerShareContent(image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion)
     func retrieveTwitterShareText(completion: @escaping MessageWithURLCompletion)
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion)
 }
@@ -95,21 +98,29 @@ extension SocialMessage {
         }
     }
     
-    func retrieveFBShareContent(completion: @escaping FBSDKShareLinkContentCompletion) {
-        fbShareLinkContent(.facebook, completion: completion)
+    func retrieveFBShareContent(image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion) {
+        fbShareLinkContent(.facebook, image: image, completion: completion)
     }
     
-    func retrieveFBMessengerShareContent(completion: @escaping FBSDKShareLinkContentCompletion) {
-        fbShareLinkContent(.fbMessenger, completion: completion)
+    func retrieveFBMessengerShareContent(image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion) {
+        fbShareLinkContent(.fbMessenger, image: image, completion: completion)
     }
     
-    private func fbShareLinkContent(_ source: ShareSource, completion: @escaping FBSDKShareLinkContentCompletion) {
-        let shareContent = FBSDKShareLinkContent()
+    private func fbShareLinkContent(_ source: ShareSource, image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion) {
+        let sharePhotoContent = FBSDKSharePhotoContent()
         retrieveShareURL(source: source) { url in
             if let url = url {
-                shareContent.contentURL = url
+                sharePhotoContent.contentURL = url
+                guard let image = image else { return }
+                let sharePhoto = FBSDKSharePhoto()
+                if let imageShareData = UIImagePNGRepresentation(image),
+                    let imageShare = UIImage(data: imageShareData) {
+                    sharePhoto.image = imageShare
+                    sharePhoto.isUserGenerated = true
+                    sharePhotoContent.photos = [sharePhoto]
+                }
             }
-            completion(shareContent)
+            completion(sharePhotoContent)
         }
     }
     
@@ -212,6 +223,7 @@ struct ListingSocialMessage: SocialMessage {
     }
     var myUserId: String?
     var myUserName: String?
+    var image: UIImage?
     
     private var fullMessage: String {
         return title + " - " + body
@@ -265,13 +277,17 @@ struct ListingSocialMessage: SocialMessage {
                   myUserId: myUserId, myUserName: myUserName, campaign: campaign)
     }
 
-    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
         retrieveShareURL(source: .native) { url in
-            guard let shareUrl = url else {
-                completion([self.fullMessage])
-                return
+            var shareItems: [Any] = []
+            if let shareUrl = url {
+                let shareMessage = self.fullMessage + "\n" + shareUrl.absoluteString
+                shareItems.append(shareMessage)
             }
-            completion([shareUrl, self.fullMessage])
+            if let image = image {
+                shareItems.append(image)
+            }
+            completion(shareItems)
         }
     }
     
@@ -395,13 +411,16 @@ struct AppShareSocialMessage: SocialMessage {
         self.myUserName = myUserName
     }
     
-    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
         retrieveShareURL(source: .native) { url in
+            var shareItems: [Any] = [R.Strings.appShareMessageText]
             if let shareUrl = url {
-                completion([shareUrl, R.Strings.appShareMessageText])
-            } else {
-                completion([R.Strings.appShareMessageText])
+                shareItems.append(shareUrl)
             }
+            if let image = image {
+                shareItems.append(image)
+            }
+            completion(shareItems)
         }
     }
 
@@ -489,13 +508,16 @@ struct UserSocialMessage: SocialMessage {
         }
     }
 
-    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
         retrieveShareURL(source: .native) { url in
+            var shareItems: [Any] = [self.messageText]
             if let shareUrl = url {
-                completion([shareUrl, self.messageText])
-            } else {
-                completion([self.messageText])
+                shareItems.append(shareUrl)
             }
+            if let image = image {
+                shareItems.append(image)
+            }
+            completion(shareItems)
         }
     }
     
@@ -576,7 +598,7 @@ struct AffiliationSocialMessage: SocialMessage {
         self.myUserName = myUserName
     }
     
-    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
         let infoText: String = R.Strings.affiliationInviteMessageText(displayName)
         retrieveShareURL(source: .native) { url in
             if let shareUrl = url {

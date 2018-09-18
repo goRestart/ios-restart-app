@@ -14,7 +14,7 @@ enum TitleDisclaimerStatus {
 protocol EditListingViewModelDelegate : BaseViewModelDelegate {
     func vmShouldUpdateDescriptionWithCount(_ count: Int)
     func vmDidAddOrDeleteImage()
-    func vmShareOnFbWith(content: FBSDKShareLinkContent)
+    func vmShareOnFbWith(content: FBSDKSharePhotoContent)
     func vmHideKeyboard()
 }
 
@@ -969,7 +969,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                                         fallbackToStore: false,
                                                         myUserId: myUserId,
                                                         myUserName: myUserName)
-        listingSocialMessage.retrieveFBShareContent { [weak self] fbShareContent in
+        listingSocialMessage.retrieveFBShareContent(image: nil) { [weak self] fbShareContent in
             self?.shouldTrack = false
             self?.delegate?.vmShareOnFbWith(content: fbShareContent)
         }

@@ -649,6 +649,10 @@ final class ListingCarouselViewModel: BaseViewModel {
         guard let media = currentListingViewModel?.productMedia.value else { return false }
         return media[safeAt: index]?.isPlayable ?? false
     }
+    
+    func makeSocialMessage() -> SocialMessage? {
+        return currentListingViewModel?.socialMessage.value
+    }
 
     // MARK: - Private Methods
 
