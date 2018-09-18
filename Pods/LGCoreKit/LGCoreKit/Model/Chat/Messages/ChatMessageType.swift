@@ -21,6 +21,7 @@ public enum ChatMessageType: Equatable {
     case interlocutorIsTyping
     case cta(ctaData: ChatCallToActionData, ctas: [ChatCallToAction])
     case carousel(cards: [ChatCarouselCard], answers: [ChatAnswer])
+    case system(message: ChatMessageSystem)
     
     var quickAnswerId: String? {
         if case .quickAnswer(let id, _) = self {
@@ -85,6 +86,13 @@ public enum ChatMessageType: Equatable {
                     let lgRhsCards = rhsCards as? [LGChatCarouselCard]
                     else { return false }
                 return lgLhsAnswers == lgRhsAnswers && lgLhsCards == lgRhsCards
+            }
+        case .system(let lhsMessage):
+            if case .system(let rhsMessage) = rhs {
+                guard let lgLhsMessage = lhsMessage as? LGChatMessageSystem,
+                    let lgRhsMessage = rhsMessage as? LGChatMessageSystem
+                    else { return false }
+                return lgLhsMessage == lgRhsMessage
             }
         }
         return false

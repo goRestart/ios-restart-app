@@ -552,3 +552,75 @@ struct UserSocialMessage: SocialMessage {
                          completion: completion)
     }
 }
+
+// MARK: - Affiliation Share
+
+struct AffiliationSocialMessage: SocialMessage {
+    
+    static var utmCampaignValue = "affiliate-program"
+    
+    let emailShareIsHtml = true
+    let emailShareSubject: String = R.Strings.appShareSubjectText
+
+    let fallbackToStore = true
+    let controlParameter = "home"
+    let myUserId: String?
+    let myUserName: String?
+    
+    private var displayName: String {
+        return myUserName ?? ""
+    }
+    
+    init(myUserId: String?, myUserName: String?) {
+        self.myUserId = myUserId
+        self.myUserName = myUserName
+    }
+    
+    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+        let infoText: String = R.Strings.affiliationInviteMessageText(displayName)
+        retrieveShareURL(source: .native) { url in
+            if let shareUrl = url {
+                completion([shareUrl, infoText])
+            } else {
+                completion([infoText])
+            }
+        }
+    }
+    
+    func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) {
+        var shareBody = R.Strings.affiliationInviteMessageText(displayName)
+        retrieveShareURL(source: .email) { url in
+            if let shareUrl = url  {
+                shareBody += ":\n\n"
+                let shareUrlString = shareUrl.absoluteString
+                let fullBody = shareBody + "<a href=\"" + shareUrlString + "\">"+shareBody+"</a>"
+                completion(fullBody)
+            } else {
+                completion(shareBody)
+            }
+        }
+    }
+    
+    func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {
+        let fullMessage = R.Strings.affiliationInviteMessageText(displayName)
+        retrieveShareURL(source: source) { url in
+            let urlString = url?.absoluteString ?? ""
+            let fullMessage = fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString
+            completion(fullMessage)
+        }
+    }
+    
+    func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
+        let deepLinkPath = addUtmParamsToURLString(controlParameter,
+                                                   source: source)
+        let deepLinkString = addCustomSchemeToDeeplinkPath(deepLinkPath)
+        retrieveShareURL(source: source,
+                         campaign: AffiliationSocialMessage.utmCampaignValue,
+                         deepLinkString: deepLinkString,
+                         webURLString: LetgoURLHelper.buildHomeURLString(),
+                         fallbackToStore: fallbackToStore,
+                         myUserId: myUserId,
+                         myUserName: myUserName,
+                         completion: completion)
+    }
+}

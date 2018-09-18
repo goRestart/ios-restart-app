@@ -2,6 +2,7 @@ import CoreLocation
 import LGCoreKit
 import Result
 import RxSwift
+import RxCocoa
 import GoogleMobileAds
 import MoPub
 import LGComponents
@@ -95,7 +96,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             isMapTooltipAdded = false
             delegate?.vmHideMapToolTip(hideForever: false)
         }
+        
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
+        if shouldShowAffiliateButton {
+            rightButtonItems.append((image: R.Asset.Affiliation.affiliationIcon.image.tint(color: .primaryColor), selector: #selector(MainListingsViewController.openAffiliationChallenges)))
+        }
         return rightButtonItems
     }
     
@@ -114,7 +119,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let errorMessage = Variable<String?>(nil)
     let containsListings = Variable<Bool>(false)
     let isShowingCategoriesHeader = Variable<Bool>(false)
-    
+
+    var userAvatar = BehaviorRelay<UIImage?>(value: nil)
+
     var categoryHeaderElements: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
     var categoryHighlighted: FilterCategoryItem { return FilterCategoryItem(category: .services) }
     
@@ -236,7 +243,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     var shouldShowInviteButton: Bool {
+        guard !shouldShowAffiliateButton else { return false }
         return navigator?.canOpenAppInvite() ?? false
+    }
+    
+    var shouldShowAffiliateButton: Bool {
+        return featureFlags.affiliationEnabled.isActive
     }
 
     var shouldShowCommunityButton: Bool {
@@ -605,6 +617,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         tracker.trackEvent(TrackerEvent.filterStart())
     }
     
+    func openAffiliationChallenges() {
+        wireframe?.openAffiliationChallenges()
+    }
+    
     func showMap() {
         wireframe?.openMap(requester: listingListRequester,
                         listingFilters: filters)
@@ -840,8 +856,37 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                  isShowingCategoriesHeader.asObservable()) { $0 && $1 && $2 }
             .bind(to: recentItemsBubbleVisible)
             .disposed(by: disposeBag)
+
+        myUserRepository
+            .rx_myUser
+            .distinctUntilChanged { $0?.objectId == $1?.objectId }
+            .subscribe(onNext: { [weak self] myUser in
+                self?.loadAvatar(for: myUser)
+            })
+            .disposed(by: disposeBag)
     }
-    
+
+    private func loadAvatar(for user: User?) {
+        guard featureFlags.advancedReputationSystem11.isActive else { return }
+
+        guard let avatarUrl = user?.avatar?.fileURL else {
+            self.userAvatar.accept(nil)
+            return
+        }
+
+        if let cachedImage = ImageDownloader.sharedInstance.cachedImageForUrl(avatarUrl) {
+            self.userAvatar.accept(cachedImage)
+            return
+        }
+
+        ImageDownloader
+            .sharedInstance
+            .downloadImageWithURL(avatarUrl) { [weak self] (result, _) in
+                guard case .success((let image, _)) = result else { return }
+                self?.userAvatar.accept(image)
+        }
+    }
+
     /**
      Returns a view model for search.
      

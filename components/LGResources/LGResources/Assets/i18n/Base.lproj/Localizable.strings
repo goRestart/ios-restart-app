@@ -4,6 +4,150 @@
 // When a user Account is deactivated because is a scammer (includes user name)
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 
+// Affiliation challenges screen. Cell points label.
+"affiliation_challenges_points" = "%@ points";
+
+// Affiliation challenges screen. Invite friends cell title.
+"affiliation_challenges_invite_friends_title" = "INVITE YOUR FRIENDS";
+
+// Affiliation challenges screen. Invite friends cell subtitle.
+"affiliation_challenges_invite_friends_subtitle" = "Score a $60 Amazon Gift Card";
+
+// Affiliation challenges screen. Invite friends cell description.
+"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@pts. Invite %3$@ friends and earn %4$@pts more!";
+
+// Affiliation challenges screen. Invite friends cell milestone label.
+"affiliation_challenges_invite_friends_milestone" = "%@ pts";
+
+// Affiliation challenges screen. Invite friends cell button.
+"affiliation_challenges_invite_friends_button" = "Invite friends";
+
+// Affiliation challenges screen. Join letgo cell title.
+"affiliation_challenges_join_letgo_title" = "JOIN LETGO";
+
+// Affiliation challenges screen. Join letgo cell subtitle.
+"affiliation_challenges_join_letgo_subtitle" = "Get an Amazon Gift Card";
+
+// Affiliation challenges screen. Join letgo cell description.
+"affiliation_challenges_join_letgo_description" = "Complete the following steps to get your gift cards";
+
+// Affiliation challenges screen. Join letgo cell verify phone label.
+"affiliation_challenges_join_letgo_step_phone_label" = "Verify your phone number";
+
+// Affiliation challenges screen. Join letgo cell verify phone button.
+"affiliation_challenges_join_letgo_step_phone_button" = "Verify phone number";
+
+// Affiliation challenges screen. Join letgo cell post listing label.
+"affiliation_challenges_join_letgo_step_post_label" = "Post your first listing";
+
+// Affiliation challenges screen. Join letgo cell post listing button.
+"affiliation_challenges_join_letgo_step_post_button" = "Post listing";
+
+// Affiliation challenges screen. Join letgo cell processing label.
+"affiliation_challenges_join_letgo_processing" = "Processing... We'll let you know when it's ready!";
+
+// Affiliation challenges screen. Title.
+"affiliation_challenges_title" = "Rewards";
+
+// Affiliation challenges screen. Subtitle.
+"affiliation_challenges_subtitle" = "Earn Points";
+
+// Affiliation Invite SMS contacts screen. Title.
+"affiliation_invite_sms_contacts_title" = "Connect contacts";
+
+// Affiliation Invite SMS contacts screen. Select all title
+"affiliation_invite_sms_contacts_select_all" = "Select / Unselect";
+
+// Affiliation invite sms contacts search bar placeholder
+"affiliation_invite_sms_contacts_search_placeholder" = "Search or enter a name or phone";
+
+// Affiliation invite sms no contacts on the list
+"affiliation_invite_sms_contacts_empty_state" = "There is no contacts on your phone TBD";
+
+// Affiliation invite sms no permissions granted
+"affiliation_invite_sms_contacts_need_permissions" = "We need to get access to your contacts. Go to settings TBD";
+
+// Affiliation Invite message text
+"affiliation_invite_message_text" = "%@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
+
+// Affiliation invite friends main title label
+"affiliation_invite_friends_title_label" = "Invite your friends";
+
+// Affiliation invite friends subtitle label
+"affiliation_invite_friends_subtitle_label" = "Invite 3 friends, and earn $10 when they start using letgo. Invite 10 friends, and earn $50! (Your friends will each get a $5 gift card, too. Just because.)";
+
+// Affilation Invite friends screen. Title.
+"affiliation_invite_friends_title" = "Invite friends";
+
+// Affilation Invite friends screen. Others Button.
+"affiliation_invite_friends_others_button" = "Others ways to share";
+
+// Affilation Invite friends screen. Terms and conditions
+"affiliation_invite_friends_terms_button" = "Terms and Conditions";
+
+// Affilation Invite friends screen. SMS Button.
+"affiliation_invite_friends_sms_button" = "Invite via text";
+
+// Affilation FAQ screen.Title.
+"affiliation_faq_title" = "How it works";
+
+// Affiliation Store screen. Country unavailable error message
+"affiliation_store_country_error_message" = "Oops! This feature is not available in your country.";
+
+// Affiliation Store screen. Redeem Success. Modal headline
+"affiliation_store_redeem_gift_success_headline" = "Gift Card Requested";
+
+// Affiliation Store screen. Redeem Success. Modal subheadline
+"affiliation_store_redeem_gift_success_subheadline" = "We'll send you an email when your gift card is approved. This might take up to 24h.";
+
+// Affiliation Store screen. Unknown error message
+"affiliation_store_unknown_error_message" = "Oops! We are currently experimenting some issues with our store.";
+
+// Affilation Store screen. Title
+"affiliation_store_title" = "Store";
+
+// Affiliation Store screen. History
+"affiliation_store_history" = "History";
+
+// Affiliation Store screen. Points label
+"affiliation_store_points" = "%@ pts.";
+
+// Affilation Store screen. Redeem button
+"affiliation_store_redeem_gift" = "Redeem gift card";
+
+// Affiliation Store screen. 5$ reward
+"affiliation_store_rewards_amazon_5" = "$5 Amazon Gift Card";
+
+// Affiliation Store screen. 10$ reward
+"affiliation_store_rewards_amazon_10" = "$10 Amazon Gift Card";
+
+// Affiliation Store screen. 50$ reward
+"affiliation_store_rewards_amazon_50" = "$50 Amazon Gift Card";
+
+// Affiliation Store Vouchers screen. Resend button
+"affiliation_store_resend_voucher" = "Resend";
+
+// Affiliation Store screen. View history button
+"affiliation_store_view_history" = "View history";
+
+// Affiliation challenges screen. Wallet View. Title.
+"affiliation_wallet_title" = "YOUR WALLET";
+
+// Affiliation challenges screen. Wallet View. Points label.
+"affiliation_wallet_points_label" = "PTS";
+
+// Affiliation challenges screen. Wallet View. Open store button.
+"affiliation_wallet_open_store_button" = "View Rewards";
+
+// Affiliation wrong country screen. Modal view.
+"affiliation_wrong_country_keep_browsing" = "Keep browsing";
+
+// Affiliation wrong country screen. Modal view. Headline
+"affiliation_wrong_country_error_headline" = "Oops! Unfortunately gift cards are not available in your country.";
+
+// Affiliation wrong country screen. Modal view. Subheadline
+"affiliation_wrong_country_error_subheadline" = "But you can still make cash!";
+
 // Text of the link that will go to the appstore
 "app_share_download_text" = "Download";
 
@@ -33,6 +177,21 @@
 
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
+
+// Bulk posting congrats screen main label
+"bulk_posting_congrats_primary_label" = "Congratulations!";
+
+// Bulk posting congrats screen secondary label
+"bulk_posting_congrats_secondary_label" = "Your listings has been posted.";
+
+// Bulk posting congrats screen post button
+"bulk_posting_congrats_post_button" = "Post More Listings";
+
+// Bulk posting congrats screen posted listings section label
+"bulk_posting_congrats_listings_section_label" = "Add more details";
+
+// Bulk posting congrats screen edit button
+"bulk_posting_congrats_edit_button" = "Edit";
 
 // Text for bubble in free bump
 "bump_up_banner_free_text" = "Bump Up for free to sell faster";
@@ -72,6 +231,15 @@
 
 // Text for the timer progress view, this text is followed by the time left (e.g.: 2h 32m 15s)
 "bump_up_banner_boost_progress_title" = "Featured for the next";
+
+// text for multi day ongoing bump, next to the timer
+"bump_up_banner_multi_day_progress_title" = "until it moves to the top again";
+
+// text for multi day ongoing bump, when less than 1 day is left, next to the timer
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+
+// top tag for banner
+"bump_up_banner_multi_day_progress_top_tag" = "TOP";
 
 // Title for bubble button
 "bump_up_banner_free_button_title" = "Bump Up";
@@ -207,6 +375,18 @@
 
 // subtitle for 7 day bump view
 "bump_up_view_multi_day_7_days_subtitle" = "Feature your listing for 7 days at a discounted rate. We'll move it to the top every 24 hours so you'll sell faster!";
+
+// title for multi day info bump screen
+"bump_up_view_multi_day_info_title" = "Your listing is featured!";
+
+// subtitle for multi day info bump screen, 1 day ongoing
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+
+// subtitle for multi day info bump screen, 3 days ongoing
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+
+// subtitle for multi day info bump screen, 7 days ongoing
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
 
 // Text for boost success alert
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
@@ -1018,6 +1198,60 @@
 // Action Button for the click to talk smoketest
 "click_to_talk_smoketest_action_button" = "Get Started";
 
+// Title for the click to talk smoketest banner
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
+
+// Subtitle for the click to talk smoketest - developing
+"smoketest_detail_developing" = "We are currently testing %@.";
+
+// Subtitle for the click to talk smoketest - no charge
+"smoketest_detail_no_charge" = "You won't be charged for using it.";
+
+// First click to talk feature
+"click_to_talk_smoketest_feature_1" = "Speak directly to buyers";
+
+// Second click to talk feature
+"click_to_talk_smoketest_feature_2" = "Masked phone, your number is private";
+
+// Third click to talk feature
+"click_to_talk_smoketest_feature_3" = "Receive calls about all of your listings";
+
+// Free trial title
+"click_to_talk_smoketest_seven_days_free" = "Includes a 7-day FREE trial";
+
+// Two months free description
+"click_to_talk_smoketest_two_months_free" = "2 free months";
+
+// Title for feedback screen
+"smoketest_feedback_title" = "Why wouldn’t you use it?";
+
+// Smoketest feedback sustitle
+"smoketest_feedback_subtitle" = "We are currently testing %@ and we'd like to hear your feedback. Please help us improve.";
+
+// Feedback first option
+"smoketest_feedback_expensive" = "It's too expensive";
+
+// Feedback second option
+"smoketest_feedback_option_no_phone_call" = "I don’t want phone calls";
+
+// Feedback third option
+"smoketest_feedback_other" = "Other";
+
+// Feedback text title
+"smoketest_feedback_tell_us" = "Tell us more";
+
+// Feedback button title
+"smoketest_feedback_send" = "Send";
+
+// Thank you page - subtitle
+"smoketest_thank_you_title" = "Thank for your feedback!";
+
+// Thank you page - second subtitle
+"smoketest_thank_you_register_interest" = "We've registered your interest.";
+
+// Subscription recommended label
+"smoketest_recommended" = "Recommended";
+
 // Chat direct answer as buyer
 "direct_answer_condition" = "What condition is it in?";
 
@@ -1300,7 +1534,7 @@
 "filters_navbar_reset" = "Reset";
 
 // Filters save button
-"filters_save_button" = "Save filters";
+"filters_save_button" = "Apply filters";
 
 // Filters section car info
 "filters_section_car_info" = "Car Info";
@@ -4076,16 +4310,22 @@
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
 
-// Rewards FAQ screen title
+// To be REMOVED - Rewards FAQ screen title
 "rewards_faq_title" = "How it works";
 
-// Rewards screen invite friends button
+// To be REMOVED - Rewards invite contacts screen title
+"rewards_invite_contacts_title" = "Connect contacts";
+
+// To be REMOVED - Rewards screen invite friends button
 "rewards_invite_friends_button" = "Invite friends";
 
-// Rewards invite friends screen title
+// To be REMOVED - Rewards invite friends screen contact button
+"rewards_invite_friends_contact_button" = "Invite via text";
+
+// To be REMOVED - Rewards invite friends screen title
 "rewards_invite_friends_title" = "Invite friends";
 
-// Rewards screen title
+// To be REMOVED - Rewards screen title
 "rewards_title" = "Rewards";
 
 // Search alerts edit button 
@@ -4345,6 +4585,9 @@
 
 // Settings option to access rewards
 "settings_rewards_button" = "Rewards";
+
+// Settings option to access affiliation
+"settings_affililation_button" = "Rewards";
 
 // Search alerts view title
 "search_alerts_list_title" = "Search Alerts";

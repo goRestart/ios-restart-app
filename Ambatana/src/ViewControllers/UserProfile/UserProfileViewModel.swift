@@ -49,17 +49,17 @@ final class UserProfileViewModel: BaseViewModel {
     // Flag to define if there is a logged in user that allows special actions
     var isLoggedInUser: Bool { return sessionManager.loggedIn }
 
-    var showCloseButtonInNavBar: Bool { return source == .mainListing }
+    var shouldShowCloseButtonInNavBar: Bool { return source == .mainListing }
 
     let arePushNotificationsEnabled = Variable<Bool?>(nil)
-    var showPushPermissionsBanner: Bool {
+    var shouldShowPushPermissionsBanner: Bool {
         guard let areEnabled = arePushNotificationsEnabled.value else { return false }
         return !areEnabled && isPrivateProfile
     }
 
-    var showKarmaView: Bool {
-        return isPrivateProfile
-    }
+    var shouldShowKarmaView: Bool { return isPrivateProfile }
+    var shouldShowRatingCount: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
+    var isTapOnRatingStarsEnabled: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
 
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
     var userAvatarURL: Driver<URL?> { return user.asDriver().map {$0?.avatar?.fileURL} }
@@ -249,6 +249,12 @@ extension UserProfileViewModel {
         guard isPrivateProfile else { return }
         profileNavigator?.openUserVerificationView()
         trackVerifyAccountStart()
+    }
+
+    func didTapAvatar() {
+        guard let user = user.value, featureFlags.advancedReputationSystem11.isActive else { return }
+        navigator?.openAvatarDetail(isPrivate: isPrivateProfile, user: user)
+        trackOpenAvatarDetail()
     }
 
     func updateAvatar(with image: UIImage) {
@@ -602,9 +608,8 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
 extension UserProfileViewModel {
     private func makeErrorState(for viewModel: ListingListViewModel, with error: RepositoryError) -> LGEmptyViewModel? {
         let action: (() -> ())? = { [weak viewModel] in viewModel?.refresh() }
-        var errorState = LGEmptyViewModel.map(from: error, action: action)
-        errorState?.icon = nil
-        return errorState
+        guard let errorState = LGEmptyViewModel.map(from: error, action: action) else { return nil }
+        return LGEmptyViewModel.Lenses.icon.set(nil, errorState)
     }
 
     private func makeEmptyState(for viewModel: ListingListViewModel)  -> LGEmptyViewModel? {
@@ -763,6 +768,11 @@ extension UserProfileViewModel {
         let event = TrackerEvent.verifyAccountStart(.profile)
         tracker.trackEvent(event)
     }
+
+    func trackOpenAvatarDetail() {
+        let event = TrackerEvent.profileOpenPictureDetail()
+        tracker.trackEvent(event)
+    }
 }
 
 extension UserProfileViewModel: ListingCellDelegate {
@@ -862,6 +872,7 @@ extension UserProfileViewModel: ListingCellDelegate {
         guard let id = listing.objectId else { return }
         let data = ListingDetailData.id(listingId: id)
         let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: nil,
+                                                                                   maxCountdown: 0,
                                                                                    bumpUpType: nil,
                                                                                    triggerBumpUpSource: .profile,
                                                                                    typePage: .profile)

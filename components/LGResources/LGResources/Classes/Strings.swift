@@ -16,6 +16,112 @@ extension R {
     }
     /// Ad
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
+    /// Invite friends
+    public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
+    /// Invite %1$@ friends to earn %2$@pts. Invite %3$@ friends and earn %4$@pts more!
+    public static func affiliationChallengesInviteFriendsDescription(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_invite_friends_description", p1, p2, p3, p4)
+    }
+    /// %@ pts
+    public static func affiliationChallengesInviteFriendsMilestone(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_invite_friends_milestone", p1)
+    }
+    /// Score a $60 Amazon Gift Card
+    public static let affiliationChallengesInviteFriendsSubtitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_subtitle")
+    /// INVITE YOUR FRIENDS
+    public static let affiliationChallengesInviteFriendsTitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_title")
+    /// Complete the following steps to get your gift cards
+    public static let affiliationChallengesJoinLetgoDescription = Strings.tr("Localizable", "affiliation_challenges_join_letgo_description")
+    /// Processing... We'll let you know when it's ready!
+    public static let affiliationChallengesJoinLetgoProcessing = Strings.tr("Localizable", "affiliation_challenges_join_letgo_processing")
+    /// Verify phone number
+    public static let affiliationChallengesJoinLetgoStepPhoneButton = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_button")
+    /// Verify your phone number
+    public static let affiliationChallengesJoinLetgoStepPhoneLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_label")
+    /// Post listing
+    public static let affiliationChallengesJoinLetgoStepPostButton = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_post_button")
+    /// Post your first listing
+    public static let affiliationChallengesJoinLetgoStepPostLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_post_label")
+    /// Get an Amazon Gift Card
+    public static let affiliationChallengesJoinLetgoSubtitle = Strings.tr("Localizable", "affiliation_challenges_join_letgo_subtitle")
+    /// JOIN LETGO
+    public static let affiliationChallengesJoinLetgoTitle = Strings.tr("Localizable", "affiliation_challenges_join_letgo_title")
+    /// %@ points
+    public static func affiliationChallengesPoints(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_points", p1)
+    }
+    /// Earn Points
+    public static let affiliationChallengesSubtitle = Strings.tr("Localizable", "affiliation_challenges_subtitle")
+    /// Rewards
+    public static let affiliationChallengesTitle = Strings.tr("Localizable", "affiliation_challenges_title")
+    /// How it works
+    public static let affiliationFaqTitle = Strings.tr("Localizable", "affiliation_faq_title")
+    /// Others ways to share
+    public static let affiliationInviteFriendsOthersButton = Strings.tr("Localizable", "affiliation_invite_friends_others_button")
+    /// Invite via text
+    public static let affiliationInviteFriendsSmsButton = Strings.tr("Localizable", "affiliation_invite_friends_sms_button")
+    /// Invite 3 friends, and earn $10 when they start using letgo. Invite 10 friends, and earn $50! (Your friends will each get a $5 gift card, too. Just because.)
+    public static let affiliationInviteFriendsSubtitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_subtitle_label")
+    /// Terms and Conditions
+    public static let affiliationInviteFriendsTermsButton = Strings.tr("Localizable", "affiliation_invite_friends_terms_button")
+    /// Invite friends
+    public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
+    /// Invite your friends
+    public static let affiliationInviteFriendsTitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_title_label")
+    /// %@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
+    public static func affiliationInviteMessageText(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_invite_message_text", p1)
+    }
+    /// There is no contacts on your phone TBD
+    public static let affiliationInviteSmsContactsEmptyState = Strings.tr("Localizable", "affiliation_invite_sms_contacts_empty_state")
+    /// We need to get access to your contacts. Go to settings TBD
+    public static let affiliationInviteSmsContactsNeedPermissions = Strings.tr("Localizable", "affiliation_invite_sms_contacts_need_permissions")
+    /// Search or enter a name or phone
+    public static let affiliationInviteSmsContactsSearchPlaceholder = Strings.tr("Localizable", "affiliation_invite_sms_contacts_search_placeholder")
+    /// Select / Unselect
+    public static let affiliationInviteSmsContactsSelectAll = Strings.tr("Localizable", "affiliation_invite_sms_contacts_select_all")
+    /// Connect contacts
+    public static let affiliationInviteSmsContactsTitle = Strings.tr("Localizable", "affiliation_invite_sms_contacts_title")
+    /// Oops! This feature is not available in your country.
+    public static let affiliationStoreCountryErrorMessage = Strings.tr("Localizable", "affiliation_store_country_error_message")
+    /// History
+    public static let affiliationStoreHistory = Strings.tr("Localizable", "affiliation_store_history")
+    /// %@ pts.
+    public static func affiliationStorePoints(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_store_points", p1)
+    }
+    /// Redeem gift card
+    public static let affiliationStoreRedeemGift = Strings.tr("Localizable", "affiliation_store_redeem_gift")
+    /// Gift Card Requested
+    public static let affiliationStoreRedeemGiftSuccessHeadline = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_headline")
+    /// We'll send you an email when your gift card is approved. This might take up to 24h.
+    public static let affiliationStoreRedeemGiftSuccessSubheadline = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_subheadline")
+    /// Resend
+    public static let affiliationStoreResendVoucher = Strings.tr("Localizable", "affiliation_store_resend_voucher")
+    /// $10 Amazon Gift Card
+    public static let affiliationStoreRewardsAmazon10 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_10")
+    /// $5 Amazon Gift Card
+    public static let affiliationStoreRewardsAmazon5 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_5")
+    /// $50 Amazon Gift Card
+    public static let affiliationStoreRewardsAmazon50 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_50")
+    /// Store
+    public static let affiliationStoreTitle = Strings.tr("Localizable", "affiliation_store_title")
+    /// Oops! We are currently experimenting some issues with our store.
+    public static let affiliationStoreUnknownErrorMessage = Strings.tr("Localizable", "affiliation_store_unknown_error_message")
+    /// View history
+    public static let affiliationStoreViewHistory = Strings.tr("Localizable", "affiliation_store_view_history")
+    /// View Rewards
+    public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
+    /// PTS
+    public static let affiliationWalletPointsLabel = Strings.tr("Localizable", "affiliation_wallet_points_label")
+    /// YOUR WALLET
+    public static let affiliationWalletTitle = Strings.tr("Localizable", "affiliation_wallet_title")
+    /// Oops! Unfortunately gift cards are not available in your country.
+    public static let affiliationWrongCountryErrorHeadline = Strings.tr("Localizable", "affiliation_wrong_country_error_headline")
+    /// But you can still make cash!
+    public static let affiliationWrongCountryErrorSubheadline = Strings.tr("Localizable", "affiliation_wrong_country_error_subheadline")
+    /// Keep browsing
+    public static let affiliationWrongCountryKeepBrowsing = Strings.tr("Localizable", "affiliation_wrong_country_keep_browsing")
     /// Reply
     public static let appNotificationReply = Strings.tr("Localizable", "app_notification_reply")
     /// Download
@@ -36,6 +142,16 @@ extension R {
     public static let appShareWhatsappButton = Strings.tr("Localizable", "app_share_whatsapp_button")
     /// An error occurred while blocking this user.
     public static let blockUserErrorGeneric = Strings.tr("Localizable", "block_user_error_generic")
+    /// Edit
+    public static let bulkPostingCongratsEditButton = Strings.tr("Localizable", "bulk_posting_congrats_edit_button")
+    /// Add more details
+    public static let bulkPostingCongratsListingsSectionLabel = Strings.tr("Localizable", "bulk_posting_congrats_listings_section_label")
+    /// Post More Listings
+    public static let bulkPostingCongratsPostButton = Strings.tr("Localizable", "bulk_posting_congrats_post_button")
+    /// Congratulations!
+    public static let bulkPostingCongratsPrimaryLabel = Strings.tr("Localizable", "bulk_posting_congrats_primary_label")
+    /// Your listings has been posted.
+    public static let bulkPostingCongratsSecondaryLabel = Strings.tr("Localizable", "bulk_posting_congrats_secondary_label")
     /// Featured for the next
     public static let bumpUpBannerBoostProgressTitle = Strings.tr("Localizable", "bump_up_banner_boost_progress_title")
     /// Add an extra boost!
@@ -46,6 +162,12 @@ extension R {
     public static let bumpUpBannerFreeText = Strings.tr("Localizable", "bump_up_banner_free_text")
     /// Loading more info…
     public static let bumpUpBannerLoadingText = Strings.tr("Localizable", "bump_up_banner_loading_text")
+    /// until it moves to the top again
+    public static let bumpUpBannerMultiDayProgressTitle = Strings.tr("Localizable", "bump_up_banner_multi_day_progress_title")
+    /// remaining
+    public static let bumpUpBannerMultiDayProgressTitle1DayRemaining = Strings.tr("Localizable", "bump_up_banner_multi_day_progress_title_1_day_remaining")
+    /// TOP
+    public static let bumpUpBannerMultiDayProgressTopTag = Strings.tr("Localizable", "bump_up_banner_multi_day_progress_top_tag")
     /// Sell faster now
     public static let bumpUpBannerPayText = Strings.tr("Localizable", "bump_up_banner_pay_text")
     /// Sell faster now
@@ -162,6 +284,14 @@ extension R {
     public static let bumpUpViewMultiDay7DaysTag = Strings.tr("Localizable", "bump_up_view_multi_day_7_days_tag")
     /// Attract 14x more buyers
     public static let bumpUpViewMultiDay7DaysTitle = Strings.tr("Localizable", "bump_up_view_multi_day_7_days_title")
+    /// Your listing has increased visibility
+    public static let bumpUpViewMultiDayInfo1DaySubtitle = Strings.tr("Localizable", "bump_up_view_multi_day_info_1_day_subtitle")
+    /// We'll move your listing to the top 3 times- once every 24 hours.
+    public static let bumpUpViewMultiDayInfo3DaysSubtitle = Strings.tr("Localizable", "bump_up_view_multi_day_info_3_days_subtitle")
+    /// We'll move your listing to the top 7 times- once every 24 hours.
+    public static let bumpUpViewMultiDayInfo7DaysSubtitle = Strings.tr("Localizable", "bump_up_view_multi_day_info_7_days_subtitle")
+    /// Your listing is featured!
+    public static let bumpUpViewMultiDayInfoTitle = Strings.tr("Localizable", "bump_up_view_multi_day_info_title")
     /// Sell faster now
     public static let bumpUpViewMultiDayTitle = Strings.tr("Localizable", "bump_up_view_multi_day_title")
     /// Feature it for %@
@@ -584,12 +714,24 @@ extension R {
     public static let chatWithYourselfAlertMsg = Strings.tr("Localizable", "chat_with_yourself_alert_msg")
     /// Get Started
     public static let clickToTalkSmoketestActionButton = Strings.tr("Localizable", "click_to_talk_smoketest_action_button")
+    /// Introducing "Click to Talk"
+    public static let clickToTalkSmoketestBannerTitle = Strings.tr("Localizable", "click_to_talk_smoketest_banner_title")
     /// Connect with your most interested buyers quickly and sell your items twice as fast.
     public static let clickToTalkSmoketestDescription = Strings.tr("Localizable", "click_to_talk_smoketest_description")
+    /// Speak directly to buyers
+    public static let clickToTalkSmoketestFeature1 = Strings.tr("Localizable", "click_to_talk_smoketest_feature_1")
+    /// Masked phone, your number is private
+    public static let clickToTalkSmoketestFeature2 = Strings.tr("Localizable", "click_to_talk_smoketest_feature_2")
+    /// Receive calls about all of your listings
+    public static let clickToTalkSmoketestFeature3 = Strings.tr("Localizable", "click_to_talk_smoketest_feature_3")
+    /// Includes a 7-day FREE trial
+    public static let clickToTalkSmoketestSevenDaysFree = Strings.tr("Localizable", "click_to_talk_smoketest_seven_days_free")
     /// Receive calls
     public static let clickToTalkSmoketestSubtitle = Strings.tr("Localizable", "click_to_talk_smoketest_subtitle")
     /// Click to Talk
     public static let clickToTalkSmoketestTitle = Strings.tr("Localizable", "click_to_talk_smoketest_title")
+    /// 2 free months
+    public static let clickToTalkSmoketestTwoMonthsFree = Strings.tr("Localizable", "click_to_talk_smoketest_two_months_free")
     /// Explore
     public static let collectionExploreButton = Strings.tr("Localizable", "collection_explore_button")
     /// No place like home
@@ -1068,7 +1210,7 @@ extension R {
     public static let filtersRealEstateSizeFromFeedFilterCell = Strings.tr("Localizable", "filters_real_estate_size_from_feed_filter_cell")
     /// To
     public static let filtersRealEstateSizeToFeedFilterCell = Strings.tr("Localizable", "filters_real_estate_size_to_feed_filter_cell")
-    /// Save filters
+    /// Apply filters
     public static let filtersSaveButton = Strings.tr("Localizable", "filters_save_button")
     /// Car Info
     public static let filtersSectionCarInfo = Strings.tr("Localizable", "filters_section_car_info")
@@ -2954,8 +3096,12 @@ extension R {
     public static let resetPasswordTitle = Strings.tr("Localizable", "reset_password_title")
     /// How it works
     public static let rewardsFaqTitle = Strings.tr("Localizable", "rewards_faq_title")
+    /// Connect contacts
+    public static let rewardsInviteContactsTitle = Strings.tr("Localizable", "rewards_invite_contacts_title")
     /// Invite friends
     public static let rewardsInviteFriendsButton = Strings.tr("Localizable", "rewards_invite_friends_button")
+    /// Invite via text
+    public static let rewardsInviteFriendsContactButton = Strings.tr("Localizable", "rewards_invite_friends_contact_button")
     /// Invite friends
     public static let rewardsInviteFriendsTitle = Strings.tr("Localizable", "rewards_invite_friends_title")
     /// Rewards
@@ -3070,6 +3216,8 @@ extension R {
     public static let servicesServiceTypeTitle = Strings.tr("Localizable", "services_service_type_title")
     /// Select a category
     public static let servicesUnifiedFilterTitle = Strings.tr("Localizable", "services_unified_filter_title")
+    /// Rewards
+    public static let settingsAffililationButton = Strings.tr("Localizable", "settings_affililation_button")
     /// Email
     public static let settingsChangeEmailButton = Strings.tr("Localizable", "settings_change_email_button")
     /// Location
@@ -3194,6 +3342,34 @@ extension R {
     public static let signUpTitle = Strings.tr("Localizable", "sign_up_title")
     /// Full name
     public static let signUpUsernameFieldHint = Strings.tr("Localizable", "sign_up_username_field_hint")
+    /// We are currently testing %@.
+    public static func smoketestDetailDeveloping(_ p1: String) -> String {
+      return Strings.tr("Localizable", "smoketest_detail_developing", p1)
+    }
+    /// You won't be charged for using it.
+    public static let smoketestDetailNoCharge = Strings.tr("Localizable", "smoketest_detail_no_charge")
+    /// It's too expensive
+    public static let smoketestFeedbackExpensive = Strings.tr("Localizable", "smoketest_feedback_expensive")
+    /// I don’t want phone calls
+    public static let smoketestFeedbackOptionNoPhoneCall = Strings.tr("Localizable", "smoketest_feedback_option_no_phone_call")
+    /// Other
+    public static let smoketestFeedbackOther = Strings.tr("Localizable", "smoketest_feedback_other")
+    /// Send
+    public static let smoketestFeedbackSend = Strings.tr("Localizable", "smoketest_feedback_send")
+    /// We are currently testing %@ and we'd like to hear your feedback. Please help us improve.
+    public static func smoketestFeedbackSubtitle(_ p1: String) -> String {
+      return Strings.tr("Localizable", "smoketest_feedback_subtitle", p1)
+    }
+    /// Tell us more
+    public static let smoketestFeedbackTellUs = Strings.tr("Localizable", "smoketest_feedback_tell_us")
+    /// Why wouldn’t you use it?
+    public static let smoketestFeedbackTitle = Strings.tr("Localizable", "smoketest_feedback_title")
+    /// Recommended
+    public static let smoketestRecommended = Strings.tr("Localizable", "smoketest_recommended")
+    /// We've registered your interest.
+    public static let smoketestThankYouRegisterInterest = Strings.tr("Localizable", "smoketest_thank_you_register_interest")
+    /// Thank for your feedback!
+    public static let smoketestThankYouTitle = Strings.tr("Localizable", "smoketest_thank_you_title")
     /// Suggested Searches
     public static let suggestedSearchesTitle = Strings.tr("Localizable", "suggested_searches_title")
     /// Category

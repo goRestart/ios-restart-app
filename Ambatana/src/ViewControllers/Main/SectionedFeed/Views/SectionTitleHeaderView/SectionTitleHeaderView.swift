@@ -16,7 +16,9 @@ final class SectionTitleHeaderView: UICollectionReusableView {
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
-
+    
+    // It must be improved.
+    // https://ambatana.atlassian.net/browse/ABIOS-5141
     private let seeAllButton: UIButton = {
         let bn = UIButton(type: .custom)
         bn.titleLabel?.font = Style.buttonFont
@@ -45,6 +47,7 @@ final class SectionTitleHeaderView: UICollectionReusableView {
         static let buttonWidthMultiplier: CGFloat = 0.25
         static let buttonRightInset: CGFloat = -6
         static let buttonVerticalInset: CGFloat = 2
+        static let buttonHeight: CGFloat = 45.0
     }
 
     weak var sectionHeaderDelegate: SectionTitleHeaderViewDelegate?
@@ -67,6 +70,7 @@ final class SectionTitleHeaderView: UICollectionReusableView {
             seeAllButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -Layout.sideMargin + Layout.buttonRightInset),
             seeAllButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             seeAllButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: Layout.buttonWidthMultiplier),
+            seeAllButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight)
             ])
     }
 

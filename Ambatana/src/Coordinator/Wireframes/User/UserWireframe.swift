@@ -118,6 +118,11 @@ extension UserWireframe: PublicProfileNavigator {
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         listingRouter.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
     }
+
+    func openAvatarDetail(isPrivate: Bool, user: User) {
+        let vc = userAssembly.buildUserAvatar(isPrivate: isPrivate, user: user)
+        nc.pushViewController(vc, animated: true)
+    }
     
     func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
         let vc = loginAssembly.buildPopupSignUp(
@@ -141,5 +146,9 @@ extension UserWireframe: PublicProfileNavigator {
     
     func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
         chatRouter.openChat(data, source: source, predefinedMessage: predefinedMessage)
+    }
+
+    func closeAvatarDetail() {
+        nc.popViewController(animated: true)
     }
 }

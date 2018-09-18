@@ -40,14 +40,14 @@ final class UserProfileTabsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupView() {
+    private func setupView() {
         addSubviewForAutoLayout(stackView)
         stackView.alignment = .center
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         let constraints = [
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -78,12 +78,16 @@ final class UserProfileTabsView: UIView {
         }
     }
 
-    @objc func didSelect(sender: UITapGestureRecognizer) {
+    @objc private func didSelect(sender: UITapGestureRecognizer) {
         guard let senderTab = sender.view as? UserProfileTab else { return }
+        select(tab: senderTab.type)
+    }
+
+    func select(tab tabType: UserProfileTabType) {
         for tab in tabs {
-            tab.setSelected(selected: tab.type == senderTab.type)
+            tab.setSelected(selected: tab.type == tabType)
         }
-        delegate?.didSelect(tab: senderTab.type)
+        delegate?.didSelect(tab: tabType)
     }
 }
 

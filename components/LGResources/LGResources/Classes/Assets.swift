@@ -45,7 +45,35 @@ extension R {
 
   // swiftlint:disable identifier_name line_length nesting type_body_length type_name
   public enum Asset {
+    public enum Affiliation {
+      public enum Error {
+        public static let errorFeatureUnavailable = ImageAsset(name: "error_feature_unavailable")
+        public static let errorOops = ImageAsset(name: "error_oops")
+      }
+      public enum Partners {
+        public static let amazon = ImageAsset(name: "amazon")
+      }
+      public static let affiliationIcon = ImageAsset(name: "affiliationIcon")
+      public static let icnAffiliationPoints = ImageAsset(name: "icn_affiliation_points")
+      public static let icnThreeDots = ImageAsset(name: "icn_three_dots")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        Error.errorFeatureUnavailable,
+        Error.errorOops,
+        Partners.amazon,
+        affiliationIcon,
+        icnAffiliationPoints,
+        icnThreeDots,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum BackgroundsAndImages {
+      public static let affStoreBackground = ImageAsset(name: "aff_store_background")
       public static let bg1New = ImageAsset(name: "bg_1_new")
       public static let bg2New = ImageAsset(name: "bg_2_new")
       public static let bg3New = ImageAsset(name: "bg_3_new")
@@ -82,6 +110,7 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
+        affStoreBackground,
         bg1New,
         bg2New,
         bg3New,
@@ -230,6 +259,21 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
+    public enum Icons {
+      public static let icArrowLeft = ImageAsset(name: "ic_arrow_left")
+      public static let icPen = ImageAsset(name: "ic_pen")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        icArrowLeft,
+        icPen,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum IconsButtons {
       public enum CategoriesHeaderIcons {
         public static let carsFeed = ImageAsset(name: "cars_feed")
@@ -256,14 +300,16 @@ extension R {
         public static let icIamiSend = ImageAsset(name: "ic_iami_send")
       }
       public enum NewItemPage {
-        public static let nitEdit = ImageAsset(name: "nit_edit")
+        public static let nitArrowDown = ImageAsset(name: "nit_arrow_down")
         public static let nitFavourite = ImageAsset(name: "nit_favourite")
         public static let nitFavouriteOn = ImageAsset(name: "nit_favourite_on")
         public static let nitLocation = ImageAsset(name: "nit_location")
+        public static let nitMore = ImageAsset(name: "nit_more")
         public static let nitOnboarding = ImageAsset(name: "nit_onboarding")
         public static let nitPhotoChat = ImageAsset(name: "nit_photo_chat")
         public static let nitPreviewCount = ImageAsset(name: "nit_preview_count")
         public static let nitShare = ImageAsset(name: "nit_share")
+        public static let nitTapGesture = ImageAsset(name: "nit_tap_gesture")
       }
       public enum SearchAlerts {
         public static let icSearchAlertsEmpty = ImageAsset(name: "ic_search_alerts_empty")
@@ -415,6 +461,7 @@ extension R {
       public static let icPasswordActive = ImageAsset(name: "ic_password_active")
       public static let icPasswordActiveDark = ImageAsset(name: "ic_password_active_dark")
       public static let icPasswordDark = ImageAsset(name: "ic_password_dark")
+      public static let icPen = ImageAsset(name: "ic_pen")
       public static let icPendingModeration = ImageAsset(name: "ic_pending_moderation")
       public static let icPostClose = ImageAsset(name: "ic_post_close")
       public static let icPostCorner = ImageAsset(name: "ic_post_corner")
@@ -448,6 +495,7 @@ extension R {
       public static let icSearchFill = ImageAsset(name: "ic_search_fill")
       public static let icSellWhite = ImageAsset(name: "ic_sell_white")
       public static let icSend = ImageAsset(name: "ic_send")
+      public static let icSettingAffiliation = ImageAsset(name: "ic_setting_affiliation")
       public static let icSettingEmail = ImageAsset(name: "ic_setting_email")
       public static let icSettingHelp = ImageAsset(name: "ic_setting_help")
       public static let icSettingLocation = ImageAsset(name: "ic_setting_location")
@@ -578,14 +626,16 @@ extension R {
         Community.shapeYellow,
         IAmInterested.icIamiSeeconv,
         IAmInterested.icIamiSend,
-        NewItemPage.nitEdit,
+        NewItemPage.nitArrowDown,
         NewItemPage.nitFavourite,
         NewItemPage.nitFavouriteOn,
         NewItemPage.nitLocation,
+        NewItemPage.nitMore,
         NewItemPage.nitOnboarding,
         NewItemPage.nitPhotoChat,
         NewItemPage.nitPreviewCount,
         NewItemPage.nitShare,
+        NewItemPage.nitTapGesture,
         SearchAlerts.icSearchAlertsEmpty,
         SearchAlerts.icSearchAlertsError,
         VideoPosting.icVideopostingPlay,
@@ -718,6 +768,7 @@ extension R {
         icPasswordActive,
         icPasswordActiveDark,
         icPasswordDark,
+        icPen,
         icPendingModeration,
         icPostClose,
         icPostCorner,
@@ -751,6 +802,7 @@ extension R {
         icSearchFill,
         icSellWhite,
         icSend,
+        icSettingAffiliation,
         icSettingEmail,
         icSettingHelp,
         icSettingLocation,

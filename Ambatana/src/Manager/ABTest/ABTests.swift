@@ -146,6 +146,9 @@ extension ABTests {
     var offensiveReportAlert: LeanplumABVariable<Int> { return users.offensiveReportAlert }
     var reportingFostaSesta: LeanplumABVariable<Int> { return users.reportingFostaSesta }
     var community: LeanplumABVariable<Int> { return users.community }
+    var advancedReputationSystem11: LeanplumABVariable<Int> { return users.advancedReputationSystem11 }
+    var advancedReputationSystem12: LeanplumABVariable<Int> { return users.advancedReputationSystem12 }
+    var advancedReputationSystem13: LeanplumABVariable<Int> { return users.advancedReputationSystem13 }
 }
 
 //  MARK: Core
@@ -204,6 +207,7 @@ extension ABTests {
     var notificationCenterRedesign: LeanplumABVariable<Int> { return retention.notificationCenterRedesign }
     var randomImInterestedMessages: LeanplumABVariable<Int> { return retention.randomImInterestedMessages }
     var imInterestedInProfile: LeanplumABVariable<Int> { return retention.imInterestedInProfile }
+    var shareAfterScreenshot: LeanplumABVariable<Int> { return retention.shareAfterScreenshot }
 }
 
 //  MARK: RealEstate
@@ -234,6 +238,7 @@ extension ABTests {
     var predictivePosting: LeanplumABVariable<Int> { return products.predictivePosting }
     var videoPosting: LeanplumABVariable<Int> { return products.videoPosting }
     var simplifiedChatButton: LeanplumABVariable<Int> { return products.simplifiedChatButton }
+    var deckItemPage: LeanplumABVariable<Int> { return products.deckItemPage }
     var frictionlessShare: LeanplumABVariable<Int> { return products.frictionlessShare }
     var turkeyFreePosting: LeanplumABVariable<Int> { return products.turkeyFreePosting }
 }
@@ -243,6 +248,5 @@ extension ABTests {
 extension ABTests {
     var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
     var realEstateEnabled: LeanplumABVariable<Int> { return legacy.realEstateEnabled }
-    var deckItemPage: LeanplumABVariable<Int> { return legacy.newItemPage }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
 }

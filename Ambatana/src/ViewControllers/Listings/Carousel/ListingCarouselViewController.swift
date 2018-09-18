@@ -235,10 +235,12 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         case .showShareSheet:
             viewModel.shareButtonPressed()
         case let .triggerBumpUp(bumpUpProductData,
+                                maxCountdown,
                                 bumpUpType,
                                 triggerBumpUpSource,
                                 typePage):
             viewModel.showBumpUpView(bumpUpProductData: bumpUpProductData,
+                                     maxCountdown: maxCountdown,
                                      bumpUpType: bumpUpType,
                                      bumpUpSource: triggerBumpUpSource,
                                      typePage: typePage)
@@ -805,7 +807,6 @@ extension ListingCarouselViewController {
                                                   viewModel.ownerPhoneNumber.asObservable()) { ($0, $1) }
         allowCalls.asObservable().bind { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }
-
             if phoneNum != nil, isPro && strongSelf.viewModel.deviceCanCall {
                 strongSelf.buttonCall.isHidden = false
                 strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = Metrics.margin

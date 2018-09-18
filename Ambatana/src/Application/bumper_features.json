@@ -10,11 +10,6 @@
          "description": "API requests timeout"
     },
     {
-        "name": "DeckItemPage",
-        "values": ["control", "baseline", "active"],
-        "description": "Deck item page with card appearance and different navigation"
-    },
-    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "[MONEY] show ads in feed every X cells"
@@ -170,12 +165,17 @@
         "description": "[CHAT] Use the new header WITHOUT USER in chat detail"
     },
     {
-        "name": "RealEstateMapTooltip",
-        "values": ["control", "baseline", "active"],
-        "description": "Show tooltip for Real Estate Map"
-    },
+        "name": "NewItemPageV3",
+        "values": ["control", "baseline", "infoWithLaterals", "infoWithoutLaterals", "buttonWithLaterals", "buttonWithoutLaterals"],
+        "description": "[Products] New item page V3 -- all in"
+	},
     {
-        "name": "AppInstallAdsInFeed",
+     	"name": "RealEstateMapTooltip",
+    	"values": ["control", "baseline", "active"],
+     	"description": "Show tooltip for Real Estate Map"
+    },
+	 {
+     	"name": "AppInstallAdsInFeed",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Show App Install Ads from Google Adx in feed"
     },
@@ -290,6 +290,21 @@
         "description": "[REAL ESTATE] Show NEW promo cells for real Estate"
      },
      {
+         "name": "AdvancedReputationSystem11",
+         "values": ["control", "baseline", "active"],
+         "description": "[USERS] ARS v1.1"
+     },
+     {
+         "name": "AdvancedReputationSystem12",
+         "values": ["control", "baseline", "active"],
+         "description": "[USERS] ARS v1.2"
+     },
+     {
+         "name": "AdvancedReputationSystem13",
+         "values": ["control", "baseline", "active"],
+         "description": "[USERS] ARS v1.3"
+     },
+     {
          "name": "ProUsersExtraImages",
          "values": ["control", "baseline", "active"],
          "description": "[Cars] allow up to 25 images to be displayed on the product detail page"
@@ -298,13 +313,13 @@
         "name": "SectionedDiscoveryFeed",
         "values": ["control", "baseline", "active"],
         "description": "[Discovery] Show SectionedFeed"
-    },
-    {
+     },
+     {
         "name": "ServicesPromoCells",
         "values": ["control", "baseline", "activeWithCallToAction", "activeWithoutCallToAction"],
         "description": "[SERVICES] Show promo cells for Services"
-    },
-    {
+     },
+     {
         "name": "ImInterestedInProfile",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Show Im Interested buttons in public profiles"
@@ -313,6 +328,11 @@
         "name": "ClickToTalk",
         "values": ["control", "baseline", "active"],
         "description": "[VERTICALS] Show Click to talk"
+    },
+    {
+        "name": "ShareAfterScreenshot",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Show a share view after the user takes a screenshot"
     },
     {
         "name": "MutePushNotifications",
@@ -328,5 +348,10 @@
         "name": "MultiAdRequestInChatSectionForTR",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Muti ad request in Chat section. For Turkey"
+    },
+    {
+        "name": "AffiliationEnabled",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Enables Affiliation / Referral Program"
     }
- ]
+]

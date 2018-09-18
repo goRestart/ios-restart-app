@@ -115,6 +115,15 @@ struct BumpUpInfo {
     var shouldTrackBumpBannerShown: Bool {
         return self.timeSinceLastBump == 0 || self.type == .boost(boostBannerVisible: true)
     }
+
+    static func makeLoading() -> BumpUpInfo {
+        return BumpUpInfo(type: .loading,
+                          timeSinceLastBump: 0,
+                          maxCountdown: 0,
+                          price: nil,
+                          bannerInteractionBlock: { _ in },
+                          buttonBlock: { _ in })
+    }
 }
 
 protocol BumpUpBannerBoostDelegate: class {

@@ -4,6 +4,7 @@ import LGComponents
 protocol UserProfileHeaderDelegate: class {
     func didTapEditAvatar()
     func didTapAvatar()
+    func didTapRating()
 }
 
 enum UserHeaderViewBadge {
@@ -26,6 +27,7 @@ final class UserProfileHeaderView: UIView {
     let locationLabel = UILabel()
     let memberSinceLabel = UILabel()
     private let userNameLabel = UILabel()
+    private let ratingCountLabel = UILabel()
     private let avatarImageView = UIImageView()
     private let editAvatarButton = UIButton()
     private let verifiedBadgeImageView = UIImageView()
@@ -35,9 +37,10 @@ final class UserProfileHeaderView: UIView {
 
     let isPrivate: Bool
 
-    private struct Layout {
+    private enum Layout {
         static let verticalMargin: CGFloat = 5.0
         static let imageHeight: CGFloat = 110.0
+        static let ratingCountMargin: CGFloat = 6
         static let verifiedBadgeHeight: CGFloat = 30
         static let editAvatarButtonHeight: CGFloat = 44
         static let editAvatarButtonRightInset: CGFloat = 7
@@ -77,17 +80,23 @@ final class UserProfileHeaderView: UIView {
     }
 
     private func setupView() {
-        addSubviewsForAutoLayout([userNameLabel, ratingView, locationLabel, memberSinceLabel, avatarImageView,
-                                  editAvatarButton, verifiedBadgeImageView, proBadgeImageView])
+        addSubviewsForAutoLayout([userNameLabel, ratingView, ratingCountLabel, locationLabel, memberSinceLabel,
+                                  avatarImageView, editAvatarButton, verifiedBadgeImageView, proBadgeImageView])
 
         avatarImageView.contentMode = .scaleAspectFill
         avatarImageView.backgroundColor = .grayLight
         avatarImageView.layer.cornerRadius = Layout.imageHeight / 2
         avatarImageView.clipsToBounds = true
+        avatarImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapAvatar))
+        avatarImageView.addGestureRecognizer(tap)
 
         userNameLabel.font = .profileUserHeadline
         userNameLabel.textColor = .lgBlack
         userNameLabel.numberOfLines = 1
+
+        ratingCountLabel.font = .smallBodyFont
+        ratingCountLabel.textColor = .grayDark
 
         locationLabel.font = .smallButtonFont
         locationLabel.textColor = .lgBlack
@@ -105,6 +114,9 @@ final class UserProfileHeaderView: UIView {
         proBadgeImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         proBadgeImageView.contentMode = .scaleAspectFit
         proBadgeImageView.isHidden = true
+
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRatingView))
+        ratingView.addGestureRecognizer(gestureRecognizer)
     }
 
     private func setupConstraints() {
@@ -115,6 +127,9 @@ final class UserProfileHeaderView: UIView {
 
             ratingView.leftAnchor.constraint(equalTo: leftAnchor),
             ratingView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: Layout.verticalMargin),
+
+            ratingCountLabel.leftAnchor.constraint(equalTo: ratingView.rightAnchor, constant: Layout.ratingCountMargin),
+            ratingCountLabel.centerYAnchor.constraint(equalTo: ratingView.centerYAnchor),
 
             locationLabel.leftAnchor.constraint(equalTo: leftAnchor),
             locationLabel.topAnchor.constraint(equalTo: ratingView.bottomAnchor, constant: Layout.verticalMargin),
@@ -179,6 +194,10 @@ final class UserProfileHeaderView: UIView {
         locationLabelTopConstraint?.isActive = true
     }
 
+    func setUser(numberOfRatings: Int) {
+        ratingCountLabel.text = numberOfRatings > 0 ? "(\(numberOfRatings))" : nil
+    }
+
     private func updateBadge() {
         let showVerifiedBadge = userBadge == .silver || userBadge == .gold
         let showProBadge = userBadge == .pro
@@ -186,7 +205,16 @@ final class UserProfileHeaderView: UIView {
         proBadgeImageView.isHidden = !showProBadge
     }
 
+    @objc private func didTapAvatar() {
+        delegate?.didTapAvatar()
+    }
+
     @objc private func didTapEditAvatar() {
         delegate?.didTapEditAvatar()
     }
+
+    @objc private func tapRatingView() {
+        delegate?.didTapRating()
+    }
+
 }

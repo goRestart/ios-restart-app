@@ -907,13 +907,14 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
     func vmResetBumpUpBannerCountdown() {}
 }
 
-extension ListingViewModelSpec: ListingDetailNavigator {    
+extension ListingViewModelSpec: ListingDetailNavigator {
 
     func openVideoPlayer(atIndex index: Int,
                          listingVM: ListingViewModel,
                          source: LetGoGodMode.EventParameterListingVisitSource) {
-
+        
     }
+    
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
         
     }

@@ -4,10 +4,11 @@ protocol UserVerificationAssembly {
     func buildUserVerification() -> UserVerificationViewController
     func buildEmailVerification() -> UserVerificationEmailViewController
     func buildEditUserBio() -> EditUserBioViewController
-    func buildPhoneNumberVerification() -> UserPhoneVerificationNumberInputViewController
+    func buildPhoneNumberVerification(editing: Bool) -> UserPhoneVerificationNumberInputViewController
     func buildUserPhoneVerificationCountryPicker(withDelegate delegate: UserPhoneVerificationCountryPickerDelegate) -> UserPhoneVerificationCountryPickerViewController
     func buildUserPhoneVerificationCodeInput(sentTo phoneNumber: String,
-                                             with callingCode: String) -> UserPhoneVerificationCodeInputViewController
+                                             with callingCode: String,
+                                             editing: Bool) -> UserPhoneVerificationCodeInputViewController
 }
 
 enum LGUserVerificationBuilder {
@@ -45,10 +46,10 @@ extension LGUserVerificationBuilder: UserVerificationAssembly {
         }
     }
 
-    func buildPhoneNumberVerification() -> UserPhoneVerificationNumberInputViewController {
+    func buildPhoneNumberVerification(editing: Bool) -> UserPhoneVerificationNumberInputViewController {
         switch self {
         case .standard(let nav):
-            let vm = UserPhoneVerificationNumberInputViewModel()
+            let vm = UserPhoneVerificationNumberInputViewModel(isEditing: editing)
             vm.navigator = UserPhoneVerificationWireframe(nc: nav)
             let vc = UserPhoneVerificationNumberInputViewController(viewModel: vm)
             vm.delegate = vc
@@ -68,11 +69,13 @@ extension LGUserVerificationBuilder: UserVerificationAssembly {
     }
 
     func buildUserPhoneVerificationCodeInput(sentTo phoneNumber: String,
-                                             with callingCode: String) -> UserPhoneVerificationCodeInputViewController {
+                                             with callingCode: String,
+                                             editing: Bool) -> UserPhoneVerificationCodeInputViewController {
         switch self {
         case .standard(let nav):
             let vm = UserPhoneVerificationCodeInputViewModel(callingCode: callingCode,
-                                                             phoneNumber: phoneNumber)
+                                                             phoneNumber: phoneNumber,
+                                                             isEditing: editing)
             vm.navigator = UserPhoneVerificationWireframe(nc: nav)
             let vc = UserPhoneVerificationCodeInputViewController(viewModel: vm)
             vm.delegate = vc

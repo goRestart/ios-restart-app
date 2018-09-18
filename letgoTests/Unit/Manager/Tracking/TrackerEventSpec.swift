@@ -868,7 +868,9 @@ class TrackerEventSpec: QuickSpec {
                                                                 inifiteSectionItemCount: infiniteSectionIntemCount,
                                                                 sectionNamesShown: sectionNamesShown,
                                                                 feedSource: .section,
-                                                                success: .trueParameter)
+                                                                success: .trueParameter,
+                                                                sectionPosition: nil,
+                                                                sectionName: nil)
                 }
 
                 it("has its event name") {
@@ -1427,7 +1429,7 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("contains section-number") {
                         let sectionNumber = sut.params!.stringKeyParams["section-number"] as? String
-                        expect(sectionNumber).to(equal("2"))
+                        expect(sectionNumber).to(equal("N/A"))
                     }
                     it("doesnot contain feed-position") {
                         let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
@@ -1905,6 +1907,7 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
                                                     feedPosition: .position(index:1),
+                                                    sectionPosition: .none,
                                                     userBadge: .silver,
                                                     containsVideo: .trueParameter,
                                                     isProfessional: false,
@@ -1916,6 +1919,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .trueParameter,
                                                         isProfessional: true,
@@ -1928,7 +1932,7 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("contains section-number") {
                         let sectionNumber = sut.params!.stringKeyParams["section-number"] as? String
-                        expect(sectionNumber).to(equal("2"))
+                        expect(sectionNumber).to(equal("N/A"))
                     }
                     it("doesnot contain feed-position") {
                         let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
@@ -1941,6 +1945,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .trueParameter,
                                                         isProfessional: true,
@@ -1956,6 +1961,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .trueParameter,
                                                         isProfessional: nil,
@@ -2044,6 +2050,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
                                                         isProfessional: false,
@@ -2075,6 +2082,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
                                                         isProfessional: false,
@@ -2107,6 +2115,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
                                                         isProfessional: false,
@@ -2159,6 +2168,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
                                                         isProfessional: true,
@@ -2174,6 +2184,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
                                                         isProfessional: nil,
@@ -2249,6 +2260,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .falseParameter,
                                                         isProfessional: false,
@@ -2280,6 +2292,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
                                                         isProfessional: false,
@@ -2312,6 +2325,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                         listingVisitSource: .listingList,
                                                         feedPosition: .position(index:1),
+                                                        sectionPosition: .none,
                                                         userBadge: .silver,
                                                         containsVideo: .notAvailable,
                                                         isProfessional: false,
@@ -3861,53 +3875,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                 }
             }
-
-            describe("listingVisitPhotoViewer") {
-                it("has its event name") {
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingVisitPhotoViewer(.product(product),
-                                                               source: .listingList,
-                                                               numberOfPictures: 5)
-                    expect(sut.name.rawValue).to(equal("product-visit-photo-viewer"))
-                }
-                it("has related-source param") {
-                    let source = sut.params?.stringKeyParams["visit-source"] as? String
-                    expect(source) == "product-list"
-                }
-                it("contains the product id") {
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingVisitPhotoChat(.product(product),
-                                                             source: .listingList)
-
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-
-            describe("listingVisitPhotoChat") {
-                it("has its event name") {
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingVisitPhotoChat(Listing.product(product),
-                                                             source: .listingList)
-                    expect(sut.name.rawValue).to(equal("product-visit-photo-chat"))
-                }
-                it("has related-source param") {
-                    let source = sut.params?.stringKeyParams["visit-source"] as? String
-                    expect(source) == "product-list"
-                }
-                it("contains the product id") {
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingVisitPhotoChat(Listing.product(product),
-                                                             source: .listingList)
-
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
             
             describe("relatedListings") {
                 beforeEach {
@@ -4371,6 +4338,13 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     sut = TrackerEvent.profileEditEditPicture()
                     expect(sut.name.rawValue).to(equal("profile-edit-edit-picture"))
+                }
+            }
+
+            describe("profileOpenPictureDetail") {
+                it("has its event name") {
+                    sut = TrackerEvent.profileOpenPictureDetail()
+                    expect(sut.name.rawValue).to(equal("profile-photo-tapped"))
                 }
             }
 
@@ -5922,6 +5896,7 @@ class TrackerEventSpec: QuickSpec {
                                                        visitUserAction: .none,
                                                        source: .listingList,
                                                        feedPosition: .position(index:1),
+                                                       sectionPosition: .none,
                                                        isBumpedUp: .trueParameter,
                                                        sellerBadge: .silver,
                                                        isMine: .falseParameter,
@@ -5953,6 +5928,7 @@ class TrackerEventSpec: QuickSpec {
                 return TrackerEvent.firstMessage(info: sendMessageInfo,
                                                 listingVisitSource: visitSource,
                                                 feedPosition: position,
+                                                sectionPosition: .none,
                                                 userBadge: userBadge,
                                                 containsVideo: containsVideo,
                                                 isProfessional: isProfessional,

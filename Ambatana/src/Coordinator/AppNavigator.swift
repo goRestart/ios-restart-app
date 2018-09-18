@@ -19,6 +19,7 @@ protocol AppNavigator: class {
     func openAppStore()
     func openPromoteBumpForListingId(listingId: String,
                                      bumpUpProductData: BumpUpProductData,
+                                     maxCountdown: TimeInterval,
                                      typePage: EventParameterTypePage?)
     func canOpenOffensiveReportAlert() -> Bool
     func openOffensiveReportAlert()
