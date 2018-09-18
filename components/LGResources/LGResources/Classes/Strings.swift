@@ -18,18 +18,16 @@ extension R {
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Invite friends
     public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
-    /// %@ pts
-<<<<<<< HEAD
-    public static func affiliationChallengesInviteFriendsMilestoneLabel(_ p1: String) -> String {
-      return Strings.tr("Localizable", "affiliation_challenges_invite_friends_milestone_label", p1)
+    /// Invite %1$@ friends to earn %2$@pts. Invite %3$@ friends and earn %4$@pts more!
+    public static func affiliationChallengesInviteFriendsDescription(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_invite_friends_description", p1, p2, p3, p4)
     }
-=======
-    public static func affiliationChallengesInviteFriendsDescription(_ p1: String) -> String {
-      return Strings.tr("Localizable", "affiliation_challenges_invite_friends_description", p1)
+    /// %@ pts
+    public static func affiliationChallengesInviteFriendsMilestone(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_challenges_invite_friends_milestone", p1)
     }
     /// Score a $60 Amazon Gift Card
     public static let affiliationChallengesInviteFriendsSubtitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_subtitle")
->>>>>>> master
     /// INVITE YOUR FRIENDS
     public static let affiliationChallengesInviteFriendsTitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_title")
     /// Complete the following steps to get your gift cards
@@ -74,6 +72,10 @@ extension R {
     public static func affiliationInviteMessageText(_ p1: String) -> String {
       return Strings.tr("Localizable", "affiliation_invite_message_text", p1)
     }
+    /// There is no contacts on your phone TBD
+    public static let affiliationInviteSmsContactsEmptyState = Strings.tr("Localizable", "affiliation_invite_sms_contacts_empty_state")
+    /// We need to get access to your contacts. Go to settings TBD
+    public static let affiliationInviteSmsContactsNeedPermissions = Strings.tr("Localizable", "affiliation_invite_sms_contacts_need_permissions")
     /// Search or enter a name or phone
     public static let affiliationInviteSmsContactsSearchPlaceholder = Strings.tr("Localizable", "affiliation_invite_sms_contacts_search_placeholder")
     /// Select / Unselect
@@ -90,6 +92,12 @@ extension R {
     }
     /// Redeem gift card
     public static let affiliationStoreRedeemGift = Strings.tr("Localizable", "affiliation_store_redeem_gift")
+    /// Gift Card Requested
+    public static let affiliationStoreRedeemGiftSuccessHeadline = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_headline")
+    /// We'll send you an email when your gift card is approved. This might take up to 24h.
+    public static let affiliationStoreRedeemGiftSuccessSubheadline = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_subheadline")
+    /// Resend
+    public static let affiliationStoreResendVoucher = Strings.tr("Localizable", "affiliation_store_resend_voucher")
     /// $10 Amazon Gift Card
     public static let affiliationStoreRewardsAmazon10 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_10")
     /// $5 Amazon Gift Card
@@ -100,6 +108,8 @@ extension R {
     public static let affiliationStoreTitle = Strings.tr("Localizable", "affiliation_store_title")
     /// Oops! We are currently experimenting some issues with our store.
     public static let affiliationStoreUnknownErrorMessage = Strings.tr("Localizable", "affiliation_store_unknown_error_message")
+    /// View history
+    public static let affiliationStoreViewHistory = Strings.tr("Localizable", "affiliation_store_view_history")
     /// View Rewards
     public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
     /// PTS

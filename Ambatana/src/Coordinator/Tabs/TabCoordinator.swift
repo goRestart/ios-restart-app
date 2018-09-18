@@ -183,10 +183,6 @@ extension TabCoordinator: TabNavigator {
     func openCommunityTab() {
         appNavigator?.openCommunityTab()
     }
-
-    func openUserVerificationAwarenessView() {
-        appNavigator?.openVerificationAwarenessView()
-    }
 }
 
 fileprivate extension TabCoordinator {
