@@ -10,6 +10,8 @@ protocol PaymentsManager {
     func canMakePayments() -> PaymentCapabilities
     func openPaymentSetup()
     func createPaymentRequestController(_ request: PaymentRequest, completion: @escaping ResultCompletion<String, PaymentRequestError>) -> UIViewController?
+    func createBankAccountToken(params: BankAccountParams, completion: @escaping ResultCompletion<String, TokenRequestError>)
+    func createCardToken(params: CardParams, completion: @escaping ResultCompletion<String, TokenRequestError>)
 }
 
 // MARK: - Types
@@ -29,6 +31,26 @@ struct PaymentRequest {
     let totalAmount: NSDecimalNumber
     let currency: Currency
     let countryCode: String
+}
+
+struct BankAccountParams {
+    let routingNumber: String
+    let accountNumber: String
+    let countryCode: String
+    let currency: Currency
+}
+
+struct CardParams {
+    let name: String
+    let number: String
+    let expirationMonth: Int
+    let expirationYear: Int
+    let cvc: String
+    let currency: Currency
+}
+
+enum TokenRequestError: Error {
+    case stripeTokenCreationFailed
 }
 
 enum PaymentRequestError: Error {
@@ -93,6 +115,44 @@ final class LGPaymentsManager: PaymentsManager {
         guard Stripe.canSubmitPaymentRequest(paymentRequest) else { return nil }
         guard let authViewController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest) else { return nil }
         return authViewController
+    }
+
+    func createBankAccountToken(params: BankAccountParams, completion: @escaping ResultCompletion<String, TokenRequestError>) {
+        let stripeParams = STPBankAccountParams()
+        stripeParams.routingNumber = params.routingNumber
+        stripeParams.accountNumber = params.accountNumber
+        stripeParams.country = params.countryCode
+        stripeParams.currency = params.currency.code
+        STPAPIClient.shared().createToken(withBankAccount: stripeParams) { stripeToken, error in
+            if error != nil {
+                let result = Result<String, TokenRequestError>(error: .stripeTokenCreationFailed)
+                completion(result)
+            }
+            if let stripeToken = stripeToken {
+                let result = Result<String, TokenRequestError>(value: stripeToken.tokenId)
+                completion(result)
+            }
+        }
+    }
+
+    func createCardToken(params: CardParams, completion: @escaping ResultCompletion<String, TokenRequestError>) {
+        let stripeParams = STPCardParams()
+        stripeParams.name = params.name
+        stripeParams.number = params.number
+        stripeParams.expMonth = UInt(params.expirationMonth)
+        stripeParams.expYear = UInt(params.expirationYear)
+        stripeParams.cvc = params.cvc
+        stripeParams.currency = params.currency.code
+        STPAPIClient.shared().createToken(withCard: stripeParams) { stripeToken, error in
+            if error != nil {
+                let result = Result<String, TokenRequestError>(error: .stripeTokenCreationFailed)
+                completion(result)
+            }
+            if let stripeToken = stripeToken {
+                let result = Result<String, TokenRequestError>(value: stripeToken.tokenId)
+                completion(result)
+            }
+        }
     }
 }
 
