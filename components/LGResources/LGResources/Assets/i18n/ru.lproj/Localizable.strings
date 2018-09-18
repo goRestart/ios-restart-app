@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "Поднять";
 "bump_up_banner_free_text" = "Поднять бесплатно для быстрой продажи";
 "bump_up_banner_loading_text" = "Загружаем еще детали...";
+"bump_up_banner_multi_day_progress_title" = "до нового продвижения";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_top_tag" = "ВВЕРХ";
 "bump_up_banner_pay_text" = "Продавайте быстрее";
 "bump_up_banner_pay_text_improvement" = "Продайте быстрее";
 "bump_up_banner_pay_text_improvement_english_a" = "Продайте быстрее";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Выделите ваше объявление на 7 дней по сниженной цене. Мы будем поднимать его вверх каждые 24 часа, чтобы вы продали быстрее!";
 "bump_up_view_multi_day_7_days_tag" = "7 ДНЕЙ";
 "bump_up_view_multi_day_7_days_title" = "Привлекайте в 14 раз больше покупателей";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_title" = "Ваше объявление выделено!";
 "bump_up_view_multi_day_title" = "Продайте быстрее";
 "bump_up_view_pay_button_title" = "Выделить за %@";
 "bump_up_view_pay_subtitle" = "Мы выделим ваше объявление на 24 часа, чтобы больше покупателей увидели его и продажа прошла быстрее";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "Упс! Пользователь не найден.";
 "common_user_review_not_available" = "Упс! Отзыв не найден.";
 "common_yes" = "Да";
+"communication_offer_accepted_expired" = "Предложение истекло";
+"communication_offer_accepted_expiring" = "Предложение скоро истекает";
+"communication_offer_completed_expired" = "Предложение истекло";
+"communication_offer_pending_expiring" = "Предложение скоро истекает";
 "community_banner_title" = "Присоединяйтесь к сообществу letgo!";
 "contact_subject_option_location" = "Проблемы с геолокацией";
 "contact_subject_option_login" = "Проблемы со входом";

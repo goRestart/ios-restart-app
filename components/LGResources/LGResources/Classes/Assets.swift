@@ -54,6 +54,7 @@ extension R {
         public static let amazon = ImageAsset(name: "amazon")
       }
       public static let affiliationIcon = ImageAsset(name: "affiliationIcon")
+      public static let icnAffiliationPoints = ImageAsset(name: "icn_affiliation_points")
       public static let icnThreeDots = ImageAsset(name: "icn_three_dots")
 
       // swiftlint:disable trailing_comma
@@ -64,6 +65,7 @@ extension R {
         Error.errorOops,
         Partners.amazon,
         affiliationIcon,
+        icnAffiliationPoints,
         icnThreeDots,
       ]
       // swiftlint:enable trailing_comma

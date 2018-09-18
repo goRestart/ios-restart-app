@@ -111,7 +111,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if #available(iOS 11.0, *) {
             listingListView.collectionView.contentInsetAdjustmentBehavior = .never
         } else {

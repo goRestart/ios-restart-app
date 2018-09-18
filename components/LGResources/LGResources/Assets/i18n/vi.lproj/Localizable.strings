@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "Đẩy lên";
 "bump_up_banner_free_text" = "Đẩy lên miễn phí để bán nhanh hơn";
 "bump_up_banner_loading_text" = "Đang tải thêm thông tin…";
+"bump_up_banner_multi_day_progress_title" = "cho đến khi lên đầu lần nữa";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_top_tag" = "HÀNG ĐẦU";
 "bump_up_banner_pay_text" = "Bán nhanh hơn";
 "bump_up_banner_pay_text_improvement" = "Bán nhanh hơn bây giờ";
 "bump_up_banner_pay_text_improvement_english_a" = "Bán nhanh hơn";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Nhận giảm giá khi đăng ký làm nổi bật bài đăng của bạn trong 7 ngày. Chúng tôi sẽ đẩy bài đăng lên đầu mỗi 24 giờ để bạn bán hàng nhanh hơn!";
 "bump_up_view_multi_day_7_days_tag" = "7 NGÀY";
 "bump_up_view_multi_day_7_days_title" = "Thu hút thêm gấp 14 lần người mua";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_title" = "Bài đăng của bạn đã được làm nổi bật!";
 "bump_up_view_multi_day_title" = "Bán nhanh hơn";
 "bump_up_view_pay_button_title" = "Làm nổi bật trong %@";
 "bump_up_view_pay_subtitle" = "Chúng tôi sẽ làm nổi bật bài đăng của bạn trong 24 giờ để nhiều người mua có thể nhìn thấy bài đăng và bạn sẽ bán nhanh hơn";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "Ồ! Không tìm thấy người dùng.";
 "common_user_review_not_available" = "Ồ! Không tìm thấy đánh giá.";
 "common_yes" = "Có";
+"communication_offer_accepted_expired" = "Ưu đãi đã hết hạn";
+"communication_offer_accepted_expiring" = "Ưu đãi sắp hết hạn";
+"communication_offer_completed_expired" = "Ưu đãi đã hết hạn";
+"communication_offer_pending_expiring" = "Ưu đãi sắp hết hạn";
 "community_banner_title" = "Tham gia cộng đồng letgo!";
 "contact_subject_option_location" = "Vấn đề về địa điểm";
 "contact_subject_option_login" = "Truy cập đăng nhập";

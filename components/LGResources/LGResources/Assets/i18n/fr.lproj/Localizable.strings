@@ -16,6 +16,9 @@
 "bump_up_banner_free_button_title" = "Renvoyer vers le haut";
 "bump_up_banner_free_text" = "Renvoyez vers le haut gratuitement pour vendre plus vite";
 "bump_up_banner_loading_text" = "Chargement de plus d'informations…";
+"bump_up_banner_multi_day_progress_title" = "jusqu'à ce que ce soit de nouveau déplacé en haut de la liste";
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+"bump_up_banner_multi_day_progress_top_tag" = "TOP";
 "bump_up_banner_pay_text" = "Vendez au plus vite !";
 "bump_up_banner_pay_text_improvement" = "Vendez au plus vite !";
 "bump_up_banner_pay_text_improvement_english_a" = "Vendez au plus vite !";
@@ -71,6 +74,10 @@
 "bump_up_view_multi_day_7_days_subtitle" = "Mettez votre annonce en vedette pendant 7 jours à un tarif réduit. Nous l'enverrons en haut de la liste toutes les 24 heures et vous vendrez donc plus vite !";
 "bump_up_view_multi_day_7_days_tag" = "7 JOURS";
 "bump_up_view_multi_day_7_days_title" = "Attirez 14 fois plus d'acheteurs";
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
+"bump_up_view_multi_day_info_title" = "Votre annonce est mise en vedette !";
 "bump_up_view_multi_day_title" = "Vendez au plus vite !";
 "bump_up_view_pay_button_title" = "Mettez-le en vedette pour %@";
 "bump_up_view_pay_subtitle" = "En mettant votre annonce en vedette pendant 24 heures, plus d'acheteurs voient votre annonce et vous vendez plus vite";
@@ -333,6 +340,10 @@
 "common_user_not_available" = "Oops ! Utilisateur non trouvé.";
 "common_user_review_not_available" = "Oups ! Note introuvable.";
 "common_yes" = "Oui";
+"communication_offer_accepted_expired" = "L'offre a expiré";
+"communication_offer_accepted_expiring" = "L'offre va bientôt expirer";
+"communication_offer_completed_expired" = "L'offre a expiré";
+"communication_offer_pending_expiring" = "L'offre va bientôt expirer";
 "community_banner_title" = "Faites partie de la communauté letgo !";
 "contact_subject_option_location" = "Problèmes de localisation";
 "contact_subject_option_login" = "Connexion";

@@ -137,10 +137,10 @@ final class ChatCarouselCollectionCardCell: UICollectionViewCell, ReusableCell {
         if let imageURL = card.imageURL {
             imageView.af_setImage(withURL: imageURL)
         }
-        ribbonView.isHidden = card.product?.price.isFree ?? true
+        ribbonView.isHidden = card.price?.isFree ?? true
         titleLabel.text = card.title
-        if let price = card.product?.price, !price.isFree,
-            let currency = card.product?.currency {
+        if let price = card.price, !price.isFree,
+            let currency = card.currency {
             priceLabel.text = price.stringValue(currency: currency, isFreeEnabled: true)
         }
         textLabel.text = card.text
