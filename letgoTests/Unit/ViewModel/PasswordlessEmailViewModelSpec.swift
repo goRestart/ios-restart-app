@@ -13,12 +13,12 @@ import Nimble
 import RxSwift
 import RxTest
 import RxCocoa
+import LGComponents
 
 class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
 
-    var closeEditBioCalled: Bool = false
-    var openHelpCalled: Bool!
-    var openEmailSent: Bool!
+    var openHelpWasCalled: Bool = false
+    var openEmailSentWasCalled: Bool = false
 
     override func spec() {
 
@@ -34,13 +34,11 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
             func buildPasswordlessEmailViewModel() {
                 sut = PasswordlessEmailViewModel(sessionManager: sessionManager, tracker: tracker)
                 sut.isContinueActionEnabled.asObservable().bind(to: isContinueActionEnabled).disposed(by: disposeBag)
-                sut.navigator = self
+                sut.router = self
             }
 
             beforeEach {
                 sut = nil
-                self.openHelpCalled = false
-                self.openEmailSent = false
                 sessionManager = MockSessionManager()
                 tracker = MockTracker()
 
@@ -85,7 +83,7 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
                     sut.didTapContinueWith(email: "valid@email.com")
                 }
                 it("opens email sent view") {
-                    expect(self.openEmailSent).toEventually(beTrue())
+                    expect(self.openEmailSentWasCalled).toEventually(beTrue())
                 }
             }
 
@@ -95,21 +93,30 @@ class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
                     sut.didTapHelp()
                 }
                 it("opens the Help view") {
-                    expect(self.openHelpCalled) == true
+                    expect(self.openHelpWasCalled).toEventually(beTrue())
                 }
             }
         }
     }
 }
 
-extension PasswordlessEmailViewModelSpec: PasswordlessNavigator {
+extension PasswordlessEmailViewModelSpec: LoginNavigator {
+    func close() {}
+    func close(onFinish callback: (() -> ())?) {}
+    func showSignInWithEmail(source: EventParameterLoginSourceValue, appearance: LoginAppearance, loginAction: (() -> ())?, cancelAction: (() -> ())?) {}
+    func showLoginWithEmail(source: EventParameterLoginSourceValue, loginAction: (() -> ())?, cancelAction: (() -> ())?) {}
+    func showRememberPassword(source: EventParameterLoginSourceValue, email: String?) {}
+    func showAlert(withTitle: String?, andBody: String, andType: AlertType, andActions: [UIAction]) {}
+    func open(url: URL) {}
+    func showRecaptcha(action: LoginActionType, delegate: RecaptchaTokenDelegate) {}
+    func showPasswordlessEmail() {}
     func closePasswordlessEmailSent() {}
 
-    func openHelpFromPasswordless() {
-        openHelpCalled = true
+    func showHelp() {
+        openHelpWasCalled = true
     }
 
-    func openPasswordlessEmailSentTo(email: String) {
-        openEmailSent = true
+    func showPasswordlessEmailSent(email: String) {
+        openEmailSentWasCalled = true
     }
 }
