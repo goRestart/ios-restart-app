@@ -216,7 +216,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         updatePermissionBanner()
-        setupLocation()
+        // Comment readme: https://ambatana.atlassian.net/browse/ABIOS-5145
+        //setupLocation()
         
         guard firstTime else { return }
         refreshFeed()
@@ -301,6 +302,12 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         if feedItems.last is DiffableBox<ListingRetrievalState> {
             feedItems.removeLast()
         }
+    }
+    
+    private func findItemInFeed(with itemIdentifier: ListDiffable) -> Int? {
+        return feedItems.filter {
+            $0 is DiffableBox<FeedListingData> || $0 is DiffableBox<AdData>
+        }.index { $0.isEqual(toDiffableObject: itemIdentifier) }
     }
 }
 
@@ -869,16 +876,17 @@ extension FeedViewModel {
                           originFrame: CGRect?,
                           index: Int?,
                           sectionIdentifier: String?,
-                          sectionIndex: UInt?) {
+                          sectionIndex: UInt?,
+                          itemIdentifier: ListDiffable) {
         // https://ambatana.atlassian.net/browse/ABIOS-5133
         isComingFromASection = sectionIdentifier != nil
-        
+      
         let frame = feedRenderingDelegate?.convertViewRectInFeed(from: originFrame ?? .zero)
         let data = ListingDetailData.sectionedRelatedListing(
             listing: listing,
             thumbnailImage: thumbnailImage,
             originFrame: frame,
-            index: (index != nil) ? index! : 0,
+            index: index ?? (findItemInFeed(with: itemIdentifier) ?? 0),
             sectionIdentifier: sectionIdentifier,
             sectionIndex: sectionIndex)
         listingWireframe?.openListing(
@@ -933,6 +941,8 @@ extension FeedViewModel {
         guard let search = searchType else {
             return hasFilters ? .filter : .section
         }
+        
+        if let _ = comingSectionIdentifier { return .section }
         
         guard search.isCollection else {
             return hasFilters ? .searchAndFilter : .search
