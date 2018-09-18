@@ -188,6 +188,12 @@ struct UriScheme {
                                                   medium: medium,
                                                   source: source,
                                                   cardActionParameter: cardActionParameter))
+      case .userVerification:
+         return UriScheme(deepLink: DeepLink.link(.userVerification,
+                                                  campaign: campaign,
+                                                  medium: medium,
+                                                  source: source,
+                                                  cardActionParameter: cardActionParameter))
       }
    }
 }
@@ -213,4 +219,5 @@ enum UriSchemeHost: String {
    case updateApp = "update_app"
    case webView = "webview"
    case invite = "app_invite"
+   case userVerification = "user_verification"
 }
