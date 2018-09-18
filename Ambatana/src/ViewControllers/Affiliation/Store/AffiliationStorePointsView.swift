@@ -1,9 +1,5 @@
 import LGComponents
 
-struct AffiliationPoints {
-    let points: UInt
-}
-
 private enum Layout {
     enum Size {
         static let container = CGSize(width: 88, height: 32)
@@ -12,13 +8,20 @@ private enum Layout {
     static let shortMargin: CGFloat = 4
     static let margin: CGFloat = 8
     static let pointsWidth: CGFloat = 24
-}
-extension AffiliationPoints: CustomStringConvertible {
-    var description: String { return "\(points) Pts"} // TODO format (M, K, etc) & localize
+    static let containerCornerRadius: CGFloat = 16
 }
 
 final class AffiliationStorePointsView: UIView {
     override var intrinsicContentSize: CGSize { return Layout.Size.container }
+
+    private let container: UIView = {
+        let container = UIView()
+        container.backgroundColor = .white
+        container.layer.borderColor = UIColor.grayLight.cgColor
+        container.layer.cornerRadius = Layout.containerCornerRadius
+        container.layer.borderWidth = 1
+        return container
+    }()
 
     private let pointsLabel: UILabel = {
         let label = UILabel()
@@ -50,12 +53,6 @@ final class AffiliationStorePointsView: UIView {
     }
 
     private func setupUI() {
-        let container = UIView()
-        container.backgroundColor = .white
-        container.layer.borderColor = UIColor.grayLight.cgColor
-        container.layer.cornerRadius = 16
-        container.layer.borderWidth = 1
-
         addSubviewsForAutoLayout([container, pointsIcon, pointsLabel])
         [
             container.heightAnchor.constraint(equalToConstant: Layout.Size.container.height),
@@ -74,7 +71,7 @@ final class AffiliationStorePointsView: UIView {
         ].activate()
     }
 
-    func populate(with points: AffiliationPoints) {
-        pointsLabel.text = points.description
+    func populate(with points: Int) {
+        pointsLabel.text = R.Strings.affiliationStorePoints("\(points)")
     }
 }
