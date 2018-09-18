@@ -14,7 +14,7 @@ import RxSwift
 import RxTest
 import RxCocoa
 
-class PasswordlessUsernameViewModelSpec: BaseViewModelSpec {
+final class PasswordlessUsernameViewModelSpec: BaseViewModelSpec {
 
     var openHelpCalled: Bool!
     var closeUsernameViewCalled: Bool!

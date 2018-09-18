@@ -20,7 +20,7 @@ final class PasswordlessUsernameViewController: BaseViewController {
     private let doneButton = LetgoButton(withStyle: .primary(fontSize: .big))
     private var doneButtonBottomConstraint: NSLayoutConstraint?
 
-    struct Layout {
+    private enum Layout {
         static let viewMargin: CGFloat = 16
         static let buttonHeight: CGFloat = 50
         static let textFieldTopMargin: CGFloat = 25
@@ -39,6 +39,7 @@ final class PasswordlessUsernameViewController: BaseViewController {
         self.viewModel.delegate = self
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

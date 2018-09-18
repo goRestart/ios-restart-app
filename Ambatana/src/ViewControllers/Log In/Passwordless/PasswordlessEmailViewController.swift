@@ -55,7 +55,7 @@ final class PasswordlessEmailViewController: BaseViewController {
         return button
     }()
 
-    struct Layout {
+    private enum Layout {
         static let viewMargin: CGFloat = 16
         static let buttonHeight: CGFloat = 50
         static let verticalTopMargin: CGFloat = 40
@@ -68,6 +68,7 @@ final class PasswordlessEmailViewController: BaseViewController {
         super.init(viewModel: viewModel, nibName: nil)
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

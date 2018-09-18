@@ -2,7 +2,7 @@ import Foundation
 import LGCoreKit
 import LGComponents
 
-class PasswordlessUsernameCoordinator: Coordinator, PasswordlessUsernameNavigator {
+final class PasswordlessUsernameCoordinator: Coordinator, PasswordlessUsernameNavigator {
     var child: Coordinator?
     weak var coordinatorDelegate: CoordinatorDelegate?
     var viewController: UIViewController

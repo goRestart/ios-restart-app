@@ -38,7 +38,7 @@ final class PasswordlessEmailSentViewController: BaseViewController {
         return label
     }()
 
-    private struct Layout {
+    private enum Layout {
         static let imageTopMargin: CGFloat = 100
         static let imageSize: CGFloat = 150
         static let titleTopMargin: CGFloat = 30
@@ -51,6 +51,7 @@ final class PasswordlessEmailSentViewController: BaseViewController {
         super.init(viewModel: viewModel, nibName: nil)
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

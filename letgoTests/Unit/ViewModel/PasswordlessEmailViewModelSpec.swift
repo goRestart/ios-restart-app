@@ -15,10 +15,10 @@ import RxTest
 import RxCocoa
 import LGComponents
 
-class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
+final class PasswordlessEmailViewModelSpec: BaseViewModelSpec {
 
-    var openHelpWasCalled: Bool = false
-    var openEmailSentWasCalled: Bool = false
+    var openHelpWasCalled = false
+    var openEmailSentWasCalled = false
 
     override func spec() {
 
