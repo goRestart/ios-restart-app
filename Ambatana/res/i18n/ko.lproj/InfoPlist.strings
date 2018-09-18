@@ -1,4 +1,5 @@
 "NSCameraUsageDescription" = "판매하고자 하는 제품의 사진을 촬영하기 위해 사용자분의 카메라가 사용될 것입니다.";
+"NSContactsUsageDescription" = "letgo needs to access your contacts to invite your friends";
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo는 근처의 상품을 보여드리고 직거래 장소를 추천해 드리기 위해 사용자 분의 위치 정보를 이용할 것입니다";
 "NSLocationAlwaysUsageDescription" = "letgo는 근처의 상품을 보여드리고 직거래 장소를 추천해 드리기 위해 사용자 분의 위치 정보를 이용할 것입니다";
 "NSLocationWhenInUseUsageDescription" = "렛고는 근처의 제품을 파악하기위해 위치정보를 사용할 것입니다.";

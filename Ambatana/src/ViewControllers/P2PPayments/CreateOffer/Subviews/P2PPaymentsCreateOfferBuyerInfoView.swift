@@ -3,7 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize texts
 
 final class P2PPaymentsCreateOfferBuyerInfoView: UIView {
     private enum Layout {
@@ -19,7 +18,7 @@ final class P2PPaymentsCreateOfferBuyerInfoView: UIView {
         label.textColor = .grayDark
         label.numberOfLines = 0
         label.font = UIFont.systemFont(size: 14)
-        label.text = "We'll hold the funds in escrow and won't release the payment to the seller until you receive the item"
+        label.text = R.Strings.paymentsCreateOfferEscrowInfoLabel
         return label
     }()
 
@@ -85,7 +84,7 @@ private extension P2PPaymentsCreateOfferBuyerInfoView {
         let titleLabel: UILabel = {
             let label = UILabel()
             label.font = UIFont.systemBoldFont(size: 18)
-            label.text = "Buyer Protection"
+            label.text = R.Strings.paymentsCreateOfferBuyerProtectionTitleLabel
             label.textColor = .p2pPaymentsPositive
             return label
         }()
@@ -95,7 +94,7 @@ private extension P2PPaymentsCreateOfferBuyerInfoView {
             label.textColor = .grayDark
             label.font = UIFont.systemFont(size: 16)
             label.numberOfLines = 0
-            label.text = "Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item"
+            label.text = R.Strings.paymentsCreateOfferBuyerProtectionDescriptionLabel
             return label
         }()
 
