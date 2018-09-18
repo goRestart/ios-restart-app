@@ -413,11 +413,13 @@ extension FeedViewModel {
             return false
         }
         
-        feedItems.append(contentsOf: horizontalSections.listDiffable())
+        let horizontalSectionsWithBannerAds = updateWithBannerAds(listDiffable: horizontalSections.listDiffable())
+        feedItems.append(contentsOf: horizontalSectionsWithBannerAds)
+        
         if locationSectionIndex == nil {
             feedItems.append(LocationData(locationString: locationText))
         }
-        
+
         let verticalSectionsWithAds = updateWithAds(listDiffable: verticalItems.listDiffable())
         let allVerticalSections = updateWithSelectedForYou(listDiffable: verticalSectionsWithAds,
                                                            positionInFeed: feedItems.count,
@@ -435,6 +437,15 @@ extension FeedViewModel {
         
         let positions = adsPaginationHelper.adIndexesPositions(withItemListCount: listDiffable.count)
         let ads = positions.reversed().map { AdDataFactory.make(adPosition: feedItems.count + $0).listDiffable() }
+        return listDiffable.insert(newList: ads, at: positions)
+    }
+    
+    private func updateWithBannerAds(listDiffable: [ListDiffable]) -> [ListDiffable] {
+        guard adsImpressionConfigurable.shouldShowAdsForUser, listDiffable.count > 0  else { return listDiffable }
+        let positions = adsPaginationHelper.bannerAdIndexesPositions(withItemListCount: listDiffable.count)
+        let ads = positions.reversed().map { AdDataFactory.make(adPosition: $0,
+                                                                bannerHeight: LGUIKitConstants.sectionedFeedBannerAdDefaultHeight,
+                                                                type: .banner).listDiffable() }
         return listDiffable.insert(newList: ads, at: positions)
     }
     

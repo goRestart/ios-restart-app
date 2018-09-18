@@ -192,6 +192,8 @@ public struct SharedConstants {
     public enum Feed {
         public static let adInFeedInitialPosition = 3
         public static let adsInFeedRatio = 20
+        public static let firstAdBannerIndex = 1
+        public static let adBannerRatio = 6
     }
     
 }

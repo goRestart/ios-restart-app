@@ -161,5 +161,9 @@ public final class EnvironmentProxy: AppEnvironment {
         return environment.chatSectionAdUnitForOldUsersTR
     }
     
+    public var sectionedFeedAdUnitForUS: String {
+        return environment.sectionedFeedAdUnitForUS
+    }
+    
     
 }

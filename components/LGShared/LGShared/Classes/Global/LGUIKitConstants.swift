@@ -67,6 +67,7 @@ public struct LGUIKitConstants {
     public static let advertisementAdTextHeight: CGFloat = 21
     public static let advertisementAppIconHeight: CGFloat = 40
     public static let advertisementImageAspectRatio: CGFloat = 1.91
+    public static let sectionedFeedBannerAdDefaultHeight: CGFloat = 250
     
 
     // MARK: - Map Pin
