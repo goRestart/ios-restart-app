@@ -40,7 +40,7 @@ final class AppEventsManager {
         
         let shareScreenshotVC = shareScreenshotAssembly.buildShareScreenshot(screenshotImage: image,
                                                                              socialMessage: socialMessage)
-        topVC.navigationController?.present(shareScreenshotVC, animated: true, completion: nil)
+        topVC.navigationController?.present(shareScreenshotVC, animated: false, completion: nil)
     }
     
     

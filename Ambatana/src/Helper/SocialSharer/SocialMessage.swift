@@ -254,7 +254,7 @@ struct ListingSocialMessage: SocialMessage {
     private let isMine: Bool
     private let campaign: Campaign
 
-    init(title: String, listing: Listing, isMine: Bool, fallbackToStore: Bool, myUserId: String?, myUserName: String?, campaign: Campaign) {
+    init(title: String, listing: Listing, isMine: Bool, fallbackToStore: Bool, myUserId: String?, myUserName: String?, campaign: Campaign = .detail) {
         self.title = title
         self.listingUserName = listing.user.name ?? ""
         self.listingTitle = listing.title ?? ""

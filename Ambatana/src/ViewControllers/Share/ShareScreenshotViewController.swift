@@ -4,6 +4,8 @@ import RxSwift
 
 final class ShareScreenshotViewController: BaseViewController {
     
+    private let transitionAnimationDuration = 0.5
+    
     enum Layout {
         static let closeButtonTopMargin: CGFloat = 20
         static let closeButtonLeadingMargin: CGFloat = 0
@@ -40,6 +42,7 @@ final class ShareScreenshotViewController: BaseViewController {
         screenshotImageView.layer.masksToBounds = false
         return screenshotImageView
     }()
+    private let animatedScreenshotImageView = UIImageView()
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemBoldFont(size: 30)
@@ -75,6 +78,8 @@ final class ShareScreenshotViewController: BaseViewController {
         return moreButton
     }()
     
+    var hasOpeningTransitionPerformed: Bool = false
+    
     
     // MARK: - Lifecycle
     
@@ -88,6 +93,8 @@ final class ShareScreenshotViewController: BaseViewController {
         self.viewModel = viewModel
         self.socialSharer = socialSharer
         super.init(viewModel: viewModel, nibName: nil)
+        
+        animatedScreenshotImageView.image = viewModel.screenshotImage
     }
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -98,6 +105,12 @@ final class ShareScreenshotViewController: BaseViewController {
         setupLayout()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !hasOpeningTransitionPerformed {
+            performOpeningAnimation()
+        }
+    }
     
     // MARK: - UI
     
@@ -159,10 +172,62 @@ final class ShareScreenshotViewController: BaseViewController {
     }
     
     
+    // MARK: - Opening and closing animations
+    
+    private func performOpeningAnimation() {
+        let initialFrame = CGRect(x: 0,
+                                  y: 0,
+                                  width: view.width,
+                                  height: view.height)
+        let finalFrame = CGRect(x: view.frame.midX - screenshotImageViewWidth/2,
+                                y: Layout.screenshotImageViewTopMargin + statusBarHeight,
+                                width: screenshotImageViewWidth,
+                                height: screenshotImageViewHeight)
+        
+        animatedScreenshotImageView.image = viewModel.screenshotImage
+        
+        view.addSubview(animatedScreenshotImageView)
+        view.bringSubview(toFront: animatedScreenshotImageView)
+        animatedScreenshotImageView.frame = initialFrame
+        UIView.animate(withDuration: transitionAnimationDuration,
+                       animations: { [weak self] in
+                        self?.animatedScreenshotImageView.frame = finalFrame
+            }, completion: { [weak self] _ in
+                self?.animatedScreenshotImageView.alpha = 0
+                self?.hasOpeningTransitionPerformed = true
+        })
+    }
+    
+    private func performClosingAnimation(completion: (() -> Void)?) {
+        let initialFrame = CGRect(x: view.frame.midX - screenshotImageViewWidth/2,
+                                  y: Layout.screenshotImageViewTopMargin + statusBarHeight,
+                                  width: screenshotImageViewWidth,
+                                  height: screenshotImageViewHeight)
+        let finalFrame = CGRect(x: 0,
+                                y: 0,
+                                width: view.width,
+                                height: view.height)
+        
+        animatedScreenshotImageView.image = viewModel.screenshotImage
+        
+        view.addSubview(animatedScreenshotImageView)
+        view.bringSubview(toFront: animatedScreenshotImageView)
+        animatedScreenshotImageView.frame = initialFrame
+        self.animatedScreenshotImageView.alpha = 1
+        UIView.animate(withDuration: transitionAnimationDuration,
+                       animations: { [weak self] in
+                        self?.animatedScreenshotImageView.frame = finalFrame
+            }, completion: { _ in
+                completion?()
+        })
+    }
+    
     // MARK: - UI Actions
     
     @objc private func closeButtonAction() {
-        viewModel.close()
+        performClosingAnimation { [weak self] in
+            self?.viewModel.close()
+        }
     }
     
     @objc private func messengerButtonAction(_ sender: AnyObject) {
