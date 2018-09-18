@@ -63,7 +63,6 @@ protocol TabNavigator: class {
     func showFailBubble(withMessage message: String, duration: TimeInterval)
     func openUserVerificationView()
     func openCommunityTab()
-    func openP2PPaymentOfferStatus(offerId: String)
 }
 
 protocol ListingDetailNavigator: class {

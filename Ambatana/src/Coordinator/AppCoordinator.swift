@@ -1016,7 +1016,7 @@ fileprivate extension AppCoordinator {
         case let .p2pPaymentsOffer(offerId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openP2PPaymentOfferStatus(offerId: offerId)
+                self?.openP2PPaymentOfferStatus(offerId: offerId)
             }
         case let .user(userId):
             if userId == myUserRepository.myUser?.objectId {

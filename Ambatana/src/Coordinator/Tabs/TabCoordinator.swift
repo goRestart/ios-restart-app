@@ -184,10 +184,6 @@ extension TabCoordinator: TabNavigator {
     func openCommunityTab() {
         appNavigator?.openCommunityTab()
     }
-
-    func openP2PPaymentOfferStatus(offerId: String) {
-        appNavigator?.openP2PPaymentOfferStatus(offerId: offerId)
-    }
 }
 
 fileprivate extension TabCoordinator {
