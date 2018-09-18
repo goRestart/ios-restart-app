@@ -121,6 +121,8 @@ final class AffiliationInviteSMSContactsViewController: KeyboardViewController, 
             self?.tableViewAllContacts.reloadData()
         }).disposed(by: disposeBag)
         
+        viewModel.hasContactsSelected.asObservable().bind(to: inviteButton.rx.isEnabled).disposed(by: disposeBag)
+        
         viewModel.status.asDriver().drive(onNext: { [weak self] status in
             self?.update(with: status)
         }).disposed(by: disposeBag)

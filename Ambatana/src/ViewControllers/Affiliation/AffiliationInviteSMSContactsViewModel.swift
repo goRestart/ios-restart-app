@@ -26,6 +26,7 @@ final class AffiliationInviteSMSContactsViewModel: BaseViewModel {
     private var itemsSelected = [ContactInfo]()
     private var firstLetterIndexes = [Int]()
     
+    let hasContactsSelected = BehaviorRelay<Bool>(value: false)
     let status = BehaviorRelay<StatusInviteSMSContactsStatus>(value: .loading)
     let contactsInfo = BehaviorRelay<[ContactInfo]>(value: [])
     let searchResultsInfo = BehaviorRelay<[ContactInfo]>(value: [])
@@ -120,11 +121,13 @@ final class AffiliationInviteSMSContactsViewModel: BaseViewModel {
     func cellSelected(contactInfo: ContactInfo) {
         guard !itemsSelected.contains(contactInfo) else { return }
         itemsSelected.append(contactInfo)
+        hasContactsSelected.accept(!itemsSelected.isEmpty)
     }
     
     func cellDeselected(contactInfo: ContactInfo) {
         guard itemsSelected.contains(contactInfo) else { return }
         itemsSelected.removeIfContains(contactInfo)
+        hasContactsSelected.accept(!itemsSelected.isEmpty)
     }
     
     func smsText() -> SocialMessage {
