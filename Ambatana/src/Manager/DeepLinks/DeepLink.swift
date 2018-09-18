@@ -42,6 +42,7 @@ enum DeepLinkAction: Equatable {
     case listingBumpUp(listingId: String)
     case listingMarkAsSold(listingId: String)
     case listingEdit(listingId: String)
+    case p2pPaymentsOffer(offerId: String)
     case user(userId: String)
     case conversations
     case conversation(conversationId: String)
@@ -81,6 +82,8 @@ enum DeepLinkAction: Equatable {
             return lhsDetail == rhsDetail
         case (.listingEdit(let lhsDetail), .listingEdit(let rhsDetail)):
             return lhsDetail == rhsDetail
+        case (.p2pPaymentsOffer(let lhsOffer), .p2pPaymentsOffer(let rhsOffer)):
+            return lhsOffer == rhsOffer
         case (.user(let lhsUser), .user(let rhsUser)):
             return lhsUser == rhsUser
         case (.conversations, .conversations):

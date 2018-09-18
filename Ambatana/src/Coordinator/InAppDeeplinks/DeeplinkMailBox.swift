@@ -60,6 +60,10 @@ extension URL {
             userid
         ))
     }
+
+    static func makeP2PPaymentOfferDeepLink(with offerId: String) -> URL? {
+        return URL(string: "letgo://p2payments_offer/\(offerId)")
+    }
 }
 
 final class LGDeepLinkMailBox: DeepLinkMailBox {
