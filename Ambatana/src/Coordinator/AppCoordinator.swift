@@ -319,11 +319,13 @@ extension AppCoordinator: AppNavigator {
 
     func openPromoteBumpForListingId(listingId: String,
                                      bumpUpProductData: BumpUpProductData,
+                                     maxCountdown: TimeInterval,
                                      typePage: EventParameterTypePage?) {
         let promoteBumpEvent = TrackerEvent.bumpUpPromo()
         tracker.trackEvent(promoteBumpEvent)
         let vc = promoteAssembly.buildPromoteBump(listingId: listingId,
                                                   bumpUpProductData: bumpUpProductData,
+                                                  maxCountdown: maxCountdown,
                                                   typePage: typePage,
         // This callback is used to open the bumper, it is just a patch.
         // In a near future the App coordinator should be migrated and then
@@ -552,6 +554,7 @@ extension AppCoordinator: OnEditActionable {
         guard let listingId = listing.objectId, let bumpData = bumpData, bumpData.hasPaymentId else { return }
         openPromoteBumpForListingId(listingId: listingId,
                                     bumpUpProductData: bumpData,
+                                    maxCountdown: maxCountdown,
                                     typePage: .sellEdit)
     }
 }
@@ -1078,8 +1081,10 @@ fileprivate extension AppCoordinator {
             }
         case .invite(let userid, let username):
             openAppInvite(myUserId: userid, myUserName: username)
+        case .userVerification:
+            mainTabBarCoordinator.openUserVerificationView()
         }
-        
+
         if let afterDelayClosure = afterDelayClosure {
             delay(0.5) { 
                 afterDelayClosure()
@@ -1099,7 +1104,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView, .appRating, .invite:
+             .notificationCenter, .appStore, .webView, .appRating, .invite, .userVerification:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -1223,6 +1228,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
             tabBarCtl.clearAllPresented(nil)
             openUserProfile() { [weak self] coord in
                 var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
+                                                                                           maxCountdown: maxCountdown,
                                                                                            bumpUpType: .priced,
                                                                                            triggerBumpUpSource: .deepLink,
                                                                                            typePage: .notificationCenter)
@@ -1237,6 +1243,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
             tabBarCtl.clearAllPresented(nil)
             openPromoteBumpForListingId(listingId: requestListingId,
                                         bumpUpProductData: bumpUpProductData,
+                                        maxCountdown: maxCountdown,
                                         typePage: typePage)
         case .edit(let listing):
             openEditForListing(listing: listing,
@@ -1253,11 +1260,13 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
 extension AppCoordinator {
     func openSellFaster(listingId: String,
                         bumpUpProductData: BumpUpProductData,
+                        maxCountdown: TimeInterval,
                         typePage: EventParameterTypePage?) {
         let completion: (()->Void) = { [weak self] in
             self?.openUserProfile() { coord in
 
                 let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
+                                                                                           maxCountdown: maxCountdown,
                                                                                            bumpUpType: .priced,
                                                                                            triggerBumpUpSource: .promoted,
                                                                                            typePage: typePage)

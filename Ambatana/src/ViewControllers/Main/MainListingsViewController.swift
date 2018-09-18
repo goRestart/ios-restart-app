@@ -376,6 +376,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         viewModel.showFilters()
     }
     
+    @objc func openAffiliationChallenges(_ sender: AnyObject) {
+        viewModel.openAffiliationChallenges()
+    }
+    
     @objc func openMap(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
         vmHideMapToolTip(hideForever: true)

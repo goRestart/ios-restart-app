@@ -1,12 +1,3 @@
-//
-//  NotificationService.swift
-//  notificationservice
-//
-//  Created by Juan Iglesias on 17/02/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
-
 import UIKit
 import UserNotifications
 
@@ -15,12 +6,36 @@ class NotificationService: UNNotificationServiceExtension {
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
     
+    private func readMutePushNotifications(from userDefaults: UserDefaults = UserDefaults.letgo)
+        -> MutePushNotificationFeatureFlagHelper {
+            let empty = MutePushNotificationFeatureFlagHelper(variable: 0, startHour: 0, endHour: 0)
+            let userDefaultsKey = "FeatureFlags"
+            let mutePushNotificationsKey = "mutePushNotifications"
+            let featureFlags = userDefaults.dictionary(forKey: userDefaultsKey)
+            guard
+                let data = featureFlags?[mutePushNotificationsKey] as? Data,
+                let featureFlag = try? JSONDecoder().decode(MutePushNotificationFeatureFlagHelper.self, from: data) else {
+                    return empty
+            }
+            return featureFlag
+    }
+    
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         
         if let bestAttemptContent = bestAttemptContent {
             var urlResource: String?
+            
+            /// ABTest MutePushNotifications
+            let mutePushNotificationFeatureFlag: MutePushNotificationFeatureFlagHelper = readMutePushNotifications()
+            if mutePushNotificationFeatureFlag.isABTestActive {
+                let currentHour = Calendar.current.component(.hour, from: Date())
+                let checker = PushNotificationScheduleChecker(startingHour: mutePushNotificationFeatureFlag.startHour, endingHour: mutePushNotificationFeatureFlag.endHour)
+                if checker.mutePushNotification(at: currentHour) {
+                    bestAttemptContent.sound = nil
+                }
+            }
             
             // Check if it is a leanplum notification
             if let leanplumURL = request.content.userInfo["LP_URL"] as? String {

@@ -1,5 +1,5 @@
 struct LGEmptyViewModel {
-    var icon: UIImage?
+    let icon: UIImage?
     let title: String?
     let body: String?
     let buttonTitle: String?
@@ -9,6 +9,24 @@ struct LGEmptyViewModel {
     let emptyReason: EventParameterEmptyReason?
     let errorCode: Int?
     let errorDescription: String?
+}
+
+extension LGEmptyViewModel {
+    struct Lenses {
+        static let icon = Lens<LGEmptyViewModel, UIImage?>(
+            get: {$0.icon},
+            set: {(value, me) in LGEmptyViewModel(icon: value,
+                                                  title: me.title,
+                                                  body: me.body,
+                                                  buttonTitle: me.buttonTitle,
+                                                  action: me.action,
+                                                  secondaryButtonTitle: me.secondaryButtonTitle,
+                                                  secondaryAction: me.secondaryAction,
+                                                  emptyReason: me.emptyReason,
+                                                  errorCode: me.errorCode,
+                                                  errorDescription: me.errorDescription) }
+        )
+    }
 }
 
 extension LGEmptyViewModel: Equatable {

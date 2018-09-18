@@ -17,121 +17,40 @@ protocol ListingViewModelDelegate: BaseViewModelDelegate {
     func vmResetBumpUpBannerCountdown()
 }
 
-protocol ListingViewModelMaker {
-    func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
-    func make(listing: Listing, navigator: ListingDetailNavigator?, visitSource: EventParameterListingVisitSource) -> ListingViewModel
-
-    func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType
-    func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType
+protocol ListingViewModelAssembly {
+    func build(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
 }
 
 enum ListingOrigin {
     case initial, inResponseToNextRequest, inResponseToPreviousRequest
 }
 
-class ListingViewModel: BaseViewModel {
-    class ConvenienceMaker: ListingViewModelMaker {
-
-        func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType {
-            return makeListingDeckSnapshot(listing: listingViewModel.listing.value,
-                                           seller: listingViewModel.seller.value,
-                                           isFavorite: listingViewModel.isFavorite.value,
-                                           isFeatured: listingViewModel.isShowingFeaturedStripe.value,
-                                           socialMessage: listingViewModel.socialMessage.value)
+final class ListingViewModel: BaseViewModel {
+    final class ConvenienceMaker: ListingViewModelAssembly {
+        let detailNavigator: ListingDetailNavigator
+        init(detailNavigator: ListingDetailNavigator) {
+            self.detailNavigator = detailNavigator
         }
 
-        func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType {
-            return makeListingDeckSnapshot(listing: listing,
-                                           seller: nil,
-                                           isFavorite: false,
-                                           isFeatured: false,
-                                           socialMessage: nil,
-                                           myUserRepository: Core.myUserRepository,
-                                           featureFlags: FeatureFlags.sharedInstance,
-                                           countryHelper: Core.countryHelper)
-        }
-
-        private func makeListingDeckSnapshot(listing: Listing,
-                                             seller: User?,
-                                             isFavorite: Bool,
-                                             isFeatured: Bool,
-                                             socialMessage: SocialMessage?) -> ListingDeckSnapshotType {
-            return makeListingDeckSnapshot(listing: listing,
-                                           seller: seller,
-                                           isFavorite: isFavorite,
-                                           isFeatured: isFeatured,
-                                           socialMessage: socialMessage,
-                                           myUserRepository: Core.myUserRepository,
-                                           featureFlags: FeatureFlags.sharedInstance,
-                                           countryHelper: Core.countryHelper)
-        }
-
-        private func makeListingDeckSnapshot(listing: Listing,
-                                             seller: User?,
-                                             isFavorite: Bool,
-                                             isFeatured: Bool,
-                                             socialMessage: SocialMessage?,
-                                             myUserRepository: MyUserRepository,
-                                             featureFlags: FeatureFlags,
-                                             countryHelper: CountryHelper) -> ListingDeckSnapshotType {
-            let isMine = listing.isMine(myUserRepository: myUserRepository)
-            let status = ListingViewModelStatus(listing: listing,
-                                                isMine: listing.isMine(myUserRepository: myUserRepository),
-                                                featureFlags: featureFlags)
-            let info = ListingVMProductInfo(listing: listing,
-                                            isAutoTranslated: listing.isTitleAutoTranslated(countryHelper),
-                                            distance: nil,
-                                            freeModeAllowed: featureFlags.freePostingModeAllowed,
-                                            postingFlowType: featureFlags.postingFlowType)
-
-            var badge: UserReputationBadge = .noBadge
-            if let reputationBadge = seller?.reputationBadge {
-                badge = reputationBadge
-            }
-
-            let userInfo = ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser,
-                                             sellerBadge: badge)
-
-            return ListingDeckSnapshot(preview: listing.images.first?.fileURL,
-                                       imageCount: listing.images.count,
-                                       isFavoritable: isMine,
-                                       isFavorite: isFavorite,
-                                       userInfo: userInfo,
-                                       status: status,
-                                       isFeatured: isFeatured,
-                                       productInfo: info,
-                                       stats: nil,
-                                       postedDate: nil,
+        func build(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
+            let vm =  ListingViewModel(listing: listing,
+                                       visitSource: source,
+                                       myUserRepository: Core.myUserRepository,
+                                       userRepository: Core.userRepository,
+                                       listingRepository: Core.listingRepository,
+                                       chatWrapper: LGChatWrapper(),
+                                       chatViewMessageAdapter: ChatViewMessageAdapter(),
+                                       locationManager: Core.locationManager,
+                                       countryHelper: Core.countryHelper,
                                        socialSharer: SocialSharer(),
-                                       socialMessage: socialMessage,
-                                       isMine: isMine)
+                                       featureFlags: FeatureFlags.sharedInstance,
+                                       purchasesShopper: LGPurchasesShopper.sharedInstance,
+                                       monetizationRepository: Core.monetizationRepository,
+                                       tracker: TrackerProxy.sharedInstance,
+                                       keyValueStorage: KeyValueStorage.sharedInstance)
+            vm.navigator = detailNavigator
+            return vm
         }
-
-        func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
-            return ListingViewModel(listing: listing,
-                                    visitSource: source,
-                                    myUserRepository: Core.myUserRepository,
-                                    userRepository: Core.userRepository,
-                                    listingRepository: Core.listingRepository,
-                                    chatWrapper: LGChatWrapper(),
-                                    chatViewMessageAdapter: ChatViewMessageAdapter(),
-                                    locationManager: Core.locationManager,
-                                    countryHelper: Core.countryHelper,
-                                    socialSharer: SocialSharer(),
-                                    featureFlags: FeatureFlags.sharedInstance,
-                                    purchasesShopper: LGPurchasesShopper.sharedInstance,
-                                    monetizationRepository: Core.monetizationRepository,
-                                    tracker: TrackerProxy.sharedInstance,
-                                    keyValueStorage: KeyValueStorage.sharedInstance)
-        }
-
-        func make(listing: Listing, navigator: ListingDetailNavigator?,
-                  visitSource: EventParameterListingVisitSource) -> ListingViewModel {
-            let viewModel = make(listing: listing, visitSource: visitSource)
-            viewModel.navigator = navigator
-            return viewModel
-        }
-
     }
 
     // Delegate
@@ -189,14 +108,13 @@ class ListingViewModel: BaseViewModel {
         let userName = listing.value.user.name?.toNameReduced(maxChars: SharedConstants.maxCharactersOnUserNameChatButton) ?? ""
         return R.Strings.productChatWithSellerNameButton(userName)
     }
-    fileprivate lazy var productIsFavoriteable = Variable<Bool>(false)
+    lazy var productIsFavoriteable = Variable<Bool>(false)
     lazy var favoriteButtonState = Variable<ButtonState>(.enabled)
     lazy var shareButtonState = Variable<ButtonState>(.hidden)
 
     lazy var productInfo = Variable<ListingVMProductInfo?>(nil)
     lazy var productMedia = Variable<[Media]>([])
     lazy var productImageURLs = Variable<[URL]>([])
-    lazy var previewURL = Variable<(URL?, Int)>((nil, 0))
 
     let userInfo: Variable<ListingVMUserInfo>
 
@@ -311,12 +229,7 @@ class ListingViewModel: BaseViewModel {
         if isMine {
             seller.value = myUserRepository.myUser
             if featureFlags.alwaysShowBumpBannerWithLoading.isActive {
-                bumpUpBannerInfo.value = BumpUpInfo(type: .loading,
-                                                    timeSinceLastBump: 0,
-                                                    maxCountdown: 0,
-                                                    price: nil,
-                                                    bannerInteractionBlock: { _ in },
-                                                    buttonBlock: { _ in })
+                bumpUpBannerInfo.value = BumpUpInfo.makeLoading()
             }
         } else if let userId = userInfo.value.userId {
             userRepository.show(userId) { [weak self] result in
@@ -337,12 +250,7 @@ class ListingViewModel: BaseViewModel {
                                          completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
-            listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
-                guard let value = result.value  else { return }
-                self?.relationRetrieved = true
-                self?.isFavorite.value = value.isFavorited
-                self?.isReported.value = value.isReported
-            }
+            refreshUserListingRelation()
         }
         
         if isMine && status.value.isSold {
@@ -366,6 +274,20 @@ class ListingViewModel: BaseViewModel {
         isInterested.value = keyValueStorage.interestingListingIDs.contains(listingId)
     }
 
+    func forcedUpdate() {
+        refreshUserListingRelation()
+    }
+
+    func refreshUserListingRelation() {
+        guard let listingId = listing.value.objectId else { return }
+        listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
+            guard let value = result.value  else { return }
+            self?.relationRetrieved = true
+            self?.isFavorite.value = value.isFavorited
+            self?.isReported.value = value.isReported
+        }
+    }
+
     override func didBecomeInactive() {
         super.didBecomeInactive()
         bumpUpBannerInfo.value = nil
@@ -376,7 +298,7 @@ class ListingViewModel: BaseViewModel {
         guard let listingId = listing.value.objectId else { return }
         listingRepository.retrieve(listingId) { [weak self] result in
             if let listing = result.value {
-                self?.listing.value = listing
+                self?.listing.value = listing   
             }
             completion?()
         }
@@ -391,10 +313,6 @@ class ListingViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        productImageURLs.asObservable().bind { [weak self] urls in
-            self?.previewURL.value = (urls.first, urls.count)
-        }.disposed(by: disposeBag)
-
         if let productId = listing.value.objectId {
             listingRepository.updateEvents(for: productId).bind { [weak self] listing in
                 self?.listing.value = listing
@@ -430,7 +348,9 @@ class ListingViewModel: BaseViewModel {
             self?.refreshNavBarButtons()
         }.disposed(by: disposeBag)
 
-        listing.asObservable().subscribeNext { [weak self] listing in
+        listing
+            .asObservable()
+            .subscribeNext { [weak self] listing in
             guard let strongSelf = self else { return }
             strongSelf.trackHelper.listing = listing
             let isMine = listing.isMine(myUserRepository: strongSelf.myUserRepository)
@@ -455,7 +375,6 @@ class ListingViewModel: BaseViewModel {
                                                    freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
                                                    postingFlowType: strongSelf.featureFlags.postingFlowType)
             strongSelf.productInfo.value = productInfo
-
         }.disposed(by: disposeBag)
 
         status.asObservable().bind { [weak self] status in
@@ -742,15 +661,13 @@ class ListingViewModel: BaseViewModel {
         navigator?.openContactUs(forListing: listing.value, contactUstype: .bumpUpNotAllowed)
     }
 
-    func openVideoPlayer(atIndex index: Int, source: EventParameterListingVisitSource) {
-        navigator?.openVideoPlayer(atIndex: index, listingVM: self, source: source)
-    }
-
     func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        maxCountdown: TimeInterval,
                         bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
         self.bumpUpSource = bumpUpSource
+        self.bumpMaxCountdown = maxCountdown
         guard let bumpUpProductData = bumpUpProductData, let bumpUpType = bumpUpType else { return }
         
         switch bumpUpType {
@@ -1587,37 +1504,5 @@ extension ListingViewModel: PurchasesShopperDelegate {
                            isPromotedBump: false,
                            typePage: .listingDetail)
         delegate?.vmShowLoading(R.Strings.bumpUpProcessingFreeText)
-    }
-}
-
-// new item page
-extension ListingViewModel {
-    var isFavoritable: Bool { return !isMine }
-}
-
-struct PhotoViewerDisplayItem: PhotoViewerDisplayable {
-    let listing: Listing
-    let media: [Media]
-    let isMine: Bool
-    let isPlayable: Bool
-    let isChatEnabled: Bool
-}
-
-extension ListingViewModel {
-    func makeDisplayable() -> PhotoViewerDisplayItem {
-        return PhotoViewerDisplayItem(listing: listing.value,
-                                      media: productMedia.value,
-                                      isMine: isMine,
-                                      isPlayable: isPlayable,
-                                      isChatEnabled: !isMine)
-    }
-
-    func makeDisplayable(forMediaAt index: Int) -> PhotoViewerDisplayItem? {
-        guard 0..<productMedia.value.count ~= index else { return nil }
-        return PhotoViewerDisplayItem(listing: listing.value,
-                                      media: [productMedia.value[index]],
-                                      isMine: isMine,
-                                      isPlayable: isPlayable,
-                                      isChatEnabled: false) // forced false
     }
 }

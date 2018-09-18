@@ -142,6 +142,7 @@ final class InterestedHandler: InterestedHandleable {
         let event = TrackerEvent.firstMessage(info: trackingInfo,
                                               listingVisitSource: .listingList,
                                               feedPosition: .none,
+                                              sectionPosition: .none,
                                               userBadge: .noBadge,
                                               containsVideo: EventParameterBoolean(bool: listing.containsVideo()),
                                               isProfessional: nil,

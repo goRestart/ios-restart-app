@@ -8,7 +8,7 @@ struct BumpUpTimerBarViewMetrics {
     static let labelHeight: CGFloat = 21
 }
 
-class BumpUpTimerBarView: UIView {
+final class BumpUpTimerBarView: UIView {
 
     var maxTime: TimeInterval = 0
 

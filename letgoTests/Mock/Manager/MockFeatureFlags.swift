@@ -3,14 +3,20 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
- 
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
     func variablesUpdated() {}
     let trackingDataVar = Variable<[(String, ABGroup)]?>(nil)
 
-    var deckItemPage: DeckItemPage = .control
+    var surveyUrl: String = ""
+    var surveyEnabled: Bool = false
+
+    var newCarsMultiRequesterEnabled: Bool = false
+    var inAppRatingIOS10: Bool = false
+    var userReviewsReportEnabled: Bool = true
+
+    var deckItemPage: NewItemPageV3 = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
@@ -97,6 +103,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var reportingFostaSesta: ReportingFostaSesta = .control
     var community: ShowCommunity = .control
     var advancedReputationSystem11: AdvancedReputationSystem11 = .control
+    var advancedReputationSystem12: AdvancedReputationSystem12 = .control
+    var advancedReputationSystem13: AdvancedReputationSystem13 = .control
 
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
@@ -114,6 +122,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var notificationCenterRedesign: NotificationCenterRedesign = .control
     var randomImInterestedMessages: RandomImInterestedMessages = .control
     var imInterestedInProfile: ImInterestedInProfile = .control
+    var shareAfterScreenshot: ShareAfterScreenshot = .control
     var affiliationEnabled: AffiliationEnabled = .control
 }
 

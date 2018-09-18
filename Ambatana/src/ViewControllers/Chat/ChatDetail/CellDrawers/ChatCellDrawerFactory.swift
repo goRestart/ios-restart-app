@@ -51,6 +51,8 @@ struct ChatCellDrawerFactory {
             return ChatCallToActionCellDrawer(autoHide: autoHide)
         case .carousel:
             return ChatCarouselDrawer(autoHide: autoHide)
+        case .system:
+            return ChatSystemCellDrawer(autoHide: autoHide)
         case .interlocutorIsTyping:
             return ChatInterlocutorIsTypingCellDrawer(autoHide: autoHide)
         }
@@ -66,6 +68,7 @@ struct ChatCellDrawerFactory {
         ChatInterlocutorIsTypingCellDrawer.registerClassCell(tableView)
         ChatCallToActionCellDrawer.registerClassCell(tableView)
         ChatCarouselDrawer.registerClassCell(tableView)
+        ChatSystemCellDrawer.registerClassCell(tableView)
         ChatOtherMeetingCellDrawer.registerCell(tableView)
         ChatMyMeetingCellDrawer.registerCell(tableView)
     }

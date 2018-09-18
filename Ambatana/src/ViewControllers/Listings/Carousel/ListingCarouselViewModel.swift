@@ -56,7 +56,7 @@ enum AdRequestQueryType {
     }
 }
 
-class ListingCarouselViewModel: BaseViewModel {
+final class ListingCarouselViewModel: BaseViewModel {
 
     // Paginable
     let firstPage: Int = 0
@@ -153,6 +153,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private var trackingIndex: Int?
+    private var sectionIndex: UInt?
     private let trackingIdentifier: String?
     private var initialThumbnail: UIImage?
 
@@ -163,7 +164,7 @@ class ListingCarouselViewModel: BaseViewModel {
     private var productsViewModels: [String: ListingViewModel] = [:]
     private let keyValueStorage: KeyValueStorageable
     private let imageDownloader: ImageDownloaderType
-    private let listingViewModelMaker: ListingViewModelMaker
+    private let listingViewModelAssembly: ListingViewModelAssembly
     let featureFlags: FeatureFlaggeable
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
@@ -179,6 +180,11 @@ class ListingCarouselViewModel: BaseViewModel {
 
     private let adsRequester: AdsRequester
 
+    var trackingSectionPosition: EventParameterSectionPosition {
+        guard let sectionIndex = sectionIndex else { return .none }
+        return .position(index: sectionIndex)
+    }
+    
     // Ads
     var dfpAdUnitId: String {
         return featureFlags.moreInfoDFPAdUnitId
@@ -237,60 +243,72 @@ class ListingCarouselViewModel: BaseViewModel {
     // MARK: - Init
 
     convenience init(listing: Listing,
+                     viewModelMaker: ListingViewModelAssembly,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
-                     trackingIndex: Int?) {
+                     trackingIndex: Int?,
+                     sectionIndex: UInt?) {
         self.init(productListModels: nil,
                   initialListing: listing,
+                  viewModelMaker: viewModelMaker,
                   thumbnailImage: nil,
                   listingListRequester: listingListRequester,
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  sectionIndex: sectionIndex,
                   trackingIdentifier: nil,
                   firstProductSyncRequired: true)
     }
 
     convenience init(listing: Listing,
-                     thumbnailImage: UIImage?,
-                     listingListRequester: ListingListRequester,
-                     source: EventParameterListingVisitSource,
-                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
-                     trackingIndex: Int?) {
-        self.init(productListModels: nil,
-                  initialListing: listing,
-                  thumbnailImage: thumbnailImage,
-                  listingListRequester: listingListRequester,
-                  source: source,
-                  actionOnFirstAppear: actionOnFirstAppear,
-                  trackingIndex: trackingIndex,
-                  trackingIdentifier: nil,
-                  firstProductSyncRequired: false)
-    }
-
-    convenience init(productListModels: [ListingCellModel]?,
-                     initialListing: Listing?,
+                     viewModelMaker: ListingViewModelAssembly,
                      thumbnailImage: UIImage?,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?,
-                     trackingIdentifier: String?,
-                     firstProductSyncRequired: Bool) {
-        self.init(productListModels: productListModels,
-                  initialListing: initialListing,
+                     sectionIndex: UInt?,
+                     trackingIdentifier: String?) {
+        self.init(productListModels: nil,
+                  initialListing: listing,
+                  viewModelMaker: viewModelMaker,
                   thumbnailImage: thumbnailImage,
                   listingListRequester: listingListRequester,
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  sectionIndex: sectionIndex,
+                  trackingIdentifier: trackingIdentifier,
+                  firstProductSyncRequired: false)
+    }
+
+    convenience init(productListModels: [ListingCellModel]?,
+                     initialListing: Listing?,
+                     viewModelMaker: ListingViewModelAssembly,
+                     thumbnailImage: UIImage?,
+                     listingListRequester: ListingListRequester,
+                     source: EventParameterListingVisitSource,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
+                     trackingIndex: Int?,
+                     sectionIndex: UInt?,
+                     trackingIdentifier: String?,
+                     firstProductSyncRequired: Bool) {
+        self.init(productListModels: productListModels,
+                  initialListing: initialListing,
+                  viewModelMaker: viewModelMaker,
+                  thumbnailImage: thumbnailImage,
+                  listingListRequester: listingListRequester,
+                  source: source,
+                  actionOnFirstAppear: actionOnFirstAppear,
+                  trackingIndex: trackingIndex,
+                  sectionIndex: sectionIndex,
                   trackingIdentifier: trackingIdentifier,
                   firstProductSyncRequired: firstProductSyncRequired,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
-                  listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   adsRequester: AdsRequester(),
                   locationManager: Core.locationManager,
                   myUserRepository: Core.myUserRepository,
@@ -299,17 +317,18 @@ class ListingCarouselViewModel: BaseViewModel {
 
     init(productListModels: [ListingCellModel]?,
          initialListing: Listing?,
+         viewModelMaker: ListingViewModelAssembly,
          thumbnailImage: UIImage?,
          listingListRequester: ListingListRequester,
          source: EventParameterListingVisitSource,
          actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
+         sectionIndex: UInt?,
          trackingIdentifier: String?,
          firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
-         listingViewModelMaker: ListingViewModelMaker,
          adsRequester: AdsRequester,
          locationManager: LocationManager,
          myUserRepository: MyUserRepository,
@@ -335,7 +354,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.actionOnFirstAppear = actionOnFirstAppear
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
-        self.listingViewModelMaker = listingViewModelMaker
+        self.listingViewModelAssembly = viewModelMaker
         self.featureFlags = featureFlags
         self.adsRequester = adsRequester
         self.locationManager = locationManager
@@ -350,6 +369,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.currentIndex = startIndex
         self.trackingIdentifier = trackingIdentifier
         self.trackingIndex = trackingIndex
+        self.sectionIndex = sectionIndex
         super.init()
         setupRxBindings()
         moveToProductAtIndex(startIndex, movement: .initial)
@@ -366,6 +386,7 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackVisit(.none,
                                             source: source,
                                             feedPosition: trackingFeedPosition,
+                                            sectionPosition: trackingSectionPosition,
                                             feedSectionName: trackingFeedSectionName)
     }
         
@@ -403,6 +424,7 @@ class ListingCarouselViewModel: BaseViewModel {
             currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                 source: movement.visitSource(source),
                                                 feedPosition: trackingFeedPosition,
+                                                sectionPosition: trackingSectionPosition,
                                                 feedSectionName: trackingFeedSectionName)
         }
     }
@@ -425,11 +447,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func userAvatarPressed() {
         currentListingViewModel?.openProductOwnerProfile()
-    }
-
-    func videoButtonTapped() {
-        currentListingViewModel?.openVideoPlayer(atIndex: 0, source: source)
-        currentListingViewModel?.trackPlayVideo(source: source)
     }
 
     func directMessagesItemPressed() {
@@ -483,10 +500,12 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+                        maxCountdown: TimeInterval,
                         bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
         currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
+                                                maxCountdown: maxCountdown,
                                                 bumpUpType: bumpUpType,
                                                 bumpUpSource: bumpUpSource,
                                                 typePage: typePage)
@@ -647,7 +666,7 @@ class ListingCarouselViewModel: BaseViewModel {
         if let vm = productsViewModels[listingId] {
             return vm
         }
-        let vm = listingViewModelMaker.make(listing: listing, visitSource: source)
+        let vm = listingViewModelAssembly.build(listing: listing, visitSource: source)
         vm.navigator = navigator
         productsViewModels[listingId] = vm
         return vm

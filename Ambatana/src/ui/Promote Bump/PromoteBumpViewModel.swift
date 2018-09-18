@@ -6,6 +6,7 @@ class PromoteBumpViewModel: BaseViewModel {
     var navigator: PromoteBumpNavigator?
     private var listingId: String
     private var bumpUpProductData: BumpUpProductData
+    private var bumpUpMaxCountdown: TimeInterval
     private var typePage: EventParameterTypePage?
 
     var titleText: String {
@@ -28,9 +29,11 @@ class PromoteBumpViewModel: BaseViewModel {
 
     init(listingId: String,
          bumpUpProductData: BumpUpProductData,
+         maxCountdown: TimeInterval,
          typePage: EventParameterTypePage?) {
         self.listingId = listingId
         self.bumpUpProductData = bumpUpProductData
+        self.bumpUpMaxCountdown = maxCountdown
         self.typePage = typePage
     }
 
@@ -40,6 +43,7 @@ class PromoteBumpViewModel: BaseViewModel {
     func sellFasterButtonPressed() {
         navigator?.openSellFaster(listingId: listingId,
                                   bumpUpProductData: bumpUpProductData,
+                                  maxCountdown: bumpUpMaxCountdown,
                                   typePage: typePage)
     }
 

@@ -18,7 +18,6 @@ extension Bumper  {
         var flags = [BumperFeature.Type]()
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
-        flags.append(DeckItemPage.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RealEstateNewCopy.self)
@@ -50,6 +49,7 @@ extension Bumper  {
         flags.append(CarExtraFieldsEnabled.self)
         flags.append(ReportingFostaSesta.self)
         flags.append(ShowChatHeaderWithoutUser.self)
+        flags.append(NewItemPageV3.self)
         flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
         flags.append(EnableCTAMessageType.self)
@@ -75,11 +75,14 @@ extension Bumper  {
         flags.append(CarPromoCells.self)
         flags.append(RealEstatePromoCells.self)
         flags.append(AdvancedReputationSystem11.self)
+        flags.append(AdvancedReputationSystem12.self)
+        flags.append(AdvancedReputationSystem13.self)
         flags.append(ProUsersExtraImages.self)
         flags.append(SectionedDiscoveryFeed.self)
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(ShareAfterScreenshot.self)
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
@@ -109,19 +112,6 @@ extension Bumper  {
     static var requestsTimeOutObservable: Observable<RequestsTimeOut> {
         return Bumper.observeValue(for: RequestsTimeOut.key).map {
             RequestsTimeOut(rawValue: $0 ?? "") ?? .baseline
-        }
-    }
-    #endif
-
-    static var deckItemPage: DeckItemPage {
-        guard let value = Bumper.value(for: DeckItemPage.key) else { return .control }
-        return DeckItemPage(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var deckItemPageObservable: Observable<DeckItemPage> {
-        return Bumper.observeValue(for: DeckItemPage.key).map {
-            DeckItemPage(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -529,6 +519,19 @@ extension Bumper  {
     }
     #endif
 
+    static var newItemPageV3: NewItemPageV3 {
+        guard let value = Bumper.value(for: NewItemPageV3.key) else { return .control }
+        return NewItemPageV3(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var newItemPageV3Observable: Observable<NewItemPageV3> {
+        return Bumper.observeValue(for: NewItemPageV3.key).map {
+            NewItemPageV3(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var realEstateMapTooltip: RealEstateMapTooltip {
         guard let value = Bumper.value(for: RealEstateMapTooltip.key) else { return .control }
         return RealEstateMapTooltip(rawValue: value) ?? .control 
@@ -854,6 +857,32 @@ extension Bumper  {
     }
     #endif
 
+    static var advancedReputationSystem12: AdvancedReputationSystem12 {
+        guard let value = Bumper.value(for: AdvancedReputationSystem12.key) else { return .control }
+        return AdvancedReputationSystem12(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var advancedReputationSystem12Observable: Observable<AdvancedReputationSystem12> {
+        return Bumper.observeValue(for: AdvancedReputationSystem12.key).map {
+            AdvancedReputationSystem12(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var advancedReputationSystem13: AdvancedReputationSystem13 {
+        guard let value = Bumper.value(for: AdvancedReputationSystem13.key) else { return .control }
+        return AdvancedReputationSystem13(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var advancedReputationSystem13Observable: Observable<AdvancedReputationSystem13> {
+        return Bumper.observeValue(for: AdvancedReputationSystem13.key).map {
+            AdvancedReputationSystem13(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var proUsersExtraImages: ProUsersExtraImages {
         guard let value = Bumper.value(for: ProUsersExtraImages.key) else { return .control }
         return ProUsersExtraImages(rawValue: value) ?? .control 
@@ -915,6 +944,19 @@ extension Bumper  {
     static var clickToTalkObservable: Observable<ClickToTalk> {
         return Bumper.observeValue(for: ClickToTalk.key).map {
             ClickToTalk(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var shareAfterScreenshot: ShareAfterScreenshot {
+        guard let value = Bumper.value(for: ShareAfterScreenshot.key) else { return .control }
+        return ShareAfterScreenshot(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var shareAfterScreenshotObservable: Observable<ShareAfterScreenshot> {
+        return Bumper.observeValue(for: ShareAfterScreenshot.key).map {
+            ShareAfterScreenshot(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1003,22 +1045,6 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
-        }
-    }
-}
-
-enum DeckItemPage: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return DeckItemPage.control.rawValue }
-    static var enumValues: [DeckItemPage] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Deck item page with card appearance and different navigation" } 
-    static func fromPosition(_ position: Int) -> DeckItemPage {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }
@@ -1516,6 +1542,25 @@ enum ShowChatHeaderWithoutUser: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
+enum NewItemPageV3: String, BumperFeature  {
+    case control, baseline, infoWithLaterals, infoWithoutLaterals, buttonWithLaterals, buttonWithoutLaterals
+    static var defaultValue: String { return NewItemPageV3.control.rawValue }
+    static var enumValues: [NewItemPageV3] { return [.control, .baseline, .infoWithLaterals, .infoWithoutLaterals, .buttonWithLaterals, .buttonWithoutLaterals]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[Products] New item page V3 -- all in" } 
+    static func fromPosition(_ position: Int) -> NewItemPageV3 {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .infoWithLaterals
+            case 3: return .infoWithoutLaterals
+            case 4: return .buttonWithLaterals
+            case 5: return .buttonWithoutLaterals
+            default: return .control
+        }
+    }
+}
+
 enum RealEstateMapTooltip: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return RealEstateMapTooltip.control.rawValue }
@@ -1908,7 +1953,39 @@ enum AdvancedReputationSystem11: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[USERS] ARS v1.1" } 
     static func fromPosition(_ position: Int) -> AdvancedReputationSystem11 {
-          switch position { 
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AdvancedReputationSystem12: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AdvancedReputationSystem12.control.rawValue }
+    static var enumValues: [AdvancedReputationSystem12] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[USERS] ARS v1.2" } 
+    static func fromPosition(_ position: Int) -> AdvancedReputationSystem12 {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AdvancedReputationSystem13: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AdvancedReputationSystem13.control.rawValue }
+    static var enumValues: [AdvancedReputationSystem13] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[USERS] ARS v1.3" } 
+    static func fromPosition(_ position: Int) -> AdvancedReputationSystem13 {
+        switch position { 
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
@@ -1989,6 +2066,22 @@ enum ClickToTalk: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[VERTICALS] Show Click to talk" } 
     static func fromPosition(_ position: Int) -> ClickToTalk {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShareAfterScreenshot: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShareAfterScreenshot.control.rawValue }
+    static var enumValues: [ShareAfterScreenshot] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Show a share view after the user takes a screenshot" } 
+    static func fromPosition(_ position: Int) -> ShareAfterScreenshot {
         switch position { 
             case 0: return .control
             case 1: return .baseline
