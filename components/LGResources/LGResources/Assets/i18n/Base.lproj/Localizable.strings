@@ -2536,6 +2536,24 @@
 // Buyer protection description in the create offer screen
 "payments_create_offer_buyer_protection_description_label" = "Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item";
 
+// Label for the amount received by the seller
+"payments_create_offer_seller_price_label" = "Seller receives";
+
+// Label for the payment fee
+"payments_create_offer_fee_label" = "Payment fee";
+
+// Payment fee percentage
+"payments_create_offer_fee_percentage_label" = "Payment fee %@";
+
+// Total amount to pay
+"payments_create_offer_total_label" = "You pay";
+
+// Button for change the offer
+"payments_create_offer_change_button" = "Change";
+
+// Info button
+"payments_create_offer_info_button" = "Info";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 
