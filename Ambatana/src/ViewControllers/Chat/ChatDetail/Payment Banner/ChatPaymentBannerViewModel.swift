@@ -10,7 +10,12 @@ struct ChatPaymentBannerViewModel {
     
     private let isHiddenRelay = BehaviorRelay<Bool>(value: true)
     var isHidden: Driver<Bool> {
-        return offerState.map { $0 == .offersUnavailable }.asDriver()
+        return offerState.map { state in
+            switch state {
+            case .offersUnavailable: return true
+            default: return false
+            }
+        }.asDriver()
     }
 
     private let actionButtonRelay = PublishRelay<ButtonActionEvent>()
