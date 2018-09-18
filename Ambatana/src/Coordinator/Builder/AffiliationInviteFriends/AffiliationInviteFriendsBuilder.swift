@@ -2,7 +2,6 @@ import LGComponents
 
 protocol AffiliationInviteFriendsAssembly {
     func buildAffiliationInviteFriends() -> AffiliationInviteFriendsViewController
-    func buildAffiliationFAQ() -> AffiliationFAQViewController
 }
 
 enum AffiliationInviteFriendsBuilder: AffiliationInviteFriendsAssembly {
@@ -14,16 +13,6 @@ enum AffiliationInviteFriendsBuilder: AffiliationInviteFriendsAssembly {
             let viewModel = AffiliationInviteFriendsViewModel()
             viewModel.navigator = AffiliationInviteFriendsStandardWireframe(navigationController: navigationController)
             let viewController = AffiliationInviteFriendsViewController(viewModel: viewModel)
-            return viewController
-        }
-    }
-
-    func buildAffiliationFAQ() -> AffiliationFAQViewController {
-        switch self {
-        case .standard(let navigationController):
-            let viewModel = AffiliationFAQViewModel()
-            viewModel.navigator = AffiliationFAQStandardWireframe(navigationController: navigationController)
-            let viewController = AffiliationFAQViewController(viewModel: viewModel)
             return viewController
         }
     }

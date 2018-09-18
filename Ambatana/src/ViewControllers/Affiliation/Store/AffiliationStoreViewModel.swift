@@ -57,6 +57,11 @@ final class AffiliationStoreViewModel: BaseViewModel {
         }
     }
 
+    override func backButtonPressed() -> Bool {
+        navigator?.closeAffiliationStore()
+        return true
+    }
+
     private func reloadAll() {
         retrievePurchases()
         retrievePoints()

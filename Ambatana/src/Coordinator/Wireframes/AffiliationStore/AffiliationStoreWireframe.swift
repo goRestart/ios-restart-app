@@ -11,6 +11,10 @@ final class AffiliationStoreWireframe: AffiliationStoreNavigator {
         self.vouchersAssembly = vouchersAssembly
     }
 
+    func closeAffiliationStore() {
+        nc.popViewController(animated: true)
+    }
+
     func openHistory() {
         let vc = vouchersAssembly.buildAffiliationVouchers()
         nc.pushViewController(vc, animated: true)
