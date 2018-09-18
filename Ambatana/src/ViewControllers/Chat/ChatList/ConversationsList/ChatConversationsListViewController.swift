@@ -298,7 +298,7 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         contentView.resetDataSource()
         let dataSource = ChatConversationsListViewController.dataSource()
         dataSource.decideViewTransition = { (_, _, changeSet) in
-            return RxDataSources.ViewTransition.animated
+            return RxDataSources.ViewTransition.reload
         }
         guard let adUnitID = bannerView.adUnitID else { return }
         let selectedPosition = selectedPositionFor(adSize: sizeAd)
