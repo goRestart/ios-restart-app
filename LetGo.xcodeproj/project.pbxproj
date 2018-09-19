@@ -119,6 +119,10 @@
 		0915FB9B214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0915FB9A214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift */; };
 		0915FB9C214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0915FB9A214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift */; };
 		0938412821510442001A4BD3 /* ChatPaymentBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED296C7213EC2A0003E26A3 /* ChatPaymentBannerView.swift */; };
+		0938412A21521513001A4BD3 /* P2PPaymentsPayoutCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938412921521513001A4BD3 /* P2PPaymentsPayoutCardView.swift */; };
+		0938412B21521516001A4BD3 /* P2PPaymentsPayoutCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938412921521513001A4BD3 /* P2PPaymentsPayoutCardView.swift */; };
+		0938412D21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938412C21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift */; };
+		0938412E21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938412C21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift */; };
 		0941DEF92146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */; };
 		0941DEFA2146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */; };
 		0941DEFC2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */; };
@@ -141,8 +145,6 @@
 		094489A8214F720800F6EACB /* P2PPaymentsPayoutPersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094489A6214F720800F6EACB /* P2PPaymentsPayoutPersonalInfoView.swift */; };
 		094489AA214F721800F6EACB /* P2PPaymentsPayoutBankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094489A9214F721800F6EACB /* P2PPaymentsPayoutBankAccountView.swift */; };
 		094489AB214F721800F6EACB /* P2PPaymentsPayoutBankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094489A9214F721800F6EACB /* P2PPaymentsPayoutBankAccountView.swift */; };
-		094489AD214F722600F6EACB /* P2PPaymentsPayoutDebitCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094489AC214F722600F6EACB /* P2PPaymentsPayoutDebitCardView.swift */; };
-		094489AE214F722600F6EACB /* P2PPaymentsPayoutDebitCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094489AC214F722600F6EACB /* P2PPaymentsPayoutDebitCardView.swift */; };
 		094489B0214F728900F6EACB /* P2PPaymentsPayoutPaymentSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094489AF214F728900F6EACB /* P2PPaymentsPayoutPaymentSelectorView.swift */; };
 		094489B1214F728900F6EACB /* P2PPaymentsPayoutPaymentSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094489AF214F728900F6EACB /* P2PPaymentsPayoutPaymentSelectorView.swift */; };
 		0975238C2147D97D00F76F54 /* P2PPaymentsStepLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0975238B2147D97D00F76F54 /* P2PPaymentsStepLineView.swift */; };
@@ -2687,6 +2689,8 @@
 		0915FB932140FE0B0003D5B0 /* P2PPaymentsOfferStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusViewController.swift; sourceTree = "<group>"; };
 		0915FB962140FE340003D5B0 /* P2PPaymentsOfferStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusViewModel.swift; sourceTree = "<group>"; };
 		0915FB9A214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusStepView.swift; sourceTree = "<group>"; };
+		0938412921521513001A4BD3 /* P2PPaymentsPayoutCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutCardView.swift; sourceTree = "<group>"; };
+		0938412C21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsCardTextField.swift; sourceTree = "<group>"; };
 		0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusWireframe.swift; sourceTree = "<group>"; };
 		0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusBuilder.swift; sourceTree = "<group>"; };
 		0941DEFE21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PPaymentsOfferStatusStepListState+OfferStatus.swift"; sourceTree = "<group>"; };
@@ -2698,7 +2702,6 @@
 		094489A3214F674300F6EACB /* P2PPaymentsTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsTextField.swift; sourceTree = "<group>"; };
 		094489A6214F720800F6EACB /* P2PPaymentsPayoutPersonalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutPersonalInfoView.swift; sourceTree = "<group>"; };
 		094489A9214F721800F6EACB /* P2PPaymentsPayoutBankAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutBankAccountView.swift; sourceTree = "<group>"; };
-		094489AC214F722600F6EACB /* P2PPaymentsPayoutDebitCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutDebitCardView.swift; sourceTree = "<group>"; };
 		094489AF214F728900F6EACB /* P2PPaymentsPayoutPaymentSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutPaymentSelectorView.swift; sourceTree = "<group>"; };
 		0975238B2147D97D00F76F54 /* P2PPaymentsStepLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsStepLineView.swift; sourceTree = "<group>"; };
 		0975238E2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusBuyerView.swift; sourceTree = "<group>"; };
@@ -4195,6 +4198,7 @@
 				0904D88A213F310B00D5D554 /* P2PPaymentsListingHeaderView.swift */,
 				0904D88B213F310B00D5D554 /* P2PPaymentsLineSeparatorView.swift */,
 				094489A3214F674300F6EACB /* P2PPaymentsTextField.swift */,
+				0938412C21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4294,7 +4298,7 @@
 			children = (
 				094489A6214F720800F6EACB /* P2PPaymentsPayoutPersonalInfoView.swift */,
 				094489A9214F721800F6EACB /* P2PPaymentsPayoutBankAccountView.swift */,
-				094489AC214F722600F6EACB /* P2PPaymentsPayoutDebitCardView.swift */,
+				0938412921521513001A4BD3 /* P2PPaymentsPayoutCardView.swift */,
 				094489AF214F728900F6EACB /* P2PPaymentsPayoutPaymentSelectorView.swift */,
 			);
 			path = Subviews;
@@ -10143,7 +10147,6 @@
 				0A75147D214272570049E135 /* UserRatingCell.swift in Sources */,
 				2EBC92051E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
 				016328F720DBCFF000FA618B /* NotificationSettingsPlaceholderView.swift in Sources */,
-				094489AD214F722600F6EACB /* P2PPaymentsPayoutDebitCardView.swift in Sources */,
 				0944899D214F213600F6EACB /* P2PPaymentsPayoutViewController.swift in Sources */,
 				2ED296C1213E87A8003E26A3 /* ChatOtherInfoAssistantView.swift in Sources */,
 				50C63B711DC3A79100836D85 /* SocialMessage.swift in Sources */,
@@ -10374,6 +10377,7 @@
 				2EED4D251D23F03E0024328A /* ChatListing+title.swift in Sources */,
 				0ACA8F37211484A600243850 /* LGLeanplumBuilder.swift in Sources */,
 				0AA03202210A293700728A1A /* LGUserVerificationBuilder.swift in Sources */,
+				0938412D21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift in Sources */,
 				508010FE1D4748120073F362 /* SettingsViewController.swift in Sources */,
 				6AA9E90C203EC5DC004EACC4 /* UserProfileTabsView.swift in Sources */,
 				7224B0312015EBC800DC8B33 /* PostingAddDetailSizeView.swift in Sources */,
@@ -10584,6 +10588,7 @@
 				2E4DE8D9206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				0A751481214272570049E135 /* UserRatingListRequester.swift in Sources */,
+				0938412A21521513001A4BD3 /* P2PPaymentsPayoutCardView.swift in Sources */,
 				0AB4F826214677CB009151E6 /* UserDefailts+LG.swift in Sources */,
 				C7841AF41E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				0A6FED362130344000B57004 /* TourNotificationWireframe.swift in Sources */,
@@ -10930,6 +10935,7 @@
 				C21E6079208A89AF008A1956 /* VideoPreview.swift in Sources */,
 				097BC1D42149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift in Sources */,
 				72FE02DD1F98CE0A005BD672 /* AlphaAnimator.swift in Sources */,
+				0938412B21521516001A4BD3 /* P2PPaymentsPayoutCardView.swift in Sources */,
 				4252685720C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift in Sources */,
 				C783D98A1C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
 				427070D620764EBA00C1FEB3 /* CellAppereance.swift in Sources */,
@@ -11484,7 +11490,6 @@
 				0114DBF620CEA2D200C6DD0B /* NotificationSettingsAccessorListViewModel.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
 				094489A5214F674300F6EACB /* P2PPaymentsTextField.swift in Sources */,
-				50D153F7214A5BE600221B06 /* AffiliationChallengesViewModel.swift in Sources */,
 				0AEB4FF72018C795003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
 				01A824AB203B328D00DF5007 /* BlockingPostingAddPriceViewModel.swift in Sources */,
 				0A45A88A214BFF540045ACFA /* AffiliationStoreWireframe.swift in Sources */,
@@ -11759,7 +11764,6 @@
 				6AF75D051CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				C7DB42261C5138B500400945 /* TabBarController.swift in Sources */,
 				0A2F51E12122DAB00034EF85 /* AssistantMeetingBuilder.swift in Sources */,
-				094489AE214F722600F6EACB /* P2PPaymentsPayoutDebitCardView.swift in Sources */,
 				0A6FECAB2130343F00B57004 /* EditUserBioWireframe.swift in Sources */,
 				0A04D5E12076175D00471B9D /* UsersABGroup.swift in Sources */,
 				0AEDA12F2121CC8000684CA9 /* LGChatBuilder.swift in Sources */,
@@ -11791,6 +11795,7 @@
 				01D432022080FBD600061F0C /* NotificationSettingsMainViewController.swift in Sources */,
 				72FE02E31F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift in Sources */,
 				2EE47D3220178835004B04EE /* PhoneCallsHelper.swift in Sources */,
+				0938412E21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift in Sources */,
 				8E26E95D1ED5B5B90086D3EC /* FilterDistanceSlider.swift in Sources */,
 				0A75147E214272570049E135 /* UserRatingCell.swift in Sources */,
 				013489F920D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */,
