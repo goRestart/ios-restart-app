@@ -5,7 +5,7 @@ import LGComponents
 
 typealias MessageWithURLCompletion = (String) -> ()
 typealias NativeShareItemsCompletion = ([Any]) -> ()
-typealias FBSDKShareLinkContentCompletion = (FBSDKSharePhotoContent) -> ()
+typealias FBSDKShareLinkContentCompletion = (FBSDKShareLinkContent) -> ()
 typealias AppsFlyerGenerateInviteURLCompletion = (URL?) -> ()
 
 
@@ -107,20 +107,12 @@ extension SocialMessage {
     }
     
     private func fbShareLinkContent(_ source: ShareSource, image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion) {
-        let sharePhotoContent = FBSDKSharePhotoContent()
+        let shareContent = FBSDKShareLinkContent()
         retrieveShareURL(source: source) { url in
             if let url = url {
-                sharePhotoContent.contentURL = url
-                guard let image = image else { return }
-                let sharePhoto = FBSDKSharePhoto()
-                if let imageShareData = UIImagePNGRepresentation(image),
-                    let imageShare = UIImage(data: imageShareData) {
-                    sharePhoto.image = imageShare
-                    sharePhoto.isUserGenerated = true
-                    sharePhotoContent.photos = [sharePhoto]
-                }
+                shareContent.contentURL = url
             }
-            completion(sharePhotoContent)
+            completion(shareContent)
         }
     }
     
@@ -279,13 +271,13 @@ struct ListingSocialMessage: SocialMessage {
 
     func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
         retrieveShareURL(source: .native) { url in
-            var shareItems: [Any] = []
+            var shareItems: [Any] = [] // Append order matters for fb and fbmessenger, giving priority to the last item
+            if let image = image {
+                shareItems.append(image)
+            }
             if let shareUrl = url {
                 let shareMessage = self.fullMessage + "\n" + shareUrl.absoluteString
                 shareItems.append(shareMessage)
-            }
-            if let image = image {
-                shareItems.append(image)
             }
             completion(shareItems)
         }
@@ -413,12 +405,13 @@ struct AppShareSocialMessage: SocialMessage {
     
     func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
         retrieveShareURL(source: .native) { url in
-            var shareItems: [Any] = [R.Strings.appShareMessageText]
-            if let shareUrl = url {
-                shareItems.append(shareUrl)
-            }
+            var shareItems: [Any] = [] // Append order matters for fb and fbmessenger, giving priority to the last item
             if let image = image {
                 shareItems.append(image)
+            }
+            shareItems.append(R.Strings.appShareMessageText)
+            if let shareUrl = url {
+                shareItems.append(shareUrl)
             }
             completion(shareItems)
         }
@@ -510,12 +503,13 @@ struct UserSocialMessage: SocialMessage {
 
     func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
         retrieveShareURL(source: .native) { url in
-            var shareItems: [Any] = [self.messageText]
-            if let shareUrl = url {
-                shareItems.append(shareUrl)
-            }
+            var shareItems: [Any] = [] // Append order matters for fb and fbmessenger, giving priority to the last item
             if let image = image {
                 shareItems.append(image)
+            }
+            shareItems.append(self.messageText)
+            if let shareUrl = url {
+                shareItems.append(shareUrl)
             }
             completion(shareItems)
         }

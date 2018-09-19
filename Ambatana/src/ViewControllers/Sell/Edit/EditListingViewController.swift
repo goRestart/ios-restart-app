@@ -1160,7 +1160,7 @@ extension EditListingViewController: EditListingViewModelDelegate {
         imageCollectionView.reloadSections(IndexSet(integer: 0))
     }
 
-    func vmShareOnFbWith(content: FBSDKSharePhotoContent) {
+    func vmShareOnFbWith(content: FBSDKShareLinkContent) {
         FBSDKShareDialog.show(from: self, with: content, delegate: self)
     }
 

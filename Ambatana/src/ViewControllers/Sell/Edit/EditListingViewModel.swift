@@ -14,7 +14,7 @@ enum TitleDisclaimerStatus {
 protocol EditListingViewModelDelegate : BaseViewModelDelegate {
     func vmShouldUpdateDescriptionWithCount(_ count: Int)
     func vmDidAddOrDeleteImage()
-    func vmShareOnFbWith(content: FBSDKSharePhotoContent)
+    func vmShareOnFbWith(content: FBSDKShareLinkContent)
     func vmHideKeyboard()
 }
 
