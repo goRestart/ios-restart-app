@@ -9,6 +9,10 @@ struct UniversalLink {
 
     let deepLink: DeepLink
 
+    private enum LinkParamKey: String {
+        case passwordlessSignup, passwordlessLogin
+    }
+
     static func buildFromUserActivity(_ userActivity: NSUserActivity) -> UniversalLink? {
         // we don't need to handle Branch links as we will get the branch object in the callback
         guard !isBranchDeepLink(userActivity) else { return nil }
@@ -83,18 +87,19 @@ struct UniversalLink {
             default: break
             }
         }
-        if let firstParam = queryParams.first {
-            switch firstParam.key {
-            case "passwordlessSignup":
+
+        if let firstParam = queryParams.first,
+            let paramKey = LinkParamKey(rawValue: firstParam.key) {
+            switch paramKey {
+            case .passwordlessSignup:
                 let action = DeepLinkAction.passwordlessSignup(token: firstParam.value)
                 return UniversalLink(deepLink: DeepLink.link(action, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
-            case "passwordlessLogin":
+            case .passwordlessLogin:
                 let action = DeepLinkAction.passwordlessLogin(token: firstParam.value)
                 return UniversalLink(deepLink: DeepLink.link(action, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
-            default:
-                break
             }
         }
+
         if let schemeHost = components.first, let uriSchemeHost = UriSchemeHost(rawValue: schemeHost) {
             // the ones same as uri scheme but with {whatever}.letgo.com/ instead of letgo://
             var schemeComponents = components
