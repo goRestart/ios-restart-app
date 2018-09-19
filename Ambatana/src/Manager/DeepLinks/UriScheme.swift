@@ -194,6 +194,12 @@ struct UriScheme {
                                                   medium: medium,
                                                   source: source,
                                                   cardActionParameter: cardActionParameter))
+      case .affiliation:
+         return UriScheme(deepLink: DeepLink.link(.affiliation,
+                                                  campaign: campaign,
+                                                  medium: medium,
+                                                  source: source,
+                                                  cardActionParameter: cardActionParameter))
       case .p2pPaymentsOffer:
          guard let offerId = components.first else { return nil }
          return UriScheme(deepLink: DeepLink.link(.p2pPaymentsOffer(offerId: offerId),
@@ -228,4 +234,5 @@ enum UriSchemeHost: String {
    case webView = "webview"
    case invite = "app_invite"
    case userVerification = "user_verification"
+   case affiliation = "rewards"
 }

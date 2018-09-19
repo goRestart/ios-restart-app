@@ -106,6 +106,13 @@ class MyUserApiDataSource: MyUserDataSource {
         let request = MyUserRouter.validateSMSCode(myUserId: userId, params: params)
         apiClient.request(request, completion: completion)
     }
+    
+    func notifyReferral(inviterId: String, myUserId: String, completion: @escaping DataSourceCompletion<Void>) {
+        let userIdKey = "user_id"
+        let params: [String : Any] = [userIdKey : inviterId]
+        let request = MyUserRouter.notifyReferral(myUserId: myUserId, params: params)
+        apiClient.request(request, completion: completion)
+    }
 
     // MARK: - Private methods
 

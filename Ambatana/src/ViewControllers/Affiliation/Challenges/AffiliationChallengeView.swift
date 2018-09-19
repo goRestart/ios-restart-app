@@ -1,4 +1,5 @@
 import LGComponents
+import LGCoreKit
 import UIKit
 
 final class AffiliationChallengeView: UIView {
@@ -253,7 +254,7 @@ final class AffiliationChallengeView: UIView {
         case .ongoing:
             addToStackView(view: separatorView)
             addToStackView(view: button)
-        case .completed:
+        case .completed, .pending:
             removeFromStackView(view: separatorView)
             removeFromStackView(view: button)
         }

@@ -1,5 +1,7 @@
 import LGComponents
 import LGCoreKit
+import RxSwift
+import RxCocoa
 
 private enum Layout {
     enum Size {
@@ -10,6 +12,8 @@ private enum Layout {
 }
 
 final class AffiliationVoucherCell: UITableViewCell, ReusableCell {
+    let disposeBag = DisposeBag()
+
     private var resendWidth: NSLayoutConstraint?
 
     private let partnerIcon: UIImageView = {
@@ -44,11 +48,10 @@ final class AffiliationVoucherCell: UITableViewCell, ReusableCell {
         label.font = UIFont.systemMediumFont(size: 14)
         label.textAlignment = .left
         label.textColor = .grayDark
-        label.text = "July 21st"
         return label
     }()
 
-    private let resendButton: LetgoButton = {
+    fileprivate let resendButton: LetgoButton = {
         let button = LetgoButton.init(withStyle: .primary(fontSize: .medium))
         button.setTitle(R.Strings.affiliationStoreResendVoucher, for: .normal)
         return button
@@ -93,12 +96,11 @@ final class AffiliationVoucherCell: UITableViewCell, ReusableCell {
         pointsLabel.text = data.points + " - "
         dateLabel.text = data.date
 
-        if data.showResend {
-            resendWidth?.constant = 0
-            resendButton.alpha = 0
-        } else {
-            resendWidth?.constant = Layout.Size.button.width
-        }
+        resendWidth?.constant = data.showResend ? Layout.Size.button.width : 0
+        resendButton.alpha = data.showResend ? 1 : 0
     }
+}
 
+extension Reactive where Base: AffiliationVoucherCell {
+    var resendTap: Observable<Void> { return base.resendButton.rx.tap.asObservable() }
 }

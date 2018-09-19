@@ -9,7 +9,7 @@ final class AffiliationStoreViewController: BaseViewController {
     private let viewModel: AffiliationStoreViewModel
     private let pointsView = AffiliationStorePointsView()
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     init(viewModel: AffiliationStoreViewModel) {
         self.viewModel = viewModel
@@ -59,6 +59,7 @@ final class AffiliationStoreViewController: BaseViewController {
     private func setupRx() {
         let bindings = [
             viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
+            viewModel.rx.redeemTapped.drive(rx.redeemCell),
             storeView.viewHistoryButton.rx.tap.bind { [weak self] in self?.viewModel.openHistory() }
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
@@ -116,7 +117,10 @@ final class AffiliationStoreViewController: BaseViewController {
             })
         case .empty(_), .error(_):
             pointsView.alpha = 1
-            viewModel.showFailBubble(withMessage: "Gimme the money bro", duration: TimeInterval(3))
+            showAlert(R.Strings.affiliationStoreGenericError, message: nil, actions: [])
+            delay(2) { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
         }
     }
 
@@ -153,10 +157,72 @@ extension AffiliationStoreViewController {
     }
 }
 
+extension AffiliationStoreViewController {
+    func openEditEmail(action: UIAlertAction) {
+        viewModel.openEditEmail()
+    }
+
+    func closeAlert(action: UIAlertAction) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    func update(with model: RedeemCellModel) {
+        let actions: [UIAlertAction]
+        let title = R.Strings.affiliationStoreRedeemGiftSuccessHeadline
+        let message: String
+        if model.email != nil {
+            message = R.Strings.affiliationStoreRedeemGiftSuccessSubheadlineWithEmail
+            actions = [
+                UIAlertAction(title: R.Strings.commonCancel, style: .default, handler: closeAlert),
+                UIAlertAction(title: R.Strings.affiliationStoreRedeemGiftEditEmail,
+                              style: .default,
+                              handler: openEditEmail),
+                UIAlertAction(title: R.Strings.affiliationStoreRedeemGiftSend,
+                              style: .default,
+                              handler: { [weak self] _ in
+                                self?.redeem(for: model.index)
+                })
+            ]
+        } else {
+            message = R.Strings.affiliationStoreRedeemGiftSuccessSubheadlineWithoutEmail
+            actions = [
+                UIAlertAction(title: R.Strings.commonCancel, style: .default, handler: closeAlert),
+                UIAlertAction(title: R.Strings.affiliationStoreRedeemGiftAddEmail,
+                              style: .default,
+                              handler: openEditEmail)
+            ]
+        }
+        showEmailAlert(title: title, message: message, actions: actions)
+    }
+
+    private func redeem(for index: Int) {
+        viewModel
+            .redeem(at: index)
+            .drive(onNext: { [weak self] (state) in
+                self?.updateRedeem(with: state)
+            }).disposed(by: disposeBag)
+    }
+
+    private func showEmailAlert(title: String, message: String, actions: [UIAlertAction]) {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.add(actions)
+        present(alert, animated: true, completion: nil)
+    }
+}
+
 extension Reactive where Base: AffiliationStoreViewController {
     var state: Binder<ViewState> {
         return Binder(self.base) { controller, state in
             controller.update(with: state)
+        }
+    }
+
+    var redeemCell: Binder<RedeemCellModel?> {
+        return Binder(self.base) { controller, redeemCell in
+            guard let redeemCell = redeemCell else { return }
+            controller.update(with: redeemCell)
         }
     }
 
@@ -178,16 +244,10 @@ extension AffiliationStoreViewController: UICollectionViewDataSource {
             let data = viewModel.purchases[safeAt: indexPath.row] else { return UICollectionViewCell() }
         cell.populate(with: data)
         cell.tag = indexPath.row
-        cell.redeemButton.removeTarget(self, action: nil, for: .allEvents)
-        cell.redeemButton.addTarget(self, action: #selector(redeem(sender:)), for: .touchUpInside)
-        return cell
-    }
 
-    @objc private func redeem(sender: UIView) {
-        viewModel
-            .redeem(at: sender.tag)
-            .drive(onNext: { [weak self] (state) in
-                self?.updateRedeem(with: state)
-            }).disposed(by: disposeBag)
+        cell.rx.redeemTap
+            .bind { [weak self] in self?.viewModel.cellRedeemTapped.accept(cell.tag) }
+            .disposed(by: cell.disposeBag)
+        return cell
     }
 }

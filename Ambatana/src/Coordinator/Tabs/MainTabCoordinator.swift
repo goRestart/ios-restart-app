@@ -211,6 +211,16 @@ extension MainTabCoordinator: MainTabNavigator {
             openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
         }
     }
+    
+    func openAffiliation() {
+        guard featureFlags.affiliationEnabled.isActive else { return }
+        openFullLoginIfNeeded(source: .feed) { [weak self] in
+            guard let navigationController = self?.navigationController else { return }
+            let affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(navigationController)
+            let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
+            navigationController.pushViewController(vc, animated: true)
+        }
+    }
 
     func openSearches() {
         openChild(coordinator: SearchCoordinator(),

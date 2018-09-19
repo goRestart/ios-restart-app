@@ -1,4 +1,5 @@
 import LGComponents
+import LGCoreKit
 import RxCocoa
 import RxSwift
 import UIKit
@@ -139,7 +140,7 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
         switch challenge.status {
         case .ongoing:
             cellIdentifier = AffiliationChallengeInviteFriendsCell.ongoingIdentifier
-        case .completed:
+        case .completed, .pending:
             cellIdentifier = AffiliationChallengeInviteFriendsCell.completedIdentifier
         }
         guard case let .inviteFriends(data) = challenge,
@@ -159,7 +160,7 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
         switch challenge.status {
         case .ongoing:
             cellIdentifier = AffiliationChallengeJoinLetgoCell.ongoingIdentifier
-        case .completed:
+        case .completed, .pending:
             cellIdentifier = AffiliationChallengeJoinLetgoCell.completedIdentifier
         }
         guard case let .joinLetgo(data) = challenge,

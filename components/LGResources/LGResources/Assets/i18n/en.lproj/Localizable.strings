@@ -2582,7 +2582,7 @@
 "payments_offer_status_navbar_title" = "Offer";
 
 // Header title for offer status screen. 1:Name 2:Price 3:Listing
-"payments_offer_status_header_label" = "%1$@, offering %2$@ for %3$@";
+"payments_offer_status_header_label" = "%1$@ is offering %2$@ for %3$@";
 
 // View payment button in offer status screen 
 "payments_offer_status_action_view_code_button" = "View payment code";
@@ -2651,7 +2651,7 @@
 "payments_offer_status_as_seller_meeting_description" = "Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment";
 
 // Buyer offer label in offer status screen as seller
-"payments_offer_status_as_seller_buyer_amount_label" = "Buyer pay";
+"payments_offer_status_as_seller_buyer_amount_label" = "The buyer pays";
 
 // Payment fee in offer status screen as seller
 "payments_offer_status_as_seller_fee_label" = "Payment fee";
