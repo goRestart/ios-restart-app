@@ -51,13 +51,13 @@ final class AffiliationStoreErrorView: UIView {
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.topAnchor.constraint(equalTo: layoutGuide.topAnchor),
 
-            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
-            messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
+            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.veryBigMargin),
+            messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.veryBigMargin),
             messageLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 2*Metrics.veryBigMargin),
 
             retryButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 2*Metrics.bigMargin),
-            retryButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
-            retryButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
+            retryButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.veryBigMargin),
+            retryButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.veryBigMargin),
             retryButton.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
             retryButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight)
         ].activate()

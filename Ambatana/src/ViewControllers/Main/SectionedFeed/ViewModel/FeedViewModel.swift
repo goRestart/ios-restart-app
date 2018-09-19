@@ -53,7 +53,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     var shouldShowUserProfileButton: Bool {
         return featureFlags.community.shouldShowOnTab
     }
-    
+
     private(set) var viewState: ViewState {
         didSet {
             delegate?.vmDidUpdateState(self, state: viewState)
@@ -521,7 +521,9 @@ extension FeedViewModel {
     }
     
     func openAffiliationChallenges() {
-        wireframe?.openAffiliationChallenges()
+        wireframe?.openLoginIfNeededFromFeed(from: .feed, loggedInAction: { [weak self] in
+            self?.wireframe?.openAffiliationChallenges()
+        })
     }
     
     func refreshControlTriggered() {

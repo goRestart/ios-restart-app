@@ -5,6 +5,8 @@ protocol FeedNavigator: class {
     func openFilters(withListingFilters listingFilters: ListingFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?)
     func openAffiliationChallenges()
+    func openLoginIfNeededFromFeed(from: EventParameterLoginSourceValue,
+                                   loggedInAction: @escaping (() -> Void))
     func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate)
     func showPushPermissionsAlert(
         pushPermissionsManager: PushPermissionsManager,
@@ -43,22 +45,30 @@ protocol FeedNavigator: class {
 final class FeedWireframe: FeedNavigator {
     private let nc: UINavigationController
     private let deepLinkMailBox: DeepLinkMailBox
-    private let listingMapAssmebly: ListingsMapAssembly
+    private let listingsMapAssembly: ListingsMapAssembly
+    private let sessionManager: SessionManager
+    private let loginAssembly: LoginAssembly
     private lazy var affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(nc)
 
 
     convenience init(nc: UINavigationController) {
         self.init(nc: nc,
                   deepLinkMailBox: LGDeepLinkMailBox.sharedInstance,
-                  listingMapAssmebly: ListingsMapBuilder.standard(nc))
+                  listingsMapAssembly: ListingsMapBuilder.standard(nc),
+                  loginAssembly: LoginBuilder.standard(context: nc),
+                  sessionManager: Core.sessionManager)
     }
 
     init(nc: UINavigationController,
          deepLinkMailBox: DeepLinkMailBox,
-         listingMapAssmebly: ListingsMapAssembly) {
+         listingsMapAssembly: ListingsMapAssembly,
+         loginAssembly: LoginAssembly,
+         sessionManager: SessionManager) {
         self.nc = nc
-        self.listingMapAssmebly = listingMapAssmebly
+        self.listingsMapAssembly = listingsMapAssembly
         self.deepLinkMailBox = deepLinkMailBox
+        self.loginAssembly = loginAssembly
+        self.sessionManager = sessionManager
     }
     
     func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
@@ -76,6 +86,21 @@ final class FeedWireframe: FeedNavigator {
         let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
         nc.pushViewController(vc, animated: true)
     }
+    
+    func openLoginIfNeededFromFeed(from: EventParameterLoginSourceValue,
+                                   loggedInAction: @escaping (() -> Void)) {
+        guard !sessionManager.loggedIn else {
+            loggedInAction()
+            return
+        }
+        
+        let vc = LoginBuilder.modal.buildMainSignIn(
+            withSource: from,
+            loginAction: loggedInAction,
+            cancelAction: nil)
+        let nav = UINavigationController(rootViewController: vc)
+        nc.present(nav, animated: true, completion: nil)
+    }
 
     func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
         let assembly = QuickLocationFiltersBuilder.modal(nc)
@@ -90,7 +115,7 @@ final class FeedWireframe: FeedNavigator {
                  requester: ListingListMultiRequester,
                  listingFilters: ListingFilters,
                  locationManager: LocationManager) {
-        let vc = listingMapAssmebly.buildListingsMap(filters: listingFilters)
+        let vc = listingsMapAssembly.buildListingsMap(filters: listingFilters)
         nc.pushViewController(vc, animated: true)
     }
     
