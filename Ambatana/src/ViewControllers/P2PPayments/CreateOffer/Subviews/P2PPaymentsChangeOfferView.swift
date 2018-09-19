@@ -3,7 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize texts
 
 final class P2PPaymentsChangeOfferView: UIView {
     var value: Decimal { return currencyTextField.value }
@@ -20,7 +19,7 @@ final class P2PPaymentsChangeOfferView: UIView {
         label.textAlignment = .center
         label.textColor = .grayRegular
         label.font = UIFont.systemFont(size: 18)
-        label.text = "Seller receives"
+        label.text = R.Strings.paymentsChangeOfferAmountLabel
         return label
     }()
 
@@ -28,7 +27,7 @@ final class P2PPaymentsChangeOfferView: UIView {
 
     fileprivate let doneButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
-        button.setTitle("Set new offer", for: .normal)
+        button.setTitle(R.Strings.paymentsChangeOfferConfirmationButton, for: .normal)
         return button
     }()
 

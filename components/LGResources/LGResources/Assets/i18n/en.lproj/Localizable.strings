@@ -52,6 +52,9 @@
 // Affiliation challenges screen. Subtitle.
 "affiliation_challenges_subtitle" = "Earn Points";
 
+// Affiliation challenges screen. Unknown error message
+"affiliation_challenges_unknown_error_message" = "Oops! An error occurred while loading our rewards.";
+
 // Affiliation Invite SMS contacts screen. Title.
 "affiliation_invite_sms_contacts_title" = "Connect contacts";
 
@@ -2553,6 +2556,12 @@
 
 // Info button
 "payments_create_offer_info_button" = "Info";
+
+// Amount label in change offer screen
+"payments_change_offer_amount_label" = "Seller receives";
+
+// Confirmation button in change offer screen 
+"payments_change_offer_confirmation_button" = "Set new offer";
 
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";

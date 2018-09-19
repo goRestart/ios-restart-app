@@ -54,6 +54,8 @@ extension R {
     public static let affiliationChallengesSubtitle = Strings.tr("Localizable", "affiliation_challenges_subtitle")
     /// Rewards
     public static let affiliationChallengesTitle = Strings.tr("Localizable", "affiliation_challenges_title")
+    /// Oops! An error occurred while loading our rewards.
+    public static let affiliationChallengesUnknownErrorMessage = Strings.tr("Localizable", "affiliation_challenges_unknown_error_message")
     /// How it works
     public static let affiliationFaqTitle = Strings.tr("Localizable", "affiliation_faq_title")
     /// Others ways to share
@@ -1794,6 +1796,10 @@ extension R {
     public static let paymentFrequencyPerWeek = Strings.tr("Localizable", "payment_frequency_per_week")
     /// year
     public static let paymentFrequencyPerYear = Strings.tr("Localizable", "payment_frequency_per_year")
+    /// Seller receives
+    public static let paymentsChangeOfferAmountLabel = Strings.tr("Localizable", "payments_change_offer_amount_label")
+    /// Set new offer
+    public static let paymentsChangeOfferConfirmationButton = Strings.tr("Localizable", "payments_change_offer_confirmation_button")
     /// Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item
     public static let paymentsCreateOfferBuyerProtectionDescriptionLabel = Strings.tr("Localizable", "payments_create_offer_buyer_protection_description_label")
     /// Buyer Protection
