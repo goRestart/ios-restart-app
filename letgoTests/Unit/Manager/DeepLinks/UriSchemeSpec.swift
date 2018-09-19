@@ -80,6 +80,19 @@ class UriSchemeSpec: QuickSpec {
                 }
             }
             
+            context("with open affiliation") {
+                beforeEach {
+                    url = URL(string: "letgo://rewards/")
+                    sut = UriScheme.buildFromUrl(url)
+                }
+                it("is not nil") {
+                    expect(sut).toNot(beNil())
+                }
+                it("has a deep link with affiliation challenges action") {
+                    expect(sut.deepLink.action) == DeepLinkAction.affiliation
+                }
+            }
+            
             context("with a chat predefined message URL") {
                 beforeEach {
                     url = URL(string: "letgo://chat/")
