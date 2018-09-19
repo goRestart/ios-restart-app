@@ -1856,7 +1856,7 @@ extension R {
     public static let paymentsOfferStatusAsBuyerSellerOfferStepTitle = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_title")
     /// Accept
     public static let paymentsOfferStatusAsSellerAcceptButton = Strings.tr("Localizable", "payments_offer_status_as_seller_accept_button")
-    /// Buyer pay
+    /// The buyer pays
     public static let paymentsOfferStatusAsSellerBuyerAmountLabel = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_amount_label")
     /// A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.
     public static let paymentsOfferStatusAsSellerBuyerOfferDescription = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_description")
@@ -1888,7 +1888,7 @@ extension R {
     public static let paymentsOfferStatusAsSellerMeetingTitle = Strings.tr("Localizable", "payments_offer_status_as_seller_meeting_title")
     /// You receive
     public static let paymentsOfferStatusAsSellerReceived = Strings.tr("Localizable", "payments_offer_status_as_seller_received")
-    /// %1$@, offering %2$@ for %3$@
+    /// %1$@ is offering %2$@ for %3$@
     public static func paymentsOfferStatusHeaderLabel(_ p1: String, _ p2: String, _ p3: String) -> String {
       return Strings.tr("Localizable", "payments_offer_status_header_label", p1, p2, p3)
     }

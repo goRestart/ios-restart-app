@@ -16,21 +16,19 @@ struct AffiliationPurchase {
 
     let title: String
     let partnerIcon: UIImage
-    let points: String
+    let points: Int
 
     let state: State
 }
 
 final class AffiliationStoreViewModel: BaseViewModel {
     let cellRedeemTapped = PublishRelay<Int>()
-    fileprivate let state = PublishSubject<ViewState>()
+    fileprivate let viewState = BehaviorRelay<ViewState>(value: .loading)
+    private let disposeBag = DisposeBag()
 
     fileprivate let myUserRepository: MyUserRepository
     private let rewardsRepository: RewardRepository
     private let locationManager: LocationManager
-
-    fileprivate let pointsState = PublishSubject<ViewState>()
-    fileprivate let rewardsState = PublishSubject<ViewState>()
 
     var navigator: AffiliationStoreNavigator?
 
@@ -41,11 +39,8 @@ final class AffiliationStoreViewModel: BaseViewModel {
     var points: Int { return rewardPoints?.points ?? 0 }
 
     var moreActions: [UIAction] {
-        return [UIAction(interface: .text(R.Strings.affiliationStoreHistory),
-                         action: { [weak self] in self?.openHistory() })]
+        return [UIAction(interface: .text(R.Strings.affiliationStoreHistory), action: openHistory)]
     }
-
-    var userEmail: String? { return myUserRepository.myUser?.email }
 
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository,
@@ -74,41 +69,70 @@ final class AffiliationStoreViewModel: BaseViewModel {
     }
 
     private func reloadAll() {
-        retrievePurchases()
-        retrievePoints()
+        let points = retrieveAffiliationPoints().asObservable()
+        let rewards = retrieveRewards().asObservable()
+
+        Observable.combineLatest(points, rewards) { ($0, $1) }
+            .bind { [weak self] (points, rewards) in
+                self?.update(with: points, rewards: rewards)
+        }.disposed(by: disposeBag)
     }
 
-    private func retrievePoints() {
-        pointsState.onNext(.loading)
-        rewardsRepository.retrievePoints { [weak self] result in
-            self?.updatePoints(with: result)
+    private func update(with points: RewardPoints?, rewards: [Reward]?) {
+        switch (points, rewards) {
+        case (nil, _):
+            viewState.accept(ViewState.error(genericErrorModel()))
+        case (_, nil):
+            viewState.accept(ViewState.error(genericErrorModel()))
+        case (let points, let rewards):
+            rewardPoints = points
+            mapRewardsToPurchases(rewards: rewards)
+            viewState.accept(.data)
         }
     }
 
-    private func updatePoints(with result: Result<RewardPoints, RepositoryError>) {
-        if let error = result.error {
-            pointsState.onNext(.empty(makeEmpty()))
-        } else if let value = result.value {
-            rewardPoints = value
-            pointsState.onNext(.data)
-        } else {
-            pointsState.onNext(.empty(makeEmpty()))
-        }
+    private func mapRewardsToPurchases(rewards: [Reward]?) {
+        purchases = rewards?
+            .map {
+                return AffiliationPurchase(
+                    title: $0.type.cardTitle,
+                    partnerIcon: AffiliationPartner.amazon.image,
+                    points: $0.points,
+                    state: points > $0.points ? .enabled : .disabled
+                )
+            } ?? []
     }
 
-    private func retrievePurchases() {
-        rewardsState.onNext(.loading)
-        guard let code = locationManager.currentLocation?.countryCode else {
-            rewardsState.onNext(.error(makeInvalidCountry()))
-            return
-        }
-        rewardsRepository.indexRewards(countryCode: code) { [weak self] result in
-            self?.updateRewards(with: result)
-        }
+    private func retrieveAffiliationPoints() -> Single<RewardPoints?> {
+        return Single.create(subscribe: { [weak self] (single) -> Disposable in
+            self?.rewardsRepository.retrievePoints { result in
+                if let points = result.value {
+                    single(.success(points))
+                } else {
+                    single(.success(nil))
+                }
+            }
+            return Disposables.create()
+        })
     }
+
+    private func retrieveRewards() -> Single<[Reward]?> {
+        guard let code = locationManager.currentLocation?.countryCode else { return .just(nil) }
+        return Single.create(subscribe: { [weak self] (single) -> Disposable in
+            self?.rewardsRepository.indexRewards(countryCode: code, completion: { (result) in
+                if result.error != nil {
+                    single(.success(nil))
+                } else if let rewards = result.value {
+                    single(.success(rewards))
+                }
+            })
+            return Disposables.create()
+        })
+    }
+
 
     func redeem(at index: Int) -> Driver<ViewState> {
-        let emptyVM = makeEmpty()
+        let emptyVM = genericErrorModel()
 
         guard let reward = rewards[safeAt: index],
         let code = locationManager.currentLocation?.countryCode else {
@@ -131,24 +155,6 @@ final class AffiliationStoreViewModel: BaseViewModel {
         }.asDriver(onErrorJustReturn: ViewState.error(emptyVM))
     }
 
-    private func updateRewards(with result: Result<[Reward], RepositoryError>) {
-        if result.error != nil {
-            rewardsState.onNext(.error(makeEmpty()))
-        } else if let rewards = result.value, rewards.count > 0 {
-            self.rewards = rewards
-            purchases = rewards
-                .sorted(by: { (r1, r2) -> Bool in
-                    return r1.points < r2.points
-                }).map {
-                    return AffiliationPurchase(title: $0.type.cardTitle,
-                                               partnerIcon: AffiliationPartner.amazon.image,
-                                               points: "\($0.points)",state: .enabled) }
-            rewardsState.onNext(.data)
-        } else {
-            rewardsState.onNext(.empty(makeEmpty()))
-        }
-    }
-
     func openHistory() {
         navigator?.openHistory()
     }
@@ -156,11 +162,8 @@ final class AffiliationStoreViewModel: BaseViewModel {
     func openEditEmail() {
         navigator?.openEditEmail()
     }
-    func showFailBubble(withMessage message: String, duration: TimeInterval) {
-        // TODO will open a PR with this solved
-    }
 
-    fileprivate func makeEmpty() -> LGEmptyViewModel {
+    fileprivate func genericErrorModel() -> LGEmptyViewModel {
         return LGEmptyViewModel(icon: R.Asset.Affiliation.Error.errorOops.image,
                                 title: R.Strings.affiliationStoreUnknownErrorMessage,
                                 body: nil,
@@ -200,16 +203,7 @@ extension RewardType {
 extension AffiliationStoreViewModel: ReactiveCompatible {}
 extension Reactive where Base: AffiliationStoreViewModel {
     var state: Driver<ViewState> {
-        let points: Observable<ViewState> = base.pointsState.asObservable()
-        let rewards: Observable<ViewState> = base.rewardsState.asObservable()
-        return Observable.combineLatest(points, rewards) { return ($0, $1) }
-            .map { tuple -> ViewState in
-                let points = tuple.0
-                let rewards = tuple.1
-                return ViewState.combine(v1: points, v2: rewards)
-            }
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: ViewState.error(base.makeEmpty()))
+        return base.viewState.asObservable().asDriver(onErrorJustReturn: ViewState.error(base.genericErrorModel()))
     }
 
     private var userEmail: Observable<String?> {
@@ -226,21 +220,4 @@ extension Reactive where Base: AffiliationStoreViewModel {
 struct RedeemCellModel {
     let index: Int
     let email: String?
-}
-
-private extension ViewState {
-    static func combine(v1: ViewState, v2: ViewState) -> ViewState {
-        if v1 == .loading || v2 == .loading {
-            return .loading
-        } else if case .error(let model) = v1 {
-            return ViewState.error(model)
-        } else  if case .error(let model) = v2 {
-            return ViewState.error(model)
-        }  else if case .empty(let model) = v1 {
-            return ViewState.empty(model)
-        } else if  case .empty(let model) = v2 {
-            return ViewState.empty(model)
-        }
-        return .data
-    }
 }

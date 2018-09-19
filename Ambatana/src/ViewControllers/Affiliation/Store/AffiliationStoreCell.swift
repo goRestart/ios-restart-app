@@ -28,12 +28,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
         return brand
     }()
 
-    private let pointsLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.font = UIFont.systemBoldFont(size: 14)
-        return label
-    }()
+    private let pointsView = AffiliationPointsView()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -66,7 +61,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
 
     private func setupUI() {
         backgroundColor = .clear
-        addSubviewsForAutoLayout([background, partnerImageView, pointsLabel, titleLabel, redeemButton])
+        addSubviewsForAutoLayout([background, partnerImageView, pointsView, titleLabel, redeemButton])
 
         background.constraintsToEdges(in: contentView).activate()
         [
@@ -75,10 +70,10 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
             partnerImageView.heightAnchor.constraint(equalToConstant: Layout.Size.brand.height),
             partnerImageView.heightAnchor.constraint(equalTo: partnerImageView.widthAnchor),
 
-            pointsLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
-            pointsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
+            pointsView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
+            pointsView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
 
-            titleLabel.topAnchor.constraint(equalTo: pointsLabel.bottomAnchor, constant: Metrics.veryBigMargin),
+            titleLabel.topAnchor.constraint(equalTo: pointsView.bottomAnchor, constant: Metrics.veryBigMargin),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
             titleLabel.trailingAnchor.constraint(equalTo: partnerImageView.leadingAnchor),
 
@@ -97,7 +92,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
 
     func populate(with data: AffiliationPurchase) {
         titleLabel.text = data.title
-        pointsLabel.text = data.points
+        pointsView.set(points: data.points)
         partnerImageView.image = data.partnerIcon
 
         redeemButton.isEnabled = data.state == .enabled
