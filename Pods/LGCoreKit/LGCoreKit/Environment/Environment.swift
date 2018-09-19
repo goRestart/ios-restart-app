@@ -36,4 +36,5 @@ protocol Environment {
     var communityBaseURL: String { get }
     var rewardBaseURL: String { get }
     var challengerBaseURL: String { get }
+    var p2pPaymentsBaseURL: String { get }
 }

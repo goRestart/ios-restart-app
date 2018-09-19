@@ -79,7 +79,7 @@ PODS:
     - CocoaLumberjack/Swift (= 3.3.0)
     - LGCoreKit
     - RxCocoa (= 4.0.0)
-  - LGCoreKit (4.76.0):
+  - LGCoreKit (4.77.0):
     - Alamofire (~> 4.7.3)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -173,7 +173,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - LGCoreKit (from `../letgo-ios-lgcorekit`)
+  - LGCoreKit (= 4.77.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -195,6 +195,7 @@ SPEC REPOS:
   "git@github.com:letgoapp/letgo-ios-specs.git":
     - bumper
     - LGCollapsibleLabel
+    - LGCoreKit
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - AlamofireImage
@@ -249,8 +250,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGComponents:
     :path: components
-  LGCoreKit:
-    :path: "../letgo-ios-lgcorekit"
 
 CHECKOUT OPTIONS:
   KMPlaceholderTextView:
@@ -288,7 +287,7 @@ SPEC CHECKSUMS:
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
   LGComponents: 413ea05a240ec0f2567a8624d396be447bf55372
-  LGCoreKit: 3a504f703f4fbda9545ed569b8ea0edb0ef79766
+  LGCoreKit: 5988553c5371272566296ef3a61fd3edb1a29d84
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -310,6 +309,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: bd45a6ecdad52d04497987d638997a0928dcb9ee
+PODFILE CHECKSUM: 0515d6b4507a13c82d46e02ea54be1d005788915
 
 COCOAPODS: 1.5.3

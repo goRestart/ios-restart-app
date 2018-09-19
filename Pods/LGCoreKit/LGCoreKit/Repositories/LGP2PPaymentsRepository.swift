@@ -41,4 +41,40 @@ final class LGP2PPaymentsRepository: P2PPaymentsRepository {
             handleApiResult(result, completion: completion)
         }
     }
+
+    func getPayCode(offerId: String, completion: GetP2PPaymentPayCodeCompletion?) {
+        dataSource.getPayCode(offerId: offerId) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+
+    func usePayCode(payCode: String, offerId: String, completion: UseP2PPaymentPayCodeCompletion?) {
+        dataSource.usePayCode(payCode: payCode, offerId: offerId) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+
+    func showSeller(id: String, completion: ShowP2PPaymentSellerCompletion?) {
+        dataSource.showSeller(id: id) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+
+    func updateSeller(params: P2PPaymentCreateSellerParams, completion: UpdateP2PPaymentSellerCompletion?) {
+        dataSource.updateSeller(params: params) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+
+    func calculatePayoutPriceBreakdown(amount: Decimal, currency: Currency, completion: CalculateP2PPaymentPayoutPriceBreakdownCompletion?) {
+        dataSource.calculatePayoutPriceBreakdown(amount: amount, currency: currency) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+
+    func requestPayout(params: P2PPaymentRequestPayoutParams, completion: RequestP2PPaymentPayoutCompletion?) {
+        dataSource.requestPayout(params: params) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
 }
