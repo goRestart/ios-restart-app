@@ -708,9 +708,14 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         } else if let myMeetingCell = cell as? ChatMyMeetingCell {
             myMeetingCell.locationDelegate = self
             return myMeetingCell
-        } else if let ctaCell = cell as? ChatCallToActionCell {
+        } else if let ctaCell = cell as? ChatMyCallToActionCell {
             ctaCell.delegate = self
+            ctaCell.reloadDelegate = self
             return ctaCell
+        } else if let ctaCell = cell as? ChatOtherCallToActionCell {
+                ctaCell.delegate = self
+                ctaCell.reloadDelegate = self
+                return ctaCell
         } else if let carouselCell = cell as? ChatCarouselCollectionCell {
             carouselCell.delegate = self
             return carouselCell
@@ -973,8 +978,15 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
 }
 
 extension ChatViewController: ChatDeeplinkCellDelegate {
-
     func openDeeplink(url: URL, trackingKey: String?) {
         viewModel.openDeeplink(url: url, trackingKey: trackingKey)
+    }
+}
+
+extension ChatViewController: ChatReloadCellDelegate {
+    func reload(cell: UITableViewCell) {
+        if let indexPath = tableView.indexPath(for: cell) {
+            tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+        }
     }
 }

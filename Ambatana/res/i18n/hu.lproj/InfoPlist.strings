@@ -1,5 +1,5 @@
 "NSCameraUsageDescription" = "Használnunk kell a kamerát, hogy fotókat készíthess a hirdetéseidhez.";
-"NSContactsUsageDescription" = "letgo needs to access your contacts to invite your friends";
+"NSContactsUsageDescription" = "A barátaid meghívásához a letgo alkalmazásnak hozzá kell férnie a névjegyekhez";
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "A letgo közeli hirdetések megjelenítéséhez és ideális találkozóhelyszínek felajánlásához használja a helyadatokat";
 "NSLocationAlwaysUsageDescription" = "A letgo közeli hirdetések megjelenítéséhez és ideális találkozóhelyszínek felajánlásához használja a helyadatokat";
 "NSLocationWhenInUseUsageDescription" = "A letgo hozzáférést igényel a tartózkodási helyedhez, hogy meg tudja jeleníteni a közeli portékákat";

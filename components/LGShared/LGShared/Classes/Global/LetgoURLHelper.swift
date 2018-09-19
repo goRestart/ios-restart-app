@@ -82,8 +82,7 @@ public final class LetgoURLHelper {
     }
     
     public static func buildInviteFriendsTermsURL() -> URL? {
-        // ABIOS-xxx: To be define website
-        return LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteTermsEndpoint)
+        return LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteInviteTermsEndpoint)
     }
 
     public static func buildPrivacyURL() -> URL? {

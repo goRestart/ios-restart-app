@@ -572,6 +572,12 @@ enum AccessibilityId: Equatable, Accessible {
     case phoneVerificationCountryPickerTable
     case phoneVerificationCountryPickerSearchBar
 
+    // Verification awareness
+    case verificationAwarenessAvatar
+    case verificationAwarenessLabel
+    case verificationAwarenessButton
+    case verificationAwarenessLaterButton
+
     // Settings
     case settingsList
     case settingsLogoutAlertCancel
@@ -1855,6 +1861,16 @@ enum AccessibilityId: Equatable, Accessible {
             return "phoneVerificationCountryPickerTable"
         case .phoneVerificationCountryPickerSearchBar:
             return "phoneVerificationCountryPickerSearchBar"
+
+        // Verification awareness
+        case .verificationAwarenessLabel:
+            return "verificationAwarenessLabel"
+        case .verificationAwarenessAvatar:
+            return "verificationAwarenessAvatar"
+        case .verificationAwarenessButton:
+            return "verificationAwarenessButton"
+        case .verificationAwarenessLaterButton:
+            return "verificationAwarenessLaterButton"
 
         // Settings
         case .settingsList:

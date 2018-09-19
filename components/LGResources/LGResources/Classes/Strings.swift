@@ -54,6 +54,8 @@ extension R {
     public static let affiliationChallengesSubtitle = Strings.tr("Localizable", "affiliation_challenges_subtitle")
     /// Rewards
     public static let affiliationChallengesTitle = Strings.tr("Localizable", "affiliation_challenges_title")
+    /// Oops! An error occurred while loading our rewards.
+    public static let affiliationChallengesUnknownErrorMessage = Strings.tr("Localizable", "affiliation_challenges_unknown_error_message")
     /// How it works
     public static let affiliationFaqTitle = Strings.tr("Localizable", "affiliation_faq_title")
     /// Others ways to share
@@ -104,6 +106,12 @@ extension R {
     }
     /// Redeem gift card
     public static let affiliationStoreRedeemGift = Strings.tr("Localizable", "affiliation_store_redeem_gift")
+<<<<<<< HEAD
+    /// Gift Card Requested
+    public static let affiliationStoreRedeemGiftSuccessHeadline = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_headline")
+    /// We'll send you an email when your gift card is approved. This might take up to 24h.
+    public static let affiliationStoreRedeemGiftSuccessSubheadline = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_subheadline")
+=======
     /// Add email
     public static let affiliationStoreRedeemGiftAddEmail = Strings.tr("Localizable", "affiliation_store_redeem_gift_add_email")
     /// Edit email
@@ -116,6 +124,7 @@ extension R {
     public static let affiliationStoreRedeemGiftSuccessSubheadlineWithEmail = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_subheadline_with_email")
     /// In order to get the gift card you need add an email to your account.
     public static let affiliationStoreRedeemGiftSuccessSubheadlineWithoutEmail = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_subheadline_without_email")
+>>>>>>> master
     /// Resend
     public static let affiliationStoreResendVoucher = Strings.tr("Localizable", "affiliation_store_resend_voucher")
     /// $10 Amazon Gift Card

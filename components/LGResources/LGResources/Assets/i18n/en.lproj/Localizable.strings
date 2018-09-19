@@ -52,6 +52,9 @@
 // Affiliation challenges screen. Subtitle.
 "affiliation_challenges_subtitle" = "Earn Points";
 
+// Affiliation challenges screen. Unknown error message
+"affiliation_challenges_unknown_error_message" = "Oops! An error occurred while loading our rewards.";
+
 // Affiliation Invite SMS contacts screen. Title.
 "affiliation_invite_sms_contacts_title" = "Connect contacts";
 
@@ -2527,6 +2530,9 @@
 // for use as the "year" in "/year"
 "payment_frequency_per_year" = "year";
 
+// Navigation bar title in the create offer screen 
+"payments_create_offer_navbar_title" = "Offer";
+
 // Escrow info in the create offer screen
 "payments_create_offer_escrow_info_label" = "We'll hold the funds in escrow and won't release the payment to the seller until you receive the item";
 
@@ -2553,6 +2559,42 @@
 
 // Info button
 "payments_create_offer_info_button" = "Info";
+
+// Amount label in change offer screen
+"payments_change_offer_amount_label" = "Seller receives";
+
+// Confirmation button in change offer screen 
+"payments_change_offer_confirmation_button" = "Set new offer";
+
+// Seller amount label in apple pay screen
+"payments_payment_request_seller_amount_label" = "total for seller";
+
+// Fee amount label in apple pay screen
+"payments_payment_request_fee_label" = "service fee";
+
+// Total amount to pay in apple pay screen
+"payments_payment_request_total_amount_label" = "seller";
+
+// Header title for offer status screen. 1:Name 2:Price 3:Listing
+"payments_offer_status_header_lalbel" = "%1$@, offering %2$@ for %3$@";
+
+// View payment button in offer status screen 
+"payments_offer_status_action_view_code_button" = "View payment code";
+
+// Chat with seller button in offer status screen 
+"payments_offer_status_action_chat_button" = "Chat with Seller";
+
+// Step one extra status description on offer status screen
+"payments_offer_status_step_one_status_pending" = "Offer pending";
+
+// Step one extra status description on offer status screen
+"payments_offer_status_step_one_status_withdrawn" = "Offer withdrawn";
+
+// Step one extra status description on offer status screen
+"payments_offer_status_step_one_status_expired" = "Offer expired";
+
+// Withdraw offer button in offer status screen
+"payments_offer_status_withdraw_button" = "Withdraw offer";
 
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
