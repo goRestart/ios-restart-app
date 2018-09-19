@@ -34,5 +34,6 @@ protocol Environment {
     var notificationSettingsMailerBaseURL: String { get }
     var reportingBaseURL: String { get }
     var communityBaseURL: String { get }
-    var p2pPaymentsBaseURL: String { get }
+    var rewardBaseURL: String { get }
+    var challengerBaseURL: String { get }
 }

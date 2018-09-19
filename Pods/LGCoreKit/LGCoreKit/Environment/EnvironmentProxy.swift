@@ -71,5 +71,6 @@ class EnvironmentProxy: Environment {
     var notificationSettingsMailerBaseURL: String { return environment.notificationSettingsMailerBaseURL }
     var reportingBaseURL: String { return environment.reportingBaseURL }
     var communityBaseURL: String { return environment.communityBaseURL }
-    var p2pPaymentsBaseURL: String { return environment.p2pPaymentsBaseURL }
+    var rewardBaseURL: String { return environment.rewardBaseURL }
+    var challengerBaseURL: String { return environment.challengerBaseURL }
 }

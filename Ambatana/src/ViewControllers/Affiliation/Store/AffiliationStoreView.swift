@@ -3,9 +3,28 @@ import LGComponents
 private enum Layout {
     static let interItemSpacing: CGFloat = 35
     static let aspect: CGFloat = 0.74
+    enum Height {
+        static let separator: CGFloat = 1
+        static let buttonHeight: CGFloat = 50
+    }
+    static let separatorTop: CGFloat = 2
 }
 
 final class AffiliationStoreView: UIView {
+
+    let viewHistoryButton: UIButton = {
+        let button = LetgoButton(withStyle: ButtonStyle.link(fontSize: .medium))
+        button.setTitle(R.Strings.affiliationStoreViewHistory, for: .normal)
+        return button
+    }()
+
+    private let separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lineGray
+        return view
+    }()
+
+    var collectionTop: NSLayoutConstraint? = nil
 
     private static let flowLayout: UICollectionViewFlowLayout = {
         let flow = UICollectionViewFlowLayout.init()
@@ -42,9 +61,38 @@ final class AffiliationStoreView: UIView {
         backgroundColor = .white
         collectionView.backgroundColor = .white
 
-        addSubviewsForAutoLayout([collectionView])
-        collectionView.constraintToEdges(in: self)
+        let collectionTop = collectionView.topAnchor.constraint(equalTo: topAnchor, constant: Metrics.veryBigMargin)
+        addSubviewsForAutoLayout([viewHistoryButton, separator, collectionView])
+        [
+            viewHistoryButton.topAnchor.constraint(equalTo: topAnchor, constant: Metrics.margin),
+            viewHistoryButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.veryBigMargin),
+            viewHistoryButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.veryBigMargin),
+            viewHistoryButton.heightAnchor.constraint(equalToConstant: Layout.Height.buttonHeight),
+
+            separator.topAnchor.constraint(equalTo: viewHistoryButton.bottomAnchor, constant: Layout.separatorTop),
+            separator.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 2*Metrics.veryBigMargin),
+            separator.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -2*Metrics.veryBigMargin),
+            separator.heightAnchor.constraint(equalToConstant: Layout.Height.separator),
+
+            collectionTop,
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ].activate()
+        self.collectionTop = collectionTop
 
         collectionView.register(type: AffiliationStoreCell.self)
+    }
+
+    func setHistory(enabled: Bool) {
+        if enabled {
+            let views = Layout.Height.buttonHeight + Layout.Height.separator
+            collectionTop?.constant = Metrics.veryBigMargin + views + Metrics.veryShortMargin
+        } else {
+            collectionTop?.constant = Metrics.veryShortMargin
+        }
+
+        separator.alpha = enabled ? 1 : 0
+        viewHistoryButton.alpha = enabled ? 1 : 0
     }
 }

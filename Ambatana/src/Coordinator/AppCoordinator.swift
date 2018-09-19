@@ -1093,8 +1093,10 @@ fileprivate extension AppCoordinator {
             }
         case .invite(let userid, let username):
             openAppInvite(myUserId: userid, myUserName: username)
+        case .userVerification:
+            mainTabBarCoordinator.openUserVerificationView()
         }
-        
+
         if let afterDelayClosure = afterDelayClosure {
             delay(0.5) { 
                 afterDelayClosure()
@@ -1114,7 +1116,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView, .appRating, .invite, .p2pPaymentsOffer:
+             .notificationCenter, .appStore, .webView, .appRating, .invite, .userVerification, .p2pPaymentsOffer:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
