@@ -49,11 +49,13 @@ final class P2PPaymentsPayoutTypeSelectorView: UIView {
     @objc private func bankOptionSelected() {
         bankAccountOption.isSelected = true
         debitCardOption.isSelected = false
+        optionSelectedRelay.accept(.bankAccount)
     }
 
     @objc private func debitCardOptionSelected() {
         bankAccountOption.isSelected = false
         debitCardOption.isSelected = true
+        optionSelectedRelay.accept(.debitCard)
     }
 
     override var intrinsicContentSize: CGSize {

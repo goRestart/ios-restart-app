@@ -193,10 +193,10 @@ final class P2PPaymentsPayoutPersonalInfoView: UIView {
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            stackView.widthAnchor.constraint(equalTo: widthAnchor),
+            stackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -24),
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 12),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -12),
 
             actionButton.heightAnchor.constraint(equalToConstant: 55),
             actionButton.widthAnchor.constraint(equalTo: widthAnchor),

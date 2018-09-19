@@ -183,6 +183,8 @@
 		09AA63052140B87000702387 /* PaymentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AA63032140B52D00702387 /* PaymentsManager.swift */; };
 		09AA63072140CD7B00702387 /* PaymentRequestListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AA63062140CD7B00702387 /* PaymentRequestListener.swift */; };
 		09AA63082140CD7B00702387 /* PaymentRequestListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AA63062140CD7B00702387 /* PaymentRequestListener.swift */; };
+		09B6C9CC2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B6C9CB2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift */; };
+		09B6C9CD2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B6C9CB2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift */; };
 		0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
 		0A01C3612100B51F00B0129F /* QuickChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C3602100B51F00B0129F /* QuickChatViewController.swift */; };
 		0A01C3622100C2D300B0129F /* QuickChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C3602100B51F00B0129F /* QuickChatViewController.swift */; };
@@ -2723,6 +2725,7 @@
 		0999EED421465FA800D45333 /* P2PPaymentsOfferStatusStepListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusStepListView.swift; sourceTree = "<group>"; };
 		09AA63032140B52D00702387 /* PaymentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsManager.swift; sourceTree = "<group>"; };
 		09AA63062140CD7B00702387 /* PaymentRequestListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequestListener.swift; sourceTree = "<group>"; };
+		09B6C9CB2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutRequestView.swift; sourceTree = "<group>"; };
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A01C3602100B51F00B0129F /* QuickChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickChatViewController.swift; sourceTree = "<group>"; };
 		0A045980213D15890082C469 /* ListingStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingStatusView.swift; sourceTree = "<group>"; };
@@ -4300,6 +4303,7 @@
 			isa = PBXGroup;
 			children = (
 				094489A6214F720800F6EACB /* P2PPaymentsPayoutPersonalInfoView.swift */,
+				09B6C9CB2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift */,
 				094489A9214F721800F6EACB /* P2PPaymentsPayoutBankAccountView.swift */,
 				0938412921521513001A4BD3 /* P2PPaymentsPayoutCardView.swift */,
 				094489AF214F728900F6EACB /* P2PPaymentsPayoutPaymentSelectorView.swift */,
@@ -10560,6 +10564,7 @@
 				097EDBE1213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */,
 				C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */,
 				2E423784205A7AA00077B62A /* BumpUpTimerBarView.swift in Sources */,
+				09B6C9CC2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift in Sources */,
 				C6977E7D2118441200B57E54 /* ServiceAttributes+LG.swift in Sources */,
 				2E1BC3FD1E648C0A0063D1A7 /* ReceiptURLProvider.swift in Sources */,
 				0AF0A46120EA58C100E9176F /* LPCenterPopupView.swift in Sources */,
@@ -11494,6 +11499,7 @@
 				320162E52110A13E00B7819D /* DiffUtility.swift in Sources */,
 				0A04D5CE20760A9D00471B9D /* CoreABGroup.swift in Sources */,
 				0114DBF620CEA2D200C6DD0B /* NotificationSettingsAccessorListViewModel.swift in Sources */,
+				09B6C9CD2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
 				094489A5214F674300F6EACB /* P2PPaymentsTextField.swift in Sources */,
 				0AEB4FF72018C795003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
