@@ -4,7 +4,7 @@ public class HelpViewModel: BaseViewModel {
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let installationRepository: InstallationRepository
 
-    public var router: HelpWireframe?
+    var router: HelpWireframe?
     
     convenience override public init() {
         self.init(myUserRepository: Core.myUserRepository, installationRepository: Core.installationRepository)
