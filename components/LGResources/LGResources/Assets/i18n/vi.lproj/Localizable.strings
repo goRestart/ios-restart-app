@@ -771,7 +771,7 @@
 "payments_create_offer_fee_label" = "Payment fee";
 "payments_create_offer_fee_percentage_label" = "Payment fee (%@)";
 "payments_create_offer_info_button" = "Info";
-"payments_create_offer_navbar_title" = "Offer";
+"payments_create_offer_navbar_title" = "Ưu đãi";
 "payments_create_offer_seller_price_label" = "Seller receives";
 "payments_create_offer_total_label" = "You pay";
 "payments_offer_status_action_chat_button" = "Chat with Seller";
@@ -789,7 +789,7 @@
 "payments_offer_status_as_buyer_seller_offer_step_status_declined" = "Offer declined";
 "payments_offer_status_as_buyer_seller_offer_step_title" = "The seller accepts";
 "payments_offer_status_as_seller_accept_button" = "Accept";
-"payments_offer_status_as_seller_buyer_amount_label" = "Buyer pay";
+"payments_offer_status_as_seller_buyer_amount_label" = "The buyer pays";
 "payments_offer_status_as_seller_buyer_offer_description" = "A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.";
 "payments_offer_status_as_seller_buyer_offer_status_accepted" = "Offer accepted";
 "payments_offer_status_as_seller_buyer_offer_status_declined" = "Offer declined";
@@ -804,7 +804,7 @@
 "payments_offer_status_as_seller_meeting_description" = "Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment";
 "payments_offer_status_as_seller_meeting_title" = "Meet in person and get paid";
 "payments_offer_status_as_seller_received" = "You receive";
-"payments_offer_status_header_label" = "%1$@, offering %2$@ for %3$@";
+"payments_offer_status_header_label" = "%1$@ is offering %2$@ for %3$@";
 "payments_offer_status_navbar_title" = "Offer";
 "payments_onboarding_first_step_description" = "You'll be charged and letgo will securely hold your funds in escrow until you confirm you've received the item";
 "payments_onboarding_first_step_title" = "Make your offer";

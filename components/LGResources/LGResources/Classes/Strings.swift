@@ -1802,6 +1802,12 @@ extension R {
     public static let paymentsChangeOfferAmountLabel = Strings.tr("Localizable", "payments_change_offer_amount_label")
     /// Set new offer
     public static let paymentsChangeOfferConfirmationButton = Strings.tr("Localizable", "payments_change_offer_confirmation_button")
+    /// Ok
+    public static let paymentsChangeOfferInvalidAmountAlertButton = Strings.tr("Localizable", "payments_change_offer_invalid_amount_alert_button")
+    /// Oops! Your offer must be between %@ and %@.
+    public static func paymentsChangeOfferInvalidAmountAlertMessage(_ p1: String, _ p2: String) -> String {
+      return Strings.tr("Localizable", "payments_change_offer_invalid_amount_alert_message", p1, p2)
+    }
     /// Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item
     public static let paymentsCreateOfferBuyerProtectionDescriptionLabel = Strings.tr("Localizable", "payments_create_offer_buyer_protection_description_label")
     /// Buyer Protection
@@ -1856,7 +1862,7 @@ extension R {
     public static let paymentsOfferStatusAsBuyerSellerOfferStepTitle = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_title")
     /// Accept
     public static let paymentsOfferStatusAsSellerAcceptButton = Strings.tr("Localizable", "payments_offer_status_as_seller_accept_button")
-    /// Buyer pay
+    /// The buyer pays
     public static let paymentsOfferStatusAsSellerBuyerAmountLabel = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_amount_label")
     /// A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.
     public static let paymentsOfferStatusAsSellerBuyerOfferDescription = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_description")
@@ -1888,7 +1894,7 @@ extension R {
     public static let paymentsOfferStatusAsSellerMeetingTitle = Strings.tr("Localizable", "payments_offer_status_as_seller_meeting_title")
     /// You receive
     public static let paymentsOfferStatusAsSellerReceived = Strings.tr("Localizable", "payments_offer_status_as_seller_received")
-    /// %1$@, offering %2$@ for %3$@
+    /// %1$@ is offering %2$@ for %3$@
     public static func paymentsOfferStatusHeaderLabel(_ p1: String, _ p2: String, _ p3: String) -> String {
       return Strings.tr("Localizable", "payments_offer_status_header_label", p1, p2, p3)
     }
