@@ -1,5 +1,7 @@
 import UIKit
 import LGComponents
+import RxSwift
+import RxCocoa
 
 // TODO: @juolgon localize all texts
 
@@ -10,8 +12,8 @@ struct P2PPaymentsPayoutPaymentSelectorState {
     }
 
     let kind: Kind
-    let feeText: String?
-    let fundsAvailableText: String?
+    var feeText: String?
+    var fundsAvailableText: String?
 
     static let empty = P2PPaymentsPayoutPaymentSelectorState(kind: .standard,
                                                              feeText: nil,
@@ -139,5 +141,19 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         instantSubtitleLabel.text = "Get the money in \(state.fundsAvailableText ?? "")"
         backgroundColor = isSelected ? UIColor.veryLightGray : UIColor.white
         layer.borderColor = isSelected ? UIColor.primaryColor.cgColor : UIColor.grayRegular.cgColor
+    }
+}
+
+extension Reactive where Base: P2PPaymentsPayoutPaymentSelectorView {
+    var feeText: Binder<String?> {
+        return Binder(base) { selector, text in
+            selector.state.feeText = text
+        }
+    }
+
+    var fundsAvailableText: Binder<String?> {
+        return Binder(base) { selector, text in
+            selector.state.fundsAvailableText = text
+        }
     }
 }

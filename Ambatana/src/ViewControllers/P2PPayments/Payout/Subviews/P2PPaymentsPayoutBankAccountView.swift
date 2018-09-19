@@ -6,6 +6,11 @@ import RxCocoa
 // TODO: @juolgon Localize all texts
 
 final class P2PPaymentsPayoutBankAccountView: UIView {
+    var bankAccountParams: P2PPaymentsPayoutViewModel.BankAccountPayoutParams {
+        return P2PPaymentsPayoutViewModel.BankAccountPayoutParams(routingNumber: routingNumberTextField.text ?? "",
+                                                                  accountNumber: accountNumberTextField.text ?? "")
+    }
+
     private let routingNumberTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
         textField.setPlaceholderText("Routing number (9 digits)")
@@ -20,7 +25,7 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
         return textField
     }()
 
-    private let standardPaymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
+    fileprivate let standardPaymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
         let selector = P2PPaymentsPayoutPaymentSelectorView()
         selector.state = P2PPaymentsPayoutPaymentSelectorState(kind: .standard,
                                                                feeText: nil,
@@ -29,7 +34,7 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
         return selector
     }()
 
-    let actionButton: UIButton = {
+    fileprivate let actionButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
         button.setTitle("Payout", for: .normal)
         return button
@@ -53,7 +58,6 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
     }()
 
     private var bottomContraint: NSLayoutConstraint?
-    private let keyboardHelper = KeyboardHelper()
     private let disposeBag = DisposeBag()
 
     init() {
@@ -132,21 +136,16 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
         let adjustedFrame = textField.frame.insetBy(dx: 0, dy: -50)
         scrollView.scrollRectToVisible(adjustedFrame, animated: true)
     }
-
-    func setupKeyboardHelper() {
-        keyboardHelper
-            .rx_keyboardHeight
-            .asDriver()
-            .skip(1)
-            .distinctUntilChanged()
-            .drive(onNext: { [weak self] height in
-                self?.bottomContraint?.constant = -height
-                self?.layoutIfNeeded()
-            }).disposed(by: disposeBag)
-    }
 }
 
 // MARK: - Rx
 
-extension Reactive where Base: P2PPaymentsPayoutCardView {
+extension Reactive where Base: P2PPaymentsPayoutBankAccountView {
+    var payoutButtonTap: ControlEvent<Void> {
+        return base.actionButton.rx.tap
+    }
+
+    var standardFundsAvailableText: Binder<String?> {
+        return base.standardPaymentSelector.rx.fundsAvailableText
+    }
 }

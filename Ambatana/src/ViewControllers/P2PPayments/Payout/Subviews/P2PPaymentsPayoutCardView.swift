@@ -7,6 +7,14 @@ import Stripe
 // TODO: @juolgon Localize all texts
 
 final class P2PPaymentsPayoutCardView: UIView {
+    var cardPayoutParams: P2PPaymentsPayoutViewModel.CardPayoutParams {
+        return P2PPaymentsPayoutViewModel.CardPayoutParams(name: nameTextField.text ?? "",
+                                                           cardNumber: cardTextField.cardNumber ?? "",
+                                                           cardExpirationMonth: Int(cardTextField.expirationMonth),
+                                                           cardExpirationYear: Int(cardTextField.expirationYear),
+                                                           cvc: cardTextField.cvc ?? "")
+    }
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(size: 14)
@@ -36,7 +44,7 @@ final class P2PPaymentsPayoutCardView: UIView {
         return label
     }()
 
-    private let standardPaymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
+    fileprivate let standardPaymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
         let selector = P2PPaymentsPayoutPaymentSelectorView()
         selector.state = P2PPaymentsPayoutPaymentSelectorState(kind: .standard,
                                                                feeText: nil,
@@ -45,7 +53,7 @@ final class P2PPaymentsPayoutCardView: UIView {
         return selector
     }()
 
-    private let instantPaymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
+    fileprivate let instantPaymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
         let selector = P2PPaymentsPayoutPaymentSelectorView()
         selector.state = P2PPaymentsPayoutPaymentSelectorState(kind: .standard,
                                                                feeText: nil,
@@ -53,7 +61,7 @@ final class P2PPaymentsPayoutCardView: UIView {
         return selector
     }()
 
-    let actionButton: UIButton = {
+    fileprivate let actionButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
         button.setTitle("Payout", for: .normal)
         return button
@@ -77,7 +85,6 @@ final class P2PPaymentsPayoutCardView: UIView {
     }()
 
     private var bottomContraint: NSLayoutConstraint?
-    private let keyboardHelper = KeyboardHelper()
     private let disposeBag = DisposeBag()
 
     init() {
@@ -191,21 +198,24 @@ final class P2PPaymentsPayoutCardView: UIView {
         standardPaymentSelector.isSelected = false
         instantPaymentSelector.isSelected = true
     }
-
-    func setupKeyboardHelper() {
-        keyboardHelper
-            .rx_keyboardHeight
-            .asDriver()
-            .skip(1)
-            .distinctUntilChanged()
-            .drive(onNext: { [weak self] height in
-                self?.bottomContraint?.constant = -height
-                self?.layoutIfNeeded()
-            }).disposed(by: disposeBag)
-    }
 }
 
 // MARK: - Rx
 
 extension Reactive where Base: P2PPaymentsPayoutCardView {
+    var payoutButtonTap: ControlEvent<Void> {
+        return base.actionButton.rx.tap
+    }
+
+    var instantPaymentFeeText: Binder<String?> {
+        return base.instantPaymentSelector.rx.feeText
+    }
+
+    var instantFundsAvailableText: Binder<String?> {
+        return base.instantPaymentSelector.rx.fundsAvailableText
+    }
+
+    var standardFundsAvailableText: Binder<String?> {
+        return base.standardPaymentSelector.rx.fundsAvailableText
+    }
 }
