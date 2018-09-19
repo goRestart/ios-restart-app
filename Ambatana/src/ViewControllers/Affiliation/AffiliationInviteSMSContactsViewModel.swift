@@ -133,7 +133,8 @@ final class AffiliationInviteSMSContactsViewModel: BaseViewModel {
     func smsText() -> SocialMessage {
         let myUserId = myUserRepository.myUser?.objectId
         let myUserName = myUserRepository.myUser?.name
-        let socialMessage: SocialMessage = AffiliationSocialMessage(myUserId:myUserId, myUserName: myUserName)
+        let myUserAvatar = myUserRepository.myUser?.avatar?.fileURL?.absoluteString
+        let socialMessage: SocialMessage = AffiliationSocialMessage(myUserId:myUserId, myUserName: myUserName, myUserAvatar: myUserAvatar)
         return socialMessage
     }
     
