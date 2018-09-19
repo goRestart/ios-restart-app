@@ -1796,6 +1796,10 @@ extension R {
     public static let paymentFrequencyPerWeek = Strings.tr("Localizable", "payment_frequency_per_week")
     /// year
     public static let paymentFrequencyPerYear = Strings.tr("Localizable", "payment_frequency_per_year")
+    /// Seller receives
+    public static let paymentsChangeOfferAmountLabel = Strings.tr("Localizable", "payments_change_offer_amount_label")
+    /// Set new offer
+    public static let paymentsChangeOfferConfirmationButton = Strings.tr("Localizable", "payments_change_offer_confirmation_button")
     /// Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item
     public static let paymentsCreateOfferBuyerProtectionDescriptionLabel = Strings.tr("Localizable", "payments_create_offer_buyer_protection_description_label")
     /// Buyer Protection
@@ -1812,10 +1816,34 @@ extension R {
     }
     /// Info
     public static let paymentsCreateOfferInfoButton = Strings.tr("Localizable", "payments_create_offer_info_button")
+    /// Offer
+    public static let paymentsCreateOfferNavbarTitle = Strings.tr("Localizable", "payments_create_offer_navbar_title")
     /// Seller receives
     public static let paymentsCreateOfferSellerPriceLabel = Strings.tr("Localizable", "payments_create_offer_seller_price_label")
     /// You pay
     public static let paymentsCreateOfferTotalLabel = Strings.tr("Localizable", "payments_create_offer_total_label")
+    /// Chat with Seller
+    public static let paymentsOfferStatusActionChatButton = Strings.tr("Localizable", "payments_offer_status_action_chat_button")
+    /// View payment code
+    public static let paymentsOfferStatusActionViewCodeButton = Strings.tr("Localizable", "payments_offer_status_action_view_code_button")
+    /// %1$@, offering %2$@ for %3$@
+    public static func paymentsOfferStatusHeaderLalbel(_ p1: String, _ p2: String, _ p3: String) -> String {
+      return Strings.tr("Localizable", "payments_offer_status_header_lalbel", p1, p2, p3)
+    }
+    /// Offer expired
+    public static let paymentsOfferStatusStepOneStatusExpired = Strings.tr("Localizable", "payments_offer_status_step_one_status_expired")
+    /// Offer pending
+    public static let paymentsOfferStatusStepOneStatusPending = Strings.tr("Localizable", "payments_offer_status_step_one_status_pending")
+    /// Offer withdrawn
+    public static let paymentsOfferStatusStepOneStatusWithdrawn = Strings.tr("Localizable", "payments_offer_status_step_one_status_withdrawn")
+    /// Withdraw offer
+    public static let paymentsOfferStatusWithdrawButton = Strings.tr("Localizable", "payments_offer_status_withdraw_button")
+    /// service fee
+    public static let paymentsPaymentRequestFeeLabel = Strings.tr("Localizable", "payments_payment_request_fee_label")
+    /// total for seller
+    public static let paymentsPaymentRequestSellerAmountLabel = Strings.tr("Localizable", "payments_payment_request_seller_amount_label")
+    /// seller
+    public static let paymentsPaymentRequestTotalAmountLabel = Strings.tr("Localizable", "payments_payment_request_total_amount_label")
     /// Didn't get the code?
     public static let phoneVerificationCodeInputViewContentSubaction = Strings.tr("Localizable", "phone_verification_code_input_view_content_subaction")
     /// You can request another code if you don't receive it within %@

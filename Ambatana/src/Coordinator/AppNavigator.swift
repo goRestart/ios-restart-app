@@ -22,11 +22,13 @@ protocol AppNavigator: class {
                                      maxCountdown: TimeInterval,
                                      typePage: EventParameterTypePage?)
     func openConfirmUsername(token: String)
-    func canOpenOffensiveReportAlert() -> Bool
+    func canOpenModalView() -> Bool
     func openOffensiveReportAlert()
     func showBottomBubbleNotification(data: BubbleNotificationData,
                                       duration: TimeInterval,
                                       alignment: BubbleNotificationView.Alignment,
                                       style: BubbleNotificationView.Style)
     func openCommunityTab()
+    func shouldShowVerificationAwareness() -> Bool
+    func openVerificationAwarenessView()
 }

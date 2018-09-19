@@ -81,3 +81,7 @@ protocol UserVerificationNavigator: class {
     func openEmailVerification()
     func openPhoneNumberVerification(editing: Bool)
 }
+
+protocol UserVerificationAwarenessNavigator: class {
+    func closeAwarenessView()
+}
