@@ -27,7 +27,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
     var showLoginWithEmailWasCalled: Bool = false
     var showRememberPasswordWasCalled: Bool = false
     var showRecaptchaWasCalled: Bool = false
-    
+
     override func spec() {
         describe("SignUpLogInViewModelSpec") {
             var sut: SignUpLogInViewModel!
@@ -1458,6 +1458,9 @@ extension SignUpLogInViewModelSpec: LoginNavigator {
     func showAlert(withTitle: String?, andBody: String, andType: AlertType, andActions: [UIAction]) {
         showAlertWasCalled = true
     }
+
+    func showPasswordlessEmail() {}
+    func showPasswordlessEmailSent(email: String) {}
 }
 
 extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {

@@ -30,7 +30,9 @@ final class AffiliationStoreViewModel: BaseViewModel {
 
     var navigator: AffiliationStoreNavigator?
 
+    private(set) var rewards: [Reward] = []
     private(set) var purchases: [AffiliationPurchase] = []
+
     private(set) var rewardPoints: RewardPoints? = nil
     var points: Int { return rewardPoints?.points ?? 0 }
 
@@ -93,10 +95,34 @@ final class AffiliationStoreViewModel: BaseViewModel {
         }
     }
 
+    func redeem(at index: Int) -> Driver<ViewState> {
+        let emptyVM = makeEmpty()
+
+        guard let reward = rewards[safeAt: index],
+            let code = locationManager.currentLocation?.countryCode else { return .just(.error(emptyVM)) }
+        let id = reward.id
+
+        return Observable<ViewState>.create { [weak self] (observer) in
+            observer.onNext(.loading)
+            self?.rewardsRepository.createVoucher(parameters: RewardCreateVoucherParams(rewardId: id,
+                                                                                        countryCode: code),
+                                                  completion: { (result) in
+                                                    if let _ = result.error {
+                                                        observer.onNext(ViewState.error(emptyVM))
+                                                    } else {
+                                                        observer.onNext(.data)
+                                                        observer.onCompleted()
+                                                    }
+            })
+            return Disposables.create()
+        }.asDriver(onErrorJustReturn: ViewState.error(emptyVM))
+    }
+
     private func updateRewards(with result: Result<[Reward], RepositoryError>) {
-        if let error = result.error {
+        if result.error != nil {
             rewardsState.onNext(.error(makeEmpty()))
         } else if let rewards = result.value, rewards.count > 0 {
+            self.rewards = rewards
             purchases = rewards
                 .sorted(by: { (r1, r2) -> Bool in
                     return r1.points < r2.points
@@ -112,6 +138,10 @@ final class AffiliationStoreViewModel: BaseViewModel {
 
     func openHistory() {
         navigator?.openHistory()
+    }
+
+    func showFailBubble(withMessage message: String, duration: TimeInterval) {
+        // TODO will open a PR with this solved
     }
 
     fileprivate func makeEmpty() -> LGEmptyViewModel {

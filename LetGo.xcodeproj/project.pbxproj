@@ -1374,6 +1374,10 @@
 		50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
 		50FEFA1E20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */; };
 		50FEFA1F20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */; };
+		5532C4E620932542006FD3EA /* PasswordlessEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532C4E520932542006FD3EA /* PasswordlessEmailViewController.swift */; };
+		5532C4E720932542006FD3EA /* PasswordlessEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532C4E520932542006FD3EA /* PasswordlessEmailViewController.swift */; };
+		5532C4E9209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532C4E8209325DA006FD3EA /* PasswordlessEmailViewModel.swift */; };
+		5532C4EA209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532C4E8209325DA006FD3EA /* PasswordlessEmailViewModel.swift */; };
 		5555531E203D92F900C913D2 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */; };
 		5569D9A820848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */; };
 		5569D9A920848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */; };
@@ -1382,6 +1386,10 @@
 		556E26F9203C3C940098ECF0 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */; };
 		55769A622109C19600E66696 /* CommunityTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55769A612109C19500E66696 /* CommunityTabNavigator.swift */; };
 		55769A632109C19600E66696 /* CommunityTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55769A612109C19500E66696 /* CommunityTabNavigator.swift */; };
+		55A8FBE42097193000F35D65 /* PasswordlessEmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A8FBE32097193000F35D65 /* PasswordlessEmailSentViewController.swift */; };
+		55A8FBE52097193100F35D65 /* PasswordlessEmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A8FBE32097193000F35D65 /* PasswordlessEmailSentViewController.swift */; };
+		55A8FBE72097194B00F35D65 /* PasswordlessEmailSentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A8FBE62097194B00F35D65 /* PasswordlessEmailSentViewModel.swift */; };
+		55A8FBE82097194B00F35D65 /* PasswordlessEmailSentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A8FBE62097194B00F35D65 /* PasswordlessEmailSentViewModel.swift */; };
 		55D305CB2101E55800E80843 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D305CA2101E55800E80843 /* CommunityViewController.swift */; };
 		55D305CC2101E55800E80843 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D305CA2101E55800E80843 /* CommunityViewController.swift */; };
 		55D305CE2101E63600E80843 /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D305CD2101E63600E80843 /* CommunityViewModel.swift */; };
@@ -1419,6 +1427,10 @@
 		6A0D7341204D612500892663 /* EditUserBioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0D733F204D612500892663 /* EditUserBioViewController.swift */; };
 		6A0D7343204D613500892663 /* EditUserBioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0D7342204D613500892663 /* EditUserBioViewModel.swift */; };
 		6A0D7344204D613500892663 /* EditUserBioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0D7342204D613500892663 /* EditUserBioViewModel.swift */; };
+		6A11F9952097128300AA7C3B /* PasswordlessUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A11F9942097128300AA7C3B /* PasswordlessUsernameViewController.swift */; };
+		6A11F9972097129000AA7C3B /* PasswordlessUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A11F9962097129000AA7C3B /* PasswordlessUsernameViewModel.swift */; };
+		6A11F9982097129500AA7C3B /* PasswordlessUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A11F9942097128300AA7C3B /* PasswordlessUsernameViewController.swift */; };
+		6A11F99A2097129700AA7C3B /* PasswordlessUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A11F9962097129000AA7C3B /* PasswordlessUsernameViewModel.swift */; };
 		6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0481C635F6B00C1BFE3 /* TourLoginViewController.swift */; };
 		6A12E04B1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E04A1C635FA000C1BFE3 /* TourLoginViewController.xib */; };
 		6A12E04C1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E04A1C635FA000C1BFE3 /* TourLoginViewController.xib */; };
@@ -1498,6 +1510,10 @@
 		6A5E1A151D548F5400F92692 /* UIScrollView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D71D548F5400F92692 /* UIScrollView+LG.swift */; };
 		6A5E1A161D548F5400F92692 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D81D548F5400F92692 /* UITextField+LG.swift */; };
 		6A5E1A171D548F5400F92692 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D81D548F5400F92692 /* UITextField+LG.swift */; };
+		6A660A53209B13A300358BF8 /* PasswordlessUsernameNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A660A51209B13A200358BF8 /* PasswordlessUsernameNavigator.swift */; };
+		6A660A54209B13A300358BF8 /* PasswordlessUsernameNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A660A51209B13A200358BF8 /* PasswordlessUsernameNavigator.swift */; };
+		6A660A55209B13A300358BF8 /* PasswordlessUsernameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A660A52209B13A200358BF8 /* PasswordlessUsernameCoordinator.swift */; };
+		6A660A56209B13A300358BF8 /* PasswordlessUsernameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A660A52209B13A200358BF8 /* PasswordlessUsernameCoordinator.swift */; };
 		6A6C756B207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C756A207B7F0000845A88 /* UserVerificationEmailViewController.swift */; };
 		6A6C756C207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C756A207B7F0000845A88 /* UserVerificationEmailViewController.swift */; };
 		6A6C756E207B83B500845A88 /* UserVerificationEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C756D207B83B500845A88 /* UserVerificationEmailViewModel.swift */; };
@@ -1527,6 +1543,8 @@
 		6AA9E90C203EC5DC004EACC4 /* UserProfileTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */; };
 		6AA9E90D203EDCB2004EACC4 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E909203EC59D004EACC4 /* RatingView.swift */; };
 		6AA9E90E203EDCB5004EACC4 /* UserProfileTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */; };
+		6ABAB53C20A063A800B84FC8 /* PasswordlessEmailViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABAB53B20A063A700B84FC8 /* PasswordlessEmailViewModelSpec.swift */; };
+		6ABAB53E20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABAB53D20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift */; };
 		6AC5D73F213D25480072D640 /* UserVerificationAwarenessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC5D73E213D25480072D640 /* UserVerificationAwarenessViewController.swift */; };
 		6AC5D740213D25480072D640 /* UserVerificationAwarenessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC5D73E213D25480072D640 /* UserVerificationAwarenessViewController.swift */; };
 		6AC5D742213D255C0072D640 /* UserVerificationAwarenessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC5D741213D255C0072D640 /* UserVerificationAwarenessViewModel.swift */; };
@@ -3339,10 +3357,14 @@
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
 		50F681F11C8F4586001F33A3 /* RxPaginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPaginable.swift; sourceTree = "<group>"; };
 		50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleCellType.swift; sourceTree = "<group>"; };
+		5532C4E520932542006FD3EA /* PasswordlessEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailViewController.swift; sourceTree = "<group>"; };
+		5532C4E8209325DA006FD3EA /* PasswordlessEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailViewModel.swift; sourceTree = "<group>"; };
 		5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCodeInputTextField.swift; sourceTree = "<group>"; };
 		556E26F5203C3BA70098ECF0 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		556E26F8203C3C940098ECF0 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		55769A612109C19500E66696 /* CommunityTabNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTabNavigator.swift; sourceTree = "<group>"; };
+		55A8FBE32097193000F35D65 /* PasswordlessEmailSentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailSentViewController.swift; sourceTree = "<group>"; };
+		55A8FBE62097194B00F35D65 /* PasswordlessEmailSentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailSentViewModel.swift; sourceTree = "<group>"; };
 		55D305CA2101E55800E80843 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		55D305CD2101E63600E80843 /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
 		55DFCDD82073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationNumberInputViewController.swift; sourceTree = "<group>"; };
@@ -3370,6 +3392,8 @@
 		6A0B6A0F2052BC9F00EAA1F5 /* UserProfileRelationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRelationView.swift; sourceTree = "<group>"; };
 		6A0D733F204D612500892663 /* EditUserBioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserBioViewController.swift; sourceTree = "<group>"; };
 		6A0D7342204D613500892663 /* EditUserBioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserBioViewModel.swift; sourceTree = "<group>"; };
+		6A11F9942097128300AA7C3B /* PasswordlessUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasswordlessUsernameViewController.swift; path = ../ConfirmUsername/PasswordlessUsernameViewController.swift; sourceTree = "<group>"; };
+		6A11F9962097129000AA7C3B /* PasswordlessUsernameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasswordlessUsernameViewModel.swift; path = ../ConfirmUsername/PasswordlessUsernameViewModel.swift; sourceTree = "<group>"; };
 		6A12E0481C635F6B00C1BFE3 /* TourLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLoginViewController.swift; sourceTree = "<group>"; };
 		6A12E04A1C635FA000C1BFE3 /* TourLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourLoginViewController.xib; sourceTree = "<group>"; };
 		6A12E04E1C635FF900C1BFE3 /* TourLoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLoginViewModel.swift; sourceTree = "<group>"; };
@@ -3411,6 +3435,8 @@
 		6A5E19D61D548F5400F92692 /* UINavigationController+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+LG.swift"; sourceTree = "<group>"; };
 		6A5E19D71D548F5400F92692 /* UIScrollView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+LG.swift"; sourceTree = "<group>"; };
 		6A5E19D81D548F5400F92692 /* UITextField+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+LG.swift"; sourceTree = "<group>"; };
+		6A660A51209B13A200358BF8 /* PasswordlessUsernameNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordlessUsernameNavigator.swift; path = "Ambatana/src/ViewControllers/Log In/Passwordless/ConfirmUsername/PasswordlessUsernameNavigator.swift"; sourceTree = SOURCE_ROOT; };
+		6A660A52209B13A200358BF8 /* PasswordlessUsernameCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordlessUsernameCoordinator.swift; path = "Ambatana/src/ViewControllers/Log In/Passwordless/ConfirmUsername/PasswordlessUsernameCoordinator.swift"; sourceTree = SOURCE_ROOT; };
 		6A6C756A207B7F0000845A88 /* UserVerificationEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVerificationEmailViewController.swift; sourceTree = "<group>"; };
 		6A6C756D207B83B500845A88 /* UserVerificationEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVerificationEmailViewModel.swift; sourceTree = "<group>"; };
 		6A6D19662147D53C00C4C247 /* UserVerificationAwarenessWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVerificationAwarenessWireframe.swift; sourceTree = "<group>"; };
@@ -3426,6 +3452,8 @@
 		6AA32F391CA29CC4003A1677 /* AdminViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
 		6AA9E909203EC59D004EACC4 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		6AA9E90B203EC5DC004EACC4 /* UserProfileTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTabsView.swift; sourceTree = "<group>"; };
+		6ABAB53B20A063A700B84FC8 /* PasswordlessEmailViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailViewModelSpec.swift; sourceTree = "<group>"; };
+		6ABAB53D20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessUsernameViewModelSpec.swift; sourceTree = "<group>"; };
 		6AC5D73E213D25480072D640 /* UserVerificationAwarenessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVerificationAwarenessViewController.swift; sourceTree = "<group>"; };
 		6AC5D741213D255C0072D640 /* UserVerificationAwarenessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVerificationAwarenessViewModel.swift; sourceTree = "<group>"; };
 		6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCellDrawer.swift; sourceTree = "<group>"; };
@@ -5826,6 +5854,7 @@
 		50560B8A1B25D18F0021D8D9 /* Log In */ = {
 			isa = PBXGroup;
 			children = (
+				5532C4E4209322CB006FD3EA /* Passwordless */,
 				507440DD1E3F97EB006976F7 /* LoginAppearance+Helper.swift */,
 				C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */,
 				C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */,
@@ -6504,6 +6533,8 @@
 				8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */,
 				6A94D709205FB4B600B27C41 /* EditUserBioViewModelSpec.swift */,
 				6A7F9591205928530044D1AC /* UserProfileViewModelSpec.swift */,
+				6ABAB53B20A063A700B84FC8 /* PasswordlessEmailViewModelSpec.swift */,
+				6ABAB53D20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift */,
 				3251C3D720B96B100014B6BA /* ListingListViewModelSpec.swift */,
 				32FB455520CFD5C800F229D0 /* SpyListingListViewModelDelegate.swift */,
 				C690704F2107130E00AF27E4 /* DropdownViewModelSpec.swift */,
@@ -6637,6 +6668,18 @@
 				F52405C82029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift */,
 			);
 			path = LGEmptyView;
+			sourceTree = "<group>";
+		};
+		5532C4E4209322CB006FD3EA /* Passwordless */ = {
+			isa = PBXGroup;
+			children = (
+				6A660A50209B138900358BF8 /* ConfirmUsername */,
+				5532C4E520932542006FD3EA /* PasswordlessEmailViewController.swift */,
+				5532C4E8209325DA006FD3EA /* PasswordlessEmailViewModel.swift */,
+				55A8FBE32097193000F35D65 /* PasswordlessEmailSentViewController.swift */,
+				55A8FBE62097194B00F35D65 /* PasswordlessEmailSentViewModel.swift */,
+			);
+			path = Passwordless;
 			sourceTree = "<group>";
 		};
 		556E26F4203C3B190098ECF0 /* UserProfile */ = {
@@ -6877,6 +6920,17 @@
 			);
 			path = Chat;
 			sourceTree = "<group>";
+		};
+		6A660A50209B138900358BF8 /* ConfirmUsername */ = {
+			isa = PBXGroup;
+			children = (
+				6A11F9942097128300AA7C3B /* PasswordlessUsernameViewController.swift */,
+				6A11F9962097129000AA7C3B /* PasswordlessUsernameViewModel.swift */,
+				6A660A52209B13A200358BF8 /* PasswordlessUsernameCoordinator.swift */,
+				6A660A51209B13A200358BF8 /* PasswordlessUsernameNavigator.swift */,
+			);
+			path = ConfirmUsername;
+      sourceTree = "<group>";
 		};
 		6A6D19692147D71000C4C247 /* UserVerification */ = {
 			isa = PBXGroup;
@@ -9251,6 +9305,7 @@
 				50D08DB71E69AF14009CC260 /* MockTracker.swift in Sources */,
 				50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */,
 				727463AD1FB0674D00AD8261 /* ListingPrice+LGSpec.swift in Sources */,
+				6ABAB53E20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift in Sources */,
 				C6A5CC6020E50FFD00610A3A /* AccessibilityIdSpec.swift in Sources */,
 				502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */,
 				C69070502107130E00AF27E4 /* DropdownViewModelSpec.swift in Sources */,
@@ -9267,6 +9322,7 @@
 				724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
 				50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */,
+				6ABAB53C20A063A800B84FC8 /* PasswordlessEmailViewModelSpec.swift in Sources */,
 				50D08DD21E69AF14009CC260 /* ConfigSpec.swift in Sources */,
 				5011939320C7C3BE00FA7C20 /* LGAnalyticsSessionManagerSpec.swift in Sources */,
 				0A890A88212061760091ED75 /* MediaViewerStandardSpec.swift in Sources */,
@@ -9752,6 +9808,7 @@
 				42F1DDFF20BD9C22002E2EE7 /* FilterServicesSection.swift in Sources */,
 				0A6FECDE2130344000B57004 /* EditListingNavigator.swift in Sources */,
 				C7B5887F1CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
+				6A660A55209B13A300358BF8 /* PasswordlessUsernameCoordinator.swift in Sources */,
 				0A0C0491209C91A30028A75D /* NotificationSettingsMainViewController.swift in Sources */,
 				50D15422214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift in Sources */,
 				507532E21FEA47D400FCF9D5 /* UILabel+Rx.swift in Sources */,
@@ -9848,6 +9905,7 @@
 				55769A622109C19600E66696 /* CommunityTabNavigator.swift in Sources */,
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				C7B5885F1CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
+				5532C4E620932542006FD3EA /* PasswordlessEmailViewController.swift in Sources */,
 				0A6FED1C2130344000B57004 /* RateUserNavigator.swift in Sources */,
 				C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */,
 				C6C8936D20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
@@ -10083,6 +10141,7 @@
 				C605853E20DBD545008025FD /* FilterAttributeGridCell.swift in Sources */,
 				2E303F49207BAD7300C2CE1D /* CellMapViewer.swift in Sources */,
 				501495EE1D895B5800AC67CA /* DiscoverListingListRequester.swift in Sources */,
+				6A11F9952097128300AA7C3B /* PasswordlessUsernameViewController.swift in Sources */,
 				425B40A720A99981000968CF /* MKMapView+Location.swift in Sources */,
 				C730FD111E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
 				6A5E19FE1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
@@ -10118,6 +10177,7 @@
 				0A759E971FB472F60030FDE0 /* ListingCardViewModel.swift in Sources */,
 				326C72E2208A2935009D21DB /* FeedViewModelType.swift in Sources */,
 				C7B5887D1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
+				5532C4E9209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */,
 				6A38A9AE2077610400F3B292 /* UserVerificationCell.swift in Sources */,
 				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				0A73F1FC209216070016CC72 /* LGTimer.swift in Sources */,
@@ -10168,6 +10228,7 @@
 				0A6E56AE1F8E233500419DDC /* RelatedListingsViewModel.swift in Sources */,
 				0915FB972140FE340003D5B0 /* P2PPaymentsOfferStatusViewModel.swift in Sources */,
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
+				55A8FBE42097193000F35D65 /* PasswordlessEmailSentViewController.swift in Sources */,
 				C7126BDB1E6053AA00038CC4 /* ListingVMTrackHelper.swift in Sources */,
 				723A45C91DDC4D470001D02C /* UILabel+LG.swift in Sources */,
 				32448E802101F3CC00EFF33A /* LoadingViewController.swift in Sources */,
@@ -10272,6 +10333,7 @@
 				C7DE8ACB1C888761005CF37E /* EditListingViewModel.swift in Sources */,
 				0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */,
 				C21E6074208A8828008A1956 /* RecordedVideo.swift in Sources */,
+				6A11F9972097129000AA7C3B /* PasswordlessUsernameViewModel.swift in Sources */,
 				0AE6F4FE20F8DE2A00D58BCE /* SearchNavigator.swift in Sources */,
 				727463B21FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				0183BB21203C8BEE00204383 /* PostingGetStartedViewController.swift in Sources */,
@@ -10292,6 +10354,7 @@
 				320843B820A1FDF7009A1DC5 /* DiscoveryABGroup.swift in Sources */,
 				0A376DCD2150175E00DFFB7F /* AffiliationVoucherCell.swift in Sources */,
 				4219244120761CF900862CEF /* PromoCell.swift in Sources */,
+				6A660A53209B13A300358BF8 /* PasswordlessUsernameNavigator.swift in Sources */,
 				0A751487214272570049E135 /* UserRatingListViewModel.swift in Sources */,
 				42566BF020ED211600120431 /* TooltipStyle.swift in Sources */,
 				0183BB18203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
@@ -10414,6 +10477,7 @@
 				6AE1666E2101F0DA00D6B6ED /* CommunityTabCoordinator.swift in Sources */,
 				C202E3F921005A2500E1A5E5 /* Checkbox.swift in Sources */,
 				2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */,
+				55A8FBE72097194B00F35D65 /* PasswordlessEmailSentViewModel.swift in Sources */,
 				0AFE311F2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */,
 				2ED296BE213E7B98003E26A3 /* ChatOtherInfoLocationView.swift in Sources */,
@@ -10868,6 +10932,7 @@
 				506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				0A376DBC214FACE100DFFB7F /* AffiliationModalView.swift in Sources */,
 				C79842021CC8E8C900C300FF /* User+LG.swift in Sources */,
+				6A660A56209B13A300358BF8 /* PasswordlessUsernameCoordinator.swift in Sources */,
 				F59755FB20B5A8AA00C5103F /* UIApplication+AnalyticsApplication.swift in Sources */,
 				50D250051DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */,
 				0A376DC0214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */,
@@ -10976,6 +11041,7 @@
 				C6977E922121B17200B57E54 /* OverlayDisplayStyle.swift in Sources */,
 				C6C8936E20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
+				5532C4E720932542006FD3EA /* PasswordlessEmailViewController.swift in Sources */,
 				0A6FED252130344000B57004 /* ChangePasswordNavigator.swift in Sources */,
 				C7111F001CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				C6F3CEFC20FF69A800AF4D38 /* LGChevronView.swift in Sources */,
@@ -11205,6 +11271,7 @@
 				0A04D5D420760A9D00471B9D /* MoneyABGroup.swift in Sources */,
 				C79740501D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				C75B5DC61D59E09500112368 /* ListingCarouselViewModel.swift in Sources */,
+				6A11F9982097129500AA7C3B /* PasswordlessUsernameViewController.swift in Sources */,
 				C78F9DBD1DCA525F00884064 /* ChatTextView.swift in Sources */,
 				C7B588821CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
 				556E26F7203C3C0D0098ECF0 /* UserProfileViewController.swift in Sources */,
@@ -11238,6 +11305,7 @@
 				6A38A9AF2077610400F3B292 /* UserVerificationCell.swift in Sources */,
 				0A7A05892018A9AE0009D74C /* ListingDeckOnBoardingViewController.swift in Sources */,
 				F57D3A311FED01A6006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				5532C4EA209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */,
 				326C72E3208A2935009D21DB /* FeedViewModelType.swift in Sources */,
 				0A6FED1B2130344000B57004 /* RateUserModalWireframe.swift in Sources */,
 				0A6FECFF2130344000B57004 /* SimpleListingsWireframe.swift in Sources */,
@@ -11280,6 +11348,7 @@
 				0A6FECB32130344000B57004 /* LoginStandardWireframe.swift in Sources */,
 				0938412821510442001A4BD3 /* ChatPaymentBannerView.swift in Sources */,
 				C788EED51CC6935600B9E26F /* UserListingListRequester.swift in Sources */,
+				55A8FBE52097193100F35D65 /* PasswordlessEmailSentViewController.swift in Sources */,
 				C7126BDC1E6053AA00038CC4 /* ListingVMTrackHelper.swift in Sources */,
 				6A12E0561C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				F57D3A2F1FED01A6006F2CA4 /* TagCollectionViewCell.swift in Sources */,
@@ -11369,6 +11438,7 @@
 				72D928E21E83EB990030F4C3 /* RatingManager.swift in Sources */,
 				0AE6F4FF20F8DF6600D58BCE /* SearchNavigator.swift in Sources */,
 				C7BAC9CE1E49E81E005BD0AF /* Listing+LG.swift in Sources */,
+				6A11F99A2097129700AA7C3B /* PasswordlessUsernameViewModel.swift in Sources */,
 				0904D895213F310C00D5D554 /* P2PPaymentsListingHeaderView.swift in Sources */,
 				2E8097F32066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift in Sources */,
 				0A6FECCD2130344000B57004 /* RememberPasswordWireframe.swift in Sources */,
@@ -11399,6 +11469,7 @@
 				50D15409214A5BFF00221B06 /* AffiliationInviteSMSContactsBuilder.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* EditListingViewModel.swift in Sources */,
 				42713C68207629A10077F88A /* PromoCell.swift in Sources */,
+				6A660A54209B13A300358BF8 /* PasswordlessUsernameNavigator.swift in Sources */,
 				2E151D7120A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift in Sources */,
 				C674D31E20ED1BA20027E3AE /* ListingAttributeGridTheme.swift in Sources */,
 				727EF06D1E0BE16D0037DA4E /* CountryCode.swift in Sources */,
@@ -11513,6 +11584,7 @@
 				C202E3FA21005A2500E1A5E5 /* Checkbox.swift in Sources */,
 				0A6FECC32130344000B57004 /* FiltersModalWireframe.swift in Sources */,
 				0AFE31202056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
+				55A8FBE82097194B00F35D65 /* PasswordlessEmailSentViewModel.swift in Sources */,
 				0AA6A5681FFFBE7B00F72F4A /* LGCGAffineTransform.swift in Sources */,
 				4287173E20655DB500EE334C /* LGNavBarMetrics.swift in Sources */,
 				42CA899A20973F7300CE7B5B /* ListingsMapViewController.swift in Sources */,

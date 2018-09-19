@@ -25,6 +25,7 @@ protocol FeatureFlaggeable: class {
     var mutePushNotifications: MutePushNotifications { get }
     var showProTagUserProfile: Bool { get }
     var showExactLocationForPros: Bool { get }
+    var showPasswordlessLogin: ShowPasswordlessLogin { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }

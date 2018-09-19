@@ -93,11 +93,8 @@ final class ChatViewMessageAdapter {
             type = ChatViewMessageType.multiAnswer(question: question, answers: answers)
         case .cta(let ctaData, let ctas):
             type = ChatViewMessageType.cta(ctaData: ctaData, ctas: ctas)
-        case .carousel:
-            type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
-        // ABIOS-4837 waiting for back-end implementation to show this new message type
-//        case .carousel(let cards, let answers):
-//            type = ChatViewMessageType.carousel(cards: cards, answers: answers)
+        case .carousel(let cards, let answers):
+            type = ChatViewMessageType.carousel(cards: cards, answers: answers)
         case .system(let message):
             type = ChatViewMessageType.system(message: message)
         }
@@ -136,10 +133,8 @@ final class ChatViewMessageAdapter {
             type = ChatViewMessageType.cta(ctaData: ctaData, ctas: ctas)
         case .unsupported(let defaultText):
             type = ChatViewMessageType.unsupported(text: defaultText ?? R.Strings.chatMessageTypeNotSupported)
-        case .carousel:
-            type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
-        // ABIOS-4837 waiting for back-end implementation to show this new message type
-//        case .carousel(let cards, let answers):
+        case .carousel(let cards, let answers):
+            type = ChatViewMessageType.carousel(cards: cards, answers: answers)
         case .system(let message):
             type = ChatViewMessageType.system(message: message)
         }

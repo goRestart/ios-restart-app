@@ -73,4 +73,16 @@ class LoginModalWireframe: LoginNavigator {
     func close(onFinish callback: (()->())? = nil) {
         controller.dismiss(animated: true, completion: callback)
     }
+
+    func showPasswordlessEmail() {
+        guard let nc = controller.navigationController else { return }
+        let vc = LoginBuilder.standard(context: nc).buildPasswordlessEmail()
+        nc.pushViewController(vc, animated: true)
+    }
+
+    func showPasswordlessEmailSent(email: String) {
+        let vc = LoginBuilder.modal.buildPasswordlesEmailSent(email: email)
+        let nav = UINavigationController(rootViewController: vc)
+        controller.present(nav, animated: true)
+    }
 }

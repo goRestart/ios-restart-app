@@ -70,4 +70,15 @@ final class LoginStandardWireframe: LoginNavigator {
         nc.popViewController(animated: true)
         callback?()
     }
+
+    func showPasswordlessEmail() {
+        let vc = LoginBuilder.standard(context: nc).buildPasswordlessEmail()
+        nc.pushViewController(vc, animated: true)
+    }
+
+    func showPasswordlessEmailSent(email: String) {
+        let vc = LoginBuilder.modal.buildPasswordlesEmailSent(email: email)
+        let nav = UINavigationController(rootViewController: vc)
+        nc.present(nav, animated: true)
+    }
 }
