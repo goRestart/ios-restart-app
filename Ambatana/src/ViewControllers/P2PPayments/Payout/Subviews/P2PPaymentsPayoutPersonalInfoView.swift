@@ -6,6 +6,17 @@ import RxCocoa
 // TODO: @juolgon Localize all texts
 
 final class P2PPaymentsPayoutPersonalInfoView: UIView {
+    var registrationParams: P2PPaymentsPayoutViewModel.RegistrationParams {
+        return P2PPaymentsPayoutViewModel.RegistrationParams(firstName: firstNameTextField.text ?? "",
+                                                             lastName: lastNameTextField.text ?? "",
+                                                             dateOfBirth: datePicker.date,
+                                                             ssnLastFour: ssnLastFourTextField.text ?? "",
+                                                             address: addressTextField.text ?? "",
+                                                             zipCode: zipCodeTextField.text ?? "",
+                                                             city: cityTextField.text ?? "",
+                                                             state: stateTextField.text ?? "")
+    }
+
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.timeStyle = .none
@@ -97,7 +108,7 @@ final class P2PPaymentsPayoutPersonalInfoView: UIView {
         return picker
     }()
 
-    private let actionButton: UIButton = {
+    fileprivate let actionButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
         button.setTitle("Register your account", for: .normal)
         return button
@@ -121,7 +132,6 @@ final class P2PPaymentsPayoutPersonalInfoView: UIView {
     }()
 
     private var bottomContraint: NSLayoutConstraint?
-    private let keyboardHelper = KeyboardHelper()
     private let disposeBag = DisposeBag()
 
     init() {
@@ -199,10 +209,10 @@ final class P2PPaymentsPayoutPersonalInfoView: UIView {
             stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -12),
 
             actionButton.heightAnchor.constraint(equalToConstant: 55),
-            actionButton.widthAnchor.constraint(equalTo: widthAnchor),
+            actionButton.widthAnchor.constraint(equalTo: widthAnchor, constant: -48),
             actionButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            actionButton.topAnchor.constraint(equalTo: stackView.bottomAnchor),
-            actionButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            actionButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 32),
+            actionButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -12),
         ])
     }
 
@@ -232,21 +242,12 @@ final class P2PPaymentsPayoutPersonalInfoView: UIView {
         let adjustedFrame = textField.frame.insetBy(dx: 0, dy: -50)
         scrollView.scrollRectToVisible(adjustedFrame, animated: true)
     }
-
-    func setupKeyboardHelper() {
-        keyboardHelper
-            .rx_keyboardHeight
-            .asDriver()
-            .skip(1)
-            .distinctUntilChanged()
-            .drive(onNext: { [weak self] height in
-                self?.bottomContraint?.constant = -height
-                self?.layoutIfNeeded()
-            }).disposed(by: disposeBag)
-    }
 }
 
 // MARK: - Rx
 
 extension Reactive where Base: P2PPaymentsPayoutPersonalInfoView {
+    var registerButtonTap: ControlEvent<Void> {
+        return base.actionButton.rx.tap
+    }
 }
