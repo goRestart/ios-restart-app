@@ -10,6 +10,7 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
         static let estimatedRowHeight: CGFloat = 225
     }
 
+    private let refreshControl = UIRefreshControl()
     private let tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.separatorStyle = .none
@@ -24,7 +25,6 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
         tableView.estimatedRowHeight = Layout.estimatedSectionHeaderHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.allowsSelection = false
-
         tableView.register(AffiliationChallengesHeaderView.self,
                            forHeaderFooterViewReuseIdentifier: AffiliationChallengesHeaderView.reusableID)
         tableView.register(AffiliationChallengeInviteFriendsCell.self,
@@ -44,6 +44,10 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
     var inviteFriendsButtonPressedCallback: (() -> Void)?
     var confirmPhonePressedCallback: (() -> Void)?
     var postListingPressedCallback: (() -> Void)?
+    var refreshControlCallback: (() -> Void)?
+    var isLoading: Binder<Bool> {
+        return refreshControl.rx.isRefreshing
+    }
 
 
     // MARK: - Lifecycle
@@ -68,6 +72,16 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
 
         tableView.delegate = self
         tableView.dataSource = self
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+
+    @objc private func refresh() {
+        refreshControlCallback?()
     }
 
 
@@ -76,6 +90,7 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
     func set(viewModel: AffiliationChallengesDataVM) {
         self.viewModel = viewModel
         tableView.reloadData()
+        refreshControl.endRefreshing()
     }
 
 
