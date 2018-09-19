@@ -2563,6 +2563,15 @@
 // Confirmation button in change offer screen 
 "payments_change_offer_confirmation_button" = "Set new offer";
 
+// Seller amount label in apple pay screen
+"payments_payment_request_seller_amount_label" = "total for seller";
+
+// Fee amount label in apple pay screen
+"payments_payment_request_fee_label" = "service fee";
+
+// Total amount to pay in apple pay screen
+"payments_payment_request_total_amount_label" = "seller";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 
