@@ -6,12 +6,6 @@ import RxCocoa
 // TODO: @juolgon Localize all texts
 
 final class P2PPaymentsPayoutBankAccountView: UIView {
-    private enum Layout {
-        static let contentHorizontalMargin: CGFloat = 24
-        static let buttonHeight: CGFloat = 55
-        static let buttonBottomMargin: CGFloat = 16
-    }
-
     private let routingNumberTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
         textField.setPlaceholderText("Routing number (9 digits)")
@@ -26,16 +20,16 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
         return textField
     }()
 
-    private let paymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
+    private let standardPaymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
         let selector = P2PPaymentsPayoutPaymentSelectorView()
         selector.state = P2PPaymentsPayoutPaymentSelectorState(kind: .standard,
-                                                               isSelected: true,
                                                                feeText: nil,
                                                                fundsAvailableText: nil)
+        selector.isSelected = true
         return selector
     }()
 
-    private let actionButton: UIButton = {
+    let actionButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
         button.setTitle("Payout", for: .normal)
         return button
@@ -73,8 +67,8 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
     private func setup() {
         configureTextFields()
         configureStackView()
-        scrollView.addSubviewsForAutoLayout([stackView, paymentSelector, actionButton])
-        addSubviewForAutoLayout(scrollView)
+        configureScrollView()
+        addSubviewsForAutoLayout([scrollView, actionButton])
         setupConstraints()
         setupRx()
     }
@@ -88,35 +82,39 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
 
     private func configureTextFields() {
         routingNumberTextField.nextResponderTextField = accountNumberTextField
-        [routingNumberTextField,
-         accountNumberTextField].forEach { textfield in
+        [routingNumberTextField, accountNumberTextField].forEach { textfield in
             textfield.addTarget(self,
                                 action: #selector(textFieldDidBeginEditing(textField:)),
                                 for: UIControlEvents.editingDidBegin)
         }
     }
 
+    private func configureScrollView() {
+        scrollView.contentInset.bottom = 55 + 12
+        scrollView.addSubviewsForAutoLayout([stackView, standardPaymentSelector])
+    }
+
     private func setupConstraints() {
         bottomContraint = scrollView.bottomAnchor.constraint(equalTo: safeBottomAnchor)
         bottomContraint?.isActive = true
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: safeTopAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeTopAnchor, constant: 12),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            stackView.widthAnchor.constraint(equalTo: widthAnchor),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -24),
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 4),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 12),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -12),
 
-            paymentSelector.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 12),
-            paymentSelector.widthAnchor.constraint(equalTo: widthAnchor, constant: -32),
+            standardPaymentSelector.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 32),
+            standardPaymentSelector.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            standardPaymentSelector.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
 
             actionButton.heightAnchor.constraint(equalToConstant: 55),
-            actionButton.widthAnchor.constraint(equalTo: widthAnchor),
-            actionButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            actionButton.topAnchor.constraint(equalTo: paymentSelector.bottomAnchor),
-            actionButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            actionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            actionButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -12),
         ])
     }
 
@@ -150,5 +148,5 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
 
 // MARK: - Rx
 
-extension Reactive where Base: P2PPaymentsPayoutBankAccountView {
+extension Reactive where Base: P2PPaymentsPayoutCardView {
 }
