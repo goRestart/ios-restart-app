@@ -105,7 +105,44 @@ final class AffiliationStoreViewController: BaseViewController {
         pointsView.alpha = 0
     }
 
-    fileprivate func setHistory(enabled: Bool) {
+    fileprivate func updateRedeem(with state: ViewState) {
+        switch state {
+        case .loading:
+            showLoading()
+        case .data:
+            pointsView.alpha = 1
+            dismissLoadingMessageAlert({ [weak self] in
+                self?.showRedeemSuccess()
+            })
+        case .empty(_), .error(_):
+            pointsView.alpha = 1
+            viewModel.showFailBubble(withMessage: "Gimme the money bro", duration: TimeInterval(3))
+        }
+    }
+
+    fileprivate func showRedeemSuccess() {
+        let action = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
+                              action: { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        })
+        let data = AffiliationModalData(
+            icon: R.Asset.Affiliation.icnModalSuccess.image,
+            headline: R.Strings.affiliationStoreRedeemGiftSuccessHeadline,
+            subheadline: R.Strings.affiliationStoreRedeemGiftSuccessSubheadlineWithEmail,
+            primary: action,
+            secondary: nil
+        )
+        let vm = AffiliationModalViewModel(data: data)
+        let vc = AffiliationModalViewController(viewModel: vm)
+
+        vm.active = true
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .overCurrentContext
+        
+        present(vc, animated: true, completion: nil)
+    }
+
+      fileprivate func setHistory(enabled: Bool) {
         storeView.setHistory(enabled: enabled)
     }
 }
@@ -140,6 +177,17 @@ extension AffiliationStoreViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeue(type: AffiliationStoreCell.self, for: indexPath),
             let data = viewModel.purchases[safeAt: indexPath.row] else { return UICollectionViewCell() }
         cell.populate(with: data)
+        cell.tag = indexPath.row
+        cell.redeemButton.removeTarget(self, action: nil, for: .allEvents)
+        cell.redeemButton.addTarget(self, action: #selector(redeem(sender:)), for: .touchUpInside)
         return cell
+    }
+
+    @objc private func redeem(sender: UIView) {
+        viewModel
+            .redeem(at: sender.tag)
+            .drive(onNext: { [weak self] (state) in
+                self?.updateRedeem(with: state)
+            }).disposed(by: disposeBag)
     }
 }

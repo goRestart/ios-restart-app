@@ -41,7 +41,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
         return label
     }()
 
-    private let redeemButton: LetgoButton = {
+    let redeemButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .medium))
         button.setTitle(R.Strings.affiliationStoreRedeemGift, for: .normal)
         return button

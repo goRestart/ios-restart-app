@@ -15,6 +15,8 @@ protocol LoginAssembly {
                           appearance: LoginAppearance,
                           loginAction: (()->())?,
                           cancelAction: (()->())?) -> PopupSignUpViewController
+    func buildPasswordlessEmail() -> PasswordlessEmailViewController
+    func buildPasswordlesEmailSent(email: String) -> PasswordlessEmailSentViewController
 }
 
 enum LoginBuilder {
@@ -105,6 +107,32 @@ extension LoginBuilder: LoginAssembly {
             vm.router = LoginStandardWireframe(nc: context)
         case .modal:
             vm.router = PopupLoginModalWireframe(controller: vc)
+        }
+        return vc
+    }
+
+    func buildPasswordlessEmail() -> PasswordlessEmailViewController {
+        let vm = PasswordlessEmailViewModel()
+        let vc = PasswordlessEmailViewController(viewModel: vm)
+
+        switch self {
+        case .standard(let context):
+            vm.router = LoginStandardWireframe(nc: context)
+        case .modal:
+            vm.router = LoginModalWireframe(controller: vc)
+        }
+
+        return vc
+    }
+
+    func buildPasswordlesEmailSent(email: String) -> PasswordlessEmailSentViewController {
+        let vm = PasswordlessEmailSentViewModel(email: email)
+        let vc = PasswordlessEmailSentViewController(viewModel: vm)
+        switch self {
+        case .standard(let context):
+            vm.router = LoginStandardWireframe(nc: context)
+        case .modal:
+            vm.router = LoginModalWireframe(controller: vc)
         }
         return vc
     }

@@ -22,6 +22,8 @@ final class AffiliationModalViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .blackTextHighAlpha
+
+        setupRx()
     }
 
     private func setupRx() {
