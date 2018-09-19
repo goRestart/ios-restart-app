@@ -272,6 +272,7 @@ private extension FeedViewModelSpec {
     class FeedWireframeMock: FeedNavigator {
         var openFiltersWasCalled: (state: Bool, listingFilters: ListingFilters?) = (false, nil)
         var openAffiliationChallengesWasCalled: Bool = false
+        var openLoginIfNeedInFeedCalled: Bool = false
         var openLocationWasCalled: Bool = false
         var showPushPermissionsAlertWasCalled: Bool = false
         var openMapWasCalled: Bool = false
@@ -287,6 +288,11 @@ private extension FeedViewModelSpec {
         
         func openAffiliationChallenges() {
             openAffiliationChallengesWasCalled = true
+        }
+        
+        func openLoginIfNeededFromFeed(from: EventParameterLoginSourceValue,
+                                       loggedInAction: @escaping (() -> Void)) {
+            openLoginIfNeedInFeedCalled = true
         }
         
         func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {

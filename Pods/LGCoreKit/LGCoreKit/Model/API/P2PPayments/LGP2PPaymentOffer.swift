@@ -7,6 +7,7 @@ struct LGP2PPaymentOffer: P2PPaymentOffer {
     let listingId: String
     let offerStatus: Status
     let offerFees: LGP2PPaymentOfferFees
+    let fundsAvailableDate: Date?
     var fees: P2PPaymentOfferFees { return offerFees }
     var status: P2PPaymentOfferStatus { return offerStatus.asP2PPaymentOfferStatus }
     var objectId: String? { return id }
@@ -62,6 +63,8 @@ extension LGP2PPaymentOffer {
 // MARK: - Decodable Container
 
 extension LGP2PPaymentOffer: Decodable {
+    private static let dateFormatter = LGDateFormatter()
+
     enum PaymentOfferRootKeys: String, CodingKey {
         case data
     }
@@ -79,6 +82,7 @@ extension LGP2PPaymentOffer: Decodable {
         case net
         case currency
         case fees
+        case fundsAvailableDate = "funds_available_on"
     }
 
     enum FeesKeys: String, CodingKey {
@@ -96,6 +100,16 @@ extension LGP2PPaymentOffer: Decodable {
         sellerId = try attributes.decode(String.self, forKey: .sellerId)
         listingId = try attributes.decode(String.self, forKey: .listingId)
         offerStatus = try attributes.decode(Status.self, forKey: .status)
+        if let fundsAvailable = try attributes.decodeIfPresent(String.self, forKey: .fundsAvailableDate) {
+            if let fundsAvailableDate = LGP2PPaymentOffer.dateFormatter.date(from: fundsAvailable) {
+                self.fundsAvailableDate = fundsAvailableDate
+            } else {
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [CodingKeys.fundsAvailableDate],
+                                                                        debugDescription: "\(fundsAvailable)"))
+            }
+        } else {
+            fundsAvailableDate = nil
+        }
         let amount = try attributes.decode(Decimal.self, forKey: .net)
         let total = try attributes.decode(Decimal.self, forKey: .gross)
         let currency = try attributes.decode(Currency.self, forKey: .currency)

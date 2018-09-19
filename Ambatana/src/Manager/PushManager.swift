@@ -22,6 +22,7 @@ final class PushManager {
         static let backgroundLocationTimeout: Double = 20
         static let emergencyLocateKey = "emergency-locate"
         static let offensiveReportKey = "offensive-report"
+        static let verificationCampaign = "verification-campaign"
     }
 
     // MARK: - Lifecycle
@@ -74,6 +75,10 @@ final class PushManager {
         if keyValueStorage[.showOffensiveReportOnNextStart] {
             showOffensiveReportAlert()
         }
+
+        if keyValueStorage[.showVerificationAwarenessOnNextStart] {
+            showVerificationAwarenessView()
+        }
     }
 
     func application(_ application: Application,
@@ -82,6 +87,7 @@ final class PushManager {
 
         let emergency = userInfo[TrustAndSafety.emergencyLocateKey] as? Int
         let offensiveReport = userInfo[TrustAndSafety.offensiveReportKey] as? Int
+        let verificationCampaign = userInfo[TrustAndSafety.verificationCampaign] as? Int
 
         if let _ = emergency {
             startEmergencyLocate { completionHandler(.noData) }
@@ -90,6 +96,12 @@ final class PushManager {
                 showOffensiveReportAlert()
             } else {
                 keyValueStorage[.showOffensiveReportOnNextStart] = true
+            }
+        } else if let _  = verificationCampaign {
+            if application.applicationState == .active {
+                showVerificationAwarenessView()
+            } else {
+                keyValueStorage[.showVerificationAwarenessOnNextStart] = true
             }
         } else {
             deepLinksRouter.didReceiveRemoteNotification(userInfo,
@@ -156,11 +168,22 @@ final class PushManager {
 
     private func showOffensiveReportAlert() {
         guard featureFlags.offensiveReportAlert.isActive else { return }
-        if let navigator = navigator, navigator.canOpenOffensiveReportAlert() {
+        if let navigator = navigator, navigator.canOpenModalView() {
             navigator.openOffensiveReportAlert()
             keyValueStorage[.showOffensiveReportOnNextStart] = false
         } else {
             keyValueStorage[.showOffensiveReportOnNextStart] = true
+        }
+    }
+
+    private func showVerificationAwarenessView() {
+        guard featureFlags.advancedReputationSystem12.isActive else { return }
+        guard let navigator = navigator, navigator.shouldShowVerificationAwareness() else { return }
+        if navigator.canOpenModalView() {
+            navigator.openVerificationAwarenessView()
+            keyValueStorage[.showVerificationAwarenessOnNextStart] = false
+        } else {
+            keyValueStorage[.showVerificationAwarenessOnNextStart] = true
         }
     }
 }

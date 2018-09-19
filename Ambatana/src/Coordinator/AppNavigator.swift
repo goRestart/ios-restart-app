@@ -21,12 +21,14 @@ protocol AppNavigator: class {
                                      bumpUpProductData: BumpUpProductData,
                                      maxCountdown: TimeInterval,
                                      typePage: EventParameterTypePage?)
-    func canOpenOffensiveReportAlert() -> Bool
+    func canOpenModalView() -> Bool
     func openOffensiveReportAlert()
     func showBottomBubbleNotification(data: BubbleNotificationData,
                                       duration: TimeInterval,
                                       alignment: BubbleNotificationView.Alignment,
                                       style: BubbleNotificationView.Style)
     func openCommunityTab()
+    func shouldShowVerificationAwareness() -> Bool
+    func openVerificationAwarenessView()
     func openP2PPaymentOfferStatus(offerId: String)
 }

@@ -1,17 +1,64 @@
 import Foundation
 
-struct P2PPaymentGetStateResponse: Decodable {
-  let id: P2PPaymentState
+struct P2PPaymentGetStateResponse {
+    let state: State
+    let offerId: String?
+
+    enum State: String, Decodable {
+        case makeOffer = "make_offer"
+        case viewPayCode = "view_pay_code"
+        case offersUnavailable = "offers_unavailable"
+        case viewOffer = "view_offer"
+        case exchangeCode = "exchange_code"
+        case payout = "payout"
+    }
+
+    func asPaymentState() -> P2PPaymentState {
+        switch (state, offerId) {
+        case (.makeOffer, _):
+            return .makeOffer
+        case (.viewPayCode, .some(let id)):
+            return .viewPayCode(offerId: id)
+        case (.offersUnavailable, _):
+            return .offersUnavailable
+        case (.viewOffer, .some(let id)):
+            return .viewOffer(offerId: id)
+        case (.exchangeCode, .some(let id)):
+            return .exchangeCode(offerId: id)
+        case (.payout, .some(let id)):
+            return .payout(offerId: id)
+        default:
+            return .offersUnavailable
+        }
+    }
 }
 
-extension P2PPaymentGetStateResponse {
-  struct Container: Decodable {
-    let response: P2PPaymentGetStateResponse
-    
-    enum CodingKeys: String, CodingKey {
-      case response = "data"
+// MARK: - Decodable Container
+
+extension P2PPaymentGetStateResponse: Decodable {
+    enum GetStateRootKeys: String, CodingKey {
+        case data
     }
-  }
+
+    enum GetStateDataKeys: String, CodingKey {
+        case id
+        case attributes
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case offerId = "offer_id"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let rootContainer = try decoder.container(keyedBy: GetStateRootKeys.self)
+        let dataValues = try rootContainer.nestedContainer(keyedBy: GetStateDataKeys.self, forKey: .data)
+        if let attributes = try? dataValues.nestedContainer(keyedBy: CodingKeys.self, forKey: .attributes) {
+            offerId = try attributes.decodeIfPresent(String.self, forKey: .offerId)
+        } else {
+            offerId = nil
+        }
+        state = try dataValues.decode(State.self, forKey: .id)
+    }
 }
 
 /*

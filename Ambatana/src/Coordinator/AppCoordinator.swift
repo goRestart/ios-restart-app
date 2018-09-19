@@ -78,6 +78,7 @@ final class AppCoordinator: NSObject, Coordinator {
     private let rateUserAsembly: RateUserAssembly
     private let editAssembly: EditListingAssembly
     private let verifyAssembly: VerifyAccountsAssembly
+    private let verificationAwarenessAssembly: UserVerificationAwarenessAssembly
     private let promoteAssembly: PromoteBumpAssembly
     private let tourAssembly: TourLoginAssembly
     private let p2pPaymentsOfferStatusAssembly: P2PPaymentsOfferStatusAssembly
@@ -179,6 +180,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.verifyAssembly = VerifyAccountsBuilder.modal
         self.promoteAssembly = PromoteBumpBuilder.modal(tabBarCtl)
         self.tourAssembly = TourLoginBuilder.modal
+        self.verificationAwarenessAssembly = UserVerificationAwarenessBuilder.modal(tabBarCtl)
         self.p2pPaymentsOfferStatusAssembly = P2PPaymentsOfferStatusBuilder.modal
         super.init()
         self.tourSkipper = TourSkiperWireframe(appCoordinator: self, deepLinksRouter: deepLinksRouter)
@@ -336,12 +338,26 @@ extension AppCoordinator: AppNavigator {
         tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
-    func canOpenOffensiveReportAlert() -> Bool {
+    func canOpenModalView() -> Bool {
         return tabBarCtl.presentedViewController == nil
     }
 
+    func shouldShowVerificationAwareness() -> Bool {
+        return featureFlags.advancedReputationSystem12.isActive && myUserRepository.myUser?.hasBadge == false
+    }
+
+    func openVerificationAwarenessView() {
+        let callToAction: () -> () = { [weak self] in
+            self?.tabBarCtl.dismiss(animated: true, completion: {
+                self?.selectedTabCoordinator?.openUserVerificationView()
+            })
+        }
+        let vc = verificationAwarenessAssembly.buildUserVerificationAwarenessView(callToAction: callToAction)
+        tabBarCtl.present(vc, animated: true, completion: nil)
+    }
+
     func openOffensiveReportAlert() {
-        guard canOpenOffensiveReportAlert() else { return }
+        guard canOpenModalView() else { return }
         let reviewAction = { [weak self] in
             guard let url = LetgoURLHelper.buildCommunityGuidelineURL() else { return }
             self?.openInAppWebView(url: url)
@@ -1093,8 +1109,10 @@ fileprivate extension AppCoordinator {
             }
         case .invite(let userid, let username):
             openAppInvite(myUserId: userid, myUserName: username)
+        case .userVerification:
+            mainTabBarCoordinator.openUserVerificationView()
         }
-        
+
         if let afterDelayClosure = afterDelayClosure {
             delay(0.5) { 
                 afterDelayClosure()
@@ -1114,7 +1132,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView, .appRating, .invite, .p2pPaymentsOffer:
+             .notificationCenter, .appStore, .webView, .appRating, .invite, .userVerification, .p2pPaymentsOffer:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)

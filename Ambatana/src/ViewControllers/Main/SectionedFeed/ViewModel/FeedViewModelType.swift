@@ -17,6 +17,7 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     var searchString: String? { get }
     var shouldShowInviteButton: Bool { get }
     var shouldShowAffiliateButton: Bool { get }
+
     var shouldShowCommunityButton: Bool { get }
     var shouldShowUserProfileButton: Bool { get }
     var viewState: ViewState { get }

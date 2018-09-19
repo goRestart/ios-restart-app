@@ -222,6 +222,8 @@ enum EventName: String {
 
     case showNewItemsBadge                  = "show-new-items-badge"
     case duplicatedItemsInFeed              = "duplicated-items-hidden"
+
+    case verificationModalShown             = "verification-modal-shown"
     
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -494,6 +496,7 @@ enum EventParameterLoginSourceValue: String {
     case directQuickAnswer = "direct-quick-answer"
     case chatProUser = "chat-pro-user"
     case community = "community"
+    case feed = "feed"
 }
 
 enum EventParameterProductItemType: String {
