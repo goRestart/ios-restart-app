@@ -154,6 +154,9 @@
 // Affiliation Store screen. 50$ reward
 "affiliation_store_rewards_amazon_50" = "$50 Amazon Gift Card";
 
+// Affiliation Store. Generic error message
+"affiliation_store_generic_error" = "Couldn't connect an error ocurred. Please try again.";
+
 // Affiliation Store Vouchers screen. Resend button
 "affiliation_store_resend_voucher" = "Resend";
 
@@ -2549,7 +2552,7 @@
 "payments_create_offer_fee_label" = "Payment fee";
 
 // Payment fee percentage
-"payments_create_offer_fee_percentage_label" = "Payment fee %@";
+"payments_create_offer_fee_percentage_label" = "Payment fee (%@)";
 
 // Total amount to pay
 "payments_create_offer_total_label" = "You pay";

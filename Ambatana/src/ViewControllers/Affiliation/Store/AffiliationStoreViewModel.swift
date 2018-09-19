@@ -111,9 +111,10 @@ final class AffiliationStoreViewModel: BaseViewModel {
         let emptyVM = makeEmpty()
 
         guard let reward = rewards[safeAt: index],
-            let code = locationManager.currentLocation?.countryCode else { return .just(.error(emptyVM)) }
+        let code = locationManager.currentLocation?.countryCode else {
+            return .just(.error(emptyVM))
+        }
         let id = reward.id
-
         return Observable<ViewState>.create { [weak self] (observer) in
             observer.onNext(.loading)
             self?.rewardsRepository.createVoucher(parameters: RewardCreateVoucherParams(rewardId: id,

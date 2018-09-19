@@ -117,7 +117,10 @@ final class AffiliationStoreViewController: BaseViewController {
             })
         case .empty(_), .error(_):
             pointsView.alpha = 1
-            viewModel.showFailBubble(withMessage: "Gimme the money bro", duration: TimeInterval(3))
+            showAlert(R.Strings.affiliationStoreGenericError, message: nil, actions: [])
+            delay(2) { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
         }
     }
 

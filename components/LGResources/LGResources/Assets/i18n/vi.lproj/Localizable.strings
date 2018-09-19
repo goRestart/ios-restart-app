@@ -769,8 +769,9 @@
 "payments_create_offer_change_button" = "Change";
 "payments_create_offer_escrow_info_label" = "We'll hold the funds in escrow and won't release the payment to the seller until you receive the item";
 "payments_create_offer_fee_label" = "Payment fee";
+"payments_create_offer_fee_percentage_label" = "Payment fee (%@)";
 "payments_create_offer_info_button" = "Info";
-"payments_create_offer_navbar_title" = "Offer";
+"payments_create_offer_navbar_title" = "Ưu đãi";
 "payments_create_offer_seller_price_label" = "Seller receives";
 "payments_create_offer_total_label" = "You pay";
 "payments_offer_status_action_chat_button" = "Chat with Seller";

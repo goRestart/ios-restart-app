@@ -98,6 +98,8 @@ extension R {
     }
     /// Enter your email address
     public static let affiliationStoreEmailAlertTitle = Strings.tr("Localizable", "affiliation_store_email_alert_title")
+    /// Couldn't connect an error ocurred. Please try again.
+    public static let affiliationStoreGenericError = Strings.tr("Localizable", "affiliation_store_generic_error")
     /// History
     public static let affiliationStoreHistory = Strings.tr("Localizable", "affiliation_store_history")
     /// %@ pts.
@@ -1810,7 +1812,7 @@ extension R {
     public static let paymentsCreateOfferEscrowInfoLabel = Strings.tr("Localizable", "payments_create_offer_escrow_info_label")
     /// Payment fee
     public static let paymentsCreateOfferFeeLabel = Strings.tr("Localizable", "payments_create_offer_fee_label")
-    /// Payment fee %@
+    /// Payment fee (%@)
     public static func paymentsCreateOfferFeePercentageLabel(_ p1: String) -> String {
       return Strings.tr("Localizable", "payments_create_offer_fee_percentage_label", p1)
     }
