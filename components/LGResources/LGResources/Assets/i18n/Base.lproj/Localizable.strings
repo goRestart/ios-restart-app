@@ -2584,6 +2584,66 @@
 // Chat with seller button in offer status screen 
 "payments_offer_status_action_chat_button" = "Chat with Seller";
 
+// Step one title in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_title" = "You're offering %@";
+
+// Step one description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_description" = "letgo will securely hold your funds in escrow until you confirm you’ve received the item";
+
+// Step one extra status description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_status_pending" = "Offer pending";
+
+// Step one extra status description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_status_withdrawn" = "Offer withdrawn";
+
+// Step one extra status description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_status_expired" = "Offer expired";
+
+// Withdraw offer button in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_withdraw_button" = "Withdraw offer";
+
+// Step two title in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_title" = "The seller accepts";
+
+// Step two description in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_description" = "You’ll get a notification that the seller has accepted your offer";
+
+// Offer status accepted in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_status_accepted" = "Offer accepted";
+
+// Offer status declined in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_status_declined" = "Offer declined";
+
+// Meeting step title in offer status screen as buyer
+"payments_offer_status_as_buyer_meeting_step_title" = "Meet in person and release the payment";
+
+// Meeting step description in offer status screen as buyer
+"payments_offer_status_as_buyer_meeting_step_description" = "When you have the item, release the payment to the seller by sharing your payment code";
+
+// Buyer offer step accepted status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_accepted" = "Offer accepted";
+
+// Buyer offer step declined status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_declined" = "Offer declined";
+
+// Buyer offer step withdrawn status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_withdrawn" = "Offer withdrawn";
+
+// Buyer offer step expired status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_expired" = "Offer expired";
+
+// Buyer offer step title in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_title" = "Accept the offer";
+
+// Buyer offer step description in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_description" = "A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.";
+
+// Meeting step title in offer status screen as seller
+"payments_offer_status_as_seller_meeting_title" = "Meet in person and get paid";
+
+// Meeting step description in offer status screen as seller
+"payments_offer_status_as_seller_meeting_description" = "Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 
