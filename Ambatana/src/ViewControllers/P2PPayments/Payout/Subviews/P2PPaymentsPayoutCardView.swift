@@ -55,7 +55,7 @@ final class P2PPaymentsPayoutCardView: UIView {
 
     fileprivate let instantPaymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
         let selector = P2PPaymentsPayoutPaymentSelectorView()
-        selector.state = P2PPaymentsPayoutPaymentSelectorState(kind: .standard,
+        selector.state = P2PPaymentsPayoutPaymentSelectorState(kind: .instant,
                                                                feeText: nil,
                                                                fundsAvailableText: nil)
         return selector
