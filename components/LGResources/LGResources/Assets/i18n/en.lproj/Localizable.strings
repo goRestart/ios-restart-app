@@ -2530,6 +2530,9 @@
 // for use as the "year" in "/year"
 "payment_frequency_per_year" = "year";
 
+// Navigation bar title in the create offer screen 
+"payments_create_offer_navbar_title" = "Offer";
+
 // Escrow info in the create offer screen
 "payments_create_offer_escrow_info_label" = "We'll hold the funds in escrow and won't release the payment to the seller until you receive the item";
 

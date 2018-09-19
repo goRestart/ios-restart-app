@@ -1816,6 +1816,8 @@ extension R {
     }
     /// Info
     public static let paymentsCreateOfferInfoButton = Strings.tr("Localizable", "payments_create_offer_info_button")
+    /// Offer
+    public static let paymentsCreateOfferNavbarTitle = Strings.tr("Localizable", "payments_create_offer_navbar_title")
     /// Seller receives
     public static let paymentsCreateOfferSellerPriceLabel = Strings.tr("Localizable", "payments_create_offer_seller_price_label")
     /// You pay

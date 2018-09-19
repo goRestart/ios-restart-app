@@ -1492,7 +1492,7 @@
 "smoketest_feedback_send" = "Send";
 "smoketest_feedback_subtitle" = "We are currently testing %@ and we'd like to hear your feedback. Please help us improve.";
 "smoketest_feedback_tell_us" = "Tell us more";
-"smoketest_feedback_title" = "Why wouldn’t you use it?";
+"smoketest_feedback_title" = "Tại sao bạn sẽ không sử dụng nó?";
 "smoketest_recommended" = "Recommended";
 "smoketest_thank_you_register_interest" = "We've registered your interest.";
 "smoketest_thank_you_title" = "Thank for your feedback!";
