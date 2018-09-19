@@ -26,6 +26,7 @@ final class AffiliationInviteSMSContactsViewController: KeyboardViewController, 
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.bigMargin*4, right: 0)
         tableView.allowsSelection = true
         tableView.allowsMultipleSelection = true
+        tableView.estimatedRowHeight = Layout.contactCellHeight
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: CGFloat.leastNormalMagnitude))
         tableView.sectionHeaderHeight = CGFloat.leastNormalMagnitude
         
@@ -43,6 +44,7 @@ final class AffiliationInviteSMSContactsViewController: KeyboardViewController, 
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.bigMargin*4, right: 0)
         tableView.allowsSelection = true
         tableView.allowsMultipleSelection = true
+        tableView.estimatedRowHeight = Layout.contactCellHeight
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: CGFloat.leastNormalMagnitude))
         tableView.sectionHeaderHeight = CGFloat.leastNormalMagnitude
         
@@ -289,11 +291,6 @@ final class AffiliationInviteSMSContactsViewController: KeyboardViewController, 
             viewModel.cellDeselected(contactInfo: datasourceSearchResults[indexPath.row])
             tableView.reloadData()
         }
-    }
-    
-    func tableView(_ tableView: UITableView,
-                   heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Layout.contactCellHeight
     }
     
     private func updateTableViewSelectionState(cellState state: AffiliationInviteSMSContactsCellState,
