@@ -31,4 +31,6 @@ struct StagingEnvironment: Environment {
     let notificationSettingsMailerBaseURL = "https://mailer.stg.letgo.com"
     let reportingBaseURL = "https://reporting.stg.letgo.com"
     let communityBaseURL = "https://community-sso.stg.letgo.com"
+    let rewardBaseURL = "https://reward.stg.letgo.com"
+    let challengerBaseURL = "https://challenger.stg.letgo.com"
 }

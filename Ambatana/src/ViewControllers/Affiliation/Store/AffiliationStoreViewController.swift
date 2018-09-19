@@ -36,29 +36,30 @@ final class AffiliationStoreViewController: BaseViewController {
         automaticallyAdjustsScrollViewInsets = false
         
         setupRx()
+        storeView.setHistory(enabled: true)
     }
 
     private func setupNavigationBar() {
         setNavBarBackgroundStyle(.transparent(substyle: .light))
         setNavBarTitle(R.Strings.affiliationStoreTitle)
         navigationController?.navigationBar.isTranslucent = true
-        navigationController?.view.backgroundColor = .clear
+        navigationController?.navigationBar.backgroundColor = .clear
 
-        // TODO: Include gray dots
-        pointsView.populate(with: AffiliationPoints(points: 15))
-        let pointsItem = UIBarButtonItem.init(customView: pointsView)
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: R.Asset.IconsButtons.icMoreOptions.image,
-                            style: .plain,
-                            target: self,
-                            action: #selector(didTapMoreActions)),
-            pointsItem
-        ]
+
+        let button = UIBarButtonItem(image: R.Asset.Affiliation.icnThreeDots.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(didTapMoreActions))
+        button.tintColor = .grayLight
+
+        let pointsItem = UIBarButtonItem(customView: pointsView)
+        navigationItem.rightBarButtonItems = [button, pointsItem]
     }
 
     private func setupRx() {
         let bindings = [
-            viewModel.rx.state.drive(rx.state)
+            viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
+            storeView.viewHistoryButton.rx.tap.bind { [weak self] in self?.viewModel.openHistory() }
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -66,26 +67,46 @@ final class AffiliationStoreViewController: BaseViewController {
     fileprivate func update(with state: ViewState) {
         switch state {
         case .loading:
-            errorView.removeFromSuperview()
+            showLoading()
         case .data:
-            errorView.removeFromSuperview()
-            storeView.collectionView.reloadData()
-        case .error(let errorModel):
-            let action = UIAction(interface: .button(R.Strings.commonErrorListRetryButton,
-                                                     .primary(fontSize: .medium)),
-                                  action: errorModel.action ?? {} )
-            errorView.populate(message: errorModel.title ?? R.Strings.affiliationStoreUnknownErrorMessage,
-                               image: R.Asset.IconsButtons.icReportSpammer.image,
-                               action: action)
-            view.addSubviewForAutoLayout(errorView)
-            constraintViewToSafeRootView(errorView)
-        case .empty(_):
-            break
+            updateWithData()
+        case .error(let errorModel), .empty(let errorModel):
+            update(with: errorModel)
         }
     }
 
-    fileprivate func update(with points: UInt) {
-        pointsView.populate(with: AffiliationPoints(points: points))
+    private func showLoading() {
+        errorView.removeFromSuperview()
+        showLoadingMessageAlert()
+        pointsView.alpha = 0
+    }
+
+    private func updateWithData() {
+        dismissLoadingMessageAlert()
+        errorView.removeFromSuperview()
+
+        pointsView.alpha = 1
+        pointsView.populate(with: viewModel.points)
+        storeView.collectionView.reloadData()
+    }
+
+    private func update(with error: LGEmptyViewModel) {
+        dismissLoadingMessageAlert()
+
+        let action = UIAction(interface: .button(R.Strings.commonErrorListRetryButton,
+                                                 .primary(fontSize: .medium)),
+                              action: error.action ?? {} )
+        errorView.populate(message: error.title ?? R.Strings.affiliationStoreUnknownErrorMessage,
+                           image: error.icon ?? R.Asset.Affiliation.Error.errorOops.image,
+                           action: action)
+        view.addSubviewForAutoLayout(errorView)
+        constraintViewToSafeRootView(errorView)
+
+        pointsView.alpha = 0
+    }
+
+    fileprivate func setHistory(enabled: Bool) {
+        storeView.setHistory(enabled: enabled)
     }
 }
 
@@ -102,9 +123,9 @@ extension Reactive where Base: AffiliationStoreViewController {
         }
     }
 
-    var points: Binder<UInt> {
-        return Binder(self.base) { controller, points in
-            controller.update(with: points)
+    var historyEnabled: Binder<Bool> {
+        return Binder(self.base) { controller, enabled in
+            controller.setHistory(enabled: enabled)
         }
     }
 }

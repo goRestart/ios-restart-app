@@ -45,6 +45,8 @@ public protocol DI: class {
     var feedRepository: FeedRepository { get }
     var communityRepository: CommunityRepository { get }
     var reportingRepository: ReportingRepository { get }
+    var rewardRepository: RewardRepository { get }
+    var challengerRepository: ChallengerRepository { get }
     
     
     // Helper

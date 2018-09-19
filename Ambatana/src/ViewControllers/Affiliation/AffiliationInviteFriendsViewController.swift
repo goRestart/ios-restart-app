@@ -8,6 +8,7 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
     private enum Layout {
         static let labelLeadingMargin: CGFloat = 16
         static let labelTopMargin: CGFloat = 16
+        static let labelTitleTopMargin: CGFloat = 83
         static let labelTrailingMargin: CGFloat = 16
         static let buttonHeight: CGFloat = 44
         static let termsButtonHeight: CGFloat = 22
@@ -107,7 +108,7 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
         let titleConstraints = [
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.labelLeadingMargin),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.labelTrailingMargin),
-            titleLabel.safeTopAnchor.constraint(equalTo: view.safeTopAnchor, constant: Layout.labelTopMargin)
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Layout.labelTitleTopMargin)
         ]
         
         let subtitleLabelConstraints = [
