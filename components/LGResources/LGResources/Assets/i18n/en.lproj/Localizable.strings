@@ -2659,6 +2659,15 @@
 // Fee percentage in offer status screen as seller
 "payments_offer_status_as_seller_fee_percentage" = "Payment fee %@";
 
+// Decline offer button in offer status screen as seller
+"payments_offer_status_as_seller_decline_button" = "Decline";
+
+// Accept offer button in offer status screen as seller
+"payments_offer_status_as_seller_accept_button" = "Accept";
+
+// Enter code button in offer status screen as seller
+"payments_offer_status_as_seller_enter_code_button" = "Enter code";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 

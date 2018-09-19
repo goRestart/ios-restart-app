@@ -1852,6 +1852,8 @@ extension R {
     public static let paymentsOfferStatusAsBuyerSellerOfferStepStatusDeclined = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_status_declined")
     /// The seller accepts
     public static let paymentsOfferStatusAsBuyerSellerOfferStepTitle = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_title")
+    /// Accept
+    public static let paymentsOfferStatusAsSellerAcceptButton = Strings.tr("Localizable", "payments_offer_status_as_seller_accept_button")
     /// Buyer pay
     public static let paymentsOfferStatusAsSellerBuyerAmountLabel = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_amount_label")
     /// A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.
@@ -1866,6 +1868,10 @@ extension R {
     public static let paymentsOfferStatusAsSellerBuyerOfferStatusWithdrawn = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_status_withdrawn")
     /// Accept the offer
     public static let paymentsOfferStatusAsSellerBuyerOfferTitle = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_title")
+    /// Decline
+    public static let paymentsOfferStatusAsSellerDeclineButton = Strings.tr("Localizable", "payments_offer_status_as_seller_decline_button")
+    /// Enter code
+    public static let paymentsOfferStatusAsSellerEnterCodeButton = Strings.tr("Localizable", "payments_offer_status_as_seller_enter_code_button")
     /// Info
     public static let paymentsOfferStatusAsSellerFeeInfoButton = Strings.tr("Localizable", "payments_offer_status_as_seller_fee_info_button")
     /// Payment fee

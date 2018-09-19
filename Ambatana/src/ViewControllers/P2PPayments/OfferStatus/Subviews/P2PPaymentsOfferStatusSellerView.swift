@@ -3,7 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize all texts
 
 final class P2PPaymentsOfferStatusSellerView: UIView {
     private enum Layout {
@@ -25,19 +24,19 @@ final class P2PPaymentsOfferStatusSellerView: UIView {
 
     fileprivate let declineButton: LetgoButton = {
         let button = LetgoButton(withStyle: .secondary(fontSize: .big, withBorder: true))
-        button.setTitle("Decline", for: .normal)
+        button.setTitle(R.Strings.paymentsOfferStatusAsSellerDeclineButton, for: .normal)
         return button
     }()
 
     fileprivate let acceptButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
-        button.setTitle("Accept", for: .normal)
+        button.setTitle(R.Strings.paymentsOfferStatusAsSellerAcceptButton, for: .normal)
         return button
     }()
 
     fileprivate let enterCodeButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
-        button.setTitle("Enter code", for: .normal)
+        button.setTitle(R.Strings.paymentsOfferStatusAsSellerEnterCodeButton, for: .normal)
         return button
     }()
 
