@@ -3,7 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize texts
 
 final class P2PPaymentsOfferFeesView: UIView {
     private enum Layout {
@@ -14,7 +13,7 @@ final class P2PPaymentsOfferFeesView: UIView {
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        label.text = "Seller receives"
+        label.text = R.Strings.paymentsCreateOfferSellerPriceLabel
         return label
     }()
 
@@ -23,7 +22,7 @@ final class P2PPaymentsOfferFeesView: UIView {
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        label.text = "Payment fee"
+        label.text = R.Strings.paymentsCreateOfferFeeLabel
         return label
     }()
 
@@ -33,7 +32,7 @@ final class P2PPaymentsOfferFeesView: UIView {
         label.font = UIFont.systemBoldFont(size: 20)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.setContentHuggingPriority(.defaultLow, for: .vertical)
-        label.text = "You pay"
+        label.text = R.Strings.paymentsCreateOfferTotalLabel
         return label
     }()
 
@@ -63,13 +62,13 @@ final class P2PPaymentsOfferFeesView: UIView {
 
     fileprivate let changeButton: LetgoButton = {
         let button = LetgoButton(withStyle: ButtonStyle.pinkish(fontSize: .small, withBorder: false))
-        button.setTitle("Change", for: .normal)
+        button.setTitle(R.Strings.paymentsCreateOfferChangeButton, for: .normal)
         return button
     }()
 
     fileprivate let infoButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Info", for: .normal)
+        button.setTitle(R.Strings.paymentsCreateOfferInfoButton, for: .normal)
         button.isHidden = true
         return button
     }()
@@ -137,7 +136,7 @@ extension Reactive where Base: P2PPaymentsOfferFeesView {
                 guard let string = string else { return "" }
                 return " (\(string))"
             }()
-            base.feeTitleLabel.text = "Payment fee " + percentageText
+            base.feeTitleLabel.text = R.Strings.paymentsCreateOfferFeePercentageLabel(percentageText)
         }
     }
 

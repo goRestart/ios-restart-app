@@ -3,7 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize all texts
 
 final class P2PPaymentsOfferStatusViewController: BaseViewController {
 
@@ -39,7 +38,7 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
 
     private func setupNavigationBar() {
         setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
-        setNavBarTitleStyle(NavBarTitleStyle.text("Offer"))
+        setNavBarTitleStyle(NavBarTitleStyle.text(R.Strings.paymentsOfferStatusNavbarTitle))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
     }
 

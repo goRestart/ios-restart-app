@@ -1,7 +1,7 @@
 import Foundation
 import LGCoreKit
+import LGComponents
 
-// TODO: @juolgon Localize all texts
 
 extension P2PPaymentsOfferStatusStepListState {
     typealias ButtonTapHandler = () -> Void
@@ -58,19 +58,19 @@ extension P2PPaymentsOfferStatusStepViewState {
             case .accepted, .declined, .completed, .error:
                 return nil
             case .pending:
-                return ExtraDescription(text: "Offer pending", style: .negative)
+                return ExtraDescription(text: R.Strings.paymentsOfferStatusAsBuyerBuyerOfferStepStatusPending, style: .negative)
             case .canceled:
-                return ExtraDescription(text: "Offer withdrawn", style: .negative)
+                return ExtraDescription(text: R.Strings.paymentsOfferStatusAsBuyerBuyerOfferStepStatusWithdrawn, style: .negative)
             case .expired:
-                return ExtraDescription(text: "Offer expired", style: .negative)
+                return ExtraDescription(text: R.Strings.paymentsOfferStatusAsBuyerBuyerOfferStepStatusExpired, style: .negative)
             }
         }()
         let buttonState: ButtonState? = {
             guard status == .pending else { return nil }
-            return ButtonState(title: "Withdraw offer", tapHandler: withdrawnButtonTapHandler)
+            return ButtonState(title: R.Strings.paymentsOfferStatusAsBuyerBuyerOfferStepWithdrawButton, tapHandler: withdrawnButtonTapHandler)
         }()
-        return P2PPaymentsOfferStatusStepViewState(title: "You're offering \(formattedPrice)",
-                                                   description: "letgo will securely hold your funds in escrow until you confirm you’ve received the item",
+        return P2PPaymentsOfferStatusStepViewState(title: R.Strings.paymentsOfferStatusAsBuyerBuyerOfferStepTitle(formattedPrice),
+                                                   description: R.Strings.paymentsOfferStatusAsBuyerBuyerOfferStepDescription,
                                                    extraDescription: extraDescription,
                                                    buttonState: buttonState)
     }
@@ -81,20 +81,20 @@ extension P2PPaymentsOfferStatusStepViewState {
             case .completed, .expired, .error, .pending, .canceled:
                 return nil
             case .accepted:
-                return ExtraDescription(text: "Offer accepted", style: .positive)
+                return ExtraDescription(text: R.Strings.paymentsOfferStatusAsBuyerSellerOfferStepStatusAccepted, style: .positive)
             case .declined:
-                return ExtraDescription(text: "Offer declined", style: .negative)
+                return ExtraDescription(text: R.Strings.paymentsOfferStatusAsBuyerSellerOfferStepStatusDeclined, style: .negative)
             }
         }()
-        return P2PPaymentsOfferStatusStepViewState(title: "The seller accepts",
-                                                   description: "You’ll get a notification that the seller has accepted your offer",
+        return P2PPaymentsOfferStatusStepViewState(title: R.Strings.paymentsOfferStatusAsBuyerSellerOfferStepTitle,
+                                                   description: R.Strings.paymentsOfferStatusAsBuyerSellerOfferStepDescription,
                                                    extraDescription: extraDescription,
                                                    buttonState: nil)
     }
 
     static func buyerStepThree(status: P2PPaymentOfferStatus) -> P2PPaymentsOfferStatusStepViewState {
-        return P2PPaymentsOfferStatusStepViewState(title: "Meet in person and release the payment",
-                                                   description: "When you have the item, release the payment to the seller by sharing your payment code",
+        return P2PPaymentsOfferStatusStepViewState(title: R.Strings.paymentsOfferStatusAsBuyerMeetingStepTitle,
+                                                   description: R.Strings.paymentsOfferStatusAsBuyerMeetingStepDescription,
                                                    extraDescription: nil,
                                                    buttonState: nil)
     }
@@ -105,24 +105,24 @@ extension P2PPaymentsOfferStatusStepViewState {
             case .completed, .error, .pending:
                 return nil
             case .accepted:
-                return ExtraDescription(text: "Offer accepted", style: .positive)
+                return ExtraDescription(text: R.Strings.paymentsOfferStatusAsSellerBuyerOfferStatusAccepted, style: .positive)
             case .declined:
-                return ExtraDescription(text: "Offer declined", style: .negative)
+                return ExtraDescription(text: R.Strings.paymentsOfferStatusAsSellerBuyerOfferStatusDeclined, style: .negative)
             case .canceled:
-                return ExtraDescription(text: "Offer withdrawn", style: .negative)
+                return ExtraDescription(text: R.Strings.paymentsOfferStatusAsSellerBuyerOfferStatusWithdrawn, style: .negative)
             case .expired:
-                return ExtraDescription(text: "Offer expired", style: .negative)
+                return ExtraDescription(text: R.Strings.paymentsOfferStatusAsSellerBuyerOfferStatusExpired, style: .negative)
             }
         }()
-        return P2PPaymentsOfferStatusStepViewState(title: "Accept the offer",
-                                                   description: "A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.",
+        return P2PPaymentsOfferStatusStepViewState(title: R.Strings.paymentsOfferStatusAsSellerBuyerOfferTitle,
+                                                   description: R.Strings.paymentsOfferStatusAsSellerBuyerOfferDescription,
                                                    extraDescription: extraDescription,
                                                    buttonState: nil)
     }
 
     static func sellerStepTwo() -> P2PPaymentsOfferStatusStepViewState {
-        return P2PPaymentsOfferStatusStepViewState(title: "Meet in person and get paid",
-                                                   description: "Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment",
+        return P2PPaymentsOfferStatusStepViewState(title: R.Strings.paymentsOfferStatusAsSellerMeetingTitle,
+                                                   description: R.Strings.paymentsOfferStatusAsSellerMeetingDescription,
                                                    extraDescription: nil,
                                                    buttonState: nil)
     }

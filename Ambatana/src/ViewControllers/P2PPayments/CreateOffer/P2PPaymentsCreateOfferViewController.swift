@@ -4,7 +4,6 @@ import RxSwift
 import RxCocoa
 import PassKit
 
-// TODO: @juolgon Localize all texts
 
 final class P2PPaymentsCreateOfferViewController: BaseViewController {
     private enum Layout {
@@ -170,7 +169,7 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
 
     private func setupNavigationBar() {
         setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
-        setNavBarTitleStyle(NavBarTitleStyle.text("Offer"))
+        setNavBarTitleStyle(NavBarTitleStyle.text(R.Strings.paymentsCreateOfferNavbarTitle))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
     }
 

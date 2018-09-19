@@ -5,7 +5,6 @@ import Stripe
 import PassKit
 import Result
 
-// TODO: @juolgon localize texts
 
 protocol PaymentsManager {
     func canMakePayments() -> PaymentCapabilities
@@ -76,9 +75,9 @@ final class LGPaymentsManager: PaymentsManager {
                                                    country: request.countryCode,
                                                    currency: request.currency.code)
         paymentRequest.paymentSummaryItems = [
-            PKPaymentSummaryItem(label: "total for seller", amount: request.sellerAmount),
-            PKPaymentSummaryItem(label: "service fee", amount: request.feeAmount),
-            PKPaymentSummaryItem(label: "seller", amount: request.totalAmount),
+            PKPaymentSummaryItem(label: R.Strings.paymentsPaymentRequestSellerAmountLabel, amount: request.sellerAmount),
+            PKPaymentSummaryItem(label: R.Strings.paymentsPaymentRequestFeeLabel, amount: request.feeAmount),
+            PKPaymentSummaryItem(label: R.Strings.paymentsPaymentRequestTotalAmountLabel, amount: request.totalAmount),
         ]
         guard let authViewController = createAuthViewController(with: paymentRequest) else { return nil }
         let listener = PaymentRequestListener(paymentRequest: request, p2pPaymentsRepository: p2pPaymentsRepository) { [weak self] result in

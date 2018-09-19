@@ -98,6 +98,8 @@ extension R {
     }
     /// Enter your email address
     public static let affiliationStoreEmailAlertTitle = Strings.tr("Localizable", "affiliation_store_email_alert_title")
+    /// Couldn't connect an error ocurred. Please try again.
+    public static let affiliationStoreGenericError = Strings.tr("Localizable", "affiliation_store_generic_error")
     /// History
     public static let affiliationStoreHistory = Strings.tr("Localizable", "affiliation_store_history")
     /// %@ pts.
@@ -1810,7 +1812,7 @@ extension R {
     public static let paymentsCreateOfferEscrowInfoLabel = Strings.tr("Localizable", "payments_create_offer_escrow_info_label")
     /// Payment fee
     public static let paymentsCreateOfferFeeLabel = Strings.tr("Localizable", "payments_create_offer_fee_label")
-    /// Payment fee %@
+    /// Payment fee (%@)
     public static func paymentsCreateOfferFeePercentageLabel(_ p1: String) -> String {
       return Strings.tr("Localizable", "payments_create_offer_fee_percentage_label", p1)
     }
@@ -1826,18 +1828,88 @@ extension R {
     public static let paymentsOfferStatusActionChatButton = Strings.tr("Localizable", "payments_offer_status_action_chat_button")
     /// View payment code
     public static let paymentsOfferStatusActionViewCodeButton = Strings.tr("Localizable", "payments_offer_status_action_view_code_button")
-    /// %1$@, offering %2$@ for %3$@
-    public static func paymentsOfferStatusHeaderLalbel(_ p1: String, _ p2: String, _ p3: String) -> String {
-      return Strings.tr("Localizable", "payments_offer_status_header_lalbel", p1, p2, p3)
-    }
+    /// letgo will securely hold your funds in escrow until you confirm you’ve received the item
+    public static let paymentsOfferStatusAsBuyerBuyerOfferStepDescription = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_description")
     /// Offer expired
-    public static let paymentsOfferStatusStepOneStatusExpired = Strings.tr("Localizable", "payments_offer_status_step_one_status_expired")
+    public static let paymentsOfferStatusAsBuyerBuyerOfferStepStatusExpired = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_status_expired")
     /// Offer pending
-    public static let paymentsOfferStatusStepOneStatusPending = Strings.tr("Localizable", "payments_offer_status_step_one_status_pending")
+    public static let paymentsOfferStatusAsBuyerBuyerOfferStepStatusPending = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_status_pending")
     /// Offer withdrawn
-    public static let paymentsOfferStatusStepOneStatusWithdrawn = Strings.tr("Localizable", "payments_offer_status_step_one_status_withdrawn")
+    public static let paymentsOfferStatusAsBuyerBuyerOfferStepStatusWithdrawn = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_status_withdrawn")
+    /// You're offering %@
+    public static func paymentsOfferStatusAsBuyerBuyerOfferStepTitle(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_title", p1)
+    }
     /// Withdraw offer
-    public static let paymentsOfferStatusWithdrawButton = Strings.tr("Localizable", "payments_offer_status_withdraw_button")
+    public static let paymentsOfferStatusAsBuyerBuyerOfferStepWithdrawButton = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_withdraw_button")
+    /// When you have the item, release the payment to the seller by sharing your payment code
+    public static let paymentsOfferStatusAsBuyerMeetingStepDescription = Strings.tr("Localizable", "payments_offer_status_as_buyer_meeting_step_description")
+    /// Meet in person and release the payment
+    public static let paymentsOfferStatusAsBuyerMeetingStepTitle = Strings.tr("Localizable", "payments_offer_status_as_buyer_meeting_step_title")
+    /// You’ll get a notification that the seller has accepted your offer
+    public static let paymentsOfferStatusAsBuyerSellerOfferStepDescription = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_description")
+    /// Offer accepted
+    public static let paymentsOfferStatusAsBuyerSellerOfferStepStatusAccepted = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_status_accepted")
+    /// Offer declined
+    public static let paymentsOfferStatusAsBuyerSellerOfferStepStatusDeclined = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_status_declined")
+    /// The seller accepts
+    public static let paymentsOfferStatusAsBuyerSellerOfferStepTitle = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_title")
+    /// Accept
+    public static let paymentsOfferStatusAsSellerAcceptButton = Strings.tr("Localizable", "payments_offer_status_as_seller_accept_button")
+    /// Buyer pay
+    public static let paymentsOfferStatusAsSellerBuyerAmountLabel = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_amount_label")
+    /// A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.
+    public static let paymentsOfferStatusAsSellerBuyerOfferDescription = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_description")
+    /// Offer accepted
+    public static let paymentsOfferStatusAsSellerBuyerOfferStatusAccepted = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_status_accepted")
+    /// Offer declined
+    public static let paymentsOfferStatusAsSellerBuyerOfferStatusDeclined = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_status_declined")
+    /// Offer expired
+    public static let paymentsOfferStatusAsSellerBuyerOfferStatusExpired = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_status_expired")
+    /// Offer withdrawn
+    public static let paymentsOfferStatusAsSellerBuyerOfferStatusWithdrawn = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_status_withdrawn")
+    /// Accept the offer
+    public static let paymentsOfferStatusAsSellerBuyerOfferTitle = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_title")
+    /// Decline
+    public static let paymentsOfferStatusAsSellerDeclineButton = Strings.tr("Localizable", "payments_offer_status_as_seller_decline_button")
+    /// Enter code
+    public static let paymentsOfferStatusAsSellerEnterCodeButton = Strings.tr("Localizable", "payments_offer_status_as_seller_enter_code_button")
+    /// Info
+    public static let paymentsOfferStatusAsSellerFeeInfoButton = Strings.tr("Localizable", "payments_offer_status_as_seller_fee_info_button")
+    /// Payment fee
+    public static let paymentsOfferStatusAsSellerFeeLabel = Strings.tr("Localizable", "payments_offer_status_as_seller_fee_label")
+    /// Payment fee %@
+    public static func paymentsOfferStatusAsSellerFeePercentage(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payments_offer_status_as_seller_fee_percentage", p1)
+    }
+    /// Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment
+    public static let paymentsOfferStatusAsSellerMeetingDescription = Strings.tr("Localizable", "payments_offer_status_as_seller_meeting_description")
+    /// Meet in person and get paid
+    public static let paymentsOfferStatusAsSellerMeetingTitle = Strings.tr("Localizable", "payments_offer_status_as_seller_meeting_title")
+    /// You receive
+    public static let paymentsOfferStatusAsSellerReceived = Strings.tr("Localizable", "payments_offer_status_as_seller_received")
+    /// %1$@, offering %2$@ for %3$@
+    public static func paymentsOfferStatusHeaderLabel(_ p1: String, _ p2: String, _ p3: String) -> String {
+      return Strings.tr("Localizable", "payments_offer_status_header_label", p1, p2, p3)
+    }
+    /// Offer
+    public static let paymentsOfferStatusNavbarTitle = Strings.tr("Localizable", "payments_offer_status_navbar_title")
+    /// You'll be charged and letgo will securely hold your funds in escrow until you confirm you've received the item
+    public static let paymentsOnboardingFirstStepDescription = Strings.tr("Localizable", "payments_onboarding_first_step_description")
+    /// Make your offer
+    public static let paymentsOnboardingFirstStepTitle = Strings.tr("Localizable", "payments_onboarding_first_step_title")
+    /// Make an offer
+    public static let paymentsOnboardingMakeAnOfferButton = Strings.tr("Localizable", "payments_onboarding_make_an_offer_button")
+    /// How it works
+    public static let paymentsOnboardingNavbarTitle = Strings.tr("Localizable", "payments_onboarding_navbar_title")
+    /// You’ll get a notification that the seller has accepted your offer
+    public static let paymentsOnboardingSecondStepDescription = Strings.tr("Localizable", "payments_onboarding_second_step_description")
+    /// The seller accepts
+    public static let paymentsOnboardingSecondStepTitle = Strings.tr("Localizable", "payments_onboarding_second_step_title")
+    /// When you have the item, release the payment to the seller
+    public static let paymentsOnboardingThirdStepDescription = Strings.tr("Localizable", "payments_onboarding_third_step_description")
+    /// Meet in person and release the payment
+    public static let paymentsOnboardingThirdStepTitle = Strings.tr("Localizable", "payments_onboarding_third_step_title")
     /// service fee
     public static let paymentsPaymentRequestFeeLabel = Strings.tr("Localizable", "payments_payment_request_fee_label")
     /// total for seller

@@ -2,7 +2,6 @@ import Foundation
 import LGCoreKit
 import LGComponents
 
-// TODO: @juolgon Localize all texts
 
 extension P2PPaymentsOfferStatusViewModel {
     private static let currencyHelper = Core.currencyHelper
@@ -83,7 +82,7 @@ extension P2PPaymentsOfferStatusViewModel {
             let amount = (offer.fees.amount as NSDecimalNumber).doubleValue
             let formattedPrice = currencyHelper.formattedAmountWithCurrencyCode(listing.currency.code, amount: amount)
             let listingName = listing.name ?? listing.nameAuto ?? ""
-            return "\(name), offering \(formattedPrice) for \"\(listingName)\""
+            return R.Strings.paymentsOfferStatusHeaderLabel(name, formattedPrice, listingName)
         }
 
         var netAmountText: String? {
@@ -132,9 +131,9 @@ extension P2PPaymentsOfferStatusViewModel {
             guard let offer = offer else { return nil }
             switch offer.status {
             case .accepted:
-                return "View payment code"
+                return R.Strings.paymentsOfferStatusActionViewCodeButton
             case .pending, .declined, .canceled, .error, .expired:
-                return "Chat with Seller"
+                return R.Strings.paymentsOfferStatusActionChatButton
             case .completed:
                 return nil
             }

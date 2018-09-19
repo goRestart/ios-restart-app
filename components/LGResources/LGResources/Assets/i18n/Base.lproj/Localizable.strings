@@ -154,6 +154,9 @@
 // Affiliation Store screen. 50$ reward
 "affiliation_store_rewards_amazon_50" = "$50 Amazon Gift Card";
 
+// Affiliation Store. Generic error message
+"affiliation_store_generic_error" = "Couldn't connect an error ocurred. Please try again.";
+
 // Affiliation Store Vouchers screen. Resend button
 "affiliation_store_resend_voucher" = "Resend";
 
@@ -2549,7 +2552,7 @@
 "payments_create_offer_fee_label" = "Payment fee";
 
 // Payment fee percentage
-"payments_create_offer_fee_percentage_label" = "Payment fee %@";
+"payments_create_offer_fee_percentage_label" = "Payment fee (%@)";
 
 // Total amount to pay
 "payments_create_offer_total_label" = "You pay";
@@ -2575,8 +2578,11 @@
 // Total amount to pay in apple pay screen
 "payments_payment_request_total_amount_label" = "seller";
 
+// Navigation bar title in the offer status screen
+"payments_offer_status_navbar_title" = "Offer";
+
 // Header title for offer status screen. 1:Name 2:Price 3:Listing
-"payments_offer_status_header_lalbel" = "%1$@, offering %2$@ for %3$@";
+"payments_offer_status_header_label" = "%1$@, offering %2$@ for %3$@";
 
 // View payment button in offer status screen 
 "payments_offer_status_action_view_code_button" = "View payment code";
@@ -2584,17 +2590,113 @@
 // Chat with seller button in offer status screen 
 "payments_offer_status_action_chat_button" = "Chat with Seller";
 
-// Step one extra status description on offer status screen
-"payments_offer_status_step_one_status_pending" = "Offer pending";
+// Step one title in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_title" = "You're offering %@";
 
-// Step one extra status description on offer status screen
-"payments_offer_status_step_one_status_withdrawn" = "Offer withdrawn";
+// Step one description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_description" = "letgo will securely hold your funds in escrow until you confirm you’ve received the item";
 
-// Step one extra status description on offer status screen
-"payments_offer_status_step_one_status_expired" = "Offer expired";
+// Step one extra status description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_status_pending" = "Offer pending";
 
-// Withdraw offer button in offer status screen
-"payments_offer_status_withdraw_button" = "Withdraw offer";
+// Step one extra status description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_status_withdrawn" = "Offer withdrawn";
+
+// Step one extra status description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_status_expired" = "Offer expired";
+
+// Withdraw offer button in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_withdraw_button" = "Withdraw offer";
+
+// Step two title in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_title" = "The seller accepts";
+
+// Step two description in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_description" = "You’ll get a notification that the seller has accepted your offer";
+
+// Offer status accepted in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_status_accepted" = "Offer accepted";
+
+// Offer status declined in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_status_declined" = "Offer declined";
+
+// Meeting step title in offer status screen as buyer
+"payments_offer_status_as_buyer_meeting_step_title" = "Meet in person and release the payment";
+
+// Meeting step description in offer status screen as buyer
+"payments_offer_status_as_buyer_meeting_step_description" = "When you have the item, release the payment to the seller by sharing your payment code";
+
+// Buyer offer step accepted status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_accepted" = "Offer accepted";
+
+// Buyer offer step declined status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_declined" = "Offer declined";
+
+// Buyer offer step withdrawn status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_withdrawn" = "Offer withdrawn";
+
+// Buyer offer step expired status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_expired" = "Offer expired";
+
+// Buyer offer step title in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_title" = "Accept the offer";
+
+// Buyer offer step description in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_description" = "A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.";
+
+// Meeting step title in offer status screen as seller
+"payments_offer_status_as_seller_meeting_title" = "Meet in person and get paid";
+
+// Meeting step description in offer status screen as seller
+"payments_offer_status_as_seller_meeting_description" = "Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment";
+
+// Buyer offer label in offer status screen as seller
+"payments_offer_status_as_seller_buyer_amount_label" = "Buyer pay";
+
+// Payment fee in offer status screen as seller
+"payments_offer_status_as_seller_fee_label" = "Payment fee";
+
+// Received amount in offer status screen as seller
+"payments_offer_status_as_seller_received" = "You receive";
+
+// Fee info button in offer status screen as seller
+"payments_offer_status_as_seller_fee_info_button" = "Info";
+
+// Fee percentage in offer status screen as seller
+"payments_offer_status_as_seller_fee_percentage" = "Payment fee %@";
+
+// Decline offer button in offer status screen as seller
+"payments_offer_status_as_seller_decline_button" = "Decline";
+
+// Accept offer button in offer status screen as seller
+"payments_offer_status_as_seller_accept_button" = "Accept";
+
+// Enter code button in offer status screen as seller
+"payments_offer_status_as_seller_enter_code_button" = "Enter code";
+
+// First step title label in onboarding screen
+"payments_onboarding_first_step_title" = "Make your offer";
+
+// First step description label in onboarding screen
+"payments_onboarding_first_step_description" = "You'll be charged and letgo will securely hold your funds in escrow until you confirm you've received the item";
+
+// Second step title label in onboarding screen
+"payments_onboarding_second_step_title" = "The seller accepts";
+
+// Second step description label in onboarding screen
+"payments_onboarding_second_step_description" = "You’ll get a notification that the seller has accepted your offer";
+
+// Third step title label in onboarding screen
+"payments_onboarding_third_step_title" = "Meet in person and release the payment";
+
+// Third step description label in onboarding screen
+"payments_onboarding_third_step_description" = "When you have the item, release the payment to the seller";
+
+// Make an offer button in onboarding screen
+"payments_onboarding_make_an_offer_button" = "Make an offer";
+
+// Navigation bar title in onboarding screen
+"payments_onboarding_navbar_title" = "How it works";
 
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
