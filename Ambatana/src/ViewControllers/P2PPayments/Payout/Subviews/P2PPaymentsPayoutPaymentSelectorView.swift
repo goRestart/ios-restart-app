@@ -22,7 +22,7 @@ struct P2PPaymentsPayoutPaymentSelectorState {
     fileprivate var paymentTypeText: String {
         switch kind {
         case .standard: return "Standard payment"
-        case .instant: return "Instant payment"
+        case .instant: return "Fast payment"
         }
     }
 }
