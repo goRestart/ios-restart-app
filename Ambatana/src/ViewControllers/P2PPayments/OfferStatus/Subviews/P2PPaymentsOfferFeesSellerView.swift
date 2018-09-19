@@ -3,7 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize texts
 
 final class P2PPaymentsOfferFeesSellerView: UIView {
     private enum Layout {
@@ -14,7 +13,7 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
         let label = UILabel()
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
-        label.text = "Buyer pay"
+        label.text = R.Strings.paymentsOfferStatusAsSellerBuyerAmountLabel
         return label
     }()
 
@@ -22,7 +21,7 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
         let label = UILabel()
         label.textColor = .grayRegular
         label.font = UIFont.systemMediumFont(size: 18)
-        label.text = "Payment fee"
+        label.text = R.Strings.paymentsOfferStatusAsSellerFeeLabel
         return label
     }()
 
@@ -30,7 +29,7 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
         let label = UILabel()
         label.textColor = .p2pPaymentsPositive
         label.font = UIFont.systemBoldFont(size: 20)
-        label.text = "You receive"
+        label.text = R.Strings.paymentsOfferStatusAsSellerReceived
         return label
     }()
 
@@ -57,7 +56,7 @@ final class P2PPaymentsOfferFeesSellerView: UIView {
 
     fileprivate let infoButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Info", for: .normal)
+        button.setTitle(R.Strings.paymentsOfferStatusAsSellerFeeInfoButton, for: .normal)
         button.isHidden = true
         return button
     }()
@@ -110,9 +109,9 @@ extension Reactive where Base: P2PPaymentsOfferFeesSellerView {
         return Binder(base) { base, string in
             let percentageText: String = {
                 guard let string = string else { return "" }
-                return " (\(string))"
+                return "(\(string))"
             }()
-            base.feeTitleLabel.text = "Payment fee " + percentageText
+            base.feeTitleLabel.text = R.Strings.paymentsOfferStatusAsSellerFeePercentage(percentageText)
         }
     }
 }

@@ -1852,6 +1852,8 @@ extension R {
     public static let paymentsOfferStatusAsBuyerSellerOfferStepStatusDeclined = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_status_declined")
     /// The seller accepts
     public static let paymentsOfferStatusAsBuyerSellerOfferStepTitle = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_title")
+    /// Buyer pay
+    public static let paymentsOfferStatusAsSellerBuyerAmountLabel = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_amount_label")
     /// A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.
     public static let paymentsOfferStatusAsSellerBuyerOfferDescription = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_description")
     /// Offer accepted
@@ -1864,10 +1866,20 @@ extension R {
     public static let paymentsOfferStatusAsSellerBuyerOfferStatusWithdrawn = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_status_withdrawn")
     /// Accept the offer
     public static let paymentsOfferStatusAsSellerBuyerOfferTitle = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_title")
+    /// Info
+    public static let paymentsOfferStatusAsSellerFeeInfoButton = Strings.tr("Localizable", "payments_offer_status_as_seller_fee_info_button")
+    /// Payment fee
+    public static let paymentsOfferStatusAsSellerFeeLabel = Strings.tr("Localizable", "payments_offer_status_as_seller_fee_label")
+    /// Payment fee %@
+    public static func paymentsOfferStatusAsSellerFeePercentage(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payments_offer_status_as_seller_fee_percentage", p1)
+    }
     /// Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment
     public static let paymentsOfferStatusAsSellerMeetingDescription = Strings.tr("Localizable", "payments_offer_status_as_seller_meeting_description")
     /// Meet in person and get paid
     public static let paymentsOfferStatusAsSellerMeetingTitle = Strings.tr("Localizable", "payments_offer_status_as_seller_meeting_title")
+    /// You receive
+    public static let paymentsOfferStatusAsSellerReceived = Strings.tr("Localizable", "payments_offer_status_as_seller_received")
     /// %1$@, offering %2$@ for %3$@
     public static func paymentsOfferStatusHeaderLalbel(_ p1: String, _ p2: String, _ p3: String) -> String {
       return Strings.tr("Localizable", "payments_offer_status_header_lalbel", p1, p2, p3)

@@ -2644,6 +2644,21 @@
 // Meeting step description in offer status screen as seller
 "payments_offer_status_as_seller_meeting_description" = "Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment";
 
+// Buyer offer label in offer status screen as seller
+"payments_offer_status_as_seller_buyer_amount_label" = "Buyer pay";
+
+// Payment fee in offer status screen as seller
+"payments_offer_status_as_seller_fee_label" = "Payment fee";
+
+// Received amount in offer status screen as seller
+"payments_offer_status_as_seller_received" = "You receive";
+
+// Fee info button in offer status screen as seller
+"payments_offer_status_as_seller_fee_info_button" = "Info";
+
+// Fee percentage in offer status screen as seller
+"payments_offer_status_as_seller_fee_percentage" = "Payment fee %@";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 
