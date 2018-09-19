@@ -1892,6 +1892,22 @@ extension R {
     }
     /// Offer
     public static let paymentsOfferStatusNavbarTitle = Strings.tr("Localizable", "payments_offer_status_navbar_title")
+    /// You'll be charged and letgo will securely hold your funds in escrow until you confirm you've received the item
+    public static let paymentsOnboardingFirstStepDescription = Strings.tr("Localizable", "payments_onboarding_first_step_description")
+    /// Make your offer
+    public static let paymentsOnboardingFirstStepTitle = Strings.tr("Localizable", "payments_onboarding_first_step_title")
+    /// Make an offer
+    public static let paymentsOnboardingMakeAnOfferButton = Strings.tr("Localizable", "payments_onboarding_make_an_offer_button")
+    /// How it works
+    public static let paymentsOnboardingNavbarTitle = Strings.tr("Localizable", "payments_onboarding_navbar_title")
+    /// You’ll get a notification that the seller has accepted your offer
+    public static let paymentsOnboardingSecondStepDescription = Strings.tr("Localizable", "payments_onboarding_second_step_description")
+    /// The seller accepts
+    public static let paymentsOnboardingSecondStepTitle = Strings.tr("Localizable", "payments_onboarding_second_step_title")
+    /// When you have the item, release the payment to the seller
+    public static let paymentsOnboardingThirdStepDescription = Strings.tr("Localizable", "payments_onboarding_third_step_description")
+    /// Meet in person and release the payment
+    public static let paymentsOnboardingThirdStepTitle = Strings.tr("Localizable", "payments_onboarding_third_step_title")
     /// service fee
     public static let paymentsPaymentRequestFeeLabel = Strings.tr("Localizable", "payments_payment_request_fee_label")
     /// total for seller

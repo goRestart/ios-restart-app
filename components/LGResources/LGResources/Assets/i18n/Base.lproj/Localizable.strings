@@ -2671,6 +2671,30 @@
 // Enter code button in offer status screen as seller
 "payments_offer_status_as_seller_enter_code_button" = "Enter code";
 
+// First step title label in onboarding screen
+"payments_onboarding_first_step_title" = "Make your offer";
+
+// First step description label in onboarding screen
+"payments_onboarding_first_step_description" = "You'll be charged and letgo will securely hold your funds in escrow until you confirm you've received the item";
+
+// Second step title label in onboarding screen
+"payments_onboarding_second_step_title" = "The seller accepts";
+
+// Second step description label in onboarding screen
+"payments_onboarding_second_step_description" = "You’ll get a notification that the seller has accepted your offer";
+
+// Third step title label in onboarding screen
+"payments_onboarding_third_step_title" = "Meet in person and release the payment";
+
+// Third step description label in onboarding screen
+"payments_onboarding_third_step_description" = "When you have the item, release the payment to the seller";
+
+// Make an offer button in onboarding screen
+"payments_onboarding_make_an_offer_button" = "Make an offer";
+
+// Navigation bar title in onboarding screen
+"payments_onboarding_navbar_title" = "How it works";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
 

@@ -19,14 +19,14 @@ final class P2PPaymentsOnboardingViewController: BaseViewController {
     }()
 
     private let traitsStackView: UIStackView = {
-        let firsTrait = P2PPaymentsOnboardingTraitView(title: "Make your offer",
-                                                       subtitle: "You'll be charged and letgo will securely hold your funds in escrow until you confirm you've received the item",
+        let firsTrait = P2PPaymentsOnboardingTraitView(title: R.Strings.paymentsOnboardingFirstStepTitle,
+                                                       subtitle: R.Strings.paymentsOnboardingFirstStepDescription,
                                                        image: R.Asset.P2PPayments.onboardingStep1.image)
-        let secondTrait = P2PPaymentsOnboardingTraitView(title: "The seller accepts",
-                                                         subtitle: "You’ll get a notification that the seller has accepted your offer",
+        let secondTrait = P2PPaymentsOnboardingTraitView(title: R.Strings.paymentsOnboardingSecondStepTitle,
+                                                         subtitle: R.Strings.paymentsOnboardingSecondStepDescription,
                                                          image: R.Asset.P2PPayments.onboardingStep2.image)
-        let thirdTrait = P2PPaymentsOnboardingTraitView(title: "Meet in person and release the payment",
-                                                        subtitle: "When you have the item, release the payment to the seller",
+        let thirdTrait = P2PPaymentsOnboardingTraitView(title: R.Strings.paymentsOnboardingThirdStepTitle,
+                                                        subtitle: R.Strings.paymentsOnboardingThirdStepDescription,
                                                         image: R.Asset.P2PPayments.onboardingStep3.image)
         let stackView = UIStackView.vertical([firsTrait, secondTrait, thirdTrait])
         stackView.alignment = .fill
@@ -37,7 +37,7 @@ final class P2PPaymentsOnboardingViewController: BaseViewController {
 
     private lazy var makeAnOfferButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
-        button.setTitle("Make an offer", for: .normal)
+        button.setTitle(R.Strings.paymentsOnboardingMakeAnOfferButton, for: .normal)
         button.addTarget(self, action: #selector(makeAnOfferButtonPressed), for: .touchUpInside)
         return button
     }()
@@ -97,7 +97,7 @@ final class P2PPaymentsOnboardingViewController: BaseViewController {
 
     private func setupNavigationBar() {
         setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
-        setNavBarTitleStyle(NavBarTitleStyle.text("How it works"))
+        setNavBarTitleStyle(NavBarTitleStyle.text(R.Strings.paymentsOnboardingNavbarTitle))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
     }
 
