@@ -52,6 +52,9 @@
 // Affiliation challenges screen. Subtitle.
 "affiliation_challenges_subtitle" = "Earn Points";
 
+// Affiliation challenges screen. Unknown error message
+"affiliation_challenges_unknown_error_message" = "Oops! An error occurred while loading our rewards.";
+
 // Affiliation Invite SMS contacts screen. Title.
 "affiliation_invite_sms_contacts_title" = "Connect contacts";
 

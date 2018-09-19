@@ -54,6 +54,8 @@ extension R {
     public static let affiliationChallengesSubtitle = Strings.tr("Localizable", "affiliation_challenges_subtitle")
     /// Rewards
     public static let affiliationChallengesTitle = Strings.tr("Localizable", "affiliation_challenges_title")
+    /// Oops! An error occurred while loading our rewards.
+    public static let affiliationChallengesUnknownErrorMessage = Strings.tr("Localizable", "affiliation_challenges_unknown_error_message")
     /// How it works
     public static let affiliationFaqTitle = Strings.tr("Localizable", "affiliation_faq_title")
     /// Others ways to share
