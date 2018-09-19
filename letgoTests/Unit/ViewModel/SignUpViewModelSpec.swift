@@ -19,7 +19,7 @@ class SignUpViewModelSpec: QuickSpec {
     var showRememberPasswordWasCalled: Bool = false
     var showAlertWasCalled: Bool = false
     var showRecaptchaWasCalled: Bool = false
-    
+
     override func spec() {
 
         describe("SignUpViewModelSpec") {
@@ -366,11 +366,13 @@ extension SignUpViewModelSpec: LoginNavigator {
     
     func showAlert(withTitle: String?, andBody: String, andType: AlertType, andActions: [UIAction]) {
         showAlertWasCalled = true
-
         finishedSuccessfully = false
         finishedScammer = true
         finishedDeviceNotAllowed = true
     }
+
+    func showPasswordlessEmail() {}
+    func showPasswordlessEmailSent(email: String) {}
 }
 
 extension SignUpViewModelSpec: SignUpViewModelDelegate {

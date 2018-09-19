@@ -455,6 +455,7 @@ extension R {
       public static let icKeyboard = ImageAsset(name: "ic_keyboard")
       public static let icLocation = ImageAsset(name: "ic_location")
       public static let icLocationAlert = ImageAsset(name: "ic_location_alert")
+      public static let icMagic = ImageAsset(name: "ic_magic")
       public static let icMap = ImageAsset(name: "ic_map")
       public static let icMessages = ImageAsset(name: "ic_messages")
       public static let icModerationAlert = ImageAsset(name: "ic_moderation_alert")
@@ -469,6 +470,7 @@ extension R {
       public static let icPasswordActive = ImageAsset(name: "ic_password_active")
       public static let icPasswordActiveDark = ImageAsset(name: "ic_password_active_dark")
       public static let icPasswordDark = ImageAsset(name: "ic_password_dark")
+      public static let icPasswordlessEmail = ImageAsset(name: "ic_passwordless_email")
       public static let icPen = ImageAsset(name: "ic_pen")
       public static let icPendingModeration = ImageAsset(name: "ic_pending_moderation")
       public static let icPostClose = ImageAsset(name: "ic_post_close")
@@ -762,6 +764,7 @@ extension R {
         icKeyboard,
         icLocation,
         icLocationAlert,
+        icMagic,
         icMap,
         icMessages,
         icModerationAlert,
@@ -776,6 +779,7 @@ extension R {
         icPasswordActive,
         icPasswordActiveDark,
         icPasswordDark,
+        icPasswordlessEmail,
         icPen,
         icPendingModeration,
         icPostClose,

@@ -549,7 +549,16 @@ extension AppCoordinator: AppNavigator {
                                             onEditAction: self)
         tabBarCtl.present(vc, animated: true)
     }
-    
+
+    func openConfirmUsername(token: String) {
+        let coord = PasswordlessUsernameCoordinator(token: token)
+        tabBarCtl.dismissAllPresented { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.openChild(coordinator: coord, parent: strongSelf.tabBarCtl, animated: true,
+                                 forceCloseChild: true, completion: nil)
+        }
+    }
+
     func openInAppWebView(url: URL) {
         tabBarCtl.openInAppWebViewWith(url: url)
     }
@@ -1091,6 +1100,14 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openAppStore()
             }
+        case .passwordlessSignup(let token):
+            afterDelayClosure = { [weak self] in
+                self?.openConfirmUsername(token: token)
+            }
+        case .passwordlessLogin(let token):
+            afterDelayClosure = { [weak self] in
+                self?.loginPasswordlessWith(token: token)
+            }
         case .webView(let url):
             afterDelayClosure = { [weak self] in
                 self?.openInAppWebView(url: url)
@@ -1120,7 +1137,8 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView, .appRating, .invite, .userVerification:
+             .notificationCenter, .appStore, .passwordlessLogin, .passwordlessSignup, .webView, .appRating,
+             .invite, .userVerification:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -1174,6 +1192,23 @@ fileprivate extension AppCoordinator {
         }
     }
 
+    func loginPasswordlessWith(token: String) {
+        tabBarCtl.dismissAllPresented(nil)
+        guard let navCtl = selectedNavigationController else { return }
+        navCtl.showLoadingMessageAlert()
+        sessionManager.loginPasswordlessWith(token: token) { result in
+            switch result {
+            case .success:
+                navCtl.dismissLoadingMessageAlert()
+            case .failure:
+                let message = R.Strings.commonErrorGenericBody
+                navCtl.dismissLoadingMessageAlert {
+                    navCtl.showAutoFadingOutMessageAlert(message: message)
+                }
+            }
+        }
+    }
+    
     func openUserProfile(completionOpenProfile: ((TabCoordinator)->Void)? = nil) {
         if featureFlags.community.shouldShowOnTab {
             let coord = ProfileTabCoordinator(source: .mainListing)

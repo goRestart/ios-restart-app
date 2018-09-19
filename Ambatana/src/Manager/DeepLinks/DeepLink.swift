@@ -59,6 +59,8 @@ enum DeepLinkAction: Equatable {
     case userRating(ratingId: String)
     case notificationCenter
     case appStore
+    case passwordlessSignup(token: String)
+    case passwordlessLogin(token: String)
     case webView(url: URL)
     case invite(userid: String, username: String)
     case userVerification
