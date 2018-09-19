@@ -125,6 +125,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
     }
 
     private func registerSeller(params: RegistrationParams) {
+        uiStateRelay.accept(.loading)
         guard let userId = myUserRepository.myUser?.objectId else { return }
         guard let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String else { return }
         let params = P2PPaymentCreateSellerParams(sellerId: userId,
@@ -142,6 +143,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
             case .success:
                 self?.showPayoutInfo()
             case .failure:
+                self?.uiStateRelay.accept(.register)
                 // TODO: @juolgon handle error case
                 break
             }
@@ -149,6 +151,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
     }
 
     func requestBankAccountPayout(routingNumber: String, accountNumber: String) {
+        uiStateRelay.accept(.loading)
         guard let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String else { return }
         guard let offer = offer else { return }
         let params = BankAccountParams(routingNumber: routingNumber,
@@ -160,6 +163,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
             case .success(let token):
                 self?.requestPayoutWithToken(token)
             case .failure:
+                self?.showPayoutInfo()
                 // TODO: @juolgon handle error here
                 break
             }
@@ -171,6 +175,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
                                    cardExpirationMonth: Int,
                                    cardExpirationYear: Int,
                                    cvc: String) {
+        uiStateRelay.accept(.loading)
         guard let offer = offer else { return }
         let params = CardParams(name: name,
                                 number: cardNumber,
@@ -183,6 +188,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
             case .success(let token):
                 self?.requestPayoutWithToken(token)
             case .failure:
+                self?.showPayoutInfo()
                 // TODO: @juolgon handle error here
                 break
             }
@@ -199,6 +205,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
             case .success:
                 self?.navigator?.close()
             case .failure:
+                self?.showPayoutInfo()
                 // TODO: @juolgon handle error here
                 break
             }
@@ -277,24 +284,34 @@ extension P2PPaymentsPayoutViewModel {
         let state: String
     }
 
+    struct BankAccountPayoutParams {
+        let routingNumber: String
+        let accountNumber: String
+    }
+
+    struct CardPayoutParams {
+        let name: String
+        let cardNumber: String
+        let cardExpirationMonth: Int
+        let cardExpirationYear: Int
+        let cvc: String
+    }
+
     func registerButtonPressed(params: RegistrationParams) {
         registerSeller(params: params)
     }
 
-    func payoutButtonPressed(routingNumber: String, accountNumber: String) {
-        requestBankAccountPayout(routingNumber: routingNumber, accountNumber: accountNumber)
+    func payoutButtonPressed(params: BankAccountPayoutParams) {
+        requestBankAccountPayout(routingNumber: params.routingNumber,
+                                 accountNumber: params.accountNumber)
     }
 
-    func payoutButtonPressed(name: String,
-                             cardNumber: String,
-                             cardExpirationMonth: Int,
-                             cardExpirationYear: Int,
-                             cvc: String) {
-        requestCardPayout(name: name,
-                          cardNumber: cardNumber,
-                          cardExpirationMonth: cardExpirationMonth,
-                          cardExpirationYear: cardExpirationYear,
-                          cvc: cvc)
+    func payoutButtonPressed(params: CardPayoutParams) {
+        requestCardPayout(name: params.name,
+                          cardNumber: params.cardNumber,
+                          cardExpirationMonth: params.cardExpirationMonth,
+                          cardExpirationYear: params.cardExpirationYear,
+                          cvc: params.cvc)
     }
 
     func closeButtonPressed() {
