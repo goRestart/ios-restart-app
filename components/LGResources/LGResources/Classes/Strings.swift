@@ -1826,7 +1826,6 @@ extension R {
     public static let paymentsOfferStatusActionChatButton = Strings.tr("Localizable", "payments_offer_status_action_chat_button")
     /// View payment code
     public static let paymentsOfferStatusActionViewCodeButton = Strings.tr("Localizable", "payments_offer_status_action_view_code_button")
-<<<<<<< HEAD
     /// letgo will securely hold your funds in escrow until you confirm you’ve received the item
     public static let paymentsOfferStatusAsBuyerBuyerOfferStepDescription = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_description")
     /// Offer expired
@@ -1909,20 +1908,6 @@ extension R {
     public static let paymentsOnboardingThirdStepDescription = Strings.tr("Localizable", "payments_onboarding_third_step_description")
     /// Meet in person and release the payment
     public static let paymentsOnboardingThirdStepTitle = Strings.tr("Localizable", "payments_onboarding_third_step_title")
-=======
-    /// %1$@, offering %2$@ for %3$@
-    public static func paymentsOfferStatusHeaderLalbel(_ p1: String, _ p2: String, _ p3: String) -> String {
-      return Strings.tr("Localizable", "payments_offer_status_header_lalbel", p1, p2, p3)
-    }
-    /// Offer expired
-    public static let paymentsOfferStatusStepOneStatusExpired = Strings.tr("Localizable", "payments_offer_status_step_one_status_expired")
-    /// Offer pending
-    public static let paymentsOfferStatusStepOneStatusPending = Strings.tr("Localizable", "payments_offer_status_step_one_status_pending")
-    /// Offer withdrawn
-    public static let paymentsOfferStatusStepOneStatusWithdrawn = Strings.tr("Localizable", "payments_offer_status_step_one_status_withdrawn")
-    /// Withdraw offer
-    public static let paymentsOfferStatusWithdrawButton = Strings.tr("Localizable", "payments_offer_status_withdraw_button")
->>>>>>> master
     /// service fee
     public static let paymentsPaymentRequestFeeLabel = Strings.tr("Localizable", "payments_payment_request_fee_label")
     /// total for seller
