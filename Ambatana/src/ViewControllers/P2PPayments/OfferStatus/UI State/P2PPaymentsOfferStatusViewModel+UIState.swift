@@ -82,7 +82,7 @@ extension P2PPaymentsOfferStatusViewModel {
             let amount = (offer.fees.amount as NSDecimalNumber).doubleValue
             let formattedPrice = currencyHelper.formattedAmountWithCurrencyCode(listing.currency.code, amount: amount)
             let listingName = listing.name ?? listing.nameAuto ?? ""
-            return R.Strings.paymentsOfferStatusHeaderLalbel(name, formattedPrice, listingName)
+            return R.Strings.paymentsOfferStatusHeaderLabel(name, formattedPrice, listingName)
         }
 
         var netAmountText: String? {

@@ -2575,8 +2575,11 @@
 // Total amount to pay in apple pay screen
 "payments_payment_request_total_amount_label" = "seller";
 
+// Navigation bar title in the offer status screen
+"payments_offer_status_navbar_title" = "Offer";
+
 // Header title for offer status screen. 1:Name 2:Price 3:Listing
-"payments_offer_status_header_lalbel" = "%1$@, offering %2$@ for %3$@";
+"payments_offer_status_header_label" = "%1$@, offering %2$@ for %3$@";
 
 // View payment button in offer status screen 
 "payments_offer_status_action_view_code_button" = "View payment code";

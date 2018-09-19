@@ -1887,9 +1887,11 @@ extension R {
     /// You receive
     public static let paymentsOfferStatusAsSellerReceived = Strings.tr("Localizable", "payments_offer_status_as_seller_received")
     /// %1$@, offering %2$@ for %3$@
-    public static func paymentsOfferStatusHeaderLalbel(_ p1: String, _ p2: String, _ p3: String) -> String {
-      return Strings.tr("Localizable", "payments_offer_status_header_lalbel", p1, p2, p3)
+    public static func paymentsOfferStatusHeaderLabel(_ p1: String, _ p2: String, _ p3: String) -> String {
+      return Strings.tr("Localizable", "payments_offer_status_header_label", p1, p2, p3)
     }
+    /// Offer
+    public static let paymentsOfferStatusNavbarTitle = Strings.tr("Localizable", "payments_offer_status_navbar_title")
     /// service fee
     public static let paymentsPaymentRequestFeeLabel = Strings.tr("Localizable", "payments_payment_request_fee_label")
     /// total for seller
