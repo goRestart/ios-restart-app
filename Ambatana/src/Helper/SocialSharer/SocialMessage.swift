@@ -488,7 +488,7 @@ struct UserSocialMessage: SocialMessage {
 
 struct AffiliationSocialMessage: SocialMessage {
     
-    static var utmCampaignValue = "affiliate-program"
+    static let utmCampaignValue = AppsFlyerAffiliationResolver.campaignValue
     
     let emailShareIsHtml = true
     let emailShareSubject: String = R.Strings.appShareSubjectText

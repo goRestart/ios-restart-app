@@ -77,7 +77,7 @@ PODS:
   - LGComponents/LGShared (1.0.0):
     - AlamofireImage (= 3.3.1)
     - CocoaLumberjack/Swift (= 3.3.0)
-    - LGCoreKit
+    - LGCoreKit (= 4.78.0)
     - RxCocoa (= 4.0.0)
   - LGCoreKit (4.78.0):
     - Alamofire (~> 4.7.3)
@@ -286,7 +286,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: 413ea05a240ec0f2567a8624d396be447bf55372
+  LGComponents: 8f22a3bf728ca5bce03d41aafc46000d3320d083
   LGCoreKit: 4e23a9fa198b5634385fc2abf1111f9087fdcec2
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354

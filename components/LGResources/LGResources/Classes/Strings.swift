@@ -1798,10 +1798,13 @@ extension R {
     public static let paymentFrequencyPerWeek = Strings.tr("Localizable", "payment_frequency_per_week")
     /// year
     public static let paymentFrequencyPerYear = Strings.tr("Localizable", "payment_frequency_per_year")
+<<<<<<< HEAD
+=======
     /// Seller receives
     public static let paymentsChangeOfferAmountLabel = Strings.tr("Localizable", "payments_change_offer_amount_label")
     /// Set new offer
     public static let paymentsChangeOfferConfirmationButton = Strings.tr("Localizable", "payments_change_offer_confirmation_button")
+>>>>>>> master
     /// Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item
     public static let paymentsCreateOfferBuyerProtectionDescriptionLabel = Strings.tr("Localizable", "payments_create_offer_buyer_protection_description_label")
     /// Buyer Protection
@@ -1812,18 +1815,27 @@ extension R {
     public static let paymentsCreateOfferEscrowInfoLabel = Strings.tr("Localizable", "payments_create_offer_escrow_info_label")
     /// Payment fee
     public static let paymentsCreateOfferFeeLabel = Strings.tr("Localizable", "payments_create_offer_fee_label")
+<<<<<<< HEAD
+    /// Payment fee %@
+=======
     /// Payment fee (%@)
+>>>>>>> master
     public static func paymentsCreateOfferFeePercentageLabel(_ p1: String) -> String {
       return Strings.tr("Localizable", "payments_create_offer_fee_percentage_label", p1)
     }
     /// Info
     public static let paymentsCreateOfferInfoButton = Strings.tr("Localizable", "payments_create_offer_info_button")
+<<<<<<< HEAD
+=======
     /// Offer
     public static let paymentsCreateOfferNavbarTitle = Strings.tr("Localizable", "payments_create_offer_navbar_title")
+>>>>>>> master
     /// Seller receives
     public static let paymentsCreateOfferSellerPriceLabel = Strings.tr("Localizable", "payments_create_offer_seller_price_label")
     /// You pay
     public static let paymentsCreateOfferTotalLabel = Strings.tr("Localizable", "payments_create_offer_total_label")
+<<<<<<< HEAD
+=======
     /// Chat with Seller
     public static let paymentsOfferStatusActionChatButton = Strings.tr("Localizable", "payments_offer_status_action_chat_button")
     /// View payment code
@@ -1916,6 +1928,7 @@ extension R {
     public static let paymentsPaymentRequestSellerAmountLabel = Strings.tr("Localizable", "payments_payment_request_seller_amount_label")
     /// seller
     public static let paymentsPaymentRequestTotalAmountLabel = Strings.tr("Localizable", "payments_payment_request_total_amount_label")
+>>>>>>> master
     /// Didn't get the code?
     public static let phoneVerificationCodeInputViewContentSubaction = Strings.tr("Localizable", "phone_verification_code_input_view_content_subaction")
     /// You can request another code if you don't receive it within %@

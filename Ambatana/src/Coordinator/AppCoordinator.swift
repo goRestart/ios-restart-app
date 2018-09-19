@@ -797,7 +797,7 @@ fileprivate extension AppCoordinator {
         sessionManager.sessionEvents.bind { [weak self] event in
             switch event {
             case .login:
-                break
+                AppsFlyerAffiliationResolver.shared.userLoggedIn()
             case let .logout(kickedOut):
                 self?.openTab(.home) { [weak self] in
                     if kickedOut {
