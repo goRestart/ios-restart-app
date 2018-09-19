@@ -10,12 +10,10 @@ struct P2PPaymentsPayoutPaymentSelectorState {
     }
 
     let kind: Kind
-    let isSelected: Bool
     let feeText: String?
     let fundsAvailableText: String?
 
     static let empty = P2PPaymentsPayoutPaymentSelectorState(kind: .standard,
-                                                             isSelected: false,
                                                              feeText: nil,
                                                              fundsAvailableText: nil)
 
@@ -29,9 +27,11 @@ struct P2PPaymentsPayoutPaymentSelectorState {
 
 final class P2PPaymentsPayoutPaymentSelectorView: UIView {
     var state: P2PPaymentsPayoutPaymentSelectorState = .empty {
-        didSet {
-            configureForCurrentState()
-        }
+        didSet { configureForCurrentState() }
+    }
+
+    var isSelected: Bool = false {
+        didSet { configureForCurrentState() }
     }
 
     private let paymentTypeLabel: UILabel = {
@@ -129,7 +129,7 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
 
     private func configureForCurrentState() {
         paymentTypeLabel.text = state.paymentTypeText
-        checkboxView.update(withState: state.isSelected ? .selected : .deselected)
+        checkboxView.update(withState: isSelected ? .selected : .deselected)
         freeTitleLabel.isHidden = state.kind != .standard
         freeSubtitleLabel.isHidden = state.kind != .standard
         instantTitleLabel.isHidden = state.kind != .instant
@@ -137,7 +137,7 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         instantTitleLabel.text = "Transaction fee \(state.feeText ?? "")"
         freeSubtitleLabel.text = "Get the money in \(state.fundsAvailableText ?? "")"
         instantSubtitleLabel.text = "Get the money in \(state.fundsAvailableText ?? "")"
-        backgroundColor = state.isSelected ? UIColor.veryLightGray : UIColor.white
-        layer.borderColor = state.isSelected ? UIColor.primaryColor.cgColor : UIColor.grayRegular.cgColor
+        backgroundColor = isSelected ? UIColor.veryLightGray : UIColor.white
+        layer.borderColor = isSelected ? UIColor.primaryColor.cgColor : UIColor.grayRegular.cgColor
     }
 }

@@ -7,6 +7,16 @@ import Stripe
 // TODO: @juolgon Localize all texts
 
 final class P2PPaymentsPayoutCardView: UIView {
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(size: 14)
+        label.textColor = .lgBlack
+        label.text = "Input your debit card so that we can pay out to your account"
+        label.numberOfLines = 0
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        return label
+    }()
+
     private let nameTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
         textField.setPlaceholderText("Name on card")
@@ -21,22 +31,23 @@ final class P2PPaymentsPayoutCardView: UIView {
         label.font = UIFont.systemFont(size: 14)
         label.textColor = .lgBlack
         label.text = "Choose one of these options:"
+        label.numberOfLines = 0
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
 
     private let standardPaymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
         let selector = P2PPaymentsPayoutPaymentSelectorView()
         selector.state = P2PPaymentsPayoutPaymentSelectorState(kind: .standard,
-                                                               isSelected: true,
                                                                feeText: nil,
                                                                fundsAvailableText: nil)
+        selector.isSelected = true
         return selector
     }()
 
     private let instantPaymentSelector: P2PPaymentsPayoutPaymentSelectorView = {
         let selector = P2PPaymentsPayoutPaymentSelectorView()
         selector.state = P2PPaymentsPayoutPaymentSelectorState(kind: .standard,
-                                                               isSelected: true,
                                                                feeText: nil,
                                                                fundsAvailableText: nil)
         return selector
@@ -80,11 +91,9 @@ final class P2PPaymentsPayoutCardView: UIView {
     private func setup() {
         configureTextFields()
         configureStackView()
-        scrollView.addSubviewsForAutoLayout([stackView,
-                                             standardPaymentSelector,
-                                             instantPaymentSelector,
-                                             actionButton])
-        addSubviewForAutoLayout(scrollView)
+        configureScrollView()
+        configurePaymentSelectors()
+        addSubviewsForAutoLayout([scrollView, actionButton])
         setupConstraints()
         setupRx()
     }
@@ -105,27 +114,56 @@ final class P2PPaymentsPayoutCardView: UIView {
         }
     }
 
+    private func configureScrollView() {
+        scrollView.contentInset.bottom = 55 + 12
+        scrollView.addSubviewsForAutoLayout([titleLabel,
+                                             stackView,
+                                             paymentTypeTitleLabel,
+                                             standardPaymentSelector,
+                                             instantPaymentSelector])
+    }
+
+    private func configurePaymentSelectors() {
+        let standardTap = UITapGestureRecognizer(target: self, action: #selector(standardPaymentSelected))
+        let instantTap = UITapGestureRecognizer(target: self, action: #selector(instantPaymentSelected))
+        standardPaymentSelector.addGestureRecognizer(standardTap)
+        instantPaymentSelector.addGestureRecognizer(instantTap)
+    }
+
     private func setupConstraints() {
         bottomContraint = scrollView.bottomAnchor.constraint(equalTo: safeBottomAnchor)
         bottomContraint?.isActive = true
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: safeTopAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeTopAnchor, constant: 12),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            stackView.widthAnchor.constraint(equalTo: widthAnchor),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
 
-            standardPaymentSelector.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 12),
-            standardPaymentSelector.widthAnchor.constraint(equalTo: widthAnchor, constant: -32),
+            stackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -24),
+            stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 12),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -12),
+
+            paymentTypeTitleLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 32),
+            paymentTypeTitleLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            paymentTypeTitleLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+
+            standardPaymentSelector.topAnchor.constraint(equalTo: paymentTypeTitleLabel.bottomAnchor, constant: 12),
+            standardPaymentSelector.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            standardPaymentSelector.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+
+            instantPaymentSelector.topAnchor.constraint(equalTo: standardPaymentSelector.bottomAnchor, constant: 24),
+            instantPaymentSelector.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            instantPaymentSelector.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+            instantPaymentSelector.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
 
             actionButton.heightAnchor.constraint(equalToConstant: 55),
-            actionButton.widthAnchor.constraint(equalTo: widthAnchor),
-            actionButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            actionButton.topAnchor.constraint(equalTo: standardPaymentSelector.bottomAnchor),
-            actionButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            actionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            actionButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -12),
         ])
     }
 
@@ -142,6 +180,16 @@ final class P2PPaymentsPayoutCardView: UIView {
     @objc private func textFieldDidBeginEditing(textField: UITextField) {
         let adjustedFrame = textField.frame.insetBy(dx: 0, dy: -50)
         scrollView.scrollRectToVisible(adjustedFrame, animated: true)
+    }
+
+    @objc private func standardPaymentSelected() {
+        standardPaymentSelector.isSelected = true
+        instantPaymentSelector.isSelected = false
+    }
+
+    @objc private func instantPaymentSelected() {
+        standardPaymentSelector.isSelected = false
+        instantPaymentSelector.isSelected = true
     }
 
     func setupKeyboardHelper() {
