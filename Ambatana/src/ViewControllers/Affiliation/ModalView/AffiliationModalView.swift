@@ -39,7 +39,6 @@ final class AffiliationModalView: UIView {
         label.numberOfLines = 3
         label.adjustsFontSizeToFitWidth = true
         label.textColor = .lgBlack
-        label.text = R.Strings.affiliationWrongCountryErrorHeadline
         label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
@@ -49,7 +48,6 @@ final class AffiliationModalView: UIView {
         label.font = .systemBoldFont(size: 26)
         label.textAlignment = .left
         label.textColor = .lgBlack
-        label.text = R.Strings.affiliationWrongCountryErrorSubheadline
         label.numberOfLines = 3
         label.adjustsFontSizeToFitWidth = true
         label.setContentHuggingPriority(.required, for: .vertical)
@@ -64,14 +62,12 @@ final class AffiliationModalView: UIView {
 
     private let primary: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
-        button.setTitle(R.Strings.tabBarToolTip, for: .normal)
         return button
     }()
     private var primaryCTA: (()->())?
 
     private let secondary: UIButton = {
         let button = LetgoButton(withStyle: .link(fontSize: .big))
-        button.setTitle(R.Strings.affiliationWrongCountryKeepBrowsing, for: .normal)
         button.alpha = 0
         return button
     }()

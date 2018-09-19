@@ -56,6 +56,7 @@ extension R {
       public static let affiliationIcon = ImageAsset(name: "affiliationIcon")
       public static let chevronRight24 = ImageAsset(name: "chevronRight24")
       public static let icnAffiliationPoints = ImageAsset(name: "icn_affiliation_points")
+      public static let icnModalSuccess = ImageAsset(name: "icn_modal_success")
       public static let icnThreeDots = ImageAsset(name: "icn_three_dots")
       public static let question24 = ImageAsset(name: "question24")
       public static let wallet24 = ImageAsset(name: "wallet24")
@@ -70,6 +71,7 @@ extension R {
         affiliationIcon,
         chevronRight24,
         icnAffiliationPoints,
+        icnModalSuccess,
         icnThreeDots,
         question24,
         wallet24,
