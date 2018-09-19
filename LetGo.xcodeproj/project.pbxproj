@@ -123,6 +123,8 @@
 		0938412B21521516001A4BD3 /* P2PPaymentsPayoutCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938412921521513001A4BD3 /* P2PPaymentsPayoutCardView.swift */; };
 		0938412D21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938412C21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift */; };
 		0938412E21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938412C21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift */; };
+		0938413021522FC0001A4BD3 /* P2PPaymentsPayoutTypeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938412F21522FC0001A4BD3 /* P2PPaymentsPayoutTypeSelectorView.swift */; };
+		0938413121522FC0001A4BD3 /* P2PPaymentsPayoutTypeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938412F21522FC0001A4BD3 /* P2PPaymentsPayoutTypeSelectorView.swift */; };
 		0941DEF92146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */; };
 		0941DEFA2146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */; };
 		0941DEFC2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */; };
@@ -2691,6 +2693,7 @@
 		0915FB9A214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusStepView.swift; sourceTree = "<group>"; };
 		0938412921521513001A4BD3 /* P2PPaymentsPayoutCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutCardView.swift; sourceTree = "<group>"; };
 		0938412C21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsCardTextField.swift; sourceTree = "<group>"; };
+		0938412F21522FC0001A4BD3 /* P2PPaymentsPayoutTypeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutTypeSelectorView.swift; sourceTree = "<group>"; };
 		0941DEF82146AADC00576659 /* P2PPaymentsOfferStatusWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusWireframe.swift; sourceTree = "<group>"; };
 		0941DEFB2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsOfferStatusBuilder.swift; sourceTree = "<group>"; };
 		0941DEFE21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PPaymentsOfferStatusStepListState+OfferStatus.swift"; sourceTree = "<group>"; };
@@ -4300,6 +4303,7 @@
 				094489A9214F721800F6EACB /* P2PPaymentsPayoutBankAccountView.swift */,
 				0938412921521513001A4BD3 /* P2PPaymentsPayoutCardView.swift */,
 				094489AF214F728900F6EACB /* P2PPaymentsPayoutPaymentSelectorView.swift */,
+				0938412F21522FC0001A4BD3 /* P2PPaymentsPayoutTypeSelectorView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -9996,6 +10000,7 @@
 				2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */,
 				0941DEFF21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift in Sources */,
 				0AE6F4FB20F8CE5500D58BCE /* UIViewController+Childs.swift in Sources */,
+				0938413021522FC0001A4BD3 /* P2PPaymentsPayoutTypeSelectorView.swift in Sources */,
 				5020471B1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift in Sources */,
 				0A2F52A62122FBFD0034EF85 /* QuickLocationFiltersBuilder.swift in Sources */,
 				50D250041DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */,
@@ -11284,6 +11289,7 @@
 				0904D8A3213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift in Sources */,
 				0ACA8F3B2114864E00243850 /* LGLeanplumBuilder.swift in Sources */,
 				727463B61FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */,
+				0938413121522FC0001A4BD3 /* P2PPaymentsPayoutTypeSelectorView.swift in Sources */,
 				0AE405D320EE500A0041E3F1 /* ListingDetailView.swift in Sources */,
 				C7B588601CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				A460582A212D9A8100386DFC /* TourBuilder.swift in Sources */,
