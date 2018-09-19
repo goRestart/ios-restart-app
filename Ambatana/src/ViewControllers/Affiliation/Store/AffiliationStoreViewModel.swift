@@ -22,6 +22,10 @@ struct AffiliationPurchase {
 }
 
 final class AffiliationStoreViewModel: BaseViewModel {
+    let cellRedeemTapped = PublishRelay<Int>()
+    fileprivate let state = PublishSubject<ViewState>()
+
+    fileprivate let myUserRepository: MyUserRepository
     private let rewardsRepository: RewardRepository
     private let locationManager: LocationManager
 
@@ -41,13 +45,18 @@ final class AffiliationStoreViewModel: BaseViewModel {
                          action: { [weak self] in self?.openHistory() })]
     }
 
+    var userEmail: String? { return myUserRepository.myUser?.email }
+
     convenience override init() {
-        self.init(rewardsRepository: Core.rewardRepository,
+        self.init(myUserRepository: Core.myUserRepository,
+                  rewardsRepository: Core.rewardRepository,
                   locationManager: Core.locationManager)
     }
 
-    init(rewardsRepository: RewardRepository,
+    init(myUserRepository: MyUserRepository,
+        rewardsRepository: RewardRepository,
          locationManager: LocationManager) {
+            self.myUserRepository = myUserRepository
         self.rewardsRepository = rewardsRepository
         self.locationManager = locationManager
     }
@@ -89,7 +98,10 @@ final class AffiliationStoreViewModel: BaseViewModel {
 
     private func retrievePurchases() {
         rewardsState.onNext(.loading)
-        guard let code = locationManager.currentLocation?.countryCode else { return }
+        guard let code = locationManager.currentLocation?.countryCode else {
+            rewardsState.onNext(.error(makeInvalidCountry()))
+            return
+        }
         rewardsRepository.indexRewards(countryCode: code) { [weak self] result in
             self?.updateRewards(with: result)
         }
@@ -140,6 +152,9 @@ final class AffiliationStoreViewModel: BaseViewModel {
         navigator?.openHistory()
     }
 
+    func openEditEmail() {
+        navigator?.openEditEmail()
+    }
     func showFailBubble(withMessage message: String, duration: TimeInterval) {
         // TODO will open a PR with this solved
     }
@@ -147,6 +162,19 @@ final class AffiliationStoreViewModel: BaseViewModel {
     fileprivate func makeEmpty() -> LGEmptyViewModel {
         return LGEmptyViewModel(icon: R.Asset.Affiliation.Error.errorOops.image,
                                 title: R.Strings.affiliationStoreUnknownErrorMessage,
+                                body: nil,
+                                buttonTitle: R.Strings.commonErrorListRetryButton,
+                                action: reloadAll,
+                                secondaryButtonTitle: nil,
+                                secondaryAction: nil,
+                                emptyReason: nil,
+                                errorCode: nil,
+                                errorDescription: nil)
+    }
+
+    fileprivate func makeInvalidCountry() -> LGEmptyViewModel {
+        return LGEmptyViewModel(icon: R.Asset.Affiliation.Error.errorFeatureUnavailable.image,
+                                title: R.Strings.affiliationStoreCountryErrorMessage,
                                 body: nil,
                                 buttonTitle: R.Strings.commonErrorListRetryButton,
                                 action: { [weak self] in self?.reloadAll() },
@@ -182,6 +210,21 @@ extension Reactive where Base: AffiliationStoreViewModel {
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: ViewState.error(base.makeEmpty()))
     }
+
+    private var userEmail: Observable<String?> {
+        return base.myUserRepository.rx_myUser.asObservable().map { return $0?.email }
+    }
+
+    var redeemTapped: Driver<RedeemCellModel?> {
+        return Observable.combineLatest(base.cellRedeemTapped.asObservable(),
+                                        base.rx.userEmail) { RedeemCellModel(index: $0, email: $1) }
+            .asDriver(onErrorJustReturn: nil)
+    }
+}
+
+struct RedeemCellModel {
+    let index: Int
+    let email: String?
 }
 
 private extension ViewState {

@@ -9,7 +9,7 @@ final class AffiliationVouchersViewController: BaseViewController {
 
     private lazy var datasource: AffiliationVouchersDataSource = {
         let datasource = AffiliationVouchersDataSource()
-        datasource.vouchers = viewModel.vouchers
+        datasource.vouchers = viewModel.vouchersData
         return datasource
     }()
 
@@ -75,7 +75,7 @@ final class AffiliationVouchersViewController: BaseViewController {
     private func updateWithData() {
         dismissLoadingMessageAlert()
         errorView.removeFromSuperview()
-        datasource.vouchers = viewModel.vouchers
+        datasource.vouchers = viewModel.vouchersData
         vouchersView.reloadData()
     }
     private func update(with error: LGEmptyViewModel) {

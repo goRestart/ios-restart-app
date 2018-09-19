@@ -1,4 +1,6 @@
 import LGComponents
+import RxSwift
+import RxCocoa
 
 private enum Layout {
     enum Size {
@@ -8,7 +10,9 @@ private enum Layout {
 }
 
 final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
-
+    fileprivate let reused = PublishRelay<Void>()
+    let disposeBag = DisposeBag()
+    
     private let background: UIImageView = {
         let background = UIImageView()
         background.contentMode = .scaleAspectFill
@@ -41,7 +45,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
         return label
     }()
 
-    let redeemButton: LetgoButton = {
+    fileprivate let redeemButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .medium))
         button.setTitle(R.Strings.affiliationStoreRedeemGift, for: .normal)
         return button
@@ -54,6 +58,11 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        reused.accept(())
+    }
 
     private func setupUI() {
         backgroundColor = .clear
@@ -93,4 +102,8 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
 
         redeemButton.isEnabled = data.state == .enabled
     }
+}
+
+extension Reactive where Base: AffiliationStoreCell {
+    var redeemTap: Observable<Void> { return base.redeemButton.rx.tap.asObservable() }
 }

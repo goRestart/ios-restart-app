@@ -20,7 +20,8 @@ final class AffiliationVouchersViewModel: BaseViewModel {
         return ordinalFormatter
     }()
 
-    private(set) var vouchers: [VoucherCellData] = []
+    private(set) var vouchersData: [VoucherCellData] = []
+    private var vouchers: [Voucher] = []
     fileprivate let viewState = PublishRelay<ViewState>()
 
     convenience override init() {
@@ -50,7 +51,8 @@ final class AffiliationVouchersViewModel: BaseViewModel {
             viewState.accept(.error(makeEmpty()))
         } else if let vouchers = result.value, vouchers.count > 0 {
             let formatter = DateFormatter()
-            self.vouchers = vouchers.map {
+            self.vouchers = vouchers
+            self.vouchersData = vouchers.map {
                 return toVoucherCellData(voucher: $0, formatter: formatter)
             }
             viewState.accept(.data)

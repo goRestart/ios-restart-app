@@ -50,10 +50,6 @@ protocol ChangeUsernameNavigator: class {
     func closeChangeUsername()
 }
 
-protocol ChangeEmailNavigator: class {
-    func closeChangeEmail()
-}
-
 protocol EditUserBioNavigator: class {
     func closeEditUserBio()
 }

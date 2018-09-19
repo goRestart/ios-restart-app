@@ -9,7 +9,7 @@ protocol ChangeEmailViewModelDelegate: BaseViewModelDelegate {}
 class ChangeEmailViewModel: BaseViewModel {
 
     weak var delegate: ChangeEmailViewModelDelegate?
-    weak var navigator: ChangeEmailNavigator?
+    var navigator: EditEmailNavigator?
     
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
@@ -28,7 +28,7 @@ class ChangeEmailViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository, tracker: Tracker) {
         self.myUserRepository = myUserRepository
         self.tracker = tracker
-        currentEmail = myUserRepository.myUser?.email ?? ""
+        currentEmail =  myUserRepository.myUser?.email ?? ""
         super.init()
     }
     
@@ -49,7 +49,7 @@ class ChangeEmailViewModel: BaseViewModel {
     // MARK: - Navigation
     
     override func backButtonPressed() -> Bool {
-        navigator?.closeChangeEmail()
+        navigator?.closeEditEmail()
         return true
     }
     
@@ -97,7 +97,7 @@ class ChangeEmailViewModel: BaseViewModel {
     private func updateEmailDidSuccess(with address: String) {
         trackEditEmailComplete()
         delegate?.vmHideLoading(R.Strings.changeEmailSendOk(address), afterMessageCompletion: { [weak self] in
-            self?.navigator?.closeChangeEmail()
+            self?.navigator?.closeEditEmail()
         })
     }
     
