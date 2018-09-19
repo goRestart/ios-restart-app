@@ -124,6 +124,12 @@ public protocol MyUserRepository {
      - parameter completion: the completion closure
      */
      func validateSMSCode(_ code: String, completion: MyUserVoidCompletion?)
+    
+    /**
+     Notifies the backend that this was an istallation originated with a referral.
+     - parameter inviterId: Id of the user who invited
+     */
+    func notifyReferral(inviterId: String, completion: @escaping RepositoryCompletion<Void>)
 }
 
 

@@ -33,4 +33,5 @@ struct ProductionEnvironment: Environment {
     let communityBaseURL = "https://community-sso.letgo.com"
     let rewardBaseURL = "https://reward.letgo.com"
     let challengerBaseURL = "https://challenger.letgo.com"
+    let p2pPaymentsBaseURL = "https://p2payments.letgo.com"
 }

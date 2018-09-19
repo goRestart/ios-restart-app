@@ -230,7 +230,7 @@ class LGSessionManager: InternalSessionManager {
      */
     func loginPasswordlessWith(token: String,
                                completion: LoginCompletion?) {
-        let provider: UserSessionProvider = .passwordless(token: token, username: "letgo")
+        let provider: UserSessionProvider = .passwordless(token: token, username: nil)
         login(provider, completion: completion)
     }
 
