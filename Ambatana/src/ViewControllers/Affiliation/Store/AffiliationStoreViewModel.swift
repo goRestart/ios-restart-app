@@ -87,7 +87,11 @@ final class AffiliationStoreViewModel: BaseViewModel {
         case (let points, let rewards):
             rewardPoints = points
             mapRewardsToPurchases(rewards: rewards)
-            viewState.accept(.data)
+            if let rewards = rewards, rewards.count > 0 {
+                viewState.accept(.data)
+            } else {
+                viewState.accept(ViewState.empty(genericErrorModel()))
+            }
         }
     }
 
