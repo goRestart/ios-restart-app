@@ -88,7 +88,6 @@ final class ChatViewMessageAdapter {
             type = ChatViewMessageType.interlocutorIsTyping
         case .unsupported(let defaultText):
             type = ChatViewMessageType.unsupported(text: defaultText ?? R.Strings.chatMessageTypeNotSupported)
-            tracker.trackEvent(TrackerEvent.chatUpdateAppWarningShow())
         case .multiAnswer(let question, let answers):
             type = ChatViewMessageType.multiAnswer(question: question, answers: answers)
         case .cta(let ctaData, let ctas):
