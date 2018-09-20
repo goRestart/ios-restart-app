@@ -1,41 +1,42 @@
 import Foundation
 import LGCoreKit
 
-enum BumpUpPurchaseableData {
-    case socialMessage(message: SocialMessage)
-    case purchaseableProduct(product: PurchaseableProduct)
-}
-
 struct BumpUpProductData {
-    let bumpUpPurchaseableData: BumpUpPurchaseableData
+    let purchaseableProduct: PurchaseableProduct
     let letgoItemId: String?
     let storeProductId: String?
+    let featurePurchase: FeaturePurchase?
 
     var hasPaymentId: Bool {
         return letgoItemId != nil
     }
 }
 
+extension Array where Element == BumpUpProductData {
+    var hasPaymentIds: Bool {
+        return !(self.filter({ $0.hasPaymentId }).isEmpty)
+    }
+}
+
 protocol BumpUpAssembly {
-    func buildFreeBumpUp(forListing listing: Listing,
-                         socialMessage: SocialMessage,
-                         letgoItemId: String?,
-                         storeProductId: String?,
-                         typePage: EventParameterTypePage?,
-                         maxCountdown: TimeInterval) -> BumpUpFreeViewController
     func buildPayBumpUp(forListing listing: Listing,
-                        purchaseableProduct: PurchaseableProduct,
-                        letgoItemId: String?,
-                        storeProductId: String?,
+                        purchases: [BumpUpProductData],
                         typePage: EventParameterTypePage?,
                         maxCountdown: TimeInterval) -> BumpUpPayViewController
     func buildBumpUpBoost(forListing listing: Listing,
-                          purchaseableProduct: PurchaseableProduct,
-                          letgoItemId: String?,
-                          storeProductId: String?,
+                          purchases: [BumpUpProductData],
                           typePage: EventParameterTypePage?,
                           timeSinceLastBump: TimeInterval,
                           maxCountdown: TimeInterval) -> BumpUpBoostViewController
+    func buildMultiDayBumpUp(forListing listing: Listing,
+                             purchases: [BumpUpProductData],
+                             typePage: EventParameterTypePage?,
+                             maxCountdown: TimeInterval) -> BumpUpMultiDayViewController
+    func buildMultiDayInfoBumpUp(forListing listing: Listing,
+                                 featurePurchaseType: FeaturePurchaseType,
+                                 typePage: EventParameterTypePage?,
+                                 timeSinceLastBump: TimeInterval,
+                                 maxCountdown: TimeInterval) -> BumpUpMultiDayInfoViewController
 }
 
 enum BumpUpBuilder {
@@ -44,38 +45,15 @@ enum BumpUpBuilder {
 }
 
 extension BumpUpBuilder: BumpUpAssembly {
-    func buildFreeBumpUp(forListing listing: Listing,
-                         socialMessage: SocialMessage,
-                         letgoItemId: String?,
-                         storeProductId: String?,
-                         typePage: EventParameterTypePage?,
-                         maxCountdown: TimeInterval) -> BumpUpFreeViewController {
-        let bumpUpVM = BumpUpFreeViewModel(listing: listing,
-                                           socialMessage: socialMessage,
-                                           letgoItemId: letgoItemId,
-                                           storeProductId: storeProductId,
-                                           typePage: typePage)
-        switch self {
-        case .modal(let root):
-            bumpUpVM.navigator = BumpUpsModalWireframe(root: root)
-        case .standard(let nav):
-            bumpUpVM.navigator = BumpUpsStandardWireframe(nc: nav)
-        }
-        return BumpUpFreeViewController(viewModel: bumpUpVM)
-    }
-
     func buildPayBumpUp(forListing listing: Listing,
-                        purchaseableProduct: PurchaseableProduct,
-                        letgoItemId: String?,
-                        storeProductId: String?,
+                        purchases: [BumpUpProductData],
                         typePage: EventParameterTypePage?,
                         maxCountdown: TimeInterval) -> BumpUpPayViewController {
         let bumpUpVM = BumpUpPayViewModel(listing: listing,
-                                          purchaseableProduct: purchaseableProduct,
-                                          letgoItemId: letgoItemId,
-                                          storeProductId: storeProductId,
+                                          purchases: purchases,
                                           typePage: typePage,
-                                          maxCountdown: maxCountdown)
+                                          maxCountdown: maxCountdown,
+                                          timeSinceLastBump: nil)
         switch self {
         case .modal(let root):
             bumpUpVM.navigator = BumpUpsModalWireframe(root: root)
@@ -86,18 +64,15 @@ extension BumpUpBuilder: BumpUpAssembly {
     }
 
     func buildBumpUpBoost(forListing listing: Listing,
-                          purchaseableProduct: PurchaseableProduct,
-                          letgoItemId: String?,
-                          storeProductId: String?,
+                          purchases: [BumpUpProductData],
                           typePage: EventParameterTypePage?,
                           timeSinceLastBump: TimeInterval,
                           maxCountdown: TimeInterval) -> BumpUpBoostViewController {
         let bumpUpVM = BumpUpPayViewModel(listing: listing,
-                                          purchaseableProduct: purchaseableProduct,
-                                          letgoItemId: letgoItemId,
-                                          storeProductId: storeProductId,
+                                          purchases: purchases,
                                           typePage: typePage,
-                                          maxCountdown: maxCountdown)
+                                          maxCountdown: maxCountdown,
+                                          timeSinceLastBump: timeSinceLastBump)
         bumpUpVM.isBoost = true
         switch self {
         case .modal(let root):
@@ -106,7 +81,45 @@ extension BumpUpBuilder: BumpUpAssembly {
             bumpUpVM.navigator = BumpUpsStandardWireframe(nc: nav)
         }
         return BumpUpBoostViewController(viewModel: bumpUpVM,
-                                         featureFlags: FeatureFlags.sharedInstance,
-                                         timeSinceLastBump: timeSinceLastBump)
+                                         featureFlags: FeatureFlags.sharedInstance)
+    }
+
+    func buildMultiDayBumpUp(forListing listing: Listing,
+                             purchases: [BumpUpProductData],
+                             typePage: EventParameterTypePage?,
+                             maxCountdown: TimeInterval) -> BumpUpMultiDayViewController {
+        let bumpUpVM = BumpUpPayViewModel(listing: listing,
+                                          purchases: purchases,
+                                          typePage: typePage,
+                                          maxCountdown: maxCountdown,
+                                          timeSinceLastBump: nil)
+        switch self {
+        case .modal(let root):
+            bumpUpVM.navigator = BumpUpsModalWireframe(root: root)
+        case .standard(let nav):
+            bumpUpVM.navigator = BumpUpsStandardWireframe(nc: nav)
+        }
+        return BumpUpMultiDayViewController(viewModel: bumpUpVM,
+                                            featureFlags: FeatureFlags.sharedInstance)
+    }
+
+    func buildMultiDayInfoBumpUp(forListing listing: Listing,
+                                 featurePurchaseType: FeaturePurchaseType,
+                                 typePage: EventParameterTypePage?,
+                                 timeSinceLastBump: TimeInterval,
+                                 maxCountdown: TimeInterval) -> BumpUpMultiDayInfoViewController {
+        let bumpUpVM = BumpUpPayViewModel(listing: listing,
+                                          purchases: [],
+                                          typePage: typePage,
+                                          maxCountdown: maxCountdown,
+                                          timeSinceLastBump: timeSinceLastBump)
+        switch self {
+        case .modal(let root):
+            bumpUpVM.navigator = BumpUpsModalWireframe(root: root)
+        case .standard(let nav):
+            bumpUpVM.navigator = BumpUpsStandardWireframe(nc: nav)
+        }
+        return BumpUpMultiDayInfoViewController(viewModel: bumpUpVM,
+                                                selectedFeaturePurchaseType: featurePurchaseType)
     }
 }

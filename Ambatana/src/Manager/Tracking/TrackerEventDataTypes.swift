@@ -339,6 +339,8 @@ enum EventParameterName: String {
     case numberPhotosPosting  = "number-photos-posting"
     case bumpUpPrice          = "price"
     case bumpUpType           = "bump-type"
+    case purchaseType         = "purchase-type"
+    case paymentEnabled       = "payment-enabled"
     case paymentId            = "payment-id"
     case retriesNumber        = "retries-number"
     case storeProductId       = "store-productId"
@@ -1328,12 +1330,32 @@ enum EventParameterBumpUpType: String {
         switch bumpType {
         case .free:
             self = .free
-        case .priced, .hidden, .boost:
+        case .priced, .hidden, .boost, .ongoingBump:
             self = .paid
         case .restore:
             self = .retry
         case .loading:
             self = .loading
+        }
+    }
+}
+
+enum EventParameterPurchaseType: String {
+    case bump = "bump"
+    case boost = "boost"
+    case threeDays = "3x"
+    case sevenDays = "7x"
+
+    init(type: FeaturePurchaseType) {
+        switch type {
+        case .bump:
+            self = .bump
+        case .boost:
+            self = .boost
+        case .threeDays:
+            self = .threeDays
+        case .sevenDays:
+            self = .sevenDays
         }
     }
 }

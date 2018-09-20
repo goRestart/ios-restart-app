@@ -85,13 +85,13 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     }
 
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?,
+                     purchases: [BumpUpProductData],
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
         let vc = editAssembly.buildEditView(listing: listing,
                                             pageType: nil,
-                                            bumpUpProductData: bumpUpProductData,
+                                            purchases: purchases,
                                             listingCanBeBoosted: listingCanBeBoosted,
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: maxCountdown,
@@ -119,50 +119,56 @@ final class ListingDetailWireframe: ListingDetailNavigator {
         }
     }
 
-    func openFreeBumpUp(forListing listing: Listing,
-                        bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?,
-                        maxCountdown: TimeInterval) {
-        if case .socialMessage(let socialMessage) = bumpUpProductData.bumpUpPurchaseableData {
-            let vc = bumpAssembly.buildFreeBumpUp(forListing: listing,
-                                                  socialMessage: socialMessage,
-                                                  letgoItemId: bumpUpProductData.letgoItemId,
-                                                  storeProductId: bumpUpProductData.storeProductId,
-                                                  typePage: typePage,
-                                                  maxCountdown: maxCountdown)
-            nc.present(vc, animated: true, completion: nil)
-        }
-    }
     func openPayBumpUp(forListing listing: Listing,
-                       bumpUpProductData: BumpUpProductData,
+                       purchases: [BumpUpProductData],
                        typePage: EventParameterTypePage?,
                        maxCountdown: TimeInterval) {
-        if case .purchaseableProduct(let purchaseableProduct) = bumpUpProductData.bumpUpPurchaseableData {
-            let vc = bumpAssembly.buildPayBumpUp(forListing: listing,
-                                                 purchaseableProduct: purchaseableProduct,
-                                                 letgoItemId: bumpUpProductData.letgoItemId,
-                                                 storeProductId: bumpUpProductData.storeProductId,
-                                                 typePage: typePage,
-                                                 maxCountdown: maxCountdown)
-            nc.present(vc, animated: true, completion: nil)
-        }
+        let vc = bumpAssembly.buildPayBumpUp(forListing: listing,
+                                             purchases: purchases,
+                                             typePage: typePage,
+                                             maxCountdown: maxCountdown)
+        nc.present(vc, animated: true, completion: nil)
     }
+
     func openBumpUpBoost(forListing listing: Listing,
-                         bumpUpProductData: BumpUpProductData,
+                         purchases: [BumpUpProductData],
                          typePage: EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval) {
-        if case .purchaseableProduct(let purchaseableProduct) = bumpUpProductData.bumpUpPurchaseableData,
-            timeSinceLastBump > 0 {
-            let vc = bumpAssembly.buildBumpUpBoost(forListing: listing, purchaseableProduct: purchaseableProduct,
-                                                   letgoItemId: bumpUpProductData.letgoItemId,
-                                                   storeProductId: bumpUpProductData.storeProductId,
+        if timeSinceLastBump > 0 {
+            let vc = bumpAssembly.buildBumpUpBoost(forListing: listing,
+                                                   purchases: purchases,
                                                    typePage: typePage,
                                                    timeSinceLastBump: timeSinceLastBump,
                                                    maxCountdown: maxCountdown)
             nc.present(vc, animated: true, completion: nil)
         }
     }
+
+    func openMultiDayBumpUp(forListing listing: Listing,
+                            purchases: [BumpUpProductData],
+                            typePage: EventParameterTypePage?,
+                            maxCountdown: TimeInterval) {
+        let vc = bumpAssembly.buildMultiDayBumpUp(forListing: listing,
+                                                  purchases: purchases,
+                                                  typePage: typePage,
+                                                  maxCountdown: maxCountdown)
+        nc.present(vc, animated: true, completion: nil)
+    }
+
+    func openMultiDayInfoBumpUp(forListing listing: Listing,
+                                featurePurchaseType: FeaturePurchaseType,
+                                typePage: EventParameterTypePage?,
+                                timeSinceLastBump: TimeInterval,
+                                maxCountdown: TimeInterval) {
+        let vc = bumpAssembly.buildMultiDayInfoBumpUp(forListing: listing,
+                                                  featurePurchaseType: featurePurchaseType,
+                                                  typePage: typePage,
+                                                  timeSinceLastBump: timeSinceLastBump,
+                                                  maxCountdown: maxCountdown)
+        nc.present(vc, animated: true, completion: nil)
+    }
+
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
@@ -262,19 +268,26 @@ final class ListingDetailWireframe: ListingDetailNavigator {
 
 extension ListingDetailWireframe: OnEditActionable {
     func onEdit(listing: Listing,
-                bumpData: BumpUpProductData?,
+                purchases: [BumpUpProductData],
                 timeSinceLastBump: TimeInterval?,
                 maxCountdown: TimeInterval) {
-        guard let bumpData = bumpData, bumpData.hasPaymentId else { return }
-        if let timeSinceLastBump = timeSinceLastBump, timeSinceLastBump > 0 {
+        guard !purchases.isEmpty else { return }
+        let allPurchasesHavePaymentId = !(purchases.filter { $0.hasPaymentId }.isEmpty)
+        guard allPurchasesHavePaymentId else { return }
+        if featureFlags.multiDayBumpUp.isActive {
+            openMultiDayBumpUp(forListing: listing,
+                               purchases: purchases,
+                               typePage: .edit,
+                               maxCountdown: maxCountdown)
+        } else if let timeSinceLastBump = timeSinceLastBump, timeSinceLastBump > 0 {
             openBumpUpBoost(forListing: listing,
-                            bumpUpProductData: bumpData,
+                            purchases: purchases,
                             typePage: .edit,
                             timeSinceLastBump: timeSinceLastBump,
                             maxCountdown: maxCountdown)
         } else {
             openPayBumpUp(forListing: listing,
-                          bumpUpProductData: bumpData,
+                          purchases: purchases,
                           typePage: .edit,
                           maxCountdown: maxCountdown)
         }

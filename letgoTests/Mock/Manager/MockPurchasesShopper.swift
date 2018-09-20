@@ -7,6 +7,7 @@
 //
 
 @testable import LetGoGodMode
+import LGCoreKit
 
 class MockPurchasesShopper: PurchasesShopper {
     weak var delegate: PurchasesShopperDelegate?
@@ -19,9 +20,12 @@ class MockPurchasesShopper: PurchasesShopper {
 
     var currentBumpTypePage: EventParameterTypePage?
     var currentBumpIsBoost: Bool = false
+    var currentAvailablePurchases: [FeaturePurchase] = []
+    var storeToLetgoIdsMapper: [String:String] = [:]
 
     var timeOfRecentBump: TimeInterval? = nil
     var maxCountdown: TimeInterval? = nil
+    var bumpUpType: BumpUpType? = nil
 
     func startObservingTransactions() {
 
@@ -37,36 +41,71 @@ class MockPurchasesShopper: PurchasesShopper {
 
     func productsRequestStartForListingId(_ listingId: String,
                                           letgoItemId: String,
-                                          withIds ids: [String],
+                                          providerItemId: String,
                                           maxCountdown: TimeInterval,
+                                          timeSinceLastBump: TimeInterval,
                                           typePage: EventParameterTypePage?) {
 
         currentBumpTypePage = typePage
-        var purchaseableProducts: [PurchaseableProduct] = []
+        storeToLetgoIdsMapper[providerItemId] = letgoItemId
 
-        ids.forEach { purchaseProductId in
-            var purchaseableProduct = MockPurchaseableProduct.makeMock()
-            purchaseableProduct.productIdentifier = purchaseProductId
-            purchaseableProducts.append(purchaseableProduct)
-        }
-        
+        var purchaseableProduct = MockPurchaseableProduct.makeMock()
+        purchaseableProduct.productIdentifier = providerItemId
+
+        let featurePurchase = LGFeaturePurchase(purchaseType: (timeSinceLastBump > 0 ? .boost : .bump),
+                                                featureDuration: maxCountdown,
+                                                provider: .apple,
+                                                letgoItemId: letgoItemId,
+                                                providerItemId: providerItemId)
+
+        let purchaseInfo = BumpUpProductData(purchaseableProduct: purchaseableProduct,
+                                             letgoItemId: letgoItemId,
+                                             storeProductId: providerItemId,
+                                             featurePurchase: featurePurchase)
+
         bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId,
-                                                                              withProducts: purchaseableProducts,
-                                                                              letgoItemId: letgoItemId,
-                                                                              storeProductId: ids.first,
+                                                                              withPurchases: [purchaseInfo],
                                                                               maxCountdown: maxCountdown,
                                                                               typePage: typePage)
     }
-    
-    
+
+    func requestProviderForPurchases(purchases: [FeaturePurchase], listingId: String, typePage: EventParameterTypePage?) {
+
+        currentBumpTypePage = typePage
+        currentAvailablePurchases = purchases
+
+        let storeProductIds = purchases.map { $0.providerItemId }
+
+        purchases.forEach { [weak self] purchase in
+            self?.storeToLetgoIdsMapper[purchase.providerItemId] = purchase.letgoItemId
+        }
+        let purchaseableProducts: [PurchaseableProduct] = storeProductIds.map { storeId in
+            var product = MockPurchaseableProduct.makeMock()
+            product.productIdentifier = storeId
+            return product
+        }
+
+        let purchasesInfoArray: [BumpUpProductData] = purchaseableProducts.compactMap { [weak self] purchaseableProduct in
+            return purchaseableProduct.toBumpUpProductData(storeToLetgoIdsMapper: self?.storeToLetgoIdsMapper,
+                                                           currentAvailablePurchases: self?.currentAvailablePurchases)
+        }
+
+        bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId,
+                                                                              withPurchases: purchasesInfoArray,
+                                                                              maxCountdown: 0,
+                                                                              typePage: typePage)
+    }
+
     func requestPayment(forListingId listingId: String,
                         appstoreProduct: PurchaseableProduct,
                         letgoItemId: String,
-                        isBoost: Bool,
                         maxCountdown: TimeInterval,
-                        typePage: EventParameterTypePage?) {
-        delegate?.restoreBumpDidStart()
-        
+                        typePage: EventParameterTypePage?,
+                        featurePurchaseType: FeaturePurchaseType) {
+        delegate?.pricedBumpDidStartWith(storeProduct: appstoreProduct,
+                                         typePage: currentBumpTypePage,
+                                         featurePurchaseType: featurePurchaseType)
+
         performAfterDelayWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             if !strongSelf.paymentSucceeds {
@@ -75,14 +114,18 @@ class MockPurchasesShopper: PurchasesShopper {
             } else if strongSelf.pricedBumpSucceeds {
                 // payment works and bump works
                 let paymentId = UUID().uuidString.lowercased()
-                strongSelf.delegate?.pricedBumpDidSucceed(type: .priced, restoreRetriesCount: strongSelf.restoreRetriesCount,
-                                                          transactionStatus: .purchasingPurchased, typePage: strongSelf.currentBumpTypePage,
-                                                          isBoost: isBoost,
+                strongSelf.delegate?.pricedBumpDidSucceed(type: .priced,
+                                                          restoreRetriesCount: strongSelf.restoreRetriesCount,
+                                                          transactionStatus: .purchasingPurchased,
+                                                          typePage: strongSelf.currentBumpTypePage,
+                                                          isBoost: featurePurchaseType.isBoost,
                                                           paymentId: paymentId)
             } else {
                 // payment works but bump fails
-                strongSelf.delegate?.pricedBumpDidFail(type: .priced, transactionStatus: .purchasingPurchased,
-                                                       typePage: strongSelf.currentBumpTypePage, isBoost: isBoost)
+                strongSelf.delegate?.pricedBumpDidFail(type: .priced,
+                                                       transactionStatus: .purchasingPurchased,
+                                                       typePage: strongSelf.currentBumpTypePage,
+                                                       isBoost: featurePurchaseType.isBoost)
             }
         }
     }
@@ -91,17 +134,16 @@ class MockPurchasesShopper: PurchasesShopper {
         return isBumpUpPending
     }
 
-    func timeSinceRecentBumpFor(listingId: String) -> (timeDifference: TimeInterval, maxCountdown: TimeInterval)? {
-        guard let timeOfRecentBump = timeOfRecentBump, let maxCountdown = maxCountdown else { return nil }
-        return (timeOfRecentBump, maxCountdown)
-    }
-
-    func requestFreeBumpUp(forListingId listingId: String, letgoItemId: String, shareNetwork: EventParameterShareNetwork) {
-
+    func timeSinceRecentBumpFor(listingId: String) -> RecentBumpInfo? {
+        guard let timeOfRecentBump = timeOfRecentBump, let maxCountdown = maxCountdown,
+            let bumpUpType = bumpUpType else { return nil }
+        return RecentBumpInfo(timeDifference: timeOfRecentBump,
+                              maxCountdown: maxCountdown,
+                              bumpUpType: bumpUpType)
     }
 
     func restorePaidBumpUp(forListingId listingId: String) {
-        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage, isBoost: currentBumpIsBoost)
+        delegate?.restoreBumpDidStart()
         if pricedBumpSucceeds {
             // payment works and bump works
             let paymentId = UUID().uuidString.lowercased()

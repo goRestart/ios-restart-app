@@ -595,6 +595,10 @@
 		2E151D7620A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */; };
 		2E151D7720A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */; };
 		2E1711F0212708F7001F92AA /* HTMLBoldParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41195F621219B9300EBB210 /* HTMLBoldParser.swift */; };
+		2E19DD0A213EB5BF00A4A538 /* BumpUpMultiDayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E19DD09213EB5BF00A4A538 /* BumpUpMultiDayViewController.swift */; };
+		2E19DD0B213EB5BF00A4A538 /* BumpUpMultiDayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E19DD09213EB5BF00A4A538 /* BumpUpMultiDayViewController.swift */; };
+		2E19DD0D213EB62800A4A538 /* BumpUpMultiDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E19DD0C213EB62800A4A538 /* BumpUpMultiDayView.swift */; };
+		2E19DD0E213EB62800A4A538 /* BumpUpMultiDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E19DD0C213EB62800A4A538 /* BumpUpMultiDayView.swift */; };
 		2E1BC3FD1E648C0A0063D1A7 /* ReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */; };
 		2E1BC4001E6492230063D1A7 /* ReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */; };
 		2E200D2020BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E200D1F20BEEB630054F053 /* ChatConnectionStatusView.swift */; };
@@ -649,9 +653,6 @@
 		2E47610C1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47610A1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift */; };
 		2E4A9DBA1D8054DE00F99026 /* ListingListMultiRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A9DB91D8054DE00F99026 /* ListingListMultiRequester.swift */; };
 		2E4A9DBB1D8169CE00F99026 /* ListingListMultiRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A9DB91D8054DE00F99026 /* ListingListMultiRequester.swift */; };
-		2E4ADEBF200515FC00D07D8A /* BumpUpFreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ADEB5200515FB00D07D8A /* BumpUpFreeViewController.swift */; };
-		2E4ADEC0200515FC00D07D8A /* BumpUpFreeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4ADEB6200515FB00D07D8A /* BumpUpFreeViewController.xib */; };
-		2E4ADEC1200515FC00D07D8A /* BumpUpFreeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ADEB7200515FB00D07D8A /* BumpUpFreeViewModel.swift */; };
 		2E4ADEC2200515FC00D07D8A /* BumpUpPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ADEB8200515FB00D07D8A /* BumpUpPayViewController.swift */; };
 		2E4ADEC3200515FC00D07D8A /* BumpUpPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4ADEB9200515FB00D07D8A /* BumpUpPayViewController.xib */; };
 		2E4ADEC4200515FC00D07D8A /* BumpUpPayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ADEBA200515FB00D07D8A /* BumpUpPayViewModel.swift */; };
@@ -703,6 +704,10 @@
 		2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */; };
 		2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
 		2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
+		2E7678DE214C186500F783B9 /* BumpUpMultiDayInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7678DD214C186500F783B9 /* BumpUpMultiDayInfoViewController.swift */; };
+		2E7678DF214C186500F783B9 /* BumpUpMultiDayInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7678DD214C186500F783B9 /* BumpUpMultiDayInfoViewController.swift */; };
+		2E7678E1214FA4F700F783B9 /* BumpUpTimerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7678E0214FA4F700F783B9 /* BumpUpTimerType.swift */; };
+		2E7678E2214FA4F700F783B9 /* BumpUpTimerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7678E0214FA4F700F783B9 /* BumpUpTimerType.swift */; };
 		2E791C18212C5F3900C9086F /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E791C17212C5F3900C9086F /* NotificationsView.swift */; };
 		2E791C19212C5F3900C9086F /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E791C17212C5F3900C9086F /* NotificationsView.swift */; };
 		2E79430B212B008900CBC5CB /* ProcessInfo+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E79430A212B008900CBC5CB /* ProcessInfo+Extended.swift */; };
@@ -757,9 +762,6 @@
 		2EC653B31E716C8800E23DDF /* Dictionary+FilterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC653B21E716C8800E23DDF /* Dictionary+FilterSpec.swift */; };
 		2EC653B71E71744B00E23DDF /* MockExternalAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC653B51E71744B00E23DDF /* MockExternalAuthHelper.swift */; };
 		2EC653B81E71767A00E23DDF /* MockReceiptURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC842A51E6EEB7000EED53A /* MockReceiptURLProvider.swift */; };
-		2ECB416C20065FB200482EF7 /* BumpUpFreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ADEB5200515FB00D07D8A /* BumpUpFreeViewController.swift */; };
-		2ECB416D20065FB200482EF7 /* BumpUpFreeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4ADEB6200515FB00D07D8A /* BumpUpFreeViewController.xib */; };
-		2ECB416E20065FB200482EF7 /* BumpUpFreeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ADEB7200515FB00D07D8A /* BumpUpFreeViewModel.swift */; };
 		2ECB416F20065FB200482EF7 /* BumpUpPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ADEB8200515FB00D07D8A /* BumpUpPayViewController.swift */; };
 		2ECB417020065FB200482EF7 /* BumpUpPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4ADEB9200515FB00D07D8A /* BumpUpPayViewController.xib */; };
 		2ECB417120065FB200482EF7 /* BumpUpPayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ADEBA200515FB00D07D8A /* BumpUpPayViewModel.swift */; };
@@ -2835,6 +2837,8 @@
 		2E151D6F20A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlockedUsersViewModel.swift; sourceTree = "<group>"; };
 		2E151D7220A49BB20038D7C7 /* ChatBlockedUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlockedUsersViewController.swift; sourceTree = "<group>"; };
 		2E151D7520A5D3370038D7C7 /* ChatBlockedUsersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlockedUsersCell.swift; sourceTree = "<group>"; };
+		2E19DD09213EB5BF00A4A538 /* BumpUpMultiDayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BumpUpMultiDayViewController.swift; sourceTree = "<group>"; };
+		2E19DD0C213EB62800A4A538 /* BumpUpMultiDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BumpUpMultiDayView.swift; sourceTree = "<group>"; };
 		2E1BC3FC1E648C0A0063D1A7 /* ReceiptURLProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReceiptURLProvider.swift; path = Monetization/ReceiptURLProvider.swift; sourceTree = "<group>"; };
 		2E200D1F20BEEB630054F053 /* ChatConnectionStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConnectionStatusView.swift; sourceTree = "<group>"; };
 		2E212C6420FCC55400FB42B3 /* ChatMyCallToActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMyCallToActionCell.swift; sourceTree = "<group>"; };
@@ -2861,9 +2865,6 @@
 		2E4562151BE0F76D00C485D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		2E47610A1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDetailOnboardingViewModel.swift; sourceTree = "<group>"; };
 		2E4A9DB91D8054DE00F99026 /* ListingListMultiRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListingListMultiRequester.swift; path = "Products Requester/ListingListMultiRequester.swift"; sourceTree = "<group>"; };
-		2E4ADEB5200515FB00D07D8A /* BumpUpFreeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumpUpFreeViewController.swift; sourceTree = "<group>"; };
-		2E4ADEB6200515FB00D07D8A /* BumpUpFreeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BumpUpFreeViewController.xib; sourceTree = "<group>"; };
-		2E4ADEB7200515FB00D07D8A /* BumpUpFreeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumpUpFreeViewModel.swift; sourceTree = "<group>"; };
 		2E4ADEB8200515FB00D07D8A /* BumpUpPayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumpUpPayViewController.swift; sourceTree = "<group>"; };
 		2E4ADEB9200515FB00D07D8A /* BumpUpPayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BumpUpPayViewController.xib; sourceTree = "<group>"; };
 		2E4ADEBA200515FB00D07D8A /* BumpUpPayViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumpUpPayViewModel.swift; sourceTree = "<group>"; };
@@ -2893,6 +2894,8 @@
 		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
 		2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdBannerTrackingStatus.swift; sourceTree = "<group>"; };
 		2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdsRequester.swift; path = Ads/AdsRequester.swift; sourceTree = "<group>"; };
+		2E7678DD214C186500F783B9 /* BumpUpMultiDayInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BumpUpMultiDayInfoViewController.swift; sourceTree = "<group>"; };
+		2E7678E0214FA4F700F783B9 /* BumpUpTimerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BumpUpTimerType.swift; path = "Bump Up/BumpUpTimerType.swift"; sourceTree = "<group>"; };
 		2E791C17212C5F3900C9086F /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		2E79430A212B008900CBC5CB /* ProcessInfo+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+Extended.swift"; sourceTree = "<group>"; };
 		2E7F4A452074FB7100A05728 /* lottie_bump_up_boost_success_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie_bump_up_boost_success_animation.json; sourceTree = "<group>"; };
@@ -5052,9 +5055,6 @@
 		2E4ADEB4200515FB00D07D8A /* BumpUp */ = {
 			isa = PBXGroup;
 			children = (
-				2E4ADEB5200515FB00D07D8A /* BumpUpFreeViewController.swift */,
-				2E4ADEB6200515FB00D07D8A /* BumpUpFreeViewController.xib */,
-				2E4ADEB7200515FB00D07D8A /* BumpUpFreeViewModel.swift */,
 				2E4ADEB8200515FB00D07D8A /* BumpUpPayViewController.swift */,
 				2E4ADEB9200515FB00D07D8A /* BumpUpPayViewController.xib */,
 				2E4ADEBA200515FB00D07D8A /* BumpUpPayViewModel.swift */,
@@ -5062,6 +5062,9 @@
 				2E4ADEBC200515FC00D07D8A /* FeaturedInfoViewModel.swift */,
 				2E4DE8D32062A09E0016D5A8 /* BumpUpBoostViewController.swift */,
 				2E4DE8D8206422970016D5A8 /* BoostSuccessAlertView.swift */,
+				2E19DD09213EB5BF00A4A538 /* BumpUpMultiDayViewController.swift */,
+				2E19DD0C213EB62800A4A538 /* BumpUpMultiDayView.swift */,
+				2E7678DD214C186500F783B9 /* BumpUpMultiDayInfoViewController.swift */,
 			);
 			name = BumpUp;
 			path = Monetization/BumpUp;
@@ -5155,6 +5158,7 @@
 			children = (
 				2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */,
 				2E423783205A7AA00077B62A /* BumpUpTimerBarView.swift */,
+				2E7678E0214FA4F700F783B9 /* BumpUpTimerType.swift */,
 			);
 			name = BumpUp;
 			sourceTree = "<group>";
@@ -8438,7 +8442,6 @@
 				0A82A1A22141A7CD005ECA58 /* RateUserViewController.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
-				2E4ADEC0200515FC00D07D8A /* BumpUpFreeViewController.xib in Resources */,
 				508011031D4749030073F362 /* LaunchScreen.xib in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				508011001D4748120073F362 /* SettingsViewController.xib in Resources */,
@@ -8508,7 +8511,6 @@
 				C7DB424B1C5138B500400945 /* words_lowercase.json in Resources */,
 				C75B5DCA1D59E09500112368 /* ListingDetailOnboardingView.xib in Resources */,
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
-				2ECB416D20065FB200482EF7 /* BumpUpFreeViewController.xib in Resources */,
 				C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
 				2E5350451CF8A181003B06CC /* ListingStatsView.xib in Resources */,
@@ -9469,7 +9471,6 @@
 				72FE02DC1F98CE0A005BD672 /* AlphaAnimator.swift in Sources */,
 				427070D520764EBA00C1FEB3 /* CellAppereance.swift in Sources */,
 				4252685620C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift in Sources */,
-				2E4ADEBF200515FC00D07D8A /* BumpUpFreeViewController.swift in Sources */,
 				50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
 				50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */,
 				6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */,
@@ -9477,6 +9478,8 @@
 				C70A426D1E9666C100B6EFD8 /* CollectionType+Find.swift in Sources */,
 				C7111F021CA438AC000C5C5A /* UniversalLink.swift in Sources */,
 				7285C95B1F83C75F00BD16E9 /* SellNavigationController.swift in Sources */,
+				2E19DD0D213EB62800A4A538 /* BumpUpMultiDayView.swift in Sources */,
+				50D153F6214A5BE600221B06 /* AffiliationChallengesViewModel.swift in Sources */,
 				425EE397211AFCFE0002DAB8 /* AspectRatio+CGSize.swift in Sources */,
 				C72794281D549334009C25AB /* SettingsCell.swift in Sources */,
 				0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */,
@@ -9607,7 +9610,6 @@
 				0A82A17E213FBFF2005ECA58 /* NotificationCenterThumbnailCell.swift in Sources */,
 				8EEC7F56206AA60B00616858 /* MoPubNativeView.swift in Sources */,
 				0A890AA421208BAC0091ED75 /* ProfessionalDealerAskPhoneBuilder.swift in Sources */,
-				2E4ADEC1200515FC00D07D8A /* BumpUpFreeViewModel.swift in Sources */,
 				32D85F60209B57250080D143 /* MainTabNavigator.swift in Sources */,
 				0A8823AA2052BBD3004414CA /* ZoomableImageView.swift in Sources */,
 				3212AE5221257A7700945110 /* Lens+LG.swift in Sources */,
@@ -9783,6 +9785,7 @@
 				72D928EE1E83F0BD0030F4C3 /* LGPushPermissionsManager.swift in Sources */,
 				0A6FECE02130344000B57004 /* EditListingStandardWireframe.swift in Sources */,
 				C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */,
+				2E7678DE214C186500F783B9 /* BumpUpMultiDayInfoViewController.swift in Sources */,
 				504CD297214B04E600A7672C /* AffiliationChallengesDataVM.swift in Sources */,
 				C6F3CEFB20FF69A800AF4D38 /* LGChevronView.swift in Sources */,
 				50D153FA214A5BE600221B06 /* AffiliationInviteFriendsViewController.swift in Sources */,
@@ -10203,6 +10206,7 @@
 				0AF0A46120EA58C100E9176F /* LPCenterPopupView.swift in Sources */,
 				727EF06C1E0BE16D0037DA4E /* CountryCode.swift in Sources */,
 				C6BEE65120EE65A9008AEA0B /* CarAttributeItem.swift in Sources */,
+				2E19DD0A213EB5BF00A4A538 /* BumpUpMultiDayViewController.swift in Sources */,
 				C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				320843B820A1FDF7009A1DC5 /* DiscoveryABGroup.swift in Sources */,
 				0A376DCD2150175E00DFFB7F /* AffiliationVoucherCell.swift in Sources */,
@@ -10298,6 +10302,7 @@
 				2E4B359C1CC90A9500B8CB64 /* RelatedListingListRequester.swift in Sources */,
 				50D153F2214A5BE600221B06 /* AffiliationFAQViewModel.swift in Sources */,
 				0A6FECFE2130344000B57004 /* SimpleListingsWireframe.swift in Sources */,
+				2E7678E1214FA4F700F783B9 /* BumpUpTimerType.swift in Sources */,
 				3294762C2133F750008EE737 /* InterestedStateTrackingInfo.swift in Sources */,
 				C742340C1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				C7AB4EC61CD39C67007B573D /* LGNotificationsManager.swift in Sources */,
@@ -10695,6 +10700,7 @@
 				0A3AF6C0213D48480034143B /* ListingBuilder.swift in Sources */,
 				729912F6200FABD9000541CF /* NumberOfRooms.swift in Sources */,
 				6A8335852057D3D100171A68 /* UserProfileDummyUserDisclaimerView.swift in Sources */,
+				2E19DD0E213EB62800A4A538 /* BumpUpMultiDayView.swift in Sources */,
 				2E4BDE731EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift in Sources */,
 				55F1FB37204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */,
 				6AA9E90D203EDCB2004EACC4 /* RatingView.swift in Sources */,
@@ -10824,6 +10830,7 @@
 				C64D26C520ED1EF800EC43A1 /* ListingAttributeGridLayoutBehaviour.swift in Sources */,
 				328E8E1A20B6EF4300BBF639 /* RequesterFactory.swift in Sources */,
 				C2E85E8920736B9A0009F3B0 /* Camera.swift in Sources */,
+				2E7678E2214FA4F700F783B9 /* BumpUpTimerType.swift in Sources */,
 				0AE6F4EF20F88D7800D58BCE /* TrendingSearchesViewController.swift in Sources */,
 				0133D913213947BE00AD9959 /* ShareScreenshotBuilder.swift in Sources */,
 				C7DB41E51C5138B500400945 /* FilterTagsView.swift in Sources */,
@@ -10835,7 +10842,6 @@
 				2E2D53DF1D369AFF00348D12 /* Config.swift in Sources */,
 				50FEFA1F20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */,
 				3212ADF72119A1C600945110 /* WaterfallLayoutItemRenderPolicy.swift in Sources */,
-				2ECB416E20065FB200482EF7 /* BumpUpFreeViewModel.swift in Sources */,
 				50D1541F214A5C2300221B06 /* AffiliationChallengesStandardWireframe.swift in Sources */,
 				6A4E80621C77620900C6423E /* LetgoAvatar.swift in Sources */,
 				55DFCDDA2073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift in Sources */,
@@ -11143,6 +11149,7 @@
 				326C72E3208A2935009D21DB /* FeedViewModelType.swift in Sources */,
 				0A6FED1B2130344000B57004 /* RateUserModalWireframe.swift in Sources */,
 				0A6FECFF2130344000B57004 /* SimpleListingsWireframe.swift in Sources */,
+				2E7678DF214C186500F783B9 /* BumpUpMultiDayInfoViewController.swift in Sources */,
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				0A73F1FD209216070016CC72 /* LGTimer.swift in Sources */,
 				0A82A186213FC031005ECA58 /* RoundedActivityIndicatorView.swift in Sources */,
@@ -11200,6 +11207,7 @@
 				8E0EEF84204EEE78000C07C9 /* LGMachineLearning.swift in Sources */,
 				723A45CA1DDC4D470001D02C /* UILabel+LG.swift in Sources */,
 				0AFE31222056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift in Sources */,
+				2E19DD0B213EB5BF00A4A538 /* BumpUpMultiDayViewController.swift in Sources */,
 				0A751480214272570049E135 /* RateBuyersHeader.swift in Sources */,
 				C7BAC9C91E49D316005BD0AF /* PurchasesShopper.swift in Sources */,
 				0A045982213D15890082C469 /* ListingStatusView.swift in Sources */,
@@ -11328,7 +11336,6 @@
 				8E814F431F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */,
 				C7841AF51E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				0A376DCE2150175E00DFFB7F /* AffiliationVoucherCell.swift in Sources */,
-				2ECB416C20065FB200482EF7 /* BumpUpFreeViewController.swift in Sources */,
 				C66105E12130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */,
 				C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				32448E872105CB7100EFF33A /* FeedViewControllerProtocols.swift in Sources */,
