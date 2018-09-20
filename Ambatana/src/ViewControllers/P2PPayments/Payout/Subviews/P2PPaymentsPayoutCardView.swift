@@ -4,7 +4,6 @@ import RxSwift
 import RxCocoa
 import Stripe
 
-// TODO: @juolgon Localize all texts
 
 final class P2PPaymentsPayoutCardView: UIView {
     var cardPayoutParams: P2PPaymentsPayoutViewModel.CardPayoutParams {
@@ -20,7 +19,7 @@ final class P2PPaymentsPayoutCardView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(size: 14)
         label.textColor = .lgBlack
-        label.text = "Input your debit card so that we can pay out to your account"
+        label.text = R.Strings.paymentsPayoutCardTitleLabel
         label.numberOfLines = 0
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
@@ -28,7 +27,7 @@ final class P2PPaymentsPayoutCardView: UIView {
 
     private let nameTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("Name on card")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutCardNamePlaceholder)
         textField.returnKeyType = .next
         return textField
     }()
@@ -39,7 +38,7 @@ final class P2PPaymentsPayoutCardView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(size: 14)
         label.textColor = .lgBlack
-        label.text = "Choose one of these options:"
+        label.text = R.Strings.paymentsPayoutCardPaymentTypeLabel
         label.numberOfLines = 0
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
@@ -64,7 +63,7 @@ final class P2PPaymentsPayoutCardView: UIView {
 
     fileprivate let actionButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
-        button.setTitle("Payout", for: .normal)
+        button.setTitle(R.Strings.paymentsPayoutCardPayoutButton, for: .normal)
         return button
     }()
 
