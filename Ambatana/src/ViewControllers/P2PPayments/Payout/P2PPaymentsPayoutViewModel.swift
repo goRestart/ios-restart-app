@@ -5,14 +5,6 @@ import RxSwift
 import RxCocoa
 
 final class P2PPaymentsPayoutViewModel: BaseViewModel {
-    private enum Constants {
-        static let secondsInADay: Double = 3600 * 24
-        static let minDays: Int = 3
-        static let maxDays: Int = 7
-    }
-
-    private static let currencyHelper = Core.currencyHelper
-
     var navigator: P2PPaymentsOfferStatusWireframe?
     private let offerId: String
     private let p2pPaymentsRepository: P2PPaymentsRepository
@@ -85,43 +77,10 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
     }
 
     private func showPayoutInfo() {
-        let daysToOffset = calculateFundsAvailableOffsetDays()
-        let payoutInfo = PayoutInfo(feeText: getFeeText(),
-                                    standardFundsAvailableText: getStandardFundsAvailableText(daysOffset: daysToOffset),
-                                    instantFundsAvailableText: getInstantFundsAvailableText(daysOffset: daysToOffset))
-        uiStateRelay.accept(.payout(info: payoutInfo))
-    }
-
-    private func calculateFundsAvailableOffsetDays() -> Int {
-        guard let fundsAvailableDate = offer?.fundsAvailableDate else { return 0 }
-        guard fundsAvailableDate.timeIntervalSinceNow > 0 else { return 0 }
-        let daysOffset = Int(fundsAvailableDate.timeIntervalSinceNow / Constants.secondsInADay)
-        return daysOffset
-    }
-
-    private func getFeeText() -> String {
-        guard let priceBreakdown = priceBreakdown else { return "" }
-        let feeAmountText = P2PPaymentsPayoutViewModel
-            .currencyHelper
-            .formattedAmountWithCurrencyCode(priceBreakdown.currency.code,
-                                             amount: (priceBreakdown.fee as NSDecimalNumber).doubleValue)
-        return "(— \(feeAmountText)"
-    }
-
-    private func getStandardFundsAvailableText(daysOffset: Int) -> String {
-        guard daysOffset > 0 else { return "3-7 days" }
-        let minDays = Constants.minDays + daysOffset
-        let maxDays = Constants.maxDays + daysOffset
-        return "\(minDays)-\(maxDays) days"
-    }
-
-    private func getInstantFundsAvailableText(daysOffset: Int) -> String {
-        guard daysOffset > 0 else { return "under 1 hour" }
-        if daysOffset > 1 {
-            return "\(daysOffset) days"
-        } else {
-            return "1 day"
-        }
+        guard let priceBreakdown = priceBreakdown, let fundsAvailableDate = offer?.fundsAvailableDate else { return }
+        let payoutState = UIState.createPayout(priceBreakdown: priceBreakdown,
+                                               fundsAvailableDate: fundsAvailableDate)
+        uiStateRelay.accept(payoutState)
     }
 
     private func registerSeller(params: RegistrationParams) {
@@ -210,63 +169,6 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
                 // TODO: @juolgon handle error here
                 break
             }
-        }
-    }
-}
-
-// MARK: - UI State
-
-extension P2PPaymentsPayoutViewModel {
-    struct PayoutInfo {
-        let feeText: String
-        let standardFundsAvailableText: String
-        let instantFundsAvailableText: String
-    }
-
-    enum UIState {
-        case loading
-        case register
-        case payout(info: PayoutInfo)
-
-        var showLoadingIndicator: Bool {
-            switch self {
-            case .loading: return true
-            default: return false
-            }
-        }
-
-        var registerIsHidden: Bool {
-            switch self {
-            case .register: return false
-            default: return true
-            }
-        }
-
-        var payoutIsHidden: Bool {
-            switch self {
-            case .payout: return false
-            default: return true
-            }
-        }
-
-        var payoutInfo: PayoutInfo? {
-            guard case let .payout(info: info) = self else { return nil }
-            return info
-        }
-
-        var feeText: String? {
-            guard let payoutInfo = payoutInfo else { return nil }
-            return payoutInfo.feeText
-        }
-
-        var standardFundsAvailableText: String? {
-            guard let payoutInfo = payoutInfo else { return nil }
-            return payoutInfo.standardFundsAvailableText
-        }
-
-        var instantFundsAvailableText: String? {
-            guard let payoutInfo = payoutInfo else { return nil }
-            return payoutInfo.instantFundsAvailableText
         }
     }
 }
