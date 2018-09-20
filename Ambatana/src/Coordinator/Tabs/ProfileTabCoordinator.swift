@@ -14,6 +14,7 @@ final class ProfileTabCoordinator: TabCoordinator {
     private lazy var editAssembly = EditListingBuilder.modal(navigationController)
     private lazy var userAssembly = LGUserBuilder.standard(navigationController)
     private lazy var affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(navigationController)
+    private lazy var editEmailAssembly = EditEmailBuilder.standard(navigationController)
 
     convenience init(source: UserSource = .tabBar) {
         let sessionManager = Core.sessionManager
@@ -119,9 +120,7 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openEditEmail() {
-        let vm = ChangeEmailViewModel()
-        vm.navigator = self
-        let vc = ChangeEmailViewController(with: vm)
+        let vc = editEmailAssembly.buildEditEmail()
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -164,12 +163,6 @@ extension ProfileTabCoordinator: SettingsNavigator {
 extension ProfileTabCoordinator: ChangeUsernameNavigator {
 
     func closeChangeUsername() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: ChangeEmailNavigator {
-    func closeChangeEmail() {
         navigationController.popViewController(animated: true)
     }
 }

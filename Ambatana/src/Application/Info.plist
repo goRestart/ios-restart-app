@@ -148,6 +148,8 @@
 			</dict>
 		</dict>
 	</dict>
+    <key>NSContactsUsageDescription</key>
+    <string>letgo needs to access your contacts to invite your friends</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To start selling, give letgo access to your camera</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

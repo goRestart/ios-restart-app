@@ -211,6 +211,28 @@ extension MainTabCoordinator: MainTabNavigator {
             openChild(coordinator: coord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
         }
     }
+    
+    func openAffiliation() {
+        guard featureFlags.affiliationEnabled.isActive else { return }
+        openFullLoginIfNeeded(source: .feed) { [weak self] in
+            guard let navigationController = self?.navigationController else { return }
+            let affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(navigationController)
+            let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
+            navigationController.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func openAffiliationOnboarding(data: ReferrerInfo) {
+        //TODO: Here facu's view for onboarding
+        let alert = UIAlertController(title: "onboarding",
+                                      message: "Aqui saldrá la pantalla molona",
+                                      preferredStyle: .alert)
+        let positive = UIAlertAction(title: "go!", style: .default) {[weak self] _ in
+            self?.openAffiliation()
+        }
+        alert.add([positive])
+        viewController.present(alert, animated: true, completion: nil)
+    }
 
     func openSearches() {
         openChild(coordinator: SearchCoordinator(),
@@ -218,6 +240,32 @@ extension MainTabCoordinator: MainTabNavigator {
                   animated: true,
                   forceCloseChild: true,
                   completion: nil)
+    }
+    
+    func openWrongCountryModal() {
+        let primaryAction = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
+                                     action: { [weak self] in
+                                        self?.dismissViewController(animated: true, completion: nil)
+        })
+        let secondaryAction = UIAction(interface: .button(R.Strings.commonOk, .terciary),
+                                       action: { [weak self] in
+                                        self?.dismissViewController(animated: true, completion: nil)
+        })
+        let data = AffiliationModalData(
+            icon: R.Asset.Affiliation.icnModalSuccess.image,
+            headline: R.Strings.affiliationStoreRedeemGiftSuccessHeadline,
+            subheadline: R.Strings.affiliationStoreRedeemGiftSuccessSubheadlineWithEmail,
+            primary: primaryAction,
+            secondary: secondaryAction
+        )
+        let vm = AffiliationModalViewModel(data: data)
+        let vc = AffiliationModalViewController(viewModel: vm)
+        
+        vm.active = true
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .overCurrentContext
+        
+        navigationController.present(vc, animated: true, completion: nil)
     }
 }
 

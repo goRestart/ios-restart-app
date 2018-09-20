@@ -18,4 +18,7 @@ protocol MainTabNavigator: TabNavigator {
     func openPrivateUserProfile()
     func openCommunity()
     func openSearches()
+    func openAffiliation()
+    func openAffiliationOnboarding(data: ReferrerInfo)
+    func openWrongCountryModal()
 }

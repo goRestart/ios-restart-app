@@ -50,10 +50,6 @@ protocol ChangeUsernameNavigator: class {
     func closeChangeUsername()
 }
 
-protocol ChangeEmailNavigator: class {
-    func closeChangeEmail()
-}
-
 protocol EditUserBioNavigator: class {
     func closeEditUserBio()
 }
@@ -80,4 +76,8 @@ protocol UserVerificationNavigator: class {
     func openEditUserBio()
     func openEmailVerification()
     func openPhoneNumberVerification(editing: Bool)
+}
+
+protocol UserVerificationAwarenessNavigator: class {
+    func closeAwarenessView()
 }

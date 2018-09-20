@@ -13,7 +13,9 @@ enum EventName: String {
     case signupEmail                        = "signup-email"
     case logout                             = "logout"
     case passwordResetVisit                 = "login-reset-password"
-    
+    case loginEmailStart                    = "login-email-start"
+    case loginEmailSubmit                   = "login-email-submit"
+
     case loginEmailError                    = "login-error"
     case loginFBError                       = "login-signup-error-facebook"
     case loginGoogleError                   = "login-signup-error-google"
@@ -222,6 +224,8 @@ enum EventName: String {
 
     case showNewItemsBadge                  = "show-new-items-badge"
     case duplicatedItemsInFeed              = "duplicated-items-hidden"
+
+    case verificationModalShown             = "verification-modal-shown"
     
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -494,6 +498,7 @@ enum EventParameterLoginSourceValue: String {
     case directQuickAnswer = "direct-quick-answer"
     case chatProUser = "chat-pro-user"
     case community = "community"
+    case feed = "feed"
 }
 
 enum EventParameterProductItemType: String {
@@ -991,6 +996,7 @@ enum EventParameterTypePage: String {
     case nextItem = "next-item"
     case feed = "feed"
     case notificationCenter = "notification-center"
+    case rewardCenter = "reward-center"
 }
 
 enum EventParameterPermissionType: String {

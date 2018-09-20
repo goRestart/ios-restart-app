@@ -1,4 +1,6 @@
 import LGComponents
+import RxSwift
+import RxCocoa
 
 private enum Layout {
     enum Size {
@@ -8,7 +10,9 @@ private enum Layout {
 }
 
 final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
-
+    fileprivate let reused = PublishRelay<Void>()
+    let disposeBag = DisposeBag()
+    
     private let background: UIImageView = {
         let background = UIImageView()
         background.contentMode = .scaleAspectFill
@@ -24,12 +28,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
         return brand
     }()
 
-    private let pointsLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.font = UIFont.systemBoldFont(size: 14)
-        return label
-    }()
+    private let pointsView = AffiliationPointsView()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -41,7 +40,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
         return label
     }()
 
-    private let redeemButton: LetgoButton = {
+    fileprivate let redeemButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .medium))
         button.setTitle(R.Strings.affiliationStoreRedeemGift, for: .normal)
         return button
@@ -55,9 +54,14 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        reused.accept(())
+    }
+
     private func setupUI() {
         backgroundColor = .clear
-        addSubviewsForAutoLayout([background, partnerImageView, pointsLabel, titleLabel, redeemButton])
+        addSubviewsForAutoLayout([background, partnerImageView, pointsView, titleLabel, redeemButton])
 
         background.constraintsToEdges(in: contentView).activate()
         [
@@ -66,10 +70,10 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
             partnerImageView.heightAnchor.constraint(equalToConstant: Layout.Size.brand.height),
             partnerImageView.heightAnchor.constraint(equalTo: partnerImageView.widthAnchor),
 
-            pointsLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
-            pointsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
+            pointsView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
+            pointsView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
 
-            titleLabel.topAnchor.constraint(equalTo: pointsLabel.bottomAnchor, constant: Metrics.veryBigMargin),
+            titleLabel.topAnchor.constraint(equalTo: pointsView.bottomAnchor, constant: Metrics.veryBigMargin),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
             titleLabel.trailingAnchor.constraint(equalTo: partnerImageView.leadingAnchor),
 
@@ -88,9 +92,13 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
 
     func populate(with data: AffiliationPurchase) {
         titleLabel.text = data.title
-        pointsLabel.text = data.points
+        pointsView.set(points: data.points)
         partnerImageView.image = data.partnerIcon
 
         redeemButton.isEnabled = data.state == .enabled
     }
+}
+
+extension Reactive where Base: AffiliationStoreCell {
+    var redeemTap: Observable<Void> { return base.redeemButton.rx.tap.asObservable() }
 }

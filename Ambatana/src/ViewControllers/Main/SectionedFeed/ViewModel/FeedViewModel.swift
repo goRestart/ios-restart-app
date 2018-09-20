@@ -53,7 +53,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     var shouldShowUserProfileButton: Bool {
         return featureFlags.community.shouldShowOnTab
     }
-    
+
     private(set) var viewState: ViewState {
         didSet {
             delegate?.vmDidUpdateState(self, state: viewState)
@@ -149,6 +149,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private let sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper
     private let sectionedFeedRequester: SectionedFeedRequester
     private let sessionManager: SessionManager
+    private let appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver
+    
     //  MARK: - Life Cycle
     
     init(searchType: SearchType? = nil,
@@ -165,6 +167,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
          keyValueStorage: KeyValueStorageable = KeyValueStorage.sharedInstance,
          deviceFamily: DeviceFamily = DeviceFamily.current,
          chatWrapper: ChatWrapper = LGChatWrapper(),
+         appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver = AppsFlyerAffiliationResolver.shared,
          adsImpressionConfigurable: AdsImpressionConfigurable = LGAdsImpressionConfigurable(),
          sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper = SectionedFeedVMTrackerHelper(),
          interestedStateManager: InterestedStateUpdater = LGInterestedStateUpdater(),
@@ -188,6 +191,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         self.locationManager = locationManager
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
+        self.appsFlyerAffiliationResolver = appsFlyerAffiliationResolver
         self.waterfallColumnCount = deviceFamily.shouldShow3Columns() ? 3 : 2
         self.viewState = .loading
         self.sectionControllerFactory = SectionControllerFactory(
@@ -288,6 +292,17 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
                 self?.loadAvatar(for: myUser)
             })
             .disposed(by: disposeBag)
+   
+        appsFlyerAffiliationResolver.rx_affiliationCampaign.asObservable().bind { [weak self] status in
+            switch status {
+            case .campaignNotAvailableForUser:
+                self?.navigator?.openWrongCountryModal()
+            case.referral( let referrer):
+                self?.navigator?.openAffiliationOnboarding(data: referrer)
+            case .unknown:
+                return
+            }
+        }.disposed(by: disposeBag)
     }
     
     private func refreshFeed() {
@@ -538,7 +553,9 @@ extension FeedViewModel {
     }
     
     func openAffiliationChallenges() {
-        wireframe?.openAffiliationChallenges()
+        wireframe?.openLoginIfNeededFromFeed(from: .feed, loggedInAction: { [weak self] in
+            self?.wireframe?.openAffiliationChallenges()
+        })
     }
     
     func refreshControlTriggered() {

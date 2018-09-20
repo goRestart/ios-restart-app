@@ -227,6 +227,16 @@ class LGMyUserRepository: InternalMyUserRepository {
             handleApiResult(result, success: nil, completion: completion)
         }
     }
+    
+    func notifyReferral(inviterId: String, completion: @escaping RepositoryCompletion<Void>) {
+        guard let myUserId = myUser?.objectId else {
+            completion(MyUserVoidResult(error: .internalError(message: "Missing MyUser objectId")))
+            return
+        }
+        dataSource.notifyReferral(inviterId: inviterId, myUserId: myUserId) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
 
     /**
      Updates the user if the locale changed.

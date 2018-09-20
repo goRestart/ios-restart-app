@@ -122,6 +122,7 @@ final class FeedViewController: BaseViewController {
     private func setupNavBar() {
         defer {
             if showRightButtons { setupRightNavBarButtons() }
+            setupInviteNavBarButton()
             setLeftNavBarButtons()
         }
         

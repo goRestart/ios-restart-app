@@ -366,6 +366,7 @@ enum AccessibilityId: Equatable, Accessible {
     case mainSignupLogInButton
     case mainSignupCloseButton
     case mainSignupHelpButton
+    case mainSignupContinueWithEmailButton
 
     // SignUpLogin
     case signUpLoginFacebookButton
@@ -387,6 +388,18 @@ enum AccessibilityId: Equatable, Accessible {
     case recaptchaCloseButton
     case recaptchaLoading
     case recaptchaWebView
+
+    // Passwordless
+    case passwordlessEmailTitleLabel
+    case passwordlessEmailDescriptionLabel
+    case passwordlessEmailTextField
+    case passwordlessEmailContinueButton
+    case passwordlessUsernameTitleLabel
+    case passwordlessUsernameUsernameTextField
+    case passwordlessDoneButton
+    case passwordlessEmailSentTitleLabel
+    case passwordlessEmailSentSubtitleLabel
+    case passwordlessEmailSentImageView
 
     // ChatConversationsList
     case chatConversationsListOptionsNavBarButton
@@ -572,6 +585,12 @@ enum AccessibilityId: Equatable, Accessible {
     case phoneVerificationCountryPickerTable
     case phoneVerificationCountryPickerSearchBar
 
+    // Verification awareness
+    case verificationAwarenessAvatar
+    case verificationAwarenessLabel
+    case verificationAwarenessButton
+    case verificationAwarenessLaterButton
+
     // Settings
     case settingsList
     case settingsLogoutAlertCancel
@@ -729,7 +748,7 @@ enum AccessibilityId: Equatable, Accessible {
     case askPhoneNumberLetstalkText
     case askPhoneNumberTextfield
     case askPhoneNumberSendPhoneButton
-    
+
     //  MARK - Verticals
     case promoCell
     case promoCellTitle
@@ -1489,6 +1508,9 @@ enum AccessibilityId: Equatable, Accessible {
             return "mainSignupCloseButton"
         case .mainSignupHelpButton:
             return "mainSignupHelpButton"
+        case .mainSignupContinueWithEmailButton:
+            return "mainSignupContinueWithEmailButton"
+            
             
         // SignUpLogin
         case .signUpLoginFacebookButton:
@@ -1527,6 +1549,29 @@ enum AccessibilityId: Equatable, Accessible {
             return "recaptchaLoading"
         case .recaptchaWebView:
             return "recaptchaWebView"
+
+        // Passowrdless
+        case .passwordlessEmailTitleLabel:
+            return "passwordlessEmailTitleLabel"
+        case .passwordlessEmailDescriptionLabel:
+            return "passwordlessEmailDescriptionLabel"
+        case .passwordlessEmailTextField:
+            return "passwordlessEmailTextField"
+        case .passwordlessEmailContinueButton:
+            return "passwordlessEmailContinueButton"
+        case .passwordlessUsernameTitleLabel:
+            return "passwordlessUsernameTitleLabel"
+        case .passwordlessUsernameUsernameTextField:
+            return "passwordlessUsernameUsernameTextField"
+        case .passwordlessDoneButton:
+            return "passwordlessDoneButton"
+        case .passwordlessEmailSentTitleLabel:
+            return "passwordlessEmailSentTitleLabel"
+        case .passwordlessEmailSentSubtitleLabel:
+            return "passwordlessEmailSentSubtitleLabel"
+        case .passwordlessEmailSentImageView:
+            return "passwordlessEmailSentImageView"
+
             
         // ChatConversationsList
         case .chatConversationsListOptionsNavBarButton:
@@ -1861,6 +1906,16 @@ enum AccessibilityId: Equatable, Accessible {
             return "phoneVerificationCountryPickerTable"
         case .phoneVerificationCountryPickerSearchBar:
             return "phoneVerificationCountryPickerSearchBar"
+
+        // Verification awareness
+        case .verificationAwarenessLabel:
+            return "verificationAwarenessLabel"
+        case .verificationAwarenessAvatar:
+            return "verificationAwarenessAvatar"
+        case .verificationAwarenessButton:
+            return "verificationAwarenessButton"
+        case .verificationAwarenessLaterButton:
+            return "verificationAwarenessLaterButton"
 
         // Settings
         case .settingsList:

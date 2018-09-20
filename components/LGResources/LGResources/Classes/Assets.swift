@@ -54,8 +54,15 @@ extension R {
         public static let amazon = ImageAsset(name: "amazon")
       }
       public static let affiliationIcon = ImageAsset(name: "affiliationIcon")
+      public static let chevronRight24 = ImageAsset(name: "chevronRight24")
+      public static let icnReward24 = ImageAsset(name: "icnReward24")
       public static let icnAffiliationPoints = ImageAsset(name: "icn_affiliation_points")
+      public static let icnModalSuccess = ImageAsset(name: "icn_modal_success")
       public static let icnThreeDots = ImageAsset(name: "icn_three_dots")
+      public static let iconCheck = ImageAsset(name: "iconCheck")
+      public static let materialBackground = ImageAsset(name: "material_background")
+      public static let question24 = ImageAsset(name: "question24")
+      public static let wallet24 = ImageAsset(name: "wallet24")
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
@@ -65,8 +72,15 @@ extension R {
         Error.errorOops,
         Partners.amazon,
         affiliationIcon,
+        chevronRight24,
+        icnReward24,
         icnAffiliationPoints,
+        icnModalSuccess,
         icnThreeDots,
+        iconCheck,
+        materialBackground,
+        question24,
+        wallet24,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")
@@ -447,6 +461,7 @@ extension R {
       public static let icKeyboard = ImageAsset(name: "ic_keyboard")
       public static let icLocation = ImageAsset(name: "ic_location")
       public static let icLocationAlert = ImageAsset(name: "ic_location_alert")
+      public static let icMagic = ImageAsset(name: "ic_magic")
       public static let icMap = ImageAsset(name: "ic_map")
       public static let icMessages = ImageAsset(name: "ic_messages")
       public static let icModerationAlert = ImageAsset(name: "ic_moderation_alert")
@@ -461,6 +476,7 @@ extension R {
       public static let icPasswordActive = ImageAsset(name: "ic_password_active")
       public static let icPasswordActiveDark = ImageAsset(name: "ic_password_active_dark")
       public static let icPasswordDark = ImageAsset(name: "ic_password_dark")
+      public static let icPasswordlessEmail = ImageAsset(name: "ic_passwordless_email")
       public static let icPen = ImageAsset(name: "ic_pen")
       public static let icPendingModeration = ImageAsset(name: "ic_pending_moderation")
       public static let icPostClose = ImageAsset(name: "ic_post_close")
@@ -754,6 +770,7 @@ extension R {
         icKeyboard,
         icLocation,
         icLocationAlert,
+        icMagic,
         icMap,
         icMessages,
         icModerationAlert,
@@ -768,6 +785,7 @@ extension R {
         icPasswordActive,
         icPasswordActiveDark,
         icPasswordDark,
+        icPasswordlessEmail,
         icPen,
         icPendingModeration,
         icPostClose,

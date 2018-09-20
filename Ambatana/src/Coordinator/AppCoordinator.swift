@@ -78,6 +78,7 @@ final class AppCoordinator: NSObject, Coordinator {
     private let rateUserAsembly: RateUserAssembly
     private let editAssembly: EditListingAssembly
     private let verifyAssembly: VerifyAccountsAssembly
+    private let verificationAwarenessAssembly: UserVerificationAwarenessAssembly
     private let promoteAssembly: PromoteBumpAssembly
     private let tourAssembly: TourLoginAssembly
 
@@ -178,6 +179,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.verifyAssembly = VerifyAccountsBuilder.modal
         self.promoteAssembly = PromoteBumpBuilder.modal(tabBarCtl)
         self.tourAssembly = TourLoginBuilder.modal
+        self.verificationAwarenessAssembly = UserVerificationAwarenessBuilder.modal(tabBarCtl)
         super.init()
         self.tourSkipper = TourSkiperWireframe(appCoordinator: self, deepLinksRouter: deepLinksRouter)
 
@@ -272,7 +274,7 @@ extension AppCoordinator: AppNavigator {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
         case .tabBar, .listingList, .profile, .deepLink, .notifications,
-             .deleteListing, .realEstatePromo, .carPromo, .servicesPromo, .chatList, .markAsSold:
+             .deleteListing, .realEstatePromo, .carPromo, .servicesPromo, .chatList, .markAsSold, .rewardCenter:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
@@ -334,12 +336,26 @@ extension AppCoordinator: AppNavigator {
         tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
-    func canOpenOffensiveReportAlert() -> Bool {
+    func canOpenModalView() -> Bool {
         return tabBarCtl.presentedViewController == nil
     }
 
+    func shouldShowVerificationAwareness() -> Bool {
+        return featureFlags.advancedReputationSystem12.isActive && myUserRepository.myUser?.hasBadge == false
+    }
+
+    func openVerificationAwarenessView() {
+        let callToAction: () -> () = { [weak self] in
+            self?.tabBarCtl.dismiss(animated: true, completion: {
+                self?.selectedTabCoordinator?.openUserVerificationView()
+            })
+        }
+        let vc = verificationAwarenessAssembly.buildUserVerificationAwarenessView(callToAction: callToAction)
+        tabBarCtl.present(vc, animated: true, completion: nil)
+    }
+
     func openOffensiveReportAlert() {
-        guard canOpenOffensiveReportAlert() else { return }
+        guard canOpenModalView() else { return }
         let reviewAction = { [weak self] in
             guard let url = LetgoURLHelper.buildCommunityGuidelineURL() else { return }
             self?.openInAppWebView(url: url)
@@ -533,7 +549,16 @@ extension AppCoordinator: AppNavigator {
                                             onEditAction: self)
         tabBarCtl.present(vc, animated: true)
     }
-    
+
+    func openConfirmUsername(token: String) {
+        let coord = PasswordlessUsernameCoordinator(token: token)
+        tabBarCtl.dismissAllPresented { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.openChild(coordinator: coord, parent: strongSelf.tabBarCtl, animated: true,
+                                 forceCloseChild: true, completion: nil)
+        }
+    }
+
     func openInAppWebView(url: URL) {
         tabBarCtl.openInAppWebViewWith(url: url)
     }
@@ -772,7 +797,7 @@ fileprivate extension AppCoordinator {
         sessionManager.sessionEvents.bind { [weak self] event in
             switch event {
             case .login:
-                break
+                AppsFlyerAffiliationResolver.shared.userLoggedIn()
             case let .logout(kickedOut):
                 self?.openTab(.home) { [weak self] in
                     if kickedOut {
@@ -1075,6 +1100,14 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openAppStore()
             }
+        case .passwordlessSignup(let token):
+            afterDelayClosure = { [weak self] in
+                self?.openConfirmUsername(token: token)
+            }
+        case .passwordlessLogin(let token):
+            afterDelayClosure = { [weak self] in
+                self?.loginPasswordlessWith(token: token)
+            }
         case .webView(let url):
             afterDelayClosure = { [weak self] in
                 self?.openInAppWebView(url: url)
@@ -1083,6 +1116,12 @@ fileprivate extension AppCoordinator {
             openAppInvite(myUserId: userid, myUserName: username)
         case .userVerification:
             mainTabBarCoordinator.openUserVerificationView()
+        case .affiliation:
+            afterDelayClosure = { [weak self] in
+                self?.openTab(.home, force: false) { [weak self] in
+                    self?.mainTabBarCoordinator.openAffiliation()
+                }
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -1104,7 +1143,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .webView, .appRating, .invite, .userVerification:
+             .notificationCenter, .appStore, .passwordlessLogin, .passwordlessSignup, .webView, .appRating, .invite, .userVerification, .affiliation:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -1158,6 +1197,23 @@ fileprivate extension AppCoordinator {
         }
     }
 
+    func loginPasswordlessWith(token: String) {
+        tabBarCtl.dismissAllPresented(nil)
+        guard let navCtl = selectedNavigationController else { return }
+        navCtl.showLoadingMessageAlert()
+        sessionManager.loginPasswordlessWith(token: token) { result in
+            switch result {
+            case .success:
+                navCtl.dismissLoadingMessageAlert()
+            case .failure:
+                let message = R.Strings.commonErrorGenericBody
+                navCtl.dismissLoadingMessageAlert {
+                    navCtl.showAutoFadingOutMessageAlert(message: message)
+                }
+            }
+        }
+    }
+    
     func openUserProfile(completionOpenProfile: ((TabCoordinator)->Void)? = nil) {
         if featureFlags.community.shouldShowOnTab {
             let coord = ProfileTabCoordinator(source: .mainListing)

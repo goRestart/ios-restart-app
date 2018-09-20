@@ -184,6 +184,12 @@ final class CoreDI: InternalDI {
 
         let reportingDataSource = ReportingApiDataSource(apiClient: self.apiClient)
         reportingRepository = LGReportingRepository(dataSource: reportingDataSource, myUserRepository: myUserRepository)
+        
+        let rewardDataSource = RewardApiDataSource(apiClient: self.apiClient)
+        rewardRepository = LGRewardRepository(datasource: rewardDataSource)
+        
+        let challengerDataSource = ChallengerApiDataSource(apiClient: self.apiClient)
+        challengerRepository = LGChallengerRepository(datasource: challengerDataSource)
 
         self.reporter = ReporterProxy()
     }
@@ -245,6 +251,8 @@ final class CoreDI: InternalDI {
     let listingRepository: ListingRepository
     let communityRepository: CommunityRepository
     let reportingRepository: ReportingRepository
+    let rewardRepository: RewardRepository
+    let challengerRepository: ChallengerRepository
 
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
@@ -282,6 +290,10 @@ final class CoreDI: InternalDI {
     lazy var notificationSettingsMailerRepository: NotificationSettingsMailerRepository = {
         let notificationSettingsMailerDataSource = NotificationSettingsMailerApiDataSource(apiClient: self.apiClient)
         return LGNotificationSettingsMailerRepository(dataSource: notificationSettingsMailerDataSource)
+    }()
+    lazy var p2pPaymentsRepository: P2PPaymentsRepository = {
+        let p2pPaymentsDataSource = P2PPaymentsApiDataSource(apiClient: self.apiClient)
+        return LGP2PPaymentsRepository(dataSource: p2pPaymentsDataSource)
     }()
 
     // MARK: > DAO

@@ -181,6 +181,8 @@ public extension UIFont {
     static var profileKarmaOpenVerificationFont: UIFont { return UIFont.systemBoldFont(size: 15) }
     static var verificationItemTitle: UIFont { return systemBoldFont(size: 23) }
     static var verificationEventCountFont: UIFont { return systemBoldFont(size: 10) }
+    static var verificationsAwarenessMessageFont: UIFont { return systemRegularFont(size: 16) }
+    static var verificationsAwarenessMessageBoldFont: UIFont { return systemBoldFont(size: 16) }
 }
 
 public extension UIFont {
@@ -190,4 +192,12 @@ public extension UIFont {
     static var smsVerificationInputCodeInformation: UIFont { return UIFont.systemMediumFont(size: 14) }
     static var smsVerificationCountryListCellText: UIFont { return UIFont.systemBoldFont(size: 23) }
     static var smsVerificationCodeInputTextfieldText: UIFont { return UIFont.systemBoldFont(size: 40) }
+}
+
+// MARK: - Passwordless
+public extension UIFont {
+    static var passwordLessEmailTitleFont: UIFont { return systemBoldFont(size: 27) }
+    static var passwordLessEmailDescriptionFont: UIFont { return systemRegularFont(size: 15) }
+    static var passwordLessEmailTextFieldFont: UIFont { return systemBoldFont(size: 23)}
+    static var passwordLessUsernameTitleFont: UIFont { return systemBoldFont(size: 35) }
 }

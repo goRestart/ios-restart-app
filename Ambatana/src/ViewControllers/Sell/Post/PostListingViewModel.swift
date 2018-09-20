@@ -19,6 +19,7 @@ enum PostingSource: String {
     case listingList
     case profile
     case markAsSold
+    case rewardCenter
 }
 
 
@@ -706,12 +707,14 @@ extension PostingSource {
             return .profile
         case .markAsSold:
             return .listingSold
+        case .rewardCenter:
+            return .rewardCenter
         }
     }
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .tabBar, .deepLink, .notifications, .deleteListing, .onboardingBlockingPosting, .chatList, .markAsSold:
+        case .tabBar, .deepLink, .notifications, .deleteListing, .onboardingBlockingPosting, .chatList, .markAsSold, .rewardCenter:
             return nil
         case .onboardingButton, .listingList, .profile:
             return .sellYourStuff
@@ -733,7 +736,7 @@ extension PostingSource {
         case .listingList, .profile:
             return .floatingButton
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting, .deepLink, .notifications,
-             .deleteListing, .chatList, .markAsSold:
+             .deleteListing, .chatList, .markAsSold, .rewardCenter:
             return .none
         case .realEstatePromo:
             return .realEstatePromo

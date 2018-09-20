@@ -153,6 +153,24 @@ struct FeedBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct RewardBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.rewardBaseURL
+    static let acceptHeader: String? = "application/vnd.api+json;version=1"
+    static let contentTypeHeader: String? = nil
+}
+
+struct ChallengerBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.challengerBaseURL
+    static let acceptHeader: String? = "application/vnd.api+json;version=1"
+    static let contentTypeHeader: String? = nil
+}
+
+struct P2PPaymentsBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.p2pPaymentsBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = "application/json"
+}
+
 enum Encoding {
     case json, url
 }

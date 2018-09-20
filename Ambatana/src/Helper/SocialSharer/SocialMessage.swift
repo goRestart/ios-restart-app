@@ -68,6 +68,7 @@ extension SocialMessage {
     static var siteIDKey: String { return "af_siteid" }
     static var sub1: String { return "af_sub1" }
     static var sub2: String { return "af_sub2" }
+    static var sub3: String { return "af_sub3" }
     static var webDeeplink: String { return "af_web_dp" }
     
     
@@ -124,7 +125,7 @@ extension SocialMessage {
     // MARK: - AppsFlyer
     
     func retrieveShareURL(source: ShareSource?, campaign: String, deepLinkString: String, webURLString: String?,
-                          fallbackToStore: Bool, myUserId: String?, myUserName: String?,
+                          fallbackToStore: Bool, myUserId: String?, myUserName: String?, myUserAvatar: String?,
                           completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
         AppsFlyerShareInviteHelper.generateInviteUrl(linkGenerator: { generator in
             return self.appsFlyerLinkGenerator(generator,
@@ -134,7 +135,8 @@ extension SocialMessage {
                                                webURLString: webURLString,
                                                fallbackToStore: fallbackToStore,
                                                myUserId: myUserId,
-                                               myUserName: myUserName)}) { url in
+                                               myUserName: myUserName,
+                                               myUserAvatar: myUserAvatar)}) { url in
                                                 // The callback is handled by another thread invoked by AppsFlyer
                                                 // Dispatch to main thread to avoid unexpected behaviours,
                                                 // i.e. FacebookMessageDialog crashes if not called from main
@@ -151,7 +153,8 @@ extension SocialMessage {
                                         webURLString: String?,
                                         fallbackToStore: Bool,
                                         myUserId: String?,
-                                        myUserName: String?) -> AppsFlyerLinkGenerator {
+                                        myUserName: String?,
+                                        myUserAvatar: String?) -> AppsFlyerLinkGenerator {
         generator.setCampaign(campaign)
         if let source = source {
             generator.setChannel(source.rawValue)
@@ -167,6 +170,9 @@ extension SocialMessage {
         }
         if let myUserName = myUserName {
             generator.addParameterValue(myUserName, forKey: Self.sub2)
+        }
+        if let myUserAvatar = myUserAvatar {
+            generator.addParameterValue(myUserAvatar, forKey: Self.sub3)
         }
         
         return generator
@@ -316,6 +322,7 @@ struct ListingSocialMessage: SocialMessage {
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
+                         myUserAvatar: nil,
                          completion: completion)
     }
 
@@ -451,6 +458,7 @@ struct AppShareSocialMessage: SocialMessage {
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
+                         myUserAvatar: nil,
                          completion: completion)
     }
 }
@@ -565,6 +573,7 @@ struct UserSocialMessage: SocialMessage {
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
+                         myUserAvatar: nil,
                          completion: completion)
     }
 }
@@ -573,7 +582,7 @@ struct UserSocialMessage: SocialMessage {
 
 struct AffiliationSocialMessage: SocialMessage {
     
-    static var utmCampaignValue = "affiliate-program"
+    static let utmCampaignValue = AppsFlyerAffiliationResolver.campaignValue
     
     let emailShareIsHtml = true
     let emailShareSubject: String = R.Strings.appShareSubjectText
@@ -582,14 +591,16 @@ struct AffiliationSocialMessage: SocialMessage {
     let controlParameter = "home"
     let myUserId: String?
     let myUserName: String?
+    let myUserAvatar: String?
     
     private var displayName: String {
         return myUserName ?? ""
     }
     
-    init(myUserId: String?, myUserName: String?) {
+    init(myUserId: String?, myUserName: String?, myUserAvatar: String?) {
         self.myUserId = myUserId
         self.myUserName = myUserName
+        self.myUserAvatar = myUserAvatar
     }
     
     func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
@@ -637,6 +648,7 @@ struct AffiliationSocialMessage: SocialMessage {
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
+                         myUserAvatar: myUserAvatar,
                          completion: completion)
     }
 }

@@ -6,7 +6,7 @@ final class AffiliationInviteFriendsViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     var navigator: AffiliationInviteFriendsNavigator?
     
-    let socialSharer: SocialSharer
+    private let socialSharer: SocialSharer
     
     // MARK: - Lifecycle
     
@@ -33,7 +33,10 @@ final class AffiliationInviteFriendsViewModel: BaseViewModel {
     func buildShare(type: ShareType, viewController: UIViewController) {
         let myUserId = myUserRepository.myUser?.objectId
         let myUserName = myUserRepository.myUser?.name
-        let socialMessage = AffiliationSocialMessage(myUserId:myUserId, myUserName: myUserName)
+        let myUserAvatar = myUserRepository.myUser?.avatar?.fileURL?.absoluteString
+        let socialMessage = AffiliationSocialMessage(myUserId:myUserId,
+                                                     myUserName: myUserName,
+                                                     myUserAvatar: myUserAvatar)
         socialSharer.share(socialMessage, shareType: type, viewController: viewController)
         socialSharer.delegate = viewController as? SocialSharerDelegate
     }

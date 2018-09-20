@@ -1,4 +1,5 @@
 "NSCameraUsageDescription" = "Kamerallasi otetaan kuvia asioista, jotka haluat myydä.";
+"NSContactsUsageDescription" = "letgo tarvitsee luvan käyttää yhteystietojasi ystäviesi kutsumiseksi";
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo käyttää sijaintiasi näyttääkseen lähistöllä olevia tarjouksia ja ehdottaakseen tapaamispaikkoja";
 "NSLocationAlwaysUsageDescription" = "letgo käyttää sijaintiasi näyttääkseen lähistöllä olevia tarjouksia ja ehdottaakseen tapaamispaikkoja";
 "NSLocationWhenInUseUsageDescription" = "letgo tarvitsee pääsyn paikkatietoosi voidakseen näyttää sinulle lähellä olevia tuotteita";

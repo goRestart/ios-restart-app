@@ -24,3 +24,11 @@ public extension Currency {
         return InternalCore.currencyHelper.currencyWithCurrencyCode(code)
     }
 }
+
+extension Currency: Decodable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let currencyCode = try container.decode(String.self)
+        self = Currency.currencyWithCode(currencyCode)
+    }
+}

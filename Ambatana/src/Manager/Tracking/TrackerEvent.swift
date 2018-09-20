@@ -107,6 +107,14 @@ struct TrackerEvent {
         return TrackerEvent(name: .passwordResetVisit, params: nil)
     }
 
+    static func loginEmailStart() -> TrackerEvent {
+        return TrackerEvent(name: .loginEmailStart, params: nil)
+    }
+
+    static func loginEmailSubmit() -> TrackerEvent {
+        return TrackerEvent(name: .loginEmailSubmit, params: nil)
+    }
+
     static func loginEmailError(_ errorDescription: EventParameterLoginError) -> TrackerEvent {
         var params = EventParameters()
 
@@ -1696,7 +1704,11 @@ struct TrackerEvent {
         params[.numberOfItems] = numberOfDuplicates
         return TrackerEvent(name: .duplicatedItemsInFeed, params: params)
     }
-    
+
+    static func verificationModalShown() -> TrackerEvent {
+        return TrackerEvent(name: .verificationModalShown, params: nil)
+    }
+
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,

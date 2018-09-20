@@ -97,4 +97,11 @@ protocol MyUserDataSource {
      - parameter completion: the completion closure
      */
     func validateSMSCode(_ userId: String, code: String, completion: MyUserApiVoidCompletion?)
+    
+    /**
+     Notifies the backend that this was an istallation originated with a referral.
+     - parameter inviterId: Id of the user who invited
+     - parameter myUserId: Id of the current user (who was invited)
+     */
+    func notifyReferral(inviterId: String, myUserId: String, completion: @escaping DataSourceCompletion<Void>)
 }

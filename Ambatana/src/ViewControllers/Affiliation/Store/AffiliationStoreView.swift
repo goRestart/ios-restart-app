@@ -3,11 +3,15 @@ import LGComponents
 private enum Layout {
     static let interItemSpacing: CGFloat = 35
     static let aspect: CGFloat = 0.74
+    enum Height {
+        static let separator: CGFloat = 1
+        static let buttonHeight: CGFloat = 50
+    }
 }
 
 final class AffiliationStoreView: UIView {
 
-    private static let flowLayout: UICollectionViewFlowLayout = {
+   private static let flowLayout: UICollectionViewFlowLayout = {
         let flow = UICollectionViewFlowLayout.init()
         flow.minimumInteritemSpacing = Layout.interItemSpacing
         flow.scrollDirection = .vertical
@@ -31,7 +35,6 @@ final class AffiliationStoreView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         setupUI()
     }
 
@@ -43,7 +46,12 @@ final class AffiliationStoreView: UIView {
         collectionView.backgroundColor = .white
 
         addSubviewsForAutoLayout([collectionView])
-        collectionView.constraintsToEdges(in: self).activate()
+        [
+            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: Metrics.margin),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ].activate()
 
         collectionView.register(type: AffiliationStoreCell.self)
     }

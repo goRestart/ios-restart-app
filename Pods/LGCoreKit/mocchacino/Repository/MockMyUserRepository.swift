@@ -74,4 +74,8 @@ open class MockMyUserRepository: MyUserRepository {
     public func validateSMSCode(_ code: String, completion: MyUserVoidCompletion?) {
         delay(result: resultVoid, completion: completion)
     }
+    
+    public func notifyReferral(inviterId: String, completion: @escaping (Result<Void, RepositoryError>) -> Void) {
+        delay(result: resultVoid, completion: completion)
+    }
 }
