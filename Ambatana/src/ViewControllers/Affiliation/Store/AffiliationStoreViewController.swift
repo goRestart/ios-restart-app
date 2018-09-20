@@ -36,7 +36,6 @@ final class AffiliationStoreViewController: BaseViewController {
         automaticallyAdjustsScrollViewInsets = false
         
         setupRx()
-        storeView.setHistory(enabled: true)
     }
 
     private func setupNavigationBar() {
@@ -59,8 +58,7 @@ final class AffiliationStoreViewController: BaseViewController {
     private func setupRx() {
         let bindings = [
             viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
-            viewModel.rx.redeemTapped.drive(rx.redeemCell),
-            storeView.viewHistoryButton.rx.tap.bind { [weak self] in self?.viewModel.openHistory() }
+            viewModel.rx.redeemTapped.drive(rx.redeemCell)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -145,10 +143,6 @@ final class AffiliationStoreViewController: BaseViewController {
         
         present(vc, animated: true, completion: nil)
     }
-
-      fileprivate func setHistory(enabled: Bool) {
-        storeView.setHistory(enabled: enabled)
-    }
 }
 
 extension AffiliationStoreViewController {
@@ -223,12 +217,6 @@ extension Reactive where Base: AffiliationStoreViewController {
         return Binder(self.base) { controller, redeemCell in
             guard let redeemCell = redeemCell else { return }
             controller.update(with: redeemCell)
-        }
-    }
-
-    var historyEnabled: Binder<Bool> {
-        return Binder(self.base) { controller, enabled in
-            controller.setHistory(enabled: enabled)
         }
     }
 }
