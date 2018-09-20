@@ -28,7 +28,7 @@ public struct ChallengeInviteFriendsData {
     public let stepsCount: Int
     public let currentStep: Int
     public let status: ChallengeStatus
-
+    
     public func calculateTotalPointsReward() -> Int {
         return milestones.reduce(0) { partial, milestone in partial + milestone.pointsReward }
     }
