@@ -45,7 +45,7 @@ final class P2PPaymentsPayoutViewController: BaseViewController {
 
     private func setupNavigationBar() {
         setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
-        setNavBarTitleStyle(NavBarTitleStyle.text("Payout"))
+        setNavBarTitleStyle(NavBarTitleStyle.text(R.Strings.paymentPayoutNavbarTitle))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
     }
 
