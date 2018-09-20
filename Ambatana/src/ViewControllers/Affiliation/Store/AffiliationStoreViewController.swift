@@ -49,7 +49,7 @@ final class AffiliationStoreViewController: BaseViewController {
                                      style: .plain,
                                      target: self,
                                      action: #selector(didTapMoreActions))
-        button.tintColor = .grayLight
+        button.tintColor = .grayRegular
 
         let pointsItem = UIBarButtonItem(customView: pointsView)
         navigationItem.rightBarButtonItems = [button, pointsItem]
