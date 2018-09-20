@@ -2684,7 +2684,7 @@
 "payments_offer_status_as_seller_fee_info_button" = "Info";
 
 // Fee percentage in offer status screen as seller
-"payments_offer_status_as_seller_fee_percentage" = "Payment fee %@";
+"payments_offer_status_as_seller_fee_percentage" = "Payment fee (%@)";
 
 // Decline offer button in offer status screen as seller
 "payments_offer_status_as_seller_decline_button" = "Decline";
@@ -2726,7 +2726,7 @@
 "payments_get_pay_code_code_label" = "Your payment code";
 
 // Disclaimer in pay code screen
-"payments_get_pay_code_disclaimer" = "This code expires in 14 days, so make sure to meet the seller soon";
+"payments_get_pay_code_disclaimer" = "This code expires in 7 days, so make sure to meet the seller soon";
 
 // Navigation bar title in pay code screen
 "payments_get_pay_code_navbar_title" = "Offer";
@@ -2735,7 +2735,7 @@
 "payments_card_number_placeholder" = "Card number";
 
 // Code textfield description label in enter code screen
-"payments_enter_pay_code_description_label" = "Enter the 4-digit code that buyer Susie Fuller has shared with you";
+"payments_enter_pay_code_description_label" = "Enter the 4-digit code that buyer %@ has shared with you";
 
 // Attemps label in enter code screen
 "payments_enter_pay_code_attemps_label" = "3 attemps per minute";
@@ -2751,11 +2751,11 @@
 
 "payments_payout_personal_info_date_of_birth_placeholder" = "Date of birth";
 
-"payments_payout_personal_info_ssn_placeholder" = "SSN last 4";
+"payments_payout_personal_info_ssn_placeholder" = "Last 4 SSN digits";
 
 "payments_payout_personal_info_address_placeholder" = "Address";
 
-"payments_payout_personal_info_zip_code_placeholder" = "Zip code";
+"payments_payout_personal_info_zip_code_placeholder" = "ZIP code";
 
 "payments_payout_personal_info_city_placeholder" = "City";
 
@@ -2771,7 +2771,7 @@
 
 "payments_payout_bank_account_payout_button" = "Payout";
 
-"payments_payout_card_title_label" = "Input your debit card so that we can pay out to your account";
+"payments_payout_card_title_label" = "Enter your debit card so that we can pay out to your account";
 
 "payments_payout_card_name_placeholder" = "Name on card";
 
@@ -2779,7 +2779,7 @@
 
 "payments_payout_card_payout_button" = "Payout";
 
-"payment_payout_payment_type_standar" = "Standar payment";
+"payment_payout_payment_type_standar" = "Standard payment";
 
 "payment_payout_payment_type_instant" = "Fast payment";
 
@@ -2796,7 +2796,7 @@
 "payment_payout_payment_instant_subtitle_label" = "Get the money in under 1 hour";
 
 // Transaction fee
-"payment_payout_payment_fee" = "Transaction fee %@";
+"payment_payout_payment_fee" = "Transaction fee (%@)";
 
 // Money availability
 "payment_payout_payment_availability" = "Get the money in %@";

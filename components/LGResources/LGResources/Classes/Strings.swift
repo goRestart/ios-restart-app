@@ -1814,7 +1814,7 @@ extension R {
     public static func paymentPayoutPaymentAvailability(_ p1: String) -> String {
       return Strings.tr("Localizable", "payment_payout_payment_availability", p1)
     }
-    /// Transaction fee %@
+    /// Transaction fee (%@)
     public static func paymentPayoutPaymentFee(_ p1: String) -> String {
       return Strings.tr("Localizable", "payment_payout_payment_fee", p1)
     }
@@ -1828,7 +1828,7 @@ extension R {
     public static let paymentPayoutPaymentStandarTitleLabel = Strings.tr("Localizable", "payment_payout_payment_standar_title_label")
     /// Fast payment
     public static let paymentPayoutPaymentTypeInstant = Strings.tr("Localizable", "payment_payout_payment_type_instant")
-    /// Standar payment
+    /// Standard payment
     public static let paymentPayoutPaymentTypeStandar = Strings.tr("Localizable", "payment_payout_payment_type_standar")
     /// Card number
     public static let paymentsCardNumberPlaceholder = Strings.tr("Localizable", "payments_card_number_placeholder")
@@ -1866,15 +1866,17 @@ extension R {
     public static let paymentsCreateOfferTotalLabel = Strings.tr("Localizable", "payments_create_offer_total_label")
     /// 3 attemps per minute
     public static let paymentsEnterPayCodeAttempsLabel = Strings.tr("Localizable", "payments_enter_pay_code_attemps_label")
-    /// Enter the 4-digit code that buyer Susie Fuller has shared with you
-    public static let paymentsEnterPayCodeDescriptionLabel = Strings.tr("Localizable", "payments_enter_pay_code_description_label")
+    /// Enter the 4-digit code that buyer %@ has shared with you
+    public static func paymentsEnterPayCodeDescriptionLabel(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payments_enter_pay_code_description_label", p1)
+    }
     /// Offer
     public static let paymentsEnterPayCodeNavbarTitle = Strings.tr("Localizable", "payments_enter_pay_code_navbar_title")
     /// Your payment code
     public static let paymentsGetPayCodeCodeLabel = Strings.tr("Localizable", "payments_get_pay_code_code_label")
     /// Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.
     public static let paymentsGetPayCodeDescription = Strings.tr("Localizable", "payments_get_pay_code_description")
-    /// This code expires in 14 days, so make sure to meet the seller soon
+    /// This code expires in 7 days, so make sure to meet the seller soon
     public static let paymentsGetPayCodeDisclaimer = Strings.tr("Localizable", "payments_get_pay_code_disclaimer")
     /// Offer
     public static let paymentsGetPayCodeNavbarTitle = Strings.tr("Localizable", "payments_get_pay_code_navbar_title")
@@ -1932,7 +1934,7 @@ extension R {
     public static let paymentsOfferStatusAsSellerFeeInfoButton = Strings.tr("Localizable", "payments_offer_status_as_seller_fee_info_button")
     /// Payment fee
     public static let paymentsOfferStatusAsSellerFeeLabel = Strings.tr("Localizable", "payments_offer_status_as_seller_fee_label")
-    /// Payment fee %@
+    /// Payment fee (%@)
     public static func paymentsOfferStatusAsSellerFeePercentage(_ p1: String) -> String {
       return Strings.tr("Localizable", "payments_offer_status_as_seller_fee_percentage", p1)
     }
@@ -1982,7 +1984,7 @@ extension R {
     public static let paymentsPayoutCardPaymentTypeLabel = Strings.tr("Localizable", "payments_payout_card_payment_type_label")
     /// Payout
     public static let paymentsPayoutCardPayoutButton = Strings.tr("Localizable", "payments_payout_card_payout_button")
-    /// Input your debit card so that we can pay out to your account
+    /// Enter your debit card so that we can pay out to your account
     public static let paymentsPayoutCardTitleLabel = Strings.tr("Localizable", "payments_payout_card_title_label")
     /// Address
     public static let paymentsPayoutPersonalInfoAddressPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_address_placeholder")
@@ -1998,13 +2000,13 @@ extension R {
     public static let paymentsPayoutPersonalInfoLastNamePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_last_name_placeholder")
     /// Register your account
     public static let paymentsPayoutPersonalInfoRegisterButton = Strings.tr("Localizable", "payments_payout_personal_info_register_button")
-    /// SSN last 4
+    /// Last 4 SSN digits
     public static let paymentsPayoutPersonalInfoSsnPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_ssn_placeholder")
     /// State
     public static let paymentsPayoutPersonalInfoStatePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_state_placeholder")
     /// Personal information
     public static let paymentsPayoutPersonalInfoTitleLabel = Strings.tr("Localizable", "payments_payout_personal_info_title_label")
-    /// Zip code
+    /// ZIP code
     public static let paymentsPayoutPersonalInfoZipCodePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_zip_code_placeholder")
     /// Didn't get the code?
     public static let phoneVerificationCodeInputViewContentSubaction = Strings.tr("Localizable", "phone_verification_code_input_view_content_subaction")

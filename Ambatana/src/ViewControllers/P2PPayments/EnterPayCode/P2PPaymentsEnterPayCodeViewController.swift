@@ -21,7 +21,7 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController, Verificat
         label.textColor = .lgBlack
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.textAlignment = .center
-        label.text = R.Strings.paymentsEnterPayCodeDescriptionLabel
+        label.text = R.Strings.paymentsEnterPayCodeDescriptionLabel("Susie Fuller") // TODO: @juolgon show buyer name
         return label
     }()
 
