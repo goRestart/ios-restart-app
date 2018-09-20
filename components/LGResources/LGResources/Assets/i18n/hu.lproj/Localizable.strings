@@ -269,6 +269,7 @@
 "chat_user_info_letgo_assistant" = "Én egy virtuális asszisztens vagyok, tanácsokkal segítek majd az eladásban.";
 "chat_user_info_name" = "Szia, %@ vagyok";
 "chat_user_info_verified_with" = "Visszaigazolva ezzel: ";
+"chat_user_profile_chat_now" = "Chat now";
 "chat_user_rating_button_tooltip" = "Felhasználó értékelése";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
@@ -370,6 +371,7 @@
 "direct_answer_given_away_title" = "Elajándékozva...";
 "direct_answer_good_condition" = "Jó állapotban van?";
 "direct_answer_how_much_asking" = "Mennyit kérsz érte?";
+"direct_answer_i_like_your_listing" = "I like your listing";
 "direct_answer_interested" = "Érdekel!";
 "direct_answer_interested_buy_it" = "Megvenném!";
 "direct_answer_interested_has_it_sold" = "Eladtad már?";
@@ -408,6 +410,7 @@
 "direct_answer_where_located" = "Hol vagy?";
 "direct_answer_where_meet_up" = "Hol szeretnél találkozni?";
 "direct_answer_willing_to_negotiate" = "Hajlandó vagy alkudni?";
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
 "direct_answers_hide" = "Gyorsválaszok elrejtése";
 "direct_answers_show" = "Gyorsválaszok megjelenítése";
 "discarded" = "Elvetve";

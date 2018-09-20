@@ -269,6 +269,7 @@
 "chat_user_info_letgo_assistant" = "Είμαι μια εικονική βοηθός που σου δίνει συμβουλές και σε βοηθάει να πουλήσεις.";
 "chat_user_info_name" = "Γεια, είμαι ο/η %@";
 "chat_user_info_verified_with" = "Επιβεβαιωμένο με: ";
+"chat_user_profile_chat_now" = "Chat now";
 "chat_user_rating_button_tooltip" = "Κάντε κριτική αυτού του χρήστη";
 "chat_verify_alert_ok_button" = "ΟΚ";
 "chat_verify_alert_title" = "Επιβεβαιώστε το email σας για να συνομιλήσετε";
@@ -370,6 +371,7 @@
 "direct_answer_given_away_title" = "Χαρισμένο...";
 "direct_answer_good_condition" = "Είναι σε καλή κατάσταση;";
 "direct_answer_how_much_asking" = "Ποια είναι η τιμή προσφοράς σας;";
+"direct_answer_i_like_your_listing" = "I like your listing";
 "direct_answer_interested" = "Ενδιαφέρομαι!";
 "direct_answer_interested_buy_it" = "Θέλω να το αγοράσω";
 "direct_answer_interested_has_it_sold" = "Έχει πουληθεί;";
@@ -408,6 +410,7 @@
 "direct_answer_where_located" = "Πού βρίσκεστε;";
 "direct_answer_where_meet_up" = "Πού θέλετε να συναντηθούμε;";
 "direct_answer_willing_to_negotiate" = "Θα είστε πρόθυμοι να διαπραγματευτείτε;";
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
 "direct_answers_hide" = "Απόκρυψη Γρήγορων Απαντήσεων";
 "direct_answers_show" = "Προβολή Γρήγορων Απαντήσεων";
 "discarded" = "Απορρίφθηκε";

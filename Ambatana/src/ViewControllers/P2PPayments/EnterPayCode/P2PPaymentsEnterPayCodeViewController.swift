@@ -3,7 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize all texts
 
 final class P2PPaymentsEnterPayCodeViewController: BaseViewController, VerificationCodeTextFieldDelegate {
     private let viewModel: P2PPaymentsEnterPayCodeViewModel
@@ -22,7 +21,7 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController, Verificat
         label.textColor = .lgBlack
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.textAlignment = .center
-        label.text = "Enter the 4-digit code that buyer Susie Fuller has shared with you"
+        label.text = R.Strings.paymentsEnterPayCodeDescriptionLabel
         return label
     }()
 
@@ -32,7 +31,7 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController, Verificat
         let label = UILabel()
         label.font = UIFont.systemFont(size: 11)
         label.textColor = .grayRegular
-        label.text = "3 attempts per minute"
+        label.text = R.Strings.paymentsEnterPayCodeAttempsLabel
         return label
     }()
 
@@ -62,7 +61,7 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController, Verificat
 
     private func setupNavigationBar() {
         setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
-        setNavBarTitleStyle(NavBarTitleStyle.text("Offer"))
+        setNavBarTitleStyle(NavBarTitleStyle.text(R.Strings.paymentsEnterPayCodeNavbarTitle))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
     }
 

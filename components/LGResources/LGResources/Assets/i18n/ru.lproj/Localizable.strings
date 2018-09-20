@@ -269,6 +269,7 @@
 "chat_user_info_letgo_assistant" = "Я виртуальный помощник, который даст вам совет и поможет продать.";
 "chat_user_info_name" = "Привет, я %@";
 "chat_user_info_verified_with" = "Проверен: ";
+"chat_user_profile_chat_now" = "Chat now";
 "chat_user_rating_button_tooltip" = "Оцените этого пользователя";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Подтвердите ваш е-мейл для общения";
@@ -370,6 +371,7 @@
 "direct_answer_given_away_title" = "Отдал...";
 "direct_answer_good_condition" = "Вещь в хорошем состоянии?";
 "direct_answer_how_much_asking" = "Запрашиваемая цена?";
+"direct_answer_i_like_your_listing" = "I like your listing";
 "direct_answer_interested" = "Я заинтересован!";
 "direct_answer_interested_buy_it" = "Готов купить";
 "direct_answer_interested_has_it_sold" = "Продано?";
@@ -408,6 +410,7 @@
 "direct_answer_where_located" = "Где вы находитесь?";
 "direct_answer_where_meet_up" = "Где вы хотите встретиться?";
 "direct_answer_willing_to_negotiate" = "Возможен ли торг?";
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
 "direct_answers_hide" = "Спрятать популярные ответы";
 "direct_answers_show" = "Показать популярные ответы";
 "discarded" = "Удалено";

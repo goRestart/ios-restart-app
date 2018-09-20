@@ -92,6 +92,8 @@ extension R {
     public static let affiliationInviteSmsMessageError = Strings.tr("Localizable", "affiliation_invite_sms_message_error")
     /// Message sent
     public static let affiliationInviteSmsMessageSent = Strings.tr("Localizable", "affiliation_invite_sms_message_sent")
+    /// Oops! Unfortunately gift cards are not available in your country.\nBut you can still make cash!
+    public static let affiliationOnboardingCountryErrorMessage = Strings.tr("Localizable", "affiliation_onboarding_country_error_message")
     /// Oops! This feature is not available in your country.
     public static let affiliationStoreCountryErrorMessage = Strings.tr("Localizable", "affiliation_store_country_error_message")
     /// The gift card will be sent to your email: %@
@@ -730,6 +732,8 @@ extension R {
     }
     /// Verified with: 
     public static let chatUserInfoVerifiedWith = Strings.tr("Localizable", "chat_user_info_verified_with")
+    /// Chat now
+    public static let chatUserProfileChatNow = Strings.tr("Localizable", "chat_user_profile_chat_now")
     /// Review this user
     public static let chatUserRatingButtonTooltip = Strings.tr("Localizable", "chat_user_rating_button_tooltip")
     /// Ok
@@ -956,6 +960,8 @@ extension R {
     public static let directAnswerGoodCondition = Strings.tr("Localizable", "direct_answer_good_condition")
     /// What's your asking price?
     public static let directAnswerHowMuchAsking = Strings.tr("Localizable", "direct_answer_how_much_asking")
+    /// I like your listing
+    public static let directAnswerILikeYourListing = Strings.tr("Localizable", "direct_answer_i_like_your_listing")
     /// I'm interested!
     public static let directAnswerInterested = Strings.tr("Localizable", "direct_answer_interested")
     /// I'd like to buy it
@@ -1032,6 +1038,8 @@ extension R {
     public static let directAnswerWhereMeetUp = Strings.tr("Localizable", "direct_answer_where_meet_up")
     /// Would you be willing to negotiate?
     public static let directAnswerWillingToNegotiate = Strings.tr("Localizable", "direct_answer_willing_to_negotiate")
+    /// You favorited my listing
+    public static let directAnswerYouFavoritedMyListing = Strings.tr("Localizable", "direct_answer_you_favorited_my_listing")
     /// Hide Quick Answers
     public static let directAnswersHide = Strings.tr("Localizable", "direct_answers_hide")
     /// Show Quick Answers
@@ -1800,6 +1808,30 @@ extension R {
     public static let paymentFrequencyPerWeek = Strings.tr("Localizable", "payment_frequency_per_week")
     /// year
     public static let paymentFrequencyPerYear = Strings.tr("Localizable", "payment_frequency_per_year")
+    /// Payout
+    public static let paymentPayoutNavbarTitle = Strings.tr("Localizable", "payment_payout_navbar_title")
+    /// Get the money in %@
+    public static func paymentPayoutPaymentAvailability(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payment_payout_payment_availability", p1)
+    }
+    /// Transaction fee %@
+    public static func paymentPayoutPaymentFee(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payment_payout_payment_fee", p1)
+    }
+    /// Get the money in under 1 hour
+    public static let paymentPayoutPaymentInstantSubtitleLabel = Strings.tr("Localizable", "payment_payout_payment_instant_subtitle_label")
+    /// Transaction fee
+    public static let paymentPayoutPaymentInstantTitleLabel = Strings.tr("Localizable", "payment_payout_payment_instant_title_label")
+    /// Get the money in 3-7 days
+    public static let paymentPayoutPaymentStandarSubtitleLabel = Strings.tr("Localizable", "payment_payout_payment_standar_subtitle_label")
+    /// FREE
+    public static let paymentPayoutPaymentStandarTitleLabel = Strings.tr("Localizable", "payment_payout_payment_standar_title_label")
+    /// Fast payment
+    public static let paymentPayoutPaymentTypeInstant = Strings.tr("Localizable", "payment_payout_payment_type_instant")
+    /// Standar payment
+    public static let paymentPayoutPaymentTypeStandar = Strings.tr("Localizable", "payment_payout_payment_type_standar")
+    /// Card number
+    public static let paymentsCardNumberPlaceholder = Strings.tr("Localizable", "payments_card_number_placeholder")
     /// Seller receives
     public static let paymentsChangeOfferAmountLabel = Strings.tr("Localizable", "payments_change_offer_amount_label")
     /// Set new offer
@@ -1832,6 +1864,20 @@ extension R {
     public static let paymentsCreateOfferSellerPriceLabel = Strings.tr("Localizable", "payments_create_offer_seller_price_label")
     /// You pay
     public static let paymentsCreateOfferTotalLabel = Strings.tr("Localizable", "payments_create_offer_total_label")
+    /// 3 attemps per minute
+    public static let paymentsEnterPayCodeAttempsLabel = Strings.tr("Localizable", "payments_enter_pay_code_attemps_label")
+    /// Enter the 4-digit code that buyer Susie Fuller has shared with you
+    public static let paymentsEnterPayCodeDescriptionLabel = Strings.tr("Localizable", "payments_enter_pay_code_description_label")
+    /// Offer
+    public static let paymentsEnterPayCodeNavbarTitle = Strings.tr("Localizable", "payments_enter_pay_code_navbar_title")
+    /// Your payment code
+    public static let paymentsGetPayCodeCodeLabel = Strings.tr("Localizable", "payments_get_pay_code_code_label")
+    /// Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.
+    public static let paymentsGetPayCodeDescription = Strings.tr("Localizable", "payments_get_pay_code_description")
+    /// This code expires in 14 days, so make sure to meet the seller soon
+    public static let paymentsGetPayCodeDisclaimer = Strings.tr("Localizable", "payments_get_pay_code_disclaimer")
+    /// Offer
+    public static let paymentsGetPayCodeNavbarTitle = Strings.tr("Localizable", "payments_get_pay_code_navbar_title")
     /// Chat with Seller
     public static let paymentsOfferStatusActionChatButton = Strings.tr("Localizable", "payments_offer_status_action_chat_button")
     /// View payment code
@@ -1924,6 +1970,42 @@ extension R {
     public static let paymentsPaymentRequestSellerAmountLabel = Strings.tr("Localizable", "payments_payment_request_seller_amount_label")
     /// seller
     public static let paymentsPaymentRequestTotalAmountLabel = Strings.tr("Localizable", "payments_payment_request_total_amount_label")
+    /// Account number
+    public static let paymentsPayoutBankAccountAccountNumberPlaceholder = Strings.tr("Localizable", "payments_payout_bank_account_account_number_placeholder")
+    /// Payout
+    public static let paymentsPayoutBankAccountPayoutButton = Strings.tr("Localizable", "payments_payout_bank_account_payout_button")
+    /// Routing number (9 digits)
+    public static let paymentsPayoutBankAccountRoutingNumberPlaceholder = Strings.tr("Localizable", "payments_payout_bank_account_routing_number_placeholder")
+    /// Name on card
+    public static let paymentsPayoutCardNamePlaceholder = Strings.tr("Localizable", "payments_payout_card_name_placeholder")
+    /// Choose one of these options:
+    public static let paymentsPayoutCardPaymentTypeLabel = Strings.tr("Localizable", "payments_payout_card_payment_type_label")
+    /// Payout
+    public static let paymentsPayoutCardPayoutButton = Strings.tr("Localizable", "payments_payout_card_payout_button")
+    /// Input your debit card so that we can pay out to your account
+    public static let paymentsPayoutCardTitleLabel = Strings.tr("Localizable", "payments_payout_card_title_label")
+    /// Address
+    public static let paymentsPayoutPersonalInfoAddressPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_address_placeholder")
+    /// City
+    public static let paymentsPayoutPersonalInfoCityPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_city_placeholder")
+    /// Country
+    public static let paymentsPayoutPersonalInfoCountryPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_country_placeholder")
+    /// Date of birth
+    public static let paymentsPayoutPersonalInfoDateOfBirthPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_date_of_birth_placeholder")
+    /// First name
+    public static let paymentsPayoutPersonalInfoFirstNamePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_first_name_placeholder")
+    /// Last name
+    public static let paymentsPayoutPersonalInfoLastNamePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_last_name_placeholder")
+    /// Register your account
+    public static let paymentsPayoutPersonalInfoRegisterButton = Strings.tr("Localizable", "payments_payout_personal_info_register_button")
+    /// SSN last 4
+    public static let paymentsPayoutPersonalInfoSsnPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_ssn_placeholder")
+    /// State
+    public static let paymentsPayoutPersonalInfoStatePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_state_placeholder")
+    /// Personal information
+    public static let paymentsPayoutPersonalInfoTitleLabel = Strings.tr("Localizable", "payments_payout_personal_info_title_label")
+    /// Zip code
+    public static let paymentsPayoutPersonalInfoZipCodePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_zip_code_placeholder")
     /// Didn't get the code?
     public static let phoneVerificationCodeInputViewContentSubaction = Strings.tr("Localizable", "phone_verification_code_input_view_content_subaction")
     /// You can request another code if you don't receive it within %@

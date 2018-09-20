@@ -269,6 +269,7 @@
 "chat_user_info_letgo_assistant" = "Sono un'assistente virtuale che ti fornirà consigli utili e ti aiuterà a vendere.";
 "chat_user_info_name" = "Ciao, sono %@";
 "chat_user_info_verified_with" = "Verificato con: ";
+"chat_user_profile_chat_now" = "Chat now";
 "chat_user_rating_button_tooltip" = "Recensisci questo utente";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Verifica il tuo indirizzo email per chattare";
@@ -370,6 +371,7 @@
 "direct_answer_given_away_title" = "Regalato...";
 "direct_answer_good_condition" = "È in buone condizioni?";
 "direct_answer_how_much_asking" = "A che prezzo stavi pensando?";
+"direct_answer_i_like_your_listing" = "I like your listing";
 "direct_answer_interested" = "Sono interessato!";
 "direct_answer_interested_buy_it" = "Vorrei comprare questo articolo";
 "direct_answer_interested_has_it_sold" = "È già stato venduto?";
@@ -408,6 +410,7 @@
 "direct_answer_where_located" = "Dove ti trovi?";
 "direct_answer_where_meet_up" = "Dove ci possiamo incontrare?";
 "direct_answer_willing_to_negotiate" = "Possiamo contrattare?";
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
 "direct_answers_hide" = "Nascondi Risposte Rapide";
 "direct_answers_show" = "Visualizza Risposte Rapide";
 "discarded" = "Scartato";

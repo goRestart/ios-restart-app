@@ -3,7 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize all texts
 
 final class P2PPaymentsGetPayCodeViewController: BaseViewController {
     private let viewModel: P2PPaymentsGetPayCodeViewModel
@@ -17,7 +16,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
 
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message."
+        label.text = R.Strings.paymentsGetPayCodeDescription
         label.textAlignment = .center
         label.numberOfLines = 0
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -33,7 +32,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
 
     private let payCodeTitleLabel: UILabel = {
         let label = UILabel()
-        label.text =  "Your payment code"
+        label.text =  R.Strings.paymentsGetPayCodeCodeLabel
         label.font = .systemBoldFont(size: 28)
         label.textColor = .lgBlack
         return label
@@ -55,7 +54,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
 
     private let disclaimerLabel: UILabel = {
         let label = UILabel()
-        label.text = "This code expires in 14 days, so make sure to meet the seller soon"
+        label.text = R.Strings.paymentsGetPayCodeDisclaimer
         label.numberOfLines = 0
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.textColor = .lgBlack
@@ -84,7 +83,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
 
     private func setupNavigationBar() {
         setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
-        setNavBarTitleStyle(NavBarTitleStyle.text("Offer"))
+        setNavBarTitleStyle(NavBarTitleStyle.text(R.Strings.paymentsGetPayCodeNavbarTitle))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
     }
 

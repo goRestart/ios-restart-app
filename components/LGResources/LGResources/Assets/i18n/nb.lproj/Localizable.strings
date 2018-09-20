@@ -269,6 +269,7 @@
 "chat_user_info_letgo_assistant" = "Jeg er en virtuell assistent som gir deg tips og hjelper deg med å selge.";
 "chat_user_info_name" = "Hei, jeg er %@";
 "chat_user_info_verified_with" = "Verifisert med: ";
+"chat_user_profile_chat_now" = "Chat now";
 "chat_user_rating_button_tooltip" = "Vurder denne brukeren";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Verifiser din e-postadresse for å kunne chatte";
@@ -370,6 +371,7 @@
 "direct_answer_given_away_title" = "Gitt bort...";
 "direct_answer_good_condition" = "Har produktet god kvalitetstilstand?";
 "direct_answer_how_much_asking" = "Hvilken pris forlanger du?";
+"direct_answer_i_like_your_listing" = "I like your listing";
 "direct_answer_interested" = "Jeg er interessert!";
 "direct_answer_interested_buy_it" = "Jeg vil gjerne kjøpe produktet";
 "direct_answer_interested_has_it_sold" = "Er det solgt?";
@@ -408,6 +410,7 @@
 "direct_answer_where_located" = "I hvilket område befinner du deg i?";
 "direct_answer_where_meet_up" = "Hvor ønsker du å møtes?";
 "direct_answer_willing_to_negotiate" = "Kan prisen diskuteres?";
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
 "direct_answers_hide" = "Skjul Hurtige Svar";
 "direct_answers_show" = "Vis Hurtige Svar";
 "discarded" = "Forkastet";
@@ -765,7 +768,7 @@
 "payments_change_offer_amount_label" = "Selger mottar";
 "payments_change_offer_confirmation_button" = "Velg nytt tilbud";
 "payments_change_offer_invalid_amount_alert_button" = "Ok";
-"payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
+"payments_change_offer_invalid_amount_alert_message" = "Oops! Ditt tilbud må være mellom %@ og %@.";
 "payments_create_offer_buyer_protection_description_label" = "Betal gjennom letgo og dine penger blir kun overført til selgeren når du bekrefter at du ønsker å beholde produktet";
 "payments_create_offer_buyer_protection_title_label" = "Kjøperbeskyttelse";
 "payments_create_offer_change_button" = "Endre";

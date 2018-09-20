@@ -3,7 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize all texts
 
 final class P2PPaymentsPayoutPersonalInfoView: UIView {
     var registrationParams: P2PPaymentsPayoutViewModel.RegistrationParams {
@@ -34,69 +33,69 @@ final class P2PPaymentsPayoutPersonalInfoView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(size: 14)
         label.textColor = UIColor.lgBlack
-        label.text = "Personal information"
+        label.text = R.Strings.paymentsPayoutPersonalInfoTitleLabel
         return label
     }()
 
     private let firstNameTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("First name")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutPersonalInfoFirstNamePlaceholder)
         textField.returnKeyType = .next
         return textField
     }()
 
     private let lastNameTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("Last name")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutPersonalInfoLastNamePlaceholder)
         textField.returnKeyType = .next
         return textField
     }()
 
     private let dateOfBirthTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("Date of birth")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutPersonalInfoDateOfBirthPlaceholder)
         textField.returnKeyType = .next
         return textField
     }()
 
     private let ssnLastFourTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("SSN last 4")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutPersonalInfoSsnPlaceholder)
         textField.returnKeyType = .next
         return textField
     }()
 
     private let addressTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("Address")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutPersonalInfoAddressPlaceholder)
         textField.returnKeyType = .next
         return textField
     }()
 
     private let zipCodeTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("Zip code")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutPersonalInfoZipCodePlaceholder)
         textField.returnKeyType = .next
         return textField
     }()
 
     private let cityTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("City")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutPersonalInfoCityPlaceholder)
         textField.returnKeyType = .next
         return textField
     }()
 
     private let stateTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("State")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutPersonalInfoStatePlaceholder)
         textField.returnKeyType = .done
         return textField
     }()
 
     private let countryTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("First name")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutPersonalInfoCountryPlaceholder)
         textField.text = "United States"
         textField.isUserInteractionEnabled = false
         return textField
@@ -110,7 +109,7 @@ final class P2PPaymentsPayoutPersonalInfoView: UIView {
 
     fileprivate let actionButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
-        button.setTitle("Register your account", for: .normal)
+        button.setTitle(R.Strings.paymentsPayoutPersonalInfoRegisterButton, for: .normal)
         return button
     }()
 

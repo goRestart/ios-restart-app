@@ -3,7 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon localize all texts
 
 struct P2PPaymentsPayoutPaymentSelectorState {
     enum Kind {
@@ -21,8 +20,8 @@ struct P2PPaymentsPayoutPaymentSelectorState {
 
     fileprivate var paymentTypeText: String {
         switch kind {
-        case .standard: return "Standard payment"
-        case .instant: return "Fast payment"
+        case .standard: return R.Strings.paymentPayoutPaymentTypeStandar
+        case .instant: return R.Strings.paymentPayoutPaymentTypeInstant
         }
     }
 }
@@ -40,7 +39,7 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         let label = UILabel()
         label.font = UIFont.systemBoldFont(size: 20)
         label.textColor = UIColor.lgBlack
-        label.text = "Standard payment"
+        label.text = R.Strings.paymentPayoutPaymentTypeStandar
         return label
     }()
 
@@ -48,7 +47,7 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         let label = UILabel()
         label.font = UIFont.systemBoldFont(size: 16)
         label.textColor = UIColor.primaryColor
-        label.text = "FREE"
+        label.text = R.Strings.paymentPayoutPaymentStandarTitleLabel
         return label
     }()
 
@@ -56,7 +55,7 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(size: 16)
         label.textColor = UIColor.grayDark
-        label.text = "Get the money in 3-7 days"
+        label.text = R.Strings.paymentPayoutPaymentStandarSubtitleLabel
         return label
     }()
 
@@ -64,7 +63,7 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(size: 16)
         label.textColor = UIColor.grayDark
-        label.text = "Transaction fee"
+        label.text = R.Strings.paymentPayoutPaymentInstantTitleLabel
         return label
     }()
 
@@ -72,7 +71,7 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         let label = UILabel()
         label.font = UIFont.systemBoldFont(size: 16)
         label.textColor = UIColor.primaryColor
-        label.text = "Get the money in under 1 hour"
+        label.text = R.Strings.paymentPayoutPaymentInstantSubtitleLabel
         return label
     }()
 
@@ -136,9 +135,9 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         freeSubtitleLabel.isHidden = state.kind != .standard
         instantTitleLabel.isHidden = state.kind != .instant
         instantSubtitleLabel.isHidden = state.kind != .instant
-        instantTitleLabel.text = "Transaction fee \(state.feeText ?? "")"
-        freeSubtitleLabel.text = "Get the money in \(state.fundsAvailableText ?? "")"
-        instantSubtitleLabel.text = "Get the money in \(state.fundsAvailableText ?? "")"
+        instantTitleLabel.text = R.Strings.paymentPayoutPaymentFee(state.feeText ?? "")
+        freeSubtitleLabel.text = R.Strings.paymentPayoutPaymentAvailability(state.fundsAvailableText ?? "")
+        instantSubtitleLabel.text = R.Strings.paymentPayoutPaymentAvailability(state.fundsAvailableText ?? "")
         backgroundColor = isSelected ? UIColor.veryLightGray : UIColor.white
         layer.borderColor = isSelected ? UIColor.primaryColor.cgColor : UIColor.grayRegular.cgColor
     }
