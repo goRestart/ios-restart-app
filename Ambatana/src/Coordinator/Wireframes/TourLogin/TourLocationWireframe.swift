@@ -35,6 +35,10 @@ final class TourLocationWireframe: TourLocationNavigator {
     }
 
     private func openNextTour() {
+        guard false else {
+            action(TourPosting(posting: false, source: .onboardingBlockingPosting))
+            return
+        }
         if let tourSkipper = skipper, tourSkipper.shouldSkipTour {
             tourSkipper.skipTour()
         } else if shouldShowBlockingPosting {

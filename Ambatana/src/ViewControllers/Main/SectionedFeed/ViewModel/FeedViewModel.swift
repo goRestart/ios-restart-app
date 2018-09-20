@@ -150,7 +150,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private let sectionedFeedRequester: SectionedFeedRequester
     private let sessionManager: SessionManager
     private let appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver
-    
+
     //  MARK: - Life Cycle
     
     init(searchType: SearchType? = nil,
@@ -292,11 +292,14 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
             })
             .disposed(by: disposeBag)
    
-        appsFlyerAffiliationResolver.rx_affiliationCampaign.asObservable().bind { [weak self] status in
+        appsFlyerAffiliationResolver.rx.affiliationCampaign
+            .asObservable()
+            .bind { [weak self] status in
             switch status {
             case .campaignNotAvailableForUser:
                 self?.navigator?.openWrongCountryModal()
             case.referral( let referrer):
+                guard !(self?.keyValueStorage[.didShowAffiliationOnBoarding] ?? true) else { return }
                 self?.navigator?.openAffiliationOnboarding(data: referrer)
             case .unknown:
                 return

@@ -858,12 +858,16 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             self?.updateCategoriesHeader()
         }.disposed(by: disposeBag)
         
-        appsFlyerAffiliationResolver.rx_affiliationCampaign.asObservable().bind { [weak self] status in
+        appsFlyerAffiliationResolver.rx.affiliationCampaign
+            .bind { [weak self] status in
             switch status {
             case .campaignNotAvailableForUser:
                 self?.navigator?.openWrongCountryModal()
             case.referral( let referrer):
-                self?.navigator?.openAffiliationOnboarding(data: referrer)
+                guard !(self?.keyValueStorage[.didShowAffiliationOnBoarding] ?? true) else { return }
+                delay(2, completion: { [weak self] in
+                    self?.navigator?.openAffiliationOnboarding(data: referrer)
+                })
             case .unknown:
                 return
             }

@@ -24,7 +24,7 @@ enum SearchSuggestionType {
     }
 }
 
-class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
+final class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
     FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop, MainListingsAdsDelegate {
     
     // ViewModel

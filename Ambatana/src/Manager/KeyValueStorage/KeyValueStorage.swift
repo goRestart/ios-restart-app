@@ -65,6 +65,9 @@ extension DefaultsKeys {
     static let sellAutoShareOnFacebook = DefaultsKey<Bool?>("sellAutoShareOnFacebook")
     
     static let lastSessionDate = DefaultsKey<Date?>("lastSessionDate")
+
+    // Affiliation
+    static let didShowAffiliationOnBoarding = DefaultsKey<Bool>("didShowAffiliationOnBoarding")
 }
 
 

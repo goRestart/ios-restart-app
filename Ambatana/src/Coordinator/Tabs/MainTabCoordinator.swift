@@ -223,15 +223,13 @@ extension MainTabCoordinator: MainTabNavigator {
     }
     
     func openAffiliationOnboarding(data: ReferrerInfo) {
-        //TODO: Here facu's view for onboarding
-        let alert = UIAlertController(title: "onboarding",
-                                      message: "Aqui saldrá la pantalla molona",
-                                      preferredStyle: .alert)
-        let positive = UIAlertAction(title: "go!", style: .default) {[weak self] _ in
-            self?.openAffiliation()
-        }
-        alert.add([positive])
-        viewController.present(alert, animated: true, completion: nil)
+        guard let tabCtl = navigationController.tabBarController else { return }
+        let vc = AffiliationOnBoardingBuilder.modal(tabCtl)
+            .buildOnBoarding(referrer: data,
+                             onCompletion: { [weak self] in
+                                self?.openAffiliation()
+            })
+        tabCtl.present(vc, animated: true, completion: nil)
     }
 
     func openSearches() {
@@ -243,8 +241,10 @@ extension MainTabCoordinator: MainTabNavigator {
     }
     
     func openWrongCountryModal() {
-        let primaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorMainButton, .primary(fontSize: .medium)),
-                                     action: { [weak self] in self?.appNavigator?.openSell(source: .referralNotAvailable, postCategory: nil, listingTitle: nil)
+        guard let tabCtl = navigationController.tabBarController else { return }
+        let primaryAction = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
+                                     action: { [weak self] in
+                                        self?.dismissViewController(animated: true, completion: nil)
         })
         let secondaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorSecondaryButton, .terciary),
                                        action: { [weak self] in
@@ -257,14 +257,11 @@ extension MainTabCoordinator: MainTabNavigator {
             primary: primaryAction,
             secondary: secondaryAction
         )
-        let vm = AffiliationModalViewModel(data: data)
-        let vc = AffiliationModalViewController(viewModel: vm)
-        
-        vm.active = true
+        let vc = AffiliationModalBuilder.modal.buildAffiliationModalView(with: data)
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overCurrentContext
         
-        navigationController.present(vc, animated: true, completion: nil)
+        tabCtl.present(vc, animated: true, completion: nil)
     }
 }
 

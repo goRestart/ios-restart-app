@@ -247,6 +247,7 @@ extension AppCoordinator: AppNavigator {
                 self?.trackStartSelling(source: source)
             } else {
                 self?.openHome()
+                AppsFlyerAffiliationResolver.shared.rx_AppIsReady.accept(true)
             }
         }
     }
