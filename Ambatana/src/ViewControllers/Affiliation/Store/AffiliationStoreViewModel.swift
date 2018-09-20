@@ -97,7 +97,7 @@ final class AffiliationStoreViewModel: BaseViewModel {
                     title: $0.type.cardTitle,
                     partnerIcon: AffiliationPartner.amazon.image,
                     points: $0.points,
-                    state: points > $0.points ? .enabled : .disabled
+                    state: points >= $0.points ? .enabled : .disabled
                 )
             } ?? []
     }
