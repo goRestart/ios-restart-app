@@ -20,7 +20,9 @@ final class AffiliationVouchersViewModel: BaseViewModel {
         return ordinalFormatter
     }()
 
-    private(set) var vouchers: [VoucherCellData] = []
+    private(set) var vouchersCellData: [VoucherCellData] = []
+    private var vouchers: [Voucher] = []
+
     fileprivate let viewState = PublishRelay<ViewState>()
 
     convenience override init() {
@@ -49,8 +51,10 @@ final class AffiliationVouchersViewModel: BaseViewModel {
         if let error = result.error {
             viewState.accept(.error(makeEmpty()))
         } else if let vouchers = result.value, vouchers.count > 0 {
+            self.vouchers = vouchers
             let formatter = DateFormatter()
-            self.vouchers = vouchers.map {
+            self.vouchers = vouchers
+            self.vouchersCellData = vouchers.map {
                 return toVoucherCellData(voucher: $0, formatter: formatter)
             }
             viewState.accept(.data)
@@ -81,6 +85,24 @@ final class AffiliationVouchersViewModel: BaseViewModel {
             date: formatter.string(from: voucher.createdAt),
             partnerIcon: R.Asset.Affiliation.Partners.amazon.image
         )
+    }
+
+    func resend(at index: Int) -> Driver<ViewState> {
+        let emptyVM = makeEmpty()
+        guard let identifier = vouchers[safeAt: index]?.id else { return Driver.just(.error(emptyVM)) }
+
+        return Observable<ViewState>.create { [weak self] (observer) in
+            observer.onNext(.loading)
+            self?.rewardsRepository.resendVoucher(voucherId: identifier) { (result) in
+                if let _ = result.error {
+                    observer.onNext(ViewState.error(emptyVM))
+                } else {
+                    observer.onNext(.data)
+                    observer.onCompleted()
+                }
+            }
+            return Disposables.create()
+        }.asDriver(onErrorJustReturn: ViewState.error(emptyVM))
     }
 }
 

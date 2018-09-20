@@ -1,4 +1,5 @@
 import LGComponents
+import LGCoreKit
 import UIKit
 
 final class AffiliationChallengeJoinLetgoCell: UITableViewCell {

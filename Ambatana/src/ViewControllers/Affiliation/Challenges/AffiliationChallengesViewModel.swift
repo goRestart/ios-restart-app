@@ -1,4 +1,6 @@
 import LGComponents
+import LGCoreKit
+import Result
 import RxSwift
 import RxCocoa
 
@@ -14,6 +16,9 @@ final class AffiliationChallengesViewModel: BaseViewModel {
         }
     }
 
+    private let rewardRepository: RewardRepository
+    private let challengerRepository: ChallengerRepository
+
     var state: Driver<State> {
         return stateRelay.asDriver()
     }
@@ -28,6 +33,18 @@ final class AffiliationChallengesViewModel: BaseViewModel {
 
 
     // MARK: - Lifecycle
+
+    convenience override init() {
+        self.init(rewardRepository: Core.rewardRepository,
+                  challengerRepository: Core.challengerRepository)
+    }
+
+    init(rewardRepository: RewardRepository,
+         challengerRepository: ChallengerRepository) {
+        self.rewardRepository = rewardRepository
+        self.challengerRepository = challengerRepository
+        super.init()
+    }
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
@@ -70,21 +87,32 @@ final class AffiliationChallengesViewModel: BaseViewModel {
     // MARK: - Data
 
     private func refresh() {
-        guard !isLoadingRelay.value else { return }
+        let isLoading = isLoadingRelay.value
+        guard !isLoading else { return }
+
         isLoadingRelay.accept(true)
 
         if stateRelay.value.isError {
             stateRelay.accept(.firstLoad)
         }
 
-        Observable.combineLatest(retrieveWallet(), retrieveChallenges()) {
-            return AffiliationChallengesDataVM(walletPoints: $0,
-                                               challenges: $1)
-            }.bind { [weak stateRelay, weak isLoadingRelay] viewModel in
-                let success = Bool.makeRandom()
-                if success {
+        Observable.combineLatest(retrieveWallet().asObservable(),
+                                 retrieveChallenges().asObservable()).map {
+                                    (walletResult: RepositoryResult<RewardPoints>,
+                                    challengesResult: RepositoryResult<[Challenge]>) -> RepositoryResult<AffiliationChallengesDataVM> in
+                                    switch (walletResult, challengesResult) {
+                                    case let (.success(wallet), .success(challenges)):
+                                        return RepositoryResult(value: AffiliationChallengesDataVM(walletPoints: wallet.points,
+                                                                                                   challenges: challenges))
+                                    case let (_, .failure(error)):
+                                        return RepositoryResult(error: error)
+                                    case let (.failure(error), _):
+                                        return RepositoryResult(error: error)
+                                    }
+            }.bind { [weak stateRelay, weak isLoadingRelay] result in
+                if let viewModel = result.value {
                     stateRelay?.accept(.data(viewModel))
-                } else {
+                } else if let _ = result.error {
                     let errorData = LGEmptyViewModel(icon: R.Asset.Affiliation.Error.errorOops.image,
                                                      title: R.Strings.affiliationChallengesUnknownErrorMessage,
                                                      body: nil,
@@ -101,64 +129,19 @@ final class AffiliationChallengesViewModel: BaseViewModel {
             }.disposed(by: disposeBag)
     }
 
-    private func retrieveWallet() -> Observable<Int> {
-        return Observable.create { observer -> Disposable in
-            delay(0.2) {
-                observer.onNext(65)
-                observer.onCompleted()
+    private func retrieveWallet() -> Single<RepositoryResult<RewardPoints>> {
+        return Single.create { [weak self] single -> Disposable in
+            self?.rewardRepository.retrievePoints { result in
+                single(.success(result))
             }
             return Disposables.create()
         }
     }
 
-    private func retrieveChallenges() -> Observable<[Challenge]> {
-        return Observable.create { observer -> Disposable in
-            let joinLetgoData1 = ChallengeJoinLetgoData(stepsCount: 2,
-                                                        stepsCompleted: [],
-                                                        pointsReward: 5,
-                                                        status: .ongoing)
-            let joinLetgoData2 = ChallengeJoinLetgoData(stepsCount: 2,
-                                                        stepsCompleted: [.phoneVerification],
-                                                        pointsReward: 5,
-                                                        status: .ongoing)
-            let joinLetgoData3 = ChallengeJoinLetgoData(stepsCount: 2,
-                                                        stepsCompleted: [.listingPosted],
-                                                        pointsReward: 5,
-                                                        status: .ongoing)
-            let joinLetgoData4 = ChallengeJoinLetgoData(stepsCount: 2,
-                                                        stepsCompleted: [.phoneVerification, .listingPosted],
-                                                        pointsReward: 5,
-                                                        status: .ongoing)
-            let joinLetgoData5 = ChallengeJoinLetgoData(stepsCount: 2,
-                                                        stepsCompleted: [.phoneVerification, .listingPosted],
-                                                        pointsReward: 5,
-                                                        status: .completed)
-            let inviteFriendsData1 = ChallengeInviteFriendsData(milestones: [ChallengeMilestone(stepIndex: 3,
-                                                                                                pointsReward: 10),
-                                                                             ChallengeMilestone(stepIndex: 10,
-                                                                                                pointsReward: 50)],
-                                                                stepsCount: 10,
-                                                                currentStep: 2,
-                                                                status: .ongoing)
-            let inviteFriendsData2 = ChallengeInviteFriendsData(milestones: [ChallengeMilestone(stepIndex: 3,
-                                                                                                pointsReward: 10),
-                                                                             ChallengeMilestone(stepIndex: 10,
-                                                                                                pointsReward: 50)],
-                                                                stepsCount: 10,
-                                                                currentStep: 10,
-                                                                status: .completed)
-            let challenges = [Challenge.inviteFriends(inviteFriendsData1),
-                              Challenge.inviteFriends(inviteFriendsData2),
-                              Challenge.joinLetgo(joinLetgoData1),
-                              Challenge.joinLetgo(joinLetgoData2),
-                              Challenge.joinLetgo(joinLetgoData3),
-                              Challenge.joinLetgo(joinLetgoData4),
-                              Challenge.joinLetgo(joinLetgoData5),
-                              Challenge.inviteFriends(inviteFriendsData1),
-                              Challenge.inviteFriends(inviteFriendsData2)]
-            delay(0.3) {
-                observer.onNext(challenges)
-                observer.onCompleted()
+    private func retrieveChallenges() -> Single<RepositoryResult<[Challenge]>> {
+        return Single.create { [weak self] single -> Disposable in
+            self?.challengerRepository.indexChallenges { result in
+               single(.success(result))
             }
             return Disposables.create()
         }

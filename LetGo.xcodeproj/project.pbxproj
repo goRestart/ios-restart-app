@@ -217,11 +217,18 @@
 		0A2F52B921231AC70034EF85 /* CarAttributeSelectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F52B721231AC70034EF85 /* CarAttributeSelectionBuilder.swift */; };
 		0A2F52C021232AC90034EF85 /* PromoteBumpBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F52BF21232AC90034EF85 /* PromoteBumpBuilder.swift */; };
 		0A2F52C121232AC90034EF85 /* PromoteBumpBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F52BF21232AC90034EF85 /* PromoteBumpBuilder.swift */; };
-		0A3048282041E1DE00C11498 /* ListingDeckSnapshotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */; };
 		0A35E6EA20FCDE49002701ED /* ListingCardMediaCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */; };
 		0A35E6EB20FCDF64002701ED /* ListingCardMediaCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */; };
 		0A376D9E214C4CFC00DFFB7F /* AffiliationStorePointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */; };
 		0A376D9F214C511300DFFB7F /* AffiliationStorePointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */; };
+		0A376DB5214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */; };
+		0A376DB6214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */; };
+		0A376DB8214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */; };
+		0A376DB9214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */; };
+		0A376DBB214FACE100DFFB7F /* AffiliationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */; };
+		0A376DBC214FACE100DFFB7F /* AffiliationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */; };
+		0A376DBF214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */; };
+		0A376DC0214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */; };
 		0A376DC72150173200DFFB7F /* AffiliationVouchersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DC62150173200DFFB7F /* AffiliationVouchersViewController.swift */; };
 		0A376DC82150173200DFFB7F /* AffiliationVouchersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DC62150173200DFFB7F /* AffiliationVouchersViewController.swift */; };
 		0A376DCA2150173B00DFFB7F /* AffiliationVouchersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DC92150173B00DFFB7F /* AffiliationVouchersView.swift */; };
@@ -232,14 +239,6 @@
 		0A376DD12150177700DFFB7F /* AffiliationVouchersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DCF2150177700DFFB7F /* AffiliationVouchersViewModel.swift */; };
 		0A376DD321501A3100DFFB7F /* AffiliationVouchersDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DD221501A3100DFFB7F /* AffiliationVouchersDataSource.swift */; };
 		0A376DD421501A3100DFFB7F /* AffiliationVouchersDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DD221501A3100DFFB7F /* AffiliationVouchersDataSource.swift */; };
-		0A376DB5214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */; };
-		0A376DB6214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */; };
-		0A376DB8214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */; };
-		0A376DB9214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */; };
-		0A376DBB214FACE100DFFB7F /* AffiliationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */; };
-		0A376DBC214FACE100DFFB7F /* AffiliationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */; };
-		0A376DBF214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */; };
-		0A376DC0214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */; };
 		0A38625420EB7E8500DD997F /* LPMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */; };
 		0A38625520EB7E8C00DD997F /* LPMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */; };
 		0A3AF6B8213D46610034143B /* ListingFullDetailNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AF6B7213D46600034143B /* ListingFullDetailNavigator.swift */; };
@@ -547,6 +546,12 @@
 		0ACC843A2135838400803D66 /* TourNotificationsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACC84382135837C00803D66 /* TourNotificationsBuilder.swift */; };
 		0ACE01262150502F002C039C /* AffiliationHistoryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE01252150502F002C039C /* AffiliationHistoryBuilder.swift */; };
 		0ACE01272150502F002C039C /* AffiliationHistoryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE01252150502F002C039C /* AffiliationHistoryBuilder.swift */; };
+		0ACE012921513906002C039C /* UIAlertController+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE012821513906002C039C /* UIAlertController+LG.swift */; };
+		0ACE012A2151391F002C039C /* UIAlertController+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE012821513906002C039C /* UIAlertController+LG.swift */; };
+		0ACE012D21514C7E002C039C /* EditEmailBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE012C21514C7E002C039C /* EditEmailBuilder.swift */; };
+		0ACE012E21514C7E002C039C /* EditEmailBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE012C21514C7E002C039C /* EditEmailBuilder.swift */; };
+		0ACE013121514CE7002C039C /* EditListingWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE013021514CE7002C039C /* EditListingWireframe.swift */; };
+		0ACE013221514CE7002C039C /* EditListingWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE013021514CE7002C039C /* EditListingWireframe.swift */; };
 		0AD5A4332146C2320053E86C /* MoreInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD5A4312146C2310053E86C /* MoreInfoLabel.swift */; };
 		0AD5A4342146C2320053E86C /* MoreInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD5A4312146C2310053E86C /* MoreInfoLabel.swift */; };
 		0AD5A4352146C2320053E86C /* ListingCardInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD5A4322146C2310053E86C /* ListingCardInfoView.swift */; };
@@ -583,6 +588,8 @@
 		0AE6F4FF20F8DF6600D58BCE /* SearchNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE6F4FD20F8DE2A00D58BCE /* SearchNavigator.swift */; };
 		0AE779FC20E6678E001633B1 /* LPMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */; };
 		0AE779FD20E667B5001633B1 /* LPMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */; };
+		0AEAFC2321529E2100B8E223 /* AffiliationOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC2221529E2100B8E223 /* AffiliationOnBoardingView.swift */; };
+		0AEAFC2421529E2100B8E223 /* AffiliationOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC2221529E2100B8E223 /* AffiliationOnBoardingView.swift */; };
 		0AEB4FF02018AA93003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */; };
 		0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */; };
 		0AEB4FF52018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */; };
@@ -2690,18 +2697,15 @@
 		0A2F52BF21232AC90034EF85 /* PromoteBumpBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoteBumpBuilder.swift; sourceTree = "<group>"; };
 		0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardMediaCarousel.swift; sourceTree = "<group>"; };
 		0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStorePointsView.swift; sourceTree = "<group>"; };
-		0A3048272041E1DE00C11498 /* ListingDeckSnapshotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckSnapshotType.swift; sourceTree = "<group>"; };
-		0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardMediaCarousel.swift; sourceTree = "<group>"; };
-		0A376D9D214C4CFC00DFFB7F /* AffiliationStorePointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationStorePointsView.swift; sourceTree = "<group>"; };
+		0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalViewController.swift; sourceTree = "<group>"; };
+		0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalViewModel.swift; sourceTree = "<group>"; };
+		0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalView.swift; sourceTree = "<group>"; };
+		0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalBuilder.swift; sourceTree = "<group>"; };
 		0A376DC62150173200DFFB7F /* AffiliationVouchersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationVouchersViewController.swift; sourceTree = "<group>"; };
 		0A376DC92150173B00DFFB7F /* AffiliationVouchersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationVouchersView.swift; sourceTree = "<group>"; };
 		0A376DCC2150175E00DFFB7F /* AffiliationVoucherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationVoucherCell.swift; sourceTree = "<group>"; };
 		0A376DCF2150177700DFFB7F /* AffiliationVouchersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationVouchersViewModel.swift; sourceTree = "<group>"; };
 		0A376DD221501A3100DFFB7F /* AffiliationVouchersDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationVouchersDataSource.swift; sourceTree = "<group>"; };
-		0A376DB4214FAC4C00DFFB7F /* AffiliationModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalViewController.swift; sourceTree = "<group>"; };
-		0A376DB7214FAC8700DFFB7F /* AffiliationModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalViewModel.swift; sourceTree = "<group>"; };
-		0A376DBA214FACE100DFFB7F /* AffiliationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalView.swift; sourceTree = "<group>"; };
-		0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationModalBuilder.swift; sourceTree = "<group>"; };
 		0A38625320EB7E8500DD997F /* LPMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMessageViewModel.swift; sourceTree = "<group>"; };
 		0A3AF6B7213D46600034143B /* ListingFullDetailNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailNavigator.swift; sourceTree = "<group>"; };
 		0A3AF6B9213D46D10034143B /* ListingFullDetailWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingFullDetailWireframe.swift; sourceTree = "<group>"; };
@@ -2857,6 +2861,9 @@
 		0ACC843321357B6300803D66 /* TourNotificationPushWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourNotificationPushWireframe.swift; sourceTree = "<group>"; };
 		0ACC84382135837C00803D66 /* TourNotificationsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourNotificationsBuilder.swift; sourceTree = "<group>"; };
 		0ACE01252150502F002C039C /* AffiliationHistoryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationHistoryBuilder.swift; sourceTree = "<group>"; };
+		0ACE012821513906002C039C /* UIAlertController+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+LG.swift"; sourceTree = "<group>"; };
+		0ACE012C21514C7E002C039C /* EditEmailBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmailBuilder.swift; sourceTree = "<group>"; };
+		0ACE013021514CE7002C039C /* EditListingWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListingWireframe.swift; sourceTree = "<group>"; };
 		0AD5A4312146C2310053E86C /* MoreInfoLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInfoLabel.swift; sourceTree = "<group>"; };
 		0AD5A4322146C2310053E86C /* ListingCardInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardInfoView.swift; sourceTree = "<group>"; };
 		0AD5A4372146C2550053E86C /* DeckMoreInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckMoreInfoView.swift; sourceTree = "<group>"; };
@@ -2876,6 +2883,7 @@
 		0AE6F4FA20F8CE5500D58BCE /* UIViewController+Childs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Childs.swift"; sourceTree = "<group>"; };
 		0AE6F4FD20F8DE2A00D58BCE /* SearchNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNavigator.swift; sourceTree = "<group>"; };
 		0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMessageViewController.swift; sourceTree = "<group>"; };
+		0AEAFC2221529E2100B8E223 /* AffiliationOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationOnBoardingView.swift; sourceTree = "<group>"; };
 		0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingViewModel.swift; sourceTree = "<group>"; };
 		0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinder.swift; sourceTree = "<group>"; };
 		0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinderSpec.swift; sourceTree = "<group>"; };
@@ -4337,18 +4345,6 @@
 			path = PromoteBump;
 			sourceTree = "<group>";
 		};
-		0A376DC52150172900DFFB7F /* Vouchers */ = {
-			isa = PBXGroup;
-			children = (
-				0A376DC62150173200DFFB7F /* AffiliationVouchersViewController.swift */,
-				0A376DC92150173B00DFFB7F /* AffiliationVouchersView.swift */,
-				0A376DCC2150175E00DFFB7F /* AffiliationVoucherCell.swift */,
-				0A376DCF2150177700DFFB7F /* AffiliationVouchersViewModel.swift */,
-				0A376DD221501A3100DFFB7F /* AffiliationVouchersDataSource.swift */,
-			);
-			path = Vouchers;
-			sourceTree = "<group>"; 
-		};
 		0A376DB3214FAC2600DFFB7F /* ModalView */ = {
 			isa = PBXGroup;
 			children = (
@@ -4365,6 +4361,18 @@
 				0A376DBE214FE2A100DFFB7F /* AffiliationModalBuilder.swift */,
 			);
 			path = AffiliationModalView;
+			sourceTree = "<group>";
+		};
+		0A376DC52150172900DFFB7F /* Vouchers */ = {
+			isa = PBXGroup;
+			children = (
+				0A376DC62150173200DFFB7F /* AffiliationVouchersViewController.swift */,
+				0A376DC92150173B00DFFB7F /* AffiliationVouchersView.swift */,
+				0A376DCC2150175E00DFFB7F /* AffiliationVoucherCell.swift */,
+				0A376DCF2150177700DFFB7F /* AffiliationVouchersViewModel.swift */,
+				0A376DD221501A3100DFFB7F /* AffiliationVouchersDataSource.swift */,
+			);
+			path = Vouchers;
 			sourceTree = "<group>";
 		};
 		0A3AF6BD213D48410034143B /* Listing */ = {
@@ -4861,6 +4869,7 @@
 				0A6FEC882130343D00B57004 /* ChatInactiveDetail */,
 				0A6FEC432130343800B57004 /* EditBio */,
 				0A6FEC672130343A00B57004 /* EditListing */,
+				0ACE012F21514CD8002C039C /* EditEmail */,
 				0A6FEC922130343E00B57004 /* EditLocation */,
 				0A6FEC9D2130343F00B57004 /* ExpressChat */,
 				0A6FEC4D2130343800B57004 /* FeaturedInfo */,
@@ -4899,6 +4908,7 @@
 				50D15402214A5BFE00221B06 /* AffiliationInviteSMSContacts */,
 				0A376DBD214FE28B00DFFB7F /* AffiliationModalView */,
 				0A45A88B214C01B20045ACFA /* AffiliationStore */,
+				0ACE012B21514C6D002C039C /* ChangeEmail */,
 				0AF28D84213ECEBA005A6F8C /* ListingsMap */,
 				A47C4A62213D5574005AA387 /* Search */,
 				A47C4A5A213D304F005AA387 /* TrendingSearches */,
@@ -4996,6 +5006,22 @@
 			path = AffiliationHistory;
 			sourceTree = "<group>";
 		};
+		0ACE012B21514C6D002C039C /* ChangeEmail */ = {
+			isa = PBXGroup;
+			children = (
+				0ACE012C21514C7E002C039C /* EditEmailBuilder.swift */,
+			);
+			path = ChangeEmail;
+			sourceTree = "<group>";
+		};
+		0ACE012F21514CD8002C039C /* EditEmail */ = {
+			isa = PBXGroup;
+			children = (
+				0ACE013021514CE7002C039C /* EditListingWireframe.swift */,
+			);
+			path = EditEmail;
+			sourceTree = "<group>";
+		};
 		0AD5A4302146C2310053E86C /* MoreInfoView */ = {
 			isa = PBXGroup;
 			children = (
@@ -5040,6 +5066,14 @@
 				0AE6F4F420F8CBCF00D58BCE /* SearchViewModel.swift */,
 			);
 			path = TrendingSearchesViewController;
+			sourceTree = "<group>";
+		};
+		0AEAFC2121529E1600B8E223 /* OnBoarding */ = {
+			isa = PBXGroup;
+			children = (
+				0AEAFC2221529E2100B8E223 /* AffiliationOnBoardingView.swift */,
+			);
+			path = OnBoarding;
 			sourceTree = "<group>";
 		};
 		0AEB4FF32018C336003365DE /* OnBoarding */ = {
@@ -6553,6 +6587,7 @@
 		50D153E7214A5BE600221B06 /* Affiliation */ = {
 			isa = PBXGroup;
 			children = (
+				0AEAFC2121529E1600B8E223 /* OnBoarding */,
 				50D15428214A6C9900221B06 /* Challenges */,
 				0A376DC52150172900DFFB7F /* Vouchers */,
 				72DBA6B9214F88F9008D6F39 /* AffiliationInviteSMSContacts */,
@@ -6904,6 +6939,7 @@
 				0A98767220CE580D00DCD360 /* UIStackView+LG.swift */,
 				42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */,
 				0AE6F4FA20F8CE5500D58BCE /* UIViewController+Childs.swift */,
+				0ACE012821513906002C039C /* UIAlertController+LG.swift */,
 			);
 			path = UIkitExtensions;
 			sourceTree = "<group>";
@@ -6930,7 +6966,7 @@
 				6A660A51209B13A200358BF8 /* PasswordlessUsernameNavigator.swift */,
 			);
 			path = ConfirmUsername;
-      sourceTree = "<group>";
+			sourceTree = "<group>";
 		};
 		6A6D19692147D71000C4C247 /* UserVerification */ = {
 			isa = PBXGroup;
@@ -9669,6 +9705,7 @@
 				C727943A1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7363FB81BF9E64B00A4BF6F /* FilterTag.swift in Sources */,
 				6A5E19FA1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
+				0AEAFC2321529E2100B8E223 /* AffiliationOnBoardingView.swift in Sources */,
 				0A35E6EA20FCDE49002701ED /* ListingCardMediaCarousel.swift in Sources */,
 				0AB6E1D41F9DD1670048AFFD /* ListingDeckViewController.swift in Sources */,
 				0A6FECBA2130344000B57004 /* FeaturedInfoModalWireframe.swift in Sources */,
@@ -9685,6 +9722,7 @@
 				425EE389211AEB700002DAB8 /* RequesterURLPaginable.swift in Sources */,
 				C7AFFB0D1E7172B20052A9CA /* MyUser+LG.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
+				0ACE012D21514C7E002C039C /* EditEmailBuilder.swift in Sources */,
 				42109E7B2112F65100AA979E /* Feed+LG.swift in Sources */,
 				326C72D520888280009D21DB /* UICollectionViewLayoutAttributes+Builder.swift in Sources */,
 				50D1540A214A5BFF00221B06 /* AffiliationInviteFriendsBuilder.swift in Sources */,
@@ -9734,6 +9772,7 @@
 				D412E07F1B4EFF2800683FFD /* ListingListViewModel.swift in Sources */,
 				2E2AB8281C04A2EF0007B8EB /* CrashlyticsTracker.swift in Sources */,
 				0A6FECE82130344000B57004 /* MediaViewerStandardWireframe.swift in Sources */,
+				0ACE012921513906002C039C /* UIAlertController+LG.swift in Sources */,
 				0A82A17E213FBFF2005ECA58 /* NotificationCenterThumbnailCell.swift in Sources */,
 				8EEC7F56206AA60B00616858 /* MoPubNativeView.swift in Sources */,
 				0A890AA421208BAC0091ED75 /* ProfessionalDealerAskPhoneBuilder.swift in Sources */,
@@ -10486,6 +10525,7 @@
 				0A6FED2E2130344000B57004 /* TourPostingWireframe.swift in Sources */,
 				C66105E3213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */,
 				01834970204F6A9F00B14A24 /* BlockingPostingListingEditionViewModel.swift in Sources */,
+				0ACE013121514CE7002C039C /* EditListingWireframe.swift in Sources */,
 				0A82A18A213FFF41005ECA58 /* DashedLine.swift in Sources */,
 				0A6650DC20BBF51500BD1F2B /* EditLocationView.swift in Sources */,
 			);
@@ -10710,6 +10750,7 @@
 				8ECB2DDA20E2A26A00AE9E5B /* GoogleAdxNativeAppInstallView.swift in Sources */,
 				0A75147C214272570049E135 /* PossibleBuyerCell.swift in Sources */,
 				42F0688C20FF44C1009AC898 /* DropdownViewModel.swift in Sources */,
+				0AEAFC2421529E2100B8E223 /* AffiliationOnBoardingView.swift in Sources */,
 				C21E6079208A89AF008A1956 /* VideoPreview.swift in Sources */,
 				72FE02DD1F98CE0A005BD672 /* AlphaAnimator.swift in Sources */,
 				4252685720C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift in Sources */,
@@ -10947,6 +10988,7 @@
 				C6977E832119E9AF00B57E54 /* PostingServicesListingTypeSelectionView.swift in Sources */,
 				4245B6F02084D47A00EF8162 /* UserType+LG.swift in Sources */,
 				6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
+				0ACE012A2151391F002C039C /* UIAlertController+LG.swift in Sources */,
 				50D1541B214A5C2300221B06 /* AffiliationFAQNavigator.swift in Sources */,
 				8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */,
 				0A751474214272570049E135 /* RateUserViewModel.swift in Sources */,
@@ -11007,6 +11049,7 @@
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
 				50D15421214A5C2300221B06 /* AffiliationInviteFriendsStandardWireframe.swift in Sources */,
 				42E17F8820FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */,
+				0ACE012E21514C7E002C039C /* EditEmailBuilder.swift in Sources */,
 				C6687F3720C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */,
 				0AC489471F9DE41A00CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */,
 				42F64F8020AAE99900CF97AD /* ListingFilters+LG.swift in Sources */,
@@ -11210,6 +11253,7 @@
 				C605853B20DBD16A008025FD /* ListingAttributeGridViewItemCell.swift in Sources */,
 				C74016E01D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */,
 				A41196172122E65000EBB210 /* RecaptchaBuilder.swift in Sources */,
+				0ACE013221514CE7002C039C /* EditListingWireframe.swift in Sources */,
 				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				72E8A58B1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
 				C7E590331E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
