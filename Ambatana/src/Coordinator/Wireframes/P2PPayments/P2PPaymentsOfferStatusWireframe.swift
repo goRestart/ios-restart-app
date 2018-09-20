@@ -5,6 +5,8 @@ protocol P2PPaymentsOfferStatusNavigator {
     func close()
     func openGetPayCode()
     func openEnterPayCode(buyer: User)
+    func openContactUs(url: URL)
+    func openFaqs(url: URL)
 }
 
 final class P2PPaymentsOfferStatusWireframe: P2PPaymentsOfferStatusNavigator {
@@ -33,5 +35,13 @@ final class P2PPaymentsOfferStatusWireframe: P2PPaymentsOfferStatusNavigator {
                                                                                   buyerName: buyer.name ?? "",
                                                                                   buyerAvatar: buyer.avatar)
         nc.pushViewController(vc, animated: true)
+    }
+
+    func openContactUs(url: URL) {
+        navigationController?.openInAppWebViewWith(url: url)
+    }
+
+    func openFaqs(url: URL) {
+        navigationController?.openInAppWebViewWith(url: url)
     }
 }

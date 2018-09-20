@@ -5,21 +5,29 @@ import RxSwift
 import RxCocoa
 
 final class P2PPaymentsGetPayCodeViewModel: BaseViewModel {
-    var navigator: P2PPaymentsOfferStatusWireframe?
+    var navigator: P2PPaymentsOfferStatusNavigator?
     private let offerId: String
     private var payCode: String?
     private let p2pPaymentsRepository: P2PPaymentsRepository
+    private let myUserRepository: MyUserRepository
+    private let installationRepository: InstallationRepository
     private let uiStateRelay = BehaviorRelay<UIState>(value: .loading)
 
     convenience init(offerId: String) {
         self.init(offerId: offerId,
-                  p2pPaymentsRepository: Core.p2pPaymentsRepository)
+                  p2pPaymentsRepository: Core.p2pPaymentsRepository,
+                  myUserRepository: Core.myUserRepository,
+                  installationRepository: Core.installationRepository)
     }
 
     init(offerId: String,
-         p2pPaymentsRepository: P2PPaymentsRepository) {
+         p2pPaymentsRepository: P2PPaymentsRepository,
+         myUserRepository: MyUserRepository,
+         installationRepository: InstallationRepository) {
         self.offerId = offerId
         self.p2pPaymentsRepository = p2pPaymentsRepository
+        self.myUserRepository = myUserRepository
+        self.installationRepository = installationRepository
         super.init()
     }
 
@@ -82,6 +90,18 @@ extension P2PPaymentsGetPayCodeViewModel {
 extension P2PPaymentsGetPayCodeViewModel {
     func closeButtonPressed() {
         navigator?.close()
+    }
+
+    func contactUsActionSelected() {
+        guard let email = myUserRepository.myUser?.email,
+        let installation = installationRepository.installation,
+        let url = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation, listing: nil, type: .payment) else { return }
+        navigator?.openFaqs(url: url)
+    }
+
+    func faqsActionSelected() {
+        guard let url = LetgoURLHelper.buildPaymentFaqsURL() else { return }
+        navigator?.openFaqs(url: url)
     }
 }
 

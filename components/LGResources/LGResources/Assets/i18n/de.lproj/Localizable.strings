@@ -822,7 +822,7 @@
 "payments_offer_status_as_seller_enter_code_button" = "Enter code";
 "payments_offer_status_as_seller_fee_info_button" = "Info";
 "payments_offer_status_as_seller_fee_label" = "Payment fee";
-"payments_offer_status_as_seller_fee_percentage" = "Payment fee %@";
+"payments_offer_status_as_seller_fee_percentage" = "Payment fee (%@)";
 "payments_offer_status_as_seller_meeting_description" = "Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment";
 "payments_offer_status_as_seller_meeting_title" = "Meet in person and get paid";
 "payments_offer_status_as_seller_received" = "You receive";

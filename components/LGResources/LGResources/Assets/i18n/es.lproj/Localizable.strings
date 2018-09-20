@@ -822,7 +822,7 @@
 "payments_offer_status_as_seller_enter_code_button" = "Introducir código";
 "payments_offer_status_as_seller_fee_info_button" = "Info";
 "payments_offer_status_as_seller_fee_label" = "Tasa de pago";
-"payments_offer_status_as_seller_fee_percentage" = "Tasa de pago %@";
+"payments_offer_status_as_seller_fee_percentage" = "Tasa de pago (%@)";
 "payments_offer_status_as_seller_meeting_description" = "Entrégale el artículo al comprador, obtén su código de pago e introdúcelo en la app para recibir tu pago seguro";
 "payments_offer_status_as_seller_meeting_title" = "Fija un encuentro y recibe el pago";
 "payments_offer_status_as_seller_received" = "Recibes";

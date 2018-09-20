@@ -8,6 +8,13 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
     private let viewModel: P2PPaymentsGetPayCodeViewModel
     private let disposeBag = DisposeBag()
 
+    private lazy var optionsButton: UIButton = {
+        let button = UIButton()
+        button.setImage(R.Asset.P2PPayments.icOptions.image, for: .normal)
+        button.addTarget(self, action: #selector(optionsButtonPressed), for: .touchUpInside)
+        return button
+    }()
+
     private let warningImageView: UIImageView = {
         let imageView = UIImageView(image: R.Asset.P2PPayments.icError.image)
         imageView.tintColor = .p2pPaymentsWarning
@@ -85,10 +92,19 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
         setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
         setNavBarTitleStyle(NavBarTitleStyle.text(R.Strings.paymentsGetPayCodeNavbarTitle))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
+        setNavigationBarRightButtons([optionsButton])
     }
 
     @objc private func closeButtonPressed() {
         viewModel.closeButtonPressed()
+    }
+
+    @objc private func optionsButtonPressed() {
+        let contactUs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsGetPayCodeContactUsOption),
+                 action: viewModel.contactUsActionSelected)
+        let faqs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsGetPayCodeFaqsOption),
+                                 action: viewModel.faqsActionSelected)
+        vmShowActionSheet(R.Strings.commonCancel, actions: [contactUs, faqs])
     }
 
     private func setup() {

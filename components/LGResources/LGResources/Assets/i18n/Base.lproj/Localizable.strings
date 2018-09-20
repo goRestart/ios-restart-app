@@ -107,7 +107,13 @@
 "affiliation_faq_title" = "How it works";
 
 // Wrong country alert when open the app
-"affiliation_onboarding_country_error_message" = "Oops! Unfortunately gift cards are not available in your country.\nBut you can still make cash!";
+"affiliation_onboarding_country_error_message" = "Oops! Unfortunately gift cards are not available in your country. \n\nBut you can still make cash!";
+
+// Sell your stuff
+"affiliation_onboarding_country_error_main_button" = "Sell your stuff";
+
+// Keep browsing
+"affiliation_onboarding_country_error_secondary_button" = "Keep browsing";
 
 // Affiliation Store screen. Country unavailable error message
 "affiliation_store_country_error_message" = "Oops! This feature is not available in your country.";
@@ -2730,6 +2736,10 @@
 
 // Navigation bar title in pay code screen
 "payments_get_pay_code_navbar_title" = "Offer";
+
+"payments_get_pay_code_faqs_option" = "FAQs";
+
+"payments_get_pay_code_contact_us_option" = "Contact us";
 
 // Placeholder for the card number textfield
 "payments_card_number_placeholder" = "Card number";

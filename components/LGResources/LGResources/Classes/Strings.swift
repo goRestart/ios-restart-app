@@ -92,8 +92,12 @@ extension R {
     public static let affiliationInviteSmsMessageError = Strings.tr("Localizable", "affiliation_invite_sms_message_error")
     /// Message sent
     public static let affiliationInviteSmsMessageSent = Strings.tr("Localizable", "affiliation_invite_sms_message_sent")
-    /// Oops! Unfortunately gift cards are not available in your country.\nBut you can still make cash!
+    /// Sell your stuff
+    public static let affiliationOnboardingCountryErrorMainButton = Strings.tr("Localizable", "affiliation_onboarding_country_error_main_button")
+    /// Oops! Unfortunately gift cards are not available in your country. \n\nBut you can still make cash!
     public static let affiliationOnboardingCountryErrorMessage = Strings.tr("Localizable", "affiliation_onboarding_country_error_message")
+    /// Keep browsing
+    public static let affiliationOnboardingCountryErrorSecondaryButton = Strings.tr("Localizable", "affiliation_onboarding_country_error_secondary_button")
     /// Oops! This feature is not available in your country.
     public static let affiliationStoreCountryErrorMessage = Strings.tr("Localizable", "affiliation_store_country_error_message")
     /// The gift card will be sent to your email: %@
@@ -1874,10 +1878,14 @@ extension R {
     public static let paymentsEnterPayCodeNavbarTitle = Strings.tr("Localizable", "payments_enter_pay_code_navbar_title")
     /// Your payment code
     public static let paymentsGetPayCodeCodeLabel = Strings.tr("Localizable", "payments_get_pay_code_code_label")
+    /// Contact us
+    public static let paymentsGetPayCodeContactUsOption = Strings.tr("Localizable", "payments_get_pay_code_contact_us_option")
     /// Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.
     public static let paymentsGetPayCodeDescription = Strings.tr("Localizable", "payments_get_pay_code_description")
     /// This code expires in 7 days, so make sure to meet the seller soon
     public static let paymentsGetPayCodeDisclaimer = Strings.tr("Localizable", "payments_get_pay_code_disclaimer")
+    /// FAQs
+    public static let paymentsGetPayCodeFaqsOption = Strings.tr("Localizable", "payments_get_pay_code_faqs_option")
     /// Offer
     public static let paymentsGetPayCodeNavbarTitle = Strings.tr("Localizable", "payments_get_pay_code_navbar_title")
     /// Chat with Seller
