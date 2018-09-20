@@ -24,9 +24,12 @@ final class P2PPaymentsPayoutPersonalInfoView: UIView {
     }()
 
     private enum Layout {
-        static let contentHorizontalMargin: CGFloat = 24
+        static let contentHorizontalMargin: CGFloat = 12
         static let buttonHeight: CGFloat = 55
-        static let buttonBottomMargin: CGFloat = 16
+        static let buttonHorizontalMargin: CGFloat = 24
+        static let buttonTopMargin: CGFloat = 32
+        static let buttonBottomMargin: CGFloat = 12
+        static let textFieldVerticalAdjustment: CGFloat = 50
     }
 
     private let formTitleLabel: UILabel =  {
@@ -202,16 +205,16 @@ final class P2PPaymentsPayoutPersonalInfoView: UIView {
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            stackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -24),
+            stackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -2 * Layout.contentHorizontalMargin),
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 12),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -12),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Layout.contentHorizontalMargin),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Layout.contentHorizontalMargin),
 
-            actionButton.heightAnchor.constraint(equalToConstant: 55),
-            actionButton.widthAnchor.constraint(equalTo: widthAnchor, constant: -48),
+            actionButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
+            actionButton.widthAnchor.constraint(equalTo: widthAnchor, constant: -2 * Layout.buttonHorizontalMargin),
             actionButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            actionButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 32),
-            actionButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -12),
+            actionButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: Layout.buttonTopMargin),
+            actionButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -Layout.buttonBottomMargin),
         ])
     }
 
@@ -238,7 +241,7 @@ final class P2PPaymentsPayoutPersonalInfoView: UIView {
     }
 
     @objc private func textFieldDidBeginEditing(textField: UITextField) {
-        let adjustedFrame = textField.frame.insetBy(dx: 0, dy: -50)
+        let adjustedFrame = textField.frame.insetBy(dx: 0, dy: -Layout.textFieldVerticalAdjustment)
         scrollView.scrollRectToVisible(adjustedFrame, animated: true)
     }
 }
