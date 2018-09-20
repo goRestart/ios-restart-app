@@ -1201,10 +1201,12 @@ fileprivate extension AppCoordinator {
         tabBarCtl.dismissAllPresented(nil)
         guard let navCtl = selectedNavigationController else { return }
         navCtl.showLoadingMessageAlert()
-        sessionManager.loginPasswordlessWith(token: token) { result in
+        sessionManager.loginPasswordlessWith(token: token) { [weak self] result in
             switch result {
             case .success:
                 navCtl.dismissLoadingMessageAlert()
+                let event = TrackerEvent.loginEmail(.passwordless, rememberedAccount: false)
+                self?.tracker.trackEvent(event)
             case .failure:
                 let message = R.Strings.commonErrorGenericBody
                 navCtl.dismissLoadingMessageAlert {

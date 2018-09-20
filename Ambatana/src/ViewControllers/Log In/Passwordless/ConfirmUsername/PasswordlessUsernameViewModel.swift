@@ -33,6 +33,7 @@ final class PasswordlessUsernameViewModel: BaseViewModel {
     func didTapDoneWith(name: String) {
         sessionManager.signUpPasswordlessWith(token: token, username: name) { [weak self] result in
             if let _ = result.value {
+                self?.trackSignupComplete()
                 self?.navigator?.closePasswordlessConfirmUsername()
             } else {
                 self?.delegate?.vmShowAlert(R.Strings.commonErrorTitle,
@@ -49,5 +50,10 @@ final class PasswordlessUsernameViewModel: BaseViewModel {
 
     func didTapClose() {
         navigator?.closePasswordlessConfirmUsername()
+    }
+
+    func trackSignupComplete() {
+        let event = TrackerEvent.signupEmail(.passwordless, newsletter: .falseParameter)
+        tracker.trackEvent(event)
     }
 }
