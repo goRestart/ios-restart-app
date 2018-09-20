@@ -59,7 +59,8 @@ final class AffiliationStoreViewController: BaseViewController {
         let bindings = [
             viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
             viewModel.rx.redeemTapped.drive(rx.redeemCell),
-            viewModel.rx.points.drive(rx.points)
+            viewModel.rx.points.drive(rx.points),
+            viewModel.rx.pointsAlpha.drive(rx.pointsAlpha)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -100,6 +101,14 @@ final class AffiliationStoreViewController: BaseViewController {
                            action: action)
         view.addSubviewForAutoLayout(errorView)
         constraintViewToSafeRootView(errorView)
+    }
+
+    fileprivate func updatePoints(with alpha: CGFloat) {
+        pointsView.alpha = alpha
+    }
+
+    fileprivate func updatePoints(with points: Int) {
+        pointsView.populate(with: points)
     }
 
     fileprivate func updateRedeem(with state: ViewState) {
@@ -216,7 +225,13 @@ extension Reactive where Base: AffiliationStoreViewController {
 
     var points: Binder<Int> {
         return Binder(self.base) { controller, points in
-            controller.update(with: points)
+            controller.updatePoints(with: points)
+        }
+    }
+
+    var pointsAlpha: Binder<CGFloat> {
+        return Binder(self.base) { controller, alpha in
+            controller.updatePoints(with: alpha)
         }
     }
 

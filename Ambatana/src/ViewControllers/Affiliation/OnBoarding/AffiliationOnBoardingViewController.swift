@@ -28,7 +28,6 @@ final class AffiliationOnBoardingViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.onboardingData
-            .asObservable()
             .asDriver(onErrorJustReturn: nil)
             .drive(rx.data)
             .disposed(by: disposeBag)
