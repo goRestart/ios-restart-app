@@ -1,7 +1,9 @@
 import LGComponents
+import WebKit
 
 final class AffiliationFAQViewController: BaseViewController {
     private let viewModel: AffiliationFAQViewModel
+    private let webView = WKWebView()
 
 
     // MARK: Lifecycle
@@ -22,9 +24,15 @@ final class AffiliationFAQViewController: BaseViewController {
 
     private func setupUI() {
         title = R.Strings.affiliationFaqTitle
+        if let url = viewModel.url {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
     }
 
     private func setupConstraints() {
+        automaticallyAdjustsScrollViewInsets = false
+        webView.addToViewController(self, inView: self.view)
     }
 
     private func setAccessibilityIds() {
