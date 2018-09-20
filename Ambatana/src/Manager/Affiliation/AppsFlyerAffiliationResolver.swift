@@ -93,8 +93,8 @@ private extension AppsFlyerAffiliationResolver {
     }
 
     private func resolve() {
+        guard isReferralCandidate() else { return }
         guard
-            isReferralCandidate(),
             myUserRepository.myUser != nil,
             let referrer = referrerInfo(),
             isFeatureStatusNotified
@@ -110,16 +110,9 @@ private extension AppsFlyerAffiliationResolver {
             switch result {
             case .success:
                 self?.rx_affiliationCampaign.accept(.referral(referrer: referrer))
-                self?.referralAlreadyNotified()
             case .failure(let error):
                 logMessage(.error, type: AppLoggingOptions.deepLink, message: "Failed to notify referral: \(error)")
             }
         }
-    }
-    
-    private func referralAlreadyNotified() {
-        // Since this is a singleton, we delete data to avoid notifying the backend more than once if
-        // users try to play the system e.g. loging out and in again
-        data = [AnyHashable : Any]()
     }
 }
