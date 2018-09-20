@@ -160,6 +160,12 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
                 self?.viewModel.payButtonPressed()
             })
             .disposed(by: disposeBag)
+        viewModel.offerAmountState.filter { $0 == .invalid }
+            .drive(onNext: { [weak self] state in
+                self?.showInvalidAmountAlert()
+            })
+            .disposed(by: disposeBag)
+
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -175,5 +181,11 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
 
     @objc private func closeButtonPressed() {
         viewModel.closeButtonPressed()
+    }
+
+    private func showInvalidAmountAlert() {
+        vmShowAlert(nil, message: viewModel.invalidAmountMessage,
+                    cancelLabel: R.Strings.paymentsChangeOfferInvalidAmountAlertButton,
+                    actions: [])
     }
 }

@@ -19,6 +19,7 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     private let offerFeesRelay = BehaviorRelay<P2PPaymentOfferFees?>(value: nil)
     private let currencyCodeRelay = BehaviorRelay<String?>(value: nil)
     private let offerAmountRelay = BehaviorRelay<Decimal>(value: 0)
+    private let offerAmountStateRelay = BehaviorRelay<OfferAmountState?>(value: nil)
     private let paymentAuthControllerRelay = BehaviorRelay<UIViewController?>(value: nil)
 
     convenience init(chatConversation: ChatConversation) {
@@ -63,7 +64,7 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
         uiStateRelay.accept(.loading)
         guard
             let currency = chatConversation.listing?.currency,
-            offerAmountRelay.value > 0 else {
+            isOfferAmountValid(offer: offerAmountRelay.value) else {
                 uiStateRelay.accept(.changeOffer)
                 return
         }
@@ -76,6 +77,10 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
                 self?.uiStateRelay.accept(.changeOffer)
             }
         }
+    }
+
+    private func isOfferAmountValid(offer: Decimal) -> Bool {
+        return offer >= OfferAmountInterval.min && offer <= OfferAmountInterval.max
     }
 
     private func updateOfferFees(_ offerFees: P2PPaymentOfferFees) {
@@ -137,13 +142,26 @@ extension P2PPaymentsCreateOfferViewModel {
     enum PaymentButtonState {
         case hidden, configure, pay
     }
+
+    enum OfferAmountState {
+        case valid, invalid
+    }
+
+    struct OfferAmountInterval {
+        static let min: Decimal = 5
+        static let max: Decimal = 500
+    }
 }
 
 // MARK: - UI Actions
 
 extension P2PPaymentsCreateOfferViewModel {
     func closeButtonPressed() {
-        navigator?.closeOnboarding()
+        if uiStateRelay.value == .changeOffer, isOfferAmountValid(offer: offerAmountRelay.value) {
+            uiStateRelay.accept(.buy)
+        } else {
+            navigator?.closeOnboarding()
+        }
     }
 
     func changeOfferButtonPressed() {
@@ -151,6 +169,10 @@ extension P2PPaymentsCreateOfferViewModel {
     }
 
     func changeOfferDoneButtonPressed(newValue: Decimal) {
+        guard isOfferAmountValid(offer: newValue) else {
+            offerAmountStateRelay.accept(.invalid)
+            return
+        }
         offerAmountRelay.accept(newValue)
         calculateFees()
     }
@@ -179,6 +201,7 @@ extension P2PPaymentsCreateOfferViewModel {
     var paymentButtonState: Driver<PaymentButtonState> { return paymentButtonStateRelay.asDriver() }
     var currencyCode: Driver<String?> { return currencyCodeRelay.asDriver() }
     var offerAmount: Driver<Decimal> { return offerAmountRelay.asDriver() }
+    var offerAmountState: Driver<OfferAmountState?> { return offerAmountStateRelay.asDriver() }
     var paymentAuthController: Driver<UIViewController?> { return paymentAuthControllerRelay.asDriver() }
 
     var configurePaymentButtonHidden: Driver<Bool> {
@@ -232,5 +255,12 @@ extension P2PPaymentsCreateOfferViewModel {
             let percentage = fees.serviceFeePercentage / 100
             return P2PPaymentsCreateOfferViewModel.percentageFormatter.string(from: NSNumber(value: percentage))
         }
+    }
+
+    var invalidAmountMessage: String {
+        guard let currencyCode = chatConversation.listing?.currency.code else { return "" }
+        let minAmount = currencyHelper.formattedAmountWithCurrencyCode(currencyCode, amount: (OfferAmountInterval.min as NSDecimalNumber).doubleValue)
+        let maxAmount = currencyHelper.formattedAmountWithCurrencyCode(currencyCode, amount: (OfferAmountInterval.max as NSDecimalNumber).doubleValue)
+        return R.Strings.paymentsChangeOfferInvalidAmountAlertMessage(minAmount, maxAmount)
     }
 }
