@@ -161,7 +161,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
         paymentsManager.createBankAccountToken(params: params) { [weak self] result in
             switch result {
             case .success(let token):
-                self?.requestPayoutWithToken(token)
+                self?.requestPayoutWithToken(token, isInstant: false)
             case .failure:
                 self?.showPayoutInfo()
                 // TODO: @juolgon handle error here
@@ -174,7 +174,8 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
                                    cardNumber: String,
                                    cardExpirationMonth: Int,
                                    cardExpirationYear: Int,
-                                   cvc: String) {
+                                   cvc: String,
+                                   isInstant: Bool) {
         uiStateRelay.accept(.loading)
         guard let offer = offer else { return }
         let params = CardParams(name: name,
@@ -186,7 +187,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
         paymentsManager.createCardToken(params: params) { [weak self] result in
             switch result {
             case .success(let token):
-                self?.requestPayoutWithToken(token)
+                self?.requestPayoutWithToken(token, isInstant: isInstant)
             case .failure:
                 self?.showPayoutInfo()
                 // TODO: @juolgon handle error here
@@ -195,11 +196,11 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
         }
     }
 
-    private func requestPayoutWithToken(_ token: String) {
+    private func requestPayoutWithToken(_ token: String, isInstant: Bool) {
         guard let offerId = offer?.objectId else { return }
         let params = P2PPaymentRequestPayoutParams(offerId: offerId,
                                                    stripeToken: token,
-                                                   isInstant: false)
+                                                   isInstant: isInstant)
         p2pPaymentsRepository.requestPayout(params: params) { [weak self] result in
             switch result {
             case .success:
@@ -295,6 +296,7 @@ extension P2PPaymentsPayoutViewModel {
         let cardExpirationMonth: Int
         let cardExpirationYear: Int
         let cvc: String
+        let isInstant: Bool
     }
 
     func registerButtonPressed(params: RegistrationParams) {
@@ -311,7 +313,8 @@ extension P2PPaymentsPayoutViewModel {
                           cardNumber: params.cardNumber,
                           cardExpirationMonth: params.cardExpirationMonth,
                           cardExpirationYear: params.cardExpirationYear,
-                          cvc: params.cvc)
+                          cvc: params.cvc,
+                          isInstant: params.isInstant)
     }
 
     func closeButtonPressed() {

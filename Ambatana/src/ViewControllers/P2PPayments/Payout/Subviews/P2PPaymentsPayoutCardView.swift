@@ -12,7 +12,8 @@ final class P2PPaymentsPayoutCardView: UIView {
                                                            cardNumber: cardTextField.cardNumber ?? "",
                                                            cardExpirationMonth: Int(cardTextField.expirationMonth),
                                                            cardExpirationYear: Int(cardTextField.expirationYear),
-                                                           cvc: cardTextField.cvc ?? "")
+                                                           cvc: cardTextField.cvc ?? "",
+                                                           isInstant: instantPaymentSelector.isSelected)
     }
 
     private let titleLabel: UILabel = {
