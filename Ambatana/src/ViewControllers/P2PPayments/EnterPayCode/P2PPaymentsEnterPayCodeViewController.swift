@@ -5,12 +5,21 @@ import RxCocoa
 
 
 final class P2PPaymentsEnterPayCodeViewController: BaseViewController, VerificationCodeTextFieldDelegate {
+    private enum Layout {
+        static let avatarImageSize: CGFloat = 72
+        static let avatarTopMargin: CGFloat = 4
+        static let avatarBottomMargin: CGFloat = 16
+        static let descriptionHorizontalMargin: CGFloat = 24
+        static let descriptionBottomMargin: CGFloat = 40
+        static let attemptsTextTopMargin: CGFloat = 12
+    }
+
     private let viewModel: P2PPaymentsEnterPayCodeViewModel
     private let disposeBag = DisposeBag()
 
     private let buyerImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.cornerRadius = 72 / 2
+        imageView.cornerRadius = Layout.avatarImageSize / 2
         return imageView
     }()
 
@@ -82,18 +91,19 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController, Verificat
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            buyerImageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 4),
-            buyerImageView.widthAnchor.constraint(equalToConstant: 72),
-            buyerImageView.heightAnchor.constraint(equalToConstant: 72),
+            buyerImageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: Layout.avatarTopMargin),
+            buyerImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            buyerImageView.widthAnchor.constraint(equalToConstant: Layout.avatarImageSize),
+            buyerImageView.heightAnchor.constraint(equalToConstant: Layout.avatarImageSize),
 
-            descriptionLabel.topAnchor.constraint(equalTo: buyerImageView.bottomAnchor, constant: 16),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            descriptionLabel.topAnchor.constraint(equalTo: buyerImageView.bottomAnchor, constant: Layout.avatarBottomMargin),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.descriptionHorizontalMargin),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.descriptionHorizontalMargin),
 
             verificationCodetextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            verificationCodetextField.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 40),
+            verificationCodetextField.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: Layout.descriptionBottomMargin),
 
-            attemptsTextLabel.topAnchor.constraint(equalTo: verificationCodetextField.bottomAnchor, constant: 12),
+            attemptsTextLabel.topAnchor.constraint(equalTo: verificationCodetextField.bottomAnchor, constant: Layout.attemptsTextTopMargin),
             attemptsTextLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
