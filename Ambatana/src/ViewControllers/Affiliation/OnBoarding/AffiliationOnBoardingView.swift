@@ -40,7 +40,6 @@ final class AffiliationOnBoardingView: UIView {
         label.numberOfLines = 0
         label.textColor = .white
         label.adjustsFontSizeToFitWidth = true
-        label.text = "Sophia has invited you to join letgo! get a 5$ Amazon gift card."
         return label
     }()
 
@@ -75,8 +74,11 @@ final class AffiliationOnBoardingView: UIView {
         ].activate()
     }
 
-    func set(avatar url: URL, userName: String, userId: String) {
+    func set(avatar url: URL?, userName: String, userId: String, message: String) {
         userAvatar.image = LetgoAvatar.avatarWithID(userId, name: userName)
-        userAvatar.lg_setImageWithURL(url)
+        self.message.text = message
+        if let url = url {
+            userAvatar.lg_setImageWithURL(url)
+        }
     }
 }

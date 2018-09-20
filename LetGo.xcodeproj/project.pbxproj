@@ -533,6 +533,14 @@
 		0AE779FD20E667B5001633B1 /* LPMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */; };
 		0AEAFC2321529E2100B8E223 /* AffiliationOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC2221529E2100B8E223 /* AffiliationOnBoardingView.swift */; };
 		0AEAFC2421529E2100B8E223 /* AffiliationOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC2221529E2100B8E223 /* AffiliationOnBoardingView.swift */; };
+		0AEAFC262152ABA900B8E223 /* AffiliationOnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC252152ABA900B8E223 /* AffiliationOnBoardingViewController.swift */; };
+		0AEAFC282152ABEC00B8E223 /* AffiliationOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC272152ABEC00B8E223 /* AffiliationOnBoardingViewModel.swift */; };
+		0AEAFC2B2152B19500B8E223 /* AffiliationOnBoardingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC2A2152B19500B8E223 /* AffiliationOnBoardingBuilder.swift */; };
+		0AEAFC2C2152B19500B8E223 /* AffiliationOnBoardingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC2A2152B19500B8E223 /* AffiliationOnBoardingBuilder.swift */; };
+		0AEAFC2D2152B29900B8E223 /* AffiliationOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC272152ABEC00B8E223 /* AffiliationOnBoardingViewModel.swift */; };
+		0AEAFC2E2152B2DF00B8E223 /* AffiliationOnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC252152ABA900B8E223 /* AffiliationOnBoardingViewController.swift */; };
+		0AEAFC312152B3D300B8E223 /* AffiliationOnBoardingWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC302152B3D300B8E223 /* AffiliationOnBoardingWireframe.swift */; };
+		0AEAFC322152B3D300B8E223 /* AffiliationOnBoardingWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAFC302152B3D300B8E223 /* AffiliationOnBoardingWireframe.swift */; };
 		0AEB4FF02018AA93003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */; };
 		0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */; };
 		0AEB4FF52018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */; };
@@ -2794,6 +2802,10 @@
 		0AE6F4FD20F8DE2A00D58BCE /* SearchNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNavigator.swift; sourceTree = "<group>"; };
 		0AE779FB20E6678E001633B1 /* LPMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMessageViewController.swift; sourceTree = "<group>"; };
 		0AEAFC2221529E2100B8E223 /* AffiliationOnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationOnBoardingView.swift; sourceTree = "<group>"; };
+		0AEAFC252152ABA900B8E223 /* AffiliationOnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationOnBoardingViewController.swift; sourceTree = "<group>"; };
+		0AEAFC272152ABEC00B8E223 /* AffiliationOnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationOnBoardingViewModel.swift; sourceTree = "<group>"; };
+		0AEAFC2A2152B19500B8E223 /* AffiliationOnBoardingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationOnBoardingBuilder.swift; sourceTree = "<group>"; };
+		0AEAFC302152B3D300B8E223 /* AffiliationOnBoardingWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationOnBoardingWireframe.swift; sourceTree = "<group>"; };
 		0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingViewModel.swift; sourceTree = "<group>"; };
 		0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinder.swift; sourceTree = "<group>"; };
 		0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinderSpec.swift; sourceTree = "<group>"; };
@@ -4652,6 +4664,7 @@
 				50D1540C214A5C2200221B06 /* AffiliationFAQ */,
 				50D15412214A5C2300221B06 /* AffiliationInviteFriends */,
 				50D15415214A5C2300221B06 /* AffiliationInviteSMSContacts */,
+				0AEAFC2F2152B39000B8E223 /* AffiliationOnBoarding */,
 				0A45A884214BFF2D0045ACFA /* AffiliationStore */,
 				A47C4A66213D5B32005AA387 /* Search */,
 				A47C4A5E213D31BB005AA387 /* TrendingSearches */,
@@ -4699,6 +4712,7 @@
 				50D15404214A5BFE00221B06 /* AffiliationInviteFriends */,
 				50D15402214A5BFE00221B06 /* AffiliationInviteSMSContacts */,
 				0A376DBD214FE28B00DFFB7F /* AffiliationModalView */,
+				0AEAFC292152B18400B8E223 /* AffiliationOnBoarding */,
 				0A45A88B214C01B20045ACFA /* AffiliationStore */,
 				0A2F51DD2122DA960034EF85 /* AssistantMeeting */,
 				0A6F6E0F2122B8D8006A7132 /* BumUps */,
@@ -4865,8 +4879,26 @@
 			isa = PBXGroup;
 			children = (
 				0AEAFC2221529E2100B8E223 /* AffiliationOnBoardingView.swift */,
+				0AEAFC252152ABA900B8E223 /* AffiliationOnBoardingViewController.swift */,
+				0AEAFC272152ABEC00B8E223 /* AffiliationOnBoardingViewModel.swift */,
 			);
 			path = OnBoarding;
+			sourceTree = "<group>";
+		};
+		0AEAFC292152B18400B8E223 /* AffiliationOnBoarding */ = {
+			isa = PBXGroup;
+			children = (
+				0AEAFC2A2152B19500B8E223 /* AffiliationOnBoardingBuilder.swift */,
+			);
+			path = AffiliationOnBoarding;
+			sourceTree = "<group>";
+		};
+		0AEAFC2F2152B39000B8E223 /* AffiliationOnBoarding */ = {
+			isa = PBXGroup;
+			children = (
+				0AEAFC302152B3D300B8E223 /* AffiliationOnBoardingWireframe.swift */,
+			);
+			path = AffiliationOnBoarding;
 			sourceTree = "<group>";
 		};
 		0AEB4FF32018C336003365DE /* OnBoarding */ = {
@@ -9378,6 +9410,7 @@
 				329ACF4320EA88FA00A1C6A4 /* HorizontalSectionController.swift in Sources */,
 				C75B5DBF1D59E09500112368 /* ListingCarouselPushAnimator.swift in Sources */,
 				C7C61DFB1D630ED500F9505D /* CollectionCell.swift in Sources */,
+				0AEAFC282152ABEC00B8E223 /* AffiliationOnBoardingViewModel.swift in Sources */,
 				C7B543241D6F49CE005FBA30 /* UIView+Screenshot.swift in Sources */,
 				50C59BDE1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				0114DBF820CEA61E00C6DD0B /* NotificationSettingsAccessorListViewController.swift in Sources */,
@@ -9528,6 +9561,7 @@
 				42ED94ED2077C36C00548B62 /* PromoCellData.swift in Sources */,
 				503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */,
 				42ED94EA2077A6DB00548B62 /* PromoCellMetrics.swift in Sources */,
+				0AEAFC312152B3D300B8E223 /* AffiliationOnBoardingWireframe.swift in Sources */,
 				C7B76CF51C1089DF00863512 /* ListingCellDrawer.swift in Sources */,
 				C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				328E8E2F20C03A5E00BBF639 /* EmptyViewModelBuilder.swift in Sources */,
@@ -9574,6 +9608,7 @@
 				C2DC548420A3343E0052EB12 /* AppEventsManager.swift in Sources */,
 				C7111F051CA438C2000C5C5A /* UriScheme.swift in Sources */,
 				50C2E1A71E701BE8006639BB /* PostListingFooter.swift in Sources */,
+				0AEAFC262152ABA900B8E223 /* AffiliationOnBoardingViewController.swift in Sources */,
 				8E031CB22033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */,
 				0A6FED222130344000B57004 /* ChangePasswordModalWireframe.swift in Sources */,
 				A460579A21256F5300386DFC /* LoginStyle.swift in Sources */,
@@ -9777,6 +9812,7 @@
 				C613D0F220BFF3F100344CF2 /* LGPickerSearchBar.swift in Sources */,
 				0A6FED062130344000B57004 /* BumpUpsStandardWireframe.swift in Sources */,
 				C6F3CEF220FF457A00AF4D38 /* LGCheckboxView.swift in Sources */,
+				0AEAFC2B2152B19500B8E223 /* AffiliationOnBoardingBuilder.swift in Sources */,
 				A47C4A68213D5B3F005AA387 /* SearchWireframe.swift in Sources */,
 				0A376D9E214C4CFC00DFFB7F /* AffiliationStorePointsView.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
@@ -10407,6 +10443,7 @@
 				72DBA6BF214F88F9008D6F39 /* AffiliationInvisteSMSContactsCellViewModel.swift in Sources */,
 				3221E5382060619E0006B12B /* ProductPriceAndTitleView.swift in Sources */,
 				0A82A18B213FFF41005ECA58 /* DashedLine.swift in Sources */,
+				0AEAFC2E2152B2DF00B8E223 /* AffiliationOnBoardingViewController.swift in Sources */,
 				C6FFC4A520F7492500B9F53A /* FilterPriceRange.swift in Sources */,
 				C7DB41981C5138B500400945 /* CollectionViewFooter.swift in Sources */,
 				0A2F51F42122E41B0034EF85 /* VerifyAccountsBuilder.swift in Sources */,
@@ -10480,6 +10517,7 @@
 				2E4EBFC41EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */,
 				504CD28F214ABD1300A7672C /* AffiliationChallengesDataView.swift in Sources */,
 				425EE391211AEE560002DAB8 /* FeedListing+Mapping.swift in Sources */,
+				0AEAFC2C2152B19500B8E223 /* AffiliationOnBoardingBuilder.swift in Sources */,
 				6A38A9A72077610400F3B292 /* UserVerificationNavBarView.swift in Sources */,
 				6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
 				3201487620FF6FAA003445DA /* PushMessageSectionController.swift in Sources */,
@@ -10533,6 +10571,7 @@
 				C783D97D1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */,
 				C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
+				0AEAFC322152B3D300B8E223 /* AffiliationOnBoardingWireframe.swift in Sources */,
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,
 				72854D211F8E261C00E54530 /* NumberOfBathrooms.swift in Sources */,
 				2E2208E61DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
@@ -10876,6 +10915,7 @@
 				C7126BD81E6053AA00038CC4 /* ListingViewModel.swift in Sources */,
 				42B7029B20A595840031B9BD /* LGRibbonView.swift in Sources */,
 				0A6FECD12130344000B57004 /* PromoteBumpNavigator.swift in Sources */,
+				0AEAFC2D2152B29900B8E223 /* AffiliationOnBoardingViewModel.swift in Sources */,
 				727EF06A1E0AF0220037DA4E /* LocationManager+LG.swift in Sources */,
 				3212AE282119DD7C00945110 /* SelectedForYouSectionController.swift in Sources */,
 				2E423795205C00410077B62A /* ChatOtherMeetingCellDrawer.swift in Sources */,

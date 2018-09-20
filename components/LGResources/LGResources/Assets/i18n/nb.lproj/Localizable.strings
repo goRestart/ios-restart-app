@@ -767,7 +767,7 @@
 "payments_create_offer_buyer_protection_description_label" = "Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item";
 "payments_create_offer_buyer_protection_title_label" = "Buyer Protection";
 "payments_create_offer_change_button" = "Change";
-"payments_create_offer_escrow_info_label" = "We'll hold the funds in escrow and won't release the payment to the seller until you receive the item";
+"payments_create_offer_escrow_info_label" = "Vi holder av summen i karantene og slipper ikke betalingen til selgeren før du har mottatt produktet";
 "payments_create_offer_fee_label" = "Payment fee";
 "payments_create_offer_fee_percentage_label" = "Payment fee (%@)";
 "payments_create_offer_info_button" = "Info";
