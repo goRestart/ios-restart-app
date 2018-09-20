@@ -82,6 +82,9 @@
 // Affiliation Invite message text
 "affiliation_invite_message_text" = "%@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
 
+// Affiliation Invite message text (fallback)
+"affiliation_invite_message_text_no_name" = "You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
+
 // Affiliation invite friends main title label
 "affiliation_invite_friends_title_label" = "Invite your friends";
 
@@ -2568,6 +2571,12 @@
 
 // Confirmation button in change offer screen 
 "payments_change_offer_confirmation_button" = "Set new offer";
+
+// Alert showed when the offer amount is invalid
+"payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
+
+// The button in the alert
+"payments_change_offer_invalid_amount_alert_button" = "Ok";
 
 // Seller amount label in apple pay screen
 "payments_payment_request_seller_amount_label" = "total for seller";

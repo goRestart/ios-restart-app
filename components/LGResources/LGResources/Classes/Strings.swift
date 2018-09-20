@@ -74,6 +74,8 @@ extension R {
     public static func affiliationInviteMessageText(_ p1: String) -> String {
       return Strings.tr("Localizable", "affiliation_invite_message_text", p1)
     }
+    /// You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
+    public static let affiliationInviteMessageTextNoName = Strings.tr("Localizable", "affiliation_invite_message_text_no_name")
     /// There is no contacts on your phone TBD
     public static let affiliationInviteSmsContactsEmptyState = Strings.tr("Localizable", "affiliation_invite_sms_contacts_empty_state")
     /// We need to get access to your contacts. Go to settings TBD
@@ -1802,6 +1804,12 @@ extension R {
     public static let paymentsChangeOfferAmountLabel = Strings.tr("Localizable", "payments_change_offer_amount_label")
     /// Set new offer
     public static let paymentsChangeOfferConfirmationButton = Strings.tr("Localizable", "payments_change_offer_confirmation_button")
+    /// Ok
+    public static let paymentsChangeOfferInvalidAmountAlertButton = Strings.tr("Localizable", "payments_change_offer_invalid_amount_alert_button")
+    /// Oops! Your offer must be between %@ and %@.
+    public static func paymentsChangeOfferInvalidAmountAlertMessage(_ p1: String, _ p2: String) -> String {
+      return Strings.tr("Localizable", "payments_change_offer_invalid_amount_alert_message", p1, p2)
+    }
     /// Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item
     public static let paymentsCreateOfferBuyerProtectionDescriptionLabel = Strings.tr("Localizable", "payments_create_offer_buyer_protection_description_label")
     /// Buyer Protection

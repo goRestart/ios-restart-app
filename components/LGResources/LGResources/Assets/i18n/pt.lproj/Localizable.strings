@@ -764,6 +764,8 @@
 "payment_frequency_per_year" = "year";
 "payments_change_offer_amount_label" = "Seller receives";
 "payments_change_offer_confirmation_button" = "Set new offer";
+"payments_change_offer_invalid_amount_alert_button" = "Ok";
+"payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
 "payments_create_offer_buyer_protection_description_label" = "Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item";
 "payments_create_offer_buyer_protection_title_label" = "Buyer Protection";
 "payments_create_offer_change_button" = "Change";

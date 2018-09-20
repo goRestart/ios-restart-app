@@ -764,6 +764,8 @@
 "payment_frequency_per_year" = "yıl";
 "payments_change_offer_amount_label" = "Satıcının alacağı:";
 "payments_change_offer_confirmation_button" = "Yeni teklif belirle";
+"payments_change_offer_invalid_amount_alert_button" = "Ok";
+"payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
 "payments_create_offer_buyer_protection_description_label" = "letgo üzerinden öde ve fonların sadece sen ürünü tutmak istediğini onayladığında satıcıya geçsin";
 "payments_create_offer_buyer_protection_title_label" = "Alıcı Koruma";
 "payments_create_offer_change_button" = "Değiştir";
