@@ -86,7 +86,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
     private func registerSeller(params: RegistrationParams) {
         uiStateRelay.accept(.loading)
         guard let userId = myUserRepository.myUser?.objectId else { return }
-        guard let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String else { return }
+        guard let countryCode = myUserRepository.myUser?.postalAddress.countryCode else { return }
         let params = P2PPaymentCreateSellerParams(sellerId: userId,
                                                   firstName: params.firstName,
                                                   lastName: params.lastName,
@@ -111,7 +111,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
 
     func requestBankAccountPayout(routingNumber: String, accountNumber: String) {
         uiStateRelay.accept(.loading)
-        guard let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String else { return }
+        guard let countryCode = myUserRepository.myUser?.postalAddress.countryCode else { return }
         guard let offer = offer else { return }
         let params = BankAccountParams(routingNumber: routingNumber,
                                        accountNumber: accountNumber,
