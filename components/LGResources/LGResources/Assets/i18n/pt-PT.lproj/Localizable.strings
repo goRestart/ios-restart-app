@@ -793,7 +793,7 @@
 "payments_enter_pay_code_description_label" = "Introduza o código de 4 dígitos que o comprador %@ partilhou consigo";
 "payments_enter_pay_code_navbar_title" = "Oferta";
 "payments_get_pay_code_code_label" = "O seu código de pagamento";
-"payments_get_pay_code_contact_us_option" = "Contact us";
+"payments_get_pay_code_contact_us_option" = "Contato";
 "payments_get_pay_code_description" = "Partilhar este código desbloqueia o pagamento, faça-o apenas quando receber o item. Nunca partilhe este código por chat ou mensagem de texto.";
 "payments_get_pay_code_disclaimer" = "Este código expira dentro de 7 dias por isso assegure-se de que se encontra com o vendedor em breve";
 "payments_get_pay_code_faqs_option" = "FAQ";

@@ -793,10 +793,10 @@
 "payments_enter_pay_code_description_label" = "Introduce el código de 4 dígitos que te ha dado el comprador %@";
 "payments_enter_pay_code_navbar_title" = "Oferta";
 "payments_get_pay_code_code_label" = "Tu código de pago";
-"payments_get_pay_code_contact_us_option" = "Contact us";
+"payments_get_pay_code_contact_us_option" = "Contáctanos";
 "payments_get_pay_code_description" = "Compartir este código desbloquea el pago, hazlo solo cuando hayas recibido el artículo. No compartas este código por chat o mensaje de texto.";
 "payments_get_pay_code_disclaimer" = "El código caduca en 7 días, asegúrate de encontrarte con el vendedor antes de eso.";
-"payments_get_pay_code_faqs_option" = "FAQ";
+"payments_get_pay_code_faqs_option" = "Preguntas frecuentes";
 "payments_get_pay_code_navbar_title" = "Oferta";
 "payments_offer_status_action_chat_button" = "Chatear con el vendedor";
 "payments_offer_status_action_view_code_button" = "Ver el código de pago";
