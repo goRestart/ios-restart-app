@@ -84,7 +84,7 @@ extension P2PPaymentsEnterPayCodeViewModel {
         }
 
         var descriptionText: String {
-            return "Enter the 4-digit code that buyer \(buyerName) has shared with you"
+            return R.Strings.paymentsEnterPayCodeDescriptionLabel(buyerName)
         }
     }
 }
