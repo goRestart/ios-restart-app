@@ -191,6 +191,7 @@ extension ABTests {
     var bumpInEditCopys: LeanplumABVariable<Int> { return money.bumpInEditCopys }
     var copyForSellFasterNowInTurkish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInTurkish }
     var multiAdRequestMoreInfo: LeanplumABVariable<Int> { return money.multiAdRequestMoreInfo }
+    var multiDayBumpUp: LeanplumABVariable<Int> { return money.multiDayBumpUp }
     var multiAdRequestInChatSectionForUS: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForUS }
     var multiAdRequestInChatSectionForTR: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForTR }
 }
@@ -208,6 +209,7 @@ extension ABTests {
     var randomImInterestedMessages: LeanplumABVariable<Int> { return retention.randomImInterestedMessages }
     var imInterestedInProfile: LeanplumABVariable<Int> { return retention.imInterestedInProfile }
     var shareAfterScreenshot: LeanplumABVariable<Int> { return retention.shareAfterScreenshot }
+    var affiliationCampaign: LeanplumABVariable<Int> { return retention.affiliationCampaign }
 }
 
 //  MARK: RealEstate

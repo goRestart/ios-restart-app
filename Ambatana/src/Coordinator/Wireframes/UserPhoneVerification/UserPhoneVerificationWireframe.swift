@@ -30,7 +30,8 @@ final class UserPhoneVerificationWireframe: UserPhoneVerificationNavigator {
     }
     
     func closePhoneVerificaction() {
-        guard let vc = nc.viewControllers.filter({ $0 is UserVerificationViewController }).first else { return }
+        guard let vc = nc.viewControllers.filter({ $0 is UserVerificationViewController ||
+                                                   $0 is AffiliationChallengesViewController }).first else { return }
         nc.popToViewController(vc, animated: true)
     }
 }

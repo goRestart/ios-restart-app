@@ -9,6 +9,7 @@
 import LGCoreKit
 
 final class FeatureFlagsUDDAO: FeatureFlagsDAO {
+    
     static let userDefaultsKey = "FeatureFlags"
     
     fileprivate enum Key: String {
@@ -19,6 +20,7 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         case advancedReputationSystem12 = "advancedReputationSystem12"
         case advancedReputationSystem13 = "advancedReputationSystem13"
         case mutePushNotifications = "mutePushNotifications"
+        case affiliationEnabled = "affiliationEnabled"
     }
 
     fileprivate var dictionary: [String: Any]
@@ -102,6 +104,16 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
             save(key: .mutePushNotifications, value: encodedData)
             sync()
         }
+    }
+    
+    func retrieveAffiliationEnabled() -> AffiliationEnabled? {
+        guard let rawValue: String = retrieve(key: .affiliationEnabled) else { return nil }
+        return AffiliationEnabled(rawValue: rawValue)
+    }
+    
+    func save(affiliationEnabled: AffiliationEnabled) {
+        save(key: .affiliationEnabled, value: affiliationEnabled.rawValue)
+        sync()
     }
 }
 

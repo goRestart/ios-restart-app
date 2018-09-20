@@ -388,7 +388,7 @@ extension SellCoordinator: MultiListingPostedNavigator {
     func openEdit(forListing listing: Listing) {
         let vc = editAssembly.buildEditView(listing: listing,
                                             pageType: nil,
-                                            bumpUpProductData: nil,
+                                            purchases: [],
                                             listingCanBeBoosted: false,
                                             timeSinceLastBump: nil,
                                             maxCountdown: 0,
@@ -401,7 +401,7 @@ extension SellCoordinator: MultiListingPostedNavigator {
 
 extension SellCoordinator: OnEditActionable {
     func onEdit(listing: Listing,
-                bumpData: BumpUpProductData?,
+                purchases: [BumpUpProductData],
                 timeSinceLastBump: TimeInterval?,
                 maxCountdown: TimeInterval) {
         guard let multiListingVC = viewController as? MultiListingPostedViewController else { return }

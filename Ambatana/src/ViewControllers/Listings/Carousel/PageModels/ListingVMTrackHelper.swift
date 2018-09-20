@@ -135,9 +135,11 @@ extension ListingViewModel {
                             type: BumpUpType,
                             storeProductId: String?,
                             isPromotedBump: Bool,
-                            typePage: EventParameterTypePage?) {
+                            typePage: EventParameterTypePage?,
+                            featurePurchaseType: EventParameterPurchaseType) {
         trackHelper.trackBumpUpStarted(price, type: type, storeProductId: storeProductId, isPromotedBump: isPromotedBump,
-                                       typePage: typePage)
+                                       typePage: typePage,
+                                       featurePurchaseType: featurePurchaseType)
     }
 
     func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice,
@@ -148,26 +150,34 @@ extension ListingViewModel {
                               storeProductId: String?,
                               isPromotedBump: Bool,
                               typePage: EventParameterTypePage?,
-                              paymentId: String?) {
+                              paymentId: String?,
+                              featurePurchaseType: EventParameterPurchaseType) {
         trackHelper.trackBumpUpCompleted(price, type: type, restoreRetriesCount: restoreRetriesCount, network: network,
                                          transactionStatus: transactionStatus, storeProductId: storeProductId,
-                                         isPromotedBump: isPromotedBump, typePage: typePage, paymentId: paymentId)
+                                         isPromotedBump: isPromotedBump, typePage: typePage, paymentId: paymentId,
+                                         featurePurchaseType: featurePurchaseType)
     }
 
     func trackBumpUpFail(type: BumpUpType,
                          transactionStatus: EventParameterTransactionStatus?,
                          storeProductId: String?,
-                         typePage: EventParameterTypePage?) {
+                         typePage: EventParameterTypePage?,
+                         featurePurchaseType: EventParameterPurchaseType) {
         trackHelper.trackBumpUpFail(type: type, transactionStatus: transactionStatus, storeProductId: storeProductId,
-                                    typePage: typePage)
+                                    typePage: typePage,
+                                    featurePurchaseType: featurePurchaseType)
     }
 
-    func trackMobilePaymentComplete(withPaymentId paymentId: String, transactionStatus: EventParameterTransactionStatus) {
-        trackHelper.trackMobilePaymentComplete(withPaymentId: paymentId, transactionStatus: transactionStatus)
+    func trackMobilePaymentComplete(withPaymentId paymentId: String, transactionStatus: EventParameterTransactionStatus,
+                                    featurePurchaseType: EventParameterPurchaseType) {
+        trackHelper.trackMobilePaymentComplete(withPaymentId: paymentId, transactionStatus: transactionStatus,
+                                               featurePurchaseType: featurePurchaseType)
     }
 
-    func trackMobilePaymentFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus) {
-        trackHelper.trackMobilePaymentFail(withReason: reason, transactionStatus: transactionStatus)
+    func trackMobilePaymentFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus,
+                                featurePurchaseType: EventParameterPurchaseType) {
+        trackHelper.trackMobilePaymentFail(withReason: reason, transactionStatus: transactionStatus,
+                                           featurePurchaseType: featurePurchaseType)
     }
 
     func trackBumpUpNotAllowed(reason: EventParameterBumpUpNotAllowedReason) {
@@ -233,13 +243,14 @@ extension ProductVMTrackHelper {
                             type: BumpUpType,
                             storeProductId: String?,
                             isPromotedBump: Bool,
-                            typePage: EventParameterTypePage?) {
+                            typePage: EventParameterTypePage?,
+                            featurePurchaseType: EventParameterPurchaseType) {
         let trackerEvent = TrackerEvent.listingBumpUpStart(listing, price: price,
                                                            type: EventParameterBumpUpType(bumpType: type),
                                                            storeProductId: storeProductId,
                                                            isPromotedBump: EventParameterBoolean(bool: isPromotedBump),
                                                            typePage: typePage,
-                                                           isBoost: EventParameterBoolean(bool: type.isBoost))
+                                                           featurePurchaseType: featurePurchaseType)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -251,7 +262,8 @@ extension ProductVMTrackHelper {
                               storeProductId: String?,
                               isPromotedBump: Bool,
                               typePage: EventParameterTypePage?,
-                              paymentId: String?) {
+                              paymentId: String?,
+                              featurePurchaseType: EventParameterPurchaseType) {
         let trackerEvent = TrackerEvent.listingBumpUpComplete(listing, price: price,
                                                               type: EventParameterBumpUpType(bumpType: type),
                                                               restoreRetriesCount: restoreRetriesCount,
@@ -260,7 +272,7 @@ extension ProductVMTrackHelper {
                                                               storeProductId: storeProductId,
                                                               isPromotedBump: EventParameterBoolean(bool: isPromotedBump),
                                                               typePage: typePage,
-                                                              isBoost: EventParameterBoolean(bool: type.isBoost),
+                                                              featurePurchaseType: featurePurchaseType,
                                                               paymentId: paymentId)
         tracker.trackEvent(trackerEvent)
     }
@@ -268,25 +280,29 @@ extension ProductVMTrackHelper {
     func trackBumpUpFail(type: BumpUpType,
                          transactionStatus: EventParameterTransactionStatus?,
                          storeProductId: String?,
-                         typePage: EventParameterTypePage?) {
+                         typePage: EventParameterTypePage?,
+                         featurePurchaseType: EventParameterPurchaseType) {
         let trackerEvent = TrackerEvent.listingBumpUpFail(type: EventParameterBumpUpType(bumpType: type),
                                                           listingId: listing.objectId,
                                                           transactionStatus: transactionStatus,
                                                           storeProductId: storeProductId,
                                                           typePage: typePage,
-                                                          isBoost: EventParameterBoolean(bool: type.isBoost))
+                                                          featurePurchaseType: featurePurchaseType)
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMobilePaymentComplete(withPaymentId paymentId: String, transactionStatus: EventParameterTransactionStatus) {
+    func trackMobilePaymentComplete(withPaymentId paymentId: String, transactionStatus: EventParameterTransactionStatus,
+                                    featurePurchaseType: EventParameterPurchaseType) {
         let trackerEvent = TrackerEvent.mobilePaymentComplete(paymentId: paymentId, listingId: listing.objectId,
-                                                              transactionStatus: transactionStatus)
+                                                              transactionStatus: transactionStatus, featurePurchaseType: featurePurchaseType)
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMobilePaymentFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus) {
+    func trackMobilePaymentFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus,
+                                featurePurchaseType: EventParameterPurchaseType) {
         let trackerEvent = TrackerEvent.mobilePaymentFail(reason: reason, listingId: listing.objectId,
-                                                          transactionStatus: transactionStatus)
+                                                          transactionStatus: transactionStatus,
+                                                          featurePurchaseType: featurePurchaseType)
         tracker.trackEvent(trackerEvent)
     }
 

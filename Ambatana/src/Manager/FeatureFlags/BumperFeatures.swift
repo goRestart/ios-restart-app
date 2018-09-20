@@ -80,6 +80,7 @@ extension Bumper  {
         flags.append(ProUsersExtraImages.self)
         flags.append(SectionedDiscoveryFeed.self)
         flags.append(ServicesPromoCells.self)
+        flags.append(MultiDayBumpUp.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
         flags.append(ShareAfterScreenshot.self)
@@ -919,6 +920,19 @@ extension Bumper  {
     static var servicesPromoCellsObservable: Observable<ServicesPromoCells> {
         return Bumper.observeValue(for: ServicesPromoCells.key).map {
             ServicesPromoCells(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var multiDayBumpUp: MultiDayBumpUp {
+        guard let value = Bumper.value(for: MultiDayBumpUp.key) else { return .control }
+        return MultiDayBumpUp(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var multiDayBumpUpObservable: Observable<MultiDayBumpUp> {
+        return Bumper.observeValue(for: MultiDayBumpUp.key).map {
+            MultiDayBumpUp(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2061,6 +2075,24 @@ enum ServicesPromoCells: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .activeWithCallToAction
             case 3: return .activeWithoutCallToAction
+            default: return .control
+        }
+    }
+}
+
+enum MultiDayBumpUp: String, BumperFeature  {
+    case control, baseline, show1Day, show3Days, show7Days
+    static var defaultValue: String { return MultiDayBumpUp.control.rawValue }
+    static var enumValues: [MultiDayBumpUp] { return [.control, .baseline, .show1Day, .show3Days, .show7Days]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Add options to bump a listing for several days" } 
+    static func fromPosition(_ position: Int) -> MultiDayBumpUp {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .show1Day
+            case 3: return .show3Days
+            case 4: return .show7Days
             default: return .control
         }
     }

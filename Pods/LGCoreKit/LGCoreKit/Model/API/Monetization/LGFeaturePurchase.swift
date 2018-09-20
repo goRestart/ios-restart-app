@@ -23,6 +23,17 @@ public struct LGFeaturePurchase: FeaturePurchase, Decodable {
     public let letgoItemId: String
     public let providerItemId: String
 
+    public init(purchaseType: FeaturePurchaseType?,
+                featureDuration: TimeInterval,
+                provider: PaymentProvider,
+                letgoItemId: String,
+                providerItemId: String) {
+        self.purchaseType = purchaseType
+        self.featureDuration = featureDuration
+        self.provider = provider
+        self.letgoItemId = letgoItemId
+        self.providerItemId = providerItemId
+    }
 
     // MARK: Decode
 

@@ -1400,7 +1400,8 @@ struct TrackerEvent {
                                     listingId: String?,
                                     storeProductId: String?,
                                     typePage: EventParameterTypePage?,
-                                    isBoost: EventParameterBoolean) -> TrackerEvent {
+                                    isBoost: EventParameterBoolean,
+                                    paymentEnabled: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
@@ -1409,6 +1410,7 @@ struct TrackerEvent {
             params[.typePage] = typePage.rawValue
         }
         params[.boost] = isBoost.rawValue
+        params[.paymentEnabled] = paymentEnabled.rawValue
         return TrackerEvent(name: .bumpInfoShown, params: params)
     }
 
@@ -1417,7 +1419,7 @@ struct TrackerEvent {
                                    storeProductId: String?,
                                    isPromotedBump: EventParameterBoolean,
                                    typePage: EventParameterTypePage?,
-                                   isBoost: EventParameterBoolean) -> TrackerEvent {
+                                   featurePurchaseType: EventParameterPurchaseType) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
 
@@ -1428,7 +1430,7 @@ struct TrackerEvent {
         if let typePage = typePage {
             params[.typePage] = typePage.rawValue
         }
-        params[.boost] = isBoost.rawValue
+        params[.purchaseType] = featurePurchaseType.rawValue
         return TrackerEvent(name: .bumpUpStart, params: params)
     }
 
@@ -1440,7 +1442,7 @@ struct TrackerEvent {
                                       storeProductId: String?,
                                       isPromotedBump: EventParameterBoolean,
                                       typePage: EventParameterTypePage?,
-                                      isBoost: EventParameterBoolean,
+                                      featurePurchaseType: EventParameterPurchaseType,
                                       paymentId: String?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
@@ -1454,7 +1456,7 @@ struct TrackerEvent {
         if let typePage = typePage {
             params[.typePage] = typePage.rawValue
         }
-        params[.boost] = isBoost.rawValue
+        params[.purchaseType] = featurePurchaseType.rawValue
         params[.paymentId] = paymentId
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
@@ -1464,7 +1466,7 @@ struct TrackerEvent {
                                   transactionStatus: EventParameterTransactionStatus?,
                                   storeProductId: String?,
                                   typePage: EventParameterTypePage?,
-                                  isBoost: EventParameterBoolean) -> TrackerEvent {
+                                  featurePurchaseType: EventParameterPurchaseType) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
@@ -1473,25 +1475,29 @@ struct TrackerEvent {
         if let typePage = typePage {
             params[.typePage] = typePage.rawValue
         }
-        params[.boost] = isBoost.rawValue
+        params[.purchaseType] = featurePurchaseType.rawValue
         return TrackerEvent(name: .bumpUpFail, params: params)
     }
 
     static func mobilePaymentComplete(paymentId: String, listingId: String?,
-                                      transactionStatus: EventParameterTransactionStatus) -> TrackerEvent {
+                                      transactionStatus: EventParameterTransactionStatus,
+                                      featurePurchaseType: EventParameterPurchaseType) -> TrackerEvent {
         var params = EventParameters()
         params[.paymentId] = paymentId
         params[.listingId] = listingId ?? ""
         params[.transactionStatus] = transactionStatus.rawValue
+        params[.purchaseType] = featurePurchaseType.rawValue
         return TrackerEvent(name: .mobilePaymentComplete, params: params)
     }
 
     static func mobilePaymentFail(reason: String?, listingId: String?,
-                                  transactionStatus: EventParameterTransactionStatus) -> TrackerEvent {
+                                  transactionStatus: EventParameterTransactionStatus,
+                                  featurePurchaseType: EventParameterPurchaseType) -> TrackerEvent {
         var params = EventParameters()
         params[.reason] = reason ?? ""
         params[.listingId] = listingId ?? ""
         params[.transactionStatus] = transactionStatus.rawValue
+        params[.purchaseType] = featurePurchaseType.rawValue
         return TrackerEvent(name: .mobilePaymentFail, params: params)
     }
 

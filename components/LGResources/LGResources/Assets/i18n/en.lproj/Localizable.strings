@@ -79,6 +79,9 @@
 // Error when sending message
 "affiliation_invite_sms_message_error" = "Something was wrong and message was not sent";
 
+// Button title to go to settings when there is no access to contacts
+"affiliation_invite_sms_go_settings_button" = "Open";
+
 // Affiliation Invite message text
 "affiliation_invite_message_text" = "%@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
 
@@ -105,6 +108,15 @@
 
 // Affilation FAQ screen.Title.
 "affiliation_faq_title" = "How it works";
+
+// Wrong country alert when open the app
+"affiliation_onboarding_country_error_message" = "Oops! Unfortunately gift cards are not available in your country. \n\nBut you can still make cash!";
+
+// Sell your stuff
+"affiliation_onboarding_country_error_main_button" = "Sell your stuff";
+
+// Keep browsing
+"affiliation_onboarding_country_error_secondary_button" = "Keep browsing";
 
 // Affiliation Store screen. Country unavailable error message
 "affiliation_store_country_error_message" = "Oops! This feature is not available in your country.";
@@ -654,6 +666,9 @@
 
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+
+// Chat now button in profile
+"chat_user_profile_chat_now" = "Chat now";
 
 "chat_conversations_list_filter_all" = "All";
 
@@ -1446,6 +1461,12 @@
 
 // Chat direct not negotiable title
 "direct_answer_not_negotiable_title" = "Not negotiable...";
+
+// Chat direct answer for I like your listing
+"direct_answer_i_like_your_listing" = "I like your listing";
+
+// Chat direct answer for favorited
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
 
 "direct_answer_lets_meet" = "Let's meet";
 
@@ -2672,7 +2693,7 @@
 "payments_offer_status_as_seller_fee_info_button" = "Info";
 
 // Fee percentage in offer status screen as seller
-"payments_offer_status_as_seller_fee_percentage" = "Payment fee %@";
+"payments_offer_status_as_seller_fee_percentage" = "Payment fee (%@)";
 
 // Decline offer button in offer status screen as seller
 "payments_offer_status_as_seller_decline_button" = "Decline";
@@ -2706,6 +2727,95 @@
 
 // Navigation bar title in onboarding screen
 "payments_onboarding_navbar_title" = "How it works";
+
+// Code explanation in pay code screen
+"payments_get_pay_code_description" = "Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.";
+
+// Code label in pay code screen
+"payments_get_pay_code_code_label" = "Your payment code";
+
+// Disclaimer in pay code screen
+"payments_get_pay_code_disclaimer" = "This code expires in 7 days, so make sure to meet the seller soon";
+
+// Navigation bar title in pay code screen
+"payments_get_pay_code_navbar_title" = "Offer";
+
+"payments_get_pay_code_faqs_option" = "FAQ";
+
+"payments_get_pay_code_contact_us_option" = "Contact us";
+
+// Placeholder for the card number textfield
+"payments_card_number_placeholder" = "Card number";
+
+// Code textfield description label in enter code screen
+"payments_enter_pay_code_description_label" = "Enter the 4-digit code that buyer %@ has shared with you";
+
+// Attemps label in enter code screen
+"payments_enter_pay_code_attemps_label" = "3 attemps per minute";
+
+// Navigation bar title in enter code screen
+"payments_enter_pay_code_navbar_title" = "Offer";
+
+"payments_payout_personal_info_title_label" = "Personal information";
+
+"payments_payout_personal_info_first_name_placeholder" = "First name";
+
+"payments_payout_personal_info_last_name_placeholder" = "Last name";
+
+"payments_payout_personal_info_date_of_birth_placeholder" = "Date of birth";
+
+"payments_payout_personal_info_ssn_placeholder" = "Last 4 SSN digits";
+
+"payments_payout_personal_info_address_placeholder" = "Address";
+
+"payments_payout_personal_info_zip_code_placeholder" = "ZIP code";
+
+"payments_payout_personal_info_city_placeholder" = "City";
+
+"payments_payout_personal_info_state_placeholder" = "State";
+
+"payments_payout_personal_info_country_placeholder" = "Country";
+
+"payments_payout_personal_info_register_button" = "Register your account";
+
+"payments_payout_bank_account_routing_number_placeholder" = "Routing number (9 digits)";
+
+"payments_payout_bank_account_account_number_placeholder" = "Account number";
+
+"payments_payout_bank_account_payout_button" = "Payout";
+
+"payments_payout_card_title_label" = "Enter your debit card so that we can pay out to your account";
+
+"payments_payout_card_name_placeholder" = "Name on card";
+
+"payments_payout_card_payment_type_label" = "Choose one of these options:";
+
+"payments_payout_card_payout_button" = "Payout";
+
+"payment_payout_payment_type_standar" = "Standard payment";
+
+"payment_payout_payment_type_instant" = "Fast payment";
+
+// Standar payout fee
+"payment_payout_payment_standar_title_label" = "FREE";
+
+// Standar payout availability
+"payment_payout_payment_standar_subtitle_label" = "Get the money in 3-7 days";
+
+// Instant payout fee
+"payment_payout_payment_instant_title_label" = "Transaction fee";
+
+// Instant payout availability
+"payment_payout_payment_instant_subtitle_label" = "Get the money in under 1 hour";
+
+// Transaction fee
+"payment_payout_payment_fee" = "Transaction fee (%@)";
+
+// Money availability
+"payment_payout_payment_availability" = "Get the money in %@";
+
+// Navigation bar title in payout screen
+"payment_payout_navbar_title" = "Payout";
 
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";

@@ -12,18 +12,16 @@ final class AffiliationChallengeView: UIView {
         static let padding: CGFloat = 24
         static let contentPadding: CGFloat = 16
         static let verticalSpacing: CGFloat = 8
+        static let lineTopSpacing: CGFloat = 4
+        static let lineBottomSpacing: CGFloat = 8
+        static let lineHeight: CGFloat = 1
         static let buttonHeight: CGFloat = 50
+        static let containerCornerRadius: CGFloat = 16
     }
 
     private let container: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
-        view.clipsToBounds = true
-        view.backgroundColor = .clear
-        view.cornerRadius = 16
-        view.layer.borderColor = UIColor.white.cgColor
-        view.layer.borderWidth = 1
-        view.layer.masksToBounds = false
         return view
     }()
 
@@ -67,7 +65,11 @@ final class AffiliationChallengeView: UIView {
         view.backgroundColor = .white
         return view
     }()
-    private var separatorLine: CALayer?
+    private let separatorLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .veryLightGray
+        return view
+    }()
 
     private let button: LetgoButton = {
         let button = LetgoButton()
@@ -102,10 +104,10 @@ final class AffiliationChallengeView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        if let separatorLine = separatorLine {
-            separatorLine.removeFromSuperlayer()
-        }
-        separatorLine = separatorView.addTopBorderWithWidth(1, color: UIColor.veryLightGray)
+        applyShadow(withOpacity: 0.15,
+                    radius: Layout.padding/4)
+        layer.shadowPath = UIBezierPath(roundedRect: bounds,
+                                        cornerRadius: Layout.containerCornerRadius).cgPath
     }
     
     private func setupUI() {
@@ -121,9 +123,10 @@ final class AffiliationChallengeView: UIView {
                                                               constant: Layout.padding),
                            container.trailingAnchor.constraint(equalTo: trailingAnchor,
                                                                constant: -Layout.padding),
-                           container.topAnchor.constraint(equalTo: topAnchor),
+                           container.topAnchor.constraint(equalTo: topAnchor,
+                                                          constant: Layout.padding/2),
                            container.bottomAnchor.constraint(equalTo: bottomAnchor,
-                                                             constant: -Layout.padding)]
+                                                             constant: -Layout.padding/2)]
         constraints.activate()
 
         container.clipsToBounds = true
@@ -155,8 +158,6 @@ final class AffiliationChallengeView: UIView {
         faqButton.addTarget(self,
                             action: #selector(faqButtonPressed),
                             for: .touchUpInside)
-        _ = separatorView.addTopBorderWithWidth(LGUIKitConstants.onePixelSize,
-                                                color: UIColor.veryLightGray)
     }
 
     @objc private func faqButtonPressed() {
@@ -168,11 +169,6 @@ final class AffiliationChallengeView: UIView {
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
         stackView.addArrangedSubview(descriptionLabel)
-        stackView.addArrangedSubview(separatorView)
-        let separatorConstraints = [separatorView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-                                   separatorView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-                                   separatorView.heightAnchor.constraint(equalToConstant: 8)]
-        separatorConstraints.activate()
 
         switch style {
         case .progress:
@@ -184,6 +180,21 @@ final class AffiliationChallengeView: UIView {
                 stepViews.append(stepView)
             }
         }
+
+        separatorView.addSubviewForAutoLayout(separatorLine)
+        let lineConstraints = [separatorLine.leadingAnchor.constraint(equalTo: separatorView.leadingAnchor),
+                               separatorLine.trailingAnchor.constraint(equalTo: separatorView.trailingAnchor),
+                               separatorLine.topAnchor.constraint(equalTo: separatorView.topAnchor,
+                                                                  constant: Layout.lineTopSpacing),
+                               separatorLine.bottomAnchor.constraint(equalTo: separatorView.bottomAnchor,
+                                                                     constant: -Layout.lineBottomSpacing),
+                               separatorLine.heightAnchor.constraint(equalToConstant: Layout.lineHeight)]
+        lineConstraints.activate()
+
+        stackView.addArrangedSubview(separatorView)
+        let separatorConstraints = [separatorView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+                                    separatorView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)]
+        separatorConstraints.activate()
         stackView.addArrangedSubview(button)
 
         let constraints = [stackView.leadingAnchor.constraint(equalTo: container.leadingAnchor,
@@ -298,7 +309,7 @@ private extension ChallengeJoinLetgoData.Step {
         switch self {
         case .phoneVerification:
             return 0
-        case .listingPosted:
+        case .listingPosted, .listingApproved:
             return 1
         }
     }

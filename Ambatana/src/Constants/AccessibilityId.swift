@@ -692,19 +692,32 @@ enum AccessibilityId: Equatable, Accessible {
     case boostTimeLabel
     case boostProgressBar
 
-    // Free bump up screen
-    case freeBumpUpCloseButton
-    case freeBumpUpImage
-    case freeBumpUpTitleLabel
-    case freeBumpUpSubtitleLabel
-    case freeBumpUpSocialShareView
-
     // Payment bump up screen
     case paymentBumpUpCloseButton
     case paymentBumpUpImage
     case paymentBumpUpTitleLabel
     case paymentBumpUpSubtitleLabel
     case paymentBumpUpButton
+
+    // Multi day bump up screen
+    case multiDayBumpCloseButton
+    case multiDayBumpTitleLabel
+    case multiDayBump1DayItem
+    case multiDayBump3DaysItem
+    case multiDayBump7DaysItem
+
+    case multiDayBumpItemTitleLabel
+    case multiDayBumpItemDaysTag
+    case multiDayBumpItemSubtitleLabel
+    case multiDayBumpItemListingImage
+    case multiDayBumpItemButton
+
+    // Multi day info bump up screen
+    case multiDayBumpInfoCloseButton
+    case multiDayBumpInfoTimerBar
+    case multiDayBumpInfo1DayItem
+    case multiDayBumpInfo3DaysItem
+    case multiDayBumpInfo7DaysItem
 
     // Bump up boost screen
     case boostViewTimer
@@ -2074,18 +2087,6 @@ enum AccessibilityId: Equatable, Accessible {
         case .boostProgressBar:
             return "boostProgressBar"
 
-        // Free bump up screen
-        case .freeBumpUpCloseButton:
-            return "freeBumpUpCloseButton"
-        case .freeBumpUpImage:
-            return "freeBumpUpImage"
-        case .freeBumpUpTitleLabel:
-            return "freeBumpUpTitleLabel"
-        case .freeBumpUpSubtitleLabel:
-            return "freeBumpUpSubtitleLabel"
-        case .freeBumpUpSocialShareView:
-            return "freeBumpUpSocialShareView"
-            
         // Payment bump up screen
         case .paymentBumpUpCloseButton:
             return "paymentBumpUpCloseButton"
@@ -2097,6 +2098,41 @@ enum AccessibilityId: Equatable, Accessible {
             return "paymentBumpUpSubtitleLabel"
         case .paymentBumpUpButton:
             return "paymentBumpUpButton"
+
+        // Multi day bump up screen
+        case .multiDayBumpCloseButton:
+            return "multiDayBumpCloseButton"
+        case .multiDayBumpTitleLabel:
+            return "multiDayBumpTitleLabel"
+        case .multiDayBump1DayItem:
+            return "multiDayBump1DayItem"
+        case .multiDayBump3DaysItem:
+            return "multiDayBump3DaysItem"
+        case .multiDayBump7DaysItem:
+            return "multiDayBump7DaysItem"
+
+        case .multiDayBumpItemTitleLabel:
+            return "multiDayBumpItemTitleLabel"
+        case .multiDayBumpItemDaysTag:
+            return "multiDayBumpItemDaysTag"
+        case .multiDayBumpItemSubtitleLabel:
+            return "multiDayBumpItemSubtitleLabel"
+        case .multiDayBumpItemListingImage:
+            return "multiDayBumpItemListingImage"
+        case .multiDayBumpItemButton:
+            return "multiDayBumpItemButton"
+
+        // Multi day info bump up screen
+        case .multiDayBumpInfoCloseButton:
+            return "multiDayBumpInfoCloseButton"
+        case .multiDayBumpInfoTimerBar:
+            return "multiDayBumpInfoTimerBar"
+        case .multiDayBumpInfo1DayItem:
+            return "multiDayBumpInfo1DayItem"
+        case .multiDayBumpInfo3DaysItem:
+            return "multiDayBumpInfo3DaysItem"
+        case .multiDayBumpInfo7DaysItem:
+            return "multiDayBumpInfo7DaysItem"
 
         // Bump up boost screen
 

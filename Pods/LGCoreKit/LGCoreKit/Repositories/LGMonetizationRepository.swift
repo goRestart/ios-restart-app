@@ -68,9 +68,9 @@ class LGMonetizationRepository : MonetizationRepository {
         }
     }
 
-    func retrieveAvailablePurchasesFor(listingId: String,
-                                       completion: AvailableFeaturePurchasesCompletion?) {
-        dataSource.retrieveAvailablePurchasesFor(listingId: listingId) { result in
+    func retrieveAvailablePurchasesFor(listingIds: [String],
+                                       completion: ListingAvailablePurchasesCompletion?) {
+        dataSource.retrieveAvailablePurchasesFor(listingIds: listingIds) { result in
             handleApiResult(result, completion: completion)
         }
     }

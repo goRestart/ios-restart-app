@@ -12,17 +12,17 @@ public enum ChatAnswerTypeDecodable: String, Decodable {
 }
 
 public protocol ChatAnswer {
-    var id: String { get }
+    var id: String? { get }
     var key: String { get }
     var type: ChatAnswerType { get }
 }
 
 struct LGChatAnswer: ChatAnswer, Decodable, Equatable {
-    let id: String
+    let id: String?
     let key: String
     let type: ChatAnswerType
     
-    init(id: String,
+    init(id: String?,
          key: String,
          type: ChatAnswerType) {
         self.id = id
