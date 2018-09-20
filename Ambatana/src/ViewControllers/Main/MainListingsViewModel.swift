@@ -331,6 +331,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private let searchAlertsRepository: SearchAlertsRepository
     fileprivate let userRepository: UserRepository
     private let feedBadgingSynchronizer: FeedBadgingSynchronizer
+    private let appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver
     
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -452,7 +453,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          chatWrapper: ChatWrapper,
          adsImpressionConfigurable: AdsImpressionConfigurable,
          interestedHandler: InterestedHandleable,
-         feedBadgingSynchronizer: FeedBadgingSynchronizer) {
+         feedBadgingSynchronizer: FeedBadgingSynchronizer,
+         appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.searchRepository = searchRepository
@@ -475,6 +477,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.adsImpressionConfigurable = adsImpressionConfigurable
         self.interestedHandler = interestedHandler
         self.feedBadgingSynchronizer = feedBadgingSynchronizer
+        self.appsFlyerAffiliationResolver = appsFlyerAffiliationResolver
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? SharedConstants.numListingsPerPageBig : SharedConstants.numListingsPerPageDefault
@@ -528,6 +531,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let adsImpressionConfigurable = LGAdsImpressionConfigurable()
         let interestedHandler = InterestedHandler()
         let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
+        let appsFlyerAffiliationResolver = AppsFlyerAffiliationResolver.shared
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
                   searchRepository: searchRepository,
@@ -548,7 +552,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   chatWrapper: chatWrapper,
                   adsImpressionConfigurable: adsImpressionConfigurable,
                   interestedHandler: interestedHandler,
-                  feedBadgingSynchronizer: feedBadgingSynchronizer)
+                  feedBadgingSynchronizer: feedBadgingSynchronizer,
+                  appsFlyerAffiliationResolver: appsFlyerAffiliationResolver)
         self.shouldCloseOnRemoveAllFilters = shouldCloseOnRemoveAllFilters
     }
     
@@ -853,6 +858,16 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             self?.updateCategoriesHeader()
         }.disposed(by: disposeBag)
         
+        appsFlyerAffiliationResolver.rx_affiliationCampaign.asObservable().bind { [weak self] status in
+            switch status {
+            case .campaignNotAvailableForUser:
+                self?.navigator?.openWrongCountryModal()
+            case.referral( let referrer):
+                self?.navigator?.openAffiliationOnboarding(data: referrer)
+            case .unknown:
+                return
+            }
+        }.disposed(by: disposeBag)
         Observable.combineLatest(notificationsManager.engagementBadgingNotifications.asObservable(),
                                  containsListings.asObservable(),
                                  isShowingCategoriesHeader.asObservable()) { $0 && $1 && $2 }
@@ -888,6 +903,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                 self?.userAvatar.accept(image)
         }
     }
+    
 
     /**
      Returns a view model for search.

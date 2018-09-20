@@ -269,6 +269,7 @@
 "chat_user_info_letgo_assistant" = "Je suis une assistante virtuelle qui vous donne des conseils et vous aide à vendre.";
 "chat_user_info_name" = "Bonjour, je m'appelle %@";
 "chat_user_info_verified_with" = "Vérifié avec :";
+"chat_user_profile_chat_now" = "Chat now";
 "chat_user_rating_button_tooltip" = "Évaluez cet utilisateur";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Vérifiez votre courriel pour clavarder";
@@ -370,6 +371,7 @@
 "direct_answer_given_away_title" = "Donné...";
 "direct_answer_good_condition" = "Est-ce en bon état ?";
 "direct_answer_how_much_asking" = "Quel est le prix que vous demandez ?";
+"direct_answer_i_like_your_listing" = "I like your listing";
 "direct_answer_interested" = "Je suis intéressé !";
 "direct_answer_interested_buy_it" = "J'aimerais acheter votre bien";
 "direct_answer_interested_has_it_sold" = "A-t'il été vendu ?";
@@ -408,6 +410,7 @@
 "direct_answer_where_located" = "À quel endroit êtes-vous ?";
 "direct_answer_where_meet_up" = "À quel endroit voulez-vous que l'on se rencontre ?";
 "direct_answer_willing_to_negotiate" = "Seriez-vous ouvert à négocier le prix ?";
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
 "direct_answers_hide" = "Masquer Réponses Rapides";
 "direct_answers_show" = "Afficher Réponses Rapides";
 "discarded" = "Rejeté";
@@ -764,6 +767,8 @@
 "payment_frequency_per_year" = "année";
 "payments_change_offer_amount_label" = "Le vendeur reçoit";
 "payments_change_offer_confirmation_button" = "Faire une nouvelle offre";
+"payments_change_offer_invalid_amount_alert_button" = "Ok";
+"payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
 "payments_create_offer_buyer_protection_description_label" = "Payez via letgo et vos fonds ne seront transférés au vendeur que lorsque vous confirmerez que vous souhaitez garder le produit";
 "payments_create_offer_buyer_protection_title_label" = "Protection Acheteur";
 "payments_create_offer_change_button" = "Changer";

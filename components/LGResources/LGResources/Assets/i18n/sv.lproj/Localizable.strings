@@ -269,6 +269,7 @@
 "chat_user_info_letgo_assistant" = "Jag är en virtuell assistent som ger dig tips och hjälper dig att sälja.";
 "chat_user_info_name" = "Hej, jag heter %@";
 "chat_user_info_verified_with" = "Verifierad med: ";
+"chat_user_profile_chat_now" = "Chat now";
 "chat_user_rating_button_tooltip" = "Bedöm denna användare";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Bekräfta din e-postadress för att chatta";
@@ -370,6 +371,7 @@
 "direct_answer_given_away_title" = "Bortskänkt...";
 "direct_answer_good_condition" = "Är den i gott skick?";
 "direct_answer_how_much_asking" = "Vilket pris begär du?";
+"direct_answer_i_like_your_listing" = "I like your listing";
 "direct_answer_interested" = "Jag är intresserad!";
 "direct_answer_interested_buy_it" = "Jag skulle vilja köpa den";
 "direct_answer_interested_has_it_sold" = "Är den såld?";
@@ -408,6 +410,7 @@
 "direct_answer_where_located" = "Var befinner du dig?";
 "direct_answer_where_meet_up" = "Var vill du träffas?";
 "direct_answer_willing_to_negotiate" = "Kan du tänka dig att förhandla?";
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
 "direct_answers_hide" = "Göm Snabba Svar";
 "direct_answers_show" = "Visa Snabba Svar";
 "discarded" = "Avvisad";
@@ -764,6 +767,8 @@
 "payment_frequency_per_year" = "år";
 "payments_change_offer_amount_label" = "Seller receives";
 "payments_change_offer_confirmation_button" = "Set new offer";
+"payments_change_offer_invalid_amount_alert_button" = "Ok";
+"payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
 "payments_create_offer_buyer_protection_description_label" = "Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item";
 "payments_create_offer_buyer_protection_title_label" = "Buyer Protection";
 "payments_create_offer_change_button" = "Change";

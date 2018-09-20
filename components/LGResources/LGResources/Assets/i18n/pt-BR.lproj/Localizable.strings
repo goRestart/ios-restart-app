@@ -269,6 +269,7 @@
 "chat_user_info_letgo_assistant" = "I'm a virtual assistant that gives you tips and helps you sell.";
 "chat_user_info_name" = "Hi, I'm %@";
 "chat_user_info_verified_with" = "Verified with: ";
+"chat_user_profile_chat_now" = "Chat now";
 "chat_user_rating_button_tooltip" = "Review this user";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Verify your email to chat";
@@ -370,6 +371,7 @@
 "direct_answer_given_away_title" = "Given away...";
 "direct_answer_good_condition" = "Is it in good condition?";
 "direct_answer_how_much_asking" = "What's your asking price?";
+"direct_answer_i_like_your_listing" = "I like your listing";
 "direct_answer_interested" = "I'm interested!";
 "direct_answer_interested_buy_it" = "I'd like to buy it";
 "direct_answer_interested_has_it_sold" = "Has it sold?";
@@ -408,6 +410,7 @@
 "direct_answer_where_located" = "Where are you located?";
 "direct_answer_where_meet_up" = "Where do you want to meet up?";
 "direct_answer_willing_to_negotiate" = "Would you be willing to negotiate?";
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
 "direct_answers_hide" = "Hide Quick Answers";
 "direct_answers_show" = "Show Quick Answers";
 "discarded" = "Discarded";
@@ -764,6 +767,8 @@
 "payment_frequency_per_year" = "year";
 "payments_change_offer_amount_label" = "Seller receives";
 "payments_change_offer_confirmation_button" = "Set new offer";
+"payments_change_offer_invalid_amount_alert_button" = "Ok";
+"payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
 "payments_create_offer_buyer_protection_description_label" = "Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item";
 "payments_create_offer_buyer_protection_title_label" = "Buyer Protection";
 "payments_create_offer_change_button" = "Change";

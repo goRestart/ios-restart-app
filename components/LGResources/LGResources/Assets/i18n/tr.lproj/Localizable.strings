@@ -269,6 +269,7 @@
 "chat_user_info_letgo_assistant" = "Ben, sana ipuçları veren ve satış yapmana yardım eden sanal bir asistanım.";
 "chat_user_info_name" = "Merhaba, Ben %@";
 "chat_user_info_verified_with" = "Şununla doğrulandı: ";
+"chat_user_profile_chat_now" = "Chat now";
 "chat_user_rating_button_tooltip" = "Bu kullanıcıyı değerlendir";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_title" = "Mesajlaşmak için e-postanı doğrula";
@@ -370,6 +371,7 @@
 "direct_answer_given_away_title" = "Ürün ücretsiz verildi...";
 "direct_answer_good_condition" = "İyi durumda mı?";
 "direct_answer_how_much_asking" = "İstediğin fiyat ne?";
+"direct_answer_i_like_your_listing" = "I like your listing";
 "direct_answer_interested" = "İlgileniyorum!";
 "direct_answer_interested_buy_it" = "Almak istiyorum";
 "direct_answer_interested_has_it_sold" = "Satıldı mı?";
@@ -408,6 +410,7 @@
 "direct_answer_where_located" = "Hangi konumdasın?";
 "direct_answer_where_meet_up" = "Nerde buluşmak istiyorsun?";
 "direct_answer_willing_to_negotiate" = "Pazarlığa açık mı?";
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
 "direct_answers_hide" = "Hızlı Cevapları Gizle";
 "direct_answers_show" = "Hızlı Cevapları Göster";
 "discarded" = "Reddedildi";
@@ -764,6 +767,8 @@
 "payment_frequency_per_year" = "yıl";
 "payments_change_offer_amount_label" = "Satıcının alacağı:";
 "payments_change_offer_confirmation_button" = "Yeni teklif belirle";
+"payments_change_offer_invalid_amount_alert_button" = "Ok";
+"payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
 "payments_create_offer_buyer_protection_description_label" = "letgo üzerinden öde ve fonların sadece sen ürünü tutmak istediğini onayladığında satıcıya geçsin";
 "payments_create_offer_buyer_protection_title_label" = "Alıcı Koruma";
 "payments_create_offer_change_button" = "Değiştir";
