@@ -28,7 +28,7 @@ public struct ChallengeInviteFriendsData {
     public let stepsCount: Int
     public let currentStep: Int
     public let status: ChallengeStatus
-    
+
     public func calculateTotalPointsReward() -> Int {
         return milestones.reduce(0) { partial, milestone in partial + milestone.pointsReward }
     }
@@ -36,7 +36,9 @@ public struct ChallengeInviteFriendsData {
 
 public struct ChallengeJoinLetgoData {
     public enum Step: String, Decodable {
-        case phoneVerification = "phone_verification", listingPosted = "listing_posted"
+        case phoneVerification = "user_verified"
+        case listingPosted = "listing_posted"
+        case listingApproved = "listing_approved"
     }
     public let id: String
     public let stepsCount: Int
@@ -135,7 +137,7 @@ extension ChallengeJoinLetgoData: Decodable {
      "id": "xxx", // userId to identify,
      "attributes": {
        "total_steps": 2,
-       "steps_completed": ["phone_verification", "listing_posted"],
+       "steps_completed": ["user_verified", "listing_posted"],
        "points": 5,
        "status": "completed" // ongoing|completed|disabled|pending
      }

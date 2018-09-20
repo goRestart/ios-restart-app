@@ -274,7 +274,7 @@ extension AppCoordinator: AppNavigator {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
         case .tabBar, .listingList, .profile, .deepLink, .notifications,
-             .deleteListing, .realEstatePromo, .carPromo, .servicesPromo, .chatList:
+             .deleteListing, .realEstatePromo, .carPromo, .servicesPromo, .chatList, .rewardCenter:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera

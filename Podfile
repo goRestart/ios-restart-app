@@ -45,7 +45,7 @@ def shared_pods
 
     # letgo Core
 
-    pod "LGCoreKit",             "4.78.0", :inhibit_warnings => false
+    pod "LGCoreKit",             "4.80.0", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
 #    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4985-chat-system-message', :inhibit_warnings => false
 

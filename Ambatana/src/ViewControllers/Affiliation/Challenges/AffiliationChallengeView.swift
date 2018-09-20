@@ -309,7 +309,7 @@ private extension ChallengeJoinLetgoData.Step {
         switch self {
         case .phoneVerification:
             return 0
-        case .listingPosted:
+        case .listingPosted, .listingApproved:
             return 1
         }
     }

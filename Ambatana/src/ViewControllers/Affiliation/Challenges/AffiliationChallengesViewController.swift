@@ -91,6 +91,9 @@ final class AffiliationChallengesViewController: BaseViewController {
         dataView.confirmPhonePressedCallback = { [weak viewModel] in
             viewModel?.confirmPhoneButtonPressed()
         }
+        dataView.postListingPressedCallback = { [weak viewModel] in
+            viewModel?.postListingButtonPressed()
+        }
         dataView.refreshControlCallback = { [weak viewModel] in
             viewModel?.refreshControlPulled()
         }
