@@ -24,6 +24,7 @@ struct AffiliationPurchase {
 final class AffiliationStoreViewModel: BaseViewModel {
     let cellRedeemTapped = PublishRelay<Int>()
     fileprivate let viewState = BehaviorRelay<ViewState>(value: .loading)
+    fileprivate let pointsRelay = BehaviorRelay<Int>(value: 0)
     private let disposeBag = DisposeBag()
 
     fileprivate let myUserRepository: MyUserRepository
@@ -34,9 +35,6 @@ final class AffiliationStoreViewModel: BaseViewModel {
 
     private(set) var rewards: [Reward] = []
     private(set) var purchases: [AffiliationPurchase] = []
-
-    private(set) var rewardPoints: RewardPoints? = nil
-    var points: Int { return rewardPoints?.points ?? 0 }
 
     var moreActions: [UIAction] {
         return [UIAction(interface: .text(R.Strings.affiliationStoreHistory), action: openHistory)]
@@ -84,18 +82,15 @@ final class AffiliationStoreViewModel: BaseViewModel {
             viewState.accept(ViewState.error(genericErrorModel()))
         case (_, nil):
             viewState.accept(ViewState.error(genericErrorModel()))
-        case (let points, let rewards):
-            rewardPoints = points
-            mapRewardsToPurchases(rewards: rewards)
-            if let rewards = rewards, rewards.count > 0 {
-                viewState.accept(.data)
-            } else {
-                viewState.accept(ViewState.empty(genericErrorModel()))
-            }
+        case (let rewardPoints, let rewards):
+            pointsRelay.accept(rewardPoints?.points ?? 0)
+            mapRewardsToPurchases(rewards: rewards, with: pointsRelay.value)
+            viewState.accept(.data)
         }
     }
 
-    private func mapRewardsToPurchases(rewards: [Reward]?) {
+    private func mapRewardsToPurchases(rewards: [Reward]?, with points: Int) {
+        self.rewards = rewards ?? []
         purchases = rewards?
             .map {
                 return AffiliationPurchase(
@@ -134,6 +129,9 @@ final class AffiliationStoreViewModel: BaseViewModel {
         })
     }
 
+    private func costForRedeeming(at index: Int) -> Int {
+        return rewards[safeAt: index]?.points ?? 0
+    }
 
     func redeem(at index: Int) -> Driver<ViewState> {
         let emptyVM = genericErrorModel()
@@ -143,20 +141,47 @@ final class AffiliationStoreViewModel: BaseViewModel {
             return .just(.error(emptyVM))
         }
         let id = reward.id
+        let newPoints = pointsRelay.value - costForRedeeming(at: index)
+
+        let redeem = redeemVoucher(id, code: code).asObservable().share()
+        redeem.bind { [weak self] (success) in
+            guard success else { return }
+            self?.pointsRelay.accept(newPoints)
+        }.disposed(by: disposeBag)
+
         return Observable<ViewState>.create { [weak self] (observer) in
+            guard let strSelf = self else {
+                observer.onNext(ViewState.error(emptyVM))
+                observer.onCompleted()
+                return Disposables.create()
+            }
             observer.onNext(.loading)
-            self?.rewardsRepository.createVoucher(parameters: RewardCreateVoucherParams(rewardId: id,
-                                                                                        countryCode: code),
+            redeem.bind(onNext: { (success) in
+                if success {
+                    observer.onNext(.data)
+                    observer.onCompleted()
+                } else {
+                    observer.onNext(ViewState.error(emptyVM))
+                    observer.onCompleted()
+                }
+            }).disposed(by: strSelf.disposeBag)
+            return Disposables.create()
+        }.asDriver(onErrorJustReturn: ViewState.error(emptyVM))
+    }
+
+    private func redeemVoucher(_ id: String, code: String) -> Single<Bool> {
+        return Single.create(subscribe: { [weak self] (single) -> Disposable in
+            let params = RewardCreateVoucherParams(rewardId: id, countryCode: code)
+            self?.rewardsRepository.createVoucher(parameters: params,
                                                   completion: { (result) in
                                                     if let _ = result.error {
-                                                        observer.onNext(ViewState.error(emptyVM))
+                                                        single(.success(false))
                                                     } else {
-                                                        observer.onNext(.data)
-                                                        observer.onCompleted()
+                                                        single(.success(true))
                                                     }
             })
             return Disposables.create()
-        }.asDriver(onErrorJustReturn: ViewState.error(emptyVM))
+        })
     }
 
     func openHistory() {
@@ -218,6 +243,10 @@ extension Reactive where Base: AffiliationStoreViewModel {
         return Observable.combineLatest(base.cellRedeemTapped.asObservable(),
                                         base.rx.userEmail) { RedeemCellModel(index: $0, email: $1) }
             .asDriver(onErrorJustReturn: nil)
+    }
+
+    var points: Driver<Int> {
+        return base.pointsRelay.asObservable().asDriver(onErrorJustReturn: 0)
     }
 }
 

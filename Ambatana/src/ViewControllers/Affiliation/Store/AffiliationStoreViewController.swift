@@ -58,7 +58,8 @@ final class AffiliationStoreViewController: BaseViewController {
     private func setupRx() {
         let bindings = [
             viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
-            viewModel.rx.redeemTapped.drive(rx.redeemCell)
+            viewModel.rx.redeemTapped.drive(rx.redeemCell),
+            viewModel.rx.points.drive(rx.points)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -72,20 +73,19 @@ final class AffiliationStoreViewController: BaseViewController {
         case .error(let errorModel), .empty(let errorModel):
             update(with: errorModel)
         }
+
+        pointsView.alpha = state == .data ? 1 : 0
     }
 
     private func showLoading() {
         errorView.removeFromSuperview()
         showLoadingMessageAlert()
-        pointsView.alpha = 0
     }
 
     private func updateWithData() {
         dismissLoadingMessageAlert()
         errorView.removeFromSuperview()
 
-        pointsView.alpha = 1
-        pointsView.populate(with: viewModel.points)
         storeView.collectionView.reloadData()
     }
 
@@ -100,8 +100,6 @@ final class AffiliationStoreViewController: BaseViewController {
                            action: action)
         view.addSubviewForAutoLayout(errorView)
         constraintViewToSafeRootView(errorView)
-
-        pointsView.alpha = 0
     }
 
     fileprivate func updateRedeem(with state: ViewState) {
@@ -109,17 +107,16 @@ final class AffiliationStoreViewController: BaseViewController {
         case .loading:
             showLoading()
         case .data:
-            pointsView.alpha = 1
             dismissLoadingMessageAlert({ [weak self] in
                 self?.showRedeemSuccess()
             })
         case .empty(_), .error(_):
-            pointsView.alpha = 1
             showAlert(R.Strings.affiliationStoreGenericError, message: nil, actions: [])
             delay(2) { [weak self] in
                 self?.dismiss(animated: true, completion: nil)
             }
         }
+        pointsView.alpha = state == .loading ? 0 : 1
     }
 
     fileprivate func showRedeemSuccess() {
@@ -142,6 +139,10 @@ final class AffiliationStoreViewController: BaseViewController {
         vc.modalPresentationStyle = .overCurrentContext
         
         present(vc, animated: true, completion: nil)
+    }
+
+    fileprivate func update(with points: Int) {
+        pointsView.populate(with: points)
     }
 }
 
@@ -210,6 +211,12 @@ extension Reactive where Base: AffiliationStoreViewController {
     var state: Binder<ViewState> {
         return Binder(self.base) { controller, state in
             controller.update(with: state)
+        }
+    }
+
+    var points: Binder<Int> {
+        return Binder(self.base) { controller, points in
+            controller.update(with: points)
         }
     }
 
