@@ -1459,10 +1459,12 @@
 		6A5E1A151D548F5400F92692 /* UIScrollView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D71D548F5400F92692 /* UIScrollView+LG.swift */; };
 		6A5E1A161D548F5400F92692 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D81D548F5400F92692 /* UITextField+LG.swift */; };
 		6A5E1A171D548F5400F92692 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D81D548F5400F92692 /* UITextField+LG.swift */; };
-		6A660A53209B13A300358BF8 /* PasswordlessUsernameNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A660A51209B13A200358BF8 /* PasswordlessUsernameNavigator.swift */; };
-		6A660A54209B13A300358BF8 /* PasswordlessUsernameNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A660A51209B13A200358BF8 /* PasswordlessUsernameNavigator.swift */; };
-		6A660A55209B13A300358BF8 /* PasswordlessUsernameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A660A52209B13A200358BF8 /* PasswordlessUsernameCoordinator.swift */; };
-		6A660A56209B13A300358BF8 /* PasswordlessUsernameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A660A52209B13A200358BF8 /* PasswordlessUsernameCoordinator.swift */; };
+		6A66A284215266CA00EFAC9C /* PasswordlessUsernameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A66A283215266CA00EFAC9C /* PasswordlessUsernameBuilder.swift */; };
+		6A66A285215266CA00EFAC9C /* PasswordlessUsernameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A66A283215266CA00EFAC9C /* PasswordlessUsernameBuilder.swift */; };
+		6A66A288215267DB00EFAC9C /* PasswordlessUsernameWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A66A287215267DB00EFAC9C /* PasswordlessUsernameWireframe.swift */; };
+		6A66A289215267DB00EFAC9C /* PasswordlessUsernameWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A66A287215267DB00EFAC9C /* PasswordlessUsernameWireframe.swift */; };
+		6A66A28B2153A97500EFAC9C /* PasswordlessUsernameNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A66A28A2153A97500EFAC9C /* PasswordlessUsernameNavigator.swift */; };
+		6A66A28C2153A97500EFAC9C /* PasswordlessUsernameNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A66A28A2153A97500EFAC9C /* PasswordlessUsernameNavigator.swift */; };
 		6A6C756B207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C756A207B7F0000845A88 /* UserVerificationEmailViewController.swift */; };
 		6A6C756C207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C756A207B7F0000845A88 /* UserVerificationEmailViewController.swift */; };
 		6A6C756E207B83B500845A88 /* UserVerificationEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C756D207B83B500845A88 /* UserVerificationEmailViewModel.swift */; };
@@ -3360,8 +3362,9 @@
 		6A5E19D61D548F5400F92692 /* UINavigationController+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+LG.swift"; sourceTree = "<group>"; };
 		6A5E19D71D548F5400F92692 /* UIScrollView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+LG.swift"; sourceTree = "<group>"; };
 		6A5E19D81D548F5400F92692 /* UITextField+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+LG.swift"; sourceTree = "<group>"; };
-		6A660A51209B13A200358BF8 /* PasswordlessUsernameNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordlessUsernameNavigator.swift; path = "Ambatana/src/ViewControllers/Log In/Passwordless/ConfirmUsername/PasswordlessUsernameNavigator.swift"; sourceTree = SOURCE_ROOT; };
-		6A660A52209B13A200358BF8 /* PasswordlessUsernameCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordlessUsernameCoordinator.swift; path = "Ambatana/src/ViewControllers/Log In/Passwordless/ConfirmUsername/PasswordlessUsernameCoordinator.swift"; sourceTree = SOURCE_ROOT; };
+		6A66A283215266CA00EFAC9C /* PasswordlessUsernameBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessUsernameBuilder.swift; sourceTree = "<group>"; };
+		6A66A287215267DB00EFAC9C /* PasswordlessUsernameWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessUsernameWireframe.swift; sourceTree = "<group>"; };
+		6A66A28A2153A97500EFAC9C /* PasswordlessUsernameNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessUsernameNavigator.swift; sourceTree = "<group>"; };
 		6A6C756A207B7F0000845A88 /* UserVerificationEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVerificationEmailViewController.swift; sourceTree = "<group>"; };
 		6A6C756D207B83B500845A88 /* UserVerificationEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVerificationEmailViewModel.swift; sourceTree = "<group>"; };
 		6A6D19662147D53C00C4C247 /* UserVerificationAwarenessWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVerificationAwarenessWireframe.swift; sourceTree = "<group>"; };
@@ -4687,6 +4690,7 @@
 				0A6FEC6B2130343A00B57004 /* LPMessage */,
 				0A6FEC552130343900B57004 /* MainListing */,
 				0A6FEC6D2130343B00B57004 /* MediaViewer */,
+				6A66A286215267C600EFAC9C /* PasswordlessUsername */,
 				0A6FEC622130343A00B57004 /* ProfessionalDealerAskPhone */,
 				0A6FEC5D2130343900B57004 /* PromoteBump */,
 				0A6FEC8C2130343D00B57004 /* QuickLocationFilters */,
@@ -4731,6 +4735,7 @@
 				0ADD39BC211306E90071DF87 /* LGUserBuilder.swift */,
 				0A3AF6BD213D48410034143B /* Listing */,
 				0AF28D84213ECEBA005A6F8C /* ListingsMap */,
+        6A66A282215266AE00EFAC9C /* PasswordlessUsername */,
 				0A890AA221208BA30091ED75 /* ProfessionalDealerAskPhone */,
 				0A2F52BE21232ABE0034EF85 /* PromoteBump */,
 				0A2F52A42122FBFD0034EF85 /* QuickLocationFilters */,
@@ -6776,10 +6781,25 @@
 			children = (
 				6A11F9942097128300AA7C3B /* PasswordlessUsernameViewController.swift */,
 				6A11F9962097129000AA7C3B /* PasswordlessUsernameViewModel.swift */,
-				6A660A52209B13A200358BF8 /* PasswordlessUsernameCoordinator.swift */,
-				6A660A51209B13A200358BF8 /* PasswordlessUsernameNavigator.swift */,
 			);
 			path = ConfirmUsername;
+			sourceTree = "<group>";
+		};
+		6A66A282215266AE00EFAC9C /* PasswordlessUsername */ = {
+			isa = PBXGroup;
+			children = (
+				6A66A283215266CA00EFAC9C /* PasswordlessUsernameBuilder.swift */,
+			);
+			path = PasswordlessUsername;
+			sourceTree = "<group>";
+		};
+		6A66A286215267C600EFAC9C /* PasswordlessUsername */ = {
+			isa = PBXGroup;
+			children = (
+				6A66A287215267DB00EFAC9C /* PasswordlessUsernameWireframe.swift */,
+				6A66A28A2153A97500EFAC9C /* PasswordlessUsernameNavigator.swift */,
+			);
+			path = PasswordlessUsername;
 			sourceTree = "<group>";
 		};
 		6A6D19692147D71000C4C247 /* UserVerification */ = {
@@ -9657,7 +9677,6 @@
 				42F1DDFF20BD9C22002E2EE7 /* FilterServicesSection.swift in Sources */,
 				0A6FECDE2130344000B57004 /* EditListingNavigator.swift in Sources */,
 				C7B5887F1CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
-				6A660A55209B13A300358BF8 /* PasswordlessUsernameCoordinator.swift in Sources */,
 				0A0C0491209C91A30028A75D /* NotificationSettingsMainViewController.swift in Sources */,
 				50D15422214A5C2300221B06 /* AffiliationInviteFriendsNavigator.swift in Sources */,
 				507532E21FEA47D400FCF9D5 /* UILabel+Rx.swift in Sources */,
@@ -10018,6 +10037,7 @@
 				C7B5887D1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				5532C4E9209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */,
 				6A38A9AE2077610400F3B292 /* UserVerificationCell.swift in Sources */,
+				6A66A28B2153A97500EFAC9C /* PasswordlessUsernameNavigator.swift in Sources */,
 				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				0A73F1FC209216070016CC72 /* LGTimer.swift in Sources */,
 				6A5E19EA1D548F5400F92692 /* Date+LG.swift in Sources */,
@@ -10187,7 +10207,7 @@
 				320843B820A1FDF7009A1DC5 /* DiscoveryABGroup.swift in Sources */,
 				0A376DCD2150175E00DFFB7F /* AffiliationVoucherCell.swift in Sources */,
 				4219244120761CF900862CEF /* PromoCell.swift in Sources */,
-				6A660A53209B13A300358BF8 /* PasswordlessUsernameNavigator.swift in Sources */,
+				6A66A288215267DB00EFAC9C /* PasswordlessUsernameWireframe.swift in Sources */,
 				0A751487214272570049E135 /* UserRatingListViewModel.swift in Sources */,
 				42566BF020ED211600120431 /* TooltipStyle.swift in Sources */,
 				0183BB18203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
@@ -10313,6 +10333,7 @@
 				0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */,
 				2ED296BE213E7B98003E26A3 /* ChatOtherInfoLocationView.swift in Sources */,
 				42CA899920973F7300CE7B5B /* ListingsMapViewController.swift in Sources */,
+				6A66A284215266CA00EFAC9C /* PasswordlessUsernameBuilder.swift in Sources */,
 				0A6FECF02130344000B57004 /* MeetingAssistantNavigator.swift in Sources */,
 				0A6FED2E2130344000B57004 /* TourPostingWireframe.swift in Sources */,
 				C66105E3213016D200BA4EF7 /* CarPromoCellConfiguration.swift in Sources */,
@@ -10754,7 +10775,6 @@
 				506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				0A376DBC214FACE100DFFB7F /* AffiliationModalView.swift in Sources */,
 				C79842021CC8E8C900C300FF /* User+LG.swift in Sources */,
-				6A660A56209B13A300358BF8 /* PasswordlessUsernameCoordinator.swift in Sources */,
 				F59755FB20B5A8AA00C5103F /* UIApplication+AnalyticsApplication.swift in Sources */,
 				50D250051DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */,
 				0A376DC0214FE2A100DFFB7F /* AffiliationModalBuilder.swift in Sources */,
@@ -10893,6 +10913,7 @@
 				72CD80D1203469FB0042E1E0 /* LGTutorialViewController.swift in Sources */,
 				50C63B771DC3B63700836D85 /* ShareType.swift in Sources */,
 				0A6FED2B2130344000B57004 /* TourLoginWireframe.swift in Sources */,
+				6A66A285215266CA00EFAC9C /* PasswordlessUsernameBuilder.swift in Sources */,
 				0A6FECC12130344000B57004 /* FiltersNavigator.swift in Sources */,
 				6AC5D743213D255C0072D640 /* UserVerificationAwarenessViewModel.swift in Sources */,
 				F51A08312031B55D0008D744 /* LGSize+CGSize.swift in Sources */,
@@ -11279,7 +11300,6 @@
 				50D15409214A5BFF00221B06 /* AffiliationInviteSMSContactsBuilder.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* EditListingViewModel.swift in Sources */,
 				42713C68207629A10077F88A /* PromoCell.swift in Sources */,
-				6A660A54209B13A300358BF8 /* PasswordlessUsernameNavigator.swift in Sources */,
 				2E151D7120A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift in Sources */,
 				C674D31E20ED1BA20027E3AE /* ListingAttributeGridTheme.swift in Sources */,
 				727EF06D1E0BE16D0037DA4E /* CountryCode.swift in Sources */,
@@ -11315,7 +11335,9 @@
 				0AFC21552063E25100C09B24 /* NSAttributedString+LG.swift in Sources */,
 				C7415EDC1DE898580003D6C1 /* SimpleListingsViewModel.swift in Sources */,
 				0A6FECBB2130344000B57004 /* FeaturedInfoModalWireframe.swift in Sources */,
+				6A66A289215267DB00EFAC9C /* PasswordlessUsernameWireframe.swift in Sources */,
 				0A25E8132019C88C00E6A72E /* OnBoardingAnimator.swift in Sources */,
+				6A66A28C2153A97500EFAC9C /* PasswordlessUsernameNavigator.swift in Sources */,
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
 				72C7A1C71FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */,
 				2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */,

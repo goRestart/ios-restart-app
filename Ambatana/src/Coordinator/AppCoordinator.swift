@@ -81,6 +81,7 @@ final class AppCoordinator: NSObject, Coordinator {
     private let verificationAwarenessAssembly: UserVerificationAwarenessAssembly
     private let promoteAssembly: PromoteBumpAssembly
     private let tourAssembly: TourLoginAssembly
+    private let passwordlessUsernameAssembly: PasswordlessUsernameAssembly
 
     private var tourSkipper: TourSkiperNavigator?
 
@@ -180,6 +181,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.promoteAssembly = PromoteBumpBuilder.modal(tabBarCtl)
         self.tourAssembly = TourLoginBuilder.modal
         self.verificationAwarenessAssembly = UserVerificationAwarenessBuilder.modal(tabBarCtl)
+        self.passwordlessUsernameAssembly = PasswordlessUsernameBuilder.modal(tabBarCtl)
         super.init()
         self.tourSkipper = TourSkiperWireframe(appCoordinator: self, deepLinksRouter: deepLinksRouter)
 
@@ -551,11 +553,10 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openConfirmUsername(token: String) {
-        let coord = PasswordlessUsernameCoordinator(token: token)
+        let vc = passwordlessUsernameAssembly.buildPasswordlessUsernameView(token: token)
+        let nav = UINavigationController(rootViewController: vc)
         tabBarCtl.dismissAllPresented { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.openChild(coordinator: coord, parent: strongSelf.tabBarCtl, animated: true,
-                                 forceCloseChild: true, completion: nil)
+            self?.tabBarCtl.present(nav, animated: true, completion: nil)
         }
     }
 
