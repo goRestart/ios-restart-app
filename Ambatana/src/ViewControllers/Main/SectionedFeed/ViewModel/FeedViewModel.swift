@@ -420,8 +420,7 @@ extension FeedViewModel {
             return false
         }
         
-        let horizontalSectionsWithBannerAds = updateWithBannerAds(listDiffable: horizontalSections.listDiffable())
-        feedItems.append(contentsOf: horizontalSectionsWithBannerAds)
+        feedItems.append(contentsOf: horizontalSections.listDiffable())
         
         if locationSectionIndex == nil {
             feedItems.append(LocationData(locationString: locationText))
