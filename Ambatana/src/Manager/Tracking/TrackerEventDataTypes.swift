@@ -543,6 +543,7 @@ enum EventParameterSellButtonPosition: String {
     case realEstatePromo = "real-estate-promo"
     case carPromo = "car-promo"
     case servicesPromo = "services-promo"
+    case referralNotAvailable = "referral-not-available"
 }
 
 enum EventParameterShareNetwork: String {
@@ -999,6 +1000,7 @@ enum EventParameterTypePage: String {
     case feed = "feed"
     case notificationCenter = "notification-center"
     case rewardCenter = "reward-center"
+    case referralNotAvailable = "referral-not-available"
 }
 
 enum EventParameterPermissionType: String {

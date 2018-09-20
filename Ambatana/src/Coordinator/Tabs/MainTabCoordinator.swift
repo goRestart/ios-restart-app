@@ -243,18 +243,17 @@ extension MainTabCoordinator: MainTabNavigator {
     }
     
     func openWrongCountryModal() {
-        let primaryAction = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
-                                     action: { [weak self] in
-                                        self?.dismissViewController(animated: true, completion: nil)
+        let primaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorMainButton, .primary(fontSize: .medium)),
+                                     action: { [weak self] in self?.appNavigator?.openSell(source: .referralNotAvailable, postCategory: nil, listingTitle: nil)
         })
-        let secondaryAction = UIAction(interface: .button(R.Strings.commonOk, .terciary),
+        let secondaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorSecondaryButton, .terciary),
                                        action: { [weak self] in
-                                        self?.dismissViewController(animated: true, completion: nil)
+                                        self?.appNavigator?.openHome()
         })
         let data = AffiliationModalData(
-            icon: R.Asset.Affiliation.icnModalSuccess.image,
-            headline: R.Strings.affiliationStoreRedeemGiftSuccessHeadline,
-            subheadline: R.Strings.affiliationStoreRedeemGiftSuccessSubheadlineWithEmail,
+            icon: R.Asset.Affiliation.Error.errorFeatureUnavailable.image,
+            headline: R.Strings.affiliationWrongCountryErrorHeadline,
+            subheadline: R.Strings.affiliationWrongCountryErrorSubheadline,
             primary: primaryAction,
             secondary: secondaryAction
         )

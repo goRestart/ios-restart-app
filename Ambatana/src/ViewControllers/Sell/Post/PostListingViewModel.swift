@@ -19,6 +19,7 @@ enum PostingSource: String {
     case listingList
     case profile
     case rewardCenter
+    case referralNotAvailable
 }
 
 
@@ -706,6 +707,8 @@ extension PostingSource {
             return .profile
         case .rewardCenter:
             return .rewardCenter
+        case .referralNotAvailable:
+            return .referralNotAvailable
         }
     }
 
@@ -713,7 +716,7 @@ extension PostingSource {
         switch self {
         case .tabBar, .deepLink, .notifications, .deleteListing, .onboardingBlockingPosting, .chatList, .rewardCenter:
             return nil
-        case .onboardingButton, .listingList, .profile:
+        case .onboardingButton, .listingList, .profile, .referralNotAvailable:
             return .sellYourStuff
         case .onboardingCamera:
             return .startMakingCash
@@ -741,6 +744,8 @@ extension PostingSource {
             return .carPromo
         case .servicesPromo:
             return .servicesPromo
+        case .referralNotAvailable:
+            return .referralNotAvailable
         }
     }
 }
