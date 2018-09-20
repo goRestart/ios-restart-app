@@ -11,6 +11,18 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
                                                                   accountNumber: accountNumberTextField.text ?? "")
     }
 
+    private enum Layout {
+        static let contentHorizontalMargin: CGFloat = 12
+        static let buttonHeight: CGFloat = 55
+        static let buttonHorizontalMargin: CGFloat = 24
+        static let buttonTopMargin: CGFloat = 32
+        static let buttonBottomMargin: CGFloat = 12
+        static let textFieldVerticalAdjustment: CGFloat = 50
+        static let scrollViewTopMargin: CGFloat = 12
+        static let stackViewTopMargin: CGFloat = 4
+        static let stackViewBottomMargin: CGFloat = 32
+    }
+
     private let routingNumberTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
         textField.setPlaceholderText("Routing number (9 digits)")
@@ -94,7 +106,7 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
     }
 
     private func configureScrollView() {
-        scrollView.contentInset.bottom = 55 + 12
+        scrollView.contentInset.bottom = Layout.buttonHeight + Layout.buttonBottomMargin
         scrollView.addSubviewsForAutoLayout([stackView, standardPaymentSelector])
     }
 
@@ -102,23 +114,23 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
         bottomContraint = scrollView.bottomAnchor.constraint(equalTo: safeBottomAnchor)
         bottomContraint?.isActive = true
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: safeTopAnchor, constant: 12),
+            scrollView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.scrollViewTopMargin),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            stackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -24),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 4),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 12),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -12),
+            stackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -2 * Layout.contentHorizontalMargin),
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: Layout.stackViewTopMargin),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Layout.contentHorizontalMargin),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Layout.contentHorizontalMargin),
 
-            standardPaymentSelector.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 32),
+            standardPaymentSelector.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: Layout.stackViewBottomMargin),
             standardPaymentSelector.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             standardPaymentSelector.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
 
-            actionButton.heightAnchor.constraint(equalToConstant: 55),
-            actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            actionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-            actionButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -12),
+            actionButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
+            actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.buttonHorizontalMargin),
+            actionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.buttonHorizontalMargin),
+            actionButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -Layout.buttonBottomMargin),
         ])
     }
 
@@ -133,7 +145,7 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
     }
 
     @objc private func textFieldDidBeginEditing(textField: UITextField) {
-        let adjustedFrame = textField.frame.insetBy(dx: 0, dy: -50)
+        let adjustedFrame = textField.frame.insetBy(dx: 0, dy: -Layout.textFieldVerticalAdjustment)
         scrollView.scrollRectToVisible(adjustedFrame, animated: true)
     }
 }
