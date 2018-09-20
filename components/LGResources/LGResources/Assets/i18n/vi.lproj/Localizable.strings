@@ -793,7 +793,7 @@
 "payments_enter_pay_code_description_label" = "Nhập mã 4 chữ số mà người mua %@ vừa chia sẻ với bạn";
 "payments_enter_pay_code_navbar_title" = "Trả giá";
 "payments_get_pay_code_code_label" = "Mã thanh toán của bạn";
-"payments_get_pay_code_contact_us_option" = "Contact us";
+"payments_get_pay_code_contact_us_option" = "Liên hệ";
 "payments_get_pay_code_description" = "Việc chia sẻ mã sẽ mở khóa thanh toán, bạn chỉ nên thực hiện việc này sau khi nhận được món đồ. Không bao giờ chia sẻ mã qua trò chuyện hay tin nhắn.";
 "payments_get_pay_code_disclaimer" = "Mã này sẽ hết hạn trong 7 ngày, vì vậy bạn hãy nhớ gặp người bán sớm";
 "payments_get_pay_code_faqs_option" = "FAQ";

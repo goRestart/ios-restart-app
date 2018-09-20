@@ -198,7 +198,7 @@ final class AffiliationInviteSMSContactsViewController: KeyboardViewController, 
             constraintViewToSafeRootView(emptyState)
         case .needPermissions:
             let block: () -> () = { self.openSettings() }
-            let action = UIAction(interface: .button(R.Strings.commonErrorListRetryButton,
+            let action = UIAction(interface: .button(R.Strings.affiliationInviteSmsGoSettingsButton,
                                                      .primary(fontSize: .medium)),
                                   action: block )
             emptyState.populate(message: R.Strings.affiliationInviteSmsContactsNeedPermissions,
