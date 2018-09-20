@@ -148,8 +148,8 @@ extension P2PPaymentsCreateOfferViewModel {
     }
 
     struct OfferAmountInterval {
-        static var min: Decimal = 5
-        static var max: Decimal = 500
+        static let min: Decimal = 5
+        static let max: Decimal = 500
     }
 }
 
