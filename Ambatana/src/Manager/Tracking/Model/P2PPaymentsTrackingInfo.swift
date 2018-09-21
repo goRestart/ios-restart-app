@@ -16,7 +16,7 @@ struct P2PPaymentsTrackingInfo {
     var eventParameters: EventParameters {
         var eventParameters = EventParameters()
         eventParameters[.buyerId] = buyerId
-        eventParameters[.listingId] = productId
+        eventParameters[.listingId] = listingId
         eventParameters[.sellerId] = sellerId
         eventParameters[.conversationId] = conversationId
         eventParameters[.listingPrice] = listingPrice?.value
