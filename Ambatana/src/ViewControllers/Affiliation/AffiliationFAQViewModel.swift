@@ -4,8 +4,9 @@ import LGComponents
 
 final class AffiliationFAQViewModel: BaseViewModel {
     var navigator: AffiliationFAQNavigator?
+    
     public var url: URL? {
-        return LetgoURLHelper.buildInviteFriendsTermsURL()
+        return LetgoURLHelper.buildAffiliationFAQS()
     }
 
     override func backButtonPressed() -> Bool {

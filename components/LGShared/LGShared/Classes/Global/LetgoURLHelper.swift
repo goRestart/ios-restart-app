@@ -84,6 +84,10 @@ public final class LetgoURLHelper {
     public static func buildInviteFriendsTermsURL() -> URL? {
         return LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteInviteTermsEndpoint)
     }
+    
+    public static func buildAffiliationFAQS() -> URL? {
+        return LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteAffiliationHowItWorks)
+    }
 
     public static func buildPrivacyURL() -> URL? {
         return LetgoURLHelper.composeLocalizedURL(SharedConstants.websitePrivacyEndpoint)
