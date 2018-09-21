@@ -365,8 +365,8 @@ class ChatViewModel: ChatBaseViewModel {
             }
             retrieveRelatedListings()
             setupExpressChat()
-            refreshChat()
         }
+        refreshChat()
         trackVisit()
     }
 
