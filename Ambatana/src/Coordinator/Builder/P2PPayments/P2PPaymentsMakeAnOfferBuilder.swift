@@ -30,6 +30,7 @@ extension P2PPaymentsMakeAnOfferBuilder: P2PPaymentsMakeAnOfferAssembly {
     func buildMakeAnOffer(chatConversation: ChatConversation) -> UIViewController {
         let vm = P2PPaymentsCreateOfferViewModel(chatConversation: chatConversation)
         let vc = P2PPaymentsCreateOfferViewController(viewModel: vm)
+        vm.delegate = vc
         switch self {
         case .modal:
             let nc = UINavigationController(rootViewController: vc)

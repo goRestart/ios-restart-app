@@ -6,6 +6,7 @@ import RxCocoa
 
 final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     var navigator: P2PPaymentsMakeAnOfferNavigator?
+    weak var delegate: BaseViewModelDelegate?
     private let chatConversation: ChatConversation
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let myUserRepository: MyUserRepository
@@ -61,10 +62,10 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     }
 
     private func calculateFees() {
-        uiStateRelay.accept(.loading)
         guard
             let currency = chatConversation.listing?.currency,
             isOfferAmountValid(offer: offerAmountRelay.value) else {
+                delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                 uiStateRelay.accept(.changeOffer)
                 return
         }
@@ -72,8 +73,11 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
         p2pPaymentsRepository.calculateOfferFees(params: params) { [weak self] result in
             switch result {
             case .success(let offerFees):
+                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                 self?.updateOfferFees(offerFees)
             case .failure(_):
+                // TODO: @juolgon localize this
+                self?.delegate?.vmHideLoading("Oops! An error occurred while loading. Please try again.", afterMessageCompletion: nil)
                 self?.uiStateRelay.accept(.changeOffer)
             }
         }
@@ -120,7 +124,7 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
         let authController = paymentsManager.createPaymentRequestController(paymentRequest) { [weak self] result in
             self?.paymentAuthControllerRelay.accept(nil)
             switch result {
-            case .success(let offerId):
+            case .success:
                 self?.navigator?.closeOnboarding()
             case .failure:
                 break
@@ -172,6 +176,7 @@ extension P2PPaymentsCreateOfferViewModel {
             return
         }
         offerAmountRelay.accept(newValue)
+        delegate?.vmShowLoading(nil)
         calculateFees()
     }
 
