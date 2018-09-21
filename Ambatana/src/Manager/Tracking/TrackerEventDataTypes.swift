@@ -241,6 +241,7 @@ enum EventName: String {
     case p2pPaymentsSellerOfferDetail       = "p2p-seller-offer-detail"
     case p2pPaymentsSellerOfferDecide       = "p2p-seller-offer-decide"
     case p2pPaymentsSellerPayoutStart       = "p2p-seller-payout-start"
+    case p2pPaymentsSellerPayout            = "p2p-seller-payout"
     case p2pPaymentsSellerPayoutError       = "p2p-seller-payout-error"
     case p2pPaymentsSellerPayoutSignup      = "p2p-seller-payout-signup"
     case p2pPaymentsSellerPayoutSignupError = "p2p-seller-payout-signup-error"
@@ -447,6 +448,7 @@ enum EventParameterName: String {
     case offerCurrency        = "offer-currency"
     case offerFee             = "offer-seller-fee"
     case offerSellerChoice    = "choice"
+    case step                 = "step"
     
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
 

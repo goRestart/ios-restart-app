@@ -1818,6 +1818,23 @@ struct TrackerEvent {
         return TrackerEvent(name: .p2pPaymentsSellerPayoutStart, params: params)
     }
 
+    static func p2pPaymentsOfferSellerCodeEntered(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = "code-entry"
+        return TrackerEvent(name: .p2pPaymentsSellerPayout, params: params)
+    }
+
+    static func p2pPaymentsOfferSellerCodeCorrect(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = "code-correct"
+        return TrackerEvent(name: .p2pPaymentsSellerPayout, params: params)
+    }
+
+    static func p2pPaymentsOfferSellerCodeIncorrect(offer: P2PPaymentOffer) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutError, params: params)
+    }
+
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,

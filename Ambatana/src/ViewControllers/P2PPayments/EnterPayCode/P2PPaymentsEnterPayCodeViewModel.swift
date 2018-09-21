@@ -7,6 +7,7 @@ import RxCocoa
 final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
     var navigator: P2PPaymentsOfferStatusWireframe?
     private let offerId: String
+    private var offer: P2PPaymentOffer?
     private let buyerName: String
     private let buyerAvatar: File?
     private let p2pPaymentsRepository: P2PPaymentsRepository
@@ -23,15 +24,35 @@ final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
         super.init()
     }
 
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if firstTime {
+            fetchOfferInfo()
+        }
+    }
+
+    private func fetchOfferInfo() {
+        p2pPaymentsRepository.showOffer(id: offerId) { [weak self] result in
+            switch result {
+            case .success(let offer):
+                self?.offer = offer
+            case .failure:
+                break // Fail silently
+            }
+        }
+    }
+
     private func usePayCode(_ payCode: String) {
         uiStateRelay.accept(.loading(buyerName: buyerName, buyerAvatar: buyerAvatar))
         p2pPaymentsRepository.usePayCode(payCode: payCode, offerId: offerId) { [weak self] result in
             switch result {
             case .success:
+                self?.trackCodeCorrect()
                 delay(P2PPayments.chatRefreshDelay) { [weak self] in
                     self?.navigator?.close()
                 }
             case .failure:
+                self?.trackCodeIncorrect()
                 self?.enterPayCode()
             }
         }
@@ -39,6 +60,24 @@ final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
 
     private func enterPayCode() {
         uiStateRelay.accept(.enterCode(buyerName: buyerName, buyerAvatar: buyerAvatar))
+    }
+
+    private func trackCodeEntered() {
+        guard let offer = offer else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferSellerCodeEntered(offer: offer)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackCodeCorrect() {
+        guard let offer = offer else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferSellerCodeCorrect(offer: offer)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackCodeIncorrect() {
+        guard let offer = offer else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferSellerCodeIncorrect(offer: offer)
+        tracker.trackEvent(trackerEvent)
     }
 }
 
@@ -89,6 +128,7 @@ extension P2PPaymentsEnterPayCodeViewModel {
 
 extension P2PPaymentsEnterPayCodeViewModel {
     func payCodeEntered(_ payCode: String) {
+        trackCodeEntered()
         usePayCode(payCode)
     }
 

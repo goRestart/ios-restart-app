@@ -78,4 +78,18 @@ extension P2PPaymentsTrackingInfo {
                   offerFee: (offer.fees.serviceFee as NSDecimalNumber).doubleValue,
                   offerCurrency: offer.fees.currency)
     }
+
+    init(offer: P2PPaymentOffer) {
+        self.init(buyerId: offer.buyerId,
+                  listingId: offer.listingId,
+                  sellerId: offer.sellerId,
+                  conversationId: nil,
+                  listingPrice: nil,
+                  listingCurrency: nil,
+                  listingCategory: nil,
+                  offerId: offer.objectId,
+                  offerPrice: (offer.fees.amount as NSDecimalNumber).doubleValue,
+                  offerFee: (offer.fees.serviceFee as NSDecimalNumber).doubleValue,
+                  offerCurrency: offer.fees.currency)
+    }
 }
