@@ -11,16 +11,19 @@ final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
     private let buyerName: String
     private let buyerAvatar: File?
     private let p2pPaymentsRepository: P2PPaymentsRepository
+    private let tracker: Tracker
     fileprivate lazy var uiStateRelay = BehaviorRelay<UIState>(value: .enterCode(buyerName: buyerName, buyerAvatar: buyerAvatar))
 
     init(offerId: String,
          buyerName: String,
          buyerAvatar: File?,
-         p2pPaymentsRepository: P2PPaymentsRepository = Core.p2pPaymentsRepository) {
+         p2pPaymentsRepository: P2PPaymentsRepository = Core.p2pPaymentsRepository,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
         self.offerId = offerId
         self.buyerName = buyerName
         self.buyerAvatar = buyerAvatar
         self.p2pPaymentsRepository = p2pPaymentsRepository
+        self.tracker = tracker
         super.init()
     }
 
