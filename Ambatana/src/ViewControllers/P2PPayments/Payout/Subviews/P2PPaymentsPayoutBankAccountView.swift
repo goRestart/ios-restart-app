@@ -15,7 +15,6 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
         static let contentHorizontalMargin: CGFloat = 12
         static let buttonHeight: CGFloat = 55
         static let buttonHorizontalMargin: CGFloat = 24
-        static let buttonTopMargin: CGFloat = 32
         static let buttonBottomMargin: CGFloat = 12
         static let textFieldVerticalAdjustment: CGFloat = 50
         static let scrollViewTopMargin: CGFloat = 12
