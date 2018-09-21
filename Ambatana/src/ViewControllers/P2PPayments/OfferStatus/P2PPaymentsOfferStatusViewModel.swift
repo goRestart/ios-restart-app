@@ -192,8 +192,13 @@ extension P2PPaymentsOfferStatusViewModel {
     }
 
     func actionButtonPressed() {
-        // TODO: @juolgon handle this
-        navigator?.close()
+        guard let offer = offer else { return }
+        switch offer.status {
+        case .accepted:
+            navigator?.openGetPayCode()
+        default:
+            navigator?.close()
+        }
     }
 
     func withdrawnButtonPressed() {
@@ -209,8 +214,8 @@ extension P2PPaymentsOfferStatusViewModel {
     }
 
     func enterCodeButtonPressed() {
-        // TODO: @juolgon handle this
-        navigator?.close()
+        guard let buyer = buyer else { return }
+        navigator?.openEnterPayCode(buyer: buyer)
     }
 }
 

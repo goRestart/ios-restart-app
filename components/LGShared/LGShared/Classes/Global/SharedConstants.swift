@@ -40,6 +40,7 @@ public struct SharedConstants {
     public static let websiteTermsEndpoint = "/terms_app"
     public static let websiteInviteTermsEndpoint = "/rewards-how-it-works/invite-your-friends"
     public static let websiteCommunityGuideline = "/community-guidelines"
+    public static let websitePaymentsFaqs = "/paymentsfaqs"
     public static func websiteListingEndpoint(_ listingId: String) -> String {
         return String(format: "/product/%@", arguments: [listingId])
     }

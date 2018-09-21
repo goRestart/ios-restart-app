@@ -10,6 +10,9 @@ struct ChatPaymentBannerViewModel {
     
     private let isHiddenRelay = BehaviorRelay<Bool>(value: true)
     var isHidden: Driver<Bool> {
+        guard featureFlags.makeAnOfferButton.isActive else {
+            return Driver<Bool>.just(true)
+        }
         return offerState.map { state in
             switch state {
             case .offersUnavailable: return true
@@ -24,9 +27,12 @@ struct ChatPaymentBannerViewModel {
     }
     
     private let p2pRepository: P2PPaymentsRepository
+    private let featureFlags: FeatureFlaggeable
     
-    init(p2pRepository: P2PPaymentsRepository = Core.p2pPaymentsRepository) {
+    init(p2pRepository: P2PPaymentsRepository = Core.p2pPaymentsRepository,
+         featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
         self.p2pRepository = p2pRepository
+        self.featureFlags = featureFlags
     }
     
     func configure(with params: P2PPaymentStateParams) {
@@ -41,14 +47,14 @@ struct ChatPaymentBannerViewModel {
         switch offerStateRelay.value {
         case .makeOffer:
             actionButtonRelay.accept(.makeOffer)
-        case .viewOffer:
-            actionButtonRelay.accept(.viewOffer)
-        case .viewPayCode:
-            actionButtonRelay.accept(.viewPayCode)
-        case .exchangeCode:
-            actionButtonRelay.accept(.exchangeCode)
-        case .payout:
-            actionButtonRelay.accept(.payout)
+        case .viewOffer(offerId: let id):
+            actionButtonRelay.accept(.viewOffer(offerId: id))
+        case .viewPayCode(offerId: let id):
+            actionButtonRelay.accept(.viewPayCode(offerId: id))
+        case .exchangeCode(offerId: let id):
+            actionButtonRelay.accept(.exchangeCode(offerId: id))
+        case .payout(offerId: let id):
+            actionButtonRelay.accept(.payout(offerId: id))
         case .offersUnavailable:
             break
         }
