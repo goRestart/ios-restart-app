@@ -1,6 +1,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import LGComponents
 
 final class P2PPaymentsBuyerHeaderView: UIView {
     private enum Layout {
@@ -55,8 +56,13 @@ final class P2PPaymentsBuyerHeaderView: UIView {
 extension Reactive where Base: P2PPaymentsBuyerHeaderView {
     var imageURL: Binder<URL?> {
         return Binder(self.base) { view, imageURL in
-            guard let imageURL = imageURL else { return }
-            view.buyerImageView.lg_setImageWithURL(imageURL)
+            guard let imageURL = imageURL else {
+                view.buyerImageView.image = R.Asset.IconsButtons.userPlaceholder.image
+                return
+            }
+            view.buyerImageView.lg_setImageWithURL(imageURL,
+                                                   placeholderImage: R.Asset.IconsButtons.userPlaceholder.image,
+                                                   completion: nil)
         }
     }
 
