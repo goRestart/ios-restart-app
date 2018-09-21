@@ -126,7 +126,7 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
             self?.paymentAuthControllerRelay.accept(nil)
             switch result {
             case .success:
-                P2PPayments.performAfterChatDelay {
+                delay(P2PPayments.chatRefreshDelay) { [weak self] in
                     self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                     self?.navigator?.closeOnboarding()
                 }
