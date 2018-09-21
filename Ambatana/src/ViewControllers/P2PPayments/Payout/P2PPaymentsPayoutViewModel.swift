@@ -6,6 +6,7 @@ import RxCocoa
 
 final class P2PPaymentsPayoutViewModel: BaseViewModel {
     var navigator: P2PPaymentsOfferStatusWireframe?
+    weak var delegate: BaseViewModelDelegate?
     private let offerId: String
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let myUserRepository: MyUserRepository
@@ -37,8 +38,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
                 self?.offer = offer
                 self?.fetchPriceBreakdown()
             case .failure:
-                // TODO: @juolgon hanlde error case
-                break
+                self?.uiStateRelay.accept(.errorRetry)
             }
         }
     }
@@ -53,14 +53,16 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
                 self?.priceBreakdown = priceBreakdown
                 self?.checkIfUserNeedsToRegister()
             case .failure:
-                // TODO: @juolgon hanlde error case
-                break
+                self?.uiStateRelay.accept(.errorRetry)
             }
         }
     }
 
     private func checkIfUserNeedsToRegister() {
-        guard let userId = myUserRepository.myUser?.objectId else { return }
+        guard let userId = myUserRepository.myUser?.objectId else {
+            uiStateRelay.accept(.errorRetry)
+            return
+        }
         p2pPaymentsRepository.showSeller(id: userId) { [weak self] result in
             switch result {
             case .success(let seller):
@@ -70,8 +72,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
                     self?.uiStateRelay.accept(.register)
                 }
             case .failure:
-                // TODO: @juolgon handle error case
-                break
+                self?.uiStateRelay.accept(.errorRetry)
             }
         }
     }
@@ -84,9 +85,9 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
     }
 
     private func registerSeller(params: RegistrationParams) {
-        uiStateRelay.accept(.loading)
         guard let userId = myUserRepository.myUser?.objectId else { return }
         guard let countryCode = myUserRepository.myUser?.postalAddress.countryCode else { return }
+        delegate?.vmShowLoading(nil)
         let params = P2PPaymentCreateSellerParams(sellerId: userId,
                                                   firstName: params.firstName,
                                                   lastName: params.lastName,
@@ -98,21 +99,20 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
                                                   birthDate: params.dateOfBirth,
                                                   ssnLastFour: params.ssnLastFour)
         p2pPaymentsRepository.updateSeller(params: params) { [weak self] result in
+            self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
             switch result {
             case .success:
                 self?.showPayoutInfo()
             case .failure:
-                self?.uiStateRelay.accept(.register)
-                // TODO: @juolgon handle error case
-                break
+                self?.showGenericError()
             }
         }
     }
 
     func requestBankAccountPayout(routingNumber: String, accountNumber: String) {
-        uiStateRelay.accept(.loading)
         guard let countryCode = myUserRepository.myUser?.postalAddress.countryCode else { return }
         guard let offer = offer else { return }
+        delegate?.vmShowLoading(nil)
         let params = BankAccountParams(routingNumber: routingNumber,
                                        accountNumber: accountNumber,
                                        countryCode: countryCode,
@@ -122,9 +122,8 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
             case .success(let token):
                 self?.requestPayoutWithToken(token, isInstant: false)
             case .failure:
-                self?.showPayoutInfo()
-                // TODO: @juolgon handle error here
-                break
+                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+                self?.showGenericError()
             }
         }
     }
@@ -135,8 +134,8 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
                                    cardExpirationYear: Int,
                                    cvc: String,
                                    isInstant: Bool) {
-        uiStateRelay.accept(.loading)
         guard let offer = offer else { return }
+        delegate?.vmShowLoading(nil)
         let params = CardParams(name: name,
                                 number: cardNumber,
                                 expirationMonth: cardExpirationMonth,
@@ -148,9 +147,8 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
             case .success(let token):
                 self?.requestPayoutWithToken(token, isInstant: isInstant)
             case .failure:
-                self?.showPayoutInfo()
-                // TODO: @juolgon handle error here
-                break
+                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+                self?.showGenericError()
             }
         }
     }
@@ -161,15 +159,22 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
                                                    stripeToken: token,
                                                    isInstant: isInstant)
         p2pPaymentsRepository.requestPayout(params: params) { [weak self] result in
+            self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
             switch result {
             case .success:
                 self?.navigator?.close()
             case .failure:
-                self?.showPayoutInfo()
-                // TODO: @juolgon handle error here
-                break
+                self?.showGenericError()
             }
         }
+    }
+
+    private func showGenericError() {
+        // TODO: @juolgon localize this
+        let cancelAction = UIAction(interface: .text("Ok"), action: {})
+        delegate?.vmShowAlert("Oops! An error occurred.",
+                              message: "Please check your details and try again.",
+                              actions: [cancelAction])
     }
 }
 
@@ -222,6 +227,10 @@ extension P2PPaymentsPayoutViewModel {
     func closeButtonPressed() {
         navigator?.close()
     }
+
+    func retryButtonPressed() {
+        fetchOffer()
+    }
 }
 
 // MARK: - Rx Outputs
@@ -230,6 +239,7 @@ extension P2PPaymentsPayoutViewModel {
     var showLoadingIndicator: Driver<Bool> { return uiStateRelay.asDriver().map { $0.showLoadingIndicator } }
     var registerIsHidden: Driver<Bool> { return uiStateRelay.asDriver().map { $0.registerIsHidden } }
     var payoutIsHidden: Driver<Bool> { return uiStateRelay.asDriver().map { $0.payoutIsHidden } }
+    var errorRetryIsHidden: Driver<Bool> { return uiStateRelay.asDriver().map { $0.errorRetryIsHidden } }
     var feeText: Driver<String?> { return uiStateRelay.asDriver().map { $0.feeText } }
     var standardFundsAvailableText: Driver<String?> { return uiStateRelay.asDriver().map { $0.standardFundsAvailableText } }
     var instantFundsAvailableText: Driver<String?> { return uiStateRelay.asDriver().map { $0.instantFundsAvailableText } }
