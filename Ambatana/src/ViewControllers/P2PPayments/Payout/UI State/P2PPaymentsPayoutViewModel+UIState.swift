@@ -17,6 +17,7 @@ extension P2PPaymentsPayoutViewModel {
 extension P2PPaymentsPayoutViewModel {
     enum UIState {
         case loading
+        case errorRetry
         case register
         case payout(info: PayoutInfo)
     }
@@ -29,6 +30,13 @@ extension P2PPaymentsPayoutViewModel.UIState {
         switch self {
         case .loading: return true
         default: return false
+        }
+    }
+
+    var errorRetryIsHidden: Bool {
+        switch self {
+        case .errorRetry: return false
+        case .loading, .register, .payout: return true
         }
     }
 
