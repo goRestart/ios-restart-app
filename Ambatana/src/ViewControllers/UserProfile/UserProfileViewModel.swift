@@ -880,7 +880,7 @@ extension UserProfileViewModel: ListingCellDelegate {
     func bumpUpPressedFor(listing: Listing) {
         guard let id = listing.objectId else { return }
         let data = ListingDetailData.id(listingId: id)
-        let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: nil,
+        let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchases: [],
                                                                                    maxCountdown: 0,
                                                                                    bumpUpType: nil,
                                                                                    triggerBumpUpSource: .profile,

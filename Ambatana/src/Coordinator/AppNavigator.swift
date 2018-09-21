@@ -18,7 +18,7 @@ protocol AppNavigator: class {
     func openDeepLink(deepLink: DeepLink)
     func openAppStore()
     func openPromoteBumpForListingId(listingId: String,
-                                     bumpUpProductData: BumpUpProductData,
+                                     purchases: [BumpUpProductData],
                                      maxCountdown: TimeInterval,
                                      typePage: EventParameterTypePage?)
     func openConfirmUsername(token: String)

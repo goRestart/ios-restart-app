@@ -84,22 +84,26 @@ final class AffiliationStoreViewModel: BaseViewModel {
             viewState.accept(ViewState.error(genericErrorModel()))
         case (let rewardPoints, let rewards):
             pointsRelay.accept(rewardPoints?.points ?? 0)
-            mapRewardsToPurchases(rewards: rewards, with: pointsRelay.value)
-            viewState.accept(.data)
+            if let rewards = rewards, rewards.count > 0 {
+                mapRewardsToPurchases(rewards: rewards, with: pointsRelay.value)
+                viewState.accept(.data)
+            } else {
+                viewState.accept(ViewState.error(genericErrorModel()))
+            }
         }
     }
     
-    private func mapRewardsToPurchases(rewards: [Reward]?, with points: Int) {
-        self.rewards = rewards ?? []
-        purchases = rewards?
+    private func mapRewardsToPurchases(rewards: [Reward], with points: Int) {
+        self.rewards = rewards
+        purchases = rewards
             .map {
                 return AffiliationPurchase(
                     title: $0.type.cardTitle,
                     partnerIcon: AffiliationPartner.amazon.image,
                     points: $0.points,
-                    state: points > $0.points ? .enabled : .disabled
+                    state: points >= $0.points ? .enabled : .disabled
                 )
-            } ?? []
+        }
     }
     
     private func retrieveAffiliationPoints() -> Single<RewardPoints?> {

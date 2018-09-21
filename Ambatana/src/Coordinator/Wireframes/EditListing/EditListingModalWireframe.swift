@@ -24,13 +24,13 @@ final class EditListingModalWireframe: EditListingNavigator {
     }
 
     func editingListingDidFinish(_ editedListing: Listing,
-                                 bumpUpProductData: BumpUpProductData?,
+                                 purchases: [BumpUpProductData],
                                  timeSinceLastBump: TimeInterval?,
                                  maxCountdown: TimeInterval) {
         listingRefreshable?.listingsRefresh()
         root.dismiss(animated: true, completion: {
             self.onEditActionable?.onEdit(listing: editedListing,
-                                          bumpData: bumpUpProductData,
+                                          purchases: purchases,
                                           timeSinceLastBump: timeSinceLastBump,
                                           maxCountdown: maxCountdown)
         })

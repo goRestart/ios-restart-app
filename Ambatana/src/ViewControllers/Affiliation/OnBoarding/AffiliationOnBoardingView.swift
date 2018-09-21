@@ -1,13 +1,16 @@
 import LGComponents
+import RxSwift
+import RxCocoa
 
 private enum Layout {
     enum Size {
         static let avatar = CGSize(width: 64, height: 64)
+        static let fake = CGSize(width: 64, height: 64)
     }
     enum Edges {
         static let content = UIEdgeInsets(top: 75,
                                           left: Metrics.veryBigMargin,
-                                          bottom: 100,
+                                          bottom: 160,
                                           right: Metrics.veryBigMargin)
     }
 
@@ -15,6 +18,7 @@ private enum Layout {
 }
 
 final class AffiliationOnBoardingView: UIView {
+    let tapRelay = PublishRelay<Void>()
 
     private let revealBackground: UIImageView = {
         let imageView = UIImageView()
@@ -22,6 +26,12 @@ final class AffiliationOnBoardingView: UIView {
         imageView.clipsToBounds = true
         imageView.image = R.Asset.Affiliation.materialBackground.image
         return imageView
+    }()
+
+    private let fakeTapView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
     }()
 
     private let userAvatar: UIImageView = {
@@ -55,7 +65,7 @@ final class AffiliationOnBoardingView: UIView {
         backgroundColor = .clear
         let content = UIStackView.vertical([UIStackView.horizontal([userAvatar, UIView()]), message, UIView()])
         content.spacing = Metrics.margin
-        addSubviewsForAutoLayout([revealBackground, content])
+        addSubviewsForAutoLayout([revealBackground, content, fakeTapView])
 
         [
             revealBackground.topAnchor.constraint(equalTo: topAnchor),
@@ -70,8 +80,20 @@ final class AffiliationOnBoardingView: UIView {
             content.topAnchor.constraint(equalTo: topAnchor, constant: Layout.Edges.content.top),
             content.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.Edges.content.right),
             content.bottomAnchor.constraint(equalTo: revealBackground.bottomAnchor, constant: -Layout.Edges.content.bottom),
-            content.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.Edges.content.left)
+            content.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.Edges.content.left),
+
+            fakeTapView.widthAnchor.constraint(equalToConstant: Layout.Size.fake.width),
+            fakeTapView.heightAnchor.constraint(equalToConstant: Layout.Size.fake.height),
+            fakeTapView.topAnchor.constraint(equalTo: topAnchor),
+            fakeTapView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ].activate()
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(fakeViewPressed))
+        fakeTapView.addGestureRecognizer(tap)
+    }
+
+    @objc private func fakeViewPressed() {
+        tapRelay.accept(())
     }
 
     func set(avatar url: URL?, userName: String, userId: String, message: String) {

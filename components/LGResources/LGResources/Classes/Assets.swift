@@ -941,6 +941,8 @@ extension R {
       public static let clock = ImageAsset(name: "clock")
       public static let cloud = ImageAsset(name: "cloud")
       public static let fakeCellBottom = ImageAsset(name: "fake_cell_bottom")
+      public static let featured3DaysBackground = ImageAsset(name: "featured_3_days_background")
+      public static let featured7DaysBackground = ImageAsset(name: "featured_7_days_background")
       public static let featuredBackground = ImageAsset(name: "featured_background")
       public static let grayChevronDown = ImageAsset(name: "gray_chevron_down")
       public static let grayChevronUp = ImageAsset(name: "gray_chevron_up")
@@ -969,6 +971,8 @@ extension R {
         clock,
         cloud,
         fakeCellBottom,
+        featured3DaysBackground,
+        featured7DaysBackground,
         featuredBackground,
         grayChevronDown,
         grayChevronUp,

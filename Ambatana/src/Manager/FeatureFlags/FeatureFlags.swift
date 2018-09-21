@@ -56,6 +56,7 @@ protocol FeatureFlaggeable: class {
 
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
     var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
+    var multiDayBumpUp: MultiDayBumpUp { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -441,7 +442,10 @@ extension BumpInEditCopys {
 
 extension MultiAdRequestMoreInfo {
     var isActive: Bool { return self == .active }
+}
 
+extension MultiDayBumpUp {
+    var isActive: Bool { return self != .control && self != .baseline }
 }
 
 final class FeatureFlags: FeatureFlaggeable {    
@@ -941,6 +945,14 @@ final class FeatureFlags: FeatureFlaggeable {
         return MultiAdRequestMoreInfo.fromPosition(abTests.multiAdRequestMoreInfo.value)
     }
 
+    var multiDayBumpUp: MultiDayBumpUp {
+        if Bumper.enabled {
+            return Bumper.multiDayBumpUp
+        }
+        return MultiDayBumpUp.fromPosition(abTests.multiDayBumpUp.value)
+    }
+
+    
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {

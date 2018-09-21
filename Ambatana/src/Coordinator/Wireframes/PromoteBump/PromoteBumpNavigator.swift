@@ -1,7 +1,7 @@
 protocol PromoteBumpNavigator {
     func promoteBumpDidCancel()
     func openSellFaster(listingId: String,
-                        bumpUpProductData: BumpUpProductData,
+                        purchases: [BumpUpProductData],
                         maxCountdown: TimeInterval,
                         typePage: EventParameterTypePage?)
 }

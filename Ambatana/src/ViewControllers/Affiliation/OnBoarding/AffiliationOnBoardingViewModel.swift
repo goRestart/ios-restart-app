@@ -21,13 +21,29 @@ final class AffiliationOnBoardingViewModel: BaseViewModel {
     let onboardingData: BehaviorRelay<AffiliationOnBoardingVM?>
     var navigator: AffiliationOnBoardingNavigator?
 
-    init(referrerInfo: ReferrerInfo) {
+    private let keyValueStorageable: KeyValueStorageable
+
+    convenience init(referrerInfo: ReferrerInfo) {
+        self.init(referrerInfo: referrerInfo, keyValueStorageable: KeyValueStorage.sharedInstance)
+    }
+
+    init(referrerInfo: ReferrerInfo, keyValueStorageable: KeyValueStorageable) {
         let message = R.Strings.affiliationInviteMessageText(referrerInfo.name)
         self.onboardingData = BehaviorRelay(value: AffiliationOnBoardingVM(message: message, referrer: referrerInfo))
+        self.keyValueStorageable = keyValueStorageable
         super.init()
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        keyValueStorageable[.didShowAffiliationOnBoarding] = true
     }
 
     func close() {
         navigator?.close()
+    }
+
+    func dismiss() {
+        navigator?.dismiss()
     }
 }

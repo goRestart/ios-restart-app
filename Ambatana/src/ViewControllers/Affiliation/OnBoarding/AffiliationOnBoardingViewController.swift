@@ -31,9 +31,16 @@ final class AffiliationOnBoardingViewController: BaseViewController {
             .asDriver(onErrorJustReturn: nil)
             .drive(rx.data)
             .disposed(by: disposeBag)
+        onboardingView.tapRelay
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] _ in
+            self?.viewModel.close()
+        }).disposed(by: disposeBag)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(close))
         onboardingView.addGestureRecognizer(tap)
+
+        onboardingView.backgroundColor = .clear
     }
 
     fileprivate func update(with data: AffiliationOnBoardingVM) {

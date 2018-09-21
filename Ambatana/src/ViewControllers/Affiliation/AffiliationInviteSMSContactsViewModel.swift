@@ -142,7 +142,7 @@ final class AffiliationInviteSMSContactsViewModel: BaseViewModel {
     // MARK: Filtering
     
     func didFilter(withText text: String) {
-        let contactsFiltered = contactsInfo.value.filter { $0.name.lowercased().contains(text.lowercased()) || $0.phoneNumber.lowercased().contains(text.lowercased())  }
+        let contactsFiltered = contactsInfo.value.filter { $0.name.forSorting.contains(text.forSorting.lowercased()) || $0.phoneNumber.lowercased().contains(text.lowercased())  }
         searchResultsInfo.accept(contactsFiltered)
         status.accept(.filtering)
     }

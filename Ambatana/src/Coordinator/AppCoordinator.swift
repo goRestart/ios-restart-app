@@ -81,6 +81,7 @@ final class AppCoordinator: NSObject, Coordinator {
     private let verificationAwarenessAssembly: UserVerificationAwarenessAssembly
     private let promoteAssembly: PromoteBumpAssembly
     private let tourAssembly: TourLoginAssembly
+    private let passwordlessUsernameAssembly: PasswordlessUsernameAssembly
 
     private var tourSkipper: TourSkiperNavigator?
 
@@ -180,6 +181,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.promoteAssembly = PromoteBumpBuilder.modal(tabBarCtl)
         self.tourAssembly = TourLoginBuilder.modal
         self.verificationAwarenessAssembly = UserVerificationAwarenessBuilder.modal(tabBarCtl)
+        self.passwordlessUsernameAssembly = PasswordlessUsernameBuilder.modal(tabBarCtl)
         super.init()
         self.tourSkipper = TourSkiperWireframe(appCoordinator: self, deepLinksRouter: deepLinksRouter)
 
@@ -245,6 +247,7 @@ extension AppCoordinator: AppNavigator {
                 self?.trackStartSelling(source: source)
             } else {
                 self?.openHome()
+                AppsFlyerAffiliationResolver.shared.rx_AppIsReady.accept(true)
             }
         }
     }
@@ -274,7 +277,8 @@ extension AppCoordinator: AppNavigator {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
         case .tabBar, .listingList, .profile, .deepLink, .notifications,
-             .deleteListing, .realEstatePromo, .carPromo, .servicesPromo, .chatList, .markAsSold, .rewardCenter:
+             .deleteListing, .realEstatePromo, .carPromo, .servicesPromo,
+             .chatList, .markAsSold, .rewardCenter, .referralNotAvailable:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
@@ -320,19 +324,19 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openPromoteBumpForListingId(listingId: String,
-                                     bumpUpProductData: BumpUpProductData,
+                                     purchases: [BumpUpProductData],
                                      maxCountdown: TimeInterval,
                                      typePage: EventParameterTypePage?) {
         let promoteBumpEvent = TrackerEvent.bumpUpPromo()
         tracker.trackEvent(promoteBumpEvent)
         let vc = promoteAssembly.buildPromoteBump(listingId: listingId,
-                                                  bumpUpProductData: bumpUpProductData,
+                                                  purchases: purchases,
                                                   maxCountdown: maxCountdown,
                                                   typePage: typePage,
-        // This callback is used to open the bumper, it is just a patch.
-        // In a near future the App coordinator should be migrated and then
-        // this method could be moved to the correct place, for now it is here ;).
-                                                  sellAction: openSellFaster)
+                                                  // This callback is used to open the bumper, it is just a patch.
+            // In a near future the App coordinator should be migrated and then
+            // this method could be moved to the correct place, for now it is here ;).
+            sellAction: openSellFaster)
         tabBarCtl.present(vc, animated: true, completion: nil)
     }
 
@@ -366,10 +370,10 @@ extension AppCoordinator: AppNavigator {
                                          action: reviewAction,
                                          accessibility: AccessibilityId.offensiveReportAlertOpenGuidelineButton)
         let skipActionInterface = UIActionInterface.button(R.Strings.offensiveReportAlertSecondaryAction,
-                                                            .secondary(fontSize: .medium, withBorder: true))
+                                                           .secondary(fontSize: .medium, withBorder: true))
         let skipAlertAction = UIAction(interface: skipActionInterface,
-                                  action: {},
-                                  accessibility: AccessibilityId.offensiveReportAlertSkipButton)
+                                       action: {},
+                                       accessibility: AccessibilityId.offensiveReportAlertSkipButton)
         if let alert = LGAlertViewController(title: R.Strings.offensiveReportAlertTitle,
                                              text: R.Strings.offensiveReportAlertMessage,
                                              alertType: .plainAlert,
@@ -538,11 +542,11 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openEditForListing(listing: Listing,
-                            bumpUpProductData: BumpUpProductData?,
+                            purchases: [BumpUpProductData],
                             maxCountdown: TimeInterval) {
         let vc = editAssembly.buildEditView(listing: listing,
                                             pageType: nil,
-                                            bumpUpProductData: bumpUpProductData,
+                                            purchases: purchases,
                                             listingCanBeBoosted: false,
                                             timeSinceLastBump: nil,
                                             maxCountdown: maxCountdown,
@@ -551,11 +555,10 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openConfirmUsername(token: String) {
-        let coord = PasswordlessUsernameCoordinator(token: token)
+        let vc = passwordlessUsernameAssembly.buildPasswordlessUsernameView(token: token)
+        let nav = UINavigationController(rootViewController: vc)
         tabBarCtl.dismissAllPresented { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.openChild(coordinator: coord, parent: strongSelf.tabBarCtl, animated: true,
-                                 forceCloseChild: true, completion: nil)
+            self?.tabBarCtl.present(nav, animated: true, completion: nil)
         }
     }
 
@@ -572,13 +575,13 @@ extension AppCoordinator: AppNavigator {
 
 extension AppCoordinator: OnEditActionable {
     func onEdit(listing: Listing,
-                bumpData: BumpUpProductData?,
+                purchases: [BumpUpProductData],
                 timeSinceLastBump: TimeInterval?,
                 maxCountdown: TimeInterval) {
         refreshSelectedListingsRefreshable()
-        guard let listingId = listing.objectId, let bumpData = bumpData, bumpData.hasPaymentId else { return }
+        guard let listingId = listing.objectId, purchases.hasPaymentIds else { return }
         openPromoteBumpForListingId(listingId: listingId,
-                                    bumpUpProductData: bumpData,
+                                    purchases: purchases,
                                     maxCountdown: maxCountdown,
                                     typePage: .sellEdit)
     }
@@ -595,7 +598,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
     }
 
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
-		openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .sellEdit(listing: listing))
+        openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .sellEdit(listing: listing))
     }
 }
 
@@ -642,41 +645,81 @@ fileprivate extension AppCoordinator {
 
     fileprivate func retrieveBumpeableInfoForListing(listingId: String, bumpUpSource: BumpUpSource) {
         purchasesShopper.bumpInfoRequesterDelegate = self
-        monetizationRepository.retrieveBumpeableListingInfo(
-            listingId: listingId) { [weak self] result in
-                guard let strongSelf = self else { return }
-                if let value = result.value {
-                    let paymentItems = value.paymentItems.filter { $0.provider == .apple }
-                    guard !paymentItems.isEmpty else {
-                        strongSelf.bumpUpFallbackFor(source: bumpUpSource)
-                        return
-                    }
-                    // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                    strongSelf.timeSinceLastBump = value.timeSinceLastBump
+        if featureFlags.multiDayBumpUp.isActive {
+            retrieveAvailablePurchasesFor(listingId: listingId, bumpUpSource: bumpUpSource)
+        } else {
+            retrieveSimpleBumpeableInfoFor(listingId: listingId, bumpUpSource: bumpUpSource)
+        }
+    }
 
-                    // if "letgoItemId" is nil, we don't know the price of the bump, so we check this here to avoid
-                    // a useless request to apple
-                    if let letgoItemId = paymentItems.first?.itemId {
-                        strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
-                                                                                     letgoItemId: letgoItemId,
-                                                                                     withIds: paymentItems.map { $0.providerItemId },
-                                                                                     maxCountdown: value.maxCountdown,
-                                                                                     typePage: bumpUpSource.typePageParameter)
-                    } else {
-                        strongSelf.bumpUpFallbackFor(source: bumpUpSource)
-                    }
+    private func retrieveSimpleBumpeableInfoFor(listingId: String, bumpUpSource: BumpUpSource) {
+        monetizationRepository.retrieveBumpeableListingInfo(
+        listingId: listingId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let value = result.value {
+                let paymentItems = value.paymentItems.filter { $0.provider == .apple }
+                guard !paymentItems.isEmpty else {
+                    strongSelf.bumpUpFallbackFor(source: bumpUpSource)
+                    return
+                }
+                // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
+                strongSelf.timeSinceLastBump = value.timeSinceLastBump
+
+                // if "letgoItemId" is nil, we don't know the price of the bump, so we check this here to avoid
+                // a useless request to apple
+                if let letgoItemId = paymentItems.first?.itemId, let providerItemId = paymentItems.first?.providerItemId {
+                    strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
+                                                                                 letgoItemId: letgoItemId,
+                                                                                 providerItemId: providerItemId,
+                                                                                 maxCountdown: value.maxCountdown,
+                                                                                 timeSinceLastBump: value.timeSinceLastBump,
+                                                                                 typePage: bumpUpSource.typePageParameter)
                 } else {
                     strongSelf.bumpUpFallbackFor(source: bumpUpSource)
                 }
+            } else {
+                strongSelf.bumpUpFallbackFor(source: bumpUpSource)
+            }
         }
     }
+
+    private func retrieveAvailablePurchasesFor(listingId: String, bumpUpSource: BumpUpSource) {
+        monetizationRepository.retrieveAvailablePurchasesFor(listingIds: [listingId]) { [weak self] result in
+            guard let strongSelf = self else { return }
+            guard let availableFeaturePurchases = result.value,
+                let listingAvailablePurchases = availableFeaturePurchases.filter({ $0.listingId == listingId }).first else {
+                    strongSelf.bumpUpFallbackFor(source: bumpUpSource)
+                    return
+            }
+            let availablePurchases = listingAvailablePurchases.purchases.availablePurchases
+
+            if !availablePurchases.isEmpty {
+                if let featureInProgress = listingAvailablePurchases.purchases.featureInProgress {
+                    strongSelf.timeSinceLastBump = featureInProgress.secondsSinceLastFeature
+                }
+
+                let paymentPurchases = availablePurchases.filter { $0.provider == .apple }
+                if !paymentPurchases.isEmpty {
+                    // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
+                    strongSelf.purchasesShopper.requestProviderForPurchases(purchases: paymentPurchases,
+                                                                            listingId: listingId,
+                                                                            typePage: bumpUpSource.typePageParameter)
+                } else {
+                    strongSelf.bumpUpFallbackFor(source: bumpUpSource)
+                }
+            } else {
+                strongSelf.bumpUpFallbackFor(source: bumpUpSource)
+            }
+        }
+    }
+
 
     private func bumpUpFallbackFor(source: BumpUpSource) {
         switch source {
         case .sellEdit(let listing):
-            openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
+            openEditForListing(listing: listing, purchases: [], maxCountdown: 0)
         case .edit(let listing):
-            openEditForListing(listing: listing, bumpUpProductData: nil, maxCountdown: 0)
+            openEditForListing(listing: listing, purchases: [], maxCountdown: 0)
         case .deepLink, .promoted, .profile:
             break
         }
@@ -790,7 +833,7 @@ fileprivate extension AppCoordinator {
         deeplinkMailBox.deeplinks
             .subscribeNext { [weak self] (deeplink) in
                 self?.openDeepLink(deepLink: deeplink)
-        }.disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     func setupCoreEventsRx() {
@@ -1269,21 +1312,16 @@ fileprivate extension AppCoordinator {
 
 extension AppCoordinator: BumpInfoRequesterDelegate {
     func shopperFinishedProductsRequestForListingId(_ listingId: String?,
-                                                    withProducts products: [PurchaseableProduct],
-                                                    letgoItemId: String?,
-                                                    storeProductId: String?,
+                                                    withPurchases purchases: [BumpUpProductData],
                                                     maxCountdown: TimeInterval,
                                                     typePage: EventParameterTypePage?) {
-        guard let requestListingId = listingId, let purchase = products.first, let bumpUpSource = bumpUpSource else { return }
+        guard let requestListingId = listingId, let bumpUpSource = bumpUpSource else { return }
 
-        let bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchase),
-                                                  letgoItemId: letgoItemId,
-                                                  storeProductId: storeProductId)
         switch bumpUpSource {
         case .deepLink, .profile:
             tabBarCtl.clearAllPresented(nil)
             openUserProfile() { [weak self] coord in
-                var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
+                var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchases: purchases,
                                                                                            maxCountdown: maxCountdown,
                                                                                            bumpUpType: .priced,
                                                                                            triggerBumpUpSource: .deepLink,
@@ -1298,16 +1336,16 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
             openPromoteBumpForListingId(listingId: requestListingId,
-                                        bumpUpProductData: bumpUpProductData,
+                                        purchases: purchases,
                                         maxCountdown: maxCountdown,
                                         typePage: typePage)
         case .edit(let listing):
             openEditForListing(listing: listing,
-                               bumpUpProductData: bumpUpProductData,
+                               purchases: purchases,
                                maxCountdown: maxCountdown)
         case .sellEdit(let listing):
             openEditForListing(listing: listing,
-                               bumpUpProductData: bumpUpProductData,
+                               purchases: purchases,
                                maxCountdown: maxCountdown)
         }
     }
@@ -1315,13 +1353,13 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
 
 extension AppCoordinator {
     func openSellFaster(listingId: String,
-                        bumpUpProductData: BumpUpProductData,
+                        purchases: [BumpUpProductData],
                         maxCountdown: TimeInterval,
                         typePage: EventParameterTypePage?) {
         let completion: (()->Void) = { [weak self] in
             self?.openUserProfile() { coord in
 
-                let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
+                let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchases: purchases,
                                                                                            maxCountdown: maxCountdown,
                                                                                            bumpUpType: .priced,
                                                                                            triggerBumpUpSource: .promoted,

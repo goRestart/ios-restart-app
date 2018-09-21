@@ -101,7 +101,7 @@ final class ListingDeckActionView: UIView {
         switch info.type {
         case .boost(let boostBannerVisible):
             actionButtonBottomAnchorConstraint?.constant = boostBannerVisible ? -CarouselUI.bannerHeight*2 : -CarouselUI.bannerHeight
-        case .free, .hidden, .priced, .restore, .loading:
+        case .free, .hidden, .priced, .restore, .loading, .ongoingBump:
             actionButtonBottomAnchorConstraint?.constant = -CarouselUI.bannerHeight
         }
     }

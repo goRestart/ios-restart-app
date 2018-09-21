@@ -1,4 +1,5 @@
 import RxCocoa
+import RxSwift
 import LGCoreKit
 import LGComponents
 
@@ -34,8 +35,10 @@ final class AppsFlyerAffiliationResolver {
     static let shared = AppsFlyerAffiliationResolver()
     static let campaignValue = "affiliate-program"
     
+    /// This var should not be used outside. Set it internal and fix tests (talk to Xavi)
     let rx_affiliationCampaign = BehaviorRelay<AffiliationCampaignState>(value: .unknown)
-    
+    let rx_AppIsReady = BehaviorRelay<Bool>(value: false)
+
     private var data = [AnyHashable : Any]()
     private let myUserRepository: MyUserRepository
     private var isFeatureActive: Bool = false
@@ -93,8 +96,8 @@ private extension AppsFlyerAffiliationResolver {
     }
 
     private func resolve() {
+        guard isReferralCandidate() else { return }
         guard
-            isReferralCandidate(),
             myUserRepository.myUser != nil,
             let referrer = referrerInfo(),
             isFeatureStatusNotified
@@ -110,16 +113,19 @@ private extension AppsFlyerAffiliationResolver {
             switch result {
             case .success:
                 self?.rx_affiliationCampaign.accept(.referral(referrer: referrer))
-                self?.referralAlreadyNotified()
             case .failure(let error):
                 logMessage(.error, type: AppLoggingOptions.deepLink, message: "Failed to notify referral: \(error)")
             }
         }
     }
-    
-    private func referralAlreadyNotified() {
-        // Since this is a singleton, we delete data to avoid notifying the backend more than once if
-        // users try to play the system e.g. loging out and in again
-        data = [AnyHashable : Any]()
+}
+
+extension AppsFlyerAffiliationResolver: ReactiveCompatible {}
+extension Reactive where Base: AppsFlyerAffiliationResolver {
+    var affiliationCampaign: Observable<AffiliationCampaignState> {
+        return Observable.combineLatest(base.rx_affiliationCampaign.asObservable(),
+                                        base.rx_AppIsReady.asObservable())
+            .filter({ (referrer, ready) -> Bool in return ready }) // we filter until the app is ready
+            .map { $0.0 }
     }
 }

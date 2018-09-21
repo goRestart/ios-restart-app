@@ -34,11 +34,17 @@
 // Affiliation challenges screen. Join letgo cell verify phone label.
 "affiliation_challenges_join_letgo_step_phone_label" = "Verify your phone number";
 
+// Affiliation challenges screen. Join letgo cell verified phone label.
+"affiliation_challenges_join_letgo_step_phone_verified_label" = "Phone number verified";
+
 // Affiliation challenges screen. Join letgo cell verify phone button.
 "affiliation_challenges_join_letgo_step_phone_button" = "Verify phone number";
 
 // Affiliation challenges screen. Join letgo cell post listing label.
 "affiliation_challenges_join_letgo_step_post_label" = "Post your first listing";
+
+// Affiliation challenges screen. Join letgo cell posted listing label.
+"affiliation_challenges_join_letgo_step_posted_label" = "Listing posted";
 
 // Affiliation challenges screen. Join letgo cell post listing button.
 "affiliation_challenges_join_letgo_step_post_button" = "Post listing";
@@ -79,6 +85,9 @@
 // Error when sending message
 "affiliation_invite_sms_message_error" = "Something was wrong and message was not sent";
 
+// Button title to go to settings when there is no access to contacts
+"affiliation_invite_sms_go_settings_button" = "Open";
+
 // Affiliation Invite message text
 "affiliation_invite_message_text" = "%@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
 
@@ -107,7 +116,13 @@
 "affiliation_faq_title" = "How it works";
 
 // Wrong country alert when open the app
-"affiliation_onboarding_country_error_message" = "Oops! Unfortunately gift cards are not available in your country.\nBut you can still make cash!";
+"affiliation_onboarding_country_error_message" = "Oops! Unfortunately gift cards are not available in your country. \n\nBut you can still make cash!";
+
+// Sell your stuff
+"affiliation_onboarding_country_error_main_button" = "Sell your stuff";
+
+// Keep browsing
+"affiliation_onboarding_country_error_secondary_button" = "Keep browsing";
 
 // Affiliation Store screen. Country unavailable error message
 "affiliation_store_country_error_message" = "Oops! This feature is not available in your country.";
@@ -2730,6 +2745,10 @@
 
 // Navigation bar title in pay code screen
 "payments_get_pay_code_navbar_title" = "Offer";
+
+"payments_get_pay_code_faqs_option" = "FAQ";
+
+"payments_get_pay_code_contact_us_option" = "Contact us";
 
 // Placeholder for the card number textfield
 "payments_card_number_placeholder" = "Card number";
