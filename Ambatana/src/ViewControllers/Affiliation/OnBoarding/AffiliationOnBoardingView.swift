@@ -13,12 +13,18 @@ private enum Layout {
                                           bottom: 160,
                                           right: Metrics.veryBigMargin)
     }
-
+    static let correctorHeight: CGFloat = 5
     static let backgroundRatio: CGFloat = 1.22
 }
 
 final class AffiliationOnBoardingView: UIView {
     let tapRelay = PublishRelay<Void>()
+
+    private let backgroundTopCorrectorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 236, green: 81, blue: 90)
+        return view
+    }()
 
     private let revealBackground: UIImageView = {
         let imageView = UIImageView()
@@ -65,9 +71,14 @@ final class AffiliationOnBoardingView: UIView {
         backgroundColor = .clear
         let content = UIStackView.vertical([UIStackView.horizontal([userAvatar, UIView()]), message, UIView()])
         content.spacing = Metrics.margin
-        addSubviewsForAutoLayout([revealBackground, content, fakeTapView])
+        addSubviewsForAutoLayout([backgroundTopCorrectorView, revealBackground, content, fakeTapView])
 
         [
+            backgroundTopCorrectorView.topAnchor.constraint(equalTo: topAnchor),
+            backgroundTopCorrectorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundTopCorrectorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundTopCorrectorView.heightAnchor.constraint(equalToConstant: Layout.correctorHeight),
+
             revealBackground.topAnchor.constraint(equalTo: topAnchor),
             revealBackground.leadingAnchor.constraint(equalTo: leadingAnchor),
             revealBackground.trailingAnchor.constraint(equalTo: trailingAnchor),
