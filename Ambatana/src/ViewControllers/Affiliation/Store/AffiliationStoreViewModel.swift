@@ -254,8 +254,8 @@ extension Reactive where Base: AffiliationStoreViewModel {
         return base.pointsRelay.asDriver()
     }
     
-    var pointsAlpha: Driver<CGFloat> {
-        return points.map { $0 > 0 ? 1.0 : 0 }
+    var pointsVisible: Driver<Bool> {
+        return points.map { $0 > 0 ? true : false }
     }
 }
 
