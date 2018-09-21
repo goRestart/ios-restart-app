@@ -12,8 +12,7 @@ final class ChatPaymentBannerViewModel {
     
     private let isHiddenRelay = BehaviorRelay<Bool>(value: true)
     private var params: P2PPaymentStateParams?
-    private var updateTimerDisposable: Disposable?
-    private let disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     var isHidden: Driver<Bool> {
         guard featureFlags.makeAnOfferButton.isActive else {
             return Driver<Bool>.just(true)
@@ -46,14 +45,13 @@ final class ChatPaymentBannerViewModel {
     }
 
     private func startAutoUpdates() {
-        updateTimerDisposable?.dispose()
+        disposeBag = DisposeBag()
         let timer = Observable<Int>.timer(0,
                                           period: ChatPaymentBannerViewModel.updatesTimeInterval,
                                           scheduler: MainScheduler.instance)
-        updateTimerDisposable = timer.subscribe(onNext: { [weak self] _ in
+        timer.subscribe(onNext: { [weak self] _ in
             self?.updateState()
-        })
-        updateTimerDisposable?.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
     }
 
     private func updateState() {
