@@ -43,33 +43,25 @@ final class AffiliationChallengeJoinLetgoCell: UITableViewCell {
         challengeView.set(title: R.Strings.affiliationChallengesJoinLetgoTitle)
         challengeView.set(subtitle: R.Strings.affiliationChallengesJoinLetgoSubtitle)
         challengeView.set(description: R.Strings.affiliationChallengesJoinLetgoDescription)
-
-        let status: ChallengeStatus
-        let id = reuseIdentifier ?? AffiliationChallengeJoinLetgoCell.completedIdentifier
-        if id == AffiliationChallengeJoinLetgoCell.ongoingIdentifier {
-            status = .ongoing
-        } else {
-            status = .completed
-        }
-        challengeView.setup(status: status)
     }
 
 
     // MARK: - Setup
 
-    func setup(data: ChallengeJoinLetgoData) {
-        challengeView.setup(joinLetgoData: data)
+    func setup(data: ChallengeJoinLetgoData,
+               isCompleted: Bool) {
+        challengeView.setup(joinLetgoData: data,
+                            isCompleted: isCompleted)
 
         let isPhoneConfirmed = data.stepsCompleted.contains(.phoneVerification)
         let isListingPosted = data.stepsCompleted.contains(.listingPosted)
-        let isListingApproved = data.stepsCompleted.contains(.listingApproved)
 
-        switch (isPhoneConfirmed, isListingPosted, isListingApproved) {
-        case (false, _, _):
+        switch (isPhoneConfirmed, isListingPosted) {
+        case (false, _):
             challengeView.set(buttonTitle: R.Strings.affiliationChallengesJoinLetgoStepPhoneButton)
-        case (true, false, _):
+        case (true, false):
             challengeView.set(buttonTitle: R.Strings.affiliationChallengesJoinLetgoStepPostButton)
-        case (true, true, _):
+        case (true, true):
             challengeView.set(buttonTitle: "")
         }
     }

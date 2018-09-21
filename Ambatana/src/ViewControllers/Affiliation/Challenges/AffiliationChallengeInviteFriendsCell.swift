@@ -43,22 +43,15 @@ final class AffiliationChallengeInviteFriendsCell: UITableViewCell {
         challengeView.set(title: R.Strings.affiliationChallengesInviteFriendsTitle)
         challengeView.set(subtitle: R.Strings.affiliationChallengesInviteFriendsSubtitle)
         challengeView.set(buttonTitle: R.Strings.affiliationChallengesInviteFriendsButton)
-
-        let status: ChallengeStatus
-        let id = reuseIdentifier ?? AffiliationChallengeInviteFriendsCell.completedIdentifier
-        if id == AffiliationChallengeInviteFriendsCell.ongoingIdentifier {
-            status = .ongoing
-        } else {
-            status = .completed
-        }
-        challengeView.setup(status: status)
     }
 
 
     // MARK: - Setup
 
-    func setup(data: ChallengeInviteFriendsData) {
-        challengeView.setup(inviteFriendsData: data)
+    func setup(data: ChallengeInviteFriendsData,
+               isCompleted: Bool) {
+        challengeView.setup(inviteFriendsData: data,
+                            isCompleted: isCompleted)
 
         guard let milestone1 = data.milestones[safeAt: 0],
             let milestone2 = data.milestones[safeAt: 1] else { return }
