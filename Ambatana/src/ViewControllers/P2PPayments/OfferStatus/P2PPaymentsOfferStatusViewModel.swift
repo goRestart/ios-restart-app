@@ -71,7 +71,8 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
                 self?.offer = offer
                 self?.getListingInformation()
             case .failure:
-                if !(self?.isAutoUpdating ?? false) {
+                guard let autoupdating = self?.isAutoUpdating else { return }
+                if !autoupdating {
                     self?.stateRelay.accept(.errorRetry)
                 }
             }
@@ -86,7 +87,8 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
                 self?.listing = listing
                 self?.getBuyerInformationIfNeeded()
             case .failure:
-                if !(self?.isAutoUpdating ?? false) {
+                guard let autoupdating = self?.isAutoUpdating else { return }
+                if !autoupdating {
                     self?.stateRelay.accept(.errorRetry)
                 }
             }
@@ -123,7 +125,8 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
                 self?.buyer = buyer
                 self?.updateState()
             case .failure:
-                if !(self?.isAutoUpdating ?? false) {
+                guard let autoupdating = self?.isAutoUpdating else { return }
+                if !autoupdating {
                     self?.stateRelay.accept(.errorRetry)
                 }
             }
