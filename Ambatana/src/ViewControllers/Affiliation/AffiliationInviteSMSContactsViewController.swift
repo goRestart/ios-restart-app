@@ -366,6 +366,7 @@ extension AffiliationInviteSMSContactsViewController: MFMessageComposeViewContro
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         searchBar.resignFirstResponder()
         self.navigationController?.isNavigationBarHidden = false
     }

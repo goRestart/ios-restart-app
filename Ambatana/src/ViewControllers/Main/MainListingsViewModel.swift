@@ -326,7 +326,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private func showTooltipAffilition() {
-        guard !keyValueStorage[.affiliationTooltipShown] else { return }
+        guard !keyValueStorage[.affiliationTooltipShown] && !keyValueStorage[.didShowAffiliationOnBoarding] else { return }
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 3
         let title = R.Strings.affiliationMainFeedTooltipText
