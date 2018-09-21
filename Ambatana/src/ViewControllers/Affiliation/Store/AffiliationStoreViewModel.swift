@@ -255,7 +255,7 @@ extension Reactive where Base: AffiliationStoreViewModel {
     }
     
     var pointsVisible: Driver<Bool> {
-        return points.map { $0 > 0 ? true : false }
+        return points.map { $0 >= 0 ? true : false }
     }
 }
 
