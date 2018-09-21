@@ -113,7 +113,9 @@ final class AffiliationChallengesViewController: BaseViewController {
     }
 
     private func setupRx() {
-        viewModel.isLoading.drive(rx.loadingOverContext).disposed(by: disposeBag)
+        viewModel.isLoading
+            .debounce(0.3)
+            .drive(rx.loadingOverContext).disposed(by: disposeBag)
         viewModel.state.drive(onNext: { [weak self] state in
             guard let `self` = self else { return }
             switch state {
