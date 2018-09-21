@@ -4,8 +4,6 @@ import RxSwift
 import RxCocoa
 import Stripe
 
-// TODO: @juolgon localize texts
-
 final class P2PPaymentsCardTextField: STPPaymentCardTextField {
     private let lineView = P2PPaymentsLineSeparatorView()
     fileprivate let isValidRelay = BehaviorRelay<Bool>(value: false)
@@ -23,7 +21,7 @@ final class P2PPaymentsCardTextField: STPPaymentCardTextField {
         textColor = .lgBlack
         textErrorColor = .primaryColor
         placeholderColor = .grayRegular
-        numberPlaceholder = "Card number"
+        numberPlaceholder = R.Strings.paymentsPayoutCardNumberPlaceholder
         borderColor = nil
         tintColor = .primaryColor
         addSubviewForAutoLayout(lineView)

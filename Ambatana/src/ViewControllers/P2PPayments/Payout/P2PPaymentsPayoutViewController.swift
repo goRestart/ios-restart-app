@@ -3,8 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize all texts
-
 final class P2PPaymentsPayoutViewController: BaseViewController {
     private let viewModel: P2PPaymentsPayoutViewModel
     private let disposeBag = DisposeBag()

@@ -170,10 +170,9 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
     }
 
     private func showGenericError() {
-        // TODO: @juolgon localize this
-        let cancelAction = UIAction(interface: .text("Ok"), action: {})
-        delegate?.vmShowAlert("Oops! An error occurred.",
-                              message: "Please check your details and try again.",
+        let cancelAction = UIAction(interface: .text(R.Strings.paymentsPayoutPersonalInfoErrorOkButton), action: {})
+        delegate?.vmShowAlert(R.Strings.paymentsPayoutPersonalInfoErrorTitle,
+                              message: R.Strings.paymentsPayoutPersonalInfoErrorDescription,
                               actions: [cancelAction])
     }
 }

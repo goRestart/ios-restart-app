@@ -76,8 +76,8 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
                 self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                 self?.updateOfferFees(offerFees)
             case .failure(_):
-                // TODO: @juolgon localize this
-                self?.delegate?.vmHideLoading("Oops! An error occurred while loading. Please try again.", afterMessageCompletion: nil)
+                self?.delegate?.vmHideLoading(R.Strings.paymentsLoadingGenericError,
+                                              afterMessageCompletion: nil)
                 self?.uiStateRelay.accept(.changeOffer)
             }
         }

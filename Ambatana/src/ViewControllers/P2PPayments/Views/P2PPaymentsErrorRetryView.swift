@@ -15,15 +15,13 @@ final class P2PPaymentsErrorRetryView: UIView {
         label.textColor = UIColor.grayDark
         label.numberOfLines = 0
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        // TODO: @juolgon localize text
-        label.text = "Oops! An error occurred while loading. Please try again."
+        label.text = R.Strings.paymentsLoadingGenericError
         return label
     }()
 
     fileprivate let retryButton: LetgoButton = {
         let button = LetgoButton(withStyle: .secondary(fontSize: ButtonFontSize.medium, withBorder: true))
-        // TODO: @juolgon localize text
-        button.setTitle("Retry", for: .normal)
+        button.setTitle(R.Strings.paymentsErrorRetry, for: .normal)
         return button
     }()
 

@@ -200,8 +200,7 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
             delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
             getP2PPaymentsOffer()
         case .failure:
-            // TODO: @juolgon localize this
-            delegate?.vmHideLoading("Oops! An error occurred while loading. Please try again.", afterMessageCompletion: nil)
+            delegate?.vmHideLoading(R.Strings.paymentsLoadingGenericError, afterMessageCompletion: nil)
         }
     }
 }

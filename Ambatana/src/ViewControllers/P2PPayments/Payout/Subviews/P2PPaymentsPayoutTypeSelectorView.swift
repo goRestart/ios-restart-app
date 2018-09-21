@@ -3,8 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize all texts here
-
 final class P2PPaymentsPayoutTypeSelectorView: UIView {
     enum OptionSelected {
         case bankAccount
@@ -15,8 +13,8 @@ final class P2PPaymentsPayoutTypeSelectorView: UIView {
         static let height: CGFloat = 48
     }
 
-    private let bankAccountOption = OptionView(text: "Bank Account")
-    private let debitCardOption = OptionView(text: "Debit Card")
+    private let bankAccountOption = OptionView(text: R.Strings.paymentsPayoutOptionBankAccount)
+    private let debitCardOption = OptionView(text: R.Strings.paymentsPayoutOptionBankDebitCard)
     fileprivate let optionSelectedRelay = BehaviorRelay<OptionSelected>(value: .bankAccount)
 
     init() {
