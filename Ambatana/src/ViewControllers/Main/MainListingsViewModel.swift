@@ -11,8 +11,10 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(tags: [FilterTag])
     func vmFiltersChanged()
-    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmShowAffiliationToolTip(with configuration: TooltipConfiguration)
     func vmHideMapToolTip(hideForever: Bool)
+    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmHideAffiliationToolTip(hideForever: Bool)
 }
 
 protocol MainListingsAdsDelegate: class {
@@ -66,7 +68,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var activeRequesterType: RequesterType?
     
     private var isMapTooltipAdded = false
-    
+    private var isAffiliationTooltipAdded = false
     private var shouldCloseOnRemoveAllFilters: Bool = false
     
     var hasFilters: Bool {
@@ -100,8 +102,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
         
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
+        
         if shouldShowAffiliateButton {
             rightButtonItems.append((image: R.Asset.Affiliation.affiliationIcon.image.tint(color: .primaryColor), selector: #selector(MainListingsViewController.openAffiliationChallenges)))
+           showTooltipAffilition()
+        } else {
+            isAffiliationTooltipAdded = false
+            delegate?.vmHideAffiliationToolTip(hideForever: false)
         }
         return rightButtonItems
     }
@@ -286,7 +293,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var shouldShowRealEstateMapTooltip: Bool {
-        return keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
+        return !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded && !isAffiliationTooltipAdded
+    }
+    
+    private var shouldShowAffiliationTooltip: Bool {
+        return !keyValueStorage[.affiliationTooltipShown] && !isAffiliationTooltipAdded
     }
     
     private func showTooltipMap() {
@@ -312,6 +323,36 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     func tooltipDidHide() {
         keyValueStorage[.realEstateTooltipMapShown] = true
+    }
+    
+    private func showTooltipAffilition() {
+        guard !keyValueStorage[.affiliationTooltipShown] else { return }
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 3
+        let title = R.Strings.affiliationMainFeedTooltipText
+        let titleHighlighted = R.Strings.affiliationMainFeedTooltipTextHighlighted
+        let attributedText = title.bicolorAttributedText(mainColor: .white,
+                                                         colouredText: titleHighlighted,
+                                                         otherColor: .primaryColor,
+                                                         font: UIFont.systemSemiBoldFont(size: 15),
+                                                         paragraphStyle: paragraphStyle)
+        let action: () -> () = {  [weak self] in
+            self?.tooltipAffiliationDidHide()
+            self?.openAffiliationChallenges()
+        }
+        let tooltipConfiguration = TooltipConfiguration(title: attributedText,
+                                                        style: .black(closeEnabled: false),
+                                                        peakOnTop: true,
+                                                        actionBlock:action,
+                                                        closeBlock: nil)
+        
+        
+        isAffiliationTooltipAdded = true
+        delegate?.vmShowAffiliationToolTip(with: tooltipConfiguration)
+    }
+    
+    func tooltipAffiliationDidHide() {
+       keyValueStorage[.affiliationTooltipShown] = true
     }
 
     
@@ -625,6 +666,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func openAffiliationChallenges() {
+        delegate?.vmHideAffiliationToolTip(hideForever: true)
         wireframe?.openLoginIfNeededFromFeed(from: .feed, loggedInAction: { [weak self] in
             self?.wireframe?.openAffiliationChallenges()
         })

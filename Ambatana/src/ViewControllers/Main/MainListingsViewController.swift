@@ -56,7 +56,7 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
     }()
     
     private var mapTooltip: Tooltip?
-
+    private var affiliationTooltip: Tooltip?
     // MARK: - Constraints
     
     private var filterDescriptionTopConstraint: NSLayoutConstraint?
@@ -263,6 +263,41 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
             }
         }
     }
+    
+    func vmShowAffiliationToolTip(with configuration: TooltipConfiguration) {
+        guard let affiliationButton = navigationItem.rightBarButtonItems?.last?.customView
+        else { return }
+    
+        let tooltip = Tooltip(targetView: affiliationButton,
+                              superView: view,
+                              button: nil,
+                              configuration: configuration)
+        
+        tooltip.alpha = 0.0
+        tooltip.targetViewCenter = affiliationButton.convert(affiliationButton.frame.center, to: view)
+        view.addSubviewForAutoLayout(tooltip)
+        NSLayoutConstraint.activate([affiliationButton.heightAnchor.constraint(equalToConstant: Layout.ToolTipAffiliation.buttonHeight),
+                                     tooltip.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Layout.ToolTipAffiliation.right),
+                                     tooltip.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: Layout.ToolTipAffiliation.left),
+                                     tooltip.topAnchor.constraint(lessThanOrEqualTo: safeTopAnchor)])
+        self.affiliationTooltip = tooltip
+        UIView.animate(withDuration: 0.3) {
+            self.affiliationTooltip?.alpha = 1.0
+        }
+    }
+    
+    func vmHideAffiliationToolTip(hideForever: Bool) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.affiliationTooltip?.alpha = 0.0
+        }) { [weak self] _ in
+            self?.affiliationTooltip?.removeFromSuperview()
+            self?.affiliationTooltip = nil
+            if hideForever {
+                self?.viewModel.tooltipAffiliationDidHide()
+            }
+        }
+    }
+
 
     // MARK: - MainListingsAdsDelegate
 
@@ -377,6 +412,7 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
     }
     
     @objc func openAffiliationChallenges(_ sender: AnyObject) {
+        vmHideAffiliationToolTip(hideForever: true)
         viewModel.openAffiliationChallenges()
     }
     
@@ -384,6 +420,12 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
         navbarSearch.searchTextField.resignFirstResponder()
         vmHideMapToolTip(hideForever: true)
         viewModel.showMap()
+    }
+    
+    @objc func openAffiliation(_ sender: AnyObject) {
+        navbarSearch.searchTextField.resignFirstResponder()
+        vmHideAffiliationToolTip(hideForever: true)
+        viewModel.openAffiliationChallenges()
     }
     
     private func setupTagsView() {
@@ -720,6 +762,13 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
         struct ToolTipMap  {
             static let left: CGFloat = 50
             static let right: CGFloat = -60
+            static let buttonHeight: CGFloat = 32
+            static let buttonSidePadding: CGFloat = 20
+        }
+        
+        struct ToolTipAffiliation  {
+            static let left: CGFloat = 50
+            static let right: CGFloat = -10
             static let buttonHeight: CGFloat = 32
             static let buttonSidePadding: CGFloat = 20
         }
