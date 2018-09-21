@@ -136,19 +136,22 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
 
     private func makeInviteFriendsChallengeCell(challenge: Challenge,
                                                 indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier: String
+        let isCompleted: Bool
         switch challenge.status {
         case .ongoing:
-            cellIdentifier = AffiliationChallengeInviteFriendsCell.ongoingIdentifier
-        case .completed, .pending:
-            cellIdentifier = AffiliationChallengeInviteFriendsCell.completedIdentifier
+            isCompleted = false
+        case .completed, .pending, .processing:
+            isCompleted = true
         }
+        let cellIdentifier = isCompleted ? AffiliationChallengeInviteFriendsCell.completedIdentifier :
+            AffiliationChallengeInviteFriendsCell.ongoingIdentifier
         guard case let .inviteFriends(data) = challenge,
             let inviteFriendsCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
                                                                   for: indexPath) as? AffiliationChallengeInviteFriendsCell else {
                                                                     return UITableViewCell()
         }
-        inviteFriendsCell.setup(data: data)
+        inviteFriendsCell.setup(data: data,
+                                isCompleted: isCompleted)
         inviteFriendsCell.faqButtonPressedCallback = faqButtonPressedCallback
         inviteFriendsCell.inviteFriendsPressedCallback = inviteFriendsButtonPressedCallback
         return inviteFriendsCell
@@ -162,17 +165,15 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
         let isListingPosted = data.stepsCompleted.contains(.listingPosted)
         let isCompleted = isPhoneConfirmed && isListingPosted
 
-        let cellIdentifier: String
-        if isCompleted {
-            cellIdentifier = AffiliationChallengeJoinLetgoCell.completedIdentifier
-        } else {
-            cellIdentifier = AffiliationChallengeJoinLetgoCell.ongoingIdentifier
-        }
+        let cellIdentifier = isCompleted ? AffiliationChallengeJoinLetgoCell.completedIdentifier :
+            AffiliationChallengeJoinLetgoCell.ongoingIdentifier
         guard let joinLetgoCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
-                                                                for: indexPath) as? AffiliationChallengeJoinLetgoCell else {
-                                                                    return UITableViewCell()
+                                                          for: indexPath) as? AffiliationChallengeJoinLetgoCell else {
+                                                            return UITableViewCell()
         }
-        joinLetgoCell.setup(data: data)
+        joinLetgoCell.setup(data: data,
+                            isCompleted: isCompleted)
+
         joinLetgoCell.buttonPressedCallback = { [weak self] in
             if !isPhoneConfirmed {
                 self?.confirmPhonePressedCallback?()
