@@ -14,7 +14,7 @@ public enum Challenge {
 }
 
 public enum ChallengeStatus: String, Decodable {
-    case ongoing, completed, pending
+    case ongoing, completed, pending, processing
 }
 
 public struct ChallengeMilestone {
@@ -139,7 +139,7 @@ extension ChallengeJoinLetgoData: Decodable {
        "total_steps": 2,
        "steps_completed": ["user_verified", "listing_posted", "phone_verification"],
        "points": 5,
-       "status": "completed" // ongoing|completed|disabled|pending
+       "status": "completed" // ongoing|completed|processing|pending
      }
     */
     
