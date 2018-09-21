@@ -64,6 +64,7 @@ final class AppsFlyerAffiliationResolver {
     
     /// Method to be called when the apps flyer data for the affiliation campaign has been received
     func appsFlyerConversionData(data: [AnyHashable : Any]) {
+        guard self.data.isEmpty else { return }
         self.data = data
         resolve()
     }
