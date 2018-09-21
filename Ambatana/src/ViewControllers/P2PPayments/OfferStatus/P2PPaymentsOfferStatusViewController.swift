@@ -8,6 +8,7 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
 
     private let offerStatusBuyer = P2PPaymentsOfferStatusBuyerView()
     private let offerStatusSeller = P2PPaymentsOfferStatusSellerView()
+    private let errorRetryView = P2PPaymentsErrorRetryView()
     private let activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         view.hidesWhenStopped = true
@@ -48,12 +49,13 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
 
     private func setup() {
         view.backgroundColor = UIColor.white
-        view.addSubviewsForAutoLayout([offerStatusBuyer, offerStatusSeller, activityIndicator])
+        view.addSubviewsForAutoLayout([offerStatusBuyer, offerStatusSeller, activityIndicator, errorRetryView])
         setupConstraints()
         setupRx()
     }
 
     private func setupConstraints() {
+        errorRetryView.constraintToEdges(in: view)
         NSLayoutConstraint.activate([
             offerStatusBuyer.topAnchor.constraint(equalTo: view.safeTopAnchor),
             offerStatusBuyer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -75,6 +77,7 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
             viewModel.showLoadingIndicator.drive(activityIndicator.rx.isAnimating),
             viewModel.hideBuyerInfo.drive(offerStatusBuyer.rx.isHidden),
             viewModel.hideSellerInfo.drive(offerStatusSeller.rx.isHidden),
+            viewModel.hideErrorRetry.drive(errorRetryView.rx.isHidden),
 
             viewModel.listingImageURL.drive(offerStatusBuyer.rx.listingImageURL),
             viewModel.listingTitle.drive(offerStatusBuyer.rx.listingTitle),
@@ -116,6 +119,12 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
         offerStatusSeller.rx.enterCodeButtonTap
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.enterCodeButtonPressed()
+            })
+            .disposed(by: disposeBag)
+
+        errorRetryView.rx.retryTap
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.retryButtonPressed()
             })
             .disposed(by: disposeBag)
     }
