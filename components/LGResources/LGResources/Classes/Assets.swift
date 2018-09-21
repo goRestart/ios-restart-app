@@ -996,6 +996,7 @@ extension R {
       public static let close = ImageAsset(name: "close")
       public static let icError = ImageAsset(name: "ic_Error")
       public static let icCheck = ImageAsset(name: "ic_check")
+      public static let icOptions = ImageAsset(name: "ic_options")
       public static let icTrust = ImageAsset(name: "ic_trust")
       public static let onboardingStep1 = ImageAsset(name: "onboardingStep1")
       public static let onboardingStep2 = ImageAsset(name: "onboardingStep2")
@@ -1008,6 +1009,7 @@ extension R {
         close,
         icError,
         icCheck,
+        icOptions,
         icTrust,
         onboardingStep1,
         onboardingStep2,
