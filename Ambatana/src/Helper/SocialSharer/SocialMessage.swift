@@ -555,7 +555,7 @@ struct AffiliationSocialMessage: SocialMessage {
     }
     
     func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
-        let infoText: String = R.Strings.affiliationInviteMessageText(displayName)
+        let infoText: String = R.Strings.affiliationInviteMessageText
         retrieveShareURL(source: .native) { url in
             if let shareUrl = url {
                 completion([shareUrl, infoText])
@@ -566,7 +566,7 @@ struct AffiliationSocialMessage: SocialMessage {
     }
     
     func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) {
-        var shareBody = R.Strings.affiliationInviteMessageText(displayName)
+        var shareBody = R.Strings.affiliationInviteMessageText
         retrieveShareURL(source: .email) { url in
             if let shareUrl = url  {
                 shareBody += ":\n\n"
@@ -580,7 +580,7 @@ struct AffiliationSocialMessage: SocialMessage {
     }
     
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {
-        let fullMessage = R.Strings.affiliationInviteMessageText(displayName)
+        let fullMessage = R.Strings.affiliationInviteMessageText
         retrieveShareURL(source: source) { url in
             let urlString = url?.absoluteString ?? ""
             let fullMessage = fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString

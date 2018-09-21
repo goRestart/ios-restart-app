@@ -28,7 +28,7 @@ final class AffiliationOnBoardingViewModel: BaseViewModel {
     }
 
     init(referrerInfo: ReferrerInfo, keyValueStorageable: KeyValueStorageable) {
-        let message = R.Strings.affiliationInviteMessageText(referrerInfo.name)
+        let message = R.Strings.affiliationInviteOnboardingText(referrerInfo.name)
         self.onboardingData = BehaviorRelay(value: AffiliationOnBoardingVM(message: message, referrer: referrerInfo))
         self.keyValueStorageable = keyValueStorageable
         super.init()
