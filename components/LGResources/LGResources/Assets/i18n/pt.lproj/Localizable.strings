@@ -2,7 +2,7 @@
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 "advertising_text" = "Ad";
 "affiliation_challenges_invite_friends_button" = "Invite friends";
-"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite 7%3$@more friends and earn %4$@ more points!";
+"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite %3$@ friends and earn %4$@ more points!";
 "affiliation_challenges_invite_friends_milestone" = "%@ pts";
 "affiliation_challenges_invite_friends_subtitle" = "Get a $60 Amazon Gift Card";
 "affiliation_challenges_invite_friends_title" = "INVITE YOUR FRIENDS";

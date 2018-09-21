@@ -20,7 +20,7 @@
 "affiliation_challenges_invite_friends_subtitle" = "Get a $60 Amazon Gift Card";
 
 // Affiliation challenges screen. Invite friends cell description.
-"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite 7%3$@more friends and earn %4$@ more points!";
+"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite %3$@ friends and earn %4$@ more points!";
 
 // Affiliation challenges screen. Invite friends cell milestone label.
 "affiliation_challenges_invite_friends_milestone" = "%@ pts";
