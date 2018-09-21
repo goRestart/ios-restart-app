@@ -911,7 +911,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             self?.updateCategoriesHeader()
         }.disposed(by: disposeBag)
         
-        appsFlyerAffiliationResolver.rx.affiliationCampaign
+        appsFlyerAffiliationResolver
+            .rx.affiliationCampaign
+            .distinctUntilChanged()
             .bind { [weak self] status in
             switch status {
             case .campaignNotAvailableForUser:

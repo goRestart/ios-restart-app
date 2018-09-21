@@ -302,8 +302,9 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
             })
             .disposed(by: disposeBag)
    
-        appsFlyerAffiliationResolver.rx.affiliationCampaign
-            .asObservable()
+        appsFlyerAffiliationResolver
+            .rx.affiliationCampaign
+            .distinctUntilChanged()
             .bind { [weak self] status in
             switch status {
             case .campaignNotAvailableForUser:
