@@ -268,6 +268,8 @@ final class AffiliationChallengeView: UIView {
         case .completed, .pending:
             removeFromStackView(view: separatorView)
             removeFromStackView(view: button)
+        case .processing:
+            break // TODO
         }
     }
 

@@ -146,6 +146,7 @@ class ChatViewModel: ChatBaseViewModel {
     fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
     fileprivate let stickersRepository: StickersRepository
+    private let p2pPaymentsRepository: P2PPaymentsRepository
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
     fileprivate let tracker: Tracker
     fileprivate let configManager: ConfigManager
@@ -281,7 +282,7 @@ class ChatViewModel: ChatBaseViewModel {
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
+                  stickersRepository: stickersRepository, p2pPaymentsRepository: p2pPaymentsRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
                   predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil)
@@ -299,6 +300,7 @@ class ChatViewModel: ChatBaseViewModel {
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let stickersRepository = Core.stickersRepository
+        let p2pPaymentsRepository = Core.p2pPaymentsRepository
         let tracker = TrackerProxy.sharedInstance
         let configManager = LGConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
@@ -311,7 +313,7 @@ class ChatViewModel: ChatBaseViewModel {
                                       listing: nil, interlocutor: nil)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
+                  stickersRepository: stickersRepository, p2pPaymentsRepository: p2pPaymentsRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
                   openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor)
@@ -320,15 +322,17 @@ class ChatViewModel: ChatBaseViewModel {
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
-          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
-          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
+          p2pPaymentsRepository: P2PPaymentsRepository, tracker: Tracker, configManager: ConfigManager,
+          sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, navigator: ChatDetailNavigator?,
+          featureFlags: FeatureFlaggeable, source: EventParameterTypePage, ratingManager: RatingManager,
+          pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
           openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.listingRepository = listingRepository
         self.userRepository = userRepository
+        self.p2pPaymentsRepository = p2pPaymentsRepository
         self.tracker = tracker
         self.featureFlags = featureFlags
         self.configManager = configManager
@@ -365,8 +369,10 @@ class ChatViewModel: ChatBaseViewModel {
             }
             retrieveRelatedListings()
             setupExpressChat()
+            refreshChat()
+        } else if p2pPaymentsRepository.shouldRefreshChatMessages {
+            refreshChat()
         }
-        refreshChat()
         trackVisit()
     }
 
@@ -380,6 +386,7 @@ class ChatViewModel: ChatBaseViewModel {
         // Note: In some corner cases (staging only atm) the interlocutor may come as nil
         if let interlocutor = conversation.value.interlocutor, interlocutor.isBanned { return }
         refreshMessages()
+        p2pPaymentsRepository.markChatMessagesAsRefreshed()
     }
 
     func wentBack() {
