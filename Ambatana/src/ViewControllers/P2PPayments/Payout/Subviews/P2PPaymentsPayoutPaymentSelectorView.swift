@@ -35,6 +35,16 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         didSet { configureForCurrentState() }
     }
 
+    private enum Layout {
+        static let height: CGFloat = 114
+        static let cornerRadius: CGFloat = 12
+        static let paymentTypeTopMargin: CGFloat = 16
+        static let paymentTypeLeadingMargin: CGFloat = 16
+        static let titleTopMargin: CGFloat = 4
+        static let checkboxSize: CGFloat = 24
+        static let checkboxTrailingMargin: CGFloat = 16
+    }
+
     private let paymentTypeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemBoldFont(size: 20)
@@ -87,7 +97,7 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     private func setup() {
-        cornerRadius = 12
+        cornerRadius = Layout.cornerRadius
         layer.borderWidth = 1
         addSubviewsForAutoLayout([
             paymentTypeLabel,
@@ -102,30 +112,30 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            paymentTypeLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            paymentTypeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            paymentTypeLabel.topAnchor.constraint(equalTo: topAnchor, constant: Layout.paymentTypeTopMargin),
+            paymentTypeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.paymentTypeLeadingMargin),
 
-            freeTitleLabel.topAnchor.constraint(equalTo: paymentTypeLabel.bottomAnchor, constant: 4),
+            freeTitleLabel.topAnchor.constraint(equalTo: paymentTypeLabel.bottomAnchor, constant: Layout.titleTopMargin),
             freeTitleLabel.leadingAnchor.constraint(equalTo: paymentTypeLabel.leadingAnchor),
 
-            freeSubtitleLabel.topAnchor.constraint(equalTo: freeTitleLabel.bottomAnchor, constant: 4),
+            freeSubtitleLabel.topAnchor.constraint(equalTo: freeTitleLabel.bottomAnchor, constant: Layout.titleTopMargin),
             freeSubtitleLabel.leadingAnchor.constraint(equalTo: paymentTypeLabel.leadingAnchor),
 
-            instantTitleLabel.topAnchor.constraint(equalTo: paymentTypeLabel.bottomAnchor, constant: 4),
+            instantTitleLabel.topAnchor.constraint(equalTo: paymentTypeLabel.bottomAnchor, constant: Layout.titleTopMargin),
             instantTitleLabel.leadingAnchor.constraint(equalTo: paymentTypeLabel.leadingAnchor),
 
-            instantSubtitleLabel.topAnchor.constraint(equalTo: instantTitleLabel.bottomAnchor, constant: 4),
+            instantSubtitleLabel.topAnchor.constraint(equalTo: instantTitleLabel.bottomAnchor, constant: Layout.titleTopMargin),
             instantSubtitleLabel.leadingAnchor.constraint(equalTo: paymentTypeLabel.leadingAnchor),
 
             checkboxView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            checkboxView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            checkboxView.widthAnchor.constraint(equalToConstant: 24),
-            checkboxView.heightAnchor.constraint(equalToConstant: 24),
+            checkboxView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.checkboxTrailingMargin),
+            checkboxView.widthAnchor.constraint(equalToConstant: Layout.checkboxSize),
+            checkboxView.heightAnchor.constraint(equalToConstant: Layout.checkboxSize),
         ])
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 114)
+        return CGSize(width: UIViewNoIntrinsicMetric, height: Layout.height)
     }
 
     private func configureForCurrentState() {

@@ -3,6 +3,8 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
+// TODO: @juolgon Localize all texts here
+
 final class P2PPaymentsPayoutTypeSelectorView: UIView {
     enum OptionSelected {
         case bankAccount
