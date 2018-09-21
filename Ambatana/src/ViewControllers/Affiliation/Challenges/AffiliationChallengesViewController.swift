@@ -76,7 +76,7 @@ final class AffiliationChallengesViewController: BaseViewController {
         let constraints = [dataView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
                            dataView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
                            dataView.topAnchor.constraint(equalTo: safeTopAnchor),
-                           dataView.bottomAnchor.constraint(equalTo: safeBottomAnchor)]
+                           dataView.bottomAnchor.constraint(equalTo: view.bottomAnchor)]
         constraints.activate()
 
         dataView.storeButtonPressedCallback = { [weak viewModel] in

@@ -22,7 +22,7 @@ final class AffiliationOnBoardingViewController: BaseViewController {
     }
 
     @objc private func close() {
-        viewModel.close()
+        viewModel.dismiss()
     }
 
     override func viewDidLoad() {
