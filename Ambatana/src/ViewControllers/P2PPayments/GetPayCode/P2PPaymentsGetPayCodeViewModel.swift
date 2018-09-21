@@ -5,6 +5,8 @@ import RxSwift
 import RxCocoa
 
 final class P2PPaymentsGetPayCodeViewModel: BaseViewModel {
+    private static let retryInterval: TimeInterval = 5
+
     var navigator: P2PPaymentsOfferStatusWireframe?
     private let offerId: String
     private var payCode: String?
@@ -37,8 +39,10 @@ final class P2PPaymentsGetPayCodeViewModel: BaseViewModel {
                 self?.payCode = payCode
                 self?.updateUIState()
             case .failure:
-                // TODO: @juolgon properly handle errors
-                self?.getPayCode() // Fail silently and retry
+                // Fail silently and retry after N seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + P2PPaymentsGetPayCodeViewModel.retryInterval) {
+                    self?.getPayCode()
+                }
             }
         }
     }
@@ -62,16 +66,14 @@ extension P2PPaymentsGetPayCodeViewModel {
         var showActivityIndicator: Bool {
             switch self {
             case .loading: return true
-            default: return false
+            case .payCodeLoaded: return false
             }
         }
 
         var payCode: String? {
             switch self {
-            case .loading:
-                return nil
-            case .payCodeLoaded(let payCode):
-                return payCode
+            case .loading: return nil
+            case .payCodeLoaded(let payCode): return payCode
             }
         }
     }
