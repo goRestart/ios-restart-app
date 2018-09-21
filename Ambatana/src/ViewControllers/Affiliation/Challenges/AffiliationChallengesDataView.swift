@@ -72,6 +72,7 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
         tableViewConstraints.activate()
 
         tableView.dataSource = self
+        tableView.delegate = self
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
