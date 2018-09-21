@@ -142,6 +142,9 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
             cellIdentifier = AffiliationChallengeInviteFriendsCell.ongoingIdentifier
         case .completed, .pending:
             cellIdentifier = AffiliationChallengeInviteFriendsCell.completedIdentifier
+        case .processing:
+            // TODO
+            cellIdentifier = AffiliationChallengeInviteFriendsCell.completedIdentifier
         }
         guard case let .inviteFriends(data) = challenge,
             let inviteFriendsCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
@@ -161,6 +164,9 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
         case .ongoing:
             cellIdentifier = AffiliationChallengeJoinLetgoCell.ongoingIdentifier
         case .completed, .pending:
+            cellIdentifier = AffiliationChallengeJoinLetgoCell.completedIdentifier
+        case .processing:
+            // TODO
             cellIdentifier = AffiliationChallengeJoinLetgoCell.completedIdentifier
         }
         guard case let .joinLetgo(data) = challenge,

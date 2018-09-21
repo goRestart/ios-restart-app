@@ -28,7 +28,9 @@ final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
         p2pPaymentsRepository.usePayCode(payCode: payCode, offerId: offerId) { [weak self] result in
             switch result {
             case .success:
-                self?.navigator?.close()
+                delay(P2PPayments.chatRefreshDelay) { [weak self] in
+                    self?.navigator?.close()
+                }
             case .failure:
                 self?.enterPayCode()
             }

@@ -197,8 +197,10 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     private func handleResult<T>(_ result: Result<T, RepositoryError>) {
         switch result {
         case .success:
-            delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-            getP2PPaymentsOffer()
+            delay(P2PPayments.chatRefreshDelay) { [weak self] in
+                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+                self?.getP2PPaymentsOffer()
+            }
         case .failure:
             delegate?.vmHideLoading(R.Strings.paymentsLoadingGenericError, afterMessageCompletion: nil)
         }
