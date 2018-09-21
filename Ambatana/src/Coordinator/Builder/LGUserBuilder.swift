@@ -4,7 +4,7 @@ import LGCoreKit
 protocol UserAssembly {
     func buildUser(interlocutor: ChatInterlocutor,
                    hidesBottomBarWhenPushed: Bool) -> UserProfileViewController
-    func buildUser(user: User, source: UserSource) -> UserProfileViewController
+    func buildUser(user: User, source: UserSource, hidesBottomBarWhenPushed: Bool) -> UserProfileViewController
     func buildUserReport(source: EventParameterTypePage, userReportedId: String) -> ReportUsersViewController
     func buildUserAvatar(isPrivate: Bool, user: User) -> UserAvatarViewController
 }
@@ -23,12 +23,12 @@ extension LGUserBuilder: UserAssembly {
         return vc
     }
 
-    func buildUser(user: User, source: UserSource) -> UserProfileViewController {
+    func buildUser(user: User, source: UserSource, hidesBottomBarWhenPushed: Bool) -> UserProfileViewController {
         switch self {
         case .standard(let nav):
             let vm = UserProfileViewModel.makePublicProfile(user: user, source: source)
             vm.navigator = UserWireframe(nc: nav)
-            let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: false)
+            let vc = UserProfileViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
             return vc
         }
     }
