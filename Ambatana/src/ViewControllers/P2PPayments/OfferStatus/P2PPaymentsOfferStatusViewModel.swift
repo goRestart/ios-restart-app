@@ -3,6 +3,7 @@ import LGCoreKit
 import LGComponents
 import RxSwift
 import RxCocoa
+import Result
 
 final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     typealias ActionHandler = () -> Void
@@ -14,11 +15,13 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     }
 
     var navigator: P2PPaymentsOfferStatusNavigator?
+    weak var delegate: BaseViewModelDelegate?
     private let offerId: String
     private var offer: P2PPaymentOffer?
     private var listing: Listing?
     private var buyer: User?
     private var mode: Mode?
+    private var isAutoUpdating: Bool = false
     private var updateTimerDisposable: Disposable?
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let listingRepository: ListingRepository
@@ -59,14 +62,18 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     }
 
     private func getP2PPaymentsOffer() {
+        if !isAutoUpdating {
+            stateRelay.accept(.loading)
+        }
         p2pPaymentsRepository.showOffer(id: offerId) { [weak self] result in
             switch result {
             case .success(let offer):
                 self?.offer = offer
                 self?.getListingInformation()
             case .failure:
-                // TODO: @juolgon properly handle error here
-                self?.getP2PPaymentsOffer() // Fail silently and retry
+                if !(self?.isAutoUpdating ?? false) {
+                    self?.stateRelay.accept(.errorRetry)
+                }
             }
         }
     }
@@ -79,8 +86,9 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
                 self?.listing = listing
                 self?.getBuyerInformationIfNeeded()
             case .failure:
-                // TODO: @juolgon properly handle error here
-                self?.getListingInformation() // Fail silently and retry
+                if !(self?.isAutoUpdating ?? false) {
+                    self?.stateRelay.accept(.errorRetry)
+                }
             }
         }
     }
@@ -115,8 +123,9 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
                 self?.buyer = buyer
                 self?.updateState()
             case .failure:
-                // TODO: @juolgon properly handle error here
-                self?.getBuyerInformation() // Fail silently and retry
+                if !(self?.isAutoUpdating ?? false) {
+                    self?.stateRelay.accept(.errorRetry)
+                }
             }
         }
     }
@@ -145,6 +154,7 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
 
     private func startAutoUpdatesIfNeeded() {
         guard updateTimerDisposable == nil else { return }
+        isAutoUpdating = true
         let timer = Observable<Int>.timer(P2PPaymentsOfferStatusViewModel.updatesTimeInterval,
                                           period: P2PPaymentsOfferStatusViewModel.updatesTimeInterval,
                                           scheduler: MainScheduler.instance)
@@ -155,31 +165,40 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     }
 
     private func stopAutoUpdates() {
+        isAutoUpdating = false
         updateTimerDisposable?.dispose()
         updateTimerDisposable = nil
     }
 
     private func withdrawOffer() {
-        stateRelay.accept(.loading)
-        p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .canceled) { [weak self] _ in
-            // TODO: @juolgon properly handle error here
-            self?.getP2PPaymentsOffer()
+        delegate?.vmShowLoading(nil)
+        p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .canceled) { [weak self] result in
+            self?.handleResult(result)
         }
     }
 
     private func declineOffer() {
-        stateRelay.accept(.loading)
-        p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .declined) { [weak self] _ in
-            // TODO: @juolgon properly handle error here
-            self?.getP2PPaymentsOffer()
+        delegate?.vmShowLoading(nil)
+        p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .declined) { [weak self] result in
+            self?.handleResult(result)
         }
     }
 
     private func acceptOffer() {
-        stateRelay.accept(.loading)
-        p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .accepted) { [weak self] _ in
-            // TODO: @juolgon properly handle error here
-            self?.getP2PPaymentsOffer()
+        delegate?.vmShowLoading(nil)
+        p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .accepted) { [weak self] result in
+            self?.handleResult(result)
+        }
+    }
+
+    private func handleResult<T>(_ result: Result<T, RepositoryError>) {
+        switch result {
+        case .success:
+            delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+            getP2PPaymentsOffer()
+        case .failure:
+            // TODO: @juolgon localize this
+            delegate?.vmHideLoading("Oops! An error occurred while loading. Please try again.", afterMessageCompletion: nil)
         }
     }
 }
@@ -217,6 +236,10 @@ extension P2PPaymentsOfferStatusViewModel {
         guard let buyer = buyer else { return }
         navigator?.openEnterPayCode(buyer: buyer)
     }
+
+    func retryButtonPressed() {
+        getP2PPaymentsOffer()
+    }
 }
 
 // MARK: - Rx Outputs
@@ -225,6 +248,7 @@ extension P2PPaymentsOfferStatusViewModel {
     var showLoadingIndicator: Driver<Bool> { return stateRelay.asDriver().map { $0.showLoadingIndicator } }
     var hideBuyerInfo: Driver<Bool> { return stateRelay.asDriver().map { $0.hideBuyerInfo } }
     var hideSellerInfo: Driver<Bool> { return stateRelay.asDriver().map { $0.hideSellerInfo } }
+    var hideErrorRetry: Driver<Bool> { return stateRelay.asDriver().map { $0.hideErrorRetry } }
 
     var listingTitle: Driver<String?> { return stateRelay.asDriver().map { $0.listingTitle } }
     var listingImageURL: Driver<URL?> { return stateRelay.asDriver().map { $0.listingImageURL } }
