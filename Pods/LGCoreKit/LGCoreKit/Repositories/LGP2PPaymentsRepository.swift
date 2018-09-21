@@ -2,6 +2,8 @@ import Foundation
 import Result
 
 final class LGP2PPaymentsRepository: P2PPaymentsRepository {
+    private(set) var shouldRefreshChatMessages: Bool = false
+
     private let dataSource: P2PPaymentsDataSource
 
     // MARK: - Lifecycle
@@ -12,8 +14,13 @@ final class LGP2PPaymentsRepository: P2PPaymentsRepository {
 
     // MARK: - Public methods
 
+    func markChatMessagesAsRefreshed() {
+        shouldRefreshChatMessages = false
+    }
+
     func createOffer(params: P2PPaymentCreateOfferParams, completion: CreateP2PPaymentOfferCompletion?) {
-        dataSource.createOffer(params: params) { result in
+        dataSource.createOffer(params: params) { [weak self] result in
+            self?.updateRefreshChatMessages(with: result)
             handleApiResult(result, completion: completion)
         }
     }
@@ -31,7 +38,8 @@ final class LGP2PPaymentsRepository: P2PPaymentsRepository {
     }
 
     func changeOfferStatus(offerId: String, status: P2PPaymentOfferStatus, completion: ChangeP2PPaymentOfferStatusCompletion?) {
-        dataSource.changeOfferStatus(offerId: offerId, status: status) { result in
+        dataSource.changeOfferStatus(offerId: offerId, status: status) { [weak self] result in
+            self?.updateRefreshChatMessages(with: result)
             handleApiResult(result, completion: completion)
         }
     }
@@ -49,7 +57,8 @@ final class LGP2PPaymentsRepository: P2PPaymentsRepository {
     }
 
     func usePayCode(payCode: String, offerId: String, completion: UseP2PPaymentPayCodeCompletion?) {
-        dataSource.usePayCode(payCode: payCode, offerId: offerId) { result in
+        dataSource.usePayCode(payCode: payCode, offerId: offerId) { [weak self] result in
+            self?.updateRefreshChatMessages(with: result)
             handleApiResult(result, completion: completion)
         }
     }
@@ -73,8 +82,18 @@ final class LGP2PPaymentsRepository: P2PPaymentsRepository {
     }
 
     func requestPayout(params: P2PPaymentRequestPayoutParams, completion: RequestP2PPaymentPayoutCompletion?) {
-        dataSource.requestPayout(params: params) { result in
+        dataSource.requestPayout(params: params) { [weak self] result in
+            self?.updateRefreshChatMessages(with: result)
             handleApiResult(result, completion: completion)
+        }
+    }
+
+    private func updateRefreshChatMessages<T>(with result: Result<T, ApiError>) {
+        switch result {
+        case .success:
+            shouldRefreshChatMessages = true
+        case.failure:
+            break // Do nothing
         }
     }
 }
