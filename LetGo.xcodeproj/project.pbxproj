@@ -187,6 +187,8 @@
 		09AA63082140CD7B00702387 /* PaymentRequestListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AA63062140CD7B00702387 /* PaymentRequestListener.swift */; };
 		09B6C9CC2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B6C9CB2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift */; };
 		09B6C9CD2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B6C9CB2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift */; };
+		09DC33F92154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC33F82154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift */; };
+		09DC33FA2154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC33F82154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift */; };
 		0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
 		0A01C3612100B51F00B0129F /* QuickChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C3602100B51F00B0129F /* QuickChatViewController.swift */; };
 		0A01C3622100C2D300B0129F /* QuickChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C3602100B51F00B0129F /* QuickChatViewController.swift */; };
@@ -2729,6 +2731,7 @@
 		09AA63032140B52D00702387 /* PaymentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsManager.swift; sourceTree = "<group>"; };
 		09AA63062140CD7B00702387 /* PaymentRequestListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequestListener.swift; sourceTree = "<group>"; };
 		09B6C9CB2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutRequestView.swift; sourceTree = "<group>"; };
+		09DC33F82154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsErrorRetryView.swift; sourceTree = "<group>"; };
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A01C3602100B51F00B0129F /* QuickChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickChatViewController.swift; sourceTree = "<group>"; };
 		0A045980213D15890082C469 /* ListingStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingStatusView.swift; sourceTree = "<group>"; };
@@ -4208,6 +4211,7 @@
 				0904D88B213F310B00D5D554 /* P2PPaymentsLineSeparatorView.swift */,
 				094489A3214F674300F6EACB /* P2PPaymentsTextField.swift */,
 				0938412C21521AAE001A4BD3 /* P2PPaymentsCardTextField.swift */,
+				09DC33F82154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -9819,6 +9823,7 @@
 				C70A426D1E9666C100B6EFD8 /* CollectionType+Find.swift in Sources */,
 				C7111F021CA438AC000C5C5A /* UniversalLink.swift in Sources */,
 				7285C95B1F83C75F00BD16E9 /* SellNavigationController.swift in Sources */,
+				09DC33F92154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift in Sources */,
 				2E19DD0D213EB62800A4A538 /* BumpUpMultiDayView.swift in Sources */,
 				425EE397211AFCFE0002DAB8 /* AspectRatio+CGSize.swift in Sources */,
 				C72794281D549334009C25AB /* SettingsCell.swift in Sources */,
@@ -11638,6 +11643,7 @@
 				0A045982213D15890082C469 /* ListingStatusView.swift in Sources */,
 				A46057F5212AD4B800386DFC /* AccessibilityId.swift in Sources */,
 				C7DB421A1C5138B500400945 /* RememberPasswordViewModel.swift in Sources */,
+				09DC33FA2154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift in Sources */,
 				329ACF4820EA89CF00A1C6A4 /* SectionTitleHeaderView.swift in Sources */,
 				328E8E3620C046A700BBF639 /* SuggestiveSearchInfo.swift in Sources */,
 				6A6C756C207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */,

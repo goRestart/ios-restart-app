@@ -17,6 +17,7 @@ extension P2PPaymentsOfferStatusBuilder: P2PPaymentsOfferStatusAssembly {
     func buildOfferStatus(offerId: String) -> UIViewController {
         let vm = P2PPaymentsOfferStatusViewModel(offerId: offerId)
         let vc = P2PPaymentsOfferStatusViewController(viewModel: vm)
+        vm.delegate = vc
         switch self {
         case .modal:
             let nc = UINavigationController(rootViewController: vc)
@@ -62,6 +63,7 @@ extension P2PPaymentsOfferStatusBuilder: P2PPaymentsOfferStatusAssembly {
     func buildPayout(offerId: String) -> UIViewController {
         let vm = P2PPaymentsPayoutViewModel(offerId: offerId)
         let vc = P2PPaymentsPayoutViewController(viewModel: vm)
+        vm.delegate = vc
         switch self {
         case .modal:
             let nc = UINavigationController(rootViewController: vc)

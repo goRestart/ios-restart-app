@@ -3,13 +3,12 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize all texts
-
 final class P2PPaymentsPayoutViewController: BaseViewController {
     private let viewModel: P2PPaymentsPayoutViewModel
     private let disposeBag = DisposeBag()
     private let personalInfoView = P2PPaymentsPayoutPersonalInfoView()
     private let payoutRequestView = P2PPaymentsPayoutRequestView()
+    private let errorRetryView = P2PPaymentsErrorRetryView()
     private let keyboardHelper = KeyboardHelper()
     private var personalInfoBottomContraint: NSLayoutConstraint?
     private var payoutRequestBottomContraint: NSLayoutConstraint?
@@ -57,14 +56,17 @@ final class P2PPaymentsPayoutViewController: BaseViewController {
         view.backgroundColor = UIColor.white
         view.addSubviewsForAutoLayout([personalInfoView,
                                        payoutRequestView,
-                                       activityIndicator])
+                                       activityIndicator,
+                                       errorRetryView])
         personalInfoView.isHidden = true
         payoutRequestView.isHidden = true
+        errorRetryView.isHidden = true
         setupConstraints()
         setupRx()
     }
 
     private func setupConstraints() {
+        errorRetryView.constraintToEdges(in: view)
         personalInfoBottomContraint = personalInfoView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor)
         personalInfoBottomContraint?.isActive = true
         payoutRequestBottomContraint = payoutRequestView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor)
@@ -88,6 +90,7 @@ final class P2PPaymentsPayoutViewController: BaseViewController {
             viewModel.showLoadingIndicator.drive(activityIndicator.rx.isAnimating),
             viewModel.registerIsHidden.drive(personalInfoView.rx.isHidden),
             viewModel.payoutIsHidden.drive(payoutRequestView.rx.isHidden),
+            viewModel.errorRetryIsHidden.drive(errorRetryView.rx.isHidden),
             viewModel.feeText.drive(payoutRequestView.rx.instantPaymentFeeText),
             viewModel.instantFundsAvailableText.drive(payoutRequestView.rx.instantFundsAvailableText),
             viewModel.standardFundsAvailableText.drive(payoutRequestView.rx.cardStandardFundsAvailableText),
@@ -111,6 +114,10 @@ final class P2PPaymentsPayoutViewController: BaseViewController {
             guard let strongSelf = self else { return }
             let params = strongSelf.payoutRequestView.cardPayoutParams
             strongSelf.viewModel.payoutButtonPressed(params: params)
+        }).disposed(by: disposeBag)
+
+        errorRetryView.rx.retryTap.subscribe(onNext: { [weak self] in
+            self?.viewModel.retryButtonPressed()
         }).disposed(by: disposeBag)
     }
 

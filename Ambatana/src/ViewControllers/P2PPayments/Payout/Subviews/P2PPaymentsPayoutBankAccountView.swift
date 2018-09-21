@@ -3,8 +3,6 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-// TODO: @juolgon Localize all texts
-
 final class P2PPaymentsPayoutBankAccountView: UIView {
     var bankAccountParams: P2PPaymentsPayoutViewModel.BankAccountPayoutParams {
         return P2PPaymentsPayoutViewModel.BankAccountPayoutParams(routingNumber: routingNumberTextField.text ?? "",
@@ -24,14 +22,14 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
 
     private let routingNumberTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("Routing number (9 digits)")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutBankAccountRoutingNumberPlaceholder)
         textField.returnKeyType = .next
         return textField
     }()
 
     private let accountNumberTextField: P2PPaymentsTextField = {
         let textField = P2PPaymentsTextField()
-        textField.setPlaceholderText("Account number")
+        textField.setPlaceholderText(R.Strings.paymentsPayoutBankAccountAccountNumberPlaceholder)
         textField.returnKeyType = .done
         return textField
     }()
@@ -47,7 +45,7 @@ final class P2PPaymentsPayoutBankAccountView: UIView {
 
     fileprivate let actionButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
-        button.setTitle("Payout", for: .normal)
+        button.setTitle(R.Strings.paymentsPayoutBankAccountPayoutButton, for: .normal)
         return button
     }()
 
