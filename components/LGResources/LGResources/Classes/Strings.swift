@@ -38,10 +38,14 @@ extension R {
     public static let affiliationChallengesJoinLetgoStepPhoneButton = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_button")
     /// Verify your phone number
     public static let affiliationChallengesJoinLetgoStepPhoneLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_label")
+    /// Phone number verified
+    public static let affiliationChallengesJoinLetgoStepPhoneVerifiedLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_verified_label")
     /// Post listing
     public static let affiliationChallengesJoinLetgoStepPostButton = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_post_button")
     /// Post your first listing
     public static let affiliationChallengesJoinLetgoStepPostLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_post_label")
+    /// Listing posted
+    public static let affiliationChallengesJoinLetgoStepPostedLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_posted_label")
     /// Get an Amazon Gift Card
     public static let affiliationChallengesJoinLetgoSubtitle = Strings.tr("Localizable", "affiliation_challenges_join_letgo_subtitle")
     /// JOIN LETGO

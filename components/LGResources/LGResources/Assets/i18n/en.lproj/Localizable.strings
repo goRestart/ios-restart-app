@@ -34,11 +34,17 @@
 // Affiliation challenges screen. Join letgo cell verify phone label.
 "affiliation_challenges_join_letgo_step_phone_label" = "Verify your phone number";
 
+// Affiliation challenges screen. Join letgo cell verified phone label.
+"affiliation_challenges_join_letgo_step_phone_verified_label" = "Phone number verified";
+
 // Affiliation challenges screen. Join letgo cell verify phone button.
 "affiliation_challenges_join_letgo_step_phone_button" = "Verify phone number";
 
 // Affiliation challenges screen. Join letgo cell post listing label.
 "affiliation_challenges_join_letgo_step_post_label" = "Post your first listing";
+
+// Affiliation challenges screen. Join letgo cell posted listing label.
+"affiliation_challenges_join_letgo_step_posted_label" = "Listing posted";
 
 // Affiliation challenges screen. Join letgo cell post listing button.
 "affiliation_challenges_join_letgo_step_post_button" = "Post listing";

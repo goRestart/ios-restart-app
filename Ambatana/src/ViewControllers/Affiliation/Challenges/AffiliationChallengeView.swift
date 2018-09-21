@@ -222,7 +222,6 @@ final class AffiliationChallengeView: UIView {
         let points = inviteFriendsData.calculateTotalPointsReward()
         pointsView.set(points: points)
         progressView.setup(data: inviteFriendsData)
-        setup(status: inviteFriendsData.status)
     }
 
     func setup(joinLetgoData: ChallengeJoinLetgoData) {
@@ -230,37 +229,57 @@ final class AffiliationChallengeView: UIView {
 
         let isPhoneConfirmed = joinLetgoData.stepsCompleted.contains(.phoneVerification)
         let isListingPosted = joinLetgoData.stepsCompleted.contains(.listingPosted)
+        let isListingApproved = joinLetgoData.stepsCompleted.contains(.listingApproved)
 
+        // step views
         for (index, stepView) in stepViews.enumerated() {
             let stepNumber = index + 1
             stepView.set(stepNumber: stepNumber)
 
             switch index {
             case ChallengeJoinLetgoData.Step.phoneVerification.index:
-                stepView.set(title: R.Strings.affiliationChallengesJoinLetgoStepPhoneLabel)
+                let title: String
+                if isPhoneConfirmed {
+                    title = "Phone number verified"
+                } else {
+                    title = R.Strings.affiliationChallengesJoinLetgoStepPhoneLabel
+                }
+                stepView.set(title: title)
                 let status: AffiliationChallengeStepView.Status = isPhoneConfirmed ? .completed : .todo(isHighlighted: true)
                 stepView.set(status: status)
-                button.setTitle(R.Strings.affiliationChallengesJoinLetgoStepPhoneButton,
-                                for: .normal)
             case ChallengeJoinLetgoData.Step.listingPosted.index:
-                stepView.set(title: R.Strings.affiliationChallengesJoinLetgoStepPostLabel)
+                let title: String
                 let status: AffiliationChallengeStepView.Status
-                if isListingPosted {
+                switch (isListingPosted, isListingApproved) {
+                case (false, false):
+                    title = R.Strings.affiliationChallengesJoinLetgoStepPostLabel
+                    status = .todo(isHighlighted: isPhoneConfirmed)
+                case (true, false):
+                    title = R.Strings.affiliationChallengesJoinLetgoProcessing
+                    status = .processing
+                case (_, true):
+                    title = "Listing posted"
                     status = .completed
-                } else {
-                    status = joinLetgoData.status == .completed ? .completed : .todo(isHighlighted: isPhoneConfirmed)
                 }
+                stepView.set(title: title)
                 stepView.set(status: status)
-                button.setTitle(R.Strings.affiliationChallengesJoinLetgoStepPostButton,
-                                for: .normal)
             default:
                 break
             }
         }
-        setup(status: joinLetgoData.status)
+
+        // button
+        switch (isPhoneConfirmed, isListingPosted, isListingApproved) {
+        case (false, _, _):
+            set(buttonTitle: R.Strings.affiliationChallengesJoinLetgoStepPhoneButton)
+        case (true, false, _):
+            set(buttonTitle: R.Strings.affiliationChallengesJoinLetgoStepPostButton)
+        case (true, true, _):
+            set(buttonTitle: "")
+        }
     }
 
-    private func setup(status: ChallengeStatus) {
+    func setup(status: ChallengeStatus) {
         switch status {
         case .ongoing:
             addToStackView(view: separatorView)

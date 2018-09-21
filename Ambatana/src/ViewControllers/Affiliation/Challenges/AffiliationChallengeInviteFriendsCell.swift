@@ -43,6 +43,15 @@ final class AffiliationChallengeInviteFriendsCell: UITableViewCell {
         challengeView.set(title: R.Strings.affiliationChallengesInviteFriendsTitle)
         challengeView.set(subtitle: R.Strings.affiliationChallengesInviteFriendsSubtitle)
         challengeView.set(buttonTitle: R.Strings.affiliationChallengesInviteFriendsButton)
+
+        let status: ChallengeStatus
+        let id = reuseIdentifier ?? AffiliationChallengeInviteFriendsCell.completedIdentifier
+        if id == AffiliationChallengeInviteFriendsCell.ongoingIdentifier {
+            status = .ongoing
+        } else {
+            status = .completed
+        }
+        challengeView.setup(status: status)
     }
 
 
