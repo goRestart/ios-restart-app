@@ -58,7 +58,7 @@ final class AffiliationChallengeInviteFriendsCell: UITableViewCell {
         let difference = milestone2.stepIndex - milestone1.stepIndex
         challengeView.set(description: R.Strings.affiliationChallengesInviteFriendsDescription("\(milestone1.stepIndex)",
                                                                                                "\(milestone1.pointsReward)",
-                                                                                               "\(milestone2.stepIndex)",
+                                                                                               "\(difference)",
                                                                                                "\(milestone2.pointsReward)"))
     }
 }

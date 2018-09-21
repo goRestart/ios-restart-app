@@ -18,7 +18,7 @@ extension R {
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Invite friends
     public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
-    /// Invite %1$@ friends to earn %2$@ points. Invite %3$@ friends and earn %4$@ more points!
+    /// Invite %1$@ friends to earn %2$@ points. Invite %3$@ more friends and earn %4$@ more points!
     public static func affiliationChallengesInviteFriendsDescription(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
       return Strings.tr("Localizable", "affiliation_challenges_invite_friends_description", p1, p2, p3, p4)
     }
