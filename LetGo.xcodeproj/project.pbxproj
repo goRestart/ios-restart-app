@@ -22,7 +22,7 @@
 		0133D91721394C7300AD9959 /* ShareScreenshotWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0133D91521394C7300AD9959 /* ShareScreenshotWireframe.swift */; };
 		013489F820D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */; };
 		013489F920D3FEF900E543C2 /* NotificationSettingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013489F720D3FEF900E543C2 /* NotificationSettingCellType.swift */; };
-		013B2A2121303DCC00F69613 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		013B2A2121303DCC00F69613 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		013B2A272130482900F69613 /* MockInterestedHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A262130482900F69613 /* MockInterestedHandler.swift */; };
 		0140073A21218CFF00BD2E1B /* FeedBadgingSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */; };
 		0140073B21218CFF00BD2E1B /* FeedBadgingSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0140073921218CFF00BD2E1B /* FeedBadgingSynchronizer.swift */; };
@@ -191,6 +191,8 @@
 		09DC33FE2154D51400A7DEF7 /* P2PPayments+ChatDelayRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC33FC2154D51400A7DEF7 /* P2PPayments+ChatDelayRefresh.swift */; };
 		09DC33FF2154E5C400A7DEF7 /* P2PPaymentsErrorRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC33F82154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift */; };
 		09DC34002154E5C500A7DEF7 /* P2PPaymentsErrorRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC33F82154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift */; };
+		09DC34022154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC34012154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift */; };
+		09DC34032154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC34012154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift */; };
 		0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
 		0A01C3612100B51F00B0129F /* QuickChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C3602100B51F00B0129F /* QuickChatViewController.swift */; };
 		0A01C3622100C2D300B0129F /* QuickChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C3602100B51F00B0129F /* QuickChatViewController.swift */; };
@@ -596,7 +598,7 @@
 		0AD5A4392146C2550053E86C /* DeckMoreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD5A4372146C2550053E86C /* DeckMoreInfoView.swift */; };
 		0ADD39BD211306E90071DF87 /* LGUserBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD39BC211306E90071DF87 /* LGUserBuilder.swift */; };
 		0ADD39BF21130A030071DF87 /* LGUserBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD39BC211306E90071DF87 /* LGUserBuilder.swift */; };
-		0ADE58D31FC4609400F3DB17 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		0ADE58D31FC4609400F3DB17 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		0AE405B720EDF7F10041E3F1 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */; };
 		0AE405B820EDF7F10041E3F1 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */; };
 		0AE405BC20EDF8530041E3F1 /* ListingCardOnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE405BB20EDF8530041E3F1 /* ListingCardOnBoardingView.swift */; };
@@ -2735,6 +2737,7 @@
 		09B6C9CB2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutRequestView.swift; sourceTree = "<group>"; };
 		09DC33F82154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsErrorRetryView.swift; sourceTree = "<group>"; };
 		09DC33FC2154D51400A7DEF7 /* P2PPayments+ChatDelayRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PPayments+ChatDelayRefresh.swift"; sourceTree = "<group>"; };
+		09DC34012154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsTrackingInfo.swift; sourceTree = "<group>"; };
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A01C3602100B51F00B0129F /* QuickChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickChatViewController.swift; sourceTree = "<group>"; };
 		0A045980213D15890082C469 /* ListingStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingStatusView.swift; sourceTree = "<group>"; };
@@ -7767,6 +7770,7 @@
 				C707D4541E9B7CB200042C03 /* PostListingTrackingInfo.swift */,
 				C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */,
 				3294762B2133F750008EE737 /* InterestedStateTrackingInfo.swift */,
+				09DC34012154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -10571,7 +10575,7 @@
 				0A6FECAA2130343F00B57004 /* EditUserBioWireframe.swift in Sources */,
 				C690704A21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */,
 				F5D91E7D2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
-				013B2A2121303DCC00F69613 /* BuildFile in Sources */,
+				013B2A2121303DCC00F69613 /* (null) in Sources */,
 				01337B952085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */,
 				097EDBE5213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift in Sources */,
 				72D928E11E83EB990030F4C3 /* RatingManager.swift in Sources */,
@@ -10615,6 +10619,7 @@
 				2E151D7020A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift in Sources */,
 				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
 				C7B588871CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
+				09DC34022154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift in Sources */,
 				C674D31D20ED1BA20027E3AE /* ListingAttributeGridTheme.swift in Sources */,
 				C66105E721304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */,
 				2EE47D2E2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,
@@ -11462,7 +11467,7 @@
 				0A3AF6C3213D63290034143B /* DeckViewCollectionDelegate.swift in Sources */,
 				6A0D7341204D612500892663 /* EditUserBioViewController.swift in Sources */,
 				8E50205C212DA415008696B9 /* ChatCarouselCollectionCell.swift in Sources */,
-				0ADE58D31FC4609400F3DB17 /* BuildFile in Sources */,
+				0ADE58D31FC4609400F3DB17 /* (null) in Sources */,
 				2EDB6DD12140043700E1D837 /* P2PPaymentState.swift in Sources */,
 				325E70D421277ED100D173A1 /* EmbeddedListingViewModel.swift in Sources */,
 				50D1542E214A6C9A00221B06 /* AffiliationChallengesViewModel.swift in Sources */,
@@ -11540,6 +11545,7 @@
 				0A45A88A214BFF540045ACFA /* AffiliationStoreWireframe.swift in Sources */,
 				C730FD121E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
 				2ECB416F20065FB200482EF7 /* BumpUpPayViewController.swift in Sources */,
+				09DC34032154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift in Sources */,
 				0A6FED0D2130344000B57004 /* RecaptchaPasswordWireframe.swift in Sources */,
 				2E151D7720A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */,
 				2E2FF6E620AAC8CB00C9A5DA /* ChatAssistantConversationCell.swift in Sources */,
