@@ -419,7 +419,7 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
     }
     
     private func setFiltersNavBarButton() {
-        let buttons = viewModel.rightBarButtonsItems
+        let buttons = viewModel.rightBBItemsRelay.value
         setLetGoRightButtonsWith(images: buttons.map { $0.image }, selectors: buttons.map { $0.selector })
     }
     
@@ -599,7 +599,14 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
     }
 
     private func setupRxBindings() {
-        
+        viewModel.rightBBItemsRelay
+            .skip(1)
+            .filter { _ in return self.trendingSearchView.isHidden }
+            .bind { [weak self] buttons in
+                self?.setLetGoRightButtonsWith(images: buttons.map { $0.image },
+                                               selectors: buttons.map { $0.selector })
+            }.disposed(by: disposeBag)
+
         viewModel.infoBubbleText.asObservable()
             .bind { [weak self] _ in
                 self?.infoBubbleView.invalidateIntrinsicContentSize()

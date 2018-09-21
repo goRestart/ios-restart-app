@@ -84,8 +84,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var isEngagementBadgingEnabled: Bool {
         return featureFlags.engagementBadging.isActive
     }
-    
-    var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
+
+    lazy var rightBBItemsRelay = BehaviorRelay<[(image: UIImage, selector: Selector)]>(value: rightBarButtonsItems)
+
+    private var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if isRealEstateSelected {
             rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
@@ -854,6 +856,15 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private func setupRx() {
+        featureFlags.rx_affiliationEnabled
+            .asDriver(onErrorJustReturn: .control)
+            .filter { $0 == .active }
+            .distinctUntilChanged()
+            .map { [weak self] enabled in
+                self?.rightBarButtonsItems ?? []
+            }.drive(rightBBItemsRelay)
+            .disposed(by: disposeBag)
+
         listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
         }.disposed(by: disposeBag)
