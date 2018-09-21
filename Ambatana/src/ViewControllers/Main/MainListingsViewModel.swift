@@ -105,7 +105,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         if shouldShowAffiliateButton {
             rightButtonItems.append((image: R.Asset.Affiliation.affiliationIcon.image.tint(color: .primaryColor), selector: #selector(MainListingsViewController.openAffiliationChallenges)))
-           showTooltipAffilition()
         } else {
             isAffiliationTooltipAdded = false
             delegate?.vmHideAffiliationToolTip(hideForever: false)
@@ -326,7 +325,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private func showTooltipAffilition() {
-        guard !keyValueStorage[.affiliationTooltipShown] && !keyValueStorage[.didShowAffiliationOnBoarding] else { return }
+        guard featureFlags.affiliationEnabled.isActive else { return }
+        guard !keyValueStorage[.affiliationTooltipShown] else { return }
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 3
         let title = R.Strings.affiliationMainFeedTooltipText
@@ -913,18 +913,21 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         appsFlyerAffiliationResolver
             .rx.affiliationCampaign
-            .distinctUntilChanged()
             .bind { [weak self] status in
             switch status {
             case .campaignNotAvailableForUser:
-                self?.navigator?.openWrongCountryModal()
+                self?.delegate?.vmHideAffiliationToolTip(hideForever: true)
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openWrongCountryModal()
+                })
             case.referral( let referrer):
+                self?.delegate?.vmHideAffiliationToolTip(hideForever: true)
                 guard !(self?.keyValueStorage[.didShowAffiliationOnBoarding] ?? true) else { return }
-                delay(2, completion: { [weak self] in
+                delay(2.5, completion: { [weak self] in
                     self?.navigator?.openAffiliationOnboarding(data: referrer)
                 })
             case .unknown:
-                return
+                self?.showTooltipAffilition()
             }
         }.disposed(by: disposeBag)
         Observable.combineLatest(notificationsManager.engagementBadgingNotifications.asObservable(),

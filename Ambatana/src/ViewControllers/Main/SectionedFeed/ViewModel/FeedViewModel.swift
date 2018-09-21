@@ -305,14 +305,17 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
    
         appsFlyerAffiliationResolver
             .rx.affiliationCampaign
-            .distinctUntilChanged()
             .bind { [weak self] status in
             switch status {
             case .campaignNotAvailableForUser:
-                self?.navigator?.openWrongCountryModal()
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openWrongCountryModal()
+                })
             case.referral( let referrer):
                 guard !(self?.keyValueStorage[.didShowAffiliationOnBoarding] ?? true) else { return }
-                self?.navigator?.openAffiliationOnboarding(data: referrer)
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openAffiliationOnboarding(data: referrer)
+                })
             case .unknown:
                 return
             }
