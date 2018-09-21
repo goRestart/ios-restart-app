@@ -4,6 +4,9 @@
 // When a user Account is deactivated because is a scammer (includes user name)
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 
+//  tooltip message on mainfeed
+"affiliation_main_feed_tooltip_text" = "Get a 5$ voucher in a amazon card";
+
 // Affiliation challenges screen. Cell points label.
 "affiliation_challenges_points" = "%@ points";
 
@@ -34,11 +37,17 @@
 // Affiliation challenges screen. Join letgo cell verify phone label.
 "affiliation_challenges_join_letgo_step_phone_label" = "Verify your phone number";
 
+// Affiliation challenges screen. Join letgo cell verified phone label.
+"affiliation_challenges_join_letgo_step_phone_verified_label" = "Phone number verified";
+
 // Affiliation challenges screen. Join letgo cell verify phone button.
 "affiliation_challenges_join_letgo_step_phone_button" = "Verify phone number";
 
 // Affiliation challenges screen. Join letgo cell post listing label.
 "affiliation_challenges_join_letgo_step_post_label" = "Post your first listing";
+
+// Affiliation challenges screen. Join letgo cell posted listing label.
+"affiliation_challenges_join_letgo_step_posted_label" = "Listing posted";
 
 // Affiliation challenges screen. Join letgo cell post listing button.
 "affiliation_challenges_join_letgo_step_post_button" = "Post listing";
@@ -2776,13 +2785,25 @@
 
 "payments_payout_personal_info_country_placeholder" = "Country";
 
+"payments_payout_personal_info_error_title" = "Oops! An error occurred.";
+
+"payments_payout_personal_info_error_description" = "Please check your details and try again.";
+
+"payments_payout_personal_info_error_ok_button" = "Ok";
+
 "payments_payout_personal_info_register_button" = "Register your account";
+
+"payments_payout_option_bank_account" = "Bank Account";
+
+"payments_payout_option_bank_debit_card" = "Debit Card";
 
 "payments_payout_bank_account_routing_number_placeholder" = "Routing number (9 digits)";
 
 "payments_payout_bank_account_account_number_placeholder" = "Account number";
 
 "payments_payout_bank_account_payout_button" = "Payout";
+
+"payments_payout_card_number_placeholder" = "Card number";
 
 "payments_payout_card_title_label" = "Enter your debit card so that we can pay out to your account";
 
@@ -2816,6 +2837,10 @@
 
 // Navigation bar title in payout screen
 "payment_payout_navbar_title" = "Payout";
+
+"payments_loading_generic_error" = "Oops! An error occurred while loading. Please try again.";
+
+"payments_error_retry" = "Retry";
 
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";

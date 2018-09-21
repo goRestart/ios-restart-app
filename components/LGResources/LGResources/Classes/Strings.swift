@@ -38,10 +38,14 @@ extension R {
     public static let affiliationChallengesJoinLetgoStepPhoneButton = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_button")
     /// Verify your phone number
     public static let affiliationChallengesJoinLetgoStepPhoneLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_label")
+    /// Phone number verified
+    public static let affiliationChallengesJoinLetgoStepPhoneVerifiedLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_verified_label")
     /// Post listing
     public static let affiliationChallengesJoinLetgoStepPostButton = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_post_button")
     /// Post your first listing
     public static let affiliationChallengesJoinLetgoStepPostLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_post_label")
+    /// Listing posted
+    public static let affiliationChallengesJoinLetgoStepPostedLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_posted_label")
     /// Get an Amazon Gift Card
     public static let affiliationChallengesJoinLetgoSubtitle = Strings.tr("Localizable", "affiliation_challenges_join_letgo_subtitle")
     /// JOIN LETGO
@@ -94,6 +98,8 @@ extension R {
     public static let affiliationInviteSmsMessageError = Strings.tr("Localizable", "affiliation_invite_sms_message_error")
     /// Message sent
     public static let affiliationInviteSmsMessageSent = Strings.tr("Localizable", "affiliation_invite_sms_message_sent")
+    /// Get a 5$ voucher in a amazon card
+    public static let affiliationMainFeedTooltipText = Strings.tr("Localizable", "affiliation_main_feed_tooltip_text")
     /// Sell your stuff
     public static let affiliationOnboardingCountryErrorMainButton = Strings.tr("Localizable", "affiliation_onboarding_country_error_main_button")
     /// Oops! Unfortunately gift cards are not available in your country. \n\nBut you can still make cash!
@@ -1878,6 +1884,8 @@ extension R {
     }
     /// Offer
     public static let paymentsEnterPayCodeNavbarTitle = Strings.tr("Localizable", "payments_enter_pay_code_navbar_title")
+    /// Retry
+    public static let paymentsErrorRetry = Strings.tr("Localizable", "payments_error_retry")
     /// Your payment code
     public static let paymentsGetPayCodeCodeLabel = Strings.tr("Localizable", "payments_get_pay_code_code_label")
     /// Contact us
@@ -1890,6 +1898,8 @@ extension R {
     public static let paymentsGetPayCodeFaqsOption = Strings.tr("Localizable", "payments_get_pay_code_faqs_option")
     /// Offer
     public static let paymentsGetPayCodeNavbarTitle = Strings.tr("Localizable", "payments_get_pay_code_navbar_title")
+    /// Oops! An error occurred while loading. Please try again.
+    public static let paymentsLoadingGenericError = Strings.tr("Localizable", "payments_loading_generic_error")
     /// Chat with Seller
     public static let paymentsOfferStatusActionChatButton = Strings.tr("Localizable", "payments_offer_status_action_chat_button")
     /// View payment code
@@ -1990,12 +2000,18 @@ extension R {
     public static let paymentsPayoutBankAccountRoutingNumberPlaceholder = Strings.tr("Localizable", "payments_payout_bank_account_routing_number_placeholder")
     /// Name on card
     public static let paymentsPayoutCardNamePlaceholder = Strings.tr("Localizable", "payments_payout_card_name_placeholder")
+    /// Card number
+    public static let paymentsPayoutCardNumberPlaceholder = Strings.tr("Localizable", "payments_payout_card_number_placeholder")
     /// Choose one of these options:
     public static let paymentsPayoutCardPaymentTypeLabel = Strings.tr("Localizable", "payments_payout_card_payment_type_label")
     /// Payout
     public static let paymentsPayoutCardPayoutButton = Strings.tr("Localizable", "payments_payout_card_payout_button")
     /// Enter your debit card so that we can pay out to your account
     public static let paymentsPayoutCardTitleLabel = Strings.tr("Localizable", "payments_payout_card_title_label")
+    /// Bank Account
+    public static let paymentsPayoutOptionBankAccount = Strings.tr("Localizable", "payments_payout_option_bank_account")
+    /// Debit Card
+    public static let paymentsPayoutOptionBankDebitCard = Strings.tr("Localizable", "payments_payout_option_bank_debit_card")
     /// Address
     public static let paymentsPayoutPersonalInfoAddressPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_address_placeholder")
     /// City
@@ -2004,6 +2020,12 @@ extension R {
     public static let paymentsPayoutPersonalInfoCountryPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_country_placeholder")
     /// Date of birth
     public static let paymentsPayoutPersonalInfoDateOfBirthPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_date_of_birth_placeholder")
+    /// Please check your details and try again.
+    public static let paymentsPayoutPersonalInfoErrorDescription = Strings.tr("Localizable", "payments_payout_personal_info_error_description")
+    /// Ok
+    public static let paymentsPayoutPersonalInfoErrorOkButton = Strings.tr("Localizable", "payments_payout_personal_info_error_ok_button")
+    /// Oops! An error occurred.
+    public static let paymentsPayoutPersonalInfoErrorTitle = Strings.tr("Localizable", "payments_payout_personal_info_error_title")
     /// First name
     public static let paymentsPayoutPersonalInfoFirstNamePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_first_name_placeholder")
     /// Last name
