@@ -1715,6 +1715,18 @@ struct TrackerEvent {
         return TrackerEvent(name: .verificationModalShown, params: nil)
     }
 
+    static func p2pPaymentsMakeAnOfferOnboardingStart(userId: String,
+                                                      chatConversation: ChatConversation) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(userId: userId, chatConversation: chatConversation).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferOnboardStart, params: params)
+    }
+
+    static func p2pPaymentsMakeAnOfferStart(userId: String,
+                                            chatConversation: ChatConversation) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(userId: userId, chatConversation: chatConversation).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferStart, params: params)
+    }
+
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,
