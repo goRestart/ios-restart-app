@@ -5,7 +5,6 @@ import RxCocoa
 
 
 final class P2PPaymentsEnterPayCodeViewController: BaseViewController, VerificationCodeTextFieldDelegate {
-
     private enum Layout {
         static let avatarImageSize: CGFloat = 72
         static let avatarTopMargin: CGFloat = 4
