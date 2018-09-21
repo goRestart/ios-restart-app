@@ -10,6 +10,7 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     private let chatConversation: ChatConversation
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let myUserRepository: MyUserRepository
+    private let tracker: Tracker
     private let paymentsManager: PaymentsManager
     fileprivate let currencyHelper = Core.currencyHelper
 
@@ -23,20 +24,15 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     private let offerAmountStateRelay = BehaviorRelay<OfferAmountState?>(value: nil)
     private let paymentAuthControllerRelay = BehaviorRelay<UIViewController?>(value: nil)
 
-    convenience init(chatConversation: ChatConversation) {
-        self.init(chatConversation: chatConversation,
-                  p2pPaymentsRepository: Core.p2pPaymentsRepository,
-                  myUserRepository: Core.myUserRepository,
-                  paymentsManager: LGPaymentsManager())
-    }
-
     init(chatConversation: ChatConversation,
-         p2pPaymentsRepository: P2PPaymentsRepository,
-         myUserRepository: MyUserRepository,
-         paymentsManager: PaymentsManager) {
+         p2pPaymentsRepository: P2PPaymentsRepository = Core.p2pPaymentsRepository,
+         myUserRepository: MyUserRepository = Core.myUserRepository,
+         tracker: Tracker = TrackerProxy.sharedInstance,
+         paymentsManager: PaymentsManager = LGPaymentsManager()) {
         self.chatConversation = chatConversation
         self.p2pPaymentsRepository = p2pPaymentsRepository
         self.myUserRepository = myUserRepository
+        self.tracker = tracker
         self.paymentsManager = paymentsManager
         super.init()
     }
@@ -113,6 +109,7 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
             let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String else {
                 return
         }
+        trackMakeAnOfferApplePayStart()
         delegate?.vmShowLoading(nil)
         let paymentRequest = PaymentRequest(listingId: listingId,
                                             buyerId: buyerId,
@@ -126,6 +123,7 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
             self?.paymentAuthControllerRelay.accept(nil)
             switch result {
             case .success:
+                self?.trackMakeAnOfferComplete()
                 delay(P2PPayments.chatRefreshDelay) { [weak self] in
                     self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                     self?.navigator?.closeOnboarding()
@@ -135,6 +133,52 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
             }
         }
         paymentAuthControllerRelay.accept(authController)
+    }
+
+    private func trackMakeAnOfferAbandon() {
+        guard let userId = myUserRepository.myUser?.objectId else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferStart(userId: userId,
+                                                                    chatConversation: chatConversation)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackMakeAnOfferApplePayStart() {
+        guard let userId = myUserRepository.myUser?.objectId,
+            let offerFees = offerFeesRelay.value else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferPaymentStart(userId: userId,
+                                                                           chatConversation: chatConversation,
+                                                                           offerFees: offerFees)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackMakeAnOfferComplete() {
+        guard let userId = myUserRepository.myUser?.objectId,
+            let offerFees = offerFeesRelay.value else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferPaymentComplete(userId: userId,
+                                                                              chatConversation: chatConversation,
+                                                                              offerFees: offerFees)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackMakeAnOfferEditPriceStart() {
+        guard let userId = myUserRepository.myUser?.objectId else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferEditPriceStart(userId: userId,
+                                                                             chatConversation: chatConversation)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackMakeAnOfferEditPriceCancel() {
+        guard let userId = myUserRepository.myUser?.objectId else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferEditPriceCancel(userId: userId,
+                                                                              chatConversation: chatConversation)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackMakeAnOfferEditPriceComplete() {
+        guard let userId = myUserRepository.myUser?.objectId else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferEditPriceComplete(userId: userId,
+                                                                                chatConversation: chatConversation)
+        tracker.trackEvent(trackerEvent)
     }
 }
 
@@ -164,13 +208,16 @@ extension P2PPaymentsCreateOfferViewModel {
 extension P2PPaymentsCreateOfferViewModel {
     func closeButtonPressed() {
         if uiStateRelay.value == .changeOffer, isOfferAmountValid(offer: offerAmountRelay.value) {
+            trackMakeAnOfferEditPriceCancel()
             uiStateRelay.accept(.buy)
         } else {
+            trackMakeAnOfferAbandon()
             navigator?.closeOnboarding()
         }
     }
 
     func changeOfferButtonPressed() {
+        trackMakeAnOfferEditPriceStart()
         uiStateRelay.accept(.changeOffer)
     }
 
@@ -179,6 +226,7 @@ extension P2PPaymentsCreateOfferViewModel {
             offerAmountStateRelay.accept(.invalid)
             return
         }
+        trackMakeAnOfferEditPriceComplete()
         offerAmountRelay.accept(newValue)
         delegate?.vmShowLoading(nil)
         calculateFees()

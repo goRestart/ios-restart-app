@@ -47,4 +47,21 @@ extension P2PPaymentsTrackingInfo {
                   offerFee: nil,
                   offerCurrency: nil)
     }
+
+    init(userId: String, chatConversation: ChatConversation, offerFees: P2PPaymentOfferFees) {
+        let otherUserId = chatConversation.interlocutor?.objectId
+        let buyerId = chatConversation.amISelling ? otherUserId : userId
+        let sellerId = chatConversation.amISelling ? userId : otherUserId
+        self.init(buyerId: buyerId,
+                  listingId: chatConversation.listing?.objectId,
+                  sellerId: sellerId,
+                  conversationId: chatConversation.objectId,
+                  listingPrice: chatConversation.listing?.price,
+                  listingCurrency: chatConversation.listing?.currency,
+                  listingCategoryId: nil,
+                  offerId: nil,
+                  offerPrice: (offerFees.amount as NSDecimalNumber).doubleValue,
+                  offerFee: (offerFees.serviceFee as NSDecimalNumber).doubleValue,
+                  offerCurrency: offerFees.currency)
+    }
 }
