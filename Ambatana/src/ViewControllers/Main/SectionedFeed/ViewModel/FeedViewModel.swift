@@ -28,7 +28,17 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     let waterfallColumnCount: Int
     var queryString: String?
     private(set) var feedItems: [ListDiffable] = []
-    
+
+    var rx_updateAffiliate: Driver<Bool> {
+        return featureFlags
+            .rx_affiliationEnabled
+            .asDriver(onErrorJustReturn: .control)
+            .filter { $0 == .active }
+            .distinctUntilChanged()
+            .map { _ in return true }
+            .asDriver(onErrorJustReturn: true)
+    }
+
     var rxHasFilter: Driver<Bool> {
         return filtersVar.asDriver().map({ !$0.isDefault() })
     }
