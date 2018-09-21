@@ -11,8 +11,10 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(tags: [FilterTag])
     func vmFiltersChanged()
-    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmShowAffiliationToolTip(with configuration: TooltipConfiguration)
     func vmHideMapToolTip(hideForever: Bool)
+    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmHideAffiliationToolTip(hideForever: Bool)
 }
 
 protocol MainListingsAdsDelegate: class {
@@ -66,7 +68,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var activeRequesterType: RequesterType?
     
     private var isMapTooltipAdded = false
-    
+    private var isAffiliationTooltipAdded = false
     private var shouldCloseOnRemoveAllFilters: Bool = false
     
     var hasFilters: Bool {
@@ -84,8 +86,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var isEngagementBadgingEnabled: Bool {
         return featureFlags.engagementBadging.isActive
     }
-    
-    var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
+
+    lazy var rightBBItemsRelay = BehaviorRelay<[(image: UIImage, selector: Selector)]>(value: rightBarButtonsItems)
+
+    private var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if isRealEstateSelected {
             rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
@@ -98,8 +102,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
         
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
+        
         if shouldShowAffiliateButton {
             rightButtonItems.append((image: R.Asset.Affiliation.affiliationIcon.image.tint(color: .primaryColor), selector: #selector(MainListingsViewController.openAffiliationChallenges)))
+        } else {
+            isAffiliationTooltipAdded = false
+            delegate?.vmHideAffiliationToolTip(hideForever: false)
         }
         return rightButtonItems
     }
@@ -284,7 +292,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var shouldShowRealEstateMapTooltip: Bool {
-        return keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
+        return !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded && !isAffiliationTooltipAdded
+    }
+    
+    private var shouldShowAffiliationTooltip: Bool {
+        return !keyValueStorage[.affiliationTooltipShown] && !isAffiliationTooltipAdded
     }
     
     private func showTooltipMap() {
@@ -310,6 +322,37 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     func tooltipDidHide() {
         keyValueStorage[.realEstateTooltipMapShown] = true
+    }
+    
+    private func showTooltipAffilition() {
+        guard featureFlags.affiliationEnabled.isActive else { return }
+        guard !keyValueStorage[.affiliationTooltipShown] else { return }
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 3
+        let title = R.Strings.affiliationMainFeedTooltipText
+        let titleHighlighted = R.Strings.affiliationMainFeedTooltipTextHighlighted
+        let attributedText = title.bicolorAttributedText(mainColor: .white,
+                                                         colouredText: titleHighlighted,
+                                                         otherColor: .primaryColor,
+                                                         font: UIFont.systemSemiBoldFont(size: 15),
+                                                         paragraphStyle: paragraphStyle)
+        let action: () -> () = {  [weak self] in
+            self?.tooltipAffiliationDidHide()
+            self?.openAffiliationChallenges()
+        }
+        let tooltipConfiguration = TooltipConfiguration(title: attributedText,
+                                                        style: .black(closeEnabled: false),
+                                                        peakOnTop: true,
+                                                        actionBlock:action,
+                                                        closeBlock: nil)
+        
+        
+        isAffiliationTooltipAdded = true
+        delegate?.vmShowAffiliationToolTip(with: tooltipConfiguration)
+    }
+    
+    func tooltipAffiliationDidHide() {
+       keyValueStorage[.affiliationTooltipShown] = true
     }
 
     
@@ -623,6 +666,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func openAffiliationChallenges() {
+        delegate?.vmHideAffiliationToolTip(hideForever: true)
         wireframe?.openLoginIfNeededFromFeed(from: .feed, loggedInAction: { [weak self] in
             self?.wireframe?.openAffiliationChallenges()
         })
@@ -854,22 +898,36 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private func setupRx() {
+        featureFlags.rx_affiliationEnabled
+            .asDriver(onErrorJustReturn: .control)
+            .filter { $0 == .active }
+            .distinctUntilChanged()
+            .map { [weak self] enabled in
+                self?.rightBarButtonsItems ?? []
+            }.drive(rightBBItemsRelay)
+            .disposed(by: disposeBag)
+
         listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
         }.disposed(by: disposeBag)
         
-        appsFlyerAffiliationResolver.rx.affiliationCampaign
+        appsFlyerAffiliationResolver
+            .rx.affiliationCampaign
             .bind { [weak self] status in
             switch status {
             case .campaignNotAvailableForUser:
-                self?.navigator?.openWrongCountryModal()
+                self?.delegate?.vmHideAffiliationToolTip(hideForever: true)
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openWrongCountryModal()
+                })
             case.referral( let referrer):
+                self?.delegate?.vmHideAffiliationToolTip(hideForever: true)
                 guard !(self?.keyValueStorage[.didShowAffiliationOnBoarding] ?? true) else { return }
-                delay(2, completion: { [weak self] in
+                delay(2.5, completion: { [weak self] in
                     self?.navigator?.openAffiliationOnboarding(data: referrer)
                 })
             case .unknown:
-                return
+                self?.showTooltipAffilition()
             }
         }.disposed(by: disposeBag)
         Observable.combineLatest(notificationsManager.engagementBadgingNotifications.asObservable(),

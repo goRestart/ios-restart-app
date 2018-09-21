@@ -120,6 +120,8 @@ protocol FeatureFlaggeable: class {
     var imInterestedInProfile: ImInterestedInProfile { get }
     var shareAfterScreenshot: ShareAfterScreenshot { get }
     var affiliationEnabled: AffiliationEnabled { get }
+
+    var rx_affiliationEnabled: Observable<AffiliationEnabled> { get }
 }
 
 extension FeatureFlaggeable {
@@ -448,8 +450,7 @@ extension MultiDayBumpUp {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
-final class FeatureFlags: FeatureFlaggeable {    
-    
+final class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     private let locale: Locale
@@ -1361,5 +1362,12 @@ extension FeatureFlags {
             return Bumper.affiliationEnabled
         }
         return AffiliationEnabled.fromPosition(abTests.affiliationCampaign.value)
+    }
+
+    var rx_affiliationEnabled: Observable<AffiliationEnabled> {
+        let old = affiliationEnabled
+        return syncedData.filter { $0 }.map { [weak self] synced in
+            return self?.affiliationEnabled ?? old
+        }
     }
 }

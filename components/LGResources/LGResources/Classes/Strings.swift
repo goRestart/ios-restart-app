@@ -18,7 +18,7 @@ extension R {
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Invite friends
     public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
-    /// Invite %1$@ friends to earn %2$@ points. Invite 7%3$@more friends and earn %4$@ more points!
+    /// Invite %1$@ friends to earn %2$@ points. Invite %3$@ more friends and earn %4$@ more points!
     public static func affiliationChallengesInviteFriendsDescription(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
       return Strings.tr("Localizable", "affiliation_challenges_invite_friends_description", p1, p2, p3, p4)
     }
@@ -102,6 +102,8 @@ extension R {
     public static let affiliationInviteSmsMessageSent = Strings.tr("Localizable", "affiliation_invite_sms_message_sent")
     /// Get up to $60 in Amazon gift cards
     public static let affiliationMainFeedTooltipText = Strings.tr("Localizable", "affiliation_main_feed_tooltip_text")
+    /// $60 in Amazon gift cards
+    public static let affiliationMainFeedTooltipTextHighlighted = Strings.tr("Localizable", "affiliation_main_feed_tooltip_text_highlighted")
     /// Sell your stuff
     public static let affiliationOnboardingCountryErrorMainButton = Strings.tr("Localizable", "affiliation_onboarding_country_error_main_button")
     /// Oops! Unfortunately rewards aren’t available in your country. \n\nBut you can still make money selling on letgo!

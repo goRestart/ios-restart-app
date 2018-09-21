@@ -5,7 +5,6 @@ final class AffiliationFAQViewController: BaseViewController {
     private let viewModel: AffiliationFAQViewModel
     private let webView = WKWebView()
 
-
     // MARK: Lifecycle
 
     init(viewModel: AffiliationFAQViewModel) {

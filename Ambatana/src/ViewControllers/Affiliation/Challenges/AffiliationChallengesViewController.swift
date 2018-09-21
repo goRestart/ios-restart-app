@@ -113,6 +113,9 @@ final class AffiliationChallengesViewController: BaseViewController {
     }
 
     private func setupRx() {
+        viewModel.isLoading
+            .debounce(0.3)
+            .drive(rx.loadingOverContext).disposed(by: disposeBag)
         viewModel.state.drive(onNext: { [weak self] state in
             guard let `self` = self else { return }
             switch state {
@@ -142,5 +145,17 @@ final class AffiliationChallengesViewController: BaseViewController {
                 }
             }
         }).disposed(by: disposeBag)
+    }
+}
+
+extension Reactive where Base: AffiliationChallengesViewController {
+    var loadingOverContext: Binder<Bool> {
+        return Binder(self.base) { controller, isLoadingOverContext in
+            if isLoadingOverContext {
+                controller.showLoadingMessageAlert()
+            } else {
+                controller.dismissLoadingMessageAlert()
+            }
+        }
     }
 }

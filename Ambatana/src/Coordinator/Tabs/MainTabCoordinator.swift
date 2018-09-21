@@ -242,11 +242,14 @@ extension MainTabCoordinator: MainTabNavigator {
     
     func openWrongCountryModal() {
         guard let tabCtl = navigationController.tabBarController else { return }
-        let primaryAction = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
-                                     action: { [weak self] in
-                                        self?.dismissViewController(animated: true, completion: nil)
+        let primaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorMainButton, .primary(fontSize: .medium)),
+                                     action: { [weak tabCtl] in
+                                        tabCtl?.dismiss(animated: true) { [weak self] in
+                                            self?.appNavigator?.openSell(source: .referralNotAvailable, postCategory: nil, listingTitle:nil)
+                                        }
         })
-        let secondaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorSecondaryButton, .terciary),
+        let secondaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorSecondaryButton,
+                                                          .terciary),
                                        action: { [weak self] in
                                         self?.appNavigator?.openHome()
         })

@@ -28,7 +28,17 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     let waterfallColumnCount: Int
     var queryString: String?
     private(set) var feedItems: [ListDiffable] = []
-    
+
+    var rx_updateAffiliate: Driver<Bool> {
+        return featureFlags
+            .rx_affiliationEnabled
+            .asDriver(onErrorJustReturn: .control)
+            .filter { $0 == .active }
+            .distinctUntilChanged()
+            .map { _ in return true }
+            .asDriver(onErrorJustReturn: true)
+    }
+
     var rxHasFilter: Driver<Bool> {
         return filtersVar.asDriver().map({ !$0.isDefault() })
     }
@@ -293,15 +303,19 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
             })
             .disposed(by: disposeBag)
    
-        appsFlyerAffiliationResolver.rx.affiliationCampaign
-            .asObservable()
+        appsFlyerAffiliationResolver
+            .rx.affiliationCampaign
             .bind { [weak self] status in
             switch status {
             case .campaignNotAvailableForUser:
-                self?.navigator?.openWrongCountryModal()
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openWrongCountryModal()
+                })
             case.referral( let referrer):
                 guard !(self?.keyValueStorage[.didShowAffiliationOnBoarding] ?? true) else { return }
-                self?.navigator?.openAffiliationOnboarding(data: referrer)
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openAffiliationOnboarding(data: referrer)
+                })
             case .unknown:
                 return
             }

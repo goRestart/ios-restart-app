@@ -192,6 +192,7 @@ extension LGDeepLinksRouter {
     // Callbacks
     
     func onConversionDataReceived(_ installData: [AnyHashable : Any]!) {
+        print("onConversionDataReceived \(installData.keys.count)")
         guard let deferredDeepLink = buildFromConversionData(installData) else { return }
         initialDeepLink = deferredDeepLink
     }

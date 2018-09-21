@@ -2,7 +2,7 @@
 "account_pending_moderation_w_name" = "%@의 계정은 현재 조정중입니다";
 "advertising_text" = "광고";
 "affiliation_challenges_invite_friends_button" = "친구 초대하기";
-"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite 7%3$@more friends and earn %4$@ more points!";
+"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite %3$@ friends and earn %4$@ more points!";
 "affiliation_challenges_invite_friends_milestone" = "%@점";
 "affiliation_challenges_invite_friends_subtitle" = "Get a $60 Amazon Gift Card";
 "affiliation_challenges_invite_friends_title" = "친구 초대하기";
@@ -37,6 +37,7 @@
 "affiliation_invite_sms_message_error" = "메세지를 발송하는 동안 오류가 발생했습니다.";
 "affiliation_invite_sms_message_sent" = "Message sent!";
 "affiliation_main_feed_tooltip_text" = "Get up to $60 in Amazon gift cards";
+"affiliation_main_feed_tooltip_text_highlighted" = "$60 in Amazon gift cards";
 "affiliation_onboarding_country_error_main_button" = "고객님의 물건을 판매하세요";
 "affiliation_onboarding_country_error_message" = "Oops! Unfortunately rewards aren’t available in your country. \n\nBut you can still make money selling on letgo!";
 "affiliation_onboarding_country_error_secondary_button" = "계속 검색하기";

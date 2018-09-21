@@ -104,9 +104,9 @@ final class AffiliationChallengeView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        applyShadow(withOpacity: 0.15,
-                    radius: Layout.padding/4)
-        layer.shadowPath = UIBezierPath(roundedRect: bounds,
+        applyShadow(withOpacity: 0.15, radius: 15)
+
+        layer.shadowPath = UIBezierPath(roundedRect: container.frame,
                                         cornerRadius: Layout.containerCornerRadius).cgPath
     }
     
@@ -134,7 +134,6 @@ final class AffiliationChallengeView: UIView {
         container.layer.borderColor = UIColor.grayLight.cgColor
         container.layer.borderWidth = 1
         container.layer.cornerRadius = 16
-        container.applyDefaultShadow()
     }
 
     private func setupPoints() {

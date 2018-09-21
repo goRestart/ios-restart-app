@@ -27,7 +27,8 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     var locationSectionIndex: Int? { get }
 
     var rx_userAvatar: BehaviorRelay<UIImage?> { get }
-
+    var rx_updateAffiliate: Driver<Bool> { get }
+    
     func openInvite()
     func openSearches()
     func showFilters()
