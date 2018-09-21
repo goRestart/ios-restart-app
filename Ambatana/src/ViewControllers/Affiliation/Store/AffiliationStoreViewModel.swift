@@ -71,19 +71,19 @@ final class AffiliationStoreViewModel: BaseViewModel {
         let rewards = retrieveRewards().asObservable()
         
         Observable.combineLatest(points, rewards) { ($0, $1) }
-            .bind { [weak self] (points, rewards) in
-                self?.update(with: points, rewards: rewards)
+            .bind { [weak self] (rewardPoints, rewards) in
+                self?.update(with: rewardPoints?.points, rewards: rewards)
             }.disposed(by: disposeBag)
     }
     
-    private func update(with points: RewardPoints?, rewards: [Reward]?) {
+    private func update(with points: Int?, rewards: [Reward]?) {
         switch (points, rewards) {
         case (nil, _):
             viewState.accept(ViewState.error(genericErrorModel()))
         case (_, nil):
             viewState.accept(ViewState.error(genericErrorModel()))
         case (let rewardPoints, let rewards):
-            pointsRelay.accept(rewardPoints?.points ?? 0)
+            pointsRelay.accept(rewardPoints ?? 0)
             if let rewards = rewards, rewards.count > 0 {
                 mapRewardsToPurchases(rewards: rewards, with: pointsRelay.value)
                 viewState.accept(.data)
@@ -162,6 +162,7 @@ final class AffiliationStoreViewModel: BaseViewModel {
             observer.onNext(.loading)
             redeem.bind(onNext: { (success) in
                 if success {
+                    strSelf.update(with: newPoints, rewards: strSelf.rewards)
                     observer.onNext(.data)
                     observer.onCompleted()
                 } else {
