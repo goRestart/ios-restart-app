@@ -113,7 +113,7 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
             let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String else {
                 return
         }
-        delegate?.vmShowLoading(nil)
+
         let paymentRequest = PaymentRequest(listingId: listingId,
                                             buyerId: buyerId,
                                             sellerId: sellerId,
@@ -127,11 +127,9 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
             switch result {
             case .success:
                 delay(P2PPayments.chatRefreshDelay) { [weak self] in
-                    self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                     self?.navigator?.closeOnboarding()
                 }
-            case .failure:
-                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+            case .failure: break
             }
         }
         paymentAuthControllerRelay.accept(authController)
