@@ -13,6 +13,7 @@ extension P2PPaymentsOfferStatusViewModel {
 
     enum UIState {
         case loading
+        case errorRetry
         case buyerInfoLoaded(offer: P2PPaymentOffer, listing: Listing)
         case sellerInfoLoaded(offer: P2PPaymentOffer, listing: Listing, buyer: User)
 
@@ -20,6 +21,15 @@ extension P2PPaymentsOfferStatusViewModel {
             switch self {
             case .loading: return true
             default: return false
+            }
+        }
+
+        var hideErrorRetry: Bool {
+            switch self {
+            case .errorRetry:
+                return false
+            case .loading, .buyerInfoLoaded, .sellerInfoLoaded:
+                return true
             }
         }
 
@@ -39,7 +49,7 @@ extension P2PPaymentsOfferStatusViewModel {
 
         var offer: P2PPaymentOffer? {
             switch self {
-            case .loading:
+            case .loading, .errorRetry:
                 return nil
             case .buyerInfoLoaded(offer: let offer, listing: _):
                 return offer
@@ -50,7 +60,7 @@ extension P2PPaymentsOfferStatusViewModel {
 
         var listing: Listing? {
             switch self {
-            case .loading:
+            case .loading, .errorRetry:
                 return nil
             case .buyerInfoLoaded(offer: _, listing: let listing):
                 return listing
