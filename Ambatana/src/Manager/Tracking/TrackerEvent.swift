@@ -1780,6 +1780,44 @@ struct TrackerEvent {
         return TrackerEvent(name: .p2pPaymentsBuyerPaymentProcess, params: params)
     }
 
+    static func p2pPaymentsOfferStatusWithdraw(offer: P2PPaymentOffer,
+                                               listing: Listing) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferWithdraw, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusViewCode(offer: P2PPaymentOffer,
+                                               listing: Listing) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerCodeView, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusSeller(offer: P2PPaymentOffer,
+                                            listing: Listing) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        return TrackerEvent(name: .p2pPaymentsSellerOfferDetail, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusSellerAccept(offer: P2PPaymentOffer,
+                                                   listing: Listing) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        params[.offerSellerChoice] = "accept"
+        return TrackerEvent(name: .p2pPaymentsSellerOfferDecide, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusSellerDecline(offer: P2PPaymentOffer,
+                                                    listing: Listing) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        params[.offerSellerChoice] = "decline"
+        return TrackerEvent(name: .p2pPaymentsSellerOfferDecide, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusSellerEnterCode(offer: P2PPaymentOffer,
+                                                      listing: Listing) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutStart, params: params)
+    }
+
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,

@@ -7,7 +7,7 @@ struct P2PPaymentsTrackingInfo {
     let conversationId: String?
     let listingPrice: ListingPrice?
     let listingCurrency: Currency?
-    let listingCategoryId: String?
+    let listingCategory: ListingCategory?
     let offerId: String?
     let offerPrice: Double?
     let offerFee: Double?
@@ -21,7 +21,7 @@ struct P2PPaymentsTrackingInfo {
         eventParameters[.conversationId] = conversationId
         eventParameters[.listingPrice] = listingPrice?.value
         eventParameters[.listingCurrency] = listingCurrency?.code
-        eventParameters[.categoryId] = listingCategoryId
+        eventParameters[.categoryId] = listingCategory?.rawValue
         eventParameters[.offerId] = offerId
         eventParameters[.offerPrice] = offerPrice
         eventParameters[.offerFee] = offerFee
@@ -41,7 +41,7 @@ extension P2PPaymentsTrackingInfo {
                   conversationId: chatConversation.objectId,
                   listingPrice: chatConversation.listing?.price,
                   listingCurrency: chatConversation.listing?.currency,
-                  listingCategoryId: nil,
+                  listingCategory: nil,
                   offerId: nil,
                   offerPrice: nil,
                   offerFee: nil,
@@ -58,10 +58,24 @@ extension P2PPaymentsTrackingInfo {
                   conversationId: chatConversation.objectId,
                   listingPrice: chatConversation.listing?.price,
                   listingCurrency: chatConversation.listing?.currency,
-                  listingCategoryId: nil,
+                  listingCategory: nil,
                   offerId: nil,
                   offerPrice: (offerFees.amount as NSDecimalNumber).doubleValue,
                   offerFee: (offerFees.serviceFee as NSDecimalNumber).doubleValue,
                   offerCurrency: offerFees.currency)
+    }
+
+    init(offer: P2PPaymentOffer, listing: Listing) {
+        self.init(buyerId: offer.buyerId,
+                  listingId: offer.listingId,
+                  sellerId: offer.sellerId,
+                  conversationId: nil,
+                  listingPrice: listing.price,
+                  listingCurrency: listing.currency,
+                  listingCategory: listing.category,
+                  offerId: offer.objectId,
+                  offerPrice: (offer.fees.amount as NSDecimalNumber).doubleValue,
+                  offerFee: (offer.fees.serviceFee as NSDecimalNumber).doubleValue,
+                  offerCurrency: offer.fees.currency)
     }
 }
