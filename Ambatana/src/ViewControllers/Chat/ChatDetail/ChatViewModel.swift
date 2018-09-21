@@ -271,6 +271,7 @@ class ChatViewModel: ChatBaseViewModel {
         let chatRepository = Core.chatRepository
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
+        let p2pPaymentsRepository = Core.p2pPaymentsRepository
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
         let configManager = LGConfigManager.sharedInstance
