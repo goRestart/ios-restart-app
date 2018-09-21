@@ -1727,6 +1727,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .p2pPaymentsBuyerOfferStart, params: params)
     }
 
+    static func p2pPaymentsMakeAnOfferOnboardingAbandon(userId: String,
+                                                        chatConversation: ChatConversation) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(userId: userId, chatConversation: chatConversation).eventParameters
+        params[.abandonStep] = "onboarding"
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferAbandon, params: params)
+    }
+
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,
