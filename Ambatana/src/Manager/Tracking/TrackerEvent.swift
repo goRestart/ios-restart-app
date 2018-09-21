@@ -1835,6 +1835,42 @@ struct TrackerEvent {
         return TrackerEvent(name: .p2pPaymentsSellerPayoutError, params: params)
     }
 
+    static func p2pPaymentsPayoutUserInfoEntered(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = "user-details"
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignup, params: params)
+    }
+
+    static func p2pPaymentsPayoutUserInfoError(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = "user-details"
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignupError, params: params)
+    }
+
+    static func p2pPaymentsPayoutBankAccountEntered(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = "bank-account-edit"
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignup, params: params)
+    }
+
+    static func p2pPaymentsPayoutBankAccountError(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = "bank-account-edit"
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignupError, params: params)
+    }
+
+    static func p2pPaymentsPayoutDebitCardEntered(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = "credit-card-edit"
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignup, params: params)
+    }
+
+    static func p2pPaymentsPayoutDebitCardError(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = "credit-card-edit"
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignupError, params: params)
+    }
+
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,
