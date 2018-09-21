@@ -21,15 +21,22 @@ final class AffiliationOnBoardingViewModel: BaseViewModel {
     let onboardingData: BehaviorRelay<AffiliationOnBoardingVM?>
     var navigator: AffiliationOnBoardingNavigator?
 
+    private let tracker: Tracker
     private let keyValueStorageable: KeyValueStorageable
 
     convenience init(referrerInfo: ReferrerInfo) {
-        self.init(referrerInfo: referrerInfo, keyValueStorageable: KeyValueStorage.sharedInstance)
+        self.init(referrerInfo: referrerInfo,
+                  tracker: TrackerProxy.sharedInstance,
+                  keyValueStorageable: KeyValueStorage.sharedInstance)
     }
 
-    init(referrerInfo: ReferrerInfo, keyValueStorageable: KeyValueStorageable) {
+    init(referrerInfo: ReferrerInfo,
+         tracker: Tracker,
+         keyValueStorageable: KeyValueStorageable) {
         let message = R.Strings.affiliationInviteOnboardingText(referrerInfo.name)
-        self.onboardingData = BehaviorRelay(value: AffiliationOnBoardingVM(message: message, referrer: referrerInfo))
+        self.onboardingData = BehaviorRelay(value: AffiliationOnBoardingVM(message: message,
+                                                                           referrer: referrerInfo))
+        self.tracker = tracker
         self.keyValueStorageable = keyValueStorageable
         super.init()
     }
@@ -37,6 +44,7 @@ final class AffiliationOnBoardingViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         keyValueStorageable[.didShowAffiliationOnBoarding] = true
+        tracker.trackEvent(TrackerEvent.inviteeRewardBannerShown())
     }
 
     func close() {

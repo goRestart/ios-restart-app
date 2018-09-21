@@ -338,7 +338,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                                          paragraphStyle: paragraphStyle)
         let action: () -> () = {  [weak self] in
             self?.tooltipAffiliationDidHide()
-            self?.openAffiliationChallenges()
+            self?.openAffiliationChallenges(sourceButton: .banner)
         }
         let tooltipConfiguration = TooltipConfiguration(title: attributedText,
                                                         style: .black(closeEnabled: false),
@@ -664,11 +664,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         wireframe?.openFilters(withFilters: filters, dataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
     }
-    
-    func openAffiliationChallenges() {
+
+    func openAffiliationChallenges(sourceButton: AffiliationChallengesSource.FeedButtonName) {
         delegate?.vmHideAffiliationToolTip(hideForever: true)
         wireframe?.openLoginIfNeededFromFeed(from: .feed, loggedInAction: { [weak self] in
-            self?.wireframe?.openAffiliationChallenges()
+            self?.wireframe?.openAffiliationChallenges(sourceButton: sourceButton)
         })
     }
     

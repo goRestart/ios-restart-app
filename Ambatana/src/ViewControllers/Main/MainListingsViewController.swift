@@ -412,8 +412,9 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
     }
     
     @objc func openAffiliationChallenges(_ sender: AnyObject) {
+        navbarSearch.searchTextField.resignFirstResponder()
         vmHideAffiliationToolTip(hideForever: true)
-        viewModel.openAffiliationChallenges()
+        viewModel.openAffiliationChallenges(sourceButton: .icon)
     }
     
     @objc func openMap(_ sender: AnyObject) {
@@ -421,13 +422,7 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
         vmHideMapToolTip(hideForever: true)
         viewModel.showMap()
     }
-    
-    @objc func openAffiliation(_ sender: AnyObject) {
-        navbarSearch.searchTextField.resignFirstResponder()
-        vmHideAffiliationToolTip(hideForever: true)
-        viewModel.openAffiliationChallenges()
-    }
-    
+
     private func setupTagsView() {
 
         tagsContainerView.addSubviewForAutoLayout(filterTagsView)

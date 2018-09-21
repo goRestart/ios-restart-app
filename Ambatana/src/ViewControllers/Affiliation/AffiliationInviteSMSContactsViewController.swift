@@ -356,6 +356,7 @@ extension AffiliationInviteSMSContactsViewController: MFMessageComposeViewContro
         case .cancelled:
             callbackMessage = R.Strings.affiliationInviteSmsMessageCancel
         case .sent:
+            viewModel.didSendMessages()
             callbackMessage = R.Strings.affiliationInviteSmsMessageSent
         case .failed:
             callbackMessage = R.Strings.affiliationInviteSmsMessageError

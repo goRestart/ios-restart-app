@@ -154,8 +154,8 @@ extension ProfileTabCoordinator: SettingsNavigator {
         navigationController.popViewController(animated: true)
     }
 
-    func openAffiliationChallenges() {
-        let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
+    func openAffiliationChallenges(source: AffiliationChallengesSource) {
+        let vc = affiliationChallengesAssembly.buildAffiliationChallenges(source: source)
         navigationController.pushViewController(vc, animated: true)
     }
 }

@@ -18,6 +18,8 @@ final class AffiliationChallengesViewModel: BaseViewModel {
 
     private let rewardRepository: RewardRepository
     private let challengerRepository: ChallengerRepository
+    private let tracker: Tracker
+    private let source: AffiliationChallengesSource
 
     var state: Driver<State> {
         return stateRelay.asDriver()
@@ -42,15 +44,21 @@ final class AffiliationChallengesViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience override init() {
+    convenience init(source: AffiliationChallengesSource) {
         self.init(rewardRepository: Core.rewardRepository,
-                  challengerRepository: Core.challengerRepository)
+                  challengerRepository: Core.challengerRepository,
+                  tracker: TrackerProxy.sharedInstance,
+                  source: source)
     }
 
     init(rewardRepository: RewardRepository,
-         challengerRepository: ChallengerRepository) {
+         challengerRepository: ChallengerRepository,
+         tracker: Tracker,
+         source: AffiliationChallengesSource) {
         self.rewardRepository = rewardRepository
         self.challengerRepository = challengerRepository
+        self.tracker = tracker
+        self.source = source
         super.init()
     }
 
@@ -117,11 +125,14 @@ final class AffiliationChallengesViewModel: BaseViewModel {
                                     case let (.failure(error), _):
                                         return RepositoryResult(error: error)
                                     }
-            }.bind { [weak stateRelay, weak isLoadingRelay] result in
-                isLoadingRelay?.accept(false)
+            }.bind { [weak self] result in
+                guard let `self` = self else { return }
+                self.isLoadingRelay.accept(false)
+
                 if let viewModel = result.value {
-                    stateRelay?.accept(.data(viewModel))
-                } else if let _ = result.error {
+                    self.stateRelay.accept(.data(viewModel))
+                    self.trackVisit(dataVM: viewModel)
+                } else if let _ = result.error  {
                     let errorData = LGEmptyViewModel(icon: R.Asset.Affiliation.Error.errorOops.image,
                                                      title: R.Strings.affiliationChallengesUnknownErrorMessage,
                                                      body: nil,
@@ -132,7 +143,8 @@ final class AffiliationChallengesViewModel: BaseViewModel {
                                                      emptyReason: nil,
                                                      errorCode: nil,
                                                      errorDescription: nil)
-                    stateRelay?.accept(.error(errorData))
+                    self.stateRelay.accept(.error(errorData))
+                    self.trackVisit(dataVM: nil)
                 }
             }.disposed(by: disposeBag)
     }
@@ -152,6 +164,53 @@ final class AffiliationChallengesViewModel: BaseViewModel {
                single(.success(result))
             }
             return Disposables.create()
+        }
+    }
+
+
+    // MARK: - Tracking
+
+    private func trackVisit(dataVM: AffiliationChallengesDataVM?) {
+        let inviteFriendsIsAvailable = dataVM?.challenges.contains(where: { challenge in
+            guard case .inviteFriends = challenge else { return false }
+            return true
+        })
+        let joinLetgoChallengeIsAvailable = dataVM?.challenges.contains(where: { challenge in
+            guard case .joinLetgo = challenge else { return false }
+            return true
+        })
+        let event = TrackerEvent.rewardCenterOpen(with: source.typePage,
+                                                  buttonType: source.buttonType,
+                                                  walletPoints: dataVM?.walletPoints,
+                                                  inviteFriendsIsAvailable: inviteFriendsIsAvailable,
+                                                  joinLetgoChallengeIsAvailable: joinLetgoChallengeIsAvailable)
+        tracker.trackEvent(event)
+    }
+}
+
+private extension AffiliationChallengesSource {
+    var typePage: EventParameterTypePage {
+        switch self {
+        case .feed:
+            return .listingList
+        case .settings:
+            return .settings
+        case .external:
+            return .external
+        }
+    }
+
+    var buttonType: EventParameterButtonType? {
+        switch self {
+        case .feed(let button):
+            switch button {
+            case .icon:
+                return .icon
+            case .banner:
+                return .banner
+            }
+        case .settings, .external:
+            return nil
         }
     }
 }

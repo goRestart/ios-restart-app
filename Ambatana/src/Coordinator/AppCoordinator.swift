@@ -1162,7 +1162,7 @@ fileprivate extension AppCoordinator {
         case .affiliation:
             afterDelayClosure = { [weak self] in
                 self?.openTab(.home, force: false) { [weak self] in
-                    self?.mainTabBarCoordinator.openAffiliation()
+                    self?.mainTabBarCoordinator.openAffiliation(source: .external)
                 }
             }
         }

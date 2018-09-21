@@ -1172,6 +1172,8 @@
 		50AB5F251ED4505800E9909D /* UserRatingTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB5F211ED4447200E9909D /* UserRatingTag.swift */; };
 		50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA5C041C3C093E00F34042 /* AppDelegate.swift */; };
 		50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */; };
+		50BCCE1721554EA700B17CFD /* AffiliationChallengesSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCCE1621554EA700B17CFD /* AffiliationChallengesSource.swift */; };
+		50BCCE1821554EA700B17CFD /* AffiliationChallengesSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCCE1621554EA700B17CFD /* AffiliationChallengesSource.swift */; };
 		50C2E19B1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E19A1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift */; };
 		50C2E19C1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E19A1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift */; };
 		50C2E1A71E701BE8006639BB /* PostListingFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E1A61E701BE8006639BB /* PostListingFooter.swift */; };
@@ -3174,6 +3176,7 @@
 		50BA5C041C3C093E00F34042 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50BA5C051C3C093E00F34042 /* letgo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "letgo-Bridging-Header.h"; sourceTree = "<group>"; };
 		50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		50BCCE1621554EA700B17CFD /* AffiliationChallengesSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliationChallengesSource.swift; sourceTree = "<group>"; };
 		50C2E19A1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListingRedCamButtonFooter.swift; sourceTree = "<group>"; };
 		50C2E1A61E701BE8006639BB /* PostListingFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListingFooter.swift; sourceTree = "<group>"; };
 		50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueStorageable.swift; sourceTree = "<group>"; };
@@ -6529,6 +6532,7 @@
 				504CD296214B04E600A7672C /* AffiliationChallengesDataVM.swift */,
 				504CD290214B009900A7672C /* AffiliationChallengesHeaderView.swift */,
 				505B222F215001830053E813 /* AffiliationChallengeStepView.swift */,
+				50BCCE1621554EA700B17CFD /* AffiliationChallengesSource.swift */,
 				50D15429214A6C9900221B06 /* AffiliationChallengesViewController.swift */,
 				50D1542A214A6C9900221B06 /* AffiliationChallengesViewModel.swift */,
 				505B2229214EEC3F0053E813 /* AffiliationChallengeView.swift */,
@@ -9510,6 +9514,7 @@
 				8EEC7F57206AA60B00616858 /* NativeAdBlankStateView.swift in Sources */,
 				C783D9891C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
 				50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */,
+				50BCCE1721554EA700B17CFD /* AffiliationChallengesSource.swift in Sources */,
 				6A5E19F41D548F5400F92692 /* CountryHelper+Product.swift in Sources */,
 				8ECB2DD920E2A26A00AE9E5B /* GoogleAdxNativeAppInstallView.swift in Sources */,
 				0A6FED0E2130344000B57004 /* QuickLocationFiltersModalWireframe.swift in Sources */,
@@ -10519,6 +10524,7 @@
 				0AEAFC2E2152B2DF00B8E223 /* AffiliationOnBoardingViewController.swift in Sources */,
 				C6FFC4A520F7492500B9F53A /* FilterPriceRange.swift in Sources */,
 				C7DB41981C5138B500400945 /* CollectionViewFooter.swift in Sources */,
+				50BCCE1821554EA700B17CFD /* AffiliationChallengesSource.swift in Sources */,
 				0A2F51F42122E41B0034EF85 /* VerifyAccountsBuilder.swift in Sources */,
 				017E608320D15D4F007025C0 /* NotificationSettingsListDetailViewController.swift in Sources */,
 				504C63BD1ECAF18F00D33BFA /* Application.swift in Sources */,

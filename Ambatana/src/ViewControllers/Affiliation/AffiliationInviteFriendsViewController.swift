@@ -148,10 +148,10 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
 
 extension AffiliationInviteFriendsViewController: SocialSharerDelegate {
     func shareStartedIn(_ shareType: ShareType) {
-        //TODO: Trackings on ABIOS-5106
+        viewModel.shareOtherStarted()
     }
     
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
-        //TODO: Trackings on ABIOS-5106
+        viewModel.shareOtherCompleted(withState: state)
     }
 }
