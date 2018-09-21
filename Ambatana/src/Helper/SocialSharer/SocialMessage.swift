@@ -325,6 +325,19 @@ struct ListingSocialMessage: SocialMessage {
                          myUserAvatar: nil,
                          completion: completion)
     }
+    
+    func addUtmParamsToURLString(_ string: String, source: ShareSource?) -> String {
+        guard !string.isEmpty else { return "" }
+        let mediumValue = source?.rawValue ?? ""
+        let completeURLString = string + "?" +
+            ListingSocialMessage.utmCampaignKey + "=" + campaign.rawValue + "&" +
+            ListingSocialMessage.utmMediumKey + "=" + mediumValue + "&" +
+            ListingSocialMessage.utmSourceKey + "=" + ListingSocialMessage.utmSourceValue
+        if let percentEncodedURLString = AppsFlyerDeepLink.percentEncodeForAmpersands(urlString: completeURLString) {
+            return percentEncodedURLString
+        }
+        return completeURLString
+    }
 }
 
 
