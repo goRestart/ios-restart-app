@@ -136,9 +136,11 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     }
 
     private func trackMakeAnOfferAbandon() {
-        guard let userId = myUserRepository.myUser?.objectId else { return }
-        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferStart(userId: userId,
-                                                                    chatConversation: chatConversation)
+        guard let userId = myUserRepository.myUser?.objectId,
+        let offerFees = offerFeesRelay.value else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferAbandon(userId: userId,
+                                                                      chatConversation: chatConversation,
+                                                                      offerFees: offerFees)
         tracker.trackEvent(trackerEvent)
     }
 
