@@ -2,13 +2,18 @@ import RxSwift
 import RxCocoa
 import LGCoreKit
 
-struct ChatPaymentBannerViewModel {
+final class ChatPaymentBannerViewModel {
+    private static let updatesTimeInterval: RxTimeInterval = 10
+
     private let offerStateRelay = BehaviorRelay<P2PPaymentState>(value: .offersUnavailable)
     var offerState: Driver<P2PPaymentState> {
         return offerStateRelay.asDriver()
     }
     
     private let isHiddenRelay = BehaviorRelay<Bool>(value: true)
+    private var params: P2PPaymentStateParams?
+    private var updateTimerDisposable: Disposable?
+    private let disposeBag = DisposeBag()
     var isHidden: Driver<Bool> {
         guard featureFlags.makeAnOfferButton.isActive else {
             return Driver<Bool>.just(true)
@@ -36,6 +41,23 @@ struct ChatPaymentBannerViewModel {
     }
     
     func configure(with params: P2PPaymentStateParams) {
+        self.params = params
+        startAutoUpdates()
+    }
+
+    private func startAutoUpdates() {
+        updateTimerDisposable?.dispose()
+        let timer = Observable<Int>.timer(0,
+                                          period: ChatPaymentBannerViewModel.updatesTimeInterval,
+                                          scheduler: MainScheduler.instance)
+        updateTimerDisposable = timer.subscribe(onNext: { [weak self] _ in
+            self?.updateState()
+        })
+        updateTimerDisposable?.disposed(by: disposeBag)
+    }
+
+    private func updateState() {
+        guard let params = params else { return }
         p2pRepository.getPaymentState(params: params) { result in
             if case let .success(state) = result {
                 self.offerStateRelay.accept(state)
