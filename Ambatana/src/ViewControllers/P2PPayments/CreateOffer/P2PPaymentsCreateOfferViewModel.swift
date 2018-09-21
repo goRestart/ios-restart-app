@@ -110,7 +110,6 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
                 return
         }
         trackMakeAnOfferApplePayStart()
-        delegate?.vmShowLoading(nil)
         let paymentRequest = PaymentRequest(listingId: listingId,
                                             buyerId: buyerId,
                                             sellerId: sellerId,
@@ -125,11 +124,9 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
             case .success:
                 self?.trackMakeAnOfferComplete()
                 delay(P2PPayments.chatRefreshDelay) { [weak self] in
-                    self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                     self?.navigator?.closeOnboarding()
                 }
-            case .failure:
-                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+            case .failure: break
             }
         }
         paymentAuthControllerRelay.accept(authController)
