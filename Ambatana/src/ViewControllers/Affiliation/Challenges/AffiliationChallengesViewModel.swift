@@ -22,9 +22,17 @@ final class AffiliationChallengesViewModel: BaseViewModel {
     var state: Driver<State> {
         return stateRelay.asDriver()
     }
+
     private let stateRelay = BehaviorRelay<State>(value: .firstLoad)
     var isLoading: Driver<Bool> {
-        return isLoadingRelay.asDriver()
+        return Driver.combineLatest(stateRelay.asDriver(),
+                                    isLoadingRelay.asDriver()) { ($0, $1) }
+            .map({ (state, isLoading) -> Bool in
+                if case .data(_) = state {
+                    return isLoading
+                }
+                return false
+            })
     }
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
     private let disposeBag = DisposeBag()
@@ -110,6 +118,7 @@ final class AffiliationChallengesViewModel: BaseViewModel {
                                         return RepositoryResult(error: error)
                                     }
             }.bind { [weak stateRelay, weak isLoadingRelay] result in
+                isLoadingRelay?.accept(false)
                 if let viewModel = result.value {
                     stateRelay?.accept(.data(viewModel))
                 } else if let _ = result.error {
@@ -125,7 +134,6 @@ final class AffiliationChallengesViewModel: BaseViewModel {
                                                      errorDescription: nil)
                     stateRelay?.accept(.error(errorData))
                 }
-                isLoadingRelay?.accept(false)
             }.disposed(by: disposeBag)
     }
 
