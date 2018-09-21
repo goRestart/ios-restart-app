@@ -55,6 +55,7 @@ final class AffiliationChallengeInviteFriendsCell: UITableViewCell {
 
         guard let milestone1 = data.milestones[safeAt: 0],
             let milestone2 = data.milestones[safeAt: 1] else { return }
+        let difference = milestone2.stepIndex - milestone1.stepIndex
         challengeView.set(description: R.Strings.affiliationChallengesInviteFriendsDescription("\(milestone1.stepIndex)",
                                                                                                "\(milestone1.pointsReward)",
                                                                                                "\(milestone2.stepIndex)",
