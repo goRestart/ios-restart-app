@@ -16,6 +16,7 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     var advancedReputationSystem12: AdvancedReputationSystem12?
     var advancedReputationSystem13: AdvancedReputationSystem13?
     var mutePushNotifications: (MutePushNotifications, Int, Int)?
+    var affiliationEnabled: AffiliationEnabled?
 
     func retrieveTimeoutForRequests() -> TimeInterval? {
         return timeoutForRequests
@@ -76,4 +77,13 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     func retrieveMutePushNotifications() -> MutePushNotificationFeatureFlagHelper? {
         return nil
     }
+    
+    func retrieveAffiliationEnabled() -> AffiliationEnabled? {
+        return affiliationEnabled
+    }
+    
+    func save(affiliationEnabled: AffiliationEnabled) {
+        self.affiliationEnabled = affiliationEnabled
+    }
+
 }

@@ -5,29 +5,23 @@ import RxSwift
 import RxCocoa
 
 final class P2PPaymentsGetPayCodeViewModel: BaseViewModel {
-    var navigator: P2PPaymentsOfferStatusNavigator?
+    private static let retryInterval: TimeInterval = 5
+
+    var navigator: P2PPaymentsOfferStatusWireframe?
     private let offerId: String
     private var payCode: String?
     private let p2pPaymentsRepository: P2PPaymentsRepository
-    private let myUserRepository: MyUserRepository
-    private let installationRepository: InstallationRepository
     private let uiStateRelay = BehaviorRelay<UIState>(value: .loading)
 
     convenience init(offerId: String) {
         self.init(offerId: offerId,
-                  p2pPaymentsRepository: Core.p2pPaymentsRepository,
-                  myUserRepository: Core.myUserRepository,
-                  installationRepository: Core.installationRepository)
+                  p2pPaymentsRepository: Core.p2pPaymentsRepository)
     }
 
     init(offerId: String,
-         p2pPaymentsRepository: P2PPaymentsRepository,
-         myUserRepository: MyUserRepository,
-         installationRepository: InstallationRepository) {
+         p2pPaymentsRepository: P2PPaymentsRepository) {
         self.offerId = offerId
         self.p2pPaymentsRepository = p2pPaymentsRepository
-        self.myUserRepository = myUserRepository
-        self.installationRepository = installationRepository
         super.init()
     }
 
@@ -45,8 +39,10 @@ final class P2PPaymentsGetPayCodeViewModel: BaseViewModel {
                 self?.payCode = payCode
                 self?.updateUIState()
             case .failure:
-                // TODO: @juolgon properly handle errors
-                self?.getPayCode() // Fail silently and retry
+                // Fail silently and retry after N seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + P2PPaymentsGetPayCodeViewModel.retryInterval) {
+                    self?.getPayCode()
+                }
             }
         }
     }
@@ -70,16 +66,14 @@ extension P2PPaymentsGetPayCodeViewModel {
         var showActivityIndicator: Bool {
             switch self {
             case .loading: return true
-            default: return false
+            case .payCodeLoaded: return false
             }
         }
 
         var payCode: String? {
             switch self {
-            case .loading:
-                return nil
-            case .payCodeLoaded(let payCode):
-                return payCode
+            case .loading: return nil
+            case .payCodeLoaded(let payCode): return payCode
             }
         }
     }
@@ -90,18 +84,6 @@ extension P2PPaymentsGetPayCodeViewModel {
 extension P2PPaymentsGetPayCodeViewModel {
     func closeButtonPressed() {
         navigator?.close()
-    }
-
-    func contactUsActionSelected() {
-        guard let email = myUserRepository.myUser?.email,
-        let installation = installationRepository.installation,
-        let url = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation, listing: nil, type: .payment) else { return }
-        navigator?.openFaqs(url: url)
-    }
-
-    func faqsActionSelected() {
-        guard let url = LetgoURLHelper.buildPaymentFaqsURL() else { return }
-        navigator?.openFaqs(url: url)
     }
 }
 

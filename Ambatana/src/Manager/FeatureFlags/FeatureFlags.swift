@@ -26,7 +26,7 @@ protocol FeatureFlaggeable: class {
     var showProTagUserProfile: Bool { get }
     var showExactLocationForPros: Bool { get }
     var showPasswordlessLogin: ShowPasswordlessLogin { get }
-
+    
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var shouldHightlightFreeFilterInFeed: Bool { get }
@@ -56,6 +56,7 @@ protocol FeatureFlaggeable: class {
 
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
     var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
+    var multiDayBumpUp: MultiDayBumpUp { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -445,7 +446,10 @@ extension BumpInEditCopys {
 
 extension MultiAdRequestMoreInfo {
     var isActive: Bool { return self == .active }
+}
 
+extension MultiDayBumpUp {
+    var isActive: Bool { return self != .control && self != .baseline }
 }
 
 final class FeatureFlags: FeatureFlaggeable {
@@ -501,7 +505,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(mutePushNotifications: Bumper.mutePushNotifications,
                      hourStart: abTests.core.mutePushNotificationsStartHour.value,
                      hourEnd: abTests.core.mutePushNotificationsEndHour.value)
-
+            dao.save(affiliationEnabled: Bumper.affiliationEnabled)
         } else {
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
@@ -511,6 +515,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(mutePushNotifications: MutePushNotifications.fromPosition(abTests.core.mutePushNotifications.value),
                      hourStart: abTests.core.mutePushNotificationsStartHour.value,
                      hourEnd: abTests.core.mutePushNotificationsEndHour.value)
+            dao.save(affiliationEnabled: AffiliationEnabled.fromPosition(abTests.affiliationCampaign.value))
         }
     }
 
@@ -944,6 +949,14 @@ final class FeatureFlags: FeatureFlaggeable {
         return MultiAdRequestMoreInfo.fromPosition(abTests.multiAdRequestMoreInfo.value)
     }
 
+    var multiDayBumpUp: MultiDayBumpUp {
+        if Bumper.enabled {
+            return Bumper.multiDayBumpUp
+        }
+        return MultiDayBumpUp.fromPosition(abTests.multiDayBumpUp.value)
+    }
+
+    
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -1358,6 +1371,6 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.affiliationEnabled
         }
-        return .control // ABIOS-5051
+        return AffiliationEnabled.fromPosition(abTests.affiliationCampaign.value)
     }
 }

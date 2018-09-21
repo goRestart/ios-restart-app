@@ -4,7 +4,7 @@ extension MockMonetizationRepository: MockFactory {
         let mockMonetizationRepository = self.init()
         mockMonetizationRepository.retrieveResult = BumpeableListingResult(value: MockBumpeableListing.makeMock())
         mockMonetizationRepository.bumpResult = BumpResult(value: Void())
-        mockMonetizationRepository.availablePurchasesResult = AvailableFeaturePurchasesResult(value: MockAvailableFeaturePurchases.makeMock())
+        mockMonetizationRepository.availablePurchasesResult = ListingAvailablePurchasesResult(value: MockListingAvailablePurchases.makeMocks())
         return mockMonetizationRepository
     }
 }

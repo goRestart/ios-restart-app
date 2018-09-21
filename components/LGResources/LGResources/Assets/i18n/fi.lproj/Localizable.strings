@@ -793,8 +793,10 @@
 "payments_enter_pay_code_description_label" = "Enter the 4-digit code that buyer %@ has shared with you";
 "payments_enter_pay_code_navbar_title" = "Offer";
 "payments_get_pay_code_code_label" = "Your payment code";
+"payments_get_pay_code_contact_us_option" = "Ota yhteyttä";
 "payments_get_pay_code_description" = "Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.";
 "payments_get_pay_code_disclaimer" = "This code expires in 7 days, so make sure to meet the seller soon";
+"payments_get_pay_code_faqs_option" = "FAQ";
 "payments_get_pay_code_navbar_title" = "Offer";
 "payments_offer_status_action_chat_button" = "Keskustele myyjän kanssa";
 "payments_offer_status_action_view_code_button" = "Näytä maksukoodi";

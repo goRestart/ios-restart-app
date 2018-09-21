@@ -13,7 +13,7 @@ public protocol PaymentItem {
     var providerItemId: String { get }
 }
 
-public struct LGPaymentItem: PaymentItem, Decodable {
+struct LGPaymentItem: PaymentItem, Decodable {
     public let provider: PaymentProvider
     public let itemId: String
     public let providerItemId: String

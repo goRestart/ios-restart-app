@@ -3,10 +3,16 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
+// TODO: @juolgon Localize all texts here
+
 final class P2PPaymentsPayoutTypeSelectorView: UIView {
     enum OptionSelected {
         case bankAccount
         case debitCard
+    }
+
+    private enum Layout {
+        static let height: CGFloat = 48
     }
 
     private let bankAccountOption = OptionView(text: "Bank Account")
@@ -59,7 +65,7 @@ final class P2PPaymentsPayoutTypeSelectorView: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 48)
+        return CGSize(width: UIViewNoIntrinsicMetric, height: Layout.height)
     }
 }
 
@@ -73,6 +79,12 @@ private extension P2PPaymentsPayoutTypeSelectorView {
     final class OptionView: UIView {
         var isSelected: Bool = false {
             didSet { configureForCurrentState() }
+        }
+
+        private enum Layout {
+            static let lineWidthOffset: CGFloat = 24
+            static let lineTopMargin: CGFloat = 2
+            static let lineHeight: CGFloat = 3
         }
 
         private let titleLabel: UILabel = {
@@ -108,9 +120,9 @@ private extension P2PPaymentsPayoutTypeSelectorView {
                 titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
 
                 lineView.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
-                lineView.widthAnchor.constraint(equalTo: titleLabel.widthAnchor, constant: 24),
-                lineView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
-                lineView.heightAnchor.constraint(equalToConstant: 3)
+                lineView.widthAnchor.constraint(equalTo: titleLabel.widthAnchor, constant: Layout.lineWidthOffset),
+                lineView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Layout.lineTopMargin),
+                lineView.heightAnchor.constraint(equalToConstant: Layout.lineHeight)
             ])
         }
 

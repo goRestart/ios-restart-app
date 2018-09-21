@@ -156,6 +156,28 @@ class ChatViewModelSpec: BaseViewModelSpec {
                     user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
                     
                 }
+                context("tracking unsupported messages") {
+                        beforeEach {
+                            user.type = .user
+                            var unsupportedMessage = MockChatMessage.makeMock()
+                            unsupportedMessage.content = MockChatMessageContent(type: .unsupported(defaultText: "unsupported"), text: nil)
+                            chatMessages = [unsupportedMessage]
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor,
+                                                                         unreadMessageCount: 0,
+                                                                         lastMessageSentAt: nil,
+                                                                         amISelling: true)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               user: user)
+                            sut.active = true
+                        }
+                        it("tracks window open + unsupported message") {
+                            expect(tracker.trackedEvents.map { $0.actualName })
+                                .toEventually(equal(["chat-window-open", "chat-update-app-warning-show"]))
+                        }
+                }
                 context("tracking letgo service messages") {
                     context("cta message shown") {
                         beforeEach {

@@ -55,9 +55,11 @@ extension R {
       }
       public static let affiliationIcon = ImageAsset(name: "affiliationIcon")
       public static let chevronRight24 = ImageAsset(name: "chevronRight24")
+      public static let icnReward24 = ImageAsset(name: "icnReward24")
       public static let icnAffiliationPoints = ImageAsset(name: "icn_affiliation_points")
       public static let icnModalSuccess = ImageAsset(name: "icn_modal_success")
       public static let icnThreeDots = ImageAsset(name: "icn_three_dots")
+      public static let iconCheck = ImageAsset(name: "iconCheck")
       public static let materialBackground = ImageAsset(name: "material_background")
       public static let question24 = ImageAsset(name: "question24")
       public static let wallet24 = ImageAsset(name: "wallet24")
@@ -71,9 +73,11 @@ extension R {
         Partners.amazon,
         affiliationIcon,
         chevronRight24,
+        icnReward24,
         icnAffiliationPoints,
         icnModalSuccess,
         icnThreeDots,
+        iconCheck,
         materialBackground,
         question24,
         wallet24,
@@ -937,6 +941,8 @@ extension R {
       public static let clock = ImageAsset(name: "clock")
       public static let cloud = ImageAsset(name: "cloud")
       public static let fakeCellBottom = ImageAsset(name: "fake_cell_bottom")
+      public static let featured3DaysBackground = ImageAsset(name: "featured_3_days_background")
+      public static let featured7DaysBackground = ImageAsset(name: "featured_7_days_background")
       public static let featuredBackground = ImageAsset(name: "featured_background")
       public static let grayChevronDown = ImageAsset(name: "gray_chevron_down")
       public static let grayChevronUp = ImageAsset(name: "gray_chevron_up")
@@ -965,6 +971,8 @@ extension R {
         clock,
         cloud,
         fakeCellBottom,
+        featured3DaysBackground,
+        featured7DaysBackground,
         featuredBackground,
         grayChevronDown,
         grayChevronUp,

@@ -86,6 +86,8 @@ extension R {
     public static let affiliationInviteSmsContactsSelectAll = Strings.tr("Localizable", "affiliation_invite_sms_contacts_select_all")
     /// Connect contacts
     public static let affiliationInviteSmsContactsTitle = Strings.tr("Localizable", "affiliation_invite_sms_contacts_title")
+    /// Open
+    public static let affiliationInviteSmsGoSettingsButton = Strings.tr("Localizable", "affiliation_invite_sms_go_settings_button")
     /// Message has not been sent
     public static let affiliationInviteSmsMessageCancel = Strings.tr("Localizable", "affiliation_invite_sms_message_cancel")
     /// Something was wrong and message was not sent
@@ -1884,7 +1886,7 @@ extension R {
     public static let paymentsGetPayCodeDescription = Strings.tr("Localizable", "payments_get_pay_code_description")
     /// This code expires in 7 days, so make sure to meet the seller soon
     public static let paymentsGetPayCodeDisclaimer = Strings.tr("Localizable", "payments_get_pay_code_disclaimer")
-    /// FAQs
+    /// FAQ
     public static let paymentsGetPayCodeFaqsOption = Strings.tr("Localizable", "payments_get_pay_code_faqs_option")
     /// Offer
     public static let paymentsGetPayCodeNavbarTitle = Strings.tr("Localizable", "payments_get_pay_code_navbar_title")

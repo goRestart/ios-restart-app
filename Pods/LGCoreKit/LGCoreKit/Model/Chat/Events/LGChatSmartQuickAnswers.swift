@@ -66,7 +66,13 @@ struct LGChatSmartQuickAnswers: ChatSmartQuickAnswers, Decodable, Equatable {
         referralWord = try keyedContainer.decode(String.self, forKey: .referralWord)
         let createdAtVakue = try keyedContainer.decode(TimeInterval.self, forKey: .createdAt)
         createdAt = Date.makeChatDate(millisecondsIntervalSince1970: createdAtVakue) ?? Date()
-        answers = try keyedContainer.decode([LGChatAnswer].self, forKey: .answers)
+        let answersRaw = try keyedContainer.decode([LGChatAnswer].self, forKey: .answers)
+        // There is a limitation from backend where we can't send the same UUID twice for two different messages
+        // Therefor, since smart quick answer may be used more than once, we will generate a UUID when the user clicks on it
+        let answersWithGeneratedUUID = answersRaw.map { return LGChatAnswer(id: nil,
+                                                                            key: $0.key,
+                                                                            type: $0.type) }
+        answers = answersWithGeneratedUUID
     }
     
     enum CodingKeys: String, CodingKey {

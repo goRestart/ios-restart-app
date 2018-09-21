@@ -5,15 +5,21 @@ import RxCocoa
 
 
 final class P2PPaymentsGetPayCodeViewController: BaseViewController {
+    private enum Layout {
+        static let warningIconTopMargin: CGFloat = 12
+        static let warningIconBottomMargin: CGFloat = 16
+        static let warningIconSize: CGFloat = 34
+        static let contentHorizontalMargin: CGFloat = 24
+        static let payCodeAreaTopMargin: CGFloat = 24
+        static let payCodeAreaHeight: CGFloat = 220
+        static let payCodeTitleTopMargin: CGFloat = 53
+        static let payCodeTitleBottomMargin: CGFloat = 20
+        static let disclaimerHorizontalMargin: CGFloat = 32
+        static let disclaimerBottomMargin: CGFloat = 32
+    }
+
     private let viewModel: P2PPaymentsGetPayCodeViewModel
     private let disposeBag = DisposeBag()
-
-    private lazy var optionsButton: UIButton = {
-        let button = UIButton()
-        button.setImage(R.Asset.P2PPayments.icOptions.image, for: .normal)
-        button.addTarget(self, action: #selector(optionsButtonPressed), for: .touchUpInside)
-        return button
-    }()
 
     private let warningImageView: UIImageView = {
         let imageView = UIImageView(image: R.Asset.P2PPayments.icError.image)
@@ -92,19 +98,10 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
         setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
         setNavBarTitleStyle(NavBarTitleStyle.text(R.Strings.paymentsGetPayCodeNavbarTitle))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
-        setNavigationBarRightButtons([optionsButton])
     }
 
     @objc private func closeButtonPressed() {
         viewModel.closeButtonPressed()
-    }
-
-    @objc private func optionsButtonPressed() {
-        let contactUs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsGetPayCodeContactUsOption),
-                 action: viewModel.contactUsActionSelected)
-        let faqs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsGetPayCodeFaqsOption),
-                                 action: viewModel.faqsActionSelected)
-        vmShowActionSheet(R.Strings.commonCancel, actions: [contactUs, faqs])
     }
 
     private func setup() {
@@ -122,32 +119,32 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            warningImageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 12),
+            warningImageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: Layout.warningIconTopMargin),
             warningImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            warningImageView.widthAnchor.constraint(equalToConstant: 34),
-            warningImageView.heightAnchor.constraint(equalToConstant: 34),
+            warningImageView.widthAnchor.constraint(equalToConstant: Layout.warningIconSize),
+            warningImageView.heightAnchor.constraint(equalToConstant: Layout.warningIconSize),
 
-            descriptionLabel.topAnchor.constraint(equalTo: warningImageView.bottomAnchor, constant: 16),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            descriptionLabel.topAnchor.constraint(equalTo: warningImageView.bottomAnchor, constant: Layout.warningIconBottomMargin),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.contentHorizontalMargin),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.contentHorizontalMargin),
 
-            payCodeBackground.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24),
-            payCodeBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            payCodeBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            payCodeBackground.heightAnchor.constraint(equalToConstant: 220),
+            payCodeBackground.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: Layout.payCodeAreaTopMargin),
+            payCodeBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.contentHorizontalMargin),
+            payCodeBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.contentHorizontalMargin),
+            payCodeBackground.heightAnchor.constraint(equalToConstant: Layout.payCodeAreaHeight),
 
             payCodeTitleLabel.centerXAnchor.constraint(equalTo: payCodeBackground.centerXAnchor),
-            payCodeTitleLabel.topAnchor.constraint(equalTo: payCodeBackground.topAnchor, constant: 53),
+            payCodeTitleLabel.topAnchor.constraint(equalTo: payCodeBackground.topAnchor, constant: Layout.payCodeTitleTopMargin),
 
-            payCodeLabel.topAnchor.constraint(equalTo: payCodeTitleLabel.bottomAnchor, constant: 20),
+            payCodeLabel.topAnchor.constraint(equalTo: payCodeTitleLabel.bottomAnchor, constant: Layout.payCodeTitleBottomMargin),
             payCodeLabel.centerXAnchor.constraint(equalTo: payCodeBackground.centerXAnchor),
 
             activityIndicator.centerXAnchor.constraint(equalTo: payCodeLabel.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: payCodeBackground.centerYAnchor),
 
-            disclaimerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-            disclaimerLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
-            disclaimerLabel.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -32),
+            disclaimerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.disclaimerHorizontalMargin),
+            disclaimerLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.disclaimerHorizontalMargin),
+            disclaimerLabel.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -Layout.disclaimerBottomMargin),
         ])
     }
 

@@ -221,6 +221,16 @@ extension MainTabCoordinator: MainTabNavigator {
             navigationController.pushViewController(vc, animated: true)
         }
     }
+    
+    func openAffiliationOnboarding(data: ReferrerInfo) {
+        guard let tabCtl = navigationController.tabBarController else { return }
+        let vc = AffiliationOnBoardingBuilder.modal(tabCtl)
+            .buildOnBoarding(referrer: data,
+                             onCompletion: { [weak self] in
+                                self?.openAffiliation()
+            })
+        tabCtl.present(vc, animated: true, completion: nil)
+    }
 
     func openSearches() {
         openChild(coordinator: SearchCoordinator(),
@@ -228,6 +238,30 @@ extension MainTabCoordinator: MainTabNavigator {
                   animated: true,
                   forceCloseChild: true,
                   completion: nil)
+    }
+    
+    func openWrongCountryModal() {
+        guard let tabCtl = navigationController.tabBarController else { return }
+        let primaryAction = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
+                                     action: { [weak self] in
+                                        self?.dismissViewController(animated: true, completion: nil)
+        })
+        let secondaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorSecondaryButton, .terciary),
+                                       action: { [weak self] in
+                                        self?.appNavigator?.openHome()
+        })
+        let data = AffiliationModalData(
+            icon: R.Asset.Affiliation.Error.errorFeatureUnavailable.image,
+            headline: R.Strings.affiliationWrongCountryErrorHeadline,
+            subheadline: R.Strings.affiliationWrongCountryErrorSubheadline,
+            primary: primaryAction,
+            secondary: secondaryAction
+        )
+        let vc = AffiliationModalBuilder.modal.buildAffiliationModalView(with: data)
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .overCurrentContext
+        
+        tabCtl.present(vc, animated: true, completion: nil)
     }
 }
 

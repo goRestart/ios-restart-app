@@ -133,7 +133,8 @@ final class AffiliationInviteSMSContactsViewModel: BaseViewModel {
     func smsText() -> SocialMessage {
         let myUserId = myUserRepository.myUser?.objectId
         let myUserName = myUserRepository.myUser?.name
-        let socialMessage: SocialMessage = AffiliationSocialMessage(myUserId:myUserId, myUserName: myUserName)
+        let myUserAvatar = myUserRepository.myUser?.avatar?.fileURL?.absoluteString
+        let socialMessage: SocialMessage = AffiliationSocialMessage(myUserId:myUserId, myUserName: myUserName, myUserAvatar: myUserAvatar)
         return socialMessage
     }
     
@@ -141,7 +142,7 @@ final class AffiliationInviteSMSContactsViewModel: BaseViewModel {
     // MARK: Filtering
     
     func didFilter(withText text: String) {
-        let contactsFiltered = contactsInfo.value.filter { $0.name.lowercased().contains(text.lowercased()) || $0.phoneNumber.lowercased().contains(text.lowercased())  }
+        let contactsFiltered = contactsInfo.value.filter { $0.name.forSorting.contains(text.forSorting.lowercased()) || $0.phoneNumber.lowercased().contains(text.lowercased())  }
         searchResultsInfo.accept(contactsFiltered)
         status.accept(.filtering)
     }

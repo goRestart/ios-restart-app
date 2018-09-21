@@ -23,12 +23,6 @@ final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
         super.init()
     }
 
-    override func didBecomeActive(_ firstTime: Bool) {
-        super.didBecomeActive(firstTime)
-        if firstTime {
-        }
-    }
-
     private func usePayCode(_ payCode: String) {
         uiStateRelay.accept(.loading(buyerName: buyerName, buyerAvatar: buyerAvatar))
         p2pPaymentsRepository.usePayCode(payCode: payCode, offerId: offerId) { [weak self] result in
@@ -84,7 +78,7 @@ extension P2PPaymentsEnterPayCodeViewModel {
         }
 
         var descriptionText: String {
-            return "Enter the 4-digit code that buyer \(buyerName) has shared with you"
+            return R.Strings.paymentsEnterPayCodeDescriptionLabel(buyerName)
         }
     }
 }

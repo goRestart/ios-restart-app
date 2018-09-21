@@ -176,6 +176,7 @@ class ChatViewModel: ChatBaseViewModel {
     fileprivate var afterRetrieveMessagesCompletion: (() -> Void)?
 
     fileprivate var showingSendMessageError = false
+    private var didTrackChatUpdateAppWarningShow = false
 
     fileprivate let disposeBag = DisposeBag()
     fileprivate var userIsTypingDisposeBag: DisposeBag? = DisposeBag()
@@ -1087,7 +1088,7 @@ extension ChatViewModel {
             messages.insert(viewMessage, atIndex: 0)
         }
         shouldUpdateQuickAnswers.value = directAnswers
-        trackLetgoServiceMessageReceived()
+        performTrackingsForCurrentMessages()
     }
 
     fileprivate func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String?, type: ChatMessageType) {
@@ -1435,7 +1436,7 @@ extension ChatViewModel {
             }
             strongSelf.setupInterlocutorIsTypingRx()
             strongSelf.shouldUpdateQuickAnswers.value = strongSelf.directAnswers
-            strongSelf.trackLetgoServiceMessageReceived()
+            strongSelf.performTrackingsForCurrentMessages()
         }
     }
     
@@ -1685,6 +1686,24 @@ fileprivate extension ChatViewModel {
 
 fileprivate extension ChatViewModel {
 
+    func performTrackingsForCurrentMessages() {
+        trackUpdateAppWarningShow()
+        trackLetgoServiceMessageReceived()
+    }
+    
+    func trackUpdateAppWarningShow() {
+        let unsupportedMessages = messages.value.filter { message -> Bool in
+            if case .unsupported = message.type {
+                return true
+            }
+            return false
+        }
+        if unsupportedMessages.count > 0 && !didTrackChatUpdateAppWarningShow {
+            tracker.trackEvent(TrackerEvent.chatUpdateAppWarningShow())
+            didTrackChatUpdateAppWarningShow = true
+        }
+    }
+    
     func trackLetgoServiceMessageReceived() {
         guard let lastMessage = messages.value.first else { return }
         if case .multiAnswer(let question, _) = lastMessage.type,
@@ -1855,6 +1874,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
      3- legacy quick answers (hardcoded in app)
      */
     var directAnswers: [QuickAnswer] {
+        
         if let lastMessage = messages.value.first,
             let userId = myUserRepository.myUser?.objectId,
             lastMessage.talkerId != userId,

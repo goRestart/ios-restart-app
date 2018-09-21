@@ -793,8 +793,10 @@
 "payments_enter_pay_code_description_label" = "Enter the 4-digit code that buyer %@ has shared with you";
 "payments_enter_pay_code_navbar_title" = "Offer";
 "payments_get_pay_code_code_label" = "Your payment code";
+"payments_get_pay_code_contact_us_option" = "Kontakta oss";
 "payments_get_pay_code_description" = "Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.";
 "payments_get_pay_code_disclaimer" = "This code expires in 7 days, so make sure to meet the seller soon";
+"payments_get_pay_code_faqs_option" = "FAQ";
 "payments_get_pay_code_navbar_title" = "Offer";
 "payments_offer_status_action_chat_button" = "Chat with Seller";
 "payments_offer_status_action_view_code_button" = "View payment code";
@@ -805,11 +807,11 @@
 "payments_offer_status_as_buyer_buyer_offer_step_title" = "You're offering %@";
 "payments_offer_status_as_buyer_buyer_offer_step_withdraw_button" = "Withdraw offer";
 "payments_offer_status_as_buyer_meeting_step_description" = "When you have the item, release the payment to the seller by sharing your payment code";
-"payments_offer_status_as_buyer_meeting_step_title" = "Meet in person and release the payment";
-"payments_offer_status_as_buyer_seller_offer_step_description" = "You’ll get a notification that the seller has accepted your offer";
+"payments_offer_status_as_buyer_meeting_step_title" = "Möt personligen och slutför betalningen";
+"payments_offer_status_as_buyer_seller_offer_step_description" = "Du kommer att aviseras när säljaren accepterar ditt bud";
 "payments_offer_status_as_buyer_seller_offer_step_status_accepted" = "Offer accepted";
 "payments_offer_status_as_buyer_seller_offer_step_status_declined" = "Offer declined";
-"payments_offer_status_as_buyer_seller_offer_step_title" = "The seller accepts";
+"payments_offer_status_as_buyer_seller_offer_step_title" = "Säljaren accepterar";
 "payments_offer_status_as_seller_accept_button" = "Accept";
 "payments_offer_status_as_seller_buyer_amount_label" = "The buyer pays";
 "payments_offer_status_as_seller_buyer_offer_description" = "A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.";

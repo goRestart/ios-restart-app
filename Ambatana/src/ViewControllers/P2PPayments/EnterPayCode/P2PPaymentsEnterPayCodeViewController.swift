@@ -5,12 +5,28 @@ import RxCocoa
 
 
 final class P2PPaymentsEnterPayCodeViewController: BaseViewController, VerificationCodeTextFieldDelegate {
+<<<<<<< HEAD
+=======
+    private enum Layout {
+        static let avatarImageSize: CGFloat = 72
+        static let avatarTopMargin: CGFloat = 4
+        static let avatarBottomMargin: CGFloat = 16
+        static let descriptionHorizontalMargin: CGFloat = 24
+        static let descriptionBottomMargin: CGFloat = 40
+        static let attemptsTextTopMargin: CGFloat = 12
+    }
+
+>>>>>>> ABIOS-4811-Payout
     private let viewModel: P2PPaymentsEnterPayCodeViewModel
     private let disposeBag = DisposeBag()
 
     private let buyerImageView: UIImageView = {
         let imageView = UIImageView()
+<<<<<<< HEAD
         imageView.cornerRadius = 72 / 2
+=======
+        imageView.cornerRadius = Layout.avatarImageSize / 2
+>>>>>>> ABIOS-4811-Payout
         return imageView
     }()
 
@@ -21,7 +37,10 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController, Verificat
         label.textColor = .lgBlack
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.textAlignment = .center
+<<<<<<< HEAD
         label.text = R.Strings.paymentsEnterPayCodeDescriptionLabel("Susie Fuller") // TODO: @juolgon show buyer name
+=======
+>>>>>>> ABIOS-4811-Payout
         return label
     }()
 
@@ -83,6 +102,7 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController, Verificat
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+<<<<<<< HEAD
             buyerImageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 4),
             buyerImageView.widthAnchor.constraint(equalToConstant: 72),
             buyerImageView.heightAnchor.constraint(equalToConstant: 72),
@@ -95,6 +115,21 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController, Verificat
             verificationCodetextField.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 40),
 
             attemptsTextLabel.topAnchor.constraint(equalTo: verificationCodetextField.bottomAnchor, constant: 12),
+=======
+            buyerImageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: Layout.avatarTopMargin),
+            buyerImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            buyerImageView.widthAnchor.constraint(equalToConstant: Layout.avatarImageSize),
+            buyerImageView.heightAnchor.constraint(equalToConstant: Layout.avatarImageSize),
+
+            descriptionLabel.topAnchor.constraint(equalTo: buyerImageView.bottomAnchor, constant: Layout.avatarBottomMargin),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.descriptionHorizontalMargin),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.descriptionHorizontalMargin),
+
+            verificationCodetextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            verificationCodetextField.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: Layout.descriptionBottomMargin),
+
+            attemptsTextLabel.topAnchor.constraint(equalTo: verificationCodetextField.bottomAnchor, constant: Layout.attemptsTextTopMargin),
+>>>>>>> ABIOS-4811-Payout
             attemptsTextLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),

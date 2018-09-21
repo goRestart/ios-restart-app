@@ -5,6 +5,7 @@ final class AffiliationChallengesHeaderView: UITableViewHeaderFooterView, Reusab
     private enum Layout {
         static let padding: CGFloat = 24
         static let verticalSpacing: CGFloat = 28
+        static let bottomPadding: CGFloat = 4
     }
 
     private let walletView = AffiliationWalletView()
@@ -46,7 +47,8 @@ final class AffiliationChallengesHeaderView: UITableViewHeaderFooterView, Reusab
                                                            constant: -Layout.padding),
                            title.topAnchor.constraint(equalTo: walletView.bottomAnchor,
                                                       constant: Layout.verticalSpacing),
-                           title.bottomAnchor.constraint(equalTo: bottomAnchor)]
+                           title.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                         constant: Layout.bottomPadding)]
         constraints.activate()
     }
 

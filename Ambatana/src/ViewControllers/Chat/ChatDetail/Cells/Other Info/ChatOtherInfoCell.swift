@@ -26,7 +26,8 @@ final class ChatOtherInfoCell: UITableViewCell, ReusableCell {
         stackView.spacing = Layout.verticalMargin
         return stackView
     }()
-
+    private let ratingStackView = UIStackView()
+    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .blackText
@@ -73,7 +74,11 @@ final class ChatOtherInfoCell: UITableViewCell, ReusableCell {
     }
 
     func set(rating: Float?) {
-        ratingView.setupValue(rating: rating ?? 0)
+        guard let rating = rating, rating > 0 else {
+            ratingStackView.isHidden = true
+            return
+        }
+        ratingView.setupValue(rating: rating)
     }
     
     func setupVerifiedInfo(facebook: Bool, google: Bool, email: Bool) {
@@ -94,7 +99,7 @@ final class ChatOtherInfoCell: UITableViewCell, ReusableCell {
     }
     
     func setupLetgoAssistantInfo() {
-        ratingView.isHidden = true
+        ratingStackView.isHidden = true
         verificationView.isHidden = true
         
         if !stackView.subviews.contains(assistantView) {
@@ -115,9 +120,8 @@ fileprivate extension ChatOtherInfoCell {
         backgroundColor = .clear
         addSubviewsForAutoLayout([bubbleView])
         bubbleView.addSubviewForAutoLayout(stackView)
-    
-        let ratingStackView = UIStackView(arrangedSubviews: [ratingView, UIView()])
-  
+   
+        ratingStackView.addArrangedSubviews([ratingView, UIView()])
         stackView.addArrangedSubviews([
             nameLabel, ratingStackView, verificationView, locationView
         ])

@@ -79,6 +79,9 @@
 // Error when sending message
 "affiliation_invite_sms_message_error" = "Something was wrong and message was not sent";
 
+// Button title to go to settings when there is no access to contacts
+"affiliation_invite_sms_go_settings_button" = "Open";
+
 // Affiliation Invite message text
 "affiliation_invite_message_text" = "%@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
 
@@ -2737,7 +2740,7 @@
 // Navigation bar title in pay code screen
 "payments_get_pay_code_navbar_title" = "Offer";
 
-"payments_get_pay_code_faqs_option" = "FAQs";
+"payments_get_pay_code_faqs_option" = "FAQ";
 
 "payments_get_pay_code_contact_us_option" = "Contact us";
 
