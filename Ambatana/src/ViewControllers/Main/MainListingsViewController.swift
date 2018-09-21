@@ -265,7 +265,7 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
     }
     
     func vmShowAffiliationToolTip(with configuration: TooltipConfiguration) {
-        guard let affiliationButton = navigationItem.rightBarButtonItems?.last?.customView
+        guard let affiliationButton = navigationItem.rightBarButtonItems?.first?.customView
         else { return }
     
         let tooltip = Tooltip(targetView: affiliationButton,
