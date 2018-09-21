@@ -34,7 +34,7 @@ final class AppsFlyerAffiliationResolver {
     
     static let shared = AppsFlyerAffiliationResolver()
     static let campaignValue = "affiliate-program"
-    
+
     /// This var should not be used outside. Set it internal and fix tests (talk to Xavi)
     let rx_affiliationCampaign = BehaviorRelay<AffiliationCampaignState>(value: .unknown)
     let rx_AppIsReady = BehaviorRelay<Bool>(value: false)
