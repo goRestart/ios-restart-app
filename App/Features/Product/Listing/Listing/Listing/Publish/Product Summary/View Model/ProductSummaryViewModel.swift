@@ -23,6 +23,11 @@ struct ProductSummaryViewModel: ProductSummaryViewModelType, ProductSummaryViewM
   
   // MARK: - Output
   
+  private let stateRelay = PublishRelay<ProductSummaryState>()
+  var state: Driver<ProductSummaryState> {
+    return stateRelay.asDriver(onErrorJustReturn: .idle)
+  }
+
   private let productDraftRelay = PublishRelay<ProductDraftUIModel?>()
   var productDraft: Driver<ProductDraftUIModel?> {
     return productDraftRelay.asDriver(onErrorJustReturn: nil)
@@ -38,10 +43,14 @@ struct ProductSummaryViewModel: ProductSummaryViewModelType, ProductSummaryViewM
   
   func publishButtonPressed() {
     let productDraft = getProductDraft.get()
+    
+    stateRelay.accept(.publishing)
+    
     uploadProduct.execute(with: productDraft)
       .subscribe(onCompleted: {
         print("Product uploaded correctly")
       }) { error in
+        self.stateRelay.accept(.idle)
         // TODO: Handle error
     }.disposed(by: bag)
   }
