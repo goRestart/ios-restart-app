@@ -13,7 +13,7 @@ final class ProductImagesCoordinator: ProductImagesCoordinable {
   
   weak var delegate: ProductImagesCoordinatorIndex?
   
-  init(productImages: UIViewController?,
+  init(productImages: UIViewController,
        cameraNavigator: CameraNavigator,
        productSelectorNavigator: ProductSelectorNavigator)
   {

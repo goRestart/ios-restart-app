@@ -10,15 +10,18 @@ struct ProductSummaryViewModel: ProductSummaryViewModelType, ProductSummaryViewM
   private let getProductDraft: ProductDraftUseCase
   private let productDraftViewMapper: ProductDraftViewMapper
   private let uploadProduct: UploadProductUseCase
+  private let coordinator: ProductSummaryCoordinator
   private let bag = DisposeBag()
   
   init(getProductDraft: ProductDraftUseCase,
        productDraftViewMapper: ProductDraftViewMapper,
-       uploadProduct: UploadProductUseCase)
+       uploadProduct: UploadProductUseCase,
+       coordinator: ProductSummaryCoordinator)
   {
     self.getProductDraft = getProductDraft
     self.productDraftViewMapper = productDraftViewMapper
     self.uploadProduct = uploadProduct
+    self.coordinator = coordinator
   }
   
   // MARK: - Output
@@ -48,7 +51,7 @@ struct ProductSummaryViewModel: ProductSummaryViewModelType, ProductSummaryViewM
     
     uploadProduct.execute(with: productDraft)
       .subscribe(onCompleted: {
-        print("Product uploaded correctly")
+        self.coordinator.close()
       }) { error in
         self.stateRelay.accept(.idle)
         // TODO: Handle error

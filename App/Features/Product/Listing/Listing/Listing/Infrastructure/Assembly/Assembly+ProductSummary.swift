@@ -10,7 +10,7 @@ extension Assembly: ProductSummaryProvider {
     let viewController = ProductSummaryViewController(
       viewBinder: viewBinder
     )
-    viewController.viewModel = viewModel
+    viewController.viewModel = viewModel(with: viewController)
     return viewController
   }
   
@@ -18,11 +18,18 @@ extension Assembly: ProductSummaryProvider {
     return ProductSummaryViewBinder()
   }
   
-  private var viewModel: ProductSummaryViewModelType {
+  private func viewModel(with viewController: ProductSummaryViewController) -> ProductSummaryViewModelType {
     return ProductSummaryViewModel(
       getProductDraft: productDraftActions,
       productDraftViewMapper: productDraftViewMapper,
-      uploadProduct: uploadProduct
+      uploadProduct: uploadProduct,
+      coordinator: productSummaryCoordinator(with: viewController)
+    )
+  }
+  
+  private func productSummaryCoordinator(with viewController: ProductSummaryViewController) -> ProductSummaryCoordinator {
+    return ProductSummaryCoordinator(
+      productSummary: viewController
     )
   }
   
