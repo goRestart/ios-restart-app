@@ -182,7 +182,7 @@ extension SignUpView {
 
 extension Reactive where Base: SignUpView {
   var error: Binder<RegisterUserError?> {
-    return Binder(self.base) { base, error in
+    return Binder(base) { base, error in
       base.set(error)
     }
   }
@@ -208,13 +208,13 @@ extension Reactive where Base: SignUpView {
   }
   
   var signUpButtonEnabled: Binder<Bool> {
-    return Binder(self.base) { view, enabled in
+    return Binder(base) { view, enabled in
       view.signUpButton.isEnabled = enabled
     }
   }
   
   var signUpButtonIsLoading: Binder<SignUpState> {
-    return Binder(self.base) { base, state in
+    return Binder(base) { base, state in
       base.signUpButton.isLoading = state == .loading
     }
   }
@@ -224,7 +224,7 @@ extension Reactive where Base: SignUpView {
   }
   
   var userInteractionEnabled: Binder<Bool> {
-    return Binder(self.base) { view, enabled in
+    return Binder(base) { view, enabled in
       view.usernameTextField.isUserInteractionEnabled = enabled
       view.emailTextField.isUserInteractionEnabled = enabled
       view.passwordTextField.isUserInteractionEnabled = enabled

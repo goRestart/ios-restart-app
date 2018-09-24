@@ -3,7 +3,7 @@ import RxSwift
 import RxTest
 @testable import Listing
 
-final class ProductPriceViewModelSpec: XCTest {
+final class ProductPriceViewModelSpec: XCTestCase {
   
   private var sut: ProductPriceViewModelType!
   private var productDraft: ProductDraftSpy!
@@ -33,8 +33,8 @@ final class ProductPriceViewModelSpec: XCTest {
       .drive(nextStepEnabled)
       .disposed(by: bag)
     
-    XCTAssertEqual(price.events, [Recorded.next(0, "")])
-    XCTAssertEqual(nextStepEnabled.events, [Recorded.next(0, false)])
+    XCTAssertEqual(price.events, [.next(0, "")])
+    XCTAssertEqual(nextStepEnabled.events, [.next(0, false)])
   }
   
   func test_should_retrieve_stored_price_when_view_appeared() {
@@ -50,7 +50,7 @@ final class ProductPriceViewModelSpec: XCTest {
     
     let expectedEvents: [Recorded<Event<String>>] = [
       .next(0, ""),
-      .next(0, "50")
+      .next(0, "50.0")
     ]
     
     XCTAssertEqual(price.events, expectedEvents)

@@ -10,19 +10,27 @@ struct ProductSummaryViewModel: ProductSummaryViewModelType, ProductSummaryViewM
   private let getProductDraft: ProductDraftUseCase
   private let productDraftViewMapper: ProductDraftViewMapper
   private let uploadProduct: UploadProductUseCase
+  private let coordinator: ProductSummaryCoordinator
   private let bag = DisposeBag()
   
   init(getProductDraft: ProductDraftUseCase,
        productDraftViewMapper: ProductDraftViewMapper,
-       uploadProduct: UploadProductUseCase)
+       uploadProduct: UploadProductUseCase,
+       coordinator: ProductSummaryCoordinator)
   {
     self.getProductDraft = getProductDraft
     self.productDraftViewMapper = productDraftViewMapper
     self.uploadProduct = uploadProduct
+    self.coordinator = coordinator
   }
   
   // MARK: - Output
   
+  private let stateRelay = PublishRelay<ProductSummaryState>()
+  var state: Driver<ProductSummaryState> {
+    return stateRelay.asDriver(onErrorJustReturn: .idle)
+  }
+
   private let productDraftRelay = PublishRelay<ProductDraftUIModel?>()
   var productDraft: Driver<ProductDraftUIModel?> {
     return productDraftRelay.asDriver(onErrorJustReturn: nil)
@@ -38,10 +46,14 @@ struct ProductSummaryViewModel: ProductSummaryViewModelType, ProductSummaryViewM
   
   func publishButtonPressed() {
     let productDraft = getProductDraft.get()
+    
+    stateRelay.accept(.publishing)
+    
     uploadProduct.execute(with: productDraft)
       .subscribe(onCompleted: {
-        print("Product uploaded correctly")
+        self.coordinator.close()
       }) { error in
+        self.stateRelay.accept(.idle)
         // TODO: Handle error
     }.disposed(by: bag)
   }

@@ -3,7 +3,7 @@ import RxSwift
 import RxTest
 @testable import Listing
 
-final class ProductDescriptionViewModelSpec: XCTest {
+final class ProductDescriptionViewModelSpec: XCTestCase {
   
   private var sut: ProductDescriptionViewModelType!
   private var productDraft: ProductDraftSpy!
@@ -33,8 +33,8 @@ final class ProductDescriptionViewModelSpec: XCTest {
       .drive(nextStepEnabled)
       .disposed(by: bag)
     
-    XCTAssertEqual(description.events, [Recorded.next(0, "")])
-    XCTAssertEqual(nextStepEnabled.events, [Recorded.next(0, false)])
+    XCTAssertEqual(description.events, [.next(0, "")])
+    XCTAssertEqual(nextStepEnabled.events, [.next(0, false)])
   }
   
   func test_should_retrieve_stored_description_when_view_appeared() {

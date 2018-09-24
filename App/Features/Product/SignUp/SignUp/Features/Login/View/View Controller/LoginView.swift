@@ -155,13 +155,13 @@ extension Reactive where Base: LoginView {
   }
   
   var signInButtonEnabled: Binder<Bool> {
-    return Binder(self.base) { view, enabled in
+    return Binder(base) { view, enabled in
       view.signInButton.isEnabled = enabled
     }
   }
   
   var signInButtonIsLoading: Binder<LoginState> {
-    return Binder(self.base) { base, state in
+    return Binder(base) { base, state in
       base.signInButton.isLoading = state == .loading
     }
   }
@@ -171,7 +171,7 @@ extension Reactive where Base: LoginView {
   }
   
   var userInteractionEnabled: Binder<Bool> {
-    return Binder(self.base) { view, enabled in
+    return Binder(base) { view, enabled in
       view.usernameInput.isUserInteractionEnabled = enabled
       view.passwordInput.isUserInteractionEnabled = enabled
       view.signInButton.isUserInteractionEnabled = enabled

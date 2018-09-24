@@ -106,11 +106,9 @@ open class FullWidthButton: UIButton {
     switch state {
     case .normal:
       endLoading()
-      isUserInteractionEnabled = true
       layer.insertSublayer(backgroundGradientLayer, at: 0)
     case .disabled:
       endLoading()
-      isUserInteractionEnabled = false
       backgroundColor = .darkGrey
       backgroundGradientLayer.removeFromSuperlayer()
     case .loading:
@@ -142,6 +140,7 @@ open class FullWidthButton: UIButton {
   private func startLoading() {
     titleLabel?.alpha = 0
     addSubview(loadingActivity)
+    isUserInteractionEnabled = false
     
     loadingActivity.startAnimating()
     loadingActivity.snp.makeConstraints { make in
@@ -151,6 +150,7 @@ open class FullWidthButton: UIButton {
   
   private func endLoading() {
     guard loadingActivity.isAnimating else { return }
+    isUserInteractionEnabled = true
     loadingActivity.stopAnimating()
     titleLabel?.alpha = 1
     loadingActivity.removeFromSuperview()

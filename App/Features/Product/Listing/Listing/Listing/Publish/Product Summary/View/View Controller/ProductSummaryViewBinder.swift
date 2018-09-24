@@ -7,6 +7,10 @@ struct ProductSummaryViewBinder {
       .drive(view.rx.productDraft)
       .disposed(by: bag)
     
+    viewModel.output.state
+      .drive(view.rx.state)
+      .disposed(by: bag)
+    
     view.rx.publishButtonWasTapped.subscribe { _ in
       viewModel.input.publishButtonPressed()
     }.disposed(by: bag)

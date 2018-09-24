@@ -43,7 +43,7 @@ struct ProductDescriptionViewModel: ProductDescriptionViewModelType, ProductDesc
   
   func onNextStepPressed() {
     productDraft.save(
-      description: descriptionRelay.value
+      description: descriptionRelay.value.trimmed
     )
     productPriceNavigator.navigate()
   }

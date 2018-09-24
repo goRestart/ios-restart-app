@@ -90,8 +90,14 @@ final class ProductSummaryView: View {
 // MARK: - View bindings
 
 extension Reactive where Base: ProductSummaryView {
+  var state: Binder<ProductSummaryState> {
+    return Binder(base) { view, state in
+      view.publishButton.isLoading = state == .publishing
+    }
+  }
+  
   var productDraft: Binder<ProductDraftUIModel?> {
-    return Binder(self.base) { view, productDraft in
+    return Binder(base) { view, productDraft in
       view.titleLabel.text = productDraft?.title
       view.descriptionLabel.text = productDraft?.description
       view.priceLabel.text = productDraft?.price

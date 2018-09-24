@@ -42,6 +42,7 @@
 		2E08DF762141D53B0039161E /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E08DF732141D53B0039161E /* OpenSans-Semibold.ttf */; };
 		2E08DF772141D53B0039161E /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E08DF742141D53B0039161E /* OpenSans-Bold.ttf */; };
 		2E08DF782141D53B0039161E /* OpenSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E08DF752141D53B0039161E /* OpenSans.ttf */; };
+		2E431FA8215665660074870E /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E431FA7215665660074870E /* Domain.framework */; };
 		2E4F37BE2149A07C009D0373 /* CarouselImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4F37BD2149A07B009D0373 /* CarouselImage.swift */; };
 		2E71A91B2131A6BF009D24A9 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91A2131A6BF009D24A9 /* Checkbox.swift */; };
 		2E71A91E2131AA6A009D24A9 /* CheckboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */; };
@@ -110,6 +111,7 @@
 		2E08DF732141D53B0039161E /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		2E08DF742141D53B0039161E /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		2E08DF752141D53B0039161E /* OpenSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenSans.ttf; sourceTree = "<group>"; };
+		2E431FA7215665660074870E /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E4F37BD2149A07B009D0373 /* CarouselImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselImage.swift; sourceTree = "<group>"; };
 		2E71A91A2131A6BF009D24A9 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		2E71A91D2131AA6A009D24A9 /* CheckboxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxSpec.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E431FA8215665660074870E /* Domain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +197,7 @@
 		1C15A1E81FF42E9600FA0E47 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E431FA7215665660074870E /* Domain.framework */,
 				1C15A1F41FF4301500FA0E47 /* Snap.framework */,
 				1C15A1E91FF42E9600FA0E47 /* SnapKit.framework */,
 			);

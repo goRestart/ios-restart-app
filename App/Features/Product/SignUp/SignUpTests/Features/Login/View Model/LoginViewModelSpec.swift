@@ -26,13 +26,21 @@ final class LoginViewModelSpec: XCTestCase {
     let userInteractionEnabled = givenUserInteractionEnabled()
     let signInEnabled = givenSignInEnabled()
 
-    sut.output.state.drive(state).disposed(by: bag)
-    sut.output.userInteractionEnabled.drive(userInteractionEnabled).disposed(by: bag)
-    sut.output.signInEnabled.drive(signInEnabled).disposed(by: bag)
+    sut.output.state
+      .drive(state)
+      .disposed(by: bag)
     
-    XCTAssertEqual(state.events, [Recorded.next(0, .idle)])
-    XCTAssertEqual(userInteractionEnabled.events, [Recorded.next(0, true)])
-    XCTAssertEqual(signInEnabled.events, [Recorded.next(0, false)])
+    sut.output.userInteractionEnabled
+      .drive(userInteractionEnabled)
+      .disposed(by: bag)
+    
+    sut.output.signInEnabled
+      .drive(signInEnabled)
+      .disposed(by: bag)
+    
+    XCTAssertEqual(state.events, [.next(0, .idle)])
+    XCTAssertEqual(userInteractionEnabled.events, [.next(0, true)])
+    XCTAssertEqual(signInEnabled.events, [.next(0, false)])
   }
   
   func test_should_enable_signIn_when_login_fields_are_filled_correctly() {
