@@ -19,13 +19,13 @@ final class ProductSelectorViewModelSpec: XCTestCase {
   }
 
   func test_should_navigate_to_next_step_when_game_is_selected() {
-    sut.input.onGameSelected(with: "mario", Identifier.make())
+    sut.input.onGameSelected(with: "mario", Identifier())
     
     XCTAssertTrue(productDescriptionNavigator.navigateWasCalled)
   }
   
   func test_should_save_product_selection_when_game_is_selected() {
-    sut.input.onGameSelected(with: "mario", Identifier.make())
+    sut.input.onGameSelected(with: "mario", Identifier())
     
     XCTAssertTrue(productDraft.saveTitleWasCalled)
   }

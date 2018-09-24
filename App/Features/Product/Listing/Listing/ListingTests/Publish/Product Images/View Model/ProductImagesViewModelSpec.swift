@@ -25,15 +25,19 @@ final class ProductImagesViewModelSpec: XCTestCase {
   func test_view_model_initial_state() {
     let nextStepIsEnabled = givenNextStepIsEnabled()
     
-    sut.output.nextStepEnabled.drive(nextStepIsEnabled).disposed(by: bag)
+    sut.output.nextStepEnabled
+      .drive(nextStepIsEnabled)
+      .disposed(by: bag)
     
-    XCTAssertEqual(nextStepIsEnabled.events, [Recorded.next(0, false)])
+    XCTAssertEqual(nextStepIsEnabled.events, [.next(0, false)])
   }
     
   func test_should_enable_next_step_if_there_are_at_least_one_image_added() {
     let nextStepIsEnabled = givenNextStepIsEnabled()
     
-    sut.output.nextStepEnabled.drive(nextStepIsEnabled).disposed(by: bag)
+    sut.output.nextStepEnabled
+      .drive(nextStepIsEnabled)
+      .disposed(by: bag)
     
     let image = UIImage()
     sut.input.onAdd(image: image, with: 1)
@@ -49,7 +53,9 @@ final class ProductImagesViewModelSpec: XCTestCase {
   func test_should_disable_next_step_if_all_images_are_removed() {
     let nextStepIsEnabled = givenNextStepIsEnabled()
     
-    sut.output.nextStepEnabled.drive(nextStepIsEnabled).disposed(by: bag)
+    sut.output.nextStepEnabled
+      .drive(nextStepIsEnabled)
+      .disposed(by: bag)
     
     let image = UIImage()
     sut.input.onAdd(image: image, with: 1)
