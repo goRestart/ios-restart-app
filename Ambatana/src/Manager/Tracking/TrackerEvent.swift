@@ -1730,7 +1730,7 @@ struct TrackerEvent {
     static func p2pPaymentsMakeAnOfferOnboardingAbandon(userId: String,
                                                         chatConversation: ChatConversation) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(userId: userId, chatConversation: chatConversation).eventParameters
-        params[.abandonStep] = "onboarding"
+        params[.abandonStep] = EventParameterP2PPaymentsAbandonStep.onboarding
         return TrackerEvent(name: .p2pPaymentsBuyerOfferAbandon, params: params)
     }
 
@@ -1740,7 +1740,7 @@ struct TrackerEvent {
         var params = P2PPaymentsTrackingInfo(userId: userId,
                                              chatConversation: chatConversation,
                                              offerFees: offerFees).eventParameters
-        params[.abandonStep] = "offer-edit"
+        params[.abandonStep] = EventParameterP2PPaymentsAbandonStep.offerEdit
         return TrackerEvent(name: .p2pPaymentsBuyerOfferAbandon, params: params)
     }
 
@@ -1801,14 +1801,14 @@ struct TrackerEvent {
     static func p2pPaymentsOfferStatusSellerAccept(offer: P2PPaymentOffer,
                                                    listing: Listing) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
-        params[.offerSellerChoice] = "accept"
+        params[.offerSellerChoice] = EventParameterP2PPaymentsOfferSellerChoice.accept
         return TrackerEvent(name: .p2pPaymentsSellerOfferDecide, params: params)
     }
 
     static func p2pPaymentsOfferStatusSellerDecline(offer: P2PPaymentOffer,
                                                     listing: Listing) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
-        params[.offerSellerChoice] = "decline"
+        params[.offerSellerChoice] = EventParameterP2PPaymentsOfferSellerChoice.decline
         return TrackerEvent(name: .p2pPaymentsSellerOfferDecide, params: params)
     }
 
@@ -1820,13 +1820,13 @@ struct TrackerEvent {
 
     static func p2pPaymentsOfferSellerCodeEntered(offer: P2PPaymentOffer) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
-        params[.step] = "code-entry"
+        params[.step] = EventParameterP2PPaymentsStep.codeEntry
         return TrackerEvent(name: .p2pPaymentsSellerPayout, params: params)
     }
 
     static func p2pPaymentsOfferSellerCodeCorrect(offer: P2PPaymentOffer) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
-        params[.step] = "code-correct"
+        params[.step] = EventParameterP2PPaymentsStep.codeCorrect
         return TrackerEvent(name: .p2pPaymentsSellerPayout, params: params)
     }
 
@@ -1837,37 +1837,37 @@ struct TrackerEvent {
 
     static func p2pPaymentsPayoutUserInfoEntered(offer: P2PPaymentOffer) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
-        params[.step] = "user-details"
+        params[.step] = EventParameterP2PPaymentsStep.userDetails
         return TrackerEvent(name: .p2pPaymentsSellerPayoutSignup, params: params)
     }
 
     static func p2pPaymentsPayoutUserInfoError(offer: P2PPaymentOffer) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
-        params[.step] = "user-details"
+        params[.step] = EventParameterP2PPaymentsStep.userDetails
         return TrackerEvent(name: .p2pPaymentsSellerPayoutSignupError, params: params)
     }
 
     static func p2pPaymentsPayoutBankAccountEntered(offer: P2PPaymentOffer) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
-        params[.step] = "bank-account-edit"
+        params[.step] = EventParameterP2PPaymentsStep.bankAccountEdit
         return TrackerEvent(name: .p2pPaymentsSellerPayoutSignup, params: params)
     }
 
     static func p2pPaymentsPayoutBankAccountError(offer: P2PPaymentOffer) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
-        params[.step] = "bank-account-edit"
+        params[.step] = EventParameterP2PPaymentsStep.bankAccountEdit
         return TrackerEvent(name: .p2pPaymentsSellerPayoutSignupError, params: params)
     }
 
     static func p2pPaymentsPayoutDebitCardEntered(offer: P2PPaymentOffer) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
-        params[.step] = "credit-card-edit"
+        params[.step] = EventParameterP2PPaymentsStep.creditCardEdit
         return TrackerEvent(name: .p2pPaymentsSellerPayoutSignup, params: params)
     }
 
     static func p2pPaymentsPayoutDebitCardError(offer: P2PPaymentOffer) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
-        params[.step] = "credit-card-edit"
+        params[.step] = EventParameterP2PPaymentsStep.creditCardEdit
         return TrackerEvent(name: .p2pPaymentsSellerPayoutSignupError, params: params)
     }
 

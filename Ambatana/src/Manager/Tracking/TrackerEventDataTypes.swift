@@ -660,6 +660,36 @@ enum EventParameterPostingAbandonStep: String {
     }
 }
 
+enum EventParameterP2PPaymentsAbandonStep: String {
+    case onboarding = "onboarding"
+    case offerEdit = "offer-edit"
+
+    static var allValues: [EventParameterP2PPaymentsAbandonStep] {
+        return [.onboarding, .offerEdit]
+    }
+}
+
+enum EventParameterP2PPaymentsOfferSellerChoice: String {
+    case accept = "accept"
+    case decline = "decline"
+
+    static var allValues: [EventParameterP2PPaymentsOfferSellerChoice] {
+        return [.accept, .decline]
+    }
+}
+
+enum EventParameterP2PPaymentsStep: String {
+    case codeCorrect = "code-correct"
+    case codeEntry = "code-entry"
+    case userDetails = "user-details"
+    case bankAccountEdit = "bank-account-edit"
+    case creditCardEdit = "credit-card-edit"
+
+    static var allValues: [EventParameterP2PPaymentsStep] {
+        return [.codeCorrect, .codeEntry, .userDetails, .bankAccountEdit, .creditCardEdit]
+    }
+}
+
 enum EventParameterMake {
     case make(name: String?)
     case none
