@@ -517,6 +517,7 @@ enum EventParameterLoginSourceValue: String {
     case chatProUser = "chat-pro-user"
     case community = "community"
     case feed = "feed"
+    case passwordless = "passwordless"
 }
 
 enum EventParameterProductItemType: String {
