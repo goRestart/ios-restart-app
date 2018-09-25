@@ -245,8 +245,9 @@ extension P2PPaymentsCreateOfferViewModel {
     func contactUsActionSelected() {
         guard let email = myUserRepository.myUser?.email,
             let installation = installationRepository.installation,
-            let url = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation, listing: nil, type: .payment) else { return }
-        navigator?.openFaqs(url: url)
+            let url = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation,
+                                                       listing: nil, type: .payment) else { return }
+        navigator?.openContactUs(url: url)
     }
 
     func faqsActionSelected() {
