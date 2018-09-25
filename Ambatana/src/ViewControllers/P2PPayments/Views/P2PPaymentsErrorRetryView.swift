@@ -16,6 +16,7 @@ final class P2PPaymentsErrorRetryView: UIView {
         label.numberOfLines = 0
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.text = R.Strings.paymentsLoadingGenericError
+        label.textAlignment = .center
         return label
     }()
 
@@ -42,7 +43,7 @@ final class P2PPaymentsErrorRetryView: UIView {
         NSLayoutConstraint.activate([
             errorLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             errorLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.contentHorizontalMargin),
-            errorLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -Layout.contentHorizontalMargin),
+            errorLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.contentHorizontalMargin),
 
             retryButton.centerXAnchor.constraint(equalTo: errorLabel.centerXAnchor),
             retryButton.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: Layout.buttonTopMargin),
