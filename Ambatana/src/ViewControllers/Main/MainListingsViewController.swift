@@ -460,10 +460,13 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
         setLetGoRightButtonsWith(images: buttons.map { $0.image }, selectors: buttons.map { $0.selector })
     }
     
+    private func removeLeftNavBarButton() {
+        navigationItem.leftBarButtonItems = []
+    }
+    
     private func setInviteNavBarButton() {
         guard isRootViewController() else { return }
         guard viewModel.shouldShowInviteButton  else { return }
-
         let invite = UIBarButtonItem(title: R.Strings.mainProductsInviteNavigationBarButton,
                                      style: .plain,
                                      target: self,
@@ -475,6 +478,7 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
 
     private func setLeftNavBarButtons(withAvatar avatar: UIImage? = nil) {
         guard isRootViewController() else { return }
+        removeLeftNavBarButton()
         if viewModel.shouldShowCommunityButton {
             setCommunityButton()
         } else if viewModel.shouldShowUserProfileButton {
