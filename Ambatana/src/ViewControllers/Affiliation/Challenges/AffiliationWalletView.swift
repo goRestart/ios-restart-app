@@ -66,7 +66,7 @@ final class AffiliationWalletView: UIView {
                                 interpolationQuality: .default),
                         for: .normal)
         button.tintColor = UIColor.lgBlack
-
+        button.isUserInteractionEnabled = false
         button.titleEdgeInsets = UIEdgeInsets(top: 0,
                                               left: 0,
                                               bottom: 0,

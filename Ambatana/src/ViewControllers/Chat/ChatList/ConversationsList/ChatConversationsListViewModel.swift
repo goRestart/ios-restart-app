@@ -205,7 +205,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     
     // MARK: Ads
     
-    func shouldSetupAds() -> Bool {
+    func shouldShowAds() -> Bool {
         let creationDate = myUserRepository.myUser?.creationDate
         return featureFlags.multiAdRequestInChatSectionForUS.shouldShowAdsForUser(createdIn: creationDate) ||
             featureFlags.multiAdRequestInChatSectionForTR.shouldShowAdsForUser(createdIn: creationDate)

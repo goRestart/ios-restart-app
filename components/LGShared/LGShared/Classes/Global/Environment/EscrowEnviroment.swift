@@ -50,6 +50,8 @@ final class EscrowEnvironment: AppEnvironment {
     let chatSectionAdUnitForOldUsersUS = ""
     let chatSectionAdUnitForOldUsersTR = ""
     
+    let sectionedFeedAdUnitForUS = ""
+    
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = ""
     let feedAdUnitIdMoPubUSAForOldUsers = ""

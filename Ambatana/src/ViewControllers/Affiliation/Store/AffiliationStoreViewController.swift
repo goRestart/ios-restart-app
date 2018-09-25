@@ -8,6 +8,11 @@ final class AffiliationStoreViewController: BaseViewController {
 
     private let viewModel: AffiliationStoreViewModel
     private let pointsView = AffiliationStorePointsView()
+    private lazy var moreThreeDotsButton = UIBarButtonItem(image: R.Asset.Affiliation.icnThreeDots.image,
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(didTapMoreActions))
+    private lazy var pointsItem = UIBarButtonItem(customView: pointsView)
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -32,6 +37,8 @@ final class AffiliationStoreViewController: BaseViewController {
 
     override func viewDidLoad() {
         view.backgroundColor = storeView.backgroundColor
+        moreThreeDotsButton.tintColor = .grayRegular
+
         storeView.collectionView.dataSource = self
         automaticallyAdjustsScrollViewInsets = false
         
@@ -43,16 +50,7 @@ final class AffiliationStoreViewController: BaseViewController {
         setNavBarTitle(R.Strings.affiliationStoreTitle)
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.backgroundColor = .clear
-
-
-        let button = UIBarButtonItem(image: R.Asset.Affiliation.icnThreeDots.image,
-                                     style: .plain,
-                                     target: self,
-                                     action: #selector(didTapMoreActions))
-        button.tintColor = .grayRegular
-
-        let pointsItem = UIBarButtonItem(customView: pointsView)
-        navigationItem.rightBarButtonItems = [button, pointsItem]
+        navigationItem.rightBarButtonItems = [moreThreeDotsButton, pointsItem]
     }
 
     private func setupRx() {
@@ -60,7 +58,7 @@ final class AffiliationStoreViewController: BaseViewController {
             viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
             viewModel.rx.redeemTapped.drive(rx.redeemCell),
             viewModel.rx.points.drive(rx.points),
-            viewModel.rx.pointsAlpha.drive(rx.pointsAlpha)
+            viewModel.rx.pointsVisible.drive(rx.pointsVisible)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -103,8 +101,12 @@ final class AffiliationStoreViewController: BaseViewController {
         constraintViewToSafeRootView(errorView)
     }
 
-    fileprivate func updatePoints(with alpha: CGFloat) {
-        pointsView.alpha = alpha
+    fileprivate func updatePoints(with isVisible: Bool) {
+        if isVisible {
+            navigationItem.rightBarButtonItems = [moreThreeDotsButton, pointsItem]
+        } else {
+            navigationItem.rightBarButtonItems = [moreThreeDotsButton]
+        }
     }
 
     fileprivate func updatePoints(with points: Int) {
@@ -229,9 +231,9 @@ extension Reactive where Base: AffiliationStoreViewController {
         }
     }
 
-    var pointsAlpha: Binder<CGFloat> {
-        return Binder(self.base) { controller, alpha in
-            controller.updatePoints(with: alpha)
+    var pointsVisible: Binder<Bool> {
+        return Binder(self.base) { controller, visibility in
+            controller.updatePoints(with: visibility)
         }
     }
 

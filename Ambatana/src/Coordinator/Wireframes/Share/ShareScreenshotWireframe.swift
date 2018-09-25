@@ -7,6 +7,6 @@ final class ShareScreenshotWireframe: ShareScreenshotNavigator {
     }
     
     func closeShareScreenshot() {
-        root?.dismiss(animated: true)
+        root?.dismiss(animated: false)
     }
 }

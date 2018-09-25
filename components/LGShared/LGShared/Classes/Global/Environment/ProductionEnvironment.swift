@@ -51,6 +51,8 @@ final class ProductionEnvironment: AppEnvironment {
 
     let chatSectionAdUnitForOldUsersUS = "/21666124832/us/iOS/chat/300x250_var_b"
     let chatSectionAdUnitForOldUsersTR = "/21636273254/turkey/iOS/chat/300x250_var_b"
+    
+    let sectionedFeedAdUnitForUS = "/21666124832/us/iOS/feed/300x250_var_a"
 
     // Stripe
     let stripeAPIKey = "pk_live_t2XkxF05GAxpGgMaxiW45vSs"

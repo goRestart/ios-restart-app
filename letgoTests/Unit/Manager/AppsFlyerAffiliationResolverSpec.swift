@@ -23,27 +23,27 @@ final class AppsFlyerAffiliationResolverSpec: QuickSpec {
             AppsFlyerKeys.firstLaunch : true,
             AppsFlyerKeys.sub1 : mockReferrer.userId,
             AppsFlyerKeys.sub2 : mockReferrer.name,
-            AppsFlyerKeys.sub3 : mockReferrer.avatar!
+            AppsFlyerKeys.sub3 : mockReferrer.avatar!.absoluteString
         ]
         let conversionDataMockKO_notFirstLaunch: [AnyHashable : Any] = [
             AppsFlyerKeys.campaign : AppsFlyerAffiliationResolver.campaignValue,
             AppsFlyerKeys.firstLaunch : false,
             AppsFlyerKeys.sub1 : mockReferrer.userId,
             AppsFlyerKeys.sub2 : mockReferrer.name,
-            AppsFlyerKeys.sub3 : mockReferrer.avatar!
+            AppsFlyerKeys.sub3 : mockReferrer.avatar!.absoluteString
         ]
         let conversionDataMockKO_wrongCampaign: [AnyHashable : Any] = [
             AppsFlyerKeys.campaign : String.makeRandom(),
             AppsFlyerKeys.firstLaunch : true,
             AppsFlyerKeys.sub1 : mockReferrer.userId,
             AppsFlyerKeys.sub2 : mockReferrer.name,
-            AppsFlyerKeys.sub3 : mockReferrer.avatar!
+            AppsFlyerKeys.sub3 : mockReferrer.avatar!.absoluteString
         ]
         let conversionDataMockKO_noUserIdField: [AnyHashable : Any] = [
             AppsFlyerKeys.campaign : AppsFlyerAffiliationResolver.campaignValue,
             AppsFlyerKeys.firstLaunch : true,
             AppsFlyerKeys.sub2 : mockReferrer.name,
-            AppsFlyerKeys.sub3 : mockReferrer.avatar!
+            AppsFlyerKeys.sub3 : mockReferrer.avatar!.absoluteString
         ]
 
 

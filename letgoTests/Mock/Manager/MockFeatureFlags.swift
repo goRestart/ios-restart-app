@@ -3,6 +3,8 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
+    var rx_affiliationEnabled: Observable<AffiliationEnabled> { return .just(.control) }
+
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
     }
