@@ -234,12 +234,13 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
             chatContainer.becomeFirstResponder()
         case .showShareSheet:
             viewModel.shareButtonPressed()
-        case let .triggerBumpUp(bumpUpProductData,
+
+        case let .triggerBumpUp(purchases,
                                 maxCountdown,
                                 bumpUpType,
                                 triggerBumpUpSource,
                                 typePage):
-            viewModel.showBumpUpView(bumpUpProductData: bumpUpProductData,
+            viewModel.showBumpUpView(purchases: purchases,
                                      maxCountdown: maxCountdown,
                                      bumpUpType: bumpUpType,
                                      bumpUpSource: triggerBumpUpSource,
@@ -1028,7 +1029,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     }
 
     func didScrollToPage(_ page: Int) {
-        pageControl.setCurrentPage(to: page)
+        pageControl.setCurrentPage(to: page, animated: true)
         shouldShowProgressView = viewModel.itemIsPlayable(at: page)
     }
 
@@ -1322,6 +1323,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
 extension ListingCarouselViewController {
     func showBumpUpBanner(bumpInfo: BumpUpInfo){
+        viewModel.bumpUpBannerShown(bumpInfo: bumpInfo)
         guard bannerContainer.isHidden else {
             // banner is already visible, but info changes
             if bumpUpBanner.type != bumpInfo.type {
@@ -1330,8 +1332,6 @@ extension ListingCarouselViewController {
             }
             return
         }
-
-        viewModel.bumpUpBannerShown(bumpInfo: bumpInfo)
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: bumpInfo)
@@ -1354,7 +1354,7 @@ extension ListingCarouselViewController {
         switch type {
         case .boost(let boostBannerVisible):
             bannerTotalHeight = boostBannerVisible ? CarouselUI.bannerHeight*2 : CarouselUI.bannerHeight
-        case .free, .hidden, .priced, .restore, .loading:
+        case .free, .hidden, .priced, .restore, .loading, .ongoingBump:
             bannerTotalHeight = CarouselUI.bannerHeight
         }
 
@@ -1453,6 +1453,12 @@ extension ListingCarouselViewController {
     }
 }
 
+extension ListingCarouselViewController {
+    func retrieveSocialMessage() -> SocialMessage? {
+        return viewModel.makeSocialMessage()
+    }
+}
+
 
 // MARK: - Accessibility ids
 
@@ -1498,14 +1504,14 @@ extension Reactive where Base: ListingCarouselViewController {
     
     var currentPage: Binder<Int> {
         return Binder(self.base) { view, currentPage in
-            view.pageControl.setCurrentPage(to: currentPage)
+            view.pageControl.setCurrentPage(to: currentPage, animated: true)
         }
     }
     
     var numberOfPages: Binder<Int> {
         return Binder(self.base) { view, numberOfPages in
             view.pageControl.setup(withNumberOfPages: numberOfPages)
-            view.pageControl.setCurrentPage(to: 0)
+            view.pageControl.setCurrentPage(to: 0, animated: false)
             view.updatePageControlConstraints(forItemCount: numberOfPages)
         }
     }

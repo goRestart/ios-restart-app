@@ -198,7 +198,7 @@ final class AffiliationInviteSMSContactsViewController: KeyboardViewController, 
             constraintViewToSafeRootView(emptyState)
         case .needPermissions:
             let block: () -> () = { self.openSettings() }
-            let action = UIAction(interface: .button(R.Strings.commonErrorListRetryButton,
+            let action = UIAction(interface: .button(R.Strings.affiliationInviteSmsGoSettingsButton,
                                                      .primary(fontSize: .medium)),
                                   action: block )
             emptyState.populate(message: R.Strings.affiliationInviteSmsContactsNeedPermissions,
@@ -356,6 +356,7 @@ extension AffiliationInviteSMSContactsViewController: MFMessageComposeViewContro
         case .cancelled:
             callbackMessage = R.Strings.affiliationInviteSmsMessageCancel
         case .sent:
+            viewModel.didSendMessages()
             callbackMessage = R.Strings.affiliationInviteSmsMessageSent
         case .failed:
             callbackMessage = R.Strings.affiliationInviteSmsMessageError
@@ -366,6 +367,7 @@ extension AffiliationInviteSMSContactsViewController: MFMessageComposeViewContro
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         searchBar.resignFirstResponder()
         self.navigationController?.isNavigationBarHidden = false
     }

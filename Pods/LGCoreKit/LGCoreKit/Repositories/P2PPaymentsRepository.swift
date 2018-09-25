@@ -35,6 +35,8 @@ public typealias RequestP2PPaymentPayoutResult = Result<String, RepositoryError>
 public typealias RequestP2PPaymentPayoutCompletion = (RequestP2PPaymentPayoutResult) -> Void
 
 public protocol P2PPaymentsRepository {
+    var shouldRefreshChatMessages: Bool { get }
+    func markChatMessagesAsRefreshed()
     func showOffer(id: String, completion: ShowP2PPaymentOfferCompletion?)
     func createOffer(params: P2PPaymentCreateOfferParams, completion: CreateP2PPaymentOfferCompletion?)
     func calculateOfferFees(params: P2PPaymentCalculateOfferFeesParams, completion: CalculateP2PPaymentOfferFeesCompletion?)

@@ -166,7 +166,7 @@ enum CoreReportDataSource: ReportType {
         case serviceType
         case feed
         case report
-        case availableFeaturePurchases
+        case listingAvailablePurchases
         case rewardPoints
         case reward
         case voucher
@@ -255,8 +255,8 @@ enum CoreReportDataSource: ReportType {
                 return LGFeed.self
             case .report:
                 return LGReport.self
-            case .availableFeaturePurchases:
-                return LGAvailableFeaturePurchases.self
+            case .listingAvailablePurchases:
+                return LGListingAvailablePurchases.self
             case .rewardPoints:
                 return LGRewardPoints.self
             case .reward:

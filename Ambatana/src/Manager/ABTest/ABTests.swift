@@ -191,6 +191,7 @@ extension ABTests {
     var bumpInEditCopys: LeanplumABVariable<Int> { return money.bumpInEditCopys }
     var copyForSellFasterNowInTurkish : LeanplumABVariable<Int> { return money.copyForSellFasterNowInTurkish }
     var multiAdRequestMoreInfo: LeanplumABVariable<Int> { return money.multiAdRequestMoreInfo }
+    var multiDayBumpUp: LeanplumABVariable<Int> { return money.multiDayBumpUp }
     var multiAdRequestInChatSectionForUS: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForUS }
     var multiAdRequestInChatSectionForTR: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForTR }
 }

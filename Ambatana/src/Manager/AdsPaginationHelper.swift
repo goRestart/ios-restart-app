@@ -7,6 +7,7 @@ final class AdsPaginationHelper {
     private let featureFlags: FeatureFlaggeable
     private var previousAdOffset = 0
     private var isFirstPage = true
+    private var isAdBannerFirstLoad = true
     
     init(featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
         self.featureFlags = featureFlags
@@ -25,6 +26,24 @@ final class AdsPaginationHelper {
     func reset() {
         previousAdOffset = 0
         isFirstPage = true
+        isAdBannerFirstLoad = true
+    }
+    
+    func bannerAdIndexesPositions(withItemListCount itemListCount: Int) -> [Int] {
+        var positions: [Int] = []
+        guard itemListCount > 0, isAdBannerFirstLoad else { return positions }
+        var positionToAddAd = SharedConstants.Feed.firstAdBannerIndex
+        positions.append(positionToAddAd)
+        
+        for _ in positionToAddAd...itemListCount {
+            let nextAdPosition = positionToAddAd + SharedConstants.Feed.adBannerRatio
+            guard nextAdPosition <= itemListCount + positions.count else { break }
+            positionToAddAd = nextAdPosition
+            positions.append(positionToAddAd)
+        }
+        isAdBannerFirstLoad = false
+        return positions
+        
     }
     
     //  MARK: - Private

@@ -16,7 +16,7 @@ final class PasswordlessUsernameViewModel: BaseViewModel {
     private let tracker: Tracker
     private let token: String
     weak var delegate: BaseViewModelDelegate?
-    weak var navigator: PasswordlessUsernameNavigator?
+    var navigator: PasswordlessUsernameNavigator?
 
     init(sessionManager: SessionManager, tracker: Tracker, token: String) {
         self.sessionManager = sessionManager

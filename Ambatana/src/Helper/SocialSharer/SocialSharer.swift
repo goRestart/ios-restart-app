@@ -21,7 +21,8 @@ extension SocialSharer {
     func share(_ socialMessage: SocialMessage,
                shareType: ShareType,
                viewController: UIViewController,
-               barButtonItem: UIBarButtonItem? = nil) {
+               barButtonItem: UIBarButtonItem? = nil,
+               image: UIImage? = nil) {
         guard SocialSharer.canShareIn(shareType) else {
             delegate?.shareStartedIn(shareType)
             delegate?.shareFinishedIn(shareType, withState: .failed)
@@ -32,11 +33,11 @@ extension SocialSharer {
         case .email:
             shareInEmail(socialMessage, viewController: viewController)
         case .facebook:
-            shareInFacebook(socialMessage, viewController: viewController)
+            shareInFacebook(socialMessage, viewController: viewController, image: image)
         case .fbMessenger:
-            shareInFBMessenger(socialMessage)
+            shareInFBMessenger(socialMessage, image: image)
         case .whatsapp:
-            shareInWhatsapp(socialMessage)
+            shareInWhatsapp(socialMessage, viewController: viewController)
         case .twitter:
             shareInTwitter(socialMessage, viewController: viewController)
         case .telegram:
@@ -44,9 +45,13 @@ extension SocialSharer {
         case .copyLink:
             shareInPasteboard(socialMessage)
         case .sms:
-            shareInSMS(socialMessage, viewController: viewController, messageComposeDelegate: self)
+            shareInSMS(socialMessage, viewController: viewController, image: image, messageComposeDelegate: self)
         case let .native(restricted):
-            shareInNative(socialMessage, viewController: viewController, restricted: restricted, barButtonItem: barButtonItem)
+            shareInNative(socialMessage,
+                          viewController: viewController,
+                          restricted: restricted,
+                          barButtonItem: barButtonItem,
+                          image: image)
         }
     }
 }
@@ -203,35 +208,40 @@ fileprivate extension SocialSharer {
         }
     }
 
-    func shareInFacebook(_ socialMessage: SocialMessage, viewController: UIViewController) {
+    func shareInFacebook(_ socialMessage: SocialMessage, viewController: UIViewController, image: UIImage? = nil) {
         delegate?.shareStartedIn(.facebook)
-        socialMessage.retrieveFBShareContent { fbShareContent in
-            FBSDKShareDialog.show(from: viewController, with: fbShareContent, delegate: self)
+        socialMessage.retrieveFBShareContent(image: image) { fbShareContent in
+            let dialog = FBSDKShareDialog()
+            dialog.fromViewController = viewController
+            dialog.shareContent = fbShareContent
+            dialog.delegate = self
+            
+            dialog.show()
         }
     }
 
-    func shareInFBMessenger(_ socialMessage: SocialMessage) {
+    func shareInFBMessenger(_ socialMessage: SocialMessage, image: UIImage?) {
         delegate?.shareStartedIn(.fbMessenger)
-        socialMessage.retrieveFBMessengerShareContent { fbMessengerShareContent in
+        socialMessage.retrieveFBMessengerShareContent(image: image) { fbMessengerShareContent in
             FBSDKMessageDialog.show(with: fbMessengerShareContent, delegate: self)
         }
     }
 
-    func shareInWhatsapp(_ socialMessage: SocialMessage) {
-        socialMessage.retrieveWhatsappShareText { [weak self] shareText in
-            self?.shareInURL(.whatsapp, text: shareText, urlScheme: SharedConstants.whatsAppShareURL)
+    func shareInWhatsapp(_ socialMessage: SocialMessage, viewController: UIViewController) {
+        socialMessage.retrieveWhatsappShareText() { [weak self] shareText in
+            self?.shareInURL(.whatsapp, image: nil, text: shareText, urlScheme: SharedConstants.whatsAppShareURL)
         }
     }
 
     func shareInTwitter(_ socialMessage: SocialMessage, viewController: UIViewController) {
         socialMessage.retrieveTwitterShareText { [weak self] shareText in
-            self?.shareInURL(.twitter, text: shareText, urlScheme: SharedConstants.twitterShareURL)
+            self?.shareInURL(.twitter, image: nil, text: shareText, urlScheme: SharedConstants.twitterShareURL)
         }
     }
 
     func shareInTelegram(_ socialMessage: SocialMessage) {
         socialMessage.retrieveTelegramShareText { [weak self] shareText in
-            self?.shareInURL(.telegram, text: shareText, urlScheme: SharedConstants.telegramShareURL)
+            self?.shareInURL(.telegram, image: nil, text: shareText, urlScheme: SharedConstants.telegramShareURL)
         }
     }
 
@@ -243,14 +253,18 @@ fileprivate extension SocialSharer {
         }
     }
 
-    func shareInSMS(_ socialMessage: SocialMessage, viewController: UIViewController,
+    func shareInSMS(_ socialMessage: SocialMessage,
+                    viewController: UIViewController,
+                    image: UIImage?,
                     messageComposeDelegate: MFMessageComposeViewControllerDelegate) {
         let messageVC = MFMessageComposeViewController()
         socialMessage.retrieveSMSShareText { smsShareText in
             messageVC.body = smsShareText
             messageVC.recipients = []
             messageVC.messageComposeDelegate = messageComposeDelegate
-            
+            if let image = image, let data = UIImagePNGRepresentation(image) {
+                messageVC.addAttachmentData(data, typeIdentifier: "public.data", filename: "image.png")
+            }
             viewController.present(messageVC, animated: false) { [weak self] in
                 self?.delegate?.shareStartedIn(.sms)
             }
@@ -260,8 +274,9 @@ fileprivate extension SocialSharer {
     func shareInNative(_ socialMessage: SocialMessage,
                        viewController: UIViewController,
                        restricted: Bool,
-                       barButtonItem: UIBarButtonItem? = nil) {
-        socialMessage.retrieveNativeShareItems { activityItems in
+                       barButtonItem: UIBarButtonItem? = nil,
+                       image: UIImage? = nil) {
+        socialMessage.retrieveNativeShareItems(image: image) { activityItems in
             let shareVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
             
             if restricted {
@@ -340,13 +355,14 @@ fileprivate extension SocialSharer {
         }
     }
 
-    func shareInURL(_ shareType: ShareType, text: String, urlScheme: String) {
+    func shareInURL(_ shareType: ShareType, image: UIImage?, text: String, urlScheme: String) {
         delegate?.shareStartedIn(shareType)
 
         guard let url = SocialSharer.generateMessageShareURL(text, withUrlScheme: urlScheme) else {
             delegate?.shareFinishedIn(shareType, withState: .failed)
             return
         }
+
         if UIApplication.shared.openURL(url) {
             delegate?.shareFinishedIn(shareType, withState: .completed)
         } else {

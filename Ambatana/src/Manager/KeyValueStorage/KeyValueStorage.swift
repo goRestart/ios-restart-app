@@ -51,7 +51,7 @@ extension DefaultsKeys {
     static let lastShownPromoteBumpDate = DefaultsKey<Date?>("lastShownPromoteBumpDate")
     static let realEstateTooltipSellButtonAlreadyShown = DefaultsKey<Bool>("realEstateTooltipSellButtonAlreadyShown")
     static let realEstateTooltipMapShown = DefaultsKey<Bool>("realEstateTooltipMapShown")
-    
+    static let affiliationTooltipShown = DefaultsKey<Bool>("affiliationTooltipShown")
     static let lastShownSecurityWarningDate = DefaultsKey<Date?>("lastShownSecurityWarningDate")
 
     static let showOffensiveReportOnNextStart = DefaultsKey<Bool>("showOffensiveReportOnNextStart")
@@ -65,6 +65,9 @@ extension DefaultsKeys {
     static let sellAutoShareOnFacebook = DefaultsKey<Bool?>("sellAutoShareOnFacebook")
     
     static let lastSessionDate = DefaultsKey<Date?>("lastSessionDate")
+
+    // Affiliation
+    static let didShowAffiliationOnBoarding = DefaultsKey<Bool>("didShowAffiliationOnBoarding")
 }
 
 

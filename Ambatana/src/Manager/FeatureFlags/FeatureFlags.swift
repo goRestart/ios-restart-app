@@ -56,6 +56,7 @@ protocol FeatureFlaggeable: class {
 
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
     var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
+    var multiDayBumpUp: MultiDayBumpUp { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -119,6 +120,8 @@ protocol FeatureFlaggeable: class {
     var imInterestedInProfile: ImInterestedInProfile { get }
     var shareAfterScreenshot: ShareAfterScreenshot { get }
     var affiliationEnabled: AffiliationEnabled { get }
+
+    var rx_affiliationEnabled: Observable<AffiliationEnabled> { get }
 }
 
 extension FeatureFlaggeable {
@@ -330,7 +333,7 @@ extension PredictivePosting {
     var isActive: Bool { return self == .active }
 
     func isSupportedFor(postCategory: PostCategory?, language: String) -> Bool {
-        if #available(iOS 11, *), isActive, postCategory?.listingCategory.isProduct ?? true, language == "en" {
+        if #available(iOS 11, *), isActive, postCategory?.listingCategory.isProduct ?? false, language == "en" {
             return true
         } else {
             return false
@@ -441,11 +444,13 @@ extension BumpInEditCopys {
 
 extension MultiAdRequestMoreInfo {
     var isActive: Bool { return self == .active }
-
 }
 
-final class FeatureFlags: FeatureFlaggeable {    
-    
+extension MultiDayBumpUp {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
+final class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     private let locale: Locale
@@ -941,6 +946,14 @@ final class FeatureFlags: FeatureFlaggeable {
         return MultiAdRequestMoreInfo.fromPosition(abTests.multiAdRequestMoreInfo.value)
     }
 
+    var multiDayBumpUp: MultiDayBumpUp {
+        if Bumper.enabled {
+            return Bumper.multiDayBumpUp
+        }
+        return MultiDayBumpUp.fromPosition(abTests.multiDayBumpUp.value)
+    }
+
+    
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -1349,5 +1362,12 @@ extension FeatureFlags {
             return Bumper.affiliationEnabled
         }
         return AffiliationEnabled.fromPosition(abTests.affiliationCampaign.value)
+    }
+
+    var rx_affiliationEnabled: Observable<AffiliationEnabled> {
+        let old = affiliationEnabled
+        return syncedData.filter { $0 }.map { [weak self] synced in
+            return self?.affiliationEnabled ?? old
+        }
     }
 }

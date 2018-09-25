@@ -45,6 +45,13 @@ final class UserProfileViewModel: BaseViewModel {
 
     // Flag to define if the user presented in the profile is 'my' user
     let isMyUser = Variable<Bool>(false)
+    
+    var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
 
     // Flag to define if there is a logged in user that allows special actions
     var isLoggedInUser: Bool { return sessionManager.loggedIn }
@@ -285,13 +292,7 @@ extension UserProfileViewModel {
     }
 
     func didTapShareButton() {
-        guard let user = user.value else { return }
-        let myUserId = myUserRepository.myUser?.objectId
-        let myUserName = myUserRepository.myUser?.name
-        let socialMessage = UserSocialMessage(user: user,
-                                              itsMe: isMyUser.value,
-                                              myUserId: myUserId,
-                                              myUserName: myUserName)
+        guard let socialMessage = makeSocialMessage() else { return }
         delegate?.vmShowNativeShare(socialMessage)
         trackShareStart()
     }
@@ -341,6 +342,14 @@ extension UserProfileViewModel {
     func didTapReportUserButton() {
         guard let userReportedId = user.value?.objectId else { return }
         navigator?.openUserReport(source: .profile, userReportedId: userReportedId)
+    }
+    
+    func makeSocialMessage() -> SocialMessage? {
+        guard let user = user.value else { return nil }
+        return UserSocialMessage(user: user,
+                                 itsMe: isMyUser.value,
+                                 myUserId: myUserId,
+                                 myUserName: myUserName)
     }
 }
 
@@ -871,7 +880,7 @@ extension UserProfileViewModel: ListingCellDelegate {
     func bumpUpPressedFor(listing: Listing) {
         guard let id = listing.objectId else { return }
         let data = ListingDetailData.id(listingId: id)
-        let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: nil,
+        let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchases: [],
                                                                                    maxCountdown: 0,
                                                                                    bumpUpType: nil,
                                                                                    triggerBumpUpSource: .profile,

@@ -8,6 +8,11 @@ final class AffiliationStoreViewController: BaseViewController {
 
     private let viewModel: AffiliationStoreViewModel
     private let pointsView = AffiliationStorePointsView()
+    private lazy var moreThreeDotsButton = UIBarButtonItem(image: R.Asset.Affiliation.icnThreeDots.image,
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(didTapMoreActions))
+    private lazy var pointsItem = UIBarButtonItem(customView: pointsView)
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -32,11 +37,12 @@ final class AffiliationStoreViewController: BaseViewController {
 
     override func viewDidLoad() {
         view.backgroundColor = storeView.backgroundColor
+        moreThreeDotsButton.tintColor = .grayRegular
+
         storeView.collectionView.dataSource = self
         automaticallyAdjustsScrollViewInsets = false
         
         setupRx()
-        storeView.setHistory(enabled: true)
     }
 
     private func setupNavigationBar() {
@@ -44,23 +50,15 @@ final class AffiliationStoreViewController: BaseViewController {
         setNavBarTitle(R.Strings.affiliationStoreTitle)
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.backgroundColor = .clear
-
-
-        let button = UIBarButtonItem(image: R.Asset.Affiliation.icnThreeDots.image,
-                                     style: .plain,
-                                     target: self,
-                                     action: #selector(didTapMoreActions))
-        button.tintColor = .grayLight
-
-        let pointsItem = UIBarButtonItem(customView: pointsView)
-        navigationItem.rightBarButtonItems = [button, pointsItem]
+        navigationItem.rightBarButtonItems = [moreThreeDotsButton, pointsItem]
     }
 
     private func setupRx() {
         let bindings = [
             viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
             viewModel.rx.redeemTapped.drive(rx.redeemCell),
-            storeView.viewHistoryButton.rx.tap.bind { [weak self] in self?.viewModel.openHistory() }
+            viewModel.rx.points.drive(rx.points),
+            viewModel.rx.pointsVisible.drive(rx.pointsVisible)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -74,20 +72,19 @@ final class AffiliationStoreViewController: BaseViewController {
         case .error(let errorModel), .empty(let errorModel):
             update(with: errorModel)
         }
+
+        pointsView.alpha = state == .data ? 1 : 0
     }
 
     private func showLoading() {
         errorView.removeFromSuperview()
         showLoadingMessageAlert()
-        pointsView.alpha = 0
     }
 
     private func updateWithData() {
         dismissLoadingMessageAlert()
         errorView.removeFromSuperview()
 
-        pointsView.alpha = 1
-        pointsView.populate(with: viewModel.points)
         storeView.collectionView.reloadData()
     }
 
@@ -102,8 +99,18 @@ final class AffiliationStoreViewController: BaseViewController {
                            action: action)
         view.addSubviewForAutoLayout(errorView)
         constraintViewToSafeRootView(errorView)
+    }
 
-        pointsView.alpha = 0
+    fileprivate func updatePoints(with isVisible: Bool) {
+        if isVisible {
+            navigationItem.rightBarButtonItems = [moreThreeDotsButton, pointsItem]
+        } else {
+            navigationItem.rightBarButtonItems = [moreThreeDotsButton]
+        }
+    }
+
+    fileprivate func updatePoints(with points: Int) {
+        pointsView.populate(with: points)
     }
 
     fileprivate func updateRedeem(with state: ViewState) {
@@ -111,17 +118,16 @@ final class AffiliationStoreViewController: BaseViewController {
         case .loading:
             showLoading()
         case .data:
-            pointsView.alpha = 1
             dismissLoadingMessageAlert({ [weak self] in
                 self?.showRedeemSuccess()
             })
         case .empty(_), .error(_):
-            pointsView.alpha = 1
             showAlert(R.Strings.affiliationStoreGenericError, message: nil, actions: [])
             delay(2) { [weak self] in
                 self?.dismiss(animated: true, completion: nil)
             }
         }
+        pointsView.alpha = state == .loading ? 0 : 1
     }
 
     fileprivate func showRedeemSuccess() {
@@ -146,8 +152,8 @@ final class AffiliationStoreViewController: BaseViewController {
         present(vc, animated: true, completion: nil)
     }
 
-      fileprivate func setHistory(enabled: Bool) {
-        storeView.setHistory(enabled: enabled)
+    fileprivate func update(with points: Int) {
+        pointsView.populate(with: points)
     }
 }
 
@@ -219,16 +225,22 @@ extension Reactive where Base: AffiliationStoreViewController {
         }
     }
 
+    var points: Binder<Int> {
+        return Binder(self.base) { controller, points in
+            controller.updatePoints(with: points)
+        }
+    }
+
+    var pointsVisible: Binder<Bool> {
+        return Binder(self.base) { controller, visibility in
+            controller.updatePoints(with: visibility)
+        }
+    }
+
     var redeemCell: Binder<RedeemCellModel?> {
         return Binder(self.base) { controller, redeemCell in
             guard let redeemCell = redeemCell else { return }
             controller.update(with: redeemCell)
-        }
-    }
-
-    var historyEnabled: Binder<Bool> {
-        return Binder(self.base) { controller, enabled in
-            controller.setHistory(enabled: enabled)
         }
     }
 }

@@ -1,6 +1,7 @@
 import Foundation
 import RxSwift
 import LGComponents
+import LGCoreKit
 
 enum BumpUpType: Equatable {
     case free
@@ -9,6 +10,7 @@ enum BumpUpType: Equatable {
     case hidden
     case boost(boostBannerVisible: Bool)
     case loading
+    case ongoingBump(featurePurchaseType: FeaturePurchaseType)
 
     var bannerText: String? {
         switch self {
@@ -27,6 +29,8 @@ enum BumpUpType: Equatable {
             return R.Strings.bumpUpBannerBoostText
         case .loading:
             return nil
+        case .ongoingBump:
+            return nil
         }
     }
 
@@ -34,7 +38,7 @@ enum BumpUpType: Equatable {
         switch self {
         case .free, .priced, .hidden, .boost:
             return R.Asset.Monetization.grayChevronUp.image
-        case .restore, .loading:
+        case .restore, .loading, .ongoingBump:
             return nil
         }
     }
@@ -45,7 +49,7 @@ enum BumpUpType: Equatable {
             return R.Asset.Monetization.icLightning.image
         case .boost:
             return R.Asset.Monetization.icExtraBoost.image
-        case .restore, .loading:
+        case .restore, .loading, .ongoingBump:
             return nil
         }
     }
@@ -56,7 +60,7 @@ enum BumpUpType: Equatable {
             return BumpUpBanner.bannerDefaultFont
         case .free, .priced, .hidden, .loading:
             return UIFont.systemSemiBoldFont(size: 17)
-        case .boost:
+        case .boost, .ongoingBump:
             return UIFont.systemSemiBoldFont(size: 19)
         }
     }
@@ -75,6 +79,8 @@ enum BumpUpType: Equatable {
             return lBannerVisible == rBannerVisible
         case (.loading, .loading):
             return true
+        case (.ongoingBump(let lFeatureType), .ongoingBump(let rFeatureType)):
+            return lFeatureType == rFeatureType
         default:
             return false
         }
@@ -86,6 +92,8 @@ enum BumpUpType: Equatable {
             return false
         case .boost:
             return true
+        case .ongoingBump(let featurePurchaseType):
+            return featurePurchaseType.isBoost
         }
     }
 }
@@ -94,33 +102,36 @@ struct BumpUpInfo {
     var type: BumpUpType
     var timeSinceLastBump: TimeInterval
     var maxCountdown: TimeInterval
-    var price: String?
     var bannerInteractionBlock: (TimeInterval?) -> Void
     var buttonBlock: (TimeInterval?) -> Void
 
     init(type: BumpUpType,
          timeSinceLastBump: TimeInterval,
          maxCountdown: TimeInterval,
-         price: String?,
          bannerInteractionBlock: @escaping (TimeInterval?) -> Void,
          buttonBlock: @escaping (TimeInterval?) -> Void) {
         self.type = type
         self.timeSinceLastBump = timeSinceLastBump
         self.maxCountdown = maxCountdown
-        self.price = price
         self.bannerInteractionBlock = bannerInteractionBlock
         self.buttonBlock = buttonBlock
     }
     
     var shouldTrackBumpBannerShown: Bool {
-        return self.timeSinceLastBump == 0 || self.type == .boost(boostBannerVisible: true)
+        switch type {
+        case .priced, .restore, .free:
+            return true
+        case .boost(let boostBannerVisible):
+            return boostBannerVisible
+        case .hidden, .loading, .ongoingBump:
+            return false
+        }
     }
 
     static func makeLoading() -> BumpUpInfo {
         return BumpUpInfo(type: .loading,
                           timeSinceLastBump: 0,
                           maxCountdown: 0,
-                          price: nil,
                           bannerInteractionBlock: { _ in },
                           buttonBlock: { _ in })
     }
@@ -138,7 +149,7 @@ class BumpUpBanner: UIView {
 
     override var intrinsicContentSize: CGSize {
         switch type {
-        case .free, .hidden, .restore, .priced, .loading:
+        case .free, .hidden, .restore, .priced, .loading, .ongoingBump:
             return CGSize(width: UIViewNoIntrinsicMetric,
                           height: BumpUpBanner.bannerHeight)
         case .boost(let boostBannerVisible):
@@ -244,13 +255,20 @@ class BumpUpBanner: UIView {
             updateInfoForFreeBanner()
             waitingTime = info.maxCountdown
         case .priced, .hidden:
-            updateInfoForPricedBannerWith(price: info.price)
+            updateInfoForPricedBanner()
             waitingTime = info.maxCountdown
         case .restore:
             updateInfoForRestoreBanner()
             waitingTime = info.maxCountdown
         case .boost(let bannerIsVisible):
+            progressView.updateUIWith(type: .oneDay)
             updateInfoForBoostBannerWith(bannerIsVisible: bannerIsVisible)
+            waitingTime = info.maxCountdown
+            progressView.maxTime = info.maxCountdown
+        case .ongoingBump(let featurePurchaseType):
+            let progressViewType = timerViewTypeFor(featurePurchaseType: featurePurchaseType)
+            progressView.updateUIWith(type: progressViewType)
+            updateInfoForOngoingMultiDayBanner()
             waitingTime = info.maxCountdown
             progressView.maxTime = info.maxCountdown
         }
@@ -263,6 +281,17 @@ class BumpUpBanner: UIView {
 
         buttonBlock = info.buttonBlock
         bannerInteractionBlock = info.bannerInteractionBlock
+    }
+
+    private func timerViewTypeFor(featurePurchaseType: FeaturePurchaseType) -> BumpUpTimerType {
+        switch featurePurchaseType {
+        case .threeDays:
+            return .threeDays
+        case .sevenDays:
+            return .sevenDays
+        case .bump, .boost:
+            return .oneDay
+        }
     }
 
     private func moveLoadingLabel() {
@@ -304,16 +333,12 @@ class BumpUpBanner: UIView {
         bumpButton.setTitle(R.Strings.bumpUpBannerFreeButtonTitle, for: .normal)
     }
 
-    private func updateInfoForPricedBannerWith(price: String?) {
+    private func updateInfoForPricedBanner() {
         loadingContainerView.isHidden = true
         activityIndicator.stopAnimating()
         bumpButtonWidthConstraint.isActive = false
         bumpButton.isHidden = true
-        if let price = price {
-            bumpButton.setTitle(price, for: .normal)
-        } else {
-            bumpButton.setTitle(R.Strings.bumpUpBannerFreeButtonTitle, for: .normal)
-        }
+        bumpButton.setTitle(R.Strings.bumpUpBannerFreeButtonTitle, for: .normal)
     }
 
     private func updateInfoForRestoreBanner() {
@@ -330,6 +355,14 @@ class BumpUpBanner: UIView {
         bumpButtonWidthConstraint.isActive = false
         bumpButton.isHidden = true
         readyToBump = bannerIsVisible
+    }
+
+    private func updateInfoForOngoingMultiDayBanner() {
+        loadingContainerView.isHidden = true
+        activityIndicator.stopAnimating()
+        bumpButtonWidthConstraint.isActive = false
+        bumpButton.isHidden = true
+        readyToBump = false
     }
 
     func resetCountdown() {
@@ -394,6 +427,10 @@ class BumpUpBanner: UIView {
                 strongSelf.setupBannerItemsForLoading()
                 localizedText = strongSelf.type.bannerText
                 descriptionFont = strongSelf.type.bannerFont
+            case .ongoingBump:
+                strongSelf.setupBannerItemsForOngoingBumpWith(secondsLeft: secondsLeft)
+                localizedText = strongSelf.type.bannerText
+                descriptionFont = strongSelf.type.bannerFont
             }
 
             strongSelf.updateIconsConstraints()
@@ -424,6 +461,13 @@ class BumpUpBanner: UIView {
             delegate?.bumpUpTimerReachedZero()
         }
         textContainerCenterXConstraint.isActive = true
+    }
+
+    private func setupBannerItemsForOngoingBumpWith(secondsLeft: TimeInterval) {
+        progressView.updateWith(timeLeft: secondsLeft)
+        if secondsLeft <= 0 {
+            delegate?.bumpUpTimerReachedZero()
+        }
     }
 
     private func setupBannerItemsForSimpleBannerWith(secondsLeft: TimeInterval) {
@@ -611,6 +655,8 @@ class BumpUpBanner: UIView {
             hideProgressBar()
         case .boost(let boostBannerVisible):
             showProgressBar(itHasBanner: boostBannerVisible)
+        case .ongoingBump:
+            showProgressBar(itHasBanner: false)
         }
     }
 
@@ -622,6 +668,8 @@ class BumpUpBanner: UIView {
             showProgressBar(itHasBanner: false)
         case .boost(let boostBannerVisible):
             showProgressBar(itHasBanner: boostBannerVisible)
+        case .ongoingBump:
+            showProgressBar(itHasBanner: false)
         }
     }
 

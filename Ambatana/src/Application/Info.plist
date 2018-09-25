@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.46.0</string>
+	<string>1.48.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>463</string>
+	<string>472</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -148,10 +148,10 @@
 			</dict>
 		</dict>
 	</dict>
-    <key>NSContactsUsageDescription</key>
-    <string>letgo needs to access your contacts to invite your friends</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To start selling, give letgo access to your camera</string>
+	<key>NSContactsUsageDescription</key>
+	<string>letgo needs to access your contacts to invite your friends</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>letgo needs to access your location to show you products nearby</string>
 	<key>NSLocationAlwaysUsageDescription</key>

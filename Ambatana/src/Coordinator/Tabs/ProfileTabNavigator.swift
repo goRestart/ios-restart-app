@@ -43,7 +43,7 @@ protocol SettingsNavigator: class {
     func open(url: URL)
     func openEditUserBio()
     func openNotificationSettings()
-    func openAffiliationChallenges()
+    func openAffiliationChallenges(source: AffiliationChallengesSource)
 }
 
 protocol ChangeUsernameNavigator: class {

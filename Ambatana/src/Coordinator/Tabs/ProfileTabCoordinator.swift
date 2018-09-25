@@ -66,7 +66,7 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
         let vc = editAssembly.buildEditView(listing: listing,
                                            pageType: pageType,
-                                           bumpUpProductData: nil,
+                                           purchases: [],
                                            listingCanBeBoosted: false,
                                            timeSinceLastBump: nil,
                                            maxCountdown: 0,
@@ -154,8 +154,8 @@ extension ProfileTabCoordinator: SettingsNavigator {
         navigationController.popViewController(animated: true)
     }
 
-    func openAffiliationChallenges() {
-        let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
+    func openAffiliationChallenges(source: AffiliationChallengesSource) {
+        let vc = affiliationChallengesAssembly.buildAffiliationChallenges(source: source)
         navigationController.pushViewController(vc, animated: true)
     }
 }

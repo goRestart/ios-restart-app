@@ -64,9 +64,8 @@ final class LeanplumTracker: Tracker {
         }
         Leanplum.onVariablesChanged { [weak featureFlags] in
             featureFlags?.variablesUpdated()
-            if featureFlags?.affiliationEnabled.isActive ?? false {
-                AppsFlyerAffiliationResolver.shared.activateFeature()
-            }
+            let isAffiliationCampaignActive = featureFlags?.affiliationEnabled.isActive ?? false
+            AppsFlyerAffiliationResolver.shared.setCampaignFeatureAs(active: isAffiliationCampaignActive)
         }
         Leanplum.start()
     }

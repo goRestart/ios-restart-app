@@ -4,7 +4,7 @@ public protocol FeatureInProgress {
     var featureDuration: TimeInterval { get }
 }
 
-public struct LGFeatureInProgress: FeatureInProgress, Decodable {
+struct LGFeatureInProgress: FeatureInProgress, Decodable {
     public let purchaseType: FeaturePurchaseType?
     public let secondsSinceLastFeature: TimeInterval
     public let featureDuration: TimeInterval

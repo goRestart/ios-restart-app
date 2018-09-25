@@ -28,7 +28,17 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     let waterfallColumnCount: Int
     var queryString: String?
     private(set) var feedItems: [ListDiffable] = []
-    
+
+    var rx_updateAffiliate: Driver<Bool> {
+        return featureFlags
+            .rx_affiliationEnabled
+            .asDriver(onErrorJustReturn: .control)
+            .filter { $0 == .active }
+            .distinctUntilChanged()
+            .map { _ in return true }
+            .asDriver(onErrorJustReturn: true)
+    }
+
     var rxHasFilter: Driver<Bool> {
         return filtersVar.asDriver().map({ !$0.isDefault() })
     }
@@ -149,6 +159,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     private let sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper
     private let sectionedFeedRequester: SectionedFeedRequester
     private let sessionManager: SessionManager
+    private let appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver
+
     //  MARK: - Life Cycle
     
     init(searchType: SearchType? = nil,
@@ -165,6 +177,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
          keyValueStorage: KeyValueStorageable = KeyValueStorage.sharedInstance,
          deviceFamily: DeviceFamily = DeviceFamily.current,
          chatWrapper: ChatWrapper = LGChatWrapper(),
+         appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver = AppsFlyerAffiliationResolver.shared,
          adsImpressionConfigurable: AdsImpressionConfigurable = LGAdsImpressionConfigurable(),
          sectionedFeedVMTrackerHelper: SectionedFeedVMTrackerHelper = SectionedFeedVMTrackerHelper(),
          interestedStateManager: InterestedStateUpdater = LGInterestedStateUpdater(),
@@ -188,6 +201,7 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         self.locationManager = locationManager
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
+        self.appsFlyerAffiliationResolver = appsFlyerAffiliationResolver
         self.waterfallColumnCount = deviceFamily.shouldShow3Columns() ? 3 : 2
         self.viewState = .loading
         self.sectionControllerFactory = SectionControllerFactory(
@@ -216,7 +230,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         updatePermissionBanner()
-        setupLocation()
+        // Comment readme: https://ambatana.atlassian.net/browse/ABIOS-5145
+        //setupLocation()
         
         guard firstTime else { return }
         refreshFeed()
@@ -287,6 +302,24 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
                 self?.loadAvatar(for: myUser)
             })
             .disposed(by: disposeBag)
+   
+        appsFlyerAffiliationResolver
+            .rx.affiliationCampaign
+            .bind { [weak self] status in
+            switch status {
+            case .campaignNotAvailableForUser:
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openWrongCountryModal()
+                })
+            case.referral( let referrer):
+                guard !(self?.keyValueStorage[.didShowAffiliationOnBoarding] ?? true) else { return }
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openAffiliationOnboarding(data: referrer)
+                })
+            case .unknown:
+                return
+            }
+        }.disposed(by: disposeBag)
     }
     
     private func refreshFeed() {
@@ -301,6 +334,12 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         if feedItems.last is DiffableBox<ListingRetrievalState> {
             feedItems.removeLast()
         }
+    }
+    
+    private func findItemInFeed(with itemIdentifier: ListDiffable) -> Int? {
+        return feedItems.filter {
+            $0 is DiffableBox<FeedListingData> || $0 is DiffableBox<AdData>
+        }.index { $0.isEqual(toDiffableObject: itemIdentifier) }
     }
 }
 
@@ -414,10 +453,11 @@ extension FeedViewModel {
         }
         
         feedItems.append(contentsOf: horizontalSections.listDiffable())
+        
         if locationSectionIndex == nil {
             feedItems.append(LocationData(locationString: locationText))
         }
-        
+
         let verticalSectionsWithAds = updateWithAds(listDiffable: verticalItems.listDiffable())
         let allVerticalSections = updateWithSelectedForYou(listDiffable: verticalSectionsWithAds,
                                                            positionInFeed: feedItems.count,
@@ -435,6 +475,15 @@ extension FeedViewModel {
         
         let positions = adsPaginationHelper.adIndexesPositions(withItemListCount: listDiffable.count)
         let ads = positions.reversed().map { AdDataFactory.make(adPosition: feedItems.count + $0).listDiffable() }
+        return listDiffable.insert(newList: ads, at: positions)
+    }
+    
+    private func updateWithBannerAds(listDiffable: [ListDiffable]) -> [ListDiffable] {
+        guard adsImpressionConfigurable.shouldShowAdsForUser, listDiffable.count > 0  else { return listDiffable }
+        let positions = adsPaginationHelper.bannerAdIndexesPositions(withItemListCount: listDiffable.count)
+        let ads = positions.reversed().map { AdDataFactory.make(adPosition: $0,
+                                                                bannerHeight: LGUIKitConstants.sectionedFeedBannerAdDefaultHeight,
+                                                                type: .banner).listDiffable() }
         return listDiffable.insert(newList: ads, at: positions)
     }
     
@@ -860,16 +909,17 @@ extension FeedViewModel {
                           originFrame: CGRect?,
                           index: Int?,
                           sectionIdentifier: String?,
-                          sectionIndex: UInt?) {
+                          sectionIndex: UInt?,
+                          itemIdentifier: ListDiffable) {
         // https://ambatana.atlassian.net/browse/ABIOS-5133
         isComingFromASection = sectionIdentifier != nil
-        
+      
         let frame = feedRenderingDelegate?.convertViewRectInFeed(from: originFrame ?? .zero)
         let data = ListingDetailData.sectionedRelatedListing(
             listing: listing,
             thumbnailImage: thumbnailImage,
             originFrame: frame,
-            index: (index != nil) ? index! : 0,
+            index: index ?? (findItemInFeed(with: itemIdentifier) ?? 0),
             sectionIdentifier: sectionIdentifier,
             sectionIndex: sectionIndex)
         listingWireframe?.openListing(
@@ -924,6 +974,8 @@ extension FeedViewModel {
         guard let search = searchType else {
             return hasFilters ? .filter : .section
         }
+        
+        if let _ = comingSectionIdentifier { return .section }
         
         guard search.isCollection else {
             return hasFilters ? .searchAndFilter : .search

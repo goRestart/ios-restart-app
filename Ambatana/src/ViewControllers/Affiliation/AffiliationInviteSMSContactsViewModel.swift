@@ -30,16 +30,18 @@ final class AffiliationInviteSMSContactsViewModel: BaseViewModel {
     let status = BehaviorRelay<StatusInviteSMSContactsStatus>(value: .loading)
     let contactsInfo = BehaviorRelay<[ContactInfo]>(value: [])
     let searchResultsInfo = BehaviorRelay<[ContactInfo]>(value: [])
-    
+
+    private let tracker: TrackerProxy
     private let disposeBag = DisposeBag()
 
-    init(myUserRepository: MyUserRepository) {
+    init(myUserRepository: MyUserRepository, tracker: TrackerProxy) {
         self.myUserRepository = myUserRepository
+        self.tracker = tracker
         super.init()
     }
     
     override convenience init() {
-        self.init(myUserRepository: Core.myUserRepository)
+        self.init(myUserRepository: Core.myUserRepository, tracker: TrackerProxy.sharedInstance)
     }
     
     override func backButtonPressed() -> Bool {
@@ -50,6 +52,9 @@ final class AffiliationInviteSMSContactsViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         if firstTime {
             requestContactPermissions()
+            tracker.trackEvent(TrackerEvent.appInviteFriend(.sms,
+                                                            typePage: .rewardCenter,
+                                                            rewardCampaign: .inviteFriendsAmazon))
         }
     }
     
@@ -137,12 +142,18 @@ final class AffiliationInviteSMSContactsViewModel: BaseViewModel {
         let socialMessage: SocialMessage = AffiliationSocialMessage(myUserId:myUserId, myUserName: myUserName, myUserAvatar: myUserAvatar)
         return socialMessage
     }
-    
+
+    func didSendMessages() {
+        tracker.trackEvent(TrackerEvent.appInviteFriendComplete(.sms,
+                                                                typePage: .rewardCenter,
+                                                                rewardCampaign: .inviteFriendsAmazon,
+                                                                numberOfInvitees: contactsSelected.count))
+    }
     
     // MARK: Filtering
     
     func didFilter(withText text: String) {
-        let contactsFiltered = contactsInfo.value.filter { $0.name.lowercased().contains(text.lowercased()) || $0.phoneNumber.lowercased().contains(text.lowercased())  }
+        let contactsFiltered = contactsInfo.value.filter { $0.name.forSorting.contains(text.forSorting.lowercased()) || $0.phoneNumber.lowercased().contains(text.lowercased())  }
         searchResultsInfo.accept(contactsFiltered)
         status.accept(.filtering)
     }

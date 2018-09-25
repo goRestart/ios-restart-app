@@ -48,16 +48,20 @@ final class AffiliationVouchersViewModel: BaseViewModel {
     }
 
     private func update(with result: Result<[Voucher], RepositoryError>) {
-        if let error = result.error {
+        if let _ = result.error {
             viewState.accept(.error(makeEmpty()))
-        } else if let vouchers = result.value, vouchers.count > 0 {
-            self.vouchers = vouchers
-            let formatter = DateFormatter()
-            self.vouchers = vouchers
-            self.vouchersCellData = vouchers.map {
-                return toVoucherCellData(voucher: $0, formatter: formatter)
+        } else if let vouchers = result.value {
+            if vouchers.count > 0 {
+                self.vouchers = vouchers
+                let formatter = DateFormatter()
+                self.vouchers = vouchers
+                self.vouchersCellData = vouchers.map {
+                    return toVoucherCellData(voucher: $0, formatter: formatter)
+                }
+                viewState.accept(.data)
+            } else {
+                viewState.accept(.error(makeEmpty()))
             }
-            viewState.accept(.data)
         }
     }
 
