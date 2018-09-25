@@ -845,6 +845,8 @@
 "payments_change_offer_confirmation_button" = "Set new offer";
 "payments_change_offer_invalid_amount_alert_button" = "Ok";
 "payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
+"payments_common_contact_us_option" = "Contact us";
+"payments_common_faqs_option" = "FAQ";
 "payments_create_offer_buyer_protection_description_label" = "Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item";
 "payments_create_offer_buyer_protection_title_label" = "Buyer Protection";
 "payments_create_offer_change_button" = "Change";
@@ -860,10 +862,8 @@
 "payments_enter_pay_code_navbar_title" = "Offer";
 "payments_error_retry" = "Retry";
 "payments_get_pay_code_code_label" = "Your payment code";
-"payments_get_pay_code_contact_us_option" = "Contact us";
 "payments_get_pay_code_description" = "Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.";
 "payments_get_pay_code_disclaimer" = "This code expires in 7 days, so make sure to meet the seller soon";
-"payments_get_pay_code_faqs_option" = "FAQ";
 "payments_get_pay_code_navbar_title" = "Offer";
 "payments_loading_generic_error" = "Oops! An error occurred while loading. Please try again.";
 "payments_offer_status_action_chat_button" = "Chat with Seller";

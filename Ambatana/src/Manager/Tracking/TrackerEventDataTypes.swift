@@ -117,6 +117,7 @@ enum EventName: String {
     case profileEditEmailStart              = "profile-edit-email-start"
     case profileEditEmailComplete           = "profile-edit-email-complete"
     case profileEditBioComplete             = "profile-edit-bio"
+    case profileChatNowButton               = "profile-detail-ask-question"
 
     case appInviteFriendStart               = "app-invite-friend-start"
     case appInviteFriend                    = "app-invite-friend"
@@ -1434,6 +1435,8 @@ enum EventParameterQuickAnswerType: String {
     case freeYours = "free-yours"
     case freeAvailable = "free-available"
     case freeNotAvailable = "free-not-available"
+    case favoritedMyListing = "favorited-listing"
+    case iLikeYourListing = "like-listing"
 }
 
 enum EventParameterNotAvailableReason: String {

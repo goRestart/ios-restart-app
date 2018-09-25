@@ -183,7 +183,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                                     listingImageUrl: conversation.listing?.image?.fileURL,
                                     unreadCount: 0,
                                     messageDate: nil,
-                                    isTyping: false)
+                                    isTyping: false,
+                                    isFakeListing: conversation.listing?.isFakeListing ?? false)
     }
     
     func objectAtIndex(_ index: Int) -> ChatInactiveConversation? {

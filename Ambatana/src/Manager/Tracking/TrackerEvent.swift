@@ -1071,6 +1071,12 @@ struct TrackerEvent {
     static func profileOpenPictureDetail() -> TrackerEvent {
         return TrackerEvent(name: .profileOpenUserPicture, params: nil)
     }
+    
+    static func profileChatNowButtonTapped(user: User) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userToId] = user.objectId
+        return TrackerEvent(name: .profileChatNowButton, params: params)
+    }
 
     static func profileShareStart(_ type: EventParameterProfileType)  -> TrackerEvent {
         var params = EventParameters()

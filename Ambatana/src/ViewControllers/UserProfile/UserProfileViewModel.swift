@@ -87,7 +87,14 @@ final class UserProfileViewModel: BaseViewModel {
     var listingListViewModel: Driver<ListingListViewModel?> { return makeListingListViewModelDriver() }
     let ratingListViewModel: UserRatingListViewModel
     let showBubbleNotification = PublishSubject<BubbleNotificationData>()
-
+    
+    var chatNowButtonIsHidden: Driver<Bool> {
+        return Observable.combineLatest(user.asObservable(), isMyUser.asObservable()) { user, isMyUser in
+            guard let user = user else { return false }
+            return user.isDummy || user.isProfessional || isMyUser || !self.featureFlags.openChatFromUserProfile.isActive
+        }.asDriver(onErrorJustReturn: false)
+    }
+    
     weak var delegate: UserProfileViewModelDelegate?
 
     // MARK: - Private
@@ -149,7 +156,6 @@ final class UserProfileViewModel: BaseViewModel {
 
         let sellingSource: ListingListViewModel.ListingListViewContainer = isPrivateProfile ? .privateProfileSelling : .publicProfileSelling
         let soldSource: ListingListViewModel.ListingListViewContainer = isPrivateProfile ? .privateProfileSold : .publicProfileSold
-        let favoritesSource: ListingListViewModel.ListingListViewContainer = .privateProfileFavorites // Other profiles favorites can not be seen
         self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester,
                                                                 isPrivateList: true,
                                                                 source: sellingSource)
@@ -856,6 +862,23 @@ extension UserProfileViewModel: ListingCellDelegate {
     }
 
     func chatButtonPressedFor(listing: Listing) {}
+    
+    func openChatNow() {
+        guard let user = user.value else { return }
+        let listing = Listing.makeFakeListing(with: user)
+        let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+        
+        switch featureFlags.openChatFromUserProfile {
+        case .baseline, .control:
+            break
+        case .vatiant1NoQuickAnswers, .variant2WithOneTimeQuickAnswers:
+            let event = TrackerEvent.profileChatNowButtonTapped(user: user)
+            tracker.trackEvent(event)
+            navigator?.openListingChat(data: chatDetailData,
+                                             source: .profile,
+                                             predefinedMessage: nil)
+        }
+    }
 
     func editPressedForDiscarded(listing: Listing) {
         profileNavigator?.editListing(listing, pageType: .profile)

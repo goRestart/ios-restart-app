@@ -197,6 +197,10 @@ extension NewItemPageV3 {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
+extension OpenChatFromUserProfile {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
 extension ProUsersExtraImages {
     var isActive: Bool { return self != .control && self != .baseline }
 }
