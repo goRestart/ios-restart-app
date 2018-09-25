@@ -192,6 +192,8 @@
 		09DC33FE2154D51400A7DEF7 /* P2PPayments+ChatDelayRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC33FC2154D51400A7DEF7 /* P2PPayments+ChatDelayRefresh.swift */; };
 		09DC33FF2154E5C400A7DEF7 /* P2PPaymentsErrorRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC33F82154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift */; };
 		09DC34002154E5C500A7DEF7 /* P2PPaymentsErrorRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC33F82154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift */; };
+		09DC34022154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC34012154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift */; };
+		09DC34032154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC34012154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift */; };
 		09D7BC7E20EB62950090E499 /* StripeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7BC7D20EB62950090E499 /* StripeManager.swift */; };
 		09D7BC7F20EB62950090E499 /* StripeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7BC7D20EB62950090E499 /* StripeManager.swift */; };
 		0A00F9C61FA3656600E915F4 /* ListingDeckViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */; };
@@ -2750,6 +2752,7 @@
 		09B6C9CB2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsPayoutRequestView.swift; sourceTree = "<group>"; };
 		09DC33F82154C27500A7DEF7 /* P2PPaymentsErrorRetryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsErrorRetryView.swift; sourceTree = "<group>"; };
 		09DC33FC2154D51400A7DEF7 /* P2PPayments+ChatDelayRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PPayments+ChatDelayRefresh.swift"; sourceTree = "<group>"; };
+		09DC34012154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPaymentsTrackingInfo.swift; sourceTree = "<group>"; };
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A01C3602100B51F00B0129F /* QuickChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickChatViewController.swift; sourceTree = "<group>"; };
 		0A045980213D15890082C469 /* ListingStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingStatusView.swift; sourceTree = "<group>"; };
@@ -7818,6 +7821,7 @@
 				C707D4541E9B7CB200042C03 /* PostListingTrackingInfo.swift */,
 				C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */,
 				3294762B2133F750008EE737 /* InterestedStateTrackingInfo.swift */,
+				09DC34012154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -10673,6 +10677,7 @@
 				2E151D7020A49B8A0038D7C7 /* ChatBlockedUsersViewModel.swift in Sources */,
 				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
 				C7B588871CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
+				09DC34022154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift in Sources */,
 				C674D31D20ED1BA20027E3AE /* ListingAttributeGridTheme.swift in Sources */,
 				C66105E721304AE000BA4EF7 /* ServicesPromoCellConfiguration.swift in Sources */,
 				2EE47D2E2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,
@@ -11601,6 +11606,7 @@
 				0A45A88A214BFF540045ACFA /* AffiliationStoreWireframe.swift in Sources */,
 				C730FD121E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
 				2ECB416F20065FB200482EF7 /* BumpUpPayViewController.swift in Sources */,
+				09DC34032154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift in Sources */,
 				0A6FED0D2130344000B57004 /* RecaptchaPasswordWireframe.swift in Sources */,
 				2E151D7720A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */,
 				2E2FF6E620AAC8CB00C9A5DA /* ChatAssistantConversationCell.swift in Sources */,

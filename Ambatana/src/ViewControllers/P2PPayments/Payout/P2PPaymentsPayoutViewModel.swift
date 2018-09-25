@@ -10,6 +10,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
     private let offerId: String
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let myUserRepository: MyUserRepository
+    private let tracker: Tracker
     private var offer: P2PPaymentOffer?
     private var priceBreakdown: P2PPaymentPayoutPriceBreakdown?
     private lazy var uiStateRelay = BehaviorRelay<UIState>(value: .loading)
@@ -17,10 +18,12 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
 
     init(offerId: String,
          p2pPaymentsRepository: P2PPaymentsRepository = Core.p2pPaymentsRepository,
-         myUserRepository: MyUserRepository = Core.myUserRepository) {
+         myUserRepository: MyUserRepository = Core.myUserRepository,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
         self.offerId = offerId
         self.p2pPaymentsRepository = p2pPaymentsRepository
         self.myUserRepository = myUserRepository
+        self.tracker = tracker
         super.init()
     }
 
@@ -102,8 +105,10 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
             switch result {
             case .success:
+                self?.trackUserDetailsEntered()
                 self?.showPayoutInfo()
             case .failure:
+                self?.trackUserDetailsError()
                 self?.showGenericError()
             }
         }
@@ -120,8 +125,10 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
         paymentsManager.createBankAccountToken(params: params) { [weak self] result in
             switch result {
             case .success(let token):
+                self?.trackBankAccountEntered()
                 self?.requestPayoutWithToken(token, isInstant: false)
             case .failure:
+                self?.trackBankAccountError()
                 self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                 self?.showGenericError()
             }
@@ -145,8 +152,10 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
         paymentsManager.createCardToken(params: params) { [weak self] result in
             switch result {
             case .success(let token):
+                self?.trackDebitCardEntered()
                 self?.requestPayoutWithToken(token, isInstant: isInstant)
             case .failure:
+                self?.trackDebitCardError()
                 self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                 self?.showGenericError()
             }
@@ -174,6 +183,44 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
         delegate?.vmShowAlert(R.Strings.paymentsPayoutPersonalInfoErrorTitle,
                               message: R.Strings.paymentsPayoutPersonalInfoErrorDescription,
                               actions: [cancelAction])
+    }
+
+    // MARK: Tracking
+
+    private func trackUserDetailsEntered() {
+        guard let offer = offer else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsPayoutUserInfoEntered(offer: offer)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackUserDetailsError() {
+        guard let offer = offer else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsPayoutUserInfoError(offer: offer)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackBankAccountEntered() {
+        guard let offer = offer else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsPayoutBankAccountEntered(offer: offer)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackBankAccountError() {
+        guard let offer = offer else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsPayoutBankAccountError(offer: offer)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackDebitCardEntered() {
+        guard let offer = offer else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsPayoutDebitCardEntered(offer: offer)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackDebitCardError() {
+        guard let offer = offer else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsPayoutDebitCardError(offer: offer)
+        tracker.trackEvent(trackerEvent)
     }
 }
 

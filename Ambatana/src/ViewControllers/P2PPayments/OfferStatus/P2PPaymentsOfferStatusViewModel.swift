@@ -27,27 +27,22 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     private let listingRepository: ListingRepository
     private let myUserRepository: MyUserRepository
     private let userRepository: UserRepository
+    private let tracker: Tracker
     private let stateRelay = BehaviorRelay<UIState>(value: .loading)
     private let disposeBag = DisposeBag()
 
-    convenience init(offerId: String) {
-        self.init(offerId: offerId,
-                  p2pPaymentsRepository: Core.p2pPaymentsRepository,
-                  listingRepository: Core.listingRepository,
-                  myUserRepository: Core.myUserRepository,
-                  userRepository: Core.userRepository)
-    }
-
     init(offerId: String,
-         p2pPaymentsRepository: P2PPaymentsRepository,
-         listingRepository: ListingRepository,
-         myUserRepository: MyUserRepository,
-         userRepository: UserRepository) {
+         p2pPaymentsRepository: P2PPaymentsRepository = Core.p2pPaymentsRepository,
+         listingRepository: ListingRepository = Core.listingRepository,
+         myUserRepository: MyUserRepository = Core.myUserRepository,
+         userRepository: UserRepository = Core.userRepository,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
         self.offerId = offerId
         self.p2pPaymentsRepository = p2pPaymentsRepository
         self.listingRepository = listingRepository
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
+        self.tracker = tracker
         super.init()
     }
 
@@ -150,6 +145,7 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
                 stateRelay.accept(.loading)
                 return
             }
+            trackSellerOfferDetail()
             stateRelay.accept(.sellerInfoLoaded(offer: offer, listing: listing, buyer: buyer))
         }
         startAutoUpdatesIfNeeded()
@@ -174,6 +170,7 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     }
 
     private func withdrawOffer() {
+        trackOfferWithdraw()
         delegate?.vmShowLoading(nil)
         p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .canceled) { [weak self] result in
             self?.handleResult(result)
@@ -181,6 +178,7 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     }
 
     private func declineOffer() {
+        trackSellerOfferDecline()
         delegate?.vmShowLoading(nil)
         p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .declined) { [weak self] result in
             self?.handleResult(result)
@@ -188,6 +186,7 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     }
 
     private func acceptOffer() {
+        trackSellerOfferAccept()
         delegate?.vmShowLoading(nil)
         p2pPaymentsRepository.changeOfferStatus(offerId: offerId, status: .accepted) { [weak self] result in
             self?.handleResult(result)
@@ -205,6 +204,44 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
             delegate?.vmHideLoading(R.Strings.paymentsLoadingGenericError, afterMessageCompletion: nil)
         }
     }
+
+    // MARK: Tracking
+
+    private func trackOfferWithdraw() {
+        guard let offer = offer, let listing = listing else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferStatusWithdraw(offer: offer, listing: listing)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackCodeView() {
+        guard let offer = offer, let listing = listing else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferStatusViewCode(offer: offer, listing: listing)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackSellerOfferDetail() {
+        guard let offer = offer, let listing = listing else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferStatusSeller(offer: offer, listing: listing)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackSellerOfferAccept() {
+        guard let offer = offer, let listing = listing else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferStatusSellerAccept(offer: offer, listing: listing)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackSellerOfferDecline() {
+        guard let offer = offer, let listing = listing else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferStatusSellerDecline(offer: offer, listing: listing)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackSellerOfferEnterCode() {
+        guard let offer = offer, let listing = listing else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferStatusSellerEnterCode(offer: offer, listing: listing)
+        tracker.trackEvent(trackerEvent)
+    }
 }
 
 // MARK: - UI Actions
@@ -218,6 +255,7 @@ extension P2PPaymentsOfferStatusViewModel {
         guard let offer = offer else { return }
         switch offer.status {
         case .accepted:
+            trackCodeView()
             navigator?.openGetPayCode()
         default:
             navigator?.close()
@@ -238,6 +276,7 @@ extension P2PPaymentsOfferStatusViewModel {
 
     func enterCodeButtonPressed() {
         guard let buyer = buyer else { return }
+        trackSellerOfferEnterCode()
         navigator?.openEnterPayCode(buyer: buyer)
     }
 

@@ -1818,6 +1818,13 @@ fileprivate extension ChatViewModel {
         }
         return sendMessageInfo
     }
+
+    func trackMakeAnOfferStart() {
+        guard let userId = myUserRepository.myUser?.objectId else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferOnboardingStart(userId: userId,
+                                                                              chatConversation: conversation.value)
+        tracker.trackEvent(trackerEvent)
+    }
 }
 
 // MARK: - Private ChatConversation Extension
@@ -2122,6 +2129,7 @@ extension ChatViewModel {
 
 extension ChatViewModel {
     func makeAnOfferButtonPressed() {
+        trackMakeAnOfferStart()
         navigator?.openMakeAnOffer(chatConversation: conversation.value)
     }
 

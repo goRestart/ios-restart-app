@@ -13,7 +13,7 @@ enum P2PPaymentsMakeAnOfferBuilder {
 
 extension P2PPaymentsMakeAnOfferBuilder: P2PPaymentsMakeAnOfferAssembly {
     func buildOnboarding(chatConversation: ChatConversation) -> UIViewController {
-        let vm = P2PPaymentsOnboardingViewModel()
+        let vm = P2PPaymentsOnboardingViewModel(chatConversation: chatConversation)
         let vc = P2PPaymentsOnboardingViewController(viewModel: vm)
         switch self {
         case .modal:
