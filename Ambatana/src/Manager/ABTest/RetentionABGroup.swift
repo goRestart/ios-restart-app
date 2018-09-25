@@ -12,7 +12,6 @@ struct RetentionABGroup: ABGroupType {
     private struct Keys {
         static let dummyUsersInfoProfile = "20180130DummyUsersInfoProfile"
         static let onboardingIncentivizePosting = "20180215OnboardingIncentivizePosting"
-        static let notificationSettings = "20180608NotificationSettings"
         static let searchAlertsInSearchSuggestions = "20180710SearchAlertsInSearchSuggestions"
         static let engagementBadging = "20180613EngagementBadging"
         static let searchAlertsDisableOldestIfMaximumReached = "201807SearchAlertsDisableOldestIfMaximumReached"
@@ -24,7 +23,6 @@ struct RetentionABGroup: ABGroupType {
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>
     let onboardingIncentivizePosting: LeanplumABVariable<Int>
-    let notificationSettings: LeanplumABVariable<Int>
     let searchAlertsInSearchSuggestions: LeanplumABVariable<Int>
     let engagementBadging: LeanplumABVariable<Int>
     let searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int>
@@ -42,7 +40,6 @@ struct RetentionABGroup: ABGroupType {
 
     init(dummyUsersInfoProfile: LeanplumABVariable<Int>,
          onboardingIncentivizePosting: LeanplumABVariable<Int>,
-         notificationSettings: LeanplumABVariable<Int>,
          searchAlertsInSearchSuggestions: LeanplumABVariable<Int>,
          engagementBadging: LeanplumABVariable<Int>,
          searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int>,
@@ -53,7 +50,6 @@ struct RetentionABGroup: ABGroupType {
          affiliationCampaign: LeanplumABVariable<Int>) {
         self.dummyUsersInfoProfile = dummyUsersInfoProfile
         self.onboardingIncentivizePosting = onboardingIncentivizePosting
-        self.notificationSettings = notificationSettings
         self.searchAlertsInSearchSuggestions = searchAlertsInSearchSuggestions
         self.engagementBadging = engagementBadging
         self.searchAlertsDisableOldestIfMaximumReached = searchAlertsDisableOldestIfMaximumReached
@@ -65,7 +61,6 @@ struct RetentionABGroup: ABGroupType {
 
         intVariables.append(contentsOf: [dummyUsersInfoProfile,
                                         onboardingIncentivizePosting,
-                                        notificationSettings,
                                         searchAlertsInSearchSuggestions,
                                         engagementBadging,
                                         searchAlertsDisableOldestIfMaximumReached,
@@ -83,9 +78,6 @@ struct RetentionABGroup: ABGroupType {
                                 onboardingIncentivizePosting: .makeInt(key: Keys.onboardingIncentivizePosting,
                                                                        defaultValue: 0,
                                                                        groupType: .retention),
-                                notificationSettings: .makeInt(key: Keys.notificationSettings,
-                                                               defaultValue: 0,
-                                                               groupType: .retention),
                                 searchAlertsInSearchSuggestions: .makeInt(key: Keys.searchAlertsInSearchSuggestions,
                                                                           defaultValue: 0,
                                                                           groupType: .retention),

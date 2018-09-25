@@ -190,11 +190,7 @@ extension ProfileTabCoordinator: NotificationSettingsNavigator {
     }
     
     func openNotificationSettingsList(notificationSettingsType: NotificationSettingsType) {
-        if featureFlags.notificationSettings == .differentLists {
-            openNotificationSettingsAccessorList(notificationSettingsType: notificationSettingsType)
-        } else if featureFlags.notificationSettings == .sameList {
-            openNotificationSettingsCompleteList(notificationSettingType: notificationSettingsType)
-        }
+        openNotificationSettingsAccessorList(notificationSettingsType: notificationSettingsType)
     }
     
     private func openNotificationSettingsAccessorList(notificationSettingsType: NotificationSettingsType) {
@@ -204,26 +200,11 @@ extension ProfileTabCoordinator: NotificationSettingsNavigator {
             vm = NotificationSettingsAccessorListViewModel.makePusherNotificationSettingsListViewModel()
         case .mail:
             vm = NotificationSettingsAccessorListViewModel.makeMailerNotificationSettingsListViewModel()
-        case .marketing, .searchAlerts:
+        case .searchAlerts:
             return
         }
         vm.navigator = self
         let vc = NotificationSettingsAccessorListViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
-    private func openNotificationSettingsCompleteList(notificationSettingType: NotificationSettingsType) {
-        let vm: NotificationSettingsCompleteListViewModel
-        switch notificationSettingType {
-        case .push:
-            vm = NotificationSettingsCompleteListViewModel.makePusherNotificationSettingsListViewModel()
-        case .mail:
-            vm = NotificationSettingsCompleteListViewModel.makeMailerNotificationSettingsListViewModel()
-        case .marketing, .searchAlerts:
-            return
-        }
-        vm.navigator = self
-        let vc = NotificationSettingsCompleteListViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
     

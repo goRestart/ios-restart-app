@@ -9,7 +9,7 @@ final class NotificationSettingsListDetailViewController: BaseViewController, UI
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .grayBackground
-        tableView.estimatedRowHeight = NotificationSettingSwitchCell.defaultHeight
+        tableView.estimatedRowHeight = NotificationSettingsSwitchCell.defaultHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         tableView.contentInset.top = NotificationSettingsViewController.tableViewTopInset
@@ -32,8 +32,8 @@ final class NotificationSettingsListDetailViewController: BaseViewController, UI
         viewModel.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(NotificationSettingSwitchCell.self,
-                           forCellReuseIdentifier: NotificationSettingSwitchCell.reusableID)
+        tableView.register(NotificationSettingsSwitchCell.self,
+                           forCellReuseIdentifier: NotificationSettingsSwitchCell.reusableID)
     }
     
     required init?(coder: NSCoder) {
@@ -83,9 +83,9 @@ final class NotificationSettingsListDetailViewController: BaseViewController, UI
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationSettingSwitchCell.reusableID,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationSettingsSwitchCell.reusableID,
                                                        for: indexPath)
-            as? NotificationSettingSwitchCell else { return UITableViewCell() }
+            as? NotificationSettingsSwitchCell else { return UITableViewCell() }
         let notificationSettingCell = viewModel.settings.value[indexPath.row]
         cell.setupWithNotificationSettingCell(notificationSettingCell)
         return cell

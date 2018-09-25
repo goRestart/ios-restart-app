@@ -45,7 +45,6 @@ extension Bumper  {
         flags.append(PreventMessagesFromFeedToProUsers.self)
         flags.append(SimplifiedChatButton.self)
         flags.append(ShowChatConnectionStatusBar.self)
-        flags.append(NotificationSettings.self)
         flags.append(CarExtraFieldsEnabled.self)
         flags.append(ReportingFostaSesta.self)
         flags.append(ShowChatHeaderWithoutUser.self)
@@ -464,19 +463,6 @@ extension Bumper  {
     static var showChatConnectionStatusBarObservable: Observable<ShowChatConnectionStatusBar> {
         return Bumper.observeValue(for: ShowChatConnectionStatusBar.key).map {
             ShowChatConnectionStatusBar(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var notificationSettings: NotificationSettings {
-        guard let value = Bumper.value(for: NotificationSettings.key) else { return .control }
-        return NotificationSettings(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var notificationSettingsObservable: Observable<NotificationSettings> {
-        return Bumper.observeValue(for: NotificationSettings.key).map {
-            NotificationSettings(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1492,23 +1478,6 @@ enum ShowChatConnectionStatusBar: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum NotificationSettings: String, BumperFeature  {
-    case control, baseline, differentLists, sameList
-    static var defaultValue: String { return NotificationSettings.control.rawValue }
-    static var enumValues: [NotificationSettings] { return [.control, .baseline, .differentLists, .sameList]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[RETENTION] Settings to enable or disable each type of notification" } 
-    static func fromPosition(_ position: Int) -> NotificationSettings {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .differentLists
-            case 3: return .sameList
             default: return .control
         }
     }

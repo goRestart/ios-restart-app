@@ -111,7 +111,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
-    var notificationSettings: NotificationSettings { get }
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
     var engagementBadging: EngagementBadging { get }
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
@@ -305,10 +304,6 @@ extension CopyForSellFasterNowInTurkish {
 
 extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
-}
-
-extension NotificationSettings {
-    var isActive: Bool { return self == .differentLists || self == .sameList }
 }
 
 extension EngagementBadging {
@@ -1303,13 +1298,6 @@ extension FeatureFlags {
             return Bumper.onboardingIncentivizePosting
         }
         return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
-    }
-    
-    var notificationSettings: NotificationSettings {
-        if Bumper.enabled {
-            return Bumper.notificationSettings
-        }
-        return NotificationSettings.fromPosition(abTests.notificationSettings.value)
     }
     
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
