@@ -2245,6 +2245,9 @@
 // MoPub and Google Adx advertising indicator "Ad"
 "advertising_text" = "Ad";
 
+// Default copy for CTA button in native advertising
+"advertising_default_cta" = "Read more";
+
 // Subtitle text for empty notifications center
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
 

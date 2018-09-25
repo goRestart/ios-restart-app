@@ -14,6 +14,8 @@ extension R {
     public static func accountPendingModerationWName(_ p1: String) -> String {
       return Strings.tr("Localizable", "account_pending_moderation_w_name", p1)
     }
+    /// Read more
+    public static let advertisingDefaultCta = Strings.tr("Localizable", "advertising_default_cta")
     /// Ad
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Invite friends

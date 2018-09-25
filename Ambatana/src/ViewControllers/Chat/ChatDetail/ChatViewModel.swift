@@ -1,6 +1,7 @@
 import LGCoreKit
 import RxSwift
 import LGComponents
+import RxCocoa
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
 
@@ -109,7 +110,12 @@ class ChatViewModel: ChatBaseViewModel {
     var userIsTypingTimeout: Timer?
     var stoppedTypingEventEnabled: Bool = true
     let chatUserInteractionsEnabled = Variable<Bool>(true)
-
+    
+    private let listingIsHiddenSubject = BehaviorRelay(value: true)
+    var listingIsHidden: Driver<Bool> {
+        return listingIsHiddenSubject.asDriver()
+    }
+    
     var keyForTextCaching: String { return userDefaultsSubKey }
     
     let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersBadgeAlreadyShown])
@@ -129,10 +135,17 @@ class ChatViewModel: ChatBaseViewModel {
     
     var isUserDummy: Bool {
         guard let userType = conversation.value.interlocutor?.userType else { return false }
-        if case userType = UserType.dummy {
-            return true
-        }
-        return false
+        return userType == .dummy
+    }
+    
+    var isUserProfessional: Bool {
+        guard let userType = conversation.value.interlocutor?.userType else { return false }
+        return userType == .pro
+    }
+    
+    var isFakeListing: Bool {
+        guard let listing = conversation.value.listing else { return false }
+        return listing.isFakeListing && !isUserDummy && !isUserProfessional
     }
 
     var showWhiteBackground: Bool {
@@ -471,7 +484,13 @@ class ChatViewModel: ChatBaseViewModel {
     func setupRx() {
         conversation.asObservable().subscribeNext { [weak self] conversation in
             self?.chatStatus.value = conversation.chatStatus
-            self?.chatEnabled.value = conversation.chatEnabled
+            
+            if self?.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
+                self?.chatEnabled.value = conversation.chatEnabled && (self?.thereAreMessagesSent ?? false)
+            } else {
+                self?.chatEnabled.value = conversation.chatEnabled
+            }
+
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
             self?.title.value = conversation.listing?.name ?? ""
@@ -494,6 +513,7 @@ class ChatViewModel: ChatBaseViewModel {
                                                     (id, name) -> UIImage? in
                                                     return LetgoAvatar.avatarWithID(id, name: name)
         }
+    
         Observable.combineLatest(placeHolder, interlocutorAvatarURL.asObservable()) { ($0, $1) }
             .bind { [weak self] (placeholder, avatarUrl) in
                 guard let showUserAvatarinCells = self?.featureFlags.showChatHeaderWithoutUser,
@@ -564,10 +584,21 @@ class ChatViewModel: ChatBaseViewModel {
                                  expressMessagesAlreadySent.asObservable(),
                                  interlocutorProfessionalInfo.asObservable()) { $0 && $1 && !$2 && !$3.isProfessional }
             .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
-
+        
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedListingsState.asObservable(),
                                         resultSelector: { chatEnabled, relatedState in
+ 
+                                            let shouldEnableCustomQuestionsForOpenChatFromProfile = self.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers
+                                                && (self.conversation.value.listing?.isFakeListing ?? false)
+                                            
+                                            if shouldEnableCustomQuestionsForOpenChatFromProfile {
+                                                if (self.thereAreMessagesSent) {
+                                                    return .notAvailable
+                                                }
+                                                return .visible
+                                            }
+                                            
                                             switch relatedState {
                                             case .loading, .visible:
                                                 return .notAvailable
@@ -603,6 +634,10 @@ class ChatViewModel: ChatBaseViewModel {
             self?.professionalSellerAfterMessageEventsFor(messageType: messageType)
         }.disposed(by: disposeBag)
 
+        if let listing = conversation.value.listing {
+            listingIsHiddenSubject.accept(listing.isFakeListing)
+        }
+   
         setupUserIsTypingRx()
         setupChatEventsRx()
     }
@@ -1882,6 +1917,9 @@ fileprivate extension ChatConversation {
 
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
+    var thereAreMessagesSent: Bool {
+        return conversation.value.lastMessageSentAt != nil
+    }
     /*
      Quick answers priorities:
      1- dynamic answers (embedded in a chat message)
@@ -1889,7 +1927,17 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
      3- legacy quick answers (hardcoded in app)
      */
     var directAnswers: [QuickAnswer] {
+        if featureFlags.openChatFromUserProfile == .vatiant1NoQuickAnswers && isFakeListing {
+            return []
+        }
         
+        if featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers && isFakeListing {
+            if thereAreMessagesSent {
+                return []
+            }
+            return QuickAnswer.quickAnswersForOpenChatFromProfile()
+        }
+
         if let lastMessage = messages.value.first,
             let userId = myUserRepository.myUser?.objectId,
             lastMessage.talkerId != userId,
@@ -1917,6 +1965,10 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
              .freeAvailable:
             clearListingSoldDirectAnswer()
             send(quickAnswer: answer)
+        case .favoritedMyListing ,.iLikeYourListing:
+            send(quickAnswer: answer)
+            directAnswersState.value = .notAvailable
+            chatEnabled.value = true
         case .meetingAssistant:
             onMeetingAssistantPressed()
         case .dynamic(let chatAnswer):

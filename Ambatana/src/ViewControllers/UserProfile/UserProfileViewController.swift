@@ -462,6 +462,10 @@ extension UserProfileViewController: UserProfileTabsViewDelegate {
 // MARK: - Header Delegate
 
 extension UserProfileViewController: UserProfileHeaderDelegate {
+    func didTapChatNow() {
+        viewModel.openChatNow()
+    }
+    
     func didTapEditAvatar() {
         guard viewModel.isPrivateProfile else { return }
         MediaPickerManager.showImagePickerIn(self)
@@ -582,6 +586,10 @@ extension UserProfileViewController {
                     self?.headerView.setUser(numberOfRatings: $0)
                 }
             })
+            .disposed(by: disposeBag)
+        
+        viewModel.chatNowButtonIsHidden
+            .drive(headerView.rx.chatNowButtonIsHidden)
             .disposed(by: disposeBag)
 
         Observable

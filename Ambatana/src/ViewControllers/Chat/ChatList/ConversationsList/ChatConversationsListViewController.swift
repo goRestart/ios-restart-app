@@ -173,7 +173,13 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
             switch dataSource[indexPath] {
 
             case .conversationCellData(let conversationCellData):
-                
+                if conversationCellData.isFakeListing {
+                    guard let cell = tableView.dequeue(type: ChatAssistantConversationCell.self, for: indexPath) else {
+                        return UITableViewCell()
+                    }
+                    cell.setupCellWith(data: conversationCellData, indexPath: indexPath)
+                    return cell
+                }
                 if let userType = conversationCellData.userType,
                     userType == .dummy,
                     conversationCellData.listingId == nil {

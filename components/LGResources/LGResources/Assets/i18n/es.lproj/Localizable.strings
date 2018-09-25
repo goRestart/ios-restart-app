@@ -2,7 +2,7 @@
 "account_pending_moderation_w_name" = "La cuenta de %@ está pendiente de moderación";
 "advertising_text" = "Anuncio";
 "affiliation_challenges_invite_friends_button" = "Invitar Amigos";
-"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite %3$@ friends and earn %4$@ more points!";
+"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite %3$@ more friends and earn %4$@ more points!";
 "affiliation_challenges_invite_friends_milestone" = "%@";
 "affiliation_challenges_invite_friends_subtitle" = "Get a $60 Amazon Gift Card";
 "affiliation_challenges_invite_friends_title" = "INVITA A TUS AMIGOS";
@@ -862,10 +862,8 @@
 "payments_enter_pay_code_navbar_title" = "Oferta";
 "payments_error_retry" = "Reintentar";
 "payments_get_pay_code_code_label" = "Tu código de pago";
-"payments_get_pay_code_contact_us_option" = "Contáctanos";
 "payments_get_pay_code_description" = "Compartir este código desbloquea el pago, hazlo solo cuando hayas recibido el artículo. No compartas este código por chat o mensaje de texto.";
 "payments_get_pay_code_disclaimer" = "El código caduca en 7 días, asegúrate de encontrarte con el vendedor antes de eso.";
-"payments_get_pay_code_faqs_option" = "Preguntas frecuentes";
 "payments_get_pay_code_navbar_title" = "Oferta";
 "payments_loading_generic_error" = "¡Ups! Se ha producido un error al cargar. Inténtalo de nuevo.";
 "payments_offer_status_action_chat_button" = "Chatear con el vendedor";
