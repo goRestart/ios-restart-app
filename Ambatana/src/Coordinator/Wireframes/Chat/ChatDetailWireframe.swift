@@ -139,7 +139,8 @@ final class ChatDetailWireframe: ChatDetailNavigator {
                                                    buyers: buyers,
                                                    listingId: listingId,
                                                    sourceRateBuyers: sourceRateBuyers,
-                                                   trackingInfo: trackingInfo)
+                                                   trackingInfo: trackingInfo,
+                                                   onRateUserFinishAction: nil)
         nc.present(vc, animated: true, completion: nil)
     }
 

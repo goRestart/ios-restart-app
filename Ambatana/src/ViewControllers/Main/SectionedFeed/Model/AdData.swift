@@ -22,7 +22,7 @@ extension AdData {
 
 extension AdData {
     var diffIdentifier: String {
-        return "\(adPosition)"
+        return "\(type)-\(adPosition)"
     }
 }
 

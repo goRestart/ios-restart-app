@@ -116,8 +116,7 @@ final class Tooltip: UIView {
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        let tapTitle = UITapGestureRecognizer(target: self, action: #selector(titleTapped))
-        titleLabel.addGestureRecognizer(tapTitle)
+        addGestureRecognizerToTooltip()
         coloredView.addSubviewForAutoLayout(titleLabel)
 
         if style.closeEnabled {
@@ -135,10 +134,17 @@ final class Tooltip: UIView {
         if let button = button {
             coloredView.addSubviewForAutoLayout(button)
         }
-
         setupConstraints()
     }
 
+    private func addGestureRecognizerToTooltip() {
+        guard let _ = button else {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(titleTapped))
+            addGestureRecognizer(tap)
+            return
+        }
+    }
+    
     private func setupConstraints() {
 
         // self

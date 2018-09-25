@@ -1169,7 +1169,9 @@ fileprivate extension ListingViewModel {
                 }
             } else {
                 let message = strongSelf.listing.value.price.isFree ? R.Strings.productMarkAsSoldFreeSuccessMessage : R.Strings.productMarkAsSoldSuccessMessage
-                strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+                strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: { [weak self] in
+                    self?.navigator?.openPostAnotherListing()
+                })
             }
         }
     }

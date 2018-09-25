@@ -70,10 +70,10 @@ final class ScrollingPageControl: UIView {
         setupScrollView()
     }
     
-    func updateCurrentPage(to nextPage: Int) {
+    func updateCurrentPage(to nextPage: Int, animated: Bool = true) {
         previouslySelectedPage = currentPage
         self.currentPage = nextPage
-        updateItemsState(forSelectedIndex: currentPage)
+        updateItemsState(forSelectedIndex: currentPage, animated: animated)
 
         scrollToItem(atIndex: currentPage)
     }
@@ -103,7 +103,6 @@ final class ScrollingPageControl: UIView {
             dotViews.append(itemView)
         }
         
-        updateItemsState(forSelectedIndex: currentPage)
         let lastItemFrame = frameForItem(atIndex: numberOfPages-1)
         let scrollContentSize = CGSize(width: lastItemFrame.width, height: lastItemFrame.maxY)
         scrollView.contentSize = scrollContentSize
@@ -133,11 +132,11 @@ final class ScrollingPageControl: UIView {
         dotViews = []
     }
     
-    private func updateItemsState(forSelectedIndex selectedIndex: Int) {
+    private func updateItemsState(forSelectedIndex selectedIndex: Int, animated: Bool = true) {
         for (index, item) in dotViews.enumerated() {
             let selectionState = calculateState(forItemAtIndex: index,
                                                 selectedIndex: selectedIndex)
-            item.updateSelectionState(to: selectionState)
+            item.updateSelectionState(to: selectionState, animated: animated)
         }
     }
     
@@ -275,13 +274,14 @@ private final class PageItemDotView: UIView {
         ctx.fillPath()
     }
     
-    func updateSelectionState(to state: PageItemDotView.SelectionState) {
+    func updateSelectionState(to state: PageItemDotView.SelectionState, animated: Bool = true) {
         selectionState = state
-        
-        UIView.animate(withDuration: 0.13) {
+
+        UIView.animate(withDuration: animated ? 0.13 : 0) {  
             self.updateTransform()
             self.setNeedsDisplay()
         }
+        
     }
     
     private func updateTransform() {

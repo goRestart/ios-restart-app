@@ -48,13 +48,15 @@ final class ProductListingSectionController: ListSectionController {
         super.didSelectItem(at: index)
         guard let cell = collectionContext?.cellForItem(at: index, sectionController: self) as? FeedListingCell,
             let listing = productListingData?.listing else { return }
+        guard let diffableIdentifier = productListingData?.listDiffable() else { return }
         let newFrame = viewController?.view.convert(cell.frame,
                                                     from: nil)
         listingActionDelegate?.didSelectListing(listing,
                                                 thumbnailImage: cell.thumbnailImage,
                                                 originFrame: newFrame,
-                                                index: 0,
+                                                index: nil,
                                                 sectionIdentifier: nil,
-                                                sectionIndex: nil)
+                                                sectionIndex: nil,
+                                                itemIdentifier: diffableIdentifier)
     }
 }

@@ -6,3 +6,7 @@ protocol RateBuyersNavigator {
     func rateBuyersFinish(withUser: UserListing, listingId: String?)
     func rateBuyersFinishNotOnLetgo()
 }
+
+protocol OnRateUserFinishActionable: class {
+    func onFinish()
+}

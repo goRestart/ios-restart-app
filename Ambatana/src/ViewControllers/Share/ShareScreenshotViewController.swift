@@ -4,6 +4,8 @@ import RxSwift
 
 final class ShareScreenshotViewController: BaseViewController {
     
+    private let transitionAnimationDuration = 0.5
+    
     enum Layout {
         static let closeButtonTopMargin: CGFloat = 20
         static let closeButtonLeadingMargin: CGFloat = 0
@@ -40,6 +42,7 @@ final class ShareScreenshotViewController: BaseViewController {
         screenshotImageView.layer.masksToBounds = false
         return screenshotImageView
     }()
+    private let animatedScreenshotImageView = UIImageView()
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemBoldFont(size: 30)
@@ -53,6 +56,14 @@ final class ShareScreenshotViewController: BaseViewController {
         subtitleLabel.textAlignment = .center
         subtitleLabel.text = R.Strings.shareScreenshotDescription
         return subtitleLabel
+    }()
+    private let buttonStackView: UIStackView = {
+        let buttonStackView = UIStackView()
+        buttonStackView.axis = .horizontal
+        buttonStackView.distribution = .equalCentering
+        buttonStackView.alignment = .center
+        buttonStackView.spacing = Metrics.margin
+        return buttonStackView
     }()
     private let messengerButton: UIButton = {
         let messengerButton = UIButton()
@@ -75,6 +86,8 @@ final class ShareScreenshotViewController: BaseViewController {
         return moreButton
     }()
     
+    var hasOpeningTransitionPerformed: Bool = false
+    
     
     // MARK: - Lifecycle
     
@@ -88,6 +101,8 @@ final class ShareScreenshotViewController: BaseViewController {
         self.viewModel = viewModel
         self.socialSharer = socialSharer
         super.init(viewModel: viewModel, nibName: nil)
+        
+        animatedScreenshotImageView.image = viewModel.screenshotImage
     }
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -95,9 +110,16 @@ final class ShareScreenshotViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupButtonStackView()
         setupLayout()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !hasOpeningTransitionPerformed {
+            performOpeningAnimation()
+        }
+    }
     
     // MARK: - UI
     
@@ -111,8 +133,19 @@ final class ShareScreenshotViewController: BaseViewController {
         screenshotImageView.image = viewModel.screenshotImage
     }
     
+    private func setupButtonStackView() {
+        if SocialSharer.canShareIn(.whatsapp) {
+            buttonStackView.addArrangedSubview(whatsappButton)
+        }
+        if SocialSharer.canShareIn(.fbMessenger) {
+            buttonStackView.addArrangedSubview(messengerButton)
+        }
+        buttonStackView.addArrangedSubviews([messagesButton, moreButton])
+    }
+    
     private func setupLayout() {
-        view.addSubviewsForAutoLayout([closeButton, screenshotImageView, messengerButton, whatsappButton, messagesButton, moreButton, subtitleLabel, titleLabel])
+        view.addSubviewsForAutoLayout([closeButton, screenshotImageView, buttonStackView, subtitleLabel, titleLabel])
+        
         let constraints = [
             closeButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.closeButtonLeadingMargin),
             closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: Layout.closeButtonTopMargin),
@@ -125,27 +158,10 @@ final class ShareScreenshotViewController: BaseViewController {
             screenshotImageView.heightAnchor.constraint(equalToConstant: screenshotImageViewHeight),
             screenshotImageView.widthAnchor.constraint(equalToConstant: screenshotImageViewWidth),
             
-            messengerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Metrics.bigMargin),
-            messengerButton.heightAnchor.constraint(equalToConstant: Layout.shareButtonSideSize),
-            messengerButton.widthAnchor.constraint(equalToConstant: Layout.shareButtonSideSize),
-            messengerButton.rightAnchor.constraint(equalTo: whatsappButton.leftAnchor, constant: -Metrics.margin),
-
-            whatsappButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Metrics.bigMargin),
-            whatsappButton.heightAnchor.constraint(equalToConstant: Layout.shareButtonSideSize),
-            whatsappButton.widthAnchor.constraint(equalToConstant: Layout.shareButtonSideSize),
-            whatsappButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -(view.frame.size.width / 2 + Metrics.margin / 2)),
+            buttonStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Metrics.bigMargin),
+            buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            messagesButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Metrics.bigMargin),
-            messagesButton.heightAnchor.constraint(equalToConstant: Layout.shareButtonSideSize),
-            messagesButton.widthAnchor.constraint(equalToConstant: Layout.shareButtonSideSize),
-            messagesButton.leftAnchor.constraint(equalTo: whatsappButton.rightAnchor, constant: Metrics.margin),
-            
-            moreButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Metrics.bigMargin),
-            moreButton.heightAnchor.constraint(equalToConstant: Layout.shareButtonSideSize),
-            moreButton.widthAnchor.constraint(equalToConstant: Layout.shareButtonSideSize),
-            moreButton.leftAnchor.constraint(equalTo: messagesButton.rightAnchor, constant: Metrics.margin),
-            
-            subtitleLabel.bottomAnchor.constraint(equalTo: messengerButton.topAnchor, constant: -Metrics.bigMargin),
+            subtitleLabel.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor, constant: -Metrics.bigMargin),
             subtitleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Metrics.margin),
             subtitleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Metrics.margin),
             subtitleLabel.heightAnchor.constraint(equalToConstant: Layout.subtitleHeight),
@@ -159,10 +175,62 @@ final class ShareScreenshotViewController: BaseViewController {
     }
     
     
+    // MARK: - Opening and closing animations
+    
+    private func performOpeningAnimation() {
+        let initialFrame = CGRect(x: 0,
+                                  y: 0,
+                                  width: view.width,
+                                  height: view.height)
+        let finalFrame = CGRect(x: view.frame.midX - screenshotImageViewWidth/2,
+                                y: Layout.screenshotImageViewTopMargin,
+                                width: screenshotImageViewWidth,
+                                height: screenshotImageViewHeight)
+        
+        animatedScreenshotImageView.image = viewModel.screenshotImage
+        
+        view.addSubview(animatedScreenshotImageView)
+        view.bringSubview(toFront: animatedScreenshotImageView)
+        animatedScreenshotImageView.frame = initialFrame
+        UIView.animate(withDuration: transitionAnimationDuration,
+                       animations: { [weak self] in
+                        self?.animatedScreenshotImageView.frame = finalFrame
+            }, completion: { [weak self] _ in
+                self?.animatedScreenshotImageView.alpha = 0
+                self?.hasOpeningTransitionPerformed = true
+        })
+    }
+    
+    private func performClosingAnimation(completion: (() -> Void)?) {
+        let initialFrame = CGRect(x: view.frame.midX - screenshotImageViewWidth/2,
+                                  y: Layout.screenshotImageViewTopMargin,
+                                  width: screenshotImageViewWidth,
+                                  height: screenshotImageViewHeight)
+        let finalFrame = CGRect(x: 0,
+                                y: 0,
+                                width: view.width,
+                                height: view.height)
+        
+        animatedScreenshotImageView.image = viewModel.screenshotImage
+        
+        view.addSubview(animatedScreenshotImageView)
+        view.bringSubview(toFront: animatedScreenshotImageView)
+        animatedScreenshotImageView.frame = initialFrame
+        self.animatedScreenshotImageView.alpha = 1
+        UIView.animate(withDuration: transitionAnimationDuration,
+                       animations: { [weak self] in
+                        self?.animatedScreenshotImageView.frame = finalFrame
+            }, completion: { _ in
+                completion?()
+        })
+    }
+    
     // MARK: - UI Actions
     
     @objc private func closeButtonAction() {
-        viewModel.close()
+        performClosingAnimation { [weak self] in
+            self?.viewModel.close()
+        }
     }
     
     @objc private func messengerButtonAction(_ sender: AnyObject) {
