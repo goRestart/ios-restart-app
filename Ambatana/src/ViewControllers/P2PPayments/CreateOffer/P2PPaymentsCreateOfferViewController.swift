@@ -151,6 +151,7 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
         changeOfferView.rx.changeOfferButtonTap
             .subscribe(onNext: { [weak self] _ in
                 guard let newValue = self?.changeOfferView.value else { return }
+                self?.changeOfferView.endEditing(true)
                 self?.viewModel.changeOfferDoneButtonPressed(newValue: newValue)
             })
             .disposed(by: disposeBag)
