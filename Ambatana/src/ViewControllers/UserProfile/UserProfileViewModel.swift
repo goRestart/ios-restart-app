@@ -59,6 +59,7 @@ final class UserProfileViewModel: BaseViewModel {
 
     var shouldShowKarmaView: Bool { return isPrivateProfile }
     var shouldShowRatingCount: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
+    var shouldShowAskVerificationButton: Bool { return self.featureFlags.advancedReputationSystem13.isActive }
     var isTapOnRatingStarsEnabled: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
 
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
@@ -76,6 +77,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userBadge: Driver<UserHeaderViewBadge> { return makeUserBadge() }
     let userRelationIsBlocked = Variable<Bool>(false)
     let userRelationIsBlockedBy = Variable<Bool>(false)
+    let askVerificationProfileIsSent = Variable<Bool>(false) // TODO: link this with backend
     var userRelationText: Driver<String?> { return makeUserRelationText() }
     var listingListViewModel: Driver<ListingListViewModel?> { return makeListingListViewModelDriver() }
     let ratingListViewModel: UserRatingListViewModel
@@ -249,6 +251,13 @@ extension UserProfileViewModel {
         guard isPrivateProfile else { return }
         profileNavigator?.openUserVerificationView()
         trackVerifyAccountStart()
+    }
+
+    func didTapAskVerification() {
+        // TODO: replace this by real backend logic
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.askVerificationProfileIsSent.value = true
+        }
     }
 
     func didTapAvatar() {
