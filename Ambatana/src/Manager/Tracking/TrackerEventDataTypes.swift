@@ -227,6 +227,15 @@ enum EventName: String {
 
     case verificationModalShown             = "verification-modal-shown"
 
+    // Affiliation
+    case redeemRewardStart                 = "redeem-reward-start"
+    case redeemRewardComplete              = "redeem-reward-complete"
+    case redeemRewardError                 = "redeem-reward-error"
+    case rewardCenterOpen                  = "reward-center-open"
+    case inviteeRewardBannerShown          = "invitee-reward-banner-shown"
+    case inviteeRewardBannerError          = "invitee-reward-banner-error"
+
+
     case p2pPaymentsBuyerOfferStart         = "p2p-buyer-offer-start"
     case p2pPaymentsBuyerOfferOnboardStart  = "p2p-buyer-offer-onboard-start"
     case p2pPaymentsBuyerOfferAbandon       = "p2p-buyer-offer-abandon"
@@ -493,6 +502,14 @@ enum EventParameterName: String {
 
     // Engagement badging
     case recentItems        = "recent-items"
+
+    // Affiliation
+    case rewardPoints       = "reward-points"
+    case rewardCampaign     = "reward-campaign"
+    case rewardRedeemed     = "reward-redeemed"
+    case amountGranted      = "amount-granted"
+    case numberOfInvitees   = "number-of-invites"
+    case rewardCampaignsAvailable = "reward-campaigns-available"
 }
 
 enum EventParameterBoolean: String {
@@ -555,6 +572,8 @@ enum EventParameterButtonNameType: String {
 enum EventParameterButtonType: String {
     case button = "button"
     case itemPicture = "item-picture"
+    case icon = "icon"
+    case banner = "banner"
 }
 
 enum EventParameterButtonPosition: String {
@@ -584,6 +603,7 @@ enum EventParameterShareNetwork: String {
     case sms = "sms"
     case copyLink = "copy_link"
     case native = "native"
+    case other = "other"
     case notAvailable = "N/A"
 }
 

@@ -55,6 +55,8 @@ extension R {
       }
       public static let affiliationIcon = ImageAsset(name: "affiliationIcon")
       public static let chevronRight24 = ImageAsset(name: "chevronRight24")
+      public static let icnCheck = ImageAsset(name: "icnCheck")
+      public static let icnClockFill24 = ImageAsset(name: "icnClockFill24")
       public static let icnReward24 = ImageAsset(name: "icnReward24")
       public static let icnAffiliationPoints = ImageAsset(name: "icn_affiliation_points")
       public static let icnModalSuccess = ImageAsset(name: "icn_modal_success")
@@ -73,6 +75,8 @@ extension R {
         Partners.amazon,
         affiliationIcon,
         chevronRight24,
+        icnCheck,
+        icnClockFill24,
         icnReward24,
         icnAffiliationPoints,
         icnModalSuccess,

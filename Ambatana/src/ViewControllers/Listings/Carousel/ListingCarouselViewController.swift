@@ -1029,7 +1029,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     }
 
     func didScrollToPage(_ page: Int) {
-        pageControl.setCurrentPage(to: page)
+        pageControl.setCurrentPage(to: page, animated: true)
         shouldShowProgressView = viewModel.itemIsPlayable(at: page)
     }
 
@@ -1453,6 +1453,12 @@ extension ListingCarouselViewController {
     }
 }
 
+extension ListingCarouselViewController {
+    func retrieveSocialMessage() -> SocialMessage? {
+        return viewModel.makeSocialMessage()
+    }
+}
+
 
 // MARK: - Accessibility ids
 
@@ -1498,14 +1504,14 @@ extension Reactive where Base: ListingCarouselViewController {
     
     var currentPage: Binder<Int> {
         return Binder(self.base) { view, currentPage in
-            view.pageControl.setCurrentPage(to: currentPage)
+            view.pageControl.setCurrentPage(to: currentPage, animated: true)
         }
     }
     
     var numberOfPages: Binder<Int> {
         return Binder(self.base) { view, numberOfPages in
             view.pageControl.setup(withNumberOfPages: numberOfPages)
-            view.pageControl.setCurrentPage(to: 0)
+            view.pageControl.setCurrentPage(to: 0, animated: false)
             view.updatePageControlConstraints(forItemCount: numberOfPages)
         }
     }

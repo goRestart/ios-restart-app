@@ -494,7 +494,7 @@ struct TrackerEvent {
         switch actualNetwork {
         case .native:
             actualNetwork = .notAvailable
-        case .email, .facebook, .whatsapp, .twitter, .fbMessenger, .telegram, .sms, .copyLink, .notAvailable:
+        case .email, .facebook, .whatsapp, .twitter, .fbMessenger, .telegram, .sms, .copyLink, .notAvailable, .other:
             break
         }
         params[.shareNetwork] = actualNetwork.rawValue
@@ -1104,17 +1104,26 @@ struct TrackerEvent {
         return TrackerEvent(name: .profileEditBioComplete, params: params)
     }
 
-    static func appInviteFriendStart(_ typePage: EventParameterTypePage) -> TrackerEvent {
-            var params = EventParameters()
-            params[.typePage] = typePage.rawValue
-            return TrackerEvent(name: .appInviteFriendStart, params: params)
+    static func appInviteFriendStart(_ typePage: EventParameterTypePage,
+                                     rewardCampaign: RewardCampaign? = nil) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        if let campaign = rewardCampaign {
+            params[.rewardCampaign] = campaign.rawValue
+        }
+        return TrackerEvent(name: .appInviteFriendStart, params: params)
     }
 
-    static func appInviteFriend(_ network: EventParameterShareNetwork, typePage: EventParameterTypePage)
+    static func appInviteFriend(_ network: EventParameterShareNetwork,
+                                typePage: EventParameterTypePage,
+                                rewardCampaign: RewardCampaign? = nil)
         -> TrackerEvent {
             var params = EventParameters()
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
+            if let campaign = rewardCampaign {
+                params[.rewardCampaign] = campaign.rawValue
+            }
             return TrackerEvent(name: .appInviteFriend, params: params)
     }
 
@@ -1133,11 +1142,20 @@ struct TrackerEvent {
             return TrackerEvent(name: .appInviteFriendDontAsk, params: params)
     }
 
-    static func appInviteFriendComplete(_ network: EventParameterShareNetwork, typePage: EventParameterTypePage)
+    static func appInviteFriendComplete(_ network: EventParameterShareNetwork,
+                                        typePage: EventParameterTypePage,
+                                        rewardCampaign: RewardCampaign? = nil,
+                                        numberOfInvitees: Int? = nil)
         -> TrackerEvent {
             var params = EventParameters()
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
+            if let campaign = rewardCampaign {
+                params[.rewardCampaign] = campaign.rawValue
+            }
+            if let numberOfInvitees = numberOfInvitees {
+                params[.numberOfInvitees] = numberOfInvitees
+            }
             return TrackerEvent(name: .appInviteFriendComplete, params: params)
     }
 
@@ -1881,6 +1899,89 @@ struct TrackerEvent {
     
     static func showNewItemsBadge() -> TrackerEvent {
         return TrackerEvent(name: .showNewItemsBadge, params: nil)
+    }
+}
+
+// MARK: Affiliation
+private extension RewardType {
+    var trackingValue: String {
+        switch self {
+        case .amazon5: return "amazon-5"
+        case .amazon10: return "amazon-10"
+        case .amazon50: return "amazon-50"
+        }
+    }
+}
+
+extension TrackerEvent {
+    static func rewardCenterOpen(with typePage: EventParameterTypePage,
+                                 buttonType: EventParameterButtonType?,
+                                 walletPoints: Int?,
+                                 inviteFriendsIsAvailable: Bool?,
+                                 joinLetgoChallengeIsAvailable: Bool?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        if let buttonType = buttonType {
+            params[.buttonName] = buttonType.rawValue
+        }
+        if let walletPoints = walletPoints {
+            params[.rewardPoints] = walletPoints
+        }
+        var campaigns = [String]()
+        if let inviteFriendsIsAvailable = inviteFriendsIsAvailable, inviteFriendsIsAvailable {
+            campaigns.append("invite-friends-amazon")
+        }
+        if let joinLetgoChallengeIsAvailable = joinLetgoChallengeIsAvailable, joinLetgoChallengeIsAvailable {
+            campaigns.append("complete-registration-new-user")
+        }
+        if !campaigns.isEmpty {
+            params[.rewardCampaignsAvailable] = campaigns.joined(separator: ",")
+        }
+        return TrackerEvent(name: .rewardCenterOpen, params: params)
+    }
+    static func redeemRewardStart(with points: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.rewardPoints] = points
+        return TrackerEvent(name: .redeemRewardStart, params: params)
+    }
+
+    static func redeemRewardComplete(rewardType: RewardType, amountGranted: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.rewardRedeemed] = rewardType.trackingValue
+        params[.amountGranted] = amountGranted
+        return TrackerEvent(name: .redeemRewardComplete, params: params)
+    }
+
+    static func redeemRewardError(rewardType: RewardType, error: RepositoryError) -> TrackerEvent {
+        var params = EventParameters()
+        params[.rewardRedeemed] = rewardType.trackingValue
+        params[.errorDescription] = error.affiliationDescription()
+        return TrackerEvent(name: .redeemRewardStart, params: params)
+    }
+
+    static func inviteeRewardBannerShown() -> TrackerEvent {
+        return TrackerEvent(name: .inviteeRewardBannerShown, params: nil)
+    }
+
+    static func inviteeRewardBannerError() -> TrackerEvent {
+        return TrackerEvent(name: .inviteeRewardBannerError, params: nil)
+    }
+}
+
+enum RewardCampaign: String {
+    case inviteFriendsAmazon = "invite-friends-amazon"
+}
+
+private extension RepositoryError {
+    func affiliationDescription() -> String {
+        switch self.errorCode {
+        case 400?: return "bad-request"
+        case 404?: return "not-found"
+        case 401: return "unauthorized"
+        case 403?: return "forbidden"
+        case 422?: return "unprocessable-entity"
+        default: return "unknown"
+        }
     }
 }
 

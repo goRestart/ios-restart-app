@@ -538,6 +538,12 @@ extension UserProfileViewController: UserRatingListViewModelDelegate {
     }
 }
 
+extension UserProfileViewController: SocialMessageConvertible {
+    func retrieveSocialMessage() -> SocialMessage? {
+        return viewModel.makeSocialMessage()
+    }
+}
+
 // MARK: - Rx
 
 extension UserProfileViewController {

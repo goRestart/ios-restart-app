@@ -20,7 +20,7 @@ open class MockP2PPaymentsRepository: P2PPaymentsRepository {
     required public init() {}
 
 
-    // MARK: - UserRepository {
+    // MARK: - P2PPaymentsRepository
 
     public var shouldRefreshChatMessages: Bool = false
 
