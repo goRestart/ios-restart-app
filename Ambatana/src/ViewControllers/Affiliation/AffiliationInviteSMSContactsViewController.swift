@@ -356,6 +356,7 @@ extension AffiliationInviteSMSContactsViewController: MFMessageComposeViewContro
         case .cancelled:
             callbackMessage = R.Strings.affiliationInviteSmsMessageCancel
         case .sent:
+            viewModel.didSendMessages()
             callbackMessage = R.Strings.affiliationInviteSmsMessageSent
         case .failed:
             callbackMessage = R.Strings.affiliationInviteSmsMessageError
@@ -366,6 +367,7 @@ extension AffiliationInviteSMSContactsViewController: MFMessageComposeViewContro
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         searchBar.resignFirstResponder()
         self.navigationController?.isNavigationBarHidden = false
     }

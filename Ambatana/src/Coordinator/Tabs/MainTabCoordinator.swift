@@ -212,12 +212,12 @@ extension MainTabCoordinator: MainTabNavigator {
         }
     }
     
-    func openAffiliation() {
+    func openAffiliation(source: AffiliationChallengesSource) {
         guard featureFlags.affiliationEnabled.isActive else { return }
         openFullLoginIfNeeded(source: .feed) { [weak self] in
             guard let navigationController = self?.navigationController else { return }
             let affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(navigationController)
-            let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
+            let vc = affiliationChallengesAssembly.buildAffiliationChallenges(source: source)
             navigationController.pushViewController(vc, animated: true)
         }
     }
@@ -227,7 +227,7 @@ extension MainTabCoordinator: MainTabNavigator {
         let vc = AffiliationOnBoardingBuilder.modal(tabCtl)
             .buildOnBoarding(referrer: data,
                              onCompletion: { [weak self] in
-                                self?.openAffiliation()
+                                self?.openAffiliation(source: .feed(.banner))
             })
         tabCtl.present(vc, animated: true, completion: nil)
     }
@@ -242,11 +242,14 @@ extension MainTabCoordinator: MainTabNavigator {
     
     func openWrongCountryModal() {
         guard let tabCtl = navigationController.tabBarController else { return }
-        let primaryAction = UIAction(interface: .button(R.Strings.commonOk, .primary(fontSize: .medium)),
-                                     action: { [weak self] in
-                                        self?.dismissViewController(animated: true, completion: nil)
+        let primaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorMainButton, .primary(fontSize: .medium)),
+                                     action: { [weak tabCtl] in
+                                        tabCtl?.dismiss(animated: true) { [weak self] in
+                                            self?.appNavigator?.openSell(source: .referralNotAvailable, postCategory: nil, listingTitle:nil)
+                                        }
         })
-        let secondaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorSecondaryButton, .terciary),
+        let secondaryAction = UIAction(interface: .button(R.Strings.affiliationOnboardingCountryErrorSecondaryButton,
+                                                          .terciary),
                                        action: { [weak self] in
                                         self?.appNavigator?.openHome()
         })
@@ -260,8 +263,9 @@ extension MainTabCoordinator: MainTabNavigator {
         let vc = AffiliationModalBuilder.modal.buildAffiliationModalView(with: data)
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overCurrentContext
-        
-        tabCtl.present(vc, animated: true, completion: nil)
+        tabCtl.present(vc, animated: true, completion: { [weak self] in
+            self?.tracker.trackEvent(TrackerEvent.inviteeRewardBannerError())
+        })
     }
 }
 

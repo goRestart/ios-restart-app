@@ -34,7 +34,7 @@ final class AppsFlyerAffiliationResolver {
     
     static let shared = AppsFlyerAffiliationResolver()
     static let campaignValue = "affiliate-program"
-    
+
     /// This var should not be used outside. Set it internal and fix tests (talk to Xavi)
     let rx_affiliationCampaign = BehaviorRelay<AffiliationCampaignState>(value: .unknown)
     let rx_AppIsReady = BehaviorRelay<Bool>(value: false)
@@ -64,6 +64,7 @@ final class AppsFlyerAffiliationResolver {
     
     /// Method to be called when the apps flyer data for the affiliation campaign has been received
     func appsFlyerConversionData(data: [AnyHashable : Any]) {
+        guard self.data.isEmpty else { return }
         self.data = data
         resolve()
     }
@@ -91,7 +92,12 @@ private extension AppsFlyerAffiliationResolver {
             return nil
         }
         let name = data[AppsFlyerKeys.sub2] as? String ?? ""
-        let avatar = data[AppsFlyerKeys.sub3] as? URL
+        let avatar: URL?
+        if let avatarString = data[AppsFlyerKeys.sub3] as? String {
+            avatar = URL(string: avatarString)
+        } else {
+            avatar = nil
+        }
         return ReferrerInfo(userId: userId, name: name, avatar: avatar)
     }
 

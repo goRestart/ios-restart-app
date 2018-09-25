@@ -71,8 +71,8 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
                                     tableView.bottomAnchor.constraint(equalTo: bottomAnchor)]
         tableViewConstraints.activate()
 
-        tableView.delegate = self
         tableView.dataSource = self
+        tableView.delegate = self
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
@@ -136,22 +136,22 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
 
     private func makeInviteFriendsChallengeCell(challenge: Challenge,
                                                 indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier: String
+        let isCompleted: Bool
         switch challenge.status {
         case .ongoing:
-            cellIdentifier = AffiliationChallengeInviteFriendsCell.ongoingIdentifier
-        case .completed, .pending:
-            cellIdentifier = AffiliationChallengeInviteFriendsCell.completedIdentifier
-        case .processing:
-            // TODO
-            cellIdentifier = AffiliationChallengeInviteFriendsCell.completedIdentifier
+            isCompleted = false
+        case .completed, .pending, .processing:
+            isCompleted = true
         }
+        let cellIdentifier = isCompleted ? AffiliationChallengeInviteFriendsCell.completedIdentifier :
+            AffiliationChallengeInviteFriendsCell.ongoingIdentifier
         guard case let .inviteFriends(data) = challenge,
             let inviteFriendsCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
                                                                   for: indexPath) as? AffiliationChallengeInviteFriendsCell else {
                                                                     return UITableViewCell()
         }
-        inviteFriendsCell.setup(data: data)
+        inviteFriendsCell.setup(data: data,
+                                isCompleted: isCompleted)
         inviteFriendsCell.faqButtonPressedCallback = faqButtonPressedCallback
         inviteFriendsCell.inviteFriendsPressedCallback = inviteFriendsButtonPressedCallback
         return inviteFriendsCell
@@ -159,24 +159,21 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
 
     private func makeJoinLetgoChallengeCell(challenge: Challenge,
                                             indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier: String
-        switch challenge.status {
-        case .ongoing:
-            cellIdentifier = AffiliationChallengeJoinLetgoCell.ongoingIdentifier
-        case .completed, .pending:
-            cellIdentifier = AffiliationChallengeJoinLetgoCell.completedIdentifier
-        case .processing:
-            // TODO
-            cellIdentifier = AffiliationChallengeJoinLetgoCell.completedIdentifier
-        }
-        guard case let .joinLetgo(data) = challenge,
-            let joinLetgoCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
-                                                              for: indexPath) as? AffiliationChallengeJoinLetgoCell else {
-                                                                return UITableViewCell()
-        }
-        joinLetgoCell.setup(data: data)
+        guard case let .joinLetgo(data) = challenge else { return UITableViewCell() }
+
         let isPhoneConfirmed = data.stepsCompleted.contains(.phoneVerification)
         let isListingPosted = data.stepsCompleted.contains(.listingPosted)
+        let isCompleted = isPhoneConfirmed && isListingPosted
+
+        let cellIdentifier = isCompleted ? AffiliationChallengeJoinLetgoCell.completedIdentifier :
+            AffiliationChallengeJoinLetgoCell.ongoingIdentifier
+        guard let joinLetgoCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
+                                                          for: indexPath) as? AffiliationChallengeJoinLetgoCell else {
+                                                            return UITableViewCell()
+        }
+        joinLetgoCell.setup(data: data,
+                            isCompleted: isCompleted)
+
         joinLetgoCell.buttonPressedCallback = { [weak self] in
             if !isPhoneConfirmed {
                 self?.confirmPhonePressedCallback?()
@@ -186,12 +183,5 @@ final class AffiliationChallengesDataView: UIView, UITableViewDataSource, UITabl
         }
         joinLetgoCell.faqButtonPressedCallback = faqButtonPressedCallback
         return joinLetgoCell
-    }
-    
-
-    // MARK: - UITableViewDelegate
-
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
     }
 }

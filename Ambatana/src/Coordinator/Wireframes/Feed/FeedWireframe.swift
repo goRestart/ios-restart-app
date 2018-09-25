@@ -83,7 +83,7 @@ final class FeedWireframe: FeedNavigator {
     }
     
     func openAffiliationChallenges() {
-        let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
+        let vc = affiliationChallengesAssembly.buildAffiliationChallenges(source: .feed(.icon))
         nc.pushViewController(vc, animated: true)
     }
     

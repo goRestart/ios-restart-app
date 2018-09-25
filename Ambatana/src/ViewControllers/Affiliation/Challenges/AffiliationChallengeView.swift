@@ -104,9 +104,9 @@ final class AffiliationChallengeView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        applyShadow(withOpacity: 0.15,
-                    radius: Layout.padding/4)
-        layer.shadowPath = UIBezierPath(roundedRect: bounds,
+        applyShadow(withOpacity: 0.15, radius: 15)
+
+        layer.shadowPath = UIBezierPath(roundedRect: container.frame,
                                         cornerRadius: Layout.containerCornerRadius).cgPath
     }
     
@@ -134,7 +134,6 @@ final class AffiliationChallengeView: UIView {
         container.layer.borderColor = UIColor.grayLight.cgColor
         container.layer.borderWidth = 1
         container.layer.cornerRadius = 16
-        container.applyDefaultShadow()
     }
 
     private func setupPoints() {
@@ -218,18 +217,21 @@ final class AffiliationChallengeView: UIView {
         buttonPressedCallback?()
     }
 
-    func setup(inviteFriendsData: ChallengeInviteFriendsData) {
+    func setup(inviteFriendsData: ChallengeInviteFriendsData,
+               isCompleted: Bool) {
         let points = inviteFriendsData.calculateTotalPointsReward()
         pointsView.set(points: points)
         progressView.setup(data: inviteFriendsData)
-        setup(status: inviteFriendsData.status)
+        setup(isCompleted: isCompleted)
     }
 
-    func setup(joinLetgoData: ChallengeJoinLetgoData) {
+    func setup(joinLetgoData: ChallengeJoinLetgoData,
+               isCompleted: Bool) {
         pointsView.set(points: joinLetgoData.pointsReward)
 
         let isPhoneConfirmed = joinLetgoData.stepsCompleted.contains(.phoneVerification)
         let isListingPosted = joinLetgoData.stepsCompleted.contains(.listingPosted)
+        let isListingApproved = joinLetgoData.stepsCompleted.contains(.listingApproved)
 
         for (index, stepView) in stepViews.enumerated() {
             let stepNumber = index + 1
@@ -237,39 +239,45 @@ final class AffiliationChallengeView: UIView {
 
             switch index {
             case ChallengeJoinLetgoData.Step.phoneVerification.index:
-                stepView.set(title: R.Strings.affiliationChallengesJoinLetgoStepPhoneLabel)
+                let title: String
+                if isPhoneConfirmed {
+                    title = R.Strings.affiliationChallengesJoinLetgoStepPhoneVerifiedLabel
+                } else {
+                    title = R.Strings.affiliationChallengesJoinLetgoStepPhoneLabel
+                }
+                stepView.set(title: title)
                 let status: AffiliationChallengeStepView.Status = isPhoneConfirmed ? .completed : .todo(isHighlighted: true)
                 stepView.set(status: status)
-                button.setTitle(R.Strings.affiliationChallengesJoinLetgoStepPhoneButton,
-                                for: .normal)
             case ChallengeJoinLetgoData.Step.listingPosted.index:
-                stepView.set(title: R.Strings.affiliationChallengesJoinLetgoStepPostLabel)
+                let title: String
                 let status: AffiliationChallengeStepView.Status
-                if isListingPosted {
+                switch (isListingApproved, isListingPosted) {
+                case (true, _):
+                    title = R.Strings.affiliationChallengesJoinLetgoStepPostedLabel
                     status = .completed
-                } else {
-                    status = joinLetgoData.status == .completed ? .completed : .todo(isHighlighted: isPhoneConfirmed)
+                case (false, true):
+                    title = R.Strings.affiliationChallengesJoinLetgoProcessing
+                    status = .processing
+                case (false, false):
+                    title = R.Strings.affiliationChallengesJoinLetgoStepPostLabel
+                    status = .todo(isHighlighted: isPhoneConfirmed)
                 }
+                stepView.set(title: title)
                 stepView.set(status: status)
-                button.setTitle(R.Strings.affiliationChallengesJoinLetgoStepPostButton,
-                                for: .normal)
             default:
                 break
             }
         }
-        setup(status: joinLetgoData.status)
+        setup(isCompleted: isCompleted)
     }
 
-    private func setup(status: ChallengeStatus) {
-        switch status {
-        case .ongoing:
-            addToStackView(view: separatorView)
-            addToStackView(view: button)
-        case .completed, .pending:
+    private func setup(isCompleted: Bool) {
+        if isCompleted {
             removeFromStackView(view: separatorView)
             removeFromStackView(view: button)
-        case .processing:
-            break // TODO
+        } else {
+            addToStackView(view: separatorView)
+            addToStackView(view: button)
         }
     }
 

@@ -49,6 +49,8 @@ final class DevelopmentEnvironment: AppEnvironment {
     let moreInfoMultiAdUnitIdDFPUSA = "/21666124832/us/iOS/moreinfo/300x250_var_a"
     let chatSectionAdUnitForOldUsersUS = "/21666124832/us/iOS/chat/300x250_var_b"
     let chatSectionAdUnitForOldUsersTR = "/21636273254/turkey/iOS/chat/300x250_var_b"
+    
+    let sectionedFeedAdUnitForUS = "/21666124832/us/iOS/feed/300x250_var_a"
 
     // Stripe
     let stripeAPIKey = "pk_test_TFRwcAkkYAM13r3Bw8hURnY7"

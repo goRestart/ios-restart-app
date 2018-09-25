@@ -39,6 +39,12 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell {
         adContentView.set(accessibilityId: .advertisementCellBanner)
     }
     
+    func setupWith(bannerView: UIView) {
+        contentView.addSubviewForAutoLayout(bannerView)
+        bannerView.layout(with: contentView).top().bottom().centerX()
+        bannerView.set(accessibilityId: .advertisementCellBanner)
+    }
+    
     convenience init() {
         self.init(frame: .zero)
     }

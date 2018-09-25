@@ -145,6 +145,13 @@ final class FeedViewController: BaseViewController {
                 self?.setLeftNavBarButtons(withAvatar: image)
             })
             .disposed(by: disposeBag)
+
+        viewModel
+            .rx_updateAffiliate
+            .drive(onNext:{ [weak self] image in
+               self?.setupNavBar()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setupRightNavBarButtons() {

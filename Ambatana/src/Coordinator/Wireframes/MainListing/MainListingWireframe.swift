@@ -6,7 +6,7 @@ protocol MainListingNavigator: class {
     func openFilters(withFilters: ListingFilters, dataDelegate: FiltersViewModelDataDelegate?)
     func openLocationSelection(with place: Place, distanceRadius: Int?, locationDelegate: EditLocationDelegate)
     func openMap(requester: ListingListMultiRequester, listingFilters: ListingFilters)
-    func openAffiliationChallenges()
+    func openAffiliationChallenges(sourceButton: AffiliationChallengesSource.FeedButtonName)
     func openLoginIfNeededFromFeed(from: EventParameterLoginSourceValue,
                                    loggedInAction: @escaping (() -> Void))
     func openClassicFeed(navigator: MainTabNavigator,
@@ -75,8 +75,8 @@ final class MainListingWireframe: MainListingNavigator {
         nc.pushViewController(vc, animated: true)
     }
     
-    func openAffiliationChallenges() {
-        let vc = affiliationChallengesAssembly.buildAffiliationChallenges()
+    func openAffiliationChallenges(sourceButton: AffiliationChallengesSource.FeedButtonName) {
+        let vc = affiliationChallengesAssembly.buildAffiliationChallenges(source: .feed(sourceButton))
         nc.pushViewController(vc, animated: true)
     }
     

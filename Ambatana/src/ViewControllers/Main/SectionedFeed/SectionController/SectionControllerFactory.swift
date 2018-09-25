@@ -1,4 +1,5 @@
 import IGListKit
+import LGComponents
 
 typealias FeedDelegate = PushPermissionsPresenterDelegate &
     ListingActionDelegate &
@@ -72,7 +73,9 @@ final class SectionControllerFactory {
     private func makeAdController(withAdData adData: AdData) -> ListSectionController {
         switch adData.type {
         case .banner:
-            let bannerSectionController = BannerSectionController(tracker: tracker)
+            let bannerSectionController = BannerSectionController(tracker: tracker,
+                                                                  adUnitId: EnvironmentProxy.sharedInstance.sectionedFeedAdUnitForUS,
+                                                                  rootViewController: rootViewController ?? UIViewController())
             bannerSectionController.delegate = delegate
             return bannerSectionController
         case .native:

@@ -77,9 +77,9 @@ PODS:
   - LGComponents/LGShared (1.0.0):
     - AlamofireImage (= 3.3.1)
     - CocoaLumberjack/Swift (= 3.3.0)
-    - LGCoreKit (= 4.84.0)
+    - LGCoreKit (= 4.85.0)
     - RxCocoa (= 4.0.0)
-  - LGCoreKit (4.84.0):
+  - LGCoreKit (4.85.0):
     - Alamofire (~> 4.7.3)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -173,7 +173,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - "LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, branch `ABIOS-4915-Tracking-Payments`)"
+  - LGCoreKit (= 4.85.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -195,6 +195,7 @@ SPEC REPOS:
   "git@github.com:letgoapp/letgo-ios-specs.git":
     - bumper
     - LGCollapsibleLabel
+    - LGCoreKit
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - AlamofireImage
@@ -249,17 +250,11 @@ EXTERNAL SOURCES:
     :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGComponents:
     :path: components
-  LGCoreKit:
-    :branch: ABIOS-4915-Tracking-Payments
-    :git: "git@github.com:letgoapp/letgo-ios-lgcorekit.git"
 
 CHECKOUT OPTIONS:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  LGCoreKit:
-    :commit: 63af5b1b112985c1fc9ac814af1c7f8d89eb63ff
-    :git: "git@github.com:letgoapp/letgo-ios-lgcorekit.git"
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
@@ -291,8 +286,8 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: 4a9fa4c4d30273688289954abca97162f91c2bd9
-  LGCoreKit: 3c951a38c4b5e2627f11345a0f7487641f9ad646
+  LGComponents: e6ff2e3cfdee551f261a9a0b1a54d941137bab1a
+  LGCoreKit: 3cc435663c048c3380a071016c98d4d23b1e71c2
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -314,6 +309,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 24ca6b4984df4fd6f68f3e5d76d2beea90496ec4
+PODFILE CHECKSUM: c7d1ebf423eb4fa7141af0f47be9d00fc0705430
 
 COCOAPODS: 1.5.3
