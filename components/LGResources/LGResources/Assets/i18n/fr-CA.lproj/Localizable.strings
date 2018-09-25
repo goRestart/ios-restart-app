@@ -845,6 +845,8 @@
 "payments_change_offer_confirmation_button" = "Faire une nouvelle offre";
 "payments_change_offer_invalid_amount_alert_button" = "Ok";
 "payments_change_offer_invalid_amount_alert_message" = "Oups ! Votre offre doit être comprise entre %@ et %@.";
+"payments_common_contact_us_option" = "Contact us";
+"payments_common_faqs_option" = "FAQ";
 "payments_create_offer_buyer_protection_description_label" = "Payez via letgo et vos fonds ne seront transférés au vendeur que lorsque vous confirmerez que vous souhaitez garder le produit";
 "payments_create_offer_buyer_protection_title_label" = "Protection Acheteur";
 "payments_create_offer_change_button" = "Changer";

@@ -4,6 +4,8 @@ import LGCoreKit
 protocol P2PPaymentsMakeAnOfferNavigator {
     func closeOnboarding()
     func openMakeAnOffer()
+    func openContactUs(url: URL)
+    func openFaqs(url: URL)
 }
 
 final class P2PPaymentsMakeAnOfferWireframe: P2PPaymentsMakeAnOfferNavigator {
@@ -24,5 +26,13 @@ final class P2PPaymentsMakeAnOfferWireframe: P2PPaymentsMakeAnOfferNavigator {
         guard let nc = navigationController else { return }
         let vc = P2PPaymentsMakeAnOfferBuilder.standard(nc: nc).buildMakeAnOffer(chatConversation: chatConversation)
         navigationController?.setViewControllers([vc], animated: true)
+    }
+
+    func openContactUs(url: URL) {
+        navigationController?.openInAppWebViewWith(url: url)
+    }
+
+    func openFaqs(url: URL) {
+        navigationController?.openInAppWebViewWith(url: url)
     }
 }

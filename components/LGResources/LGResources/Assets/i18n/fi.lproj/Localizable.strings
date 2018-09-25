@@ -845,6 +845,8 @@
 "payments_change_offer_confirmation_button" = "Tee uusi tarjous";
 "payments_change_offer_invalid_amount_alert_button" = "Ok";
 "payments_change_offer_invalid_amount_alert_message" = "Hups! Tarjouksesi on oltava %@ ja %@ väliltä.";
+"payments_common_contact_us_option" = "Contact us";
+"payments_common_faqs_option" = "FAQ";
 "payments_create_offer_buyer_protection_description_label" = "Maksa letgon kautta ja rahasi siirretään myyjälle vasta sitten, kun vahvistat haluavasi pitää tuotteen";
 "payments_create_offer_buyer_protection_title_label" = "Ostajan suoja";
 "payments_create_offer_change_button" = "Muokkaa";
@@ -917,13 +919,13 @@
 "payments_payout_card_payment_type_label" = "Valitse yksi näistä vaihtoehdoista:";
 "payments_payout_card_payout_button" = "Maksu";
 "payments_payout_card_title_label" = "Syötä debit-korttisi, jotta voimme suorittaa maksun tilillesi";
-"payments_payout_option_bank_account" = "Bank Account";
-"payments_payout_option_bank_debit_card" = "Debit Card";
+"payments_payout_option_bank_account" = "Pankkitili";
+"payments_payout_option_bank_debit_card" = "Debit-kortti";
 "payments_payout_personal_info_address_placeholder" = "Osoite";
 "payments_payout_personal_info_city_placeholder" = "Kaupunki";
 "payments_payout_personal_info_country_placeholder" = "Maa";
 "payments_payout_personal_info_date_of_birth_placeholder" = "Syntymäaika";
-"payments_payout_personal_info_error_description" = "Please check your details and try again.";
+"payments_payout_personal_info_error_description" = "Tarkista tietosi ja yritä uudelleen.";
 "payments_payout_personal_info_error_ok_button" = "Ok";
 "payments_payout_personal_info_error_title" = "Hups! Tapahtui virhe.";
 "payments_payout_personal_info_first_name_placeholder" = "Etunimi";

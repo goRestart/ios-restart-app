@@ -1858,6 +1858,10 @@ extension R {
     public static func paymentsChangeOfferInvalidAmountAlertMessage(_ p1: String, _ p2: String) -> String {
       return Strings.tr("Localizable", "payments_change_offer_invalid_amount_alert_message", p1, p2)
     }
+    /// Contact us
+    public static let paymentsCommonContactUsOption = Strings.tr("Localizable", "payments_common_contact_us_option")
+    /// FAQ
+    public static let paymentsCommonFaqsOption = Strings.tr("Localizable", "payments_common_faqs_option")
     /// Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item
     public static let paymentsCreateOfferBuyerProtectionDescriptionLabel = Strings.tr("Localizable", "payments_create_offer_buyer_protection_description_label")
     /// Buyer Protection
@@ -1892,14 +1896,10 @@ extension R {
     public static let paymentsErrorRetry = Strings.tr("Localizable", "payments_error_retry")
     /// Your payment code
     public static let paymentsGetPayCodeCodeLabel = Strings.tr("Localizable", "payments_get_pay_code_code_label")
-    /// Contact us
-    public static let paymentsGetPayCodeContactUsOption = Strings.tr("Localizable", "payments_get_pay_code_contact_us_option")
     /// Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.
     public static let paymentsGetPayCodeDescription = Strings.tr("Localizable", "payments_get_pay_code_description")
     /// This code expires in 7 days, so make sure to meet the seller soon
     public static let paymentsGetPayCodeDisclaimer = Strings.tr("Localizable", "payments_get_pay_code_disclaimer")
-    /// FAQ
-    public static let paymentsGetPayCodeFaqsOption = Strings.tr("Localizable", "payments_get_pay_code_faqs_option")
     /// Offer
     public static let paymentsGetPayCodeNavbarTitle = Strings.tr("Localizable", "payments_get_pay_code_navbar_title")
     /// Oops! An error occurred while loading. Please try again.

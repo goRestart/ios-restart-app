@@ -11,6 +11,8 @@ final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
     private let buyerName: String
     private let buyerAvatar: File?
     private let p2pPaymentsRepository: P2PPaymentsRepository
+    private let myUserRepository: MyUserRepository
+    private let installationRepository: InstallationRepository
     private let tracker: Tracker
     fileprivate lazy var uiStateRelay = BehaviorRelay<UIState>(value: .enterCode(buyerName: buyerName, buyerAvatar: buyerAvatar))
 
@@ -18,11 +20,15 @@ final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
          buyerName: String,
          buyerAvatar: File?,
          p2pPaymentsRepository: P2PPaymentsRepository = Core.p2pPaymentsRepository,
+         myUserRepository: MyUserRepository = Core.myUserRepository,
+         installationRepository: InstallationRepository = Core.installationRepository,
          tracker: Tracker = TrackerProxy.sharedInstance) {
         self.offerId = offerId
         self.buyerName = buyerName
         self.buyerAvatar = buyerAvatar
         self.p2pPaymentsRepository = p2pPaymentsRepository
+        self.myUserRepository = myUserRepository
+        self.installationRepository = installationRepository
         self.tracker = tracker
         super.init()
     }
@@ -137,6 +143,19 @@ extension P2PPaymentsEnterPayCodeViewModel {
 
     func closeButtonPressed() {
         navigator?.close()
+    }
+
+    func contactUsActionSelected() {
+        guard let email = myUserRepository.myUser?.email,
+            let installation = installationRepository.installation,
+            let url = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation,
+                                                       listing: nil, type: .payment) else { return }
+        navigator?.openContactUs(url: url)
+    }
+
+    func faqsActionSelected() {
+        guard let url = LetgoURLHelper.buildPaymentFaqsURL() else { return }
+        navigator?.openFaqs(url: url)
     }
 }
 

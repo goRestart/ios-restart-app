@@ -27,6 +27,7 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     private let listingRepository: ListingRepository
     private let myUserRepository: MyUserRepository
     private let userRepository: UserRepository
+    private let installationRepository: InstallationRepository
     private let tracker: Tracker
     private let stateRelay = BehaviorRelay<UIState>(value: .loading)
     private let disposeBag = DisposeBag()
@@ -36,12 +37,14 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
          listingRepository: ListingRepository = Core.listingRepository,
          myUserRepository: MyUserRepository = Core.myUserRepository,
          userRepository: UserRepository = Core.userRepository,
+         installationRepository: InstallationRepository = Core.installationRepository,
          tracker: Tracker = TrackerProxy.sharedInstance) {
         self.offerId = offerId
         self.p2pPaymentsRepository = p2pPaymentsRepository
         self.listingRepository = listingRepository
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
+        self.installationRepository = installationRepository
         self.tracker = tracker
         super.init()
     }
@@ -282,6 +285,19 @@ extension P2PPaymentsOfferStatusViewModel {
 
     func retryButtonPressed() {
         getP2PPaymentsOffer()
+    }
+
+    func contactUsActionSelected() {
+        guard let email = myUserRepository.myUser?.email,
+            let installation = installationRepository.installation,
+            let url = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation,
+                                                       listing: nil, type: .payment) else { return }
+        navigator?.openContactUs(url: url)
+    }
+
+    func faqsActionSelected() {
+        guard let url = LetgoURLHelper.buildPaymentFaqsURL() else { return }
+        navigator?.openFaqs(url: url)
     }
 }
 
