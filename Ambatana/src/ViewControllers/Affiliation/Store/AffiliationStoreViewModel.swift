@@ -35,7 +35,9 @@ final class AffiliationStoreViewModel: BaseViewModel {
     
     private(set) var rewards: [Reward] = []
     private(set) var purchases: [AffiliationPurchase] = []
-    
+
+    private let tracker: TrackerProxy
+
     var moreActions: [UIAction] {
         return [UIAction(interface: .text(R.Strings.affiliationStoreHistory), action: openHistory)]
     }
@@ -43,15 +45,18 @@ final class AffiliationStoreViewModel: BaseViewModel {
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository,
                   rewardsRepository: Core.rewardRepository,
-                  locationManager: Core.locationManager)
+                  locationManager: Core.locationManager,
+                  tracker: TrackerProxy.sharedInstance)
     }
     
     init(myUserRepository: MyUserRepository,
          rewardsRepository: RewardRepository,
-         locationManager: LocationManager) {
+         locationManager: LocationManager,
+         tracker: TrackerProxy) {
         self.myUserRepository = myUserRepository
         self.rewardsRepository = rewardsRepository
         self.locationManager = locationManager
+        self.tracker = tracker
     }
     
     override func didBecomeActive(_ firstTime: Bool) {
@@ -71,19 +76,19 @@ final class AffiliationStoreViewModel: BaseViewModel {
         let rewards = retrieveRewards().asObservable()
         
         Observable.combineLatest(points, rewards) { ($0, $1) }
-            .bind { [weak self] (points, rewards) in
-                self?.update(with: points, rewards: rewards)
+            .bind { [weak self] (rewardPoints, rewards) in
+                self?.update(with: rewardPoints?.points, rewards: rewards)
             }.disposed(by: disposeBag)
     }
     
-    private func update(with points: RewardPoints?, rewards: [Reward]?) {
+    private func update(with points: Int?, rewards: [Reward]?) {
         switch (points, rewards) {
         case (nil, _):
             viewState.accept(ViewState.error(genericErrorModel()))
         case (_, nil):
             viewState.accept(ViewState.error(genericErrorModel()))
         case (let rewardPoints, let rewards):
-            pointsRelay.accept(rewardPoints?.points ?? 0)
+            pointsRelay.accept(rewardPoints ?? 0)
             if let rewards = rewards, rewards.count > 0 {
                 mapRewardsToPurchases(rewards: rewards, with: pointsRelay.value)
                 viewState.accept(.data)
@@ -144,14 +149,13 @@ final class AffiliationStoreViewModel: BaseViewModel {
             let code = locationManager.currentLocation?.countryCode else {
                 return .just(.error(emptyVM))
         }
-        let id = reward.id
         let newPoints = pointsRelay.value - costForRedeeming(at: index)
         
-        let redeem = redeemVoucher(id, code: code).asObservable().share()
+        let redeem = redeemVoucher(reward, code: code).asObservable().share()
         redeem.bind { [weak self] (success) in
             guard success else { return }
             self?.pointsRelay.accept(newPoints)
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
         
         return Observable<ViewState>.create { [weak self] (observer) in
             guard let strSelf = self else {
@@ -162,6 +166,7 @@ final class AffiliationStoreViewModel: BaseViewModel {
             observer.onNext(.loading)
             redeem.bind(onNext: { (success) in
                 if success {
+                    strSelf.update(with: newPoints, rewards: strSelf.rewards)
                     observer.onNext(.data)
                     observer.onCompleted()
                 } else {
@@ -173,15 +178,23 @@ final class AffiliationStoreViewModel: BaseViewModel {
             }.asDriver(onErrorJustReturn: ViewState.error(emptyVM))
     }
     
-    private func redeemVoucher(_ id: String, code: String) -> Single<Bool> {
+    private func redeemVoucher(_ reward: Reward, code: String) -> Single<Bool> {
+        let id = reward.id
+        tracker.trackEvent(TrackerEvent.redeemRewardStart(with: pointsRelay.value))
         return Single.create(subscribe: { [weak self] (single) -> Disposable in
             let params = RewardCreateVoucherParams(rewardId: id, countryCode: code)
             self?.rewardsRepository.createVoucher(parameters: params,
-                                                  completion: { (result) in
-                                                    if let _ = result.error {
+                                                  completion: { [weak self] (result) in
+                                                    if let error = result.error {
                                                         single(.success(false))
+                                                        let event = TrackerEvent.redeemRewardError(rewardType: reward.type,
+                                                                                                   error: error)
+                                                        self?.tracker.trackEvent(event)
                                                     } else {
                                                         single(.success(true))
+                                                        let event = TrackerEvent.redeemRewardComplete(rewardType: reward.type,
+                                                                                                      amountGranted: reward.points)
+                                                        self?.tracker.trackEvent(event)
                                                     }
             })
             return Disposables.create()
@@ -253,8 +266,8 @@ extension Reactive where Base: AffiliationStoreViewModel {
         return base.pointsRelay.asDriver()
     }
     
-    var pointsAlpha: Driver<CGFloat> {
-        return points.map { $0 > 0 ? 1.0 : 0 }
+    var pointsVisible: Driver<Bool> {
+        return points.map { $0 >= 0 ? true : false }
     }
 }
 

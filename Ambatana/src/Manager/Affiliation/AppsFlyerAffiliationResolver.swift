@@ -64,6 +64,7 @@ final class AppsFlyerAffiliationResolver {
     
     /// Method to be called when the apps flyer data for the affiliation campaign has been received
     func appsFlyerConversionData(data: [AnyHashable : Any]) {
+        guard self.data.isEmpty else { return }
         self.data = data
         resolve()
     }
@@ -91,7 +92,12 @@ private extension AppsFlyerAffiliationResolver {
             return nil
         }
         let name = data[AppsFlyerKeys.sub2] as? String ?? ""
-        let avatar = data[AppsFlyerKeys.sub3] as? URL
+        let avatar: URL?
+        if let avatarString = data[AppsFlyerKeys.sub3] as? String {
+            avatar = URL(string: avatarString)
+        } else {
+            avatar = nil
+        }
         return ReferrerInfo(userId: userId, name: name, avatar: avatar)
     }
 

@@ -173,7 +173,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openUser(user: User, source: UserSource) {
-        userNavigator.openUser(user: user, source: source)
+        userNavigator.openUser(user: user, source: source, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
     }
 
     var hidesBottomBarWhenPushed: Bool {
@@ -239,7 +239,8 @@ extension TabCoordinator: ChatDetailNavigator {
                                                    buyers: buyers,
                                                    listingId: listingId,
                                                    sourceRateBuyers: sourceRateBuyers,
-                                                   trackingInfo: trackingInfo)
+                                                   trackingInfo: trackingInfo,
+                                                   onRateUserFinishAction: nil)
         navigationController.present(vc, animated: true, completion: nil)
     }
 

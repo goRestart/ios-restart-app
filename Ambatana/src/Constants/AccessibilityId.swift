@@ -784,6 +784,12 @@ enum AccessibilityId: Equatable, Accessible {
     case dropdownViewControllerSearchBar
     case dropdownViewControllerApplyButton
     case dropdownViewControllerResetButton
+
+    // Post Another Listing
+    case postAnotherListingCloseButton
+    case postAnotherListingTitleLabel
+    case postAnotherListingDescriptionLabel
+    case postAnotherListingPostButton
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -2237,6 +2243,16 @@ enum AccessibilityId: Equatable, Accessible {
             return "dropdownViewControllerApplyButton"
         case .dropdownViewControllerResetButton:
             return "dropdownViewControllerResetButton"
+
+        // Post Another Listing
+        case .postAnotherListingCloseButton:
+            return "postAnotherListingCloseButton"
+        case .postAnotherListingTitleLabel:
+            return "postAnotherListingTitleLabel"
+        case .postAnotherListingDescriptionLabel:
+            return "postAnotherListingDescriptionLabel"
+        case .postAnotherListingPostButton:
+            return "postAnotherListingPostButton"
         }
     }
     

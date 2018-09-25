@@ -99,7 +99,8 @@ extension HorizontalSectionController: UICollectionViewDelegate {
                                                 originFrame: originalFrame,
                                                 index: indexPath.section,
                                                 sectionIdentifier: model.id,
-                                                sectionIndex: model.sectionPosition.index)
+                                                sectionIndex: model.sectionPosition.index,
+                                                itemIdentifier: model.listDiffable())
     }
 }
 

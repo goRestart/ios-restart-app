@@ -831,6 +831,13 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
 }
 
 extension ListingViewModelSpec: ListingDetailNavigator {
+
+    func openVideoPlayer(atIndex index: Int,
+                         listingVM: ListingViewModel,
+                         source: LetGoGodMode.EventParameterListingVisitSource) {
+        
+    }
+    
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
         
     }
@@ -923,5 +930,9 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: LetGoGodMode.EventParameterTypePage,
                           interlocutor: User?) {
 
+    }
+
+    func openPostAnotherListing() {
+        
     }
 }

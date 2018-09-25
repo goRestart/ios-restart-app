@@ -4,6 +4,12 @@
 // When a user Account is deactivated because is a scammer (includes user name)
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 
+//  tooltip message on mainfeed
+"affiliation_main_feed_tooltip_text" = "Get up to $60 in Amazon gift cards";
+
+// tooltip text in red
+"affiliation_main_feed_tooltip_text_highlighted" = "$60 in Amazon gift cards";
+
 // Affiliation challenges screen. Cell points label.
 "affiliation_challenges_points" = "%@ points";
 
@@ -11,10 +17,10 @@
 "affiliation_challenges_invite_friends_title" = "INVITE YOUR FRIENDS";
 
 // Affiliation challenges screen. Invite friends cell subtitle.
-"affiliation_challenges_invite_friends_subtitle" = "Score a $60 Amazon Gift Card";
+"affiliation_challenges_invite_friends_subtitle" = "Get a $60 Amazon Gift Card";
 
 // Affiliation challenges screen. Invite friends cell description.
-"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@pts. Invite %3$@ friends and earn %4$@pts more!";
+"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite %3$@ more friends and earn %4$@ more points!";
 
 // Affiliation challenges screen. Invite friends cell milestone label.
 "affiliation_challenges_invite_friends_milestone" = "%@ pts";
@@ -59,37 +65,40 @@
 "affiliation_challenges_subtitle" = "Earn Points";
 
 // Affiliation challenges screen. Unknown error message
-"affiliation_challenges_unknown_error_message" = "Oops! An error occurred while loading our rewards.";
+"affiliation_challenges_unknown_error_message" = "Oops! An error occurred while loading rewards.";
 
 // Affiliation Invite SMS contacts screen. Title.
-"affiliation_invite_sms_contacts_title" = "Connect contacts";
+"affiliation_invite_sms_contacts_title" = "Invite contacts";
 
 // Affiliation Invite SMS contacts screen. Select all title
 "affiliation_invite_sms_contacts_select_all" = "Select / Unselect";
 
 // Affiliation invite sms contacts search bar placeholder
-"affiliation_invite_sms_contacts_search_placeholder" = "Search or enter a name or phone";
+"affiliation_invite_sms_contacts_search_placeholder" = "Search by name or number";
 
 // Affiliation invite sms no contacts on the list
-"affiliation_invite_sms_contacts_empty_state" = "There is no contacts on your phone TBD";
+"affiliation_invite_sms_contacts_empty_state" = "We couldn't find any contacts on your phone.";
 
 // Affiliation invite sms no permissions granted
-"affiliation_invite_sms_contacts_need_permissions" = "We need to get access to your contacts. Go to settings TBD";
+"affiliation_invite_sms_contacts_need_permissions" = "letgo needs to access your contacts to invite your friends";
 
 // Message sent 
-"affiliation_invite_sms_message_sent" = "Message sent";
+"affiliation_invite_sms_message_sent" = "Message sent!";
 
 // Message cancelled by user
-"affiliation_invite_sms_message_cancel" = "Message has not been sent";
+"affiliation_invite_sms_message_cancel" = "Your message hasn't been sent.";
 
 // Error when sending message
-"affiliation_invite_sms_message_error" = "Something was wrong and message was not sent";
+"affiliation_invite_sms_message_error" = "An error occurred while sending your message.";
 
 // Button title to go to settings when there is no access to contacts
-"affiliation_invite_sms_go_settings_button" = "Open";
+"affiliation_invite_sms_go_settings_button" = "Go to settings";
+
+// Message on onboarding
+"affiliation_invite_onboarding_text" = "Since %@ invited you to use letgo, you could win a $5 Amazon gift card.";
 
 // Affiliation Invite message text
-"affiliation_invite_message_text" = "%@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
+"affiliation_invite_message_text" = "Join a community of local buyers and sellers on letgo! Sign up and get $5 when you get started:";
 
 // Affiliation Invite message text (fallback)
 "affiliation_invite_message_text_no_name" = "You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
@@ -98,7 +107,7 @@
 "affiliation_invite_friends_title_label" = "Invite your friends";
 
 // Affiliation invite friends subtitle label
-"affiliation_invite_friends_subtitle_label" = "Invite 3 friends, and earn $10 when they start using letgo. Invite 10 friends, and earn $50! (Your friends will each get a $5 gift card, too. Just because.)";
+"affiliation_invite_friends_subtitle_label" = "Invite 3 friends to earn $10 when they start using letgo. Invite 10 friends and earn $50! \n\nYour friends will each get a $5 gift card, too.";
 
 // Affilation Invite friends screen. Title.
 "affiliation_invite_friends_title" = "Invite friends";
@@ -107,7 +116,7 @@
 "affiliation_invite_friends_others_button" = "Others ways to share";
 
 // Affilation Invite friends screen. Terms and conditions
-"affiliation_invite_friends_terms_button" = "Terms and Conditions";
+"affiliation_invite_friends_terms_button" = "Learn more";
 
 // Affilation Invite friends screen. SMS Button.
 "affiliation_invite_friends_sms_button" = "Invite via text";
@@ -116,7 +125,7 @@
 "affiliation_faq_title" = "How it works";
 
 // Wrong country alert when open the app
-"affiliation_onboarding_country_error_message" = "Oops! Unfortunately gift cards are not available in your country. \n\nBut you can still make cash!";
+"affiliation_onboarding_country_error_message" = "Oops! Unfortunately rewards aren’t available in your country. \n\nBut you can still make money selling on letgo!";
 
 // Sell your stuff
 "affiliation_onboarding_country_error_main_button" = "Sell your stuff";
@@ -125,22 +134,22 @@
 "affiliation_onboarding_country_error_secondary_button" = "Keep browsing";
 
 // Affiliation Store screen. Country unavailable error message
-"affiliation_store_country_error_message" = "Oops! This feature is not available in your country.";
+"affiliation_store_country_error_message" = "Oops! Unfortunately rewards aren’t available in your country.";
 
 // Affiliation Store screen. Email alert. Title
-"affiliation_store_email_alert_title" = "Enter your email address";
+"affiliation_store_email_alert_title" = "Enter your email";
 
 // Affiliation Store screen. Email alert. Subtitle
-"affiliation_store_email_alert_subtitle" = "The gift card will be sent to your email: %@";
+"affiliation_store_email_alert_subtitle" = "The gift card will be sent to %@";
 
 // Affiliation Store screen. Redeem Success. Modal headline
-"affiliation_store_redeem_gift_success_headline" = "Gift Card Requested";
+"affiliation_store_redeem_gift_success_headline" = "Gift card requested";
 
 // Affiliation Store screen. Redeem Success. Modal subheadline
-"affiliation_store_redeem_gift_success_subheadline_with_email" = "We'll send you an email when your gift card is approved. This might take up to 24h.";
+"affiliation_store_redeem_gift_success_subheadline_with_email" = "We’ll send you an email when your gift card’s ready. This might take up to 24h.";
 
 // Affiliation Store screen. Redeem Success. Modal subheadline
-"affiliation_store_redeem_gift_success_subheadline_without_email" = "In order to get the gift card you need add an email to your account.";
+"affiliation_store_redeem_gift_success_subheadline_without_email" = "In order to get the gift card you need to add an email to your account.";
 
 // Affiliation Store screen. Redeem Success. Modal action
 "affiliation_store_redeem_gift_add_email" = "Add email";
@@ -152,37 +161,37 @@
 "affiliation_store_redeem_gift_send" = "Send";
 
 // Affiliation Store screen. Unknown error message
-"affiliation_store_unknown_error_message" = "Oops! We are currently experimenting some issues with our store.";
+"affiliation_store_unknown_error_message" = "Oops! An error occurred while loading rewards.";
 
 // Affilation Store screen. Title
-"affiliation_store_title" = "Store";
+"affiliation_store_title" = "Rewards store";
 
 // Affiliation Store screen. History
 "affiliation_store_history" = "History";
 
 // Affiliation Store screen. Points label
-"affiliation_store_points" = "%@ pts.";
+"affiliation_store_points" = "%@ pts";
 
 // Affilation Store screen. Redeem button
-"affiliation_store_redeem_gift" = "Redeem gift card";
+"affiliation_store_redeem_gift" = "Get gift card";
 
 // Affiliation Store screen. 5$ reward
-"affiliation_store_rewards_amazon_5" = "$5 Amazon Gift Card";
+"affiliation_store_rewards_amazon_5" = "$5 Amazon gift card";
 
 // Affiliation Store screen. 10$ reward
-"affiliation_store_rewards_amazon_10" = "$10 Amazon Gift Card";
+"affiliation_store_rewards_amazon_10" = "$10 Amazon gift card";
 
 // Affiliation Store screen. 50$ reward
-"affiliation_store_rewards_amazon_50" = "$50 Amazon Gift Card";
+"affiliation_store_rewards_amazon_50" = "$50 Amazon gift card";
 
 // Affiliation Store. Generic error message
-"affiliation_store_generic_error" = "Couldn't connect an error ocurred. Please try again.";
+"affiliation_store_generic_error" = "Oops! An error occurred while loading the rewards store.";
 
 // Affiliation Store Vouchers screen. Resend button
 "affiliation_store_resend_voucher" = "Resend";
 
 // Affiliation Store screen. View history button
-"affiliation_store_view_history" = "View history";
+"affiliation_store_view_history" = "History";
 
 // Affiliation challenges screen. Wallet View. Title.
 "affiliation_wallet_title" = "YOUR WALLET";
@@ -191,16 +200,16 @@
 "affiliation_wallet_points_label" = "PTS";
 
 // Affiliation challenges screen. Wallet View. Open store button.
-"affiliation_wallet_open_store_button" = "View Rewards";
+"affiliation_wallet_open_store_button" = "View rewards";
 
 // Affiliation wrong country screen. Modal view.
 "affiliation_wrong_country_keep_browsing" = "Keep browsing";
 
 // Affiliation wrong country screen. Modal view. Headline
-"affiliation_wrong_country_error_headline" = "Oops! Unfortunately gift cards are not available in your country.";
+"affiliation_wrong_country_error_headline" = "Oops! Unfortunately rewards aren’t available in your country.";
 
 // Affiliation wrong country screen. Modal view. Subheadline
-"affiliation_wrong_country_error_subheadline" = "But you can still make cash!";
+"affiliation_wrong_country_error_subheadline" = "But you can still make money selling on letgo!";
 
 // Text of the link that will go to the appstore
 "app_share_download_text" = "Download";
@@ -2782,13 +2791,25 @@
 
 "payments_payout_personal_info_country_placeholder" = "Country";
 
+"payments_payout_personal_info_error_title" = "Oops! An error occurred.";
+
+"payments_payout_personal_info_error_description" = "Please check your details and try again.";
+
+"payments_payout_personal_info_error_ok_button" = "Ok";
+
 "payments_payout_personal_info_register_button" = "Register your account";
+
+"payments_payout_option_bank_account" = "Bank Account";
+
+"payments_payout_option_bank_debit_card" = "Debit Card";
 
 "payments_payout_bank_account_routing_number_placeholder" = "Routing number (9 digits)";
 
 "payments_payout_bank_account_account_number_placeholder" = "Account number";
 
 "payments_payout_bank_account_payout_button" = "Payout";
+
+"payments_payout_card_number_placeholder" = "Card number";
 
 "payments_payout_card_title_label" = "Enter your debit card so that we can pay out to your account";
 
@@ -2822,6 +2843,10 @@
 
 // Navigation bar title in payout screen
 "payment_payout_navbar_title" = "Payout";
+
+"payments_loading_generic_error" = "Oops! An error occurred while loading. Please try again.";
+
+"payments_error_retry" = "Retry";
 
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
