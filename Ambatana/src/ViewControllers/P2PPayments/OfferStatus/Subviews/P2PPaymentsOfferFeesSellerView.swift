@@ -107,11 +107,7 @@ extension Reactive where Base: P2PPaymentsOfferFeesSellerView {
 
     var feePercentageText: Binder<String?> {
         return Binder(base) { base, string in
-            let percentageText: String = {
-                guard let string = string else { return "" }
-                return "(\(string))"
-            }()
-            base.feeTitleLabel.text = R.Strings.paymentsOfferStatusAsSellerFeePercentage(percentageText)
+            base.feeTitleLabel.text = R.Strings.paymentsOfferStatusAsSellerFeePercentage(string ?? "")
         }
     }
 }
