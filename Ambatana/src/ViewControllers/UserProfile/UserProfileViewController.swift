@@ -25,6 +25,13 @@ final class UserProfileViewController: BaseViewController {
     private let listingView: ListingListView
     private let tableView = UITableView()
 
+    private let askVerificationButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .secondary(fontSize: .small, withBorder: true))
+        button.addTarget(self, action: #selector(didTapAskVerification), for: .touchUpInside)
+        button.setTitle("Verification request sent!", for: .disabled)
+        return button
+    }()
+
     private let emptyReviewsLabel: UILabel = {
         let label = UILabel()
         label.font = .systemRegularFont(size: 17)
@@ -68,7 +75,7 @@ final class UserProfileViewController: BaseViewController {
     private let userNavBarAnimationDelta: CGFloat = 40.0
     private let userNavBarAnimationStartOffset: CGFloat = 44.0
 
-    private struct Layout {
+    private enum Layout {
         static let sideMargin: CGFloat = Metrics.bigMargin
         static let topMargin: CGFloat = Metrics.bigMargin
         static let tabsHeight: CGFloat = 54.0
@@ -77,6 +84,7 @@ final class UserProfileViewController: BaseViewController {
         static let headerBottomMargin: CGFloat = Metrics.margin
         static let bottomScrollableContentInset: CGFloat = 100
         static let navBarTitleHeight: CGFloat = 44
+        static let askVerificationButtonHeight: CGFloat = 34
     }
 
     // MARK: - Lifecycle
@@ -146,12 +154,16 @@ final class UserProfileViewController: BaseViewController {
         headerContainerView.addSubviewsForAutoLayout([headerView, dummyView, userRelationView,
                                                       bioAndTrustView, tabsView])
 
+        if viewModel.shouldShowAskVerificationButton {
+            headerContainerView.addSubviewForAutoLayout(askVerificationButton)
+        }
+
         if viewModel.shouldShowKarmaView {
             headerContainerView.addSubviewForAutoLayout(karmaView)
-
             let tap = UITapGestureRecognizer(target: self, action: #selector(didTapKarmaScore))
             karmaView.addGestureRecognizer(tap)
         }
+
         bioAndTrustView.onlyShowBioText = viewModel.shouldShowKarmaView
 
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
@@ -262,7 +274,6 @@ final class UserProfileViewController: BaseViewController {
             userRelationView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Layout.headerBottomMargin),
             userRelationView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             userRelationView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-            bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor, constant: 0) ,
             bioAndTrustView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             bioAndTrustView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
             tabsView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
@@ -280,6 +291,20 @@ final class UserProfileViewController: BaseViewController {
             emptyReviewsLabel.topAnchor.constraint(equalTo: tableView.topAnchor, constant: emptyReviewsTopMargin),
             emptyReviewsLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
         ]
+
+        if viewModel.shouldShowAskVerificationButton {
+            constraints.append(contentsOf: [
+                askVerificationButton.topAnchor.constraint(equalTo: userRelationView.bottomAnchor),
+                askVerificationButton.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
+                askVerificationButton.rightAnchor.constraint(lessThanOrEqualTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
+                askVerificationButton.heightAnchor.constraint(equalToConstant: Layout.askVerificationButtonHeight),
+                bioAndTrustView.topAnchor.constraint(equalTo: askVerificationButton.bottomAnchor),
+                ])
+        } else {
+            constraints.append(contentsOf: [
+                bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor),
+                ])
+        }
 
         if viewModel.shouldShowKarmaView {
             constraints.append(contentsOf: [
@@ -336,6 +361,10 @@ final class UserProfileViewController: BaseViewController {
 
     @objc private func didTapKarmaScore() {
         viewModel.didTapKarmaScoreView()
+    }
+
+    @objc private func didTapAskVerification() {
+        viewModel.didTapAskVerification()
     }
 
     private func updateUIBasedOnHeaderResize() {
@@ -557,6 +586,7 @@ extension UserProfileViewController {
             .drive(onNext: { [weak self] userName in
                 self?.headerView.username = userName
                 self?.navBarUserView.userNameLabel.text = userName
+                self?.askVerificationButton.setTitle("Ask \(userName ?? "") to verify their profile", for: .normal)
             })
             .disposed(by: disposeBag)
 
@@ -642,10 +672,20 @@ extension UserProfileViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.showBubbleNotification.asObserver().bind { [weak self] data in
-            guard let view = self?.view else { return }
-            self?.viewModel.showUndoBubble(inView: view, data: data)
-        }.disposed(by: disposeBag)
+        viewModel
+            .showBubbleNotification
+            .asObserver()
+            .bind { [weak self] data in
+                guard let view = self?.view else { return }
+                self?.viewModel.showUndoBubble(inView: view, data: data)
+            }.disposed(by: disposeBag)
+
+        viewModel
+            .askVerificationProfileIsSent
+            .asDriver()
+            .drive(onNext: { [weak self] isSent in
+                self?.askVerificationButton.setState(isSent ? .disabled : .enabled)
+            }).disposed(by: disposeBag)
     }
 
     private func setupPushPermissionsRx() {
