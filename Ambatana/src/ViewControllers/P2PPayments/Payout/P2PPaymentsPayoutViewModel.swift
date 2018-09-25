@@ -10,6 +10,7 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
     private let offerId: String
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let myUserRepository: MyUserRepository
+    private let installationRepository: InstallationRepository
     private let tracker: Tracker
     private var offer: P2PPaymentOffer?
     private var priceBreakdown: P2PPaymentPayoutPriceBreakdown?
@@ -19,10 +20,12 @@ final class P2PPaymentsPayoutViewModel: BaseViewModel {
     init(offerId: String,
          p2pPaymentsRepository: P2PPaymentsRepository = Core.p2pPaymentsRepository,
          myUserRepository: MyUserRepository = Core.myUserRepository,
+         installationRepository: InstallationRepository = Core.installationRepository,
          tracker: Tracker = TrackerProxy.sharedInstance) {
         self.offerId = offerId
         self.p2pPaymentsRepository = p2pPaymentsRepository
         self.myUserRepository = myUserRepository
+        self.installationRepository = installationRepository
         self.tracker = tracker
         super.init()
     }
@@ -276,6 +279,18 @@ extension P2PPaymentsPayoutViewModel {
 
     func retryButtonPressed() {
         fetchOffer()
+    }
+
+    func contactUsActionSelected() {
+        guard let email = myUserRepository.myUser?.email,
+            let installation = installationRepository.installation,
+            let url = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation, listing: nil, type: .payment) else { return }
+        navigator?.openFaqs(url: url)
+    }
+
+    func faqsActionSelected() {
+        guard let url = LetgoURLHelper.buildPaymentFaqsURL() else { return }
+        navigator?.openFaqs(url: url)
     }
 }
 

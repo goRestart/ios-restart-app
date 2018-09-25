@@ -779,6 +779,8 @@
 "payments_change_offer_confirmation_button" = "Crear nueva oferta";
 "payments_change_offer_invalid_amount_alert_button" = "Ok";
 "payments_change_offer_invalid_amount_alert_message" = "¡Ups! Tu oferta debe estar entre %@ y %@.";
+"payments_common_contact_us_option" = "Contact us";
+"payments_common_faqs_option" = "FAQ";
 "payments_create_offer_buyer_protection_description_label" = "Paga a través de letgo y tu dinero solo se enviará al vendedor cuando confirmes que quieres quedarte el artículo";
 "payments_create_offer_buyer_protection_title_label" = "Protección del comprador";
 "payments_create_offer_change_button" = "Cambiar";
@@ -792,14 +794,14 @@
 "payments_enter_pay_code_attemps_label" = "3 intentos por minuto";
 "payments_enter_pay_code_description_label" = "Introduce el código de 4 dígitos que te ha dado el comprador %@";
 "payments_enter_pay_code_navbar_title" = "Oferta";
-"payments_error_retry" = "Retry";
+"payments_error_retry" = "Reintentar";
 "payments_get_pay_code_code_label" = "Tu código de pago";
 "payments_get_pay_code_contact_us_option" = "Contáctanos";
 "payments_get_pay_code_description" = "Compartir este código desbloquea el pago, hazlo solo cuando hayas recibido el artículo. No compartas este código por chat o mensaje de texto.";
 "payments_get_pay_code_disclaimer" = "El código caduca en 7 días, asegúrate de encontrarte con el vendedor antes de eso.";
 "payments_get_pay_code_faqs_option" = "Preguntas frecuentes";
 "payments_get_pay_code_navbar_title" = "Oferta";
-"payments_loading_generic_error" = "Oops! An error occurred while loading. Please try again.";
+"payments_loading_generic_error" = "¡Ups! Se ha producido un error al cargar. Inténtalo de nuevo.";
 "payments_offer_status_action_chat_button" = "Chatear con el vendedor";
 "payments_offer_status_action_view_code_button" = "Ver el código de pago";
 "payments_offer_status_as_buyer_buyer_offer_step_description" = "letgo custodiará tu dinero de forma segura hasta que confirmes que has recibido el artículo";
@@ -847,7 +849,7 @@
 "payments_payout_bank_account_payout_button" = "Cobro";
 "payments_payout_bank_account_routing_number_placeholder" = "Número de ruta (9 dígitos)";
 "payments_payout_card_name_placeholder" = "Nombre del titular de la tarjeta";
-"payments_payout_card_number_placeholder" = "Card number";
+"payments_payout_card_number_placeholder" = "Número de tarjeta";
 "payments_payout_card_payment_type_label" = "Elige una de estas opciones:";
 "payments_payout_card_payout_button" = "Cobro";
 "payments_payout_card_title_label" = "Introduce tu tarjeta de débito para que realicemos el pago en tu cuenta";
@@ -859,7 +861,7 @@
 "payments_payout_personal_info_date_of_birth_placeholder" = "Fecha de nacimiento";
 "payments_payout_personal_info_error_description" = "Please check your details and try again.";
 "payments_payout_personal_info_error_ok_button" = "Ok";
-"payments_payout_personal_info_error_title" = "Oops! An error occurred.";
+"payments_payout_personal_info_error_title" = "¡Ups! Se ha producido un error.";
 "payments_payout_personal_info_first_name_placeholder" = "Nombre";
 "payments_payout_personal_info_last_name_placeholder" = "Apellido";
 "payments_payout_personal_info_register_button" = "Registra tu cuenta";

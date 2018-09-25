@@ -10,6 +10,7 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     private let chatConversation: ChatConversation
     private let p2pPaymentsRepository: P2PPaymentsRepository
     private let myUserRepository: MyUserRepository
+    private let installationRepository: InstallationRepository
     private let tracker: Tracker
     private let paymentsManager: PaymentsManager
     fileprivate let currencyHelper = Core.currencyHelper
@@ -27,11 +28,13 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
     init(chatConversation: ChatConversation,
          p2pPaymentsRepository: P2PPaymentsRepository = Core.p2pPaymentsRepository,
          myUserRepository: MyUserRepository = Core.myUserRepository,
+         installationRepository: InstallationRepository = Core.installationRepository,
          tracker: Tracker = TrackerProxy.sharedInstance,
          paymentsManager: PaymentsManager = LGPaymentsManager()) {
         self.chatConversation = chatConversation
         self.p2pPaymentsRepository = p2pPaymentsRepository
         self.myUserRepository = myUserRepository
+        self.installationRepository = installationRepository
         self.tracker = tracker
         self.paymentsManager = paymentsManager
         super.init()
@@ -237,6 +240,18 @@ extension P2PPaymentsCreateOfferViewModel {
 
     func payButtonPressed() {
         startPaymentRequest()
+    }
+
+    func contactUsActionSelected() {
+        guard let email = myUserRepository.myUser?.email,
+            let installation = installationRepository.installation,
+            let url = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation, listing: nil, type: .payment) else { return }
+        navigator?.openFaqs(url: url)
+    }
+
+    func faqsActionSelected() {
+        guard let url = LetgoURLHelper.buildPaymentFaqsURL() else { return }
+        navigator?.openFaqs(url: url)
     }
 }
 

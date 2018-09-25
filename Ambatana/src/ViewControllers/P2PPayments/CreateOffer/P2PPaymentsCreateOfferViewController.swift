@@ -16,6 +16,12 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
         static let separatorBottomMargin: CGFloat = 12
     }
 
+    private lazy var optionsButton: UIButton = {
+        let button = UIButton()
+        button.setImage(R.Asset.P2PPayments.icOptions.image, for: .normal)
+        button.addTarget(self, action: #selector(optionsButtonPressed), for: .touchUpInside)
+        return button
+    }()
     private let viewModel: P2PPaymentsCreateOfferViewModel
     private let headerView = P2PPaymentsListingHeaderView()
     private let lineSeparatorView = P2PPaymentsLineSeparatorView()
@@ -177,10 +183,19 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
         setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
         setNavBarTitleStyle(NavBarTitleStyle.text(R.Strings.paymentsCreateOfferNavbarTitle))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
+        setNavigationBarRightButtons([optionsButton])
     }
 
     @objc private func closeButtonPressed() {
         viewModel.closeButtonPressed()
+    }
+
+    @objc private func optionsButtonPressed() {
+        let contactUs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsCommonContactUsOption),
+                                 action: viewModel.contactUsActionSelected)
+        let faqs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsCommonFaqsOption),
+                            action: viewModel.faqsActionSelected)
+        vmShowActionSheet(R.Strings.commonCancel, actions: [contactUs, faqs])
     }
 
     private func showInvalidAmountAlert() {

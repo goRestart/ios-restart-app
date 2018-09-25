@@ -113,9 +113,9 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
     }
 
     @objc private func optionsButtonPressed() {
-        let contactUs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsGetPayCodeContactUsOption),
+        let contactUs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsCommonContactUsOption),
                                  action: viewModel.contactUsActionSelected)
-        let faqs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsGetPayCodeFaqsOption),
+        let faqs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsCommonFaqsOption),
                             action: viewModel.faqsActionSelected)
         vmShowActionSheet(R.Strings.commonCancel, actions: [contactUs, faqs])
     }

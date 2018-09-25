@@ -16,6 +16,13 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
         return view
     }()
 
+    private lazy var optionsButton: UIButton = {
+        let button = UIButton()
+        button.setImage(R.Asset.P2PPayments.icOptions.image, for: .normal)
+        button.addTarget(self, action: #selector(optionsButtonPressed), for: .touchUpInside)
+        return button
+    }()
+
     private let viewModel: P2PPaymentsOfferStatusViewModel
     private let disposeBag = DisposeBag()
 
@@ -41,10 +48,19 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
         setNavBarCloseButton(#selector(closeButtonPressed), icon: R.Asset.P2PPayments.close.image)
         setNavBarTitleStyle(NavBarTitleStyle.text(R.Strings.paymentsOfferStatusNavbarTitle))
         setNavBarBackgroundStyle(NavBarBackgroundStyle.transparent(substyle: NavBarTransparentSubStyle.light))
+        setNavigationBarRightButtons([optionsButton])
     }
 
     @objc private func closeButtonPressed() {
         viewModel.closeButtonPressed()
+    }
+
+    @objc private func optionsButtonPressed() {
+        let contactUs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsCommonContactUsOption),
+                                 action: viewModel.contactUsActionSelected)
+        let faqs = UIAction(interface: UIActionInterface.text(R.Strings.paymentsCommonFaqsOption),
+                            action: viewModel.faqsActionSelected)
+        vmShowActionSheet(R.Strings.commonCancel, actions: [contactUs, faqs])
     }
 
     private func setup() {
