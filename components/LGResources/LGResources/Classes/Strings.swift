@@ -14,11 +14,13 @@ extension R {
     public static func accountPendingModerationWName(_ p1: String) -> String {
       return Strings.tr("Localizable", "account_pending_moderation_w_name", p1)
     }
+    /// Read more
+    public static let advertisingDefaultCta = Strings.tr("Localizable", "advertising_default_cta")
     /// Ad
     public static let advertisingText = Strings.tr("Localizable", "advertising_text")
     /// Invite friends
     public static let affiliationChallengesInviteFriendsButton = Strings.tr("Localizable", "affiliation_challenges_invite_friends_button")
-    /// Invite %1$@ friends to earn %2$@pts. Invite %3$@ friends and earn %4$@pts more!
+    /// Invite %1$@ friends to earn %2$@ points. Invite %3$@ more friends and earn %4$@ more points!
     public static func affiliationChallengesInviteFriendsDescription(_ p1: String, _ p2: String, _ p3: String, _ p4: String) -> String {
       return Strings.tr("Localizable", "affiliation_challenges_invite_friends_description", p1, p2, p3, p4)
     }
@@ -26,7 +28,7 @@ extension R {
     public static func affiliationChallengesInviteFriendsMilestone(_ p1: String) -> String {
       return Strings.tr("Localizable", "affiliation_challenges_invite_friends_milestone", p1)
     }
-    /// Score a $60 Amazon Gift Card
+    /// Get a $60 Amazon Gift Card
     public static let affiliationChallengesInviteFriendsSubtitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_subtitle")
     /// INVITE YOUR FRIENDS
     public static let affiliationChallengesInviteFriendsTitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_title")
@@ -38,10 +40,14 @@ extension R {
     public static let affiliationChallengesJoinLetgoStepPhoneButton = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_button")
     /// Verify your phone number
     public static let affiliationChallengesJoinLetgoStepPhoneLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_label")
+    /// Phone number verified
+    public static let affiliationChallengesJoinLetgoStepPhoneVerifiedLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_phone_verified_label")
     /// Post listing
     public static let affiliationChallengesJoinLetgoStepPostButton = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_post_button")
     /// Post your first listing
     public static let affiliationChallengesJoinLetgoStepPostLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_post_label")
+    /// Listing posted
+    public static let affiliationChallengesJoinLetgoStepPostedLabel = Strings.tr("Localizable", "affiliation_challenges_join_letgo_step_posted_label")
     /// Get an Amazon Gift Card
     public static let affiliationChallengesJoinLetgoSubtitle = Strings.tr("Localizable", "affiliation_challenges_join_letgo_subtitle")
     /// JOIN LETGO
@@ -54,7 +60,7 @@ extension R {
     public static let affiliationChallengesSubtitle = Strings.tr("Localizable", "affiliation_challenges_subtitle")
     /// Rewards
     public static let affiliationChallengesTitle = Strings.tr("Localizable", "affiliation_challenges_title")
-    /// Oops! An error occurred while loading our rewards.
+    /// Oops! An error occurred while loading rewards.
     public static let affiliationChallengesUnknownErrorMessage = Strings.tr("Localizable", "affiliation_challenges_unknown_error_message")
     /// How it works
     public static let affiliationFaqTitle = Strings.tr("Localizable", "affiliation_faq_title")
@@ -62,49 +68,67 @@ extension R {
     public static let affiliationInviteFriendsOthersButton = Strings.tr("Localizable", "affiliation_invite_friends_others_button")
     /// Invite via text
     public static let affiliationInviteFriendsSmsButton = Strings.tr("Localizable", "affiliation_invite_friends_sms_button")
-    /// Invite 3 friends, and earn $10 when they start using letgo. Invite 10 friends, and earn $50! (Your friends will each get a $5 gift card, too. Just because.)
+    /// Invite 3 friends to earn $10 when they start using letgo. Invite 10 friends and earn $50! \n\nYour friends will each get a $5 gift card, too.
     public static let affiliationInviteFriendsSubtitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_subtitle_label")
-    /// Terms and Conditions
+    /// Learn more
     public static let affiliationInviteFriendsTermsButton = Strings.tr("Localizable", "affiliation_invite_friends_terms_button")
     /// Invite friends
     public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
     /// Invite your friends
     public static let affiliationInviteFriendsTitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_title_label")
-    /// %@ has invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
-    public static func affiliationInviteMessageText(_ p1: String) -> String {
-      return Strings.tr("Localizable", "affiliation_invite_message_text", p1)
+    /// Join a community of local buyers and sellers on letgo! Sign up and get $5 when you get started:
+    public static let affiliationInviteMessageText = Strings.tr("Localizable", "affiliation_invite_message_text")
+    /// You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
+    public static let affiliationInviteMessageTextNoName = Strings.tr("Localizable", "affiliation_invite_message_text_no_name")
+    /// Since %@ invited you to use letgo, you could win a $5 Amazon gift card.
+    public static func affiliationInviteOnboardingText(_ p1: String) -> String {
+      return Strings.tr("Localizable", "affiliation_invite_onboarding_text", p1)
     }
-    /// There is no contacts on your phone TBD
+    /// We couldn't find any contacts on your phone.
     public static let affiliationInviteSmsContactsEmptyState = Strings.tr("Localizable", "affiliation_invite_sms_contacts_empty_state")
-    /// We need to get access to your contacts. Go to settings TBD
+    /// letgo needs to access your contacts to invite your friends
     public static let affiliationInviteSmsContactsNeedPermissions = Strings.tr("Localizable", "affiliation_invite_sms_contacts_need_permissions")
-    /// Search or enter a name or phone
+    /// Search by name or number
     public static let affiliationInviteSmsContactsSearchPlaceholder = Strings.tr("Localizable", "affiliation_invite_sms_contacts_search_placeholder")
     /// Select / Unselect
     public static let affiliationInviteSmsContactsSelectAll = Strings.tr("Localizable", "affiliation_invite_sms_contacts_select_all")
-    /// Connect contacts
+    /// Invite contacts
     public static let affiliationInviteSmsContactsTitle = Strings.tr("Localizable", "affiliation_invite_sms_contacts_title")
-    /// Message has not been sent
+    /// Go to settings
+    public static let affiliationInviteSmsGoSettingsButton = Strings.tr("Localizable", "affiliation_invite_sms_go_settings_button")
+    /// Your message hasn't been sent.
     public static let affiliationInviteSmsMessageCancel = Strings.tr("Localizable", "affiliation_invite_sms_message_cancel")
-    /// Something was wrong and message was not sent
+    /// An error occurred while sending your message.
     public static let affiliationInviteSmsMessageError = Strings.tr("Localizable", "affiliation_invite_sms_message_error")
-    /// Message sent
+    /// Message sent!
     public static let affiliationInviteSmsMessageSent = Strings.tr("Localizable", "affiliation_invite_sms_message_sent")
-    /// Oops! This feature is not available in your country.
+    /// Get up to $60 in Amazon gift cards
+    public static let affiliationMainFeedTooltipText = Strings.tr("Localizable", "affiliation_main_feed_tooltip_text")
+    /// $60 in Amazon gift cards
+    public static let affiliationMainFeedTooltipTextHighlighted = Strings.tr("Localizable", "affiliation_main_feed_tooltip_text_highlighted")
+    /// Sell your stuff
+    public static let affiliationOnboardingCountryErrorMainButton = Strings.tr("Localizable", "affiliation_onboarding_country_error_main_button")
+    /// Oops! Unfortunately rewards aren’t available in your country. \n\nBut you can still make money selling on letgo!
+    public static let affiliationOnboardingCountryErrorMessage = Strings.tr("Localizable", "affiliation_onboarding_country_error_message")
+    /// Keep browsing
+    public static let affiliationOnboardingCountryErrorSecondaryButton = Strings.tr("Localizable", "affiliation_onboarding_country_error_secondary_button")
+    /// Oops! Unfortunately rewards aren’t available in your country.
     public static let affiliationStoreCountryErrorMessage = Strings.tr("Localizable", "affiliation_store_country_error_message")
-    /// The gift card will be sent to your email: %@
+    /// The gift card will be sent to %@
     public static func affiliationStoreEmailAlertSubtitle(_ p1: String) -> String {
       return Strings.tr("Localizable", "affiliation_store_email_alert_subtitle", p1)
     }
-    /// Enter your email address
+    /// Enter your email
     public static let affiliationStoreEmailAlertTitle = Strings.tr("Localizable", "affiliation_store_email_alert_title")
+    /// Oops! An error occurred while loading the rewards store.
+    public static let affiliationStoreGenericError = Strings.tr("Localizable", "affiliation_store_generic_error")
     /// History
     public static let affiliationStoreHistory = Strings.tr("Localizable", "affiliation_store_history")
-    /// %@ pts.
+    /// %@ pts
     public static func affiliationStorePoints(_ p1: String) -> String {
       return Strings.tr("Localizable", "affiliation_store_points", p1)
     }
-    /// Redeem gift card
+    /// Get gift card
     public static let affiliationStoreRedeemGift = Strings.tr("Localizable", "affiliation_store_redeem_gift")
     /// Add email
     public static let affiliationStoreRedeemGiftAddEmail = Strings.tr("Localizable", "affiliation_store_redeem_gift_add_email")
@@ -112,35 +136,35 @@ extension R {
     public static let affiliationStoreRedeemGiftEditEmail = Strings.tr("Localizable", "affiliation_store_redeem_gift_edit_email")
     /// Send
     public static let affiliationStoreRedeemGiftSend = Strings.tr("Localizable", "affiliation_store_redeem_gift_send")
-    /// Gift Card Requested
+    /// Gift card requested
     public static let affiliationStoreRedeemGiftSuccessHeadline = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_headline")
-    /// We'll send you an email when your gift card is approved. This might take up to 24h.
+    /// We’ll send you an email when your gift card’s ready. This might take up to 24h.
     public static let affiliationStoreRedeemGiftSuccessSubheadlineWithEmail = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_subheadline_with_email")
-    /// In order to get the gift card you need add an email to your account.
+    /// In order to get the gift card you need to add an email to your account.
     public static let affiliationStoreRedeemGiftSuccessSubheadlineWithoutEmail = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_subheadline_without_email")
     /// Resend
     public static let affiliationStoreResendVoucher = Strings.tr("Localizable", "affiliation_store_resend_voucher")
-    /// $10 Amazon Gift Card
+    /// $10 Amazon gift card
     public static let affiliationStoreRewardsAmazon10 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_10")
-    /// $5 Amazon Gift Card
+    /// $5 Amazon gift card
     public static let affiliationStoreRewardsAmazon5 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_5")
-    /// $50 Amazon Gift Card
+    /// $50 Amazon gift card
     public static let affiliationStoreRewardsAmazon50 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_50")
-    /// Store
+    /// Rewards store
     public static let affiliationStoreTitle = Strings.tr("Localizable", "affiliation_store_title")
-    /// Oops! We are currently experimenting some issues with our store.
+    /// Oops! An error occurred while loading rewards.
     public static let affiliationStoreUnknownErrorMessage = Strings.tr("Localizable", "affiliation_store_unknown_error_message")
-    /// View history
+    /// History
     public static let affiliationStoreViewHistory = Strings.tr("Localizable", "affiliation_store_view_history")
-    /// View Rewards
+    /// View rewards
     public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
     /// PTS
     public static let affiliationWalletPointsLabel = Strings.tr("Localizable", "affiliation_wallet_points_label")
     /// YOUR WALLET
     public static let affiliationWalletTitle = Strings.tr("Localizable", "affiliation_wallet_title")
-    /// Oops! Unfortunately gift cards are not available in your country.
+    /// Oops! Unfortunately rewards aren’t available in your country.
     public static let affiliationWrongCountryErrorHeadline = Strings.tr("Localizable", "affiliation_wrong_country_error_headline")
-    /// But you can still make cash!
+    /// But you can still make money selling on letgo!
     public static let affiliationWrongCountryErrorSubheadline = Strings.tr("Localizable", "affiliation_wrong_country_error_subheadline")
     /// Keep browsing
     public static let affiliationWrongCountryKeepBrowsing = Strings.tr("Localizable", "affiliation_wrong_country_keep_browsing")
@@ -726,6 +750,8 @@ extension R {
     }
     /// Verified with: 
     public static let chatUserInfoVerifiedWith = Strings.tr("Localizable", "chat_user_info_verified_with")
+    /// Chat now
+    public static let chatUserProfileChatNow = Strings.tr("Localizable", "chat_user_profile_chat_now")
     /// Review this user
     public static let chatUserRatingButtonTooltip = Strings.tr("Localizable", "chat_user_rating_button_tooltip")
     /// Ok
@@ -952,6 +978,8 @@ extension R {
     public static let directAnswerGoodCondition = Strings.tr("Localizable", "direct_answer_good_condition")
     /// What's your asking price?
     public static let directAnswerHowMuchAsking = Strings.tr("Localizable", "direct_answer_how_much_asking")
+    /// I like your listing
+    public static let directAnswerILikeYourListing = Strings.tr("Localizable", "direct_answer_i_like_your_listing")
     /// I'm interested!
     public static let directAnswerInterested = Strings.tr("Localizable", "direct_answer_interested")
     /// I'd like to buy it
@@ -1028,6 +1056,8 @@ extension R {
     public static let directAnswerWhereMeetUp = Strings.tr("Localizable", "direct_answer_where_meet_up")
     /// Would you be willing to negotiate?
     public static let directAnswerWillingToNegotiate = Strings.tr("Localizable", "direct_answer_willing_to_negotiate")
+    /// You favorited my listing
+    public static let directAnswerYouFavoritedMyListing = Strings.tr("Localizable", "direct_answer_you_favorited_my_listing")
     /// Hide Quick Answers
     public static let directAnswersHide = Strings.tr("Localizable", "direct_answers_hide")
     /// Show Quick Answers
@@ -1796,10 +1826,44 @@ extension R {
     public static let paymentFrequencyPerWeek = Strings.tr("Localizable", "payment_frequency_per_week")
     /// year
     public static let paymentFrequencyPerYear = Strings.tr("Localizable", "payment_frequency_per_year")
+    /// Payout
+    public static let paymentPayoutNavbarTitle = Strings.tr("Localizable", "payment_payout_navbar_title")
+    /// Get the money in %@
+    public static func paymentPayoutPaymentAvailability(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payment_payout_payment_availability", p1)
+    }
+    /// Transaction fee (%@)
+    public static func paymentPayoutPaymentFee(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payment_payout_payment_fee", p1)
+    }
+    /// Get the money in under 1 hour
+    public static let paymentPayoutPaymentInstantSubtitleLabel = Strings.tr("Localizable", "payment_payout_payment_instant_subtitle_label")
+    /// Transaction fee
+    public static let paymentPayoutPaymentInstantTitleLabel = Strings.tr("Localizable", "payment_payout_payment_instant_title_label")
+    /// Get the money in 3-7 days
+    public static let paymentPayoutPaymentStandarSubtitleLabel = Strings.tr("Localizable", "payment_payout_payment_standar_subtitle_label")
+    /// FREE
+    public static let paymentPayoutPaymentStandarTitleLabel = Strings.tr("Localizable", "payment_payout_payment_standar_title_label")
+    /// Fast payment
+    public static let paymentPayoutPaymentTypeInstant = Strings.tr("Localizable", "payment_payout_payment_type_instant")
+    /// Standard payment
+    public static let paymentPayoutPaymentTypeStandar = Strings.tr("Localizable", "payment_payout_payment_type_standar")
+    /// Card number
+    public static let paymentsCardNumberPlaceholder = Strings.tr("Localizable", "payments_card_number_placeholder")
     /// Seller receives
     public static let paymentsChangeOfferAmountLabel = Strings.tr("Localizable", "payments_change_offer_amount_label")
     /// Set new offer
     public static let paymentsChangeOfferConfirmationButton = Strings.tr("Localizable", "payments_change_offer_confirmation_button")
+    /// Ok
+    public static let paymentsChangeOfferInvalidAmountAlertButton = Strings.tr("Localizable", "payments_change_offer_invalid_amount_alert_button")
+    /// Oops! Your offer must be between %@ and %@.
+    public static func paymentsChangeOfferInvalidAmountAlertMessage(_ p1: String, _ p2: String) -> String {
+      return Strings.tr("Localizable", "payments_change_offer_invalid_amount_alert_message", p1, p2)
+    }
+    /// Contact us
+    public static let paymentsCommonContactUsOption = Strings.tr("Localizable", "payments_common_contact_us_option")
+    /// FAQ
+    public static let paymentsCommonFaqsOption = Strings.tr("Localizable", "payments_common_faqs_option")
     /// Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item
     public static let paymentsCreateOfferBuyerProtectionDescriptionLabel = Strings.tr("Localizable", "payments_create_offer_buyer_protection_description_label")
     /// Buyer Protection
@@ -1810,7 +1874,7 @@ extension R {
     public static let paymentsCreateOfferEscrowInfoLabel = Strings.tr("Localizable", "payments_create_offer_escrow_info_label")
     /// Payment fee
     public static let paymentsCreateOfferFeeLabel = Strings.tr("Localizable", "payments_create_offer_fee_label")
-    /// Payment fee %@
+    /// Payment fee (%@)
     public static func paymentsCreateOfferFeePercentageLabel(_ p1: String) -> String {
       return Strings.tr("Localizable", "payments_create_offer_fee_percentage_label", p1)
     }
@@ -1822,28 +1886,166 @@ extension R {
     public static let paymentsCreateOfferSellerPriceLabel = Strings.tr("Localizable", "payments_create_offer_seller_price_label")
     /// You pay
     public static let paymentsCreateOfferTotalLabel = Strings.tr("Localizable", "payments_create_offer_total_label")
+    /// 3 attemps per minute
+    public static let paymentsEnterPayCodeAttempsLabel = Strings.tr("Localizable", "payments_enter_pay_code_attemps_label")
+    /// Enter the 4-digit code that buyer %@ has shared with you
+    public static func paymentsEnterPayCodeDescriptionLabel(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payments_enter_pay_code_description_label", p1)
+    }
+    /// Offer
+    public static let paymentsEnterPayCodeNavbarTitle = Strings.tr("Localizable", "payments_enter_pay_code_navbar_title")
+    /// Retry
+    public static let paymentsErrorRetry = Strings.tr("Localizable", "payments_error_retry")
+    /// Your payment code
+    public static let paymentsGetPayCodeCodeLabel = Strings.tr("Localizable", "payments_get_pay_code_code_label")
+    /// Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.
+    public static let paymentsGetPayCodeDescription = Strings.tr("Localizable", "payments_get_pay_code_description")
+    /// This code expires in 7 days, so make sure to meet the seller soon
+    public static let paymentsGetPayCodeDisclaimer = Strings.tr("Localizable", "payments_get_pay_code_disclaimer")
+    /// Offer
+    public static let paymentsGetPayCodeNavbarTitle = Strings.tr("Localizable", "payments_get_pay_code_navbar_title")
+    /// Oops! An error occurred while loading. Please try again.
+    public static let paymentsLoadingGenericError = Strings.tr("Localizable", "payments_loading_generic_error")
     /// Chat with Seller
     public static let paymentsOfferStatusActionChatButton = Strings.tr("Localizable", "payments_offer_status_action_chat_button")
     /// View payment code
     public static let paymentsOfferStatusActionViewCodeButton = Strings.tr("Localizable", "payments_offer_status_action_view_code_button")
-    /// %1$@, offering %2$@ for %3$@
-    public static func paymentsOfferStatusHeaderLalbel(_ p1: String, _ p2: String, _ p3: String) -> String {
-      return Strings.tr("Localizable", "payments_offer_status_header_lalbel", p1, p2, p3)
-    }
+    /// letgo will securely hold your funds in escrow until you confirm you’ve received the item
+    public static let paymentsOfferStatusAsBuyerBuyerOfferStepDescription = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_description")
     /// Offer expired
-    public static let paymentsOfferStatusStepOneStatusExpired = Strings.tr("Localizable", "payments_offer_status_step_one_status_expired")
+    public static let paymentsOfferStatusAsBuyerBuyerOfferStepStatusExpired = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_status_expired")
     /// Offer pending
-    public static let paymentsOfferStatusStepOneStatusPending = Strings.tr("Localizable", "payments_offer_status_step_one_status_pending")
+    public static let paymentsOfferStatusAsBuyerBuyerOfferStepStatusPending = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_status_pending")
     /// Offer withdrawn
-    public static let paymentsOfferStatusStepOneStatusWithdrawn = Strings.tr("Localizable", "payments_offer_status_step_one_status_withdrawn")
+    public static let paymentsOfferStatusAsBuyerBuyerOfferStepStatusWithdrawn = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_status_withdrawn")
+    /// You're offering %@
+    public static func paymentsOfferStatusAsBuyerBuyerOfferStepTitle(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_title", p1)
+    }
     /// Withdraw offer
-    public static let paymentsOfferStatusWithdrawButton = Strings.tr("Localizable", "payments_offer_status_withdraw_button")
+    public static let paymentsOfferStatusAsBuyerBuyerOfferStepWithdrawButton = Strings.tr("Localizable", "payments_offer_status_as_buyer_buyer_offer_step_withdraw_button")
+    /// When you have the item, release the payment to the seller by sharing your payment code
+    public static let paymentsOfferStatusAsBuyerMeetingStepDescription = Strings.tr("Localizable", "payments_offer_status_as_buyer_meeting_step_description")
+    /// Meet in person and release the payment
+    public static let paymentsOfferStatusAsBuyerMeetingStepTitle = Strings.tr("Localizable", "payments_offer_status_as_buyer_meeting_step_title")
+    /// You’ll get a notification that the seller has accepted your offer
+    public static let paymentsOfferStatusAsBuyerSellerOfferStepDescription = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_description")
+    /// Offer accepted
+    public static let paymentsOfferStatusAsBuyerSellerOfferStepStatusAccepted = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_status_accepted")
+    /// Offer declined
+    public static let paymentsOfferStatusAsBuyerSellerOfferStepStatusDeclined = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_status_declined")
+    /// The seller accepts
+    public static let paymentsOfferStatusAsBuyerSellerOfferStepTitle = Strings.tr("Localizable", "payments_offer_status_as_buyer_seller_offer_step_title")
+    /// Accept
+    public static let paymentsOfferStatusAsSellerAcceptButton = Strings.tr("Localizable", "payments_offer_status_as_seller_accept_button")
+    /// The buyer pays
+    public static let paymentsOfferStatusAsSellerBuyerAmountLabel = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_amount_label")
+    /// A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.
+    public static let paymentsOfferStatusAsSellerBuyerOfferDescription = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_description")
+    /// Offer accepted
+    public static let paymentsOfferStatusAsSellerBuyerOfferStatusAccepted = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_status_accepted")
+    /// Offer declined
+    public static let paymentsOfferStatusAsSellerBuyerOfferStatusDeclined = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_status_declined")
+    /// Offer expired
+    public static let paymentsOfferStatusAsSellerBuyerOfferStatusExpired = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_status_expired")
+    /// Offer withdrawn
+    public static let paymentsOfferStatusAsSellerBuyerOfferStatusWithdrawn = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_status_withdrawn")
+    /// Accept the offer
+    public static let paymentsOfferStatusAsSellerBuyerOfferTitle = Strings.tr("Localizable", "payments_offer_status_as_seller_buyer_offer_title")
+    /// Decline
+    public static let paymentsOfferStatusAsSellerDeclineButton = Strings.tr("Localizable", "payments_offer_status_as_seller_decline_button")
+    /// Enter code
+    public static let paymentsOfferStatusAsSellerEnterCodeButton = Strings.tr("Localizable", "payments_offer_status_as_seller_enter_code_button")
+    /// Info
+    public static let paymentsOfferStatusAsSellerFeeInfoButton = Strings.tr("Localizable", "payments_offer_status_as_seller_fee_info_button")
+    /// Payment fee
+    public static let paymentsOfferStatusAsSellerFeeLabel = Strings.tr("Localizable", "payments_offer_status_as_seller_fee_label")
+    /// Payment fee (%@)
+    public static func paymentsOfferStatusAsSellerFeePercentage(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payments_offer_status_as_seller_fee_percentage", p1)
+    }
+    /// Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment
+    public static let paymentsOfferStatusAsSellerMeetingDescription = Strings.tr("Localizable", "payments_offer_status_as_seller_meeting_description")
+    /// Meet in person and get paid
+    public static let paymentsOfferStatusAsSellerMeetingTitle = Strings.tr("Localizable", "payments_offer_status_as_seller_meeting_title")
+    /// You receive
+    public static let paymentsOfferStatusAsSellerReceived = Strings.tr("Localizable", "payments_offer_status_as_seller_received")
+    /// %1$@ is offering %2$@ for %3$@
+    public static func paymentsOfferStatusHeaderLabel(_ p1: String, _ p2: String, _ p3: String) -> String {
+      return Strings.tr("Localizable", "payments_offer_status_header_label", p1, p2, p3)
+    }
+    /// Offer
+    public static let paymentsOfferStatusNavbarTitle = Strings.tr("Localizable", "payments_offer_status_navbar_title")
+    /// You'll be charged and letgo will securely hold your funds in escrow until you confirm you've received the item
+    public static let paymentsOnboardingFirstStepDescription = Strings.tr("Localizable", "payments_onboarding_first_step_description")
+    /// Make your offer
+    public static let paymentsOnboardingFirstStepTitle = Strings.tr("Localizable", "payments_onboarding_first_step_title")
+    /// Make an offer
+    public static let paymentsOnboardingMakeAnOfferButton = Strings.tr("Localizable", "payments_onboarding_make_an_offer_button")
+    /// How it works
+    public static let paymentsOnboardingNavbarTitle = Strings.tr("Localizable", "payments_onboarding_navbar_title")
+    /// You’ll get a notification that the seller has accepted your offer
+    public static let paymentsOnboardingSecondStepDescription = Strings.tr("Localizable", "payments_onboarding_second_step_description")
+    /// The seller accepts
+    public static let paymentsOnboardingSecondStepTitle = Strings.tr("Localizable", "payments_onboarding_second_step_title")
+    /// When you have the item, release the payment to the seller
+    public static let paymentsOnboardingThirdStepDescription = Strings.tr("Localizable", "payments_onboarding_third_step_description")
+    /// Meet in person and release the payment
+    public static let paymentsOnboardingThirdStepTitle = Strings.tr("Localizable", "payments_onboarding_third_step_title")
     /// service fee
     public static let paymentsPaymentRequestFeeLabel = Strings.tr("Localizable", "payments_payment_request_fee_label")
     /// total for seller
     public static let paymentsPaymentRequestSellerAmountLabel = Strings.tr("Localizable", "payments_payment_request_seller_amount_label")
     /// seller
     public static let paymentsPaymentRequestTotalAmountLabel = Strings.tr("Localizable", "payments_payment_request_total_amount_label")
+    /// Account number
+    public static let paymentsPayoutBankAccountAccountNumberPlaceholder = Strings.tr("Localizable", "payments_payout_bank_account_account_number_placeholder")
+    /// Payout
+    public static let paymentsPayoutBankAccountPayoutButton = Strings.tr("Localizable", "payments_payout_bank_account_payout_button")
+    /// Routing number (9 digits)
+    public static let paymentsPayoutBankAccountRoutingNumberPlaceholder = Strings.tr("Localizable", "payments_payout_bank_account_routing_number_placeholder")
+    /// Name on card
+    public static let paymentsPayoutCardNamePlaceholder = Strings.tr("Localizable", "payments_payout_card_name_placeholder")
+    /// Card number
+    public static let paymentsPayoutCardNumberPlaceholder = Strings.tr("Localizable", "payments_payout_card_number_placeholder")
+    /// Choose one of these options:
+    public static let paymentsPayoutCardPaymentTypeLabel = Strings.tr("Localizable", "payments_payout_card_payment_type_label")
+    /// Payout
+    public static let paymentsPayoutCardPayoutButton = Strings.tr("Localizable", "payments_payout_card_payout_button")
+    /// Enter your debit card so that we can pay out to your account
+    public static let paymentsPayoutCardTitleLabel = Strings.tr("Localizable", "payments_payout_card_title_label")
+    /// Bank Account
+    public static let paymentsPayoutOptionBankAccount = Strings.tr("Localizable", "payments_payout_option_bank_account")
+    /// Debit Card
+    public static let paymentsPayoutOptionBankDebitCard = Strings.tr("Localizable", "payments_payout_option_bank_debit_card")
+    /// Address
+    public static let paymentsPayoutPersonalInfoAddressPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_address_placeholder")
+    /// City
+    public static let paymentsPayoutPersonalInfoCityPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_city_placeholder")
+    /// Country
+    public static let paymentsPayoutPersonalInfoCountryPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_country_placeholder")
+    /// Date of birth
+    public static let paymentsPayoutPersonalInfoDateOfBirthPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_date_of_birth_placeholder")
+    /// Please check your details and try again.
+    public static let paymentsPayoutPersonalInfoErrorDescription = Strings.tr("Localizable", "payments_payout_personal_info_error_description")
+    /// Ok
+    public static let paymentsPayoutPersonalInfoErrorOkButton = Strings.tr("Localizable", "payments_payout_personal_info_error_ok_button")
+    /// Oops! An error occurred.
+    public static let paymentsPayoutPersonalInfoErrorTitle = Strings.tr("Localizable", "payments_payout_personal_info_error_title")
+    /// First name
+    public static let paymentsPayoutPersonalInfoFirstNamePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_first_name_placeholder")
+    /// Last name
+    public static let paymentsPayoutPersonalInfoLastNamePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_last_name_placeholder")
+    /// Register your account
+    public static let paymentsPayoutPersonalInfoRegisterButton = Strings.tr("Localizable", "payments_payout_personal_info_register_button")
+    /// Last 4 SSN digits
+    public static let paymentsPayoutPersonalInfoSsnPlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_ssn_placeholder")
+    /// State
+    public static let paymentsPayoutPersonalInfoStatePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_state_placeholder")
+    /// Personal information
+    public static let paymentsPayoutPersonalInfoTitleLabel = Strings.tr("Localizable", "payments_payout_personal_info_title_label")
+    /// ZIP code
+    public static let paymentsPayoutPersonalInfoZipCodePlaceholder = Strings.tr("Localizable", "payments_payout_personal_info_zip_code_placeholder")
     /// Didn't get the code?
     public static let phoneVerificationCodeInputViewContentSubaction = Strings.tr("Localizable", "phone_verification_code_input_view_content_subaction")
     /// You can request another code if you don't receive it within %@
@@ -2518,6 +2720,12 @@ extension R {
     public static let professionalDealerAskPhoneThanksOtherCellMessage = Strings.tr("Localizable", "professional_dealer_ask_phone_thanks_other_cell_message")
     /// Thanks for adding your phone number! It's always better to give us a call using the call button above.
     public static let professionalDealerAskPhoneThanksPhoneCellMessage = Strings.tr("Localizable", "professional_dealer_ask_phone_thanks_phone_cell_message")
+    /// Verification request sent!
+    public static let profileAskVerificationButtonDisabled = Strings.tr("Localizable", "profile_ask_verification_button_disabled")
+    /// Ask %@ to verify their profile
+    public static func profileAskVerificationButtonEnabled(_ p1: String) -> String {
+      return Strings.tr("Localizable", "profile_ask_verification_button_enabled", p1)
+    }
     /// Add your bio
     public static let profileBioAddButton = Strings.tr("Localizable", "profile_bio_add_button")
     /// MORE ABOUT ME

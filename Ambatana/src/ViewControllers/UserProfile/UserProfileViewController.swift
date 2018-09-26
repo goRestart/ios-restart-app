@@ -28,7 +28,7 @@ final class UserProfileViewController: BaseViewController {
     private let askVerificationButton: LetgoButton = {
         let button = LetgoButton(withStyle: .secondary(fontSize: .small, withBorder: true))
         button.addTarget(self, action: #selector(didTapAskVerification), for: .touchUpInside)
-        button.setTitle("Verification request sent!", for: .disabled)
+        button.setTitle(R.Strings.profileAskVerificationButtonDisabled, for: .disabled)
         return button
     }()
 
@@ -586,7 +586,9 @@ extension UserProfileViewController {
             .drive(onNext: { [weak self] userName in
                 self?.headerView.username = userName
                 self?.navBarUserView.userNameLabel.text = userName
-                self?.askVerificationButton.setTitle("Ask \(userName ?? "") to verify their profile", for: .normal)
+                if let firstName = userName?.components(separatedBy: " ").first {
+                    self?.askVerificationButton.setTitle(R.Strings.profileAskVerificationButtonEnabled(firstName), for: .normal)
+                }
             })
             .disposed(by: disposeBag)
 
