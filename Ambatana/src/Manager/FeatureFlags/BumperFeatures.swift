@@ -49,7 +49,6 @@ extension Bumper  {
         flags.append(ReportingFostaSesta.self)
         flags.append(ShowChatHeaderWithoutUser.self)
         flags.append(NewItemPageV3.self)
-        flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
         flags.append(EnableCTAMessageType.self)
         flags.append(OpenChatFromUserProfile.self)
@@ -515,19 +514,6 @@ extension Bumper  {
     static var newItemPageV3Observable: Observable<NewItemPageV3> {
         return Bumper.observeValue(for: NewItemPageV3.key).map {
             NewItemPageV3(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var realEstateMapTooltip: RealEstateMapTooltip {
-        guard let value = Bumper.value(for: RealEstateMapTooltip.key) else { return .control }
-        return RealEstateMapTooltip(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var realEstateMapTooltipObservable: Observable<RealEstateMapTooltip> {
-        return Bumper.observeValue(for: RealEstateMapTooltip.key).map {
-            RealEstateMapTooltip(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1539,22 +1525,6 @@ enum NewItemPageV3: String, BumperFeature  {
             case 3: return .infoWithoutLaterals
             case 4: return .buttonWithLaterals
             case 5: return .buttonWithoutLaterals
-            default: return .control
-        }
-    }
-}
-
-enum RealEstateMapTooltip: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RealEstateMapTooltip.control.rawValue }
-    static var enumValues: [RealEstateMapTooltip] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show tooltip for Real Estate Map" } 
-    static func fromPosition(_ position: Int) -> RealEstateMapTooltip {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }

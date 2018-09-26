@@ -177,10 +177,6 @@ extension CarExtraFieldsEnabled {
     var isActive: Bool { return self == .active }
 }
 
-extension RealEstateMapTooltip {
-    var isActive: Bool { return self == .active  }
-}
-
 extension CarPromoCells {
     var isActive: Bool { return self != .control && self != .baseline }
 }

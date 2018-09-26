@@ -164,11 +164,6 @@
         "values": ["control", "baseline", "infoWithLaterals", "infoWithoutLaterals", "buttonWithLaterals", "buttonWithoutLaterals"],
         "description": "[Products] New item page V3 -- all in"
 	},
-    {
-     	"name": "RealEstateMapTooltip",
-    	"values": ["control", "baseline", "active"],
-     	"description": "Show tooltip for Real Estate Map"
-    },
 	 {
      	"name": "AppInstallAdsInFeed",
         "values": ["control", "baseline", "active"],
