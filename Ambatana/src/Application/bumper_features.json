@@ -10,6 +10,11 @@
          "description": "API requests timeout"
     },
     {
+         "name": "MarkAsSoldQuickAnswerNewFlow",
+         "values": ["control", "baseline", "mark_as_sold_new_flow_quick_answer"],
+         "description": "New flow when marking an item as sold on chat using quick answers"
+    },
+    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "[MONEY] show ads in feed every X cells"

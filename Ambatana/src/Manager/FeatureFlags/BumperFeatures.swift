@@ -18,6 +18,7 @@ extension Bumper  {
         var flags = [BumperFeature.Type]()
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
+        flags.append(MarkAsSoldQuickAnswerNewFlow.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RealEstateNewCopy.self)
@@ -111,6 +112,19 @@ extension Bumper  {
     static var requestsTimeOutObservable: Observable<RequestsTimeOut> {
         return Bumper.observeValue(for: RequestsTimeOut.key).map {
             RequestsTimeOut(rawValue: $0 ?? "") ?? .baseline
+        }
+    }
+    #endif
+
+    static var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow {
+        guard let value = Bumper.value(for: MarkAsSoldQuickAnswerNewFlow.key) else { return .control }
+        return MarkAsSoldQuickAnswerNewFlow(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var markAsSoldQuickAnswerNewFlowObservable: Observable<MarkAsSoldQuickAnswerNewFlow> {
+        return Bumper.observeValue(for: MarkAsSoldQuickAnswerNewFlow.key).map {
+            MarkAsSoldQuickAnswerNewFlow(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1031,6 +1045,22 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
+        }
+    }
+}
+
+enum MarkAsSoldQuickAnswerNewFlow: String, BumperFeature  {
+    case control, baseline, mark_as_sold_new_flow_quick_answer
+    static var defaultValue: String { return MarkAsSoldQuickAnswerNewFlow.control.rawValue }
+    static var enumValues: [MarkAsSoldQuickAnswerNewFlow] { return [.control, .baseline, .mark_as_sold_new_flow_quick_answer]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "New flow when marking an item as sold on chat using quick answers" } 
+    static func fromPosition(_ position: Int) -> MarkAsSoldQuickAnswerNewFlow {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .mark_as_sold_new_flow_quick_answer
+            default: return .control
         }
     }
 }

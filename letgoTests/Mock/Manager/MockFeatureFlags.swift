@@ -71,7 +71,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var expressChatImprovement: ExpressChatImprovement = .control
     var smartQuickAnswers: SmartQuickAnswers = .control
     var openChatFromUserProfile: OpenChatFromUserProfile = .control
-    
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow = .control
+
     // MARK:  Verticals
     var servicesPaymentFrequency: ServicesPaymentFrequency = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control

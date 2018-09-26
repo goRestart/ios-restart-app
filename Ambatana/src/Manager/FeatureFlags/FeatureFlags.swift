@@ -68,6 +68,7 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
     var smartQuickAnswers: SmartQuickAnswers { get }
     var openChatFromUserProfile: OpenChatFromUserProfile { get }
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow { get }
 
     // MARK: Verticals
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
@@ -447,6 +448,7 @@ extension MultiDayBumpUp {
 }
 
 final class FeatureFlags: FeatureFlaggeable {
+    
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     private let locale: Locale
@@ -605,7 +607,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return ShowPasswordlessLogin.fromPosition(abTests.showPasswordlessLogin.value)
     }
-
+    
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow {
+        if Bumper.enabled {
+            return Bumper.markAsSoldQuickAnswerNewFlow
+        }
+        return MarkAsSoldQuickAnswerNewFlow.fromPosition(abTests.markAsSoldQuickAnswerNewFlow.value)
+    }
+ 
     var emergencyLocate: EmergencyLocate {
         if Bumper.enabled {
             return Bumper.emergencyLocate
