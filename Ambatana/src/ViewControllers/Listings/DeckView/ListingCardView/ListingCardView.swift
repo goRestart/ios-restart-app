@@ -22,24 +22,16 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     private let pageControl = ListingCardPageControl()
     private var carousel: ListingCardMediaCarousel?
 
-    private let videoPreview = VideoPreview(frame: .zero)
-    private let previewImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = .gray
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
+    private let mediaView: PhotoMediaViewerView
+    private var mediaViewModel: PhotoMediaViewerViewModel?
 
     var previewVisibleFrame: CGRect {
-        let size = CGSize(width: contentView.width, height: previewImageView.height)
+        let size = CGSize(width: contentView.width, height: contentView.height)
         return CGRect(origin: frame.origin, size: size)
     }
 
     private let moreInfoView: MoreInfoViewType
     private let setupMoreInfo: (MoreInfoViewType, UIView) -> ()
-
-    private var imageDownloader: ImageDownloaderType?
 
     override init(frame: CGRect) {
         self.moreInfoView = FeatureFlags.sharedInstance.deckItemPage.moreInfoView
@@ -48,27 +40,35 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         } else {
             setupMoreInfo = FeatureFlags.sharedInstance.deckItemPage.constraintSimple
         }
+        self.mediaView = PhotoMediaViewerView(frame: frame)
         super.init(frame: frame)
         setupUI()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        previewImageView.image = nil
         carousel = nil
-        videoPreview.pause()
+        mediaView.reset()
     }
 
     func populateWith(_ model: ListingCardModel, imageDownloader: ImageDownloaderType) {
-        self.imageDownloader = imageDownloader
-        populateWith(media: model.media)
         populateWith(title: model.title ?? "", price: model.price)
+        populateWith(media: model.media, imageDownloader: imageDownloader)
     }
 
-    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
-    func populateWith(media: [Media]) {
+    func populateWith(media: [Media], imageDownloader: ImageDownloaderType) {
+        let vm = PhotoMediaViewerViewModel(tag: 0,
+                                           media: media,
+                                           backgroundColor: .white,
+                                           placeholderImage: nil,
+                                           imageDownloader: imageDownloader)
+        mediaViewModel = vm
+        mediaView.set(viewModel: vm)
         updateWith(carousel: ListingCardMediaCarousel(media: media, current: 0))
+        mediaView.reloadData()
     }
 
     private func populateWith(title: String, price: String) {
@@ -79,35 +79,17 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         pageControl.isHidden = carousel.media.count <= 1
         pageControl.setPages(carousel.media.count)
         pageControl.turnOnAt(carousel.current)
-        populateWith(media: carousel.media[safeAt: carousel.current])
+        mediaViewModel?.setIndex(carousel.current)
         self.carousel = carousel
     }
 
-    private func populateWith(media: Media?) {
-        if let video = media?.outputs.video {
-            videoPreview.isHidden = false
-            previewImageView.isHidden = true
-            videoPreview.url = video
-            videoPreview.play()
-        } else  if let previewURL = media?.outputs.image {
-            videoPreview.isHidden = true
-            previewImageView.isHidden = false
-            previewImageView.lg_setImageWithURL(previewURL)
-        }
-    }
-
     private func setupUI() {
-        contentView.addSubviewsForAutoLayout([previewImageView, videoPreview, pageControl])
+        contentView.addSubviewsForAutoLayout([mediaView, pageControl])
         [
-            previewImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            previewImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            previewImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            previewImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-
-            videoPreview.topAnchor.constraint(equalTo: contentView.topAnchor),
-            videoPreview.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            videoPreview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            videoPreview.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            mediaView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            mediaView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            mediaView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            mediaView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 
             pageControl.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
             pageControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
@@ -147,7 +129,6 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
         contentView.layer.cornerRadius = Metrics.margin
-        previewImageView.layer.cornerRadius = Metrics.margin
         applyShadow(withOpacity: 0.15, radius: Metrics.margin)
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: Metrics.margin).cgPath
     }
