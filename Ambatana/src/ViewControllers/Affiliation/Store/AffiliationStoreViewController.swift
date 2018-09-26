@@ -36,6 +36,7 @@ final class AffiliationStoreViewController: BaseViewController {
     }
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = storeView.backgroundColor
         moreThreeDotsButton.tintColor = .grayRegular
 
@@ -258,7 +259,7 @@ extension AffiliationStoreViewController: UICollectionViewDataSource {
         cell.tag = indexPath.row
 
         cell.rx.redeemTap
-            .bind { [weak self] in self?.viewModel.cellRedeemTapped.accept(cell.tag) }
+            .drive { [weak self] in self?.viewModel.cellRedeemTapped.accept(cell.tag) }
             .disposed(by: cell.disposeBag)
         return cell
     }

@@ -100,5 +100,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
 }
 
 extension Reactive where Base: AffiliationStoreCell {
-    var redeemTap: Observable<Void> { return base.redeemButton.rx.tap.asObservable() }
+    var redeemTap: Driver<Void> {
+        return base.redeemButton.rx.tap.asObservable().asDriver(onErrorJustReturn: ()).debounce(0.1)
+    }
 }

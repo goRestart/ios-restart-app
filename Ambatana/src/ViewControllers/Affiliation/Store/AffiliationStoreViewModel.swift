@@ -251,14 +251,10 @@ extension Reactive where Base: AffiliationStoreViewModel {
     var state: Driver<ViewState> {
         return base.viewState.asDriver(onErrorJustReturn: ViewState.error(base.genericErrorModel()))
     }
-    
-    private var userEmail: Observable<String?> {
-        return base.myUserRepository.rx_myUser.asObservable().map { return $0?.email }
-    }
-    
+
     var redeemTapped: Driver<RedeemCellModel?> {
-        return Observable.combineLatest(base.cellRedeemTapped.asObservable(),
-                                        base.rx.userEmail) { RedeemCellModel(index: $0, email: $1) }
+        return base.cellRedeemTapped
+            .map { [unowned base] in RedeemCellModel(index: $0, email: base.myUserRepository.myUser?.email) }
             .asDriver(onErrorJustReturn: nil)
     }
     
