@@ -82,6 +82,8 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
         label.textAlignment = .center
         return label
     }()
+    
+    private let errorRetryView = P2PPaymentsErrorRetryView()
 
     init(viewModel: P2PPaymentsGetPayCodeViewModel) {
         self.viewModel = viewModel
@@ -128,7 +130,8 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
                                        payCodeTitleLabel,
                                        payCodeLabel,
                                        activityIndicator,
-                                       disclaimerLabel])
+                                       disclaimerLabel,
+                                       errorRetryView])
         setupConstraints()
         setupRx()
     }
@@ -155,6 +158,11 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
             payCodeLabel.topAnchor.constraint(equalTo: payCodeTitleLabel.bottomAnchor, constant: Layout.payCodeTitleBottomMargin),
             payCodeLabel.centerXAnchor.constraint(equalTo: payCodeBackground.centerXAnchor),
 
+            errorRetryView.topAnchor.constraint(equalTo: payCodeBackground.topAnchor),
+            errorRetryView.leadingAnchor.constraint(equalTo: payCodeBackground.leadingAnchor),
+            errorRetryView.trailingAnchor.constraint(equalTo: payCodeBackground.trailingAnchor),
+            errorRetryView.bottomAnchor.constraint(equalTo: payCodeBackground.bottomAnchor),
+
             activityIndicator.centerXAnchor.constraint(equalTo: payCodeLabel.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: payCodeBackground.centerYAnchor),
 
@@ -168,7 +176,15 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
         let bindings = [
             viewModel.showActivityIndicator.drive(activityIndicator.rx.isAnimating),
             viewModel.payCodeText.drive(payCodeLabel.rx.text),
+            viewModel.hideErrorRetry.drive(errorRetryView.rx.isHidden),
+            viewModel.hidePayCodeLabel.drive(payCodeLabel.rx.isHidden),
+            viewModel.hidePayCodeTitleLabel.drive(payCodeTitleLabel.rx.isHidden)
         ]
         bindings.forEach { [disposeBag] in $0.disposed(by: disposeBag) }
+
+        errorRetryView.rx.retryTap
+            .subscribe(onNext: { [weak self] _ in
+            self?.viewModel.retryButtonPressed()
+        }).disposed(by: disposeBag)
     }
 }

@@ -6,6 +6,7 @@ import RxCocoa
 
 final class P2PPaymentsGetPayCodeViewModel: BaseViewModel {
     private static let retryInterval: TimeInterval = 5
+    private static let maxRetryAttempts: Int = 4
 
     var navigator: P2PPaymentsOfferStatusNavigator?
     private let offerId: String
@@ -36,11 +37,11 @@ final class P2PPaymentsGetPayCodeViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
         if firstTime {
-            getPayCode()
+            getPayCode(attempt: 0)
         }
     }
 
-    private func getPayCode() {
+    private func getPayCode(attempt: Int) {
         p2pPaymentsRepository.getPayCode(offerId: offerId) { [weak self] result in
             switch result {
             case .success(let payCode):
@@ -48,8 +49,13 @@ final class P2PPaymentsGetPayCodeViewModel: BaseViewModel {
                 self?.updateUIState()
             case .failure:
                 // Fail silently and retry after N seconds
-                DispatchQueue.main.asyncAfter(deadline: .now() + P2PPaymentsGetPayCodeViewModel.retryInterval) {
-                    self?.getPayCode()
+                if attempt < P2PPaymentsGetPayCodeViewModel.maxRetryAttempts {
+                    let deadline: DispatchTime = .now() + P2PPaymentsGetPayCodeViewModel.retryInterval
+                    DispatchQueue.main.asyncAfter(deadline: deadline) {
+                        self?.getPayCode(attempt: attempt + 1)
+                    }
+                } else {
+                    self?.uiStateRelay.accept(.error)
                 }
             }
         }
@@ -70,11 +76,13 @@ extension P2PPaymentsGetPayCodeViewModel {
     enum UIState {
         case loading
         case payCodeLoaded(String)
+        case error
 
         var showActivityIndicator: Bool {
             switch self {
             case .loading: return true
             case .payCodeLoaded: return false
+            case .error: return false
             }
         }
 
@@ -82,6 +90,15 @@ extension P2PPaymentsGetPayCodeViewModel {
             switch self {
             case .loading: return nil
             case .payCodeLoaded(let payCode): return payCode
+            case .error: return nil
+            }
+        }
+
+        var hideErrorRetry: Bool {
+            switch self {
+            case .loading: return true
+            case .payCodeLoaded: return true
+            case .error: return false
             }
         }
     }
@@ -106,6 +123,11 @@ extension P2PPaymentsGetPayCodeViewModel {
         guard let url = LetgoURLHelper.buildPaymentFaqsURL() else { return }
         navigator?.openFaqs(url: url)
     }
+
+    func retryButtonPressed() {
+        uiStateRelay.accept(.loading)
+        getPayCode(attempt: 0)
+    }
 }
 
 // MARK: - Rx Outputs
@@ -113,4 +135,7 @@ extension P2PPaymentsGetPayCodeViewModel {
 extension P2PPaymentsGetPayCodeViewModel {
     var showActivityIndicator: Driver<Bool> { return uiStateRelay.asDriver().map { $0.showActivityIndicator } }
     var payCodeText: Driver<String?> { return uiStateRelay.asDriver().map { $0.payCode } }
+    var hideErrorRetry: Driver<Bool> { return uiStateRelay.asDriver().map { $0.hideErrorRetry } }
+    var hidePayCodeLabel: Driver<Bool> { return uiStateRelay.asDriver().map { !$0.hideErrorRetry } }
+    var hidePayCodeTitleLabel: Driver<Bool> { return uiStateRelay.asDriver().map { !$0.hideErrorRetry } }
 }
