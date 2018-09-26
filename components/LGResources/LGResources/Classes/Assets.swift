@@ -62,6 +62,7 @@ extension R {
       public static let icnModalSuccess = ImageAsset(name: "icn_modal_success")
       public static let icnThreeDots = ImageAsset(name: "icn_three_dots")
       public static let iconCheck = ImageAsset(name: "iconCheck")
+      public static let inviteHeader = ImageAsset(name: "invite_header")
       public static let materialBackground = ImageAsset(name: "material_background")
       public static let question24 = ImageAsset(name: "question24")
       public static let wallet24 = ImageAsset(name: "wallet24")
@@ -82,6 +83,7 @@ extension R {
         icnModalSuccess,
         icnThreeDots,
         iconCheck,
+        inviteHeader,
         materialBackground,
         question24,
         wallet24,
