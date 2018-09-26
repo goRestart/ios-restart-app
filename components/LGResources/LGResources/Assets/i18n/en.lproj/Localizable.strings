@@ -193,6 +193,9 @@
 // Affiliation Store screen. View history button
 "affiliation_store_view_history" = "History";
 
+// Affiliation Store screen. Empty screen message
+"affiliation_store_view_history_empty" = "No rewards in your history yet.";
+
 // Affiliation challenges screen. Wallet View. Title.
 "affiliation_wallet_title" = "YOUR WALLET";
 
@@ -2245,6 +2248,9 @@
 // MoPub and Google Adx advertising indicator "Ad"
 "advertising_text" = "Ad";
 
+// Default copy for CTA button in native advertising
+"advertising_default_cta" = "Read more";
+
 // Subtitle text for empty notifications center
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
 
@@ -2755,9 +2761,9 @@
 // Navigation bar title in pay code screen
 "payments_get_pay_code_navbar_title" = "Offer";
 
-"payments_get_pay_code_faqs_option" = "FAQ";
+"payments_common_faqs_option" = "FAQ";
 
-"payments_get_pay_code_contact_us_option" = "Contact us";
+"payments_common_contact_us_option" = "Contact us";
 
 // Placeholder for the card number textfield
 "payments_card_number_placeholder" = "Card number";
@@ -2830,13 +2836,13 @@
 "payment_payout_payment_standar_subtitle_label" = "Get the money in 3-7 days";
 
 // Instant payout fee
-"payment_payout_payment_instant_title_label" = "Transaction fee";
+"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
 
 // Instant payout availability
 "payment_payout_payment_instant_subtitle_label" = "Get the money in under 1 hour";
 
 // Transaction fee
-"payment_payout_payment_fee" = "Transaction fee (%@)";
+"payment_payout_payment_fee" = "Transaction fee";
 
 // Money availability
 "payment_payout_payment_availability" = "Get the money in %@";
@@ -3678,6 +3684,12 @@
 
 // Not valid phone number error alert text
 "professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
+
+// Ask user to verify its profile
+"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+
+// Verification request has already been sent
+"profile_ask_verification_button_disabled" = "Verification request sent!";
 
 // Button asking the user to add a Bio
 "profile_bio_add_button" = "Add your bio";

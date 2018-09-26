@@ -49,7 +49,7 @@ final class AffiliationVouchersViewModel: BaseViewModel {
 
     private func update(with result: Result<[Voucher], RepositoryError>) {
         if let _ = result.error {
-            viewState.accept(.error(makeEmpty()))
+            viewState.accept(.error(makeEmptyViewError()))
         } else if let vouchers = result.value {
             if vouchers.count > 0 {
                 self.vouchers = vouchers
@@ -60,12 +60,25 @@ final class AffiliationVouchersViewModel: BaseViewModel {
                 }
                 viewState.accept(.data)
             } else {
-                viewState.accept(.error(makeEmpty()))
+                viewState.accept(.empty(makeEmptyViewNoResults()))
             }
         }
     }
+    
+    private func makeEmptyViewNoResults() -> LGEmptyViewModel {
+        return LGEmptyViewModel(icon: R.Asset.Affiliation.Error.errorOops.image,
+                                title: R.Strings.affiliationStoreViewHistoryEmpty,
+                                body: nil,
+                                buttonTitle: nil,
+                                action: nil,
+                                secondaryButtonTitle: nil,
+                                secondaryAction: nil,
+                                emptyReason: nil,
+                                errorCode: nil,
+                                errorDescription: nil)
+    }
 
-    fileprivate func makeEmpty() -> LGEmptyViewModel {
+    fileprivate func makeEmptyViewError() -> LGEmptyViewModel {
         return LGEmptyViewModel(icon: R.Asset.Affiliation.Error.errorOops.image,
                                 title: R.Strings.affiliationStoreUnknownErrorMessage,
                                 body: nil,
@@ -92,7 +105,7 @@ final class AffiliationVouchersViewModel: BaseViewModel {
     }
 
     func resend(at index: Int) -> Driver<ViewState> {
-        let emptyVM = makeEmpty()
+        let emptyVM = makeEmptyViewError()
         guard let identifier = vouchers[safeAt: index]?.id else { return Driver.just(.error(emptyVM)) }
 
         return Observable<ViewState>.create { [weak self] (observer) in
@@ -117,6 +130,6 @@ private extension Voucher  {
 extension AffiliationVouchersViewModel: ReactiveCompatible {}
 extension Reactive where Base: AffiliationVouchersViewModel {
     var state: Driver<ViewState> {
-        return base.viewState.asObservable().asDriver(onErrorJustReturn: ViewState.error(base.makeEmpty()))
+        return base.viewState.asObservable().asDriver(onErrorJustReturn: ViewState.error(base.makeEmptyViewError()))
     }
 }

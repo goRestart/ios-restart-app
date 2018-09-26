@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Account pending moderation";
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
+"advertising_default_cta" = "Read more";
 "advertising_text" = "Ad";
 "affiliation_challenges_invite_friends_button" = "Invite friends";
 "affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite %3$@ more friends and earn %4$@ more points!";
@@ -61,6 +62,7 @@
 "affiliation_store_title" = "Rewards store";
 "affiliation_store_unknown_error_message" = "Oops! An error occurred while loading rewards.";
 "affiliation_store_view_history" = "History";
+"affiliation_store_view_history_empty" = "No rewards in your history yet.";
 "affiliation_wallet_open_store_button" = "View rewards";
 "affiliation_wallet_points_label" = "PTS";
 "affiliation_wallet_title" = "YOUR WALLET";
@@ -833,9 +835,9 @@
 "payment_frequency_per_year" = "year";
 "payment_payout_navbar_title" = "Payout";
 "payment_payout_payment_availability" = "Get the money in %@";
-"payment_payout_payment_fee" = "Transaction fee (%@)";
+"payment_payout_payment_fee" = "Transaction fee";
 "payment_payout_payment_instant_subtitle_label" = "Get the money in under 1 hour";
-"payment_payout_payment_instant_title_label" = "Transaction fee";
+"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Get the money in 3-7 days";
 "payment_payout_payment_standar_title_label" = "FREE";
 "payment_payout_payment_type_instant" = "Fast payment";
@@ -845,6 +847,8 @@
 "payments_change_offer_confirmation_button" = "Set new offer";
 "payments_change_offer_invalid_amount_alert_button" = "Ok";
 "payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
+"payments_common_contact_us_option" = "Contact us";
+"payments_common_faqs_option" = "FAQ";
 "payments_create_offer_buyer_protection_description_label" = "Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item";
 "payments_create_offer_buyer_protection_title_label" = "Buyer Protection";
 "payments_create_offer_change_button" = "Change";
@@ -860,10 +864,8 @@
 "payments_enter_pay_code_navbar_title" = "Offer";
 "payments_error_retry" = "Retry";
 "payments_get_pay_code_code_label" = "Your payment code";
-"payments_get_pay_code_contact_us_option" = "Contact us";
 "payments_get_pay_code_description" = "Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.";
 "payments_get_pay_code_disclaimer" = "This code expires in 7 days, so make sure to meet the seller soon";
-"payments_get_pay_code_faqs_option" = "FAQ";
 "payments_get_pay_code_navbar_title" = "Offer";
 "payments_loading_generic_error" = "Oops! An error occurred while loading. Please try again.";
 "payments_offer_status_action_chat_button" = "Chat with Seller";
@@ -1236,6 +1238,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or add your number so we can call you.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
+"profile_ask_verification_button_disabled" = "Verification request sent!";
+"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
 "profile_bio_add_button" = "Add your bio";
 "profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "You've blocked this user";
