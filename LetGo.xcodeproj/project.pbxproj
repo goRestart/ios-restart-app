@@ -43,11 +43,11 @@
 		01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */; };
 		01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01772B5E204F0F340037FD5F /* BlockingPostingStepHeaderView.swift */; };
 		01789DDF2123336200F248EC /* DeepLinkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01789DDE2123336200F248EC /* DeepLinkSpec.swift */; };
+		0178C8DD214A70E600FE23D2 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		0178C8E2214AC41000FE23D2 /* ShareScreenshotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178C8E0214AC41000FE23D2 /* ShareScreenshotViewModel.swift */; };
 		0178C8E3214AC41000FE23D2 /* ShareScreenshotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178C8E0214AC41000FE23D2 /* ShareScreenshotViewModel.swift */; };
 		0178C8E4214AC41000FE23D2 /* ShareScreenshotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178C8E1214AC41000FE23D2 /* ShareScreenshotViewController.swift */; };
 		0178C8E5214AC41000FE23D2 /* ShareScreenshotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178C8E1214AC41000FE23D2 /* ShareScreenshotViewController.swift */; };
-		0178C8DD214A70E600FE23D2 /* InterestedStateUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B2A1A21303DCB00F69613 /* InterestedStateUpdater.swift */; };
 		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
 		017E607F20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E607E20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift */; };
 		017E608020D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E607E20D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift */; };
@@ -1900,6 +1900,9 @@
 		C6687F3720C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */; };
 		C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */; };
 		C6687F3B20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */; };
+		C66E5137215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E5136215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift */; };
+		C66E5138215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E5136215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift */; };
+		C66E513A215B9D4000BCFD21 /* ScrollingPageControlIndexCalculatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E5139215B9D4000BCFD21 /* ScrollingPageControlIndexCalculatorSpec.swift */; };
 		C674D31A20ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C674D31920ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift */; };
 		C674D31B20ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C674D31920ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift */; };
 		C674D31D20ED1BA20027E3AE /* ListingAttributeGridTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C674D31C20ED1BA20027E3AE /* ListingAttributeGridTheme.swift */; };
@@ -3616,6 +3619,8 @@
 		C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedHeaderCell.swift; sourceTree = "<group>"; };
 		C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedCongratsCell.swift; sourceTree = "<group>"; };
 		C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedIncentivisorCell.swift; sourceTree = "<group>"; };
+		C66E5136215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollingPageControlIndexCalculator.swift; sourceTree = "<group>"; };
+		C66E5139215B9D4000BCFD21 /* ScrollingPageControlIndexCalculatorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollingPageControlIndexCalculatorSpec.swift; sourceTree = "<group>"; };
 		C674D31920ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCarouselMoreInfoViewAttributeGridView.swift; sourceTree = "<group>"; };
 		C674D31C20ED1BA20027E3AE /* ListingAttributeGridTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridTheme.swift; sourceTree = "<group>"; };
 		C67F1B20212C429600504C29 /* ExtraInfoTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraInfoTagView.swift; sourceTree = "<group>"; };
@@ -6380,6 +6385,7 @@
 				C6FFC47D20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift */,
 				C6FFC47820F4DEFB00B9F53A /* ListingFiltersSpec.swift */,
 				42718E5E21070AA900FF3F8F /* DropdownSectionSpec.swift */,
+				C66E5139215B9D4000BCFD21 /* ScrollingPageControlIndexCalculatorSpec.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -7408,6 +7414,7 @@
 				C66105EC2136D3D500BA4EF7 /* AnnotatedScrollingPageControlView.swift */,
 				C66105E9213585DD00BA4EF7 /* ScrollingPageControl.swift */,
 				C6DC0128213D313D00661438 /* PageControlRepresentable.swift */,
+				C66E5136215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift */,
 			);
 			path = ScrollingPageControl;
 			sourceTree = "<group>";
@@ -9327,6 +9334,7 @@
 				727463B81FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift in Sources */,
 				42F64F8220AB1A4100CF97AD /* MockListingFilters.swift in Sources */,
 				50D08DBC1E69AF14009CC260 /* MockPurchaseableProductsRequest.swift in Sources */,
+				C66E513A215B9D4000BCFD21 /* ScrollingPageControlIndexCalculatorSpec.swift in Sources */,
 				C6FFC47E20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift in Sources */,
 				42718E5F21070AA900FF3F8F /* DropdownSectionSpec.swift in Sources */,
 				50D08DC81E69AF14009CC260 /* TestableObserver+LGSpec.swift in Sources */,
@@ -9739,7 +9747,7 @@
 				2E9716A31D5A0535009B3A32 /* ExpressChatCell.swift in Sources */,
 				50D15424214A5C2300221B06 /* AffiliationInviteSMSContactsStandardWireframe.swift in Sources */,
 				2EFF0D9C1E69732E00FBF3D5 /* Dictionary+Filter.swift in Sources */,
-				0178C8DD214A70E600FE23D2 /* InterestedStateUpdater.swift in Sources */,
+				0178C8DD214A70E600FE23D2 /* (null) in Sources */,
 				0ACA1952212EA889006489C0 /* TourLoginBuilder.swift in Sources */,
 				426CB13620C58820009A065F /* PostMultiSelectionCell.swift in Sources */,
 				0A26CF27211C39AC00BCF84C /* ListingListCache.swift in Sources */,
@@ -9886,6 +9894,7 @@
 				C707D4581E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
 				C613D0F220BFF3F100344CF2 /* LGPickerSearchBar.swift in Sources */,
 				0A6FED062130344000B57004 /* BumpUpsStandardWireframe.swift in Sources */,
+				C66E5137215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift in Sources */,
 				C6F3CEF220FF457A00AF4D38 /* LGCheckboxView.swift in Sources */,
 				0AEAFC2B2152B19500B8E223 /* AffiliationOnBoardingBuilder.swift in Sources */,
 				A47C4A68213D5B3F005AA387 /* SearchWireframe.swift in Sources */,
@@ -11314,6 +11323,7 @@
 				C7DB421E1C5138B500400945 /* FacebookTracker.swift in Sources */,
 				3221E539206061A10006B12B /* DiscardedView.swift in Sources */,
 				0AEB4FF62018C791003365DE /* ListingDeckOnBoardingBinder.swift in Sources */,
+				C66E5138215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift in Sources */,
 				F51A082C2031B5380008D744 /* AspectRatio.swift in Sources */,
 				C7B5889B1CE1E025009B3975 /* ConversationCell.swift in Sources */,
 				A465723B213057BD00B806C2 /* FeedWireframe.swift in Sources */,
