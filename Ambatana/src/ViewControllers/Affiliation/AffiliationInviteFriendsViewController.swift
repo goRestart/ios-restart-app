@@ -10,7 +10,7 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
         static let labelTopMargin: CGFloat = 16
         static let labelTitleTopMargin: CGFloat = 20
         static let labelTrailingMargin: CGFloat = 16
-        static let buttonHeight: CGFloat = 44
+        static let buttonHeight: CGFloat = 50
         static let termsButtonHeight: CGFloat = 22
         static let termsButtonBottomMargin: CGFloat = 12
         static let termsButtonTopMargin: CGFloat = 21
