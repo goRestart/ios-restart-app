@@ -225,7 +225,13 @@ enum EventName: String {
 
     case showNewItemsBadge                  = "show-new-items-badge"
     case duplicatedItemsInFeed              = "duplicated-items-hidden"
-
+    
+    case smokeTestCtaShown                  = "smoke-test-cta-shown"
+    case smokeTestCtaTapped                 = "smoke-test-cta-tapped"
+    case smokeTestInfoGetStarted            = "smoke-test-info-get-started"
+    case smokeTestFeedbak                   = "smoke-test-feedback"
+    case smokeTestClose                     = "smoke-test-close"
+    
     case verificationModalShown             = "verification-modal-shown"
 
     // Affiliation
@@ -475,6 +481,12 @@ enum EventParameterName: String {
     // Engagement badging
     case recentItems        = "recent-items"
 
+    //  MARK: - Smoke Test
+    case testName = "test-name"
+    case feedback = "feedback"
+    case feedbackText = "feedback-text"
+    case stepName = "step-name"
+
     // Affiliation
     case rewardPoints       = "reward-points"
     case rewardCampaign     = "reward-campaign"
@@ -482,6 +494,7 @@ enum EventParameterName: String {
     case amountGranted      = "amount-granted"
     case numberOfInvitees   = "number-of-invites"
     case rewardCampaignsAvailable = "reward-campaigns-available"
+
 }
 
 enum EventParameterBoolean: String {
@@ -1591,6 +1604,15 @@ enum EventParameterOptionSummary: String {
 
 enum EventParameterTutorialType: String {
     case realEstate = "real-estate"
+}
+
+enum EventParameterSmokeTestType: String {
+    case clickToTalk = "click-to-call-pricing"
+}
+
+enum EventParameterSmokeTestStep: String {
+    case smokeScreen = "smoke-screen"
+    case feedbackScreen = "feedback-screen"
 }
 
 enum EventParameterUserBadge: String {

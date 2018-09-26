@@ -349,3 +349,9 @@ public extension UIColor {
     static var serviceTypeRed: UIColor { return existentialDoubtRed }
     fileprivate static let existentialDoubtRed = UIColor(rgb: 0xfc7d91) // (252, 125, 145)
 }
+
+// MARK: - SmokeTest Colors
+
+public extension UIColor {
+    static var clickToTalk: UIColor { return UIColor(rgb: 0x48bba5) } //  72, 187, 113
+}

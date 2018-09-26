@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Tili on poistettu käytöstä moderaattorin toimesta";
 "account_pending_moderation_w_name" = "Käyttäjän %@ tili on poistettu käytöstä moderaattorin toimesta";
+"advertising_default_cta" = "Lue lisää";
 "advertising_text" = "Mainos";
 "affiliation_challenges_invite_friends_button" = "Kutsu ystäviä";
 "affiliation_challenges_invite_friends_description" = "Kutsu %1$@ ystävää ansaitaksesi %2$@ pistettä. Kutsu %3$@ ystävää lisää ja ansaitset %4$@ pistettä lisää!";
@@ -845,8 +846,8 @@
 "payments_change_offer_confirmation_button" = "Tee uusi tarjous";
 "payments_change_offer_invalid_amount_alert_button" = "Ok";
 "payments_change_offer_invalid_amount_alert_message" = "Hups! Tarjouksesi on oltava %@ ja %@ väliltä.";
-"payments_common_contact_us_option" = "Contact us";
-"payments_common_faqs_option" = "FAQ";
+"payments_common_contact_us_option" = "Ota yhteyttä";
+"payments_common_faqs_option" = "UKK";
 "payments_create_offer_buyer_protection_description_label" = "Maksa letgon kautta ja rahasi siirretään myyjälle vasta sitten, kun vahvistat haluavasi pitää tuotteen";
 "payments_create_offer_buyer_protection_title_label" = "Ostajan suoja";
 "payments_create_offer_change_button" = "Muokkaa";

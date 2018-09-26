@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Benutzerkonto wird überprüft";
 "account_pending_moderation_w_name" = "Das Benutzerkonto von %@ wird überprüft";
+"advertising_default_cta" = "Read more";
 "advertising_text" = "Anzeige";
 "affiliation_challenges_invite_friends_button" = "Freunde einladen";
 "affiliation_challenges_invite_friends_description" = "Lade %1$@ Freunde ein, um %2$@ Punkte zu erhalte. Lade %3$@ weitere Freunde ein und verdiene %4$@ weitere Punkte!";

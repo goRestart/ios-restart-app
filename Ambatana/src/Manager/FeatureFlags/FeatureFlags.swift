@@ -77,6 +77,7 @@ protocol FeatureFlaggeable: class {
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
+    var clickToTalk: ClickToTalk { get }
     var proUsersExtraImages: ProUsersExtraImages { get }
     
     // MARK: Discovery
@@ -1118,11 +1119,11 @@ extension FeatureFlags {
         return ProUsersExtraImages.fromPosition(abTests.proUserExtraImages.value)
     }
     
-    var clickToTalkEnabled: ClickToTalk {
+    var clickToTalk: ClickToTalk {
         if Bumper.enabled {
             return Bumper.clickToTalk
         }
-        return .control // ClickToTalk.fromPosition(abTests.clickToTalkEnabled.value)
+        return ClickToTalk.fromPosition(abTests.clickToTalk.value)
     }
 }
 

@@ -1734,7 +1734,48 @@ struct TrackerEvent {
         params[.numberOfItems] = numberOfDuplicates
         return TrackerEvent(name: .duplicatedItemsInFeed, params: params)
     }
-
+    
+    //  MARK: - Smoke Tests
+    
+    static func smokeTestCtaShown(testType: EventParameterSmokeTestType,
+                                  source: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.testName] = testType.rawValue
+        params[.typePage] = source.rawValue
+        return TrackerEvent(name: .smokeTestCtaShown, params: params)
+    }
+    
+    static func smokeTestCtaTapped(testType: EventParameterSmokeTestType,
+                                   source: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.testName] = testType.rawValue
+        params[.typePage] = source.rawValue
+        return TrackerEvent(name: .smokeTestCtaTapped, params: params)
+    }
+    
+    static func smokeTestInfoGetStarted(testType: EventParameterSmokeTestType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.testName] = testType.rawValue
+        return TrackerEvent(name: .smokeTestInfoGetStarted, params: params)
+    }
+    
+    static func smokeTestFeedback(testType: EventParameterSmokeTestType,
+                                  feedback: String,
+                                  feedbackDescription: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.testName] = testType.rawValue
+        params[.feedback] = feedback
+        params[.feedbackText] = feedbackDescription ?? notApply
+        return TrackerEvent(name: .smokeTestFeedbak, params: params)
+    }
+    
+    static func smokeTestClose(testType: EventParameterSmokeTestType,
+                               stepName: EventParameterSmokeTestStep) -> TrackerEvent {
+        var params = EventParameters()
+        params[.testName] = testType.rawValue
+        params[.stepName] = stepName.rawValue
+        return TrackerEvent(name: .smokeTestClose, params: params)
+    }
     static func verificationModalShown() -> TrackerEvent {
         return TrackerEvent(name: .verificationModalShown, params: nil)
     }

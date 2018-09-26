@@ -1,27 +1,18 @@
-//
-//  LGTutorialLayout.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 11/17/17.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
+import LGComponents
 import RxSwift
 
-typealias EasingTutorialFunction = (CGFloat) -> CGFloat
-
-struct LGTutorialPageCellLayout {
+struct LGSmokeTestCellLayout {
     let insets: UIEdgeInsets
     let verticalInsetDelta: CGFloat
 }
 
-final class LGTutorialLayout: UICollectionViewFlowLayout {
+final class LGSmokeTestLayout: UICollectionViewFlowLayout {
     
-    private let easeInQuad: EasingTutorialFunction = { t in return t * t }
+    private let easeInQuad: EasingFunction = { t in return t * t }
     
     private var cache = [UICollectionViewLayoutAttributes]()
     private var shouldInvalidateCache: Bool { return cache.count != numberOfItems }
-    private var cellLayout: LGTutorialPageCellLayout
+    private var cellLayout: LGSmokeTestCellLayout
     
     private let centerRatio: CGFloat = 0.5
     private var numberOfItems: Int { get { return collectionView?.numberOfItems(inSection: 0) ?? 0 } }
@@ -40,14 +31,14 @@ final class LGTutorialLayout: UICollectionViewFlowLayout {
         return CGSize(width: width, height: cellHeight)
     }
     
-    convenience init(cellLayout: LGTutorialPageCellLayout) {
+    convenience init(cellLayout: LGSmokeTestCellLayout) {
         self.init()
         self.cellLayout = cellLayout
     }
     
     override init() {
         let insets = UIEdgeInsets(top: 16.0, left: 32.0, bottom: 32.0, right: 32.0)
-        self.cellLayout = LGTutorialPageCellLayout(insets: insets, verticalInsetDelta: insets.top)
+        self.cellLayout = LGSmokeTestCellLayout(insets: insets, verticalInsetDelta: insets.top)
         super.init()
         
         self.scrollDirection = .horizontal

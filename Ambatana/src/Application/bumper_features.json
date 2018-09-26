@@ -326,7 +326,7 @@
     },
     {
         "name": "ClickToTalk",
-        "values": ["control", "baseline", "active"],
+        "values": ["control", "baseline", "variantA", "variantB", "variantC"],
         "description": "[VERTICALS] Show Click to talk"
     },
     {

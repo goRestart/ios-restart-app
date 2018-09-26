@@ -13,6 +13,7 @@ protocol ProfileTabNavigator: TabNavigator, PublicProfileNavigator {
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?)
     func openUserVerificationView()
     func closeProfile()
+    func openSmokeTest(feature: LGSmokeTestFeature, userAvatarInfo: UserAvatarInfo?)
 }
 
 protocol PublicProfileNavigator: class {

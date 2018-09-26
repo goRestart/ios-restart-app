@@ -305,5 +305,8 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
     
     func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {}
 
+    func openSmokeTest(feature: LGSmokeTestFeature, userAvatarInfo: UserAvatarInfo?) {}
+
     func closeAvatarDetail() {}
+
 }

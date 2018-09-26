@@ -2061,16 +2061,18 @@ enum ImInterestedInProfile: String, BumperFeature  {
 }
 
 enum ClickToTalk: String, BumperFeature  {
-    case control, baseline, active
+    case control, baseline, variantA, variantB, variantC
     static var defaultValue: String { return ClickToTalk.control.rawValue }
-    static var enumValues: [ClickToTalk] { return [.control, .baseline, .active]}
+    static var enumValues: [ClickToTalk] { return [.control, .baseline, .variantA, .variantB, .variantC]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[VERTICALS] Show Click to talk" } 
     static func fromPosition(_ position: Int) -> ClickToTalk {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .active
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
             default: return .control
         }
     }

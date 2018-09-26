@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Account in attesa di moderazione";
 "account_pending_moderation_w_name" = "L'account di %@ è in attesa di moderazione";
+"advertising_default_cta" = "Read more";
 "advertising_text" = "Annuncio";
 "affiliation_challenges_invite_friends_button" = "Invita Amici";
 "affiliation_challenges_invite_friends_description" = "Invita %1$@ amici per guadagnare %2$@ punti. Invita altri %3$@ amici per guadagnare %4$@ punti!";

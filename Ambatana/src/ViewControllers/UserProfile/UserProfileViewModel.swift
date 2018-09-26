@@ -63,6 +63,16 @@ final class UserProfileViewModel: BaseViewModel {
         guard let areEnabled = arePushNotificationsEnabled.value else { return false }
         return !areEnabled && isPrivateProfile
     }
+    
+    var showClickToTalkBanner: Bool {
+        return isLoggedInUser && featureFlags.clickToTalk.isActive && !keyValueStorage[.clickToTalkShown]
+    }
+    
+    var bannerHeight: CGFloat {
+        if shouldShowPushPermissionsBanner { return PushPermissionsHeader.viewHeight }
+        if showClickToTalkBanner { return LGTapToActionView.viewHeight }
+        return 0
+    }
 
     var shouldShowKarmaView: Bool { return isPrivateProfile }
     var shouldShowRatingCount: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
@@ -79,7 +89,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userBio: Driver<String?> { return user.asDriver().map { $0?.biography } }
     var userScore: Driver<Int> { return user.asDriver().map { $0?.reputationPoints ?? 0} }
     var userMemberSinceText: Driver<String?> { return .just(nil) } // Not available in User Model yet
-    var userAvatarPlaceholder: Driver<UIImage?> { return makeUserAvatar() }
+    var userAvatarPlaceholder: Driver<UIImage?> { return user.asDriver().map { $0?.makeAvatarPlaceholder(isPrivateProfile: self.isPrivateProfile) } }
     var userBadge: Driver<UserHeaderViewBadge> { return makeUserBadge() }
     let userRelationIsBlocked = Variable<Bool>(false)
     let userRelationIsBlockedBy = Variable<Bool>(false)
@@ -121,7 +131,8 @@ final class UserProfileViewModel: BaseViewModel {
     private let sellingListingListViewModel: ListingListViewModel
     private let soldListingListViewModel: ListingListViewModel
     private let favoritesListingListViewModel: ListingListViewModel
-
+    private let keyValueStorage: KeyValueStorage
+    
     init (sessionManager: SessionManager,
           myUserRepository: MyUserRepository,
           userRepository: UserRepository,
@@ -133,7 +144,8 @@ final class UserProfileViewModel: BaseViewModel {
           bubbleNotificationManager: BubbleNotificationManager?,
           user: User?,
           source: UserSource,
-          isPrivateProfile: Bool) {
+          isPrivateProfile: Bool,
+          keyValueStorage: KeyValueStorage = KeyValueStorage.sharedInstance) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
@@ -146,7 +158,7 @@ final class UserProfileViewModel: BaseViewModel {
         self.user = Variable<User?>(user)
         self.source = source
         self.isPrivateProfile = isPrivateProfile
-
+        self.keyValueStorage = keyValueStorage
         let status = UserProfileViewModel.sellingListingStatusCode()
         self.sellingListingListRequester = UserStatusesListingListRequester(statuses: status,
                                                                             itemsPerPage: SharedConstants.numListingsPerPageDefault)
@@ -393,14 +405,6 @@ extension UserProfileViewModel {
         }
     }
 
-    private func makeUserAvatar() -> Driver<UIImage?> {
-        if isPrivateProfile {
-            return user.asDriver().map { LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: $0?.name) }
-        } else {
-            return user.asDriver().map { LetgoAvatar.avatarWithID($0?.objectId, name: $0?.name) }
-        }
-    }
-
     private func makeUserBadge() -> Driver<UserHeaderViewBadge> {
         return user.asDriver().map { [weak self] user in
             guard let strongSelf = self, let user = user else { return .noBadge }
@@ -569,6 +573,14 @@ extension UserProfileViewModel {
                                        text: R.Strings.profilePermissionsAlertMessage,
                                        alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
                                        actions: [negative, positive])
+    }
+    
+    func didTapSmokeTestBanner(feature: LGSmokeTestFeature) {
+        guard let user = user.value else { return }
+        let userAvatarInfo = UserAvatarInfo(avatarURL: user.avatar?.fileURL,
+                                            placeholder: user.makeAvatarPlaceholder(isPrivateProfile: isPrivateProfile))
+        trackSmokeTestOpened(testType: feature.testType)
+        profileNavigator?.openSmokeTest(feature: feature, userAvatarInfo: userAvatarInfo)
     }
 }
 
@@ -786,6 +798,16 @@ extension UserProfileViewModel {
 
     func trackOpenAvatarDetail() {
         let event = TrackerEvent.profileOpenPictureDetail()
+        tracker.trackEvent(event)
+    }
+    
+    func trackSmokeTestOpened(testType: EventParameterSmokeTestType) {
+        let event = TrackerEvent.smokeTestCtaTapped(testType: testType, source: .profile)
+        tracker.trackEvent(event)
+    }
+    
+    func trackSmokeTestShown(testType: EventParameterSmokeTestType) {
+        let event = TrackerEvent.smokeTestCtaShown(testType: testType, source: .profile)
         tracker.trackEvent(event)
     }
 }
