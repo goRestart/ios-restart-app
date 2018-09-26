@@ -456,7 +456,7 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
     }
     
     private func setFiltersNavBarButton() {
-        let buttons = viewModel.rightBBItemsRelay.value
+        let buttons = viewModel.rightBarButtonsItems
         setLetGoRightButtonsWith(images: buttons.map { $0.image }, selectors: buttons.map { $0.selector })
     }
     

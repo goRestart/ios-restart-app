@@ -89,7 +89,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
     lazy var rightBBItemsRelay = BehaviorRelay<[(image: UIImage, selector: Selector)]>(value: rightBarButtonsItems)
 
-    private var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
+    var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if isRealEstateSelected {
             rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
@@ -906,6 +906,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                 self?.rightBarButtonsItems ?? []
             }.drive(rightBBItemsRelay)
             .disposed(by: disposeBag)
+        
+    
 
         listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
