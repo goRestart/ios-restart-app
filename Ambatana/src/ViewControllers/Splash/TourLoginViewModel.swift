@@ -15,18 +15,24 @@ final class TourLoginViewModel: BaseViewModel {
 
     private let signUpViewModel: SignUpViewModel
     private let categoryRepository: CategoryRepository
+    private let featureFlags: FeatureFlaggeable
 
     private let disposeBag = DisposeBag()
 
-    init(signUpViewModel: SignUpViewModel, categoryRepository:CategoryRepository) {
+    init(signUpViewModel: SignUpViewModel,
+         categoryRepository:CategoryRepository,
+         featureFlags: FeatureFlaggeable) {
         self.categoryRepository = categoryRepository
         self.signUpViewModel = signUpViewModel
+        self.featureFlags = featureFlags
         super.init()
         self.signUpViewModel.delegate = self
     }
     
     convenience init(signUpViewModel: SignUpViewModel) {
-        self.init(signUpViewModel: signUpViewModel, categoryRepository: Core.categoryRepository)
+        self.init(signUpViewModel: signUpViewModel,
+                  categoryRepository: Core.categoryRepository,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     func facebookButtonPressed() {
@@ -38,7 +44,11 @@ final class TourLoginViewModel: BaseViewModel {
     }
 
     func emailButtonPressed() {
-        signUpViewModel.signUpButtonPressed()
+        if featureFlags.showPasswordlessLogin.isActive {
+            signUpViewModel.continueWithEmailButtonPressed()
+        } else {
+            signUpViewModel.signUpButtonPressed()
+        }
     }
 
     func textUrlPressed(url: URL) {
