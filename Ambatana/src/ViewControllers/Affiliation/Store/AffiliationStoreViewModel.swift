@@ -19,6 +19,7 @@ struct AffiliationPurchase {
     let points: Int
     
     let state: State
+    let background: UIImage
 }
 
 final class AffiliationStoreViewModel: BaseViewModel {
@@ -106,7 +107,8 @@ final class AffiliationStoreViewModel: BaseViewModel {
                     title: $0.type.cardTitle,
                     partnerIcon: AffiliationPartner.amazon.image,
                     points: $0.points,
-                    state: points >= $0.points ? .enabled : .disabled
+                    state: points >= $0.points ? .enabled : .disabled,
+                    background: $0.type.cardBackground
                 )
         }
     }
@@ -242,6 +244,14 @@ extension RewardType {
         case .amazon5: return R.Strings.affiliationStoreRewardsAmazon5
         case .amazon10: return R.Strings.affiliationStoreRewardsAmazon10
         case .amazon50: return R.Strings.affiliationStoreRewardsAmazon50
+        }
+    }
+
+    var cardBackground: UIImage {
+        switch self {
+        case .amazon5: return R.Asset.Affiliation.Vouchers.amazon5.image
+        case .amazon10: return R.Asset.Affiliation.Vouchers.amazon10.image
+        case .amazon50: return R.Asset.Affiliation.Vouchers.amazon50.image
         }
     }
 }

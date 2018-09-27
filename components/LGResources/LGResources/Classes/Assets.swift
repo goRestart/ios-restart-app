@@ -47,11 +47,17 @@ extension R {
   public enum Asset {
     public enum Affiliation {
       public enum Error {
+        public static let amazon10 = ImageAsset(name: "amazon_10")
         public static let errorFeatureUnavailable = ImageAsset(name: "error_feature_unavailable")
         public static let errorOops = ImageAsset(name: "error_oops")
       }
       public enum Partners {
         public static let amazon = ImageAsset(name: "amazon")
+      }
+      public enum Vouchers {
+        public static let amazon10 = ImageAsset(name: "amazon_10")
+        public static let amazon5 = ImageAsset(name: "amazon_5")
+        public static let amazon50 = ImageAsset(name: "amazon_50")
       }
       public static let affiliationIcon = ImageAsset(name: "affiliationIcon")
       public static let chevronRight24 = ImageAsset(name: "chevronRight24")
@@ -71,9 +77,13 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
+        Error.amazon10,
         Error.errorFeatureUnavailable,
         Error.errorOops,
         Partners.amazon,
+        Vouchers.amazon10,
+        Vouchers.amazon5,
+        Vouchers.amazon50,
         affiliationIcon,
         chevronRight24,
         icnCheck,
@@ -93,7 +103,6 @@ extension R {
       public static let allValues: [AssetType] = allImages
     }
     public enum BackgroundsAndImages {
-      public static let affStoreBackground = ImageAsset(name: "aff_store_background")
       public static let bg1New = ImageAsset(name: "bg_1_new")
       public static let bg2New = ImageAsset(name: "bg_2_new")
       public static let bg3New = ImageAsset(name: "bg_3_new")
@@ -130,7 +139,6 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
-        affStoreBackground,
         bg1New,
         bg2New,
         bg3New,

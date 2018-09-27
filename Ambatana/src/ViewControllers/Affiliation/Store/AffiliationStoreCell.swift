@@ -16,7 +16,6 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
     private let background: UIImageView = {
         let background = UIImageView()
         background.contentMode = .scaleAspectFill
-        background.image = R.Asset.BackgroundsAndImages.affStoreBackground.image
         return background
     }()
 
@@ -94,7 +93,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
         titleLabel.text = data.title
         pointsView.set(points: data.points)
         partnerImageView.image = data.partnerIcon
-
+        background.image = data.background
         redeemButton.isEnabled = data.state == .enabled
     }
 }
