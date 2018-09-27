@@ -324,9 +324,15 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         keyValueStorage[.realEstateTooltipMapShown] = true
     }
     
-    private func showTooltipAffilition() {
-        guard featureFlags.affiliationEnabled.isActive else { return }
-        guard !keyValueStorage[.affiliationTooltipShown] else { return }
+    private func showTooltipAffiliation() {
+        guard
+            featureFlags.affiliationEnabled.isActive,
+            !keyValueStorage[.affiliationTooltipShown],
+            !isAffiliationTooltipAdded
+            else {
+                return
+        }
+        isAffiliationTooltipAdded = true
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 3
         let title = R.Strings.affiliationMainFeedTooltipText
@@ -347,7 +353,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                                         closeBlock: nil)
         
         
-        isAffiliationTooltipAdded = true
         delegate?.vmShowAffiliationToolTip(with: tooltipConfiguration)
     }
     
@@ -929,7 +934,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                     self?.navigator?.openAffiliationOnboarding(data: referrer)
                 })
             case .unknown:
-                self?.showTooltipAffilition()
+                self?.showTooltipAffiliation()
             }
         }.disposed(by: disposeBag)
         Observable.combineLatest(notificationsManager.engagementBadgingNotifications.asObservable(),
