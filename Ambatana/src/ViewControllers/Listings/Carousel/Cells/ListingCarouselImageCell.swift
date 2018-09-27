@@ -41,6 +41,7 @@ class ListingCarouselImageCell: UICollectionViewCell, ReusableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         resetZoom()
+        imageView.image = nil
     }
 }
 

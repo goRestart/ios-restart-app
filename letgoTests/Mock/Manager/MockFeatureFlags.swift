@@ -71,18 +71,17 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var expressChatImprovement: ExpressChatImprovement = .control
     var smartQuickAnswers: SmartQuickAnswers = .control
     var openChatFromUserProfile: OpenChatFromUserProfile = .control
-    
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow = .control
+
     // MARK:  Verticals
     var servicesPaymentFrequency: ServicesPaymentFrequency = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
-    var realEstateMapTooltip: RealEstateMapTooltip = .control
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory = .control
     var carPromoCells: CarPromoCells = .control
     var servicesPromoCells: ServicesPromoCells = .control
     var realEstatePromoCells: RealEstatePromoCells = .control
     var proUsersExtraImages: ProUsersExtraImages = .control
-    var clickToTalkEnabled: ClickToTalk = .control
+    var clickToTalk: ClickToTalk = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control

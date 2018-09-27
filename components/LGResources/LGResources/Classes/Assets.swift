@@ -338,6 +338,7 @@ extension R {
       }
       public static let carIcon = ImageAsset(name: "carIcon")
       public static let checkboxSelectedRound = ImageAsset(name: "checkbox_selected_round")
+      public static let checkboxSelectedRoundGray = ImageAsset(name: "checkbox_selected_round_gray")
       public static let chevronDownGrey = ImageAsset(name: "chevron_down_grey")
       public static let customPermissionProfile = ImageAsset(name: "custom_permission_profile")
       public static let downChevronRed = ImageAsset(name: "down_chevron_red")
@@ -430,13 +431,16 @@ extension R {
       public static let icChevronRight = ImageAsset(name: "ic_chevron_right")
       public static let icChevronUp = ImageAsset(name: "ic_chevron_up")
       public static let icCirlePlus = ImageAsset(name: "ic_cirle_plus")
+      public static let icClickToTalk = ImageAsset(name: "ic_click_to_talk")
       public static let icClose = ImageAsset(name: "ic_close")
       public static let icCloseCarousel = ImageAsset(name: "ic_close_carousel")
       public static let icCloseDark = ImageAsset(name: "ic_close_dark")
+      public static let icCloseGray = ImageAsset(name: "ic_close_gray")
       public static let icCrossTags = ImageAsset(name: "ic_cross_tags")
       public static let icDeviceBlockedAlert = ImageAsset(name: "ic_device_blocked_alert")
       public static let icDisclosure = ImageAsset(name: "ic_disclosure")
       public static let icDisclosureChat = ImageAsset(name: "ic_disclosure_chat")
+      public static let icDisclosureTapToAction = ImageAsset(name: "ic_disclosure_tap_to_action")
       public static let icDownTriangle = ImageAsset(name: "ic_down_triangle")
       public static let icEmail = ImageAsset(name: "ic_email")
       public static let icEmailActive = ImageAsset(name: "ic_email_active")
@@ -483,6 +487,7 @@ extension R {
       public static let icPasswordlessEmail = ImageAsset(name: "ic_passwordless_email")
       public static let icPen = ImageAsset(name: "ic_pen")
       public static let icPendingModeration = ImageAsset(name: "ic_pending_moderation")
+      public static let icPhone = ImageAsset(name: "ic_phone")
       public static let icPostClose = ImageAsset(name: "ic_post_close")
       public static let icPostCorner = ImageAsset(name: "ic_post_corner")
       public static let icPostDisclousure = ImageAsset(name: "ic_post_disclousure")
@@ -661,6 +666,7 @@ extension R {
         VideoPosting.icVideopostingPlay,
         carIcon,
         checkboxSelectedRound,
+        checkboxSelectedRoundGray,
         chevronDownGrey,
         customPermissionProfile,
         downChevronRed,
@@ -739,13 +745,16 @@ extension R {
         icChevronRight,
         icChevronUp,
         icCirlePlus,
+        icClickToTalk,
         icClose,
         icCloseCarousel,
         icCloseDark,
+        icCloseGray,
         icCrossTags,
         icDeviceBlockedAlert,
         icDisclosure,
         icDisclosureChat,
+        icDisclosureTapToAction,
         icDownTriangle,
         icEmail,
         icEmailActive,
@@ -792,6 +801,7 @@ extension R {
         icPasswordlessEmail,
         icPen,
         icPendingModeration,
+        icPhone,
         icPostClose,
         icPostCorner,
         icPostDisclousure,
@@ -1111,6 +1121,12 @@ extension R {
           public static let servicesPromo5 = ImageAsset(name: "services-promo-5")
         }
       }
+      public enum SmokeTests {
+        public enum ClickToTalk {
+          public static let smokeTestClickToTalkImage = ImageAsset(name: "SmokeTestClickToTalkImage")
+          public static let bannerClickToTalk = ImageAsset(name: "banner-click-to-talk")
+        }
+      }
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
@@ -1155,6 +1171,8 @@ extension R {
         ServicesPromos.Icons.servicesPromo3,
         ServicesPromos.Icons.servicesPromo4,
         ServicesPromos.Icons.servicesPromo5,
+        SmokeTests.ClickToTalk.smokeTestClickToTalkImage,
+        SmokeTests.ClickToTalk.bannerClickToTalk,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")

@@ -81,6 +81,7 @@ Pod::Spec.new do |s|
             baseFolder+'Global/LGUIKitConstants.swift',
             baseFolder+'Global/LetgoURLHelper.swift',
             baseFolder+'Global/GlobalFunctions.swift',
+            baseFolder+'Global/GlobalTypealias.swift',
             baseFolder+'Global/Metrics.swift',
             baseFolder+'Global/Environment/**/*',
             baseFolder+'ThirdParty/ImageDownloader/**/*'

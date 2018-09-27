@@ -18,6 +18,7 @@ extension Bumper  {
         var flags = [BumperFeature.Type]()
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
+        flags.append(MarkAsSoldQuickAnswerNewFlow.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RealEstateNewCopy.self)
@@ -49,13 +50,11 @@ extension Bumper  {
         flags.append(ReportingFostaSesta.self)
         flags.append(ShowChatHeaderWithoutUser.self)
         flags.append(NewItemPageV3.self)
-        flags.append(RealEstateMapTooltip.self)
         flags.append(AppInstallAdsInFeed.self)
         flags.append(EnableCTAMessageType.self)
         flags.append(OpenChatFromUserProfile.self)
         flags.append(SearchAlertsInSearchSuggestions.self)
         flags.append(EngagementBadging.self)
-        flags.append(ServicesUnifiedFilterScreen.self)
         flags.append(FrictionlessShare.self)
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
@@ -113,6 +112,19 @@ extension Bumper  {
     static var requestsTimeOutObservable: Observable<RequestsTimeOut> {
         return Bumper.observeValue(for: RequestsTimeOut.key).map {
             RequestsTimeOut(rawValue: $0 ?? "") ?? .baseline
+        }
+    }
+    #endif
+
+    static var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow {
+        guard let value = Bumper.value(for: MarkAsSoldQuickAnswerNewFlow.key) else { return .control }
+        return MarkAsSoldQuickAnswerNewFlow(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var markAsSoldQuickAnswerNewFlowObservable: Observable<MarkAsSoldQuickAnswerNewFlow> {
+        return Bumper.observeValue(for: MarkAsSoldQuickAnswerNewFlow.key).map {
+            MarkAsSoldQuickAnswerNewFlow(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -520,19 +532,6 @@ extension Bumper  {
     }
     #endif
 
-    static var realEstateMapTooltip: RealEstateMapTooltip {
-        guard let value = Bumper.value(for: RealEstateMapTooltip.key) else { return .control }
-        return RealEstateMapTooltip(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var realEstateMapTooltipObservable: Observable<RealEstateMapTooltip> {
-        return Bumper.observeValue(for: RealEstateMapTooltip.key).map {
-            RealEstateMapTooltip(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var appInstallAdsInFeed: AppInstallAdsInFeed {
         guard let value = Bumper.value(for: AppInstallAdsInFeed.key) else { return .control }
         return AppInstallAdsInFeed(rawValue: value) ?? .control 
@@ -594,19 +593,6 @@ extension Bumper  {
     static var engagementBadgingObservable: Observable<EngagementBadging> {
         return Bumper.observeValue(for: EngagementBadging.key).map {
             EngagementBadging(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
-        guard let value = Bumper.value(for: ServicesUnifiedFilterScreen.key) else { return .control }
-        return ServicesUnifiedFilterScreen(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var servicesUnifiedFilterScreenObservable: Observable<ServicesUnifiedFilterScreen> {
-        return Bumper.observeValue(for: ServicesUnifiedFilterScreen.key).map {
-            ServicesUnifiedFilterScreen(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1068,6 +1054,22 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
+        }
+    }
+}
+
+enum MarkAsSoldQuickAnswerNewFlow: String, BumperFeature  {
+    case control, baseline, mark_as_sold_new_flow_quick_answer
+    static var defaultValue: String { return MarkAsSoldQuickAnswerNewFlow.control.rawValue }
+    static var enumValues: [MarkAsSoldQuickAnswerNewFlow] { return [.control, .baseline, .mark_as_sold_new_flow_quick_answer]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "New flow when marking an item as sold on chat using quick answers" } 
+    static func fromPosition(_ position: Int) -> MarkAsSoldQuickAnswerNewFlow {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .mark_as_sold_new_flow_quick_answer
+            default: return .control
         }
     }
 }
@@ -1567,22 +1569,6 @@ enum NewItemPageV3: String, BumperFeature  {
     }
 }
 
-enum RealEstateMapTooltip: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RealEstateMapTooltip.control.rawValue }
-    static var enumValues: [RealEstateMapTooltip] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show tooltip for Real Estate Map" } 
-    static func fromPosition(_ position: Int) -> RealEstateMapTooltip {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum AppInstallAdsInFeed: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return AppInstallAdsInFeed.control.rawValue }
@@ -1648,22 +1634,6 @@ enum EngagementBadging: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Show recent items bubble in feed basic approach" } 
     static func fromPosition(_ position: Int) -> EngagementBadging {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum ServicesUnifiedFilterScreen: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ServicesUnifiedFilterScreen.control.rawValue }
-    static var enumValues: [ServicesUnifiedFilterScreen] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show new services filter screen" } 
-    static func fromPosition(_ position: Int) -> ServicesUnifiedFilterScreen {
         switch position { 
             case 0: return .control
             case 1: return .baseline
@@ -2084,16 +2054,18 @@ enum ImInterestedInProfile: String, BumperFeature  {
 }
 
 enum ClickToTalk: String, BumperFeature  {
-    case control, baseline, active
+    case control, baseline, variantA, variantB, variantC
     static var defaultValue: String { return ClickToTalk.control.rawValue }
-    static var enumValues: [ClickToTalk] { return [.control, .baseline, .active]}
+    static var enumValues: [ClickToTalk] { return [.control, .baseline, .variantA, .variantB, .variantC]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[VERTICALS] Show Click to talk" } 
     static func fromPosition(_ position: Int) -> ClickToTalk {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .active
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
             default: return .control
         }
     }

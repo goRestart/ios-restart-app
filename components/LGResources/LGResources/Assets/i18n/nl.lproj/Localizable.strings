@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Account in afwachting van matiging";
 "account_pending_moderation_w_name" = "%@'s account in afwachting van matiging";
+"advertising_default_cta" = "Lees meer";
 "advertising_text" = "Advertentie";
 "affiliation_challenges_invite_friends_button" = "Nodig vrienden uit";
 "affiliation_challenges_invite_friends_description" = "Nodig %1$@ vrienden uit om %2$@ punten te verdienen. Nodig %3$@ vrienden meer uit en verdien %4$@ punten meer!";
@@ -845,8 +846,8 @@
 "payments_change_offer_confirmation_button" = "Nieuw bod plaatsen";
 "payments_change_offer_invalid_amount_alert_button" = "Ok";
 "payments_change_offer_invalid_amount_alert_message" = "Oeps! Je bod moet tussen de %@ en %@ zijn.";
-"payments_common_contact_us_option" = "Contact us";
-"payments_common_faqs_option" = "FAQ";
+"payments_common_contact_us_option" = "Neem contact met ons op";
+"payments_common_faqs_option" = "Veelgestelde Vragen";
 "payments_create_offer_buyer_protection_description_label" = "Betaal via Letgo en je geld wordt alleen naar de verkoper overgemaakt als je bevestigt dat je het item wilt behouden";
 "payments_create_offer_buyer_protection_title_label" = "Kopersbescherming";
 "payments_create_offer_change_button" = "Wijzigen";

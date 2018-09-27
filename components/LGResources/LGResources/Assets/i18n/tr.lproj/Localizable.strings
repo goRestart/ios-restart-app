@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Hesap inceleme altındadır";
 "account_pending_moderation_w_name" = "%@ adlı kullanıcının hesabı inceleme altındadır";
+"advertising_default_cta" = "Read more";
 "advertising_text" = "Reklam";
 "affiliation_challenges_invite_friends_button" = "Arkadaş davet et";
 "affiliation_challenges_invite_friends_description" = "%2$@ puan kazanmak için %1$@ arkadaşını davet et. %3$@ arkadaşını daha davet et ve %4$@ puan daha kazan!";

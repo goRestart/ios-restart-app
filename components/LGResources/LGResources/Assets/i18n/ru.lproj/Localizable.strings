@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Аккаунт на модерации";
 "account_pending_moderation_w_name" = "Аккаунт %@ на модерации";
+"advertising_default_cta" = "Read more";
 "advertising_text" = "Реклама";
 "affiliation_challenges_invite_friends_button" = "Пригласить друзей";
 "affiliation_challenges_invite_friends_description" = "Пригласите %1$@ друзей и заработайте %2$@ очков. Пригласите еще %3$@ друзей и заработайте еще %4$@ очков!";

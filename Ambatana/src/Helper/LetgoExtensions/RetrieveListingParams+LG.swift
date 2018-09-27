@@ -56,16 +56,12 @@ extension RetrieveListingParams {
             typeIds = [typeId]
         }
         
-        if featureFlags.servicesUnifiedFilterScreen.isActive {
-            if let selectedServiceSubtypeCount = verticalFilters.services.subtypes?.count,
-                let serviceSubtypesCount = verticalFilters.services.type?.subTypes.count,
-                selectedServiceSubtypeCount < serviceSubtypesCount {
-                subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
-            } else {
-                subtypeIds = nil
-            }
-        } else {
+        if let selectedServiceSubtypeCount = verticalFilters.services.subtypes?.count,
+            let serviceSubtypesCount = verticalFilters.services.type?.subTypes.count,
+            selectedServiceSubtypeCount < serviceSubtypesCount {
             subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
+        } else {
+            subtypeIds = nil
         }
         
         if featureFlags.jobsAndServicesEnabled.isActive {

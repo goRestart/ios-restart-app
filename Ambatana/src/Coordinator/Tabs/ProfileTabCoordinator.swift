@@ -15,6 +15,7 @@ final class ProfileTabCoordinator: TabCoordinator {
     private lazy var userAssembly = LGUserBuilder.standard(navigationController)
     private lazy var affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(navigationController)
     private lazy var editEmailAssembly = EditEmailBuilder.standard(navigationController)
+    private lazy var smokeTestAssembly = LGSmokeTestBuilder.modal(navigationController)
 
     convenience init(source: UserSource = .tabBar) {
         let sessionManager = Core.sessionManager
@@ -104,6 +105,14 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         // Ignore. This case only needs to be handled by the public user coordinator
         // Should disappear after navigation refactor
         return
+    }
+
+    func openSmokeTest(feature: LGSmokeTestFeature, userAvatarInfo: UserAvatarInfo?) {
+        let wireframe = LGSmokeTestWireframe(feature: feature,
+                                             assembly: smokeTestAssembly,
+                                             userAvatarInfo: userAvatarInfo)
+        wireframe.navigator = navigationController
+        wireframe.openOnBoarding()
     }
 
     func closeAvatarDetail() {

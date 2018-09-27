@@ -68,15 +68,16 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
     var smartQuickAnswers: SmartQuickAnswers { get }
     var openChatFromUserProfile: OpenChatFromUserProfile { get }
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow { get }
 
     // MARK: Verticals
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
     var servicesPaymentFrequency: ServicesPaymentFrequency { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
+    var clickToTalk: ClickToTalk { get }
     var proUsersExtraImages: ProUsersExtraImages { get }
     
     // MARK: Discovery
@@ -161,10 +162,6 @@ extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
 }
 
-extension ServicesUnifiedFilterScreen {
-    var isActive: Bool { return self == .active }
-}
-
 extension EnableJobsAndServicesCategory {
     var isActive: Bool { return self == .active }
 }
@@ -175,10 +172,6 @@ extension ServicesPaymentFrequency {
 
 extension CarExtraFieldsEnabled {
     var isActive: Bool { return self == .active }
-}
-
-extension RealEstateMapTooltip {
-    var isActive: Bool { return self == .active  }
 }
 
 extension CarPromoCells {
@@ -454,6 +447,7 @@ extension MultiDayBumpUp {
 }
 
 final class FeatureFlags: FeatureFlaggeable {
+    
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     private let locale: Locale
@@ -612,7 +606,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return ShowPasswordlessLogin.fromPosition(abTests.showPasswordlessLogin.value)
     }
-
+    
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow {
+        if Bumper.enabled {
+            return Bumper.markAsSoldQuickAnswerNewFlow
+        }
+        return MarkAsSoldQuickAnswerNewFlow.fromPosition(abTests.markAsSoldQuickAnswerNewFlow.value)
+    }
+ 
     var emergencyLocate: EmergencyLocate {
         if Bumper.enabled {
             return Bumper.emergencyLocate
@@ -1067,13 +1068,6 @@ extension FeatureFlags {
         }
         return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
     }
-
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
-        if Bumper.enabled {
-            return Bumper.servicesUnifiedFilterScreen
-        }
-        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
-    }
     
     var servicesPaymentFrequency: ServicesPaymentFrequency {
         if Bumper.enabled {
@@ -1122,11 +1116,11 @@ extension FeatureFlags {
         return ProUsersExtraImages.fromPosition(abTests.proUserExtraImages.value)
     }
     
-    var clickToTalkEnabled: ClickToTalk {
+    var clickToTalk: ClickToTalk {
         if Bumper.enabled {
             return Bumper.clickToTalk
         }
-        return .control // ClickToTalk.fromPosition(abTests.clickToTalkEnabled.value)
+        return ClickToTalk.fromPosition(abTests.clickToTalk.value)
     }
 }
 

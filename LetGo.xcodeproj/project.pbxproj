@@ -90,7 +90,6 @@
 		01D432012080FBD100061F0C /* NotificationSettingsMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D431FF2080FBD100061F0C /* NotificationSettingsMainViewModel.swift */; };
 		01D432022080FBD600061F0C /* NotificationSettingsMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D431FD2080FBC100061F0C /* NotificationSettingsMainViewController.swift */; };
 		01E5B70620889BEF001C5A1F /* SearchAlertFeedHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5B70420889BEF001C5A1F /* SearchAlertFeedHeader.swift */; };
-		082D9228E212F294EED981C4 /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25A4D22277F616BE5301D6E /* Pods_LetGoGodMode.framework */; };
 		0904D894213F310C00D5D554 /* P2PPaymentsListingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D88A213F310B00D5D554 /* P2PPaymentsListingHeaderView.swift */; };
 		0904D895213F310C00D5D554 /* P2PPaymentsListingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D88A213F310B00D5D554 /* P2PPaymentsListingHeaderView.swift */; };
 		0904D896213F310C00D5D554 /* P2PPaymentsLineSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904D88B213F310B00D5D554 /* P2PPaymentsLineSeparatorView.swift */; };
@@ -543,6 +542,14 @@
 		0A93AC61211AEA94008B5996 /* DropdownSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690704C21021E7A00AF27E4 /* DropdownSectionViewModel.swift */; };
 		0A98767320CE580D00DCD360 /* UIStackView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A98767220CE580D00DCD360 /* UIStackView+LG.swift */; };
 		0A98767420CE586900DCD360 /* UIStackView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A98767220CE580D00DCD360 /* UIStackView+LG.swift */; };
+		0A9B371A215A5D47008AC0E9 /* PhotoMediaViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B3719215A5D47008AC0E9 /* PhotoMediaViewerViewModel.swift */; };
+		0A9B371B215A5D47008AC0E9 /* PhotoMediaViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B3719215A5D47008AC0E9 /* PhotoMediaViewerViewModel.swift */; };
+		0A9B371D215A5D4F008AC0E9 /* PhotoMediaViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B371C215A5D4F008AC0E9 /* PhotoMediaViewerView.swift */; };
+		0A9B371E215A5D4F008AC0E9 /* PhotoMediaViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B371C215A5D4F008AC0E9 /* PhotoMediaViewerView.swift */; };
+		0A9B3720215A5F7B008AC0E9 /* PhotoMediaViewerViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B371F215A5F7B008AC0E9 /* PhotoMediaViewerViewDataSource.swift */; };
+		0A9B3721215A5F7B008AC0E9 /* PhotoMediaViewerViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B371F215A5F7B008AC0E9 /* PhotoMediaViewerViewDataSource.swift */; };
+		0A9B3723215A6293008AC0E9 /* PhotoMediaViewerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B3722215A6293008AC0E9 /* PhotoMediaViewerDelegate.swift */; };
+		0A9B3724215A6293008AC0E9 /* PhotoMediaViewerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B3722215A6293008AC0E9 /* PhotoMediaViewerDelegate.swift */; };
 		0AA03202210A293700728A1A /* LGUserVerificationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA03201210A293600728A1A /* LGUserVerificationBuilder.swift */; };
 		0AA03203210A293700728A1A /* LGUserVerificationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA03201210A293600728A1A /* LGUserVerificationBuilder.swift */; };
 		0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA6A5661FFFBCD600F72F4A /* LGCGAffineTransform.swift */; };
@@ -667,7 +674,6 @@
 		0AFE31202056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE311D2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift */; };
 		0AFE31212056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE311E2056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift */; };
 		0AFE31222056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE311E2056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift */; };
-		2AC9D6663A018BB71BC9E0A6 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02450B648340E63295BC012E /* Pods_LetGo.framework */; };
 		2E0C96451DEDCAFA00068B6D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E0C96441DEDCAFA00068B6D /* StoreKit.framework */; };
 		2E0F26501E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */; };
 		2E0F26511E0ACD5D00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */; };
@@ -1044,8 +1050,14 @@
 		4219244120761CF900862CEF /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4219244020761CF900862CEF /* PromoCell.swift */; };
 		421CB34B207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */; };
 		421CB34C207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */; };
+		421E4E04214A8984002EAB77 /* SmokeTestDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E4E03214A8984002EAB77 /* SmokeTestDetail.swift */; };
+		421E4E05214A8984002EAB77 /* SmokeTestDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E4E03214A8984002EAB77 /* SmokeTestDetail.swift */; };
 		4226B670211094110010CC92 /* FeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226B66F211094110010CC92 /* FeedRequester.swift */; };
 		422FF44C211433F200223A8D /* FeedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226B66F211094110010CC92 /* FeedRequester.swift */; };
+		4233E1322146741300708284 /* LGTapToActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233E1312146741300708284 /* LGTapToActionView.swift */; };
+		4233E1332146741300708284 /* LGTapToActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233E1312146741300708284 /* LGTapToActionView.swift */; };
+		4233E13521467CAB00708284 /* TapToActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233E13421467CAB00708284 /* TapToActionViewModel.swift */; };
+		4233E13621467CAB00708284 /* TapToActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233E13421467CAB00708284 /* TapToActionViewModel.swift */; };
 		4245B6EF2084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
 		4245B6F02084D47A00EF8162 /* UserType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245B6EE2084D47A00EF8162 /* UserType+LG.swift */; };
 		4252685620C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252685520C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift */; };
@@ -1108,8 +1120,50 @@
 		42CA899F20975BF400CE7B5B /* ListingsMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899E20975BF400CE7B5B /* ListingsMapViewModel.swift */; };
 		42CA89A020975BF400CE7B5B /* ListingsMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899E20975BF400CE7B5B /* ListingsMapViewModel.swift */; };
 		42CF7AC3212B1AAE00A4DBB0 /* AdsPaginationHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CF7AC2212B1AAE00A4DBB0 /* AdsPaginationHelperSpec.swift */; };
+		42D3213821510785002B44FC /* LGSmokeTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C9203469FB0042E1E0 /* LGSmokeTestView.swift */; };
+		42D3213921510785002B44FC /* LGSmokeTestOnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C8203469FB0042E1E0 /* LGSmokeTestOnBoardingViewController.swift */; };
+		42D3213A21510785002B44FC /* LGSmokeTestOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C7203469FA0042E1E0 /* LGSmokeTestOnBoardingViewModel.swift */; };
+		42D3213B21510785002B44FC /* LGSmokeTestFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DC012F213FE83700661438 /* LGSmokeTestFeature.swift */; };
+		42D3213E21510785002B44FC /* LGSmokeTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C9203469FB0042E1E0 /* LGSmokeTestView.swift */; };
+		42D3213F21510785002B44FC /* LGSmokeTestOnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C8203469FB0042E1E0 /* LGSmokeTestOnBoardingViewController.swift */; };
+		42D3214021510785002B44FC /* LGSmokeTestOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C7203469FA0042E1E0 /* LGSmokeTestOnBoardingViewModel.swift */; };
+		42D3214121510785002B44FC /* LGSmokeTestFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DC012F213FE83700661438 /* LGSmokeTestFeature.swift */; };
+		42D3214221510791002B44FC /* LGSmokeTestDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233432521493C8E00F4EDE1 /* LGSmokeTestDetailViewController.swift */; };
+		42D3214421510791002B44FC /* LGSmokeTestDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233432521493C8E00F4EDE1 /* LGSmokeTestDetailViewController.swift */; };
+		42D3214621510796002B44FC /* LGPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E4E11214A9104002EAB77 /* LGPlansView.swift */; };
+		42D3214721510796002B44FC /* LGPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E4E11214A9104002EAB77 /* LGPlansView.swift */; };
+		42D321482151079B002B44FC /* LGFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4270D70F214B94D200054DEA /* LGFeaturesView.swift */; };
+		42D321492151079B002B44FC /* LGFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4270D70F214B94D200054DEA /* LGFeaturesView.swift */; };
+		42D3214A215107A1002B44FC /* LGSmokeTestFeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233432C21494ABC00F4EDE1 /* LGSmokeTestFeedbackViewController.swift */; };
+		42D3214B215107A1002B44FC /* LGSmokeTestFeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233432F21494AFA00F4EDE1 /* LGSmokeTestFeedbackViewModel.swift */; };
+		42D3214C215107A2002B44FC /* LGSmokeTestFeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233432C21494ABC00F4EDE1 /* LGSmokeTestFeedbackViewController.swift */; };
+		42D3214D215107A2002B44FC /* LGSmokeTestFeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233432F21494AFA00F4EDE1 /* LGSmokeTestFeedbackViewModel.swift */; };
+		42D3214E215107AA002B44FC /* LGSmokeTestFeature+OnBoarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E4E07214A8A6F002EAB77 /* LGSmokeTestFeature+OnBoarding.swift */; };
+		42D3214F215107AA002B44FC /* LGSmokeTestFeature+Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E4E0A214A8AB4002EAB77 /* LGSmokeTestFeature+Banner.swift */; };
+		42D32150215107AA002B44FC /* LGSmokeTestFeature+Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E4E0D214A8AED002EAB77 /* LGSmokeTestFeature+Detail.swift */; };
+		42D32151215107AA002B44FC /* Feature+SmokeTestSubscriptionPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4270D714214BA94100054DEA /* Feature+SmokeTestSubscriptionPlan.swift */; };
+		42D32152215107AB002B44FC /* LGSmokeTestFeature+OnBoarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E4E07214A8A6F002EAB77 /* LGSmokeTestFeature+OnBoarding.swift */; };
+		42D32153215107AB002B44FC /* LGSmokeTestFeature+Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E4E0A214A8AB4002EAB77 /* LGSmokeTestFeature+Banner.swift */; };
+		42D32154215107AB002B44FC /* LGSmokeTestFeature+Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E4E0D214A8AED002EAB77 /* LGSmokeTestFeature+Detail.swift */; };
+		42D32155215107AB002B44FC /* Feature+SmokeTestSubscriptionPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4270D714214BA94100054DEA /* Feature+SmokeTestSubscriptionPlan.swift */; };
+		42D3215821510A2A002B44FC /* LGSmokeTestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C6203469FA0042E1E0 /* LGSmokeTestLayout.swift */; };
+		42D3215921510A34002B44FC /* LGSmokeTestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C5203469FA0042E1E0 /* LGSmokeTestCollectionViewCell.swift */; };
+		42D3215A21510A3C002B44FC /* LGSmokeTestDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233432821493D7F00F4EDE1 /* LGSmokeTestDetailViewModel.swift */; };
+		42D3215B21510A3D002B44FC /* LGSmokeTestDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233432821493D7F00F4EDE1 /* LGSmokeTestDetailViewModel.swift */; };
+		42D3215C21510A57002B44FC /* LGSmokeTestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C5203469FA0042E1E0 /* LGSmokeTestCollectionViewCell.swift */; };
+		42D3215D21510A57002B44FC /* LGSmokeTestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C6203469FA0042E1E0 /* LGSmokeTestLayout.swift */; };
+		42D3215F21514737002B44FC /* LGSmokeTestFeature+Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D3215E21514737002B44FC /* LGSmokeTestFeature+Feedback.swift */; };
+		42D3216021514737002B44FC /* LGSmokeTestFeature+Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D3215E21514737002B44FC /* LGSmokeTestFeature+Feedback.swift */; };
+		42D3216321514B73002B44FC /* SingleSelectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D3216221514B73002B44FC /* SingleSelectionList.swift */; };
+		42D3216421514B73002B44FC /* SingleSelectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D3216221514B73002B44FC /* SingleSelectionList.swift */; };
 		42D63A9A212ABEA600F45FD6 /* AdsPaginationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D63A99212ABEA600F45FD6 /* AdsPaginationHelper.swift */; };
 		42D63A9B212ABEA600F45FD6 /* AdsPaginationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D63A99212ABEA600F45FD6 /* AdsPaginationHelper.swift */; };
+		42D9716C2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D9716B2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift */; };
+		42D9716D2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D9716B2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift */; };
+		42D9716F215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D9716E215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift */; };
+		42D97170215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D9716E215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift */; };
+		42D971722153898300B0658B /* LGSmokeTestThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D971712153898300B0658B /* LGSmokeTestThankYouViewController.swift */; };
+		42D971732153898300B0658B /* LGSmokeTestThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D971712153898300B0658B /* LGSmokeTestThankYouViewController.swift */; };
 		42E17F8720FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */; };
 		42E17F8820FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */; };
 		42E1832921230F6200B78DA8 /* AdsSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E1832821230F6200B78DA8 /* AdsSectionController.swift */; };
@@ -1136,8 +1190,6 @@
 		42F0688C20FF44C1009AC898 /* DropdownViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0688A20FF44C1009AC898 /* DropdownViewModel.swift */; };
 		42F0688E20FF8D78009AC898 /* ServiceType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0688D20FF8D78009AC898 /* ServiceType+LG.swift */; };
 		42F0688F20FF8D78009AC898 /* ServiceType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0688D20FF8D78009AC898 /* ServiceType+LG.swift */; };
-		42F1DDFF20BD9C22002E2EE7 /* FilterServicesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */; };
-		42F1DE0020BD9C28002E2EE7 /* FilterServicesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */; };
 		42F64F7F20AAE99900CF97AD /* ListingFilters+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */; };
 		42F64F8020AAE99900CF97AD /* ListingFilters+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */; };
 		42F64F8220AB1A4100CF97AD /* MockListingFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F8120AB1A4100CF97AD /* MockListingFilters.swift */; };
@@ -1426,6 +1478,7 @@
 		50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
 		50FEFA1E20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */; };
 		50FEFA1F20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */; };
+		53D026D5E8B58955510CC0EF /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4B0C121449EB924C3B7E05A /* Pods_letgoTests.framework */; };
 		5532C4E620932542006FD3EA /* PasswordlessEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532C4E520932542006FD3EA /* PasswordlessEmailViewController.swift */; };
 		5532C4E720932542006FD3EA /* PasswordlessEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532C4E520932542006FD3EA /* PasswordlessEmailViewController.swift */; };
 		5532C4E9209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532C4E8209325DA006FD3EA /* PasswordlessEmailViewModel.swift */; };
@@ -1462,6 +1515,7 @@
 		55FABE1D2076344F004B0DBD /* UserPhoneVerificationCountryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE1B2076344F004B0DBD /* UserPhoneVerificationCountryPickerViewController.swift */; };
 		55FABE1F20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE1E20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift */; };
 		55FABE2020763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE1E20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift */; };
+		6551016816634A285D4C8D04 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF0370F80E11C172274DE62 /* Pods_LetGo.framework */; };
 		6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */; };
 		66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC61A83612500FAADF0 /* CFNetwork.framework */; };
@@ -1712,16 +1766,6 @@
 		72C7A1C41FA73AC80089F175 /* ListingPrice+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */; };
 		72C7A1C61FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1C51FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift */; };
 		72C7A1C71FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1C51FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift */; };
-		72CD80CA203469FB0042E1E0 /* LGTutorialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C5203469FA0042E1E0 /* LGTutorialCollectionViewCell.swift */; };
-		72CD80CB203469FB0042E1E0 /* LGTutorialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C5203469FA0042E1E0 /* LGTutorialCollectionViewCell.swift */; };
-		72CD80CC203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C6203469FA0042E1E0 /* LGTutorialLayout.swift */; };
-		72CD80CD203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C6203469FA0042E1E0 /* LGTutorialLayout.swift */; };
-		72CD80CE203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C7203469FA0042E1E0 /* LGTutorialViewModel.swift */; };
-		72CD80CF203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C7203469FA0042E1E0 /* LGTutorialViewModel.swift */; };
-		72CD80D0203469FB0042E1E0 /* LGTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C8203469FB0042E1E0 /* LGTutorialViewController.swift */; };
-		72CD80D1203469FB0042E1E0 /* LGTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C8203469FB0042E1E0 /* LGTutorialViewController.swift */; };
-		72CD80D2203469FB0042E1E0 /* LGTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C9203469FB0042E1E0 /* LGTutorialView.swift */; };
-		72CD80D3203469FB0042E1E0 /* LGTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD80C9203469FB0042E1E0 /* LGTutorialView.swift */; };
 		72D57CD51E5767FC0009FA06 /* notificationservice.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 72D57CCE1E5767FC0009FA06 /* notificationservice.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D928D71E83D1C60030F4C3 /* ChatViewModelSpec.swift */; };
 		72D928DB1E83DD330030F4C3 /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D928D91E83DA450030F4C3 /* ConfigManager.swift */; };
@@ -1760,7 +1804,6 @@
 		72FE02E21F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE02E11F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift */; };
 		72FE02E31F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE02E11F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift */; };
 		72FE68B31ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE68B21ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift */; };
-		8C6961A5C6E25C63E09FD52C /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE581EDA60548564F3541578 /* Pods_letgoTests.framework */; };
 		8E031CAC20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */; };
 		8E031CAD20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */; };
 		8E031CB22033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */; };
@@ -1883,6 +1926,7 @@
 		8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
 		8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
 		8EF71E8E213C76FD00DA1CAE /* ConversationAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0F4CFC21130DA900430E6A /* ConversationAdCell.swift */; };
+		92BB1E40195D8087A1689368 /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8F364F2321036559203B2C /* Pods_LetGoGodMode.framework */; };
 		A41195F821219B9300EBB210 /* HTMLBoldParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41195F621219B9300EBB210 /* HTMLBoldParser.swift */; };
 		A41195FB2121B71600EBB210 /* HTMLBoldParserSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41195FA2121B71600EBB210 /* HTMLBoldParserSpec.swift */; };
 		A411960B2122D49500EBB210 /* RememberPasswordBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A411960A2122D49500EBB210 /* RememberPasswordBuilder.swift */; };
@@ -2043,6 +2087,12 @@
 		C6D5FF1B20B6B0AC0045E3D3 /* ServicesInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = C6D5FF1920B6B0A50045E3D3 /* ServicesInfo.json */; };
 		C6DC0129213D313E00661438 /* PageControlRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DC0128213D313D00661438 /* PageControlRepresentable.swift */; };
 		C6DC012A213D313E00661438 /* PageControlRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DC0128213D313D00661438 /* PageControlRepresentable.swift */; };
+		C6DC012D213EDAA100661438 /* LGSmokeTestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DC012C213EDAA100661438 /* LGSmokeTestPage.swift */; };
+		C6DC012E213EDAA100661438 /* LGSmokeTestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DC012C213EDAA100661438 /* LGSmokeTestPage.swift */; };
+		C6DC013321413A4800661438 /* LGSmokeTestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DC013221413A4800661438 /* LGSmokeTestBuilder.swift */; };
+		C6DC013421413A4800661438 /* LGSmokeTestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DC013221413A4800661438 /* LGSmokeTestBuilder.swift */; };
+		C6DC01362141429700661438 /* LGSmokeTestWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DC01352141429700661438 /* LGSmokeTestWireframe.swift */; };
+		C6DC01372141429700661438 /* LGSmokeTestWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DC01352141429700661438 /* LGSmokeTestWireframe.swift */; };
 		C6E770962099A36F002CFA99 /* PushPermissionsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E770952099A36F002CFA99 /* PushPermissionsTracker.swift */; };
 		C6E770972099A36F002CFA99 /* PushPermissionsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E770952099A36F002CFA99 /* PushPermissionsTracker.swift */; };
 		C6F3CEEC20FF445100AF4D38 /* DropdownHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3CEEB20FF445100AF4D38 /* DropdownHeaderCell.swift */; };
@@ -2692,7 +2742,6 @@
 		01D431FD2080FBC100061F0C /* NotificationSettingsMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsMainViewController.swift; sourceTree = "<group>"; };
 		01D431FF2080FBD100061F0C /* NotificationSettingsMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsMainViewModel.swift; sourceTree = "<group>"; };
 		01E5B70420889BEF001C5A1F /* SearchAlertFeedHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlertFeedHeader.swift; sourceTree = "<group>"; };
-		02450B648340E63295BC012E /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0904D88A213F310B00D5D554 /* P2PPaymentsListingHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsListingHeaderView.swift; sourceTree = "<group>"; };
 		0904D88B213F310B00D5D554 /* P2PPaymentsLineSeparatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsLineSeparatorView.swift; sourceTree = "<group>"; };
 		0904D88D213F310C00D5D554 /* P2PPaymentsCreateOfferViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPaymentsCreateOfferViewController.swift; sourceTree = "<group>"; };
@@ -2919,6 +2968,10 @@
 		0A890AC82120AA6E0091ED75 /* RateBuyerBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateBuyerBuilder.swift; sourceTree = "<group>"; };
 		0A9035131FCC6E0600FDE795 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		0A98767220CE580D00DCD360 /* UIStackView+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+LG.swift"; sourceTree = "<group>"; };
+		0A9B3719215A5D47008AC0E9 /* PhotoMediaViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMediaViewerViewModel.swift; sourceTree = "<group>"; };
+		0A9B371C215A5D4F008AC0E9 /* PhotoMediaViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMediaViewerView.swift; sourceTree = "<group>"; };
+		0A9B371F215A5F7B008AC0E9 /* PhotoMediaViewerViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMediaViewerViewDataSource.swift; sourceTree = "<group>"; };
+		0A9B3722215A6293008AC0E9 /* PhotoMediaViewerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMediaViewerDelegate.swift; sourceTree = "<group>"; };
 		0AA03201210A293600728A1A /* LGUserVerificationBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGUserVerificationBuilder.swift; sourceTree = "<group>"; };
 		0AA6A5661FFFBCD600F72F4A /* LGCGAffineTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGCGAffineTransform.swift; sourceTree = "<group>"; };
 		0AA7DB5A2110A7B800B2B657 /* DeeplinkMailBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkMailBox.swift; sourceTree = "<group>"; };
@@ -2978,10 +3031,11 @@
 		0AF5EB6E1FD0698B001DFAE2 /* QuickChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewModel.swift; sourceTree = "<group>"; };
 		0AF64BD92111EB6C004CA83D /* DeepLinkMailBoxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkMailBoxSpec.swift; sourceTree = "<group>"; };
 		0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalLayer.swift; sourceTree = "<group>"; };
-		0AF9EDCDA102BEF092C75CBD /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
 		0AFC21532063D35300C09B24 /* NSAttributedString+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+LG.swift"; sourceTree = "<group>"; };
 		0AFE311D2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckImagePreviewCell.swift; sourceTree = "<group>"; };
 		0AFE311E2056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckImagePreviewLayout.swift; sourceTree = "<group>"; };
+		1B8F364F2321036559203B2C /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2251293E6EFBB4FC4D591EEB /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
 		2E0C96441DEDCAFA00068B6D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProductsRequestFactory.swift; path = Monetization/PurchaseableProductsRequestFactory.swift; sourceTree = "<group>"; };
 		2E131C6A1DEDE998004D26DC /* LGPurchasesShopper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGPurchasesShopper.swift; path = Monetization/LGPurchasesShopper.swift; sourceTree = "<group>"; };
@@ -3179,14 +3233,26 @@
 		32DFF6C821188EEE00B59600 /* IGListWaterFallSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IGListWaterFallSettings.swift; sourceTree = "<group>"; };
 		32F900BF20EBC48E00D30411 /* ListingSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingSectionModel.swift; sourceTree = "<group>"; };
 		32FB455520CFD5C800F229D0 /* SpyListingListViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyListingListViewModelDelegate.swift; sourceTree = "<group>"; };
-		3C3219FB2E7EB5A9C8DBDFE3 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
+		397D6BA6E737E766AB0F140C /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
+		3AF0370F80E11C172274DE62 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42009A2120765A4F003F946E /* PromoCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellDrawer.swift; sourceTree = "<group>"; };
 		42059D10207E31DF00083438 /* FilterCarSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCarSection.swift; sourceTree = "<group>"; };
 		42109E7A2112F65100AA979E /* Feed+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Feed+LG.swift"; sourceTree = "<group>"; };
 		42109E7F2113191400AA979E /* FeedRequesterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRequesterSpec.swift; sourceTree = "<group>"; };
 		4219244020761CF900862CEF /* PromoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
 		421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
+		421E4E03214A8984002EAB77 /* SmokeTestDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeTestDetail.swift; sourceTree = "<group>"; };
+		421E4E07214A8A6F002EAB77 /* LGSmokeTestFeature+OnBoarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGSmokeTestFeature+OnBoarding.swift"; sourceTree = "<group>"; };
+		421E4E0A214A8AB4002EAB77 /* LGSmokeTestFeature+Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGSmokeTestFeature+Banner.swift"; sourceTree = "<group>"; };
+		421E4E0D214A8AED002EAB77 /* LGSmokeTestFeature+Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGSmokeTestFeature+Detail.swift"; sourceTree = "<group>"; };
+		421E4E11214A9104002EAB77 /* LGPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGPlansView.swift; sourceTree = "<group>"; };
 		4226B66F211094110010CC92 /* FeedRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRequester.swift; sourceTree = "<group>"; };
+		4233432521493C8E00F4EDE1 /* LGSmokeTestDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestDetailViewController.swift; sourceTree = "<group>"; };
+		4233432821493D7F00F4EDE1 /* LGSmokeTestDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestDetailViewModel.swift; sourceTree = "<group>"; };
+		4233432C21494ABC00F4EDE1 /* LGSmokeTestFeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestFeedbackViewController.swift; sourceTree = "<group>"; };
+		4233432F21494AFA00F4EDE1 /* LGSmokeTestFeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestFeedbackViewModel.swift; sourceTree = "<group>"; };
+		4233E1312146741300708284 /* LGTapToActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGTapToActionView.swift; sourceTree = "<group>"; };
+		4233E13421467CAB00708284 /* TapToActionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToActionViewModel.swift; sourceTree = "<group>"; };
 		4245B6EE2084D47A00EF8162 /* UserType+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserType+LG.swift"; sourceTree = "<group>"; };
 		4252685520C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewWithCloseCell.swift; sourceTree = "<group>"; };
 		4252685820C82FC500A6E191 /* PostAddNewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddNewCell.swift; sourceTree = "<group>"; };
@@ -3201,6 +3267,8 @@
 		426CB12E20C56768009A065F /* MockImageMultiplierRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageMultiplierRepository.swift; sourceTree = "<group>"; };
 		426CB13520C58820009A065F /* PostMultiSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMultiSelectionCell.swift; sourceTree = "<group>"; };
 		427070D420764EBA00C1FEB3 /* CellAppereance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellAppereance.swift; sourceTree = "<group>"; };
+		4270D70F214B94D200054DEA /* LGFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFeaturesView.swift; sourceTree = "<group>"; };
+		4270D714214BA94100054DEA /* Feature+SmokeTestSubscriptionPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Feature+SmokeTestSubscriptionPlan.swift"; sourceTree = "<group>"; };
 		42718E5E21070AA900FF3F8F /* DropdownSectionSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownSectionSpec.swift; sourceTree = "<group>"; };
 		4273565020A2E9C200C71D49 /* LGMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGMapAnnotation.swift; sourceTree = "<group>"; };
 		4273565320A308A300C71D49 /* LGMapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGMapDetailView.swift; sourceTree = "<group>"; };
@@ -3220,7 +3288,12 @@
 		42CA899B2097498900CE7B5B /* LGMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGMapView.swift; sourceTree = "<group>"; };
 		42CA899E20975BF400CE7B5B /* ListingsMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingsMapViewModel.swift; sourceTree = "<group>"; };
 		42CF7AC2212B1AAE00A4DBB0 /* AdsPaginationHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsPaginationHelperSpec.swift; sourceTree = "<group>"; };
+		42D3215E21514737002B44FC /* LGSmokeTestFeature+Feedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGSmokeTestFeature+Feedback.swift"; sourceTree = "<group>"; };
+		42D3216221514B73002B44FC /* SingleSelectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSelectionList.swift; sourceTree = "<group>"; };
 		42D63A99212ABEA600F45FD6 /* AdsPaginationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsPaginationHelper.swift; sourceTree = "<group>"; };
+		42D9716B2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestThankYouViewModel.swift; sourceTree = "<group>"; };
+		42D9716E215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGSmokeTestFeature+ThankYou.swift"; sourceTree = "<group>"; };
+		42D971712153898300B0658B /* LGSmokeTestThankYouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestThankYouViewController.swift; sourceTree = "<group>"; };
 		42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Shared.swift"; sourceTree = "<group>"; };
 		42E1832821230F6200B78DA8 /* AdsSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsSectionController.swift; sourceTree = "<group>"; };
 		42E1832B2123147B00B78DA8 /* AdData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdData.swift; sourceTree = "<group>"; };
@@ -3234,12 +3307,10 @@
 		42F0688720FF442B009AC898 /* DropdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownViewController.swift; sourceTree = "<group>"; };
 		42F0688A20FF44C1009AC898 /* DropdownViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownViewModel.swift; sourceTree = "<group>"; };
 		42F0688D20FF8D78009AC898 /* ServiceType+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServiceType+LG.swift"; sourceTree = "<group>"; };
-		42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterServicesSection.swift; sourceTree = "<group>"; };
 		42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListingFilters+LG.swift"; sourceTree = "<group>"; };
 		42F64F8120AB1A4100CF97AD /* MockListingFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListingFilters.swift; sourceTree = "<group>"; };
 		42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBubbleView.swift; sourceTree = "<group>"; };
 		42FCAC8620999DC400ED3DF7 /* LGLocationCoordinates2D+Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGLocationCoordinates2D+Region.swift"; sourceTree = "<group>"; };
-		472DC9E5571CD4B3A8659540 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatDisclaimerCell.swift; path = ../ChatDisclaimerCell.swift; sourceTree = "<group>"; };
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
 		500DC1291BDA1C4C00B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
@@ -3445,6 +3516,7 @@
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
 		50F681F11C8F4586001F33A3 /* RxPaginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPaginable.swift; sourceTree = "<group>"; };
 		50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleCellType.swift; sourceTree = "<group>"; };
+		511F2F4A95997948081A56B5 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		5532C4E520932542006FD3EA /* PasswordlessEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailViewController.swift; sourceTree = "<group>"; };
 		5532C4E8209325DA006FD3EA /* PasswordlessEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailViewModel.swift; sourceTree = "<group>"; };
 		5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCodeInputTextField.swift; sourceTree = "<group>"; };
@@ -3463,6 +3535,7 @@
 		55FABE1820762E63004B0DBD /* UserPhoneVerificationCodeInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCodeInputViewModel.swift; sourceTree = "<group>"; };
 		55FABE1B2076344F004B0DBD /* UserPhoneVerificationCountryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCountryPickerViewController.swift; sourceTree = "<group>"; };
 		55FABE1E20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCountryPickerViewModel.swift; sourceTree = "<group>"; };
+		63A6F6397307A291E4F756F0 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6640F03F1AE13EBE00004556 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		6640F0411AE141A800004556 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = "Ambatana/GoogleConversionTrackingSDK-iOS-3.2.0/libGoogleConversionTracking.a"; sourceTree = "<group>"; };
@@ -3556,7 +3629,6 @@
 		6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewMessageAdapter.swift; sourceTree = "<group>"; };
 		6AFA171E213408B500F16795 /* UserAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatarViewController.swift; sourceTree = "<group>"; };
 		6AFA1721213408C000F16795 /* UserAvatarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatarViewModel.swift; sourceTree = "<group>"; };
-		6D833186DD78AEF818C2A4E7 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		720459371F500661008D5A97 /* ListingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCell.swift; sourceTree = "<group>"; };
 		720A8FA71F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTextFieldIntCell.swift; sourceTree = "<group>"; };
 		720C55901F44559400554048 /* PostCarDetailsViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostCarDetailsViewSpec.swift; path = Widgets/PostCarDetailsViewSpec.swift; sourceTree = "<group>"; };
@@ -3603,11 +3675,11 @@
 		72C7A1C01FA0F4E90089F175 /* PostingDetailsStepSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingDetailsStepSpec.swift; sourceTree = "<group>"; };
 		72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListingPrice+LG.swift"; sourceTree = "<group>"; };
 		72C7A1C51FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingAddDetailSummaryTableViewCell.swift; path = Ambatana/src/ViewControllers/Sell/Post/PostingAddDetailSummaryTableViewCell.swift; sourceTree = SOURCE_ROOT; };
-		72CD80C5203469FA0042E1E0 /* LGTutorialCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialCollectionViewCell.swift; sourceTree = "<group>"; };
-		72CD80C6203469FA0042E1E0 /* LGTutorialLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialLayout.swift; sourceTree = "<group>"; };
-		72CD80C7203469FA0042E1E0 /* LGTutorialViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialViewModel.swift; sourceTree = "<group>"; };
-		72CD80C8203469FB0042E1E0 /* LGTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialViewController.swift; sourceTree = "<group>"; };
-		72CD80C9203469FB0042E1E0 /* LGTutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTutorialView.swift; sourceTree = "<group>"; };
+		72CD80C5203469FA0042E1E0 /* LGSmokeTestCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSmokeTestCollectionViewCell.swift; sourceTree = "<group>"; };
+		72CD80C6203469FA0042E1E0 /* LGSmokeTestLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSmokeTestLayout.swift; sourceTree = "<group>"; };
+		72CD80C7203469FA0042E1E0 /* LGSmokeTestOnBoardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSmokeTestOnBoardingViewModel.swift; sourceTree = "<group>"; };
+		72CD80C8203469FB0042E1E0 /* LGSmokeTestOnBoardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSmokeTestOnBoardingViewController.swift; sourceTree = "<group>"; };
+		72CD80C9203469FB0042E1E0 /* LGSmokeTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSmokeTestView.swift; sourceTree = "<group>"; };
 		72D57CCE1E5767FC0009FA06 /* notificationservice.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = notificationservice.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		72D57CD01E5767FC0009FA06 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		72D57CD21E5767FC0009FA06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -3632,7 +3704,9 @@
 		72FE02DE1F98D38F005BD672 /* PostingAddDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingAddDetailPriceView.swift; sourceTree = "<group>"; };
 		72FE02E11F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingAddDetailSummaryTableView.swift; sourceTree = "<group>"; };
 		72FE68B21ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateBuyersViewModelSpec.swift; sourceTree = "<group>"; };
-		80E2BC661B25AFEB62753038 /* Pods-LetGoGodMode.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.adhoc.xcconfig"; sourceTree = "<group>"; };
+		7C7845EFBBC4BC560C62C7CC /* Pods-LetGoGodMode.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.adhoc.xcconfig"; sourceTree = "<group>"; };
+		856B171BA60BC9DF7ED477BC /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
+		8DAB3935B283F41F5E923524 /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInterlocutorIsTypingCell.swift; sourceTree = "<group>"; };
 		8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInterlocutorIsTypingCellDrawer.swift; sourceTree = "<group>"; };
 		8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailProgressView.swift; sourceTree = "<group>"; };
@@ -3717,7 +3791,6 @@
 		A4E0938A2119E265002235FC /* FiltersStandardRouterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersStandardRouterSpec.swift; sourceTree = "<group>"; };
 		A4E0938D2119E280002235FC /* LGFiltersBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFiltersBuilder.swift; sourceTree = "<group>"; };
 		A4E0938F211B199B002235FC /* LGLoginBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGLoginBuilder.swift; sourceTree = "<group>"; };
-		BD9408FB1944768116EF87F6 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		C202E3F821005A2500E1A5E5 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		C21E6073208A8828008A1956 /* RecordedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordedVideo.swift; sourceTree = "<group>"; };
 		C21E6077208A89AF008A1956 /* VideoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreview.swift; sourceTree = "<group>"; };
@@ -3737,7 +3810,7 @@
 		C2DC548320A3343E0052EB12 /* AppEventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEventsManager.swift; sourceTree = "<group>"; };
 		C2E7F41F20DB90BC0092A1F9 /* Locale+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+LG.swift"; sourceTree = "<group>"; };
 		C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPPostListingRedCamFooter.swift; sourceTree = "<group>"; };
-		C46936A6CEBA2677F11C1FEB /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
+		C4B0C121449EB924C3B7E05A /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605853920DBD16A008025FD /* ListingAttributeGridViewItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridViewItemCell.swift; sourceTree = "<group>"; };
 		C605853D20DBD545008025FD /* FilterAttributeGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAttributeGridCell.swift; sourceTree = "<group>"; };
 		C611B06920C92A0700D7DD89 /* MultiListingPostedStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedStatus.swift; sourceTree = "<group>"; };
@@ -3786,6 +3859,10 @@
 		C6C8936F20C7D4B80069197C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		C6D5FF1920B6B0A50045E3D3 /* ServicesInfo.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ServicesInfo.json; sourceTree = "<group>"; };
 		C6DC0128213D313D00661438 /* PageControlRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControlRepresentable.swift; sourceTree = "<group>"; };
+		C6DC012C213EDAA100661438 /* LGSmokeTestPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestPage.swift; sourceTree = "<group>"; };
+		C6DC012F213FE83700661438 /* LGSmokeTestFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestFeature.swift; sourceTree = "<group>"; };
+		C6DC013221413A4800661438 /* LGSmokeTestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestBuilder.swift; sourceTree = "<group>"; };
+		C6DC01352141429700661438 /* LGSmokeTestWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestWireframe.swift; sourceTree = "<group>"; };
 		C6E770952099A36F002CFA99 /* PushPermissionsTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPermissionsTracker.swift; sourceTree = "<group>"; };
 		C6F3CEEB20FF445100AF4D38 /* DropdownHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownHeaderCell.swift; sourceTree = "<group>"; };
 		C6F3CEEE20FF446A00AF4D38 /* DropdownItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownItemCell.swift; sourceTree = "<group>"; };
@@ -3993,8 +4070,6 @@
 		C7F3F1E01DE5A95F00652447 /* ChatRelatedListingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRelatedListingsView.swift; sourceTree = "<group>"; };
 		C7F4CBA21C9181A5008E40D6 /* PostListingCameraViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListingCameraViewModel.swift; sourceTree = "<group>"; };
 		C7F4CBA51C92CC5A008E40D6 /* LGViewPagerPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPagerPage.swift; sourceTree = "<group>"; };
-		CE581EDA60548564F3541578 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D25A4D22277F616BE5301D6E /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D412E07E1B4EFF2800683FFD /* ListingListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingListViewModel.swift; sourceTree = "<group>"; };
 		D412E0851B4F179F00683FFD /* ListingListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingListView.swift; sourceTree = "<group>"; };
@@ -4015,7 +4090,8 @@
 		D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Tint.swift"; sourceTree = "<group>"; };
 		D4BFE5AF1B640C36006A8CB6 /* MainListingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainListingsViewController.swift; sourceTree = "<group>"; };
 		D4BFE5B11B640C36006A8CB6 /* MainListingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainListingsViewModel.swift; sourceTree = "<group>"; };
-		EF4BD2925A7E3804A371D38D /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
+		E76BB32629E2F420D91DDE40 /* Pods-letgoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EFBFC109F2FF1358EAF318F6 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		F51A082A2031B5360008D744 /* AspectRatio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AspectRatio.swift; sourceTree = "<group>"; };
 		F51A082D2031B54A0008D744 /* AspectRatioSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AspectRatioSpec.swift; sourceTree = "<group>"; };
 		F51A082F2031B5580008D744 /* LGSize+CGSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGSize+CGSize.swift"; sourceTree = "<group>"; };
@@ -4047,7 +4123,6 @@
 		F5F2113220EE564000CD137A /* ServerEnvironmentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEnvironmentPicker.swift; sourceTree = "<group>"; };
 		F5F2113520EE59E700CD137A /* DefaultKeys+Admin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultKeys+Admin.swift"; sourceTree = "<group>"; };
 		F5F2113820EE5EE000CD137A /* EnvironmentsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentsHelper.swift; sourceTree = "<group>"; };
-		FAC894A158C3643151AC60C6 /* Pods-letgoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4062,7 +4137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C6961A5C6E25C63E09FD52C /* Pods_letgoTests.framework in Frameworks */,
+				53D026D5E8B58955510CC0EF /* Pods_letgoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4086,7 +4161,7 @@
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
 				2E0C96451DEDCAFA00068B6D /* StoreKit.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
-				2AC9D6663A018BB71BC9E0A6 /* Pods_LetGo.framework in Frameworks */,
+				6551016816634A285D4C8D04 /* Pods_LetGo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4123,7 +4198,7 @@
 				C7DB42441C5138B500400945 /* Security.framework in Frameworks */,
 				2E131C671DEDE446004D26DC /* StoreKit.framework in Frameworks */,
 				C7DB42461C5138B500400945 /* SystemConfiguration.framework in Frameworks */,
-				082D9228E212F294EED981C4 /* Pods_LetGoGodMode.framework in Frameworks */,
+				92BB1E40195D8087A1689368 /* Pods_LetGoGodMode.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5005,6 +5080,17 @@
 			path = GradientView;
 			sourceTree = "<group>";
 		};
+		0A9B3712215A5D00008AC0E9 /* GalleryView */ = {
+			isa = PBXGroup;
+			children = (
+				0A9B3719215A5D47008AC0E9 /* PhotoMediaViewerViewModel.swift */,
+				0A9B371C215A5D4F008AC0E9 /* PhotoMediaViewerView.swift */,
+				0A9B371F215A5F7B008AC0E9 /* PhotoMediaViewerViewDataSource.swift */,
+				0A9B3722215A6293008AC0E9 /* PhotoMediaViewerDelegate.swift */,
+			);
+			path = GalleryView;
+			sourceTree = "<group>";
+		};
 		0AA031E32109D02D00728A1A /* Wireframes */ = {
 			isa = PBXGroup;
 			children = (
@@ -5050,6 +5136,7 @@
 				0A6FEC822130343C00B57004 /* User */,
 				0A6FEC7C2130343C00B57004 /* UserPhoneVerification */,
 				0A6FEC8F2130343D00B57004 /* UserVerification */,
+				C6DC0139214142A400661438 /* LGSmokeTest */,
 			);
 			path = Wireframes;
 			sourceTree = "<group>";
@@ -5082,6 +5169,7 @@
 				0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */,
 				A4E0938F211B199B002235FC /* LGLoginBuilder.swift */,
 				0ADD39BC211306E90071DF87 /* LGUserBuilder.swift */,
+				C6DC013221413A4800661438 /* LGSmokeTestBuilder.swift */,
 				0A3AF6BD213D48410034143B /* Listing */,
 				0AF28D84213ECEBA005A6F8C /* ListingsMap */,
 				6A66A282215266AE00EFAC9C /* PasswordlessUsername */,
@@ -5196,6 +5284,7 @@
 		0AE405B420EDF7A10041E3F1 /* ListingCardView */ = {
 			isa = PBXGroup;
 			children = (
+				0A9B3712215A5D00008AC0E9 /* GalleryView */,
 				0AD5A4302146C2310053E86C /* MoreInfoView */,
 				0AE405B520EDF7F10041E3F1 /* ListingCardView.swift */,
 				0AE405BB20EDF8530041E3F1 /* ListingCardOnBoardingView.swift */,
@@ -5826,12 +5915,73 @@
 			path = PromoCell;
 			sourceTree = "<group>";
 		};
+		421E4E02214A8906002EAB77 /* SmokeTest */ = {
+			isa = PBXGroup;
+			children = (
+				C6DC012C213EDAA100661438 /* LGSmokeTestPage.swift */,
+				421E4E03214A8984002EAB77 /* SmokeTestDetail.swift */,
+			);
+			path = SmokeTest;
+			sourceTree = "<group>";
+		};
+		421E4E06214A8A57002EAB77 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				421E4E07214A8A6F002EAB77 /* LGSmokeTestFeature+OnBoarding.swift */,
+				421E4E0A214A8AB4002EAB77 /* LGSmokeTestFeature+Banner.swift */,
+				421E4E0D214A8AED002EAB77 /* LGSmokeTestFeature+Detail.swift */,
+				42D3215E21514737002B44FC /* LGSmokeTestFeature+Feedback.swift */,
+				42D9716E215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift */,
+				4270D714214BA94100054DEA /* Feature+SmokeTestSubscriptionPlan.swift */,
+				42D9716E215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		421E4E10214A90FA002EAB77 /* Plans */ = {
+			isa = PBXGroup;
+			children = (
+				421E4E11214A9104002EAB77 /* LGPlansView.swift */,
+			);
+			path = Plans;
+			sourceTree = "<group>";
+		};
 		4226B66E211093E40010CC92 /* SectionFeed */ = {
 			isa = PBXGroup;
 			children = (
 				4226B66F211094110010CC92 /* FeedRequester.swift */,
 			);
 			name = SectionFeed;
+			sourceTree = "<group>";
+		};
+		4233432421493C7000F4EDE1 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				4270D70E214B948D00054DEA /* Features */,
+				421E4E10214A90FA002EAB77 /* Plans */,
+				4233432521493C8E00F4EDE1 /* LGSmokeTestDetailViewController.swift */,
+				4233432821493D7F00F4EDE1 /* LGSmokeTestDetailViewModel.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		4233432B21494A9E00F4EDE1 /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				42D3216121514B40002B44FC /* SingleSelectionList */,
+				4233432C21494ABC00F4EDE1 /* LGSmokeTestFeedbackViewController.swift */,
+				4233432F21494AFA00F4EDE1 /* LGSmokeTestFeedbackViewModel.swift */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
+		4233E130214673F000708284 /* ClickToActionView */ = {
+			isa = PBXGroup;
+			children = (
+				4233E1312146741300708284 /* LGTapToActionView.swift */,
+				4233E13421467CAB00708284 /* TapToActionViewModel.swift */,
+			);
+			path = ClickToActionView;
 			sourceTree = "<group>";
 		};
 		42566BEE20ED20CD00120431 /* Tooltip */ = {
@@ -5862,6 +6012,14 @@
 				42B2CEB0211C79B80020776A /* Feed+Mapping.swift */,
 			);
 			path = Mapping;
+			sourceTree = "<group>";
+		};
+		4270D70E214B948D00054DEA /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				4270D70F214B94D200054DEA /* LGFeaturesView.swift */,
+			);
+			path = Features;
 			sourceTree = "<group>";
 		};
 		427CAB88206A825700112D58 /* TrendingSearch */ = {
@@ -5899,6 +6057,23 @@
 				42CA899E20975BF400CE7B5B /* ListingsMapViewModel.swift */,
 			);
 			path = ListingsMap;
+			sourceTree = "<group>";
+		};
+		42D3216121514B40002B44FC /* SingleSelectionList */ = {
+			isa = PBXGroup;
+			children = (
+				42D3216221514B73002B44FC /* SingleSelectionList.swift */,
+			);
+			path = SingleSelectionList;
+			sourceTree = "<group>";
+		};
+		42D9716A2153882300B0658B /* ThankYou */ = {
+			isa = PBXGroup;
+			children = (
+				42D9716B2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift */,
+				42D971712153898300B0658B /* LGSmokeTestThankYouViewController.swift */,
+			);
+			path = ThankYou;
 			sourceTree = "<group>";
 		};
 		42E1832721230F3D00B78DA8 /* Ads */ = {
@@ -5947,22 +6122,6 @@
 				42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */,
 			);
 			path = InfoBubbleView;
-			sourceTree = "<group>";
-		};
-		4BA3D950EC5BB6BE99467526 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				3C3219FB2E7EB5A9C8DBDFE3 /* Pods-LetGo.debug.xcconfig */,
-				BD9408FB1944768116EF87F6 /* Pods-LetGo.release.xcconfig */,
-				C46936A6CEBA2677F11C1FEB /* Pods-LetGo.adhoc.xcconfig */,
-				6D833186DD78AEF818C2A4E7 /* Pods-LetGoGodMode.debug.xcconfig */,
-				0AF9EDCDA102BEF092C75CBD /* Pods-LetGoGodMode.release.xcconfig */,
-				80E2BC661B25AFEB62753038 /* Pods-LetGoGodMode.adhoc.xcconfig */,
-				FAC894A158C3643151AC60C6 /* Pods-letgoTests.debug.xcconfig */,
-				EF4BD2925A7E3804A371D38D /* Pods-letgoTests.release.xcconfig */,
-				472DC9E5571CD4B3A8659540 /* Pods-letgoTests.adhoc.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		500DC1281BDA1C4C00B494FA /* config */ = {
@@ -6165,6 +6324,7 @@
 		505B06A41B15A9910049F9CD /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				4233E130214673F000708284 /* ClickToActionView */,
 				42566BEE20ED20CD00120431 /* Tooltip */,
 				C605853C20DBD2F4008025FD /* ListingAttributeGridView */,
 				425B40A920A99E32000968CF /* Map */,
@@ -6242,6 +6402,7 @@
 		508E4CE81B41A5BD007BD301 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				421E4E02214A8906002EAB77 /* SmokeTest */,
 				F51A082A2031B5360008D744 /* AspectRatio.swift */,
 				C738327F1E029CC2007D0C03 /* AccountProvider+LG.swift */,
 				72854D191F8E002100E54530 /* RealEstateOfferType+LG.swift */,
@@ -6254,7 +6415,6 @@
 				C7363FB91BFA3E6500A4BF6F /* DistanceType+LG.swift */,
 				C780281C1BF0FB64002B26C5 /* FilterSection.swift */,
 				7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */,
-				42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */,
 				C7BAC9CC1E49E81E005BD0AF /* Listing+LG.swift */,
 				4273565620A32F5000C71D49 /* Listing+Map.swift */,
 				72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */,
@@ -6961,7 +7121,7 @@
 				50D08D481E699455009CC260 /* letgoTests */,
 				6608E0371A820FBD005895ED /* Products */,
 				ABA47C14BB52140048297810 /* Frameworks */,
-				4BA3D950EC5BB6BE99467526 /* Pods */,
+				C5F227E7C938AE9FDDBCF84F /* Pods */,
 			);
 			indentWidth = 4;
 			sourceTree = "<group>";
@@ -7269,16 +7429,22 @@
 			name = ExpandableCategorySelectionView;
 			sourceTree = "<group>";
 		};
-		72CD80BB2032F6260042E1E0 /* LGTutorial */ = {
+		72CD80BB2032F6260042E1E0 /* LGSmokeTest */ = {
 			isa = PBXGroup;
 			children = (
-				72CD80C5203469FA0042E1E0 /* LGTutorialCollectionViewCell.swift */,
-				72CD80C6203469FA0042E1E0 /* LGTutorialLayout.swift */,
-				72CD80C9203469FB0042E1E0 /* LGTutorialView.swift */,
-				72CD80C8203469FB0042E1E0 /* LGTutorialViewController.swift */,
-				72CD80C7203469FA0042E1E0 /* LGTutorialViewModel.swift */,
+				42D9716A2153882300B0658B /* ThankYou */,
+				421E4E06214A8A57002EAB77 /* Extensions */,
+				42D9716A2153882300B0658B /* ThankYou */,
+				4233432B21494A9E00F4EDE1 /* Feedback */,
+				4233432421493C7000F4EDE1 /* Detail */,
+				72CD80C5203469FA0042E1E0 /* LGSmokeTestCollectionViewCell.swift */,
+				72CD80C6203469FA0042E1E0 /* LGSmokeTestLayout.swift */,
+				72CD80C9203469FB0042E1E0 /* LGSmokeTestView.swift */,
+				72CD80C8203469FB0042E1E0 /* LGSmokeTestOnBoardingViewController.swift */,
+				72CD80C7203469FA0042E1E0 /* LGSmokeTestOnBoardingViewModel.swift */,
+				C6DC012F213FE83700661438 /* LGSmokeTestFeature.swift */,
 			);
-			path = LGTutorial;
+			path = LGSmokeTest;
 			sourceTree = "<group>";
 		};
 		72D57CCF1E5767FC0009FA06 /* notificationservice */ = {
@@ -7587,9 +7753,9 @@
 				66A0CFCC1A83612500FAADF0 /* QuartzCore.framework */,
 				66A0CFCD1A83612500FAADF0 /* Security.framework */,
 				66A0CFCF1A83612500FAADF0 /* SystemConfiguration.framework */,
-				02450B648340E63295BC012E /* Pods_LetGo.framework */,
-				D25A4D22277F616BE5301D6E /* Pods_LetGoGodMode.framework */,
-				CE581EDA60548564F3541578 /* Pods_letgoTests.framework */,
+				3AF0370F80E11C172274DE62 /* Pods_LetGo.framework */,
+				1B8F364F2321036559203B2C /* Pods_LetGoGodMode.framework */,
+				C4B0C121449EB924C3B7E05A /* Pods_letgoTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -7649,6 +7815,22 @@
 				C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */,
 			);
 			path = PostProductFooter;
+			sourceTree = "<group>";
+		};
+		C5F227E7C938AE9FDDBCF84F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2251293E6EFBB4FC4D591EEB /* Pods-LetGo.debug.xcconfig */,
+				EFBFC109F2FF1358EAF318F6 /* Pods-LetGo.release.xcconfig */,
+				856B171BA60BC9DF7ED477BC /* Pods-LetGo.adhoc.xcconfig */,
+				63A6F6397307A291E4F756F0 /* Pods-LetGoGodMode.debug.xcconfig */,
+				397D6BA6E737E766AB0F140C /* Pods-LetGoGodMode.release.xcconfig */,
+				7C7845EFBBC4BC560C62C7CC /* Pods-LetGoGodMode.adhoc.xcconfig */,
+				E76BB32629E2F420D91DDE40 /* Pods-letgoTests.debug.xcconfig */,
+				8DAB3935B283F41F5E923524 /* Pods-letgoTests.release.xcconfig */,
+				511F2F4A95997948081A56B5 /* Pods-letgoTests.adhoc.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		C605853C20DBD2F4008025FD /* ListingAttributeGridView */ = {
@@ -7749,6 +7931,14 @@
 				C6DC0128213D313D00661438 /* PageControlRepresentable.swift */,
 			);
 			path = ScrollingPageControl;
+			sourceTree = "<group>";
+		};
+		C6DC0139214142A400661438 /* LGSmokeTest */ = {
+			isa = PBXGroup;
+			children = (
+				C6DC01352141429700661438 /* LGSmokeTestWireframe.swift */,
+			);
+			path = LGSmokeTest;
 			sourceTree = "<group>";
 		};
 		C6E770982099B12D002CFA99 /* PushPermissions */ = {
@@ -8400,7 +8590,7 @@
 				50EC64021C64B04700DC04C5 /* LGEmptyView */,
 				722A6D12205A711B009A43AB /* LGPageControl */,
 				8E814F371F3472AA00C88432 /* LGSlider */,
-				72CD80BB2032F6260042E1E0 /* LGTutorial */,
+				72CD80BB2032F6260042E1E0 /* LGSmokeTest */,
 				503996D31C60C258004D2E09 /* LGViewPagerTab */,
 				2E3665671DE487A300000F68 /* PostIncevatorView */,
 				2E5C1C361FB60C2E002AFD40 /* Promote Bump */,
@@ -8547,12 +8737,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50D08D4E1E699455009CC260 /* Build configuration list for PBXNativeTarget "letgoTests" */;
 			buildPhases = (
-				45887D61A19C4E00728A637D /* [CP] Check Pods Manifest.lock */,
+				2AEFF1BA05D7708C32B31619 /* [CP] Check Pods Manifest.lock */,
 				50D08D431E699455009CC260 /* Sources */,
 				50D08D441E699455009CC260 /* Frameworks */,
 				50D08D451E699455009CC260 /* Resources */,
-				73CF31AF578B8A809D74A432 /* [CP] Embed Pods Frameworks */,
-				58C192512A9E4ECA4403264A /* [CP] Copy Pods Resources */,
+				4A891A0F88DCE4D1D0BA4146 /* [CP] Embed Pods Frameworks */,
+				EB961293A41F7AA81BE0B583 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -8568,7 +8758,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "LetGo" */;
 			buildPhases = (
-				E98F2B2341463658660C0E9E /* [CP] Check Pods Manifest.lock */,
+				2CF52E1051974AC17A4B2878 /* [CP] Check Pods Manifest.lock */,
 				C7D82AB71C0CC173008F9B8C /* Lint Warnings */,
 				50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */,
 				6608E0321A820FBD005895ED /* Sources */,
@@ -8579,8 +8769,8 @@
 				5026B0A61B05E2F3006858BB /* Fabric Script */,
 				C7E1DE4E1E4C8BA7003818F6 /* New Relic */,
 				72D57CC91E57638B0009FA06 /* Embed App Extensions */,
-				B0D947EC0BFF18BE6697501D /* [CP] Embed Pods Frameworks */,
-				11A9EB88150C10997C29C81F /* [CP] Copy Pods Resources */,
+				A083EE42896269DD2BA617B5 /* [CP] Embed Pods Frameworks */,
+				E77A7747F2BA2FC3EF4B3D61 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -8630,7 +8820,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7DB42901C5138B500400945 /* Build configuration list for PBXNativeTarget "LetGoGodMode" */;
 			buildPhases = (
-				5FFDDE59E319224440F74A0F /* [CP] Check Pods Manifest.lock */,
+				BA4C7725171735EF56D0C437 /* [CP] Check Pods Manifest.lock */,
 				C7DB41841C5138B500400945 /* Lint Warnings */,
 				C7DB428F1C5138B500400945 /* App Version to Settings.bundle Script */,
 				C7DB41861C5138B500400945 /* Sources */,
@@ -8641,8 +8831,8 @@
 				C7DB428A1C5138B500400945 /* Fabric Script */,
 				C7E1DE4F1E4C8BFA003818F6 /* ShellScript */,
 				7206BD521E55BA5B00461CBE /* Embed App Extensions */,
-				7D8D84AB95728F27822ADF4A /* [CP] Embed Pods Frameworks */,
-				C4DF0A24A41673B554B33898 /* [CP] Copy Pods Resources */,
+				BC860535A3A3A7121E981FF5 /* [CP] Embed Pods Frameworks */,
+				DC2762F39D3925608A3ACB23 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -8968,27 +9158,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		11A9EB88150C10997C29C81F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		45887D61A19C4E00728A637D /* [CP] Check Pods Manifest.lock */ = {
+		2AEFF1BA05D7708C32B31619 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -9006,69 +9176,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5026B0A61B05E2F3006858BB /* Fabric Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Fabric Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    \"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe\nfi";
-		};
-		502B70571BA9C7FD00C5D465 /* Warnings Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Warnings Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXME:\"\nfind \".\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" -type f \\) -not -path \"./Pods/*\" -print0 \\\n    | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n    | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
-		};
-		50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "App Version to Settings.bundle Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nbundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $buildVersion ($bundleVersion)\" \"${SRCROOT}/Ambatana/res/Settings.bundle/Root.plist\"";
-		};
-		58C192512A9E4ECA4403264A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5FFDDE59E319224440F74A0F /* [CP] Check Pods Manifest.lock */ = {
+		2CF52E1051974AC17A4B2878 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -9079,14 +9187,14 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LetGoGodMode-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-LetGo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		73CF31AF578B8A809D74A432 /* [CP] Embed Pods Frameworks */ = {
+		4A891A0F88DCE4D1D0BA4146 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -9188,101 +9296,49 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7D8D84AB95728F27822ADF4A /* [CP] Embed Pods Frameworks */ = {
+		5026B0A61B05E2F3006858BB /* Fabric Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
-				"${BUILT_PRODUCTS_DIR}/Amplitude-iOS/Amplitude_iOS.framework",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
-				"${BUILT_PRODUCTS_DIR}/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/DeviceGuru/DeviceGuru.framework",
-				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FLEX/FLEX.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
-				"${BUILT_PRODUCTS_DIR}/JSONWebToken/JWT.framework",
-				"${BUILT_PRODUCTS_DIR}/KMPlaceholderTextView/KMPlaceholderTextView.framework",
-				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/LGCollapsibleLabel/LGCollapsibleLabel.framework",
-				"${BUILT_PRODUCTS_DIR}/LGCoreKit/LGCoreKit.framework",
-				"${PODS_ROOT}/Leanplum-iOS-SDK/Leanplum.framework",
-				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
-				"${BUILT_PRODUCTS_DIR}/RxMKMapView/RxMKMapView.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework",
-				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
-				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
-				"${BUILT_PRODUCTS_DIR}/bumper/bumper.framework",
-				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
-				"${BUILT_PRODUCTS_DIR}/mopub-ios-sdk/MoPub.framework",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "Fabric Script";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude_iOS.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CHTCollectionViewWaterfallLayout.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceGuru.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLEX.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWT.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPlaceholderTextView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGCollapsibleLabel.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Leanplum.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxMKMapView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bumper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MoPub.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    \"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe\nfi";
 		};
-		B0D947EC0BFF18BE6697501D /* [CP] Embed Pods Frameworks */ = {
+		502B70571BA9C7FD00C5D465 /* Warnings Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Warnings Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\nfind \".\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" -type f \\) -not -path \"./Pods/*\" -print0 \\\n    | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n    | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+		};
+		50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "App Version to Settings.bundle Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nbundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $buildVersion ($bundleVersion)\" \"${SRCROOT}/Ambatana/res/Settings.bundle/Root.plist\"";
+		};
+		A083EE42896269DD2BA617B5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -9376,24 +9432,116 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C4DF0A24A41673B554B33898 /* [CP] Copy Pods Resources */ = {
+		BA4C7725171735EF56D0C437 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
+				"$(DERIVED_FILE_DIR)/Pods-LetGoGodMode-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC860535A3A3A7121E981FF5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Amplitude-iOS/Amplitude_iOS.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
+				"${BUILT_PRODUCTS_DIR}/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/DeviceGuru/DeviceGuru.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FLEX/FLEX.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
+				"${BUILT_PRODUCTS_DIR}/JSONWebToken/JWT.framework",
+				"${BUILT_PRODUCTS_DIR}/KMPlaceholderTextView/KMPlaceholderTextView.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/LGCollapsibleLabel/LGCollapsibleLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/LGCoreKit/LGCoreKit.framework",
+				"${PODS_ROOT}/Leanplum-iOS-SDK/Leanplum.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxMKMapView/RxMKMapView.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework",
+				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
+				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
+				"${BUILT_PRODUCTS_DIR}/bumper/bumper.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/mopub-ios-sdk/MoPub.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude_iOS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CHTCollectionViewWaterfallLayout.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceGuru.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLEX.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWT.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPlaceholderTextView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGCollapsibleLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Leanplum.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxMKMapView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bumper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MoPub.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C7D82AB71C0CC173008F9B8C /* Lint Warnings */ = {
@@ -9493,22 +9641,64 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n    /bin/bash \"${SCRIPT}\" \"AAfcb13d44209d7454436d2efa9974174d063a8d1d\"\nfi";
 		};
-		E98F2B2341463658660C0E9E /* [CP] Check Pods Manifest.lock */ = {
+		DC2762F39D3925608A3ACB23 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LetGo-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E77A7747F2BA2FC3EF4B3D61 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EB961293A41F7AA81BE0B583 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -9704,6 +9894,7 @@
 				0A3AF6C2213D62BD0034143B /* DeckViewCollectionDelegate.swift in Sources */,
 				0AA7DB5B2110A7B800B2B657 /* DeeplinkMailBox.swift in Sources */,
 				0178C8E4214AC41000FE23D2 /* ShareScreenshotViewController.swift in Sources */,
+				0A9B371A215A5D47008AC0E9 /* PhotoMediaViewerViewModel.swift in Sources */,
 				504652F21CC0F0B3003F5070 /* Listing+Title.swift in Sources */,
 				C6977E862119EE6E00B57E54 /* PostingServicesListingTypeSelectionCell.swift in Sources */,
 				2E0F26501E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */,
@@ -9748,6 +9939,7 @@
 				0A890AC92120AA6E0091ED75 /* RateBuyerBuilder.swift in Sources */,
 				C7126BC71E6052E300038CC4 /* CustomTouchesTableView.swift in Sources */,
 				C6BEE65B20EE6F69008AEA0B /* ListingAttributeTableViewModel.swift in Sources */,
+				42D3214D215107A2002B44FC /* LGSmokeTestFeedbackViewModel.swift in Sources */,
 				2E423792205BE2930077B62A /* ChatOtherMeetingCell.swift in Sources */,
 				01A824AD203B32C500DF5007 /* BlockingPostingAddPriceViewController.swift in Sources */,
 				3201486E20FF6EDA003445DA /* PushMessageBannerView.swift in Sources */,
@@ -9779,6 +9971,7 @@
 				0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */,
 				8E814F391F3472C000C88432 /* LGSlider.swift in Sources */,
 				6A38A9AA2077610400F3B292 /* UserVerificationItem.swift in Sources */,
+				42D9716F215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift in Sources */,
 				C71C5D5E1D958974006EB3CE /* BumperFeatures.swift in Sources */,
 				504C63BC1ECAF18F00D33BFA /* Application.swift in Sources */,
 				C78F9DB61DC9ED1300884064 /* LocalProduct.swift in Sources */,
@@ -9855,6 +10048,7 @@
 				50D153FE214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift in Sources */,
 				7226F0FB1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				3201487520FF6FAA003445DA /* PushMessageSectionController.swift in Sources */,
+				421E4E04214A8984002EAB77 /* SmokeTestDetail.swift in Sources */,
 				D4BFE5B61B640C36006A8CB6 /* MainListingsViewModel.swift in Sources */,
 				C727FBBE1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
 				6A5E1A041D548F5400F92692 /* TypeAliases.swift in Sources */,
@@ -9867,6 +10061,7 @@
 				50BCCE1721554EA700B17CFD /* AffiliationChallengesSource.swift in Sources */,
 				6A5E19F41D548F5400F92692 /* CountryHelper+Product.swift in Sources */,
 				8ECB2DD920E2A26A00AE9E5B /* GoogleAdxNativeAppInstallView.swift in Sources */,
+				0A9B371D215A5D4F008AC0E9 /* PhotoMediaViewerView.swift in Sources */,
 				0A6FED0E2130344000B57004 /* QuickLocationFiltersModalWireframe.swift in Sources */,
 				42F0688B20FF44C1009AC898 /* DropdownViewModel.swift in Sources */,
 				0A6FECC62130344000B57004 /* RateBuyersNavigator.swift in Sources */,
@@ -9891,7 +10086,9 @@
 				0A6FED302130344000B57004 /* OnboardingNavigator.swift in Sources */,
 				0A890A9A21206AED0091ED75 /* FeaturedInfoBuilder.swift in Sources */,
 				C783D97C1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
+				C6DC013321413A4800661438 /* LGSmokeTestBuilder.swift in Sources */,
 				724D77AB1FC7085000DB43C0 /* ListingCreationViewController.swift in Sources */,
+				4233E13521467CAB00708284 /* TapToActionViewModel.swift in Sources */,
 				50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */,
 				2E4ADECB200516A600D07D8A /* ProfessionalDealerAskPhoneViewController.swift in Sources */,
 				2E5C1C381FB60C56002AFD40 /* PromoteBumpViewController.swift in Sources */,
@@ -9962,6 +10159,7 @@
 				F591700321519F3600CFE38E /* ReferrerInfo.swift in Sources */,
 				C7AFFB0D1E7172B20052A9CA /* MyUser+LG.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
+				42D9716C2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift in Sources */,
 				0ACE012D21514C7E002C039C /* EditEmailBuilder.swift in Sources */,
 				42109E7B2112F65100AA979E /* Feed+LG.swift in Sources */,
 				326C72D520888280009D21DB /* UICollectionViewLayoutAttributes+Builder.swift in Sources */,
@@ -10021,6 +10219,7 @@
 				0A8823AA2052BBD3004414CA /* ZoomableImageView.swift in Sources */,
 				3212AE5221257A7700945110 /* Lens+LG.swift in Sources */,
 				7204593A1F5008ED008D5A97 /* ListingCell.swift in Sources */,
+				0A9B3723215A6293008AC0E9 /* PhotoMediaViewerDelegate.swift in Sources */,
 				0A6FED2C2130344000B57004 /* UINavigationController+Transition.swift in Sources */,
 				C75B5DD51D59E0C500112368 /* ListingCarouselImageCell.swift in Sources */,
 				0AD5A4382146C2550053E86C /* DeckMoreInfoView.swift in Sources */,
@@ -10085,10 +10284,10 @@
 				8E453479212DBBF80042CE71 /* ChatCarouselCellDrawer.swift in Sources */,
 				6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				0A05F386209B37C400F43A67 /* DeckMapView.swift in Sources */,
+				4233E1322146741300708284 /* LGTapToActionView.swift in Sources */,
 				50D1541E214A5C2300221B06 /* AffiliationChallengesStandardWireframe.swift in Sources */,
 				C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */,
 				50C63B731DC3A79100836D85 /* SocialSharer.swift in Sources */,
-				42F1DDFF20BD9C22002E2EE7 /* FilterServicesSection.swift in Sources */,
 				0A6FECDE2130344000B57004 /* EditListingNavigator.swift in Sources */,
 				C7B5887F1CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
 				0A0C0491209C91A30028A75D /* NotificationSettingsMainViewController.swift in Sources */,
@@ -10125,7 +10324,6 @@
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				55FABE1920762E63004B0DBD /* UserPhoneVerificationCodeInputViewModel.swift in Sources */,
 				504CD27F214AAF3800A7672C /* AffiliationFAQBuilder.swift in Sources */,
-				72CD80CE203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */,
 				722A6D14205A714F009A43AB /* LGPageControl.swift in Sources */,
 				097BC1D0214925520024D9F8 /* P2PPaymentsEnterPayCodeViewController.swift in Sources */,
 				72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
@@ -10142,6 +10340,7 @@
 				0A04D5CF20760A9D00471B9D /* ABDynamicVar.swift in Sources */,
 				725BD5562077C37E00563926 /* VerticalsABGroup.swift in Sources */,
 				0A376DB5214FAC4C00DFFB7F /* AffiliationModalViewController.swift in Sources */,
+				42D32155215107AB002B44FC /* Feature+SmokeTestSubscriptionPlan.swift in Sources */,
 				50FEFA1E20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */,
 				0A6FED1E2130344000B57004 /* RateUserStandardWireframe.swift in Sources */,
 				0178C8E2214AC41000FE23D2 /* ShareScreenshotViewModel.swift in Sources */,
@@ -10171,7 +10370,6 @@
 				32059FDB20B5CDF30042713A /* ListingsRequesterProtocol.swift in Sources */,
 				F5A836AD1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift in Sources */,
 				0ACC843421357B6300803D66 /* TourNotificationPushWireframe.swift in Sources */,
-				72CD80CC203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */,
 				72DBA6BE214F88F9008D6F39 /* AffiliationInvisteSMSContactsCellViewModel.swift in Sources */,
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ListingListView.swift in Sources */,
@@ -10221,7 +10419,6 @@
 				8E28A82D207BC5E70070A7A6 /* AdvertisementAdxCellDrawer.swift in Sources */,
 				50C63B761DC3B63700836D85 /* ShareType.swift in Sources */,
 				0A48B2521FD9A1B300C7F163 /* Bounceable.swift in Sources */,
-				72CD80D0203469FB0042E1E0 /* LGTutorialViewController.swift in Sources */,
 				C79895C81DE4349900DD58BF /* SessionEvent+LG.swift in Sources */,
 				0A6FECF42130344000B57004 /* MeetingAssistantModalWireframe.swift in Sources */,
 				F51A08322031B55E0008D744 /* LGSize+CGSize.swift in Sources */,
@@ -10274,7 +10471,6 @@
 				A47C4A60213D31ED005AA387 /* TrendingSearchesWireframe.swift in Sources */,
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
 				50EAFB211F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */,
-				72CD80CA203469FB0042E1E0 /* LGTutorialCollectionViewCell.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				72FE02D61F95FCE5005BD672 /* PostingDetailStep.swift in Sources */,
 				F5E79A68210E3AE6003101D4 /* ListingErrorCell.swift in Sources */,
@@ -10291,7 +10487,6 @@
 				C7111F081CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
 				509598871C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
 				8EB65110205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */,
-				72CD80D2203469FB0042E1E0 /* LGTutorialView.swift in Sources */,
 				6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */,
 				0AE405CC20EE4FB90041E3F1 /* ListingCardDetailMapView.swift in Sources */,
 				72DBA6C4214F88FA008D6F39 /* InviteSMSContactsEmptyStateView.swift in Sources */,
@@ -10330,6 +10525,7 @@
 				F57D3A2B1FED0147006F2CA4 /* TagCollectionViewCell.swift in Sources */,
 				42B2CEB1211C79B80020776A /* Feed+Mapping.swift in Sources */,
 				F5BBF6791FD06488000E37A0 /* ListingAttributePickerTableView.swift in Sources */,
+				42D3215F21514737002B44FC /* LGSmokeTestFeature+Feedback.swift in Sources */,
 				2E4A9DBA1D8054DE00F99026 /* ListingListMultiRequester.swift in Sources */,
 				C7C61E041D633FDB00F9505D /* SearchType.swift in Sources */,
 				0A376DB8214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */,
@@ -10363,6 +10559,7 @@
 				F5DC45242088889100D1EC17 /* KenBurnsView.swift in Sources */,
 				0904D894213F310C00D5D554 /* P2PPaymentsListingHeaderView.swift in Sources */,
 				6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
+				42D971722153898300B0658B /* LGSmokeTestThankYouViewController.swift in Sources */,
 				C6C8937020C7D4B80069197C /* CardView.swift in Sources */,
 				320162E42110A13E00B7819D /* DiffUtility.swift in Sources */,
 				2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */,
@@ -10373,6 +10570,7 @@
 				0A6FED1A2130344000B57004 /* RateUserModalWireframe.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Listing+Negotiable.swift in Sources */,
 				0A01C3612100B51F00B0129F /* QuickChatViewController.swift in Sources */,
+				42D3214221510791002B44FC /* LGSmokeTestDetailViewController.swift in Sources */,
 				C73C163B1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,
 				42FCAC8720999DC400ED3DF7 /* LGLocationCoordinates2D+Region.swift in Sources */,
 				505B222A214EEC3F0053E813 /* AffiliationChallengeView.swift in Sources */,
@@ -10395,6 +10593,7 @@
 				0AEB4FF02018AA93003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
 				2E131C6B1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
 				0A751483214272570049E135 /* UserRatingListViewController.swift in Sources */,
+				42D3216321514B73002B44FC /* SingleSelectionList.swift in Sources */,
 				6A3F3B9B20AD81A000E2881F /* LetgoTooltip.swift in Sources */,
 				09DC33FD2154D51400A7DEF7 /* P2PPayments+ChatDelayRefresh.swift in Sources */,
 				3237C6A52108ABB500B7359B /* ListingCellSizeMetrics.swift in Sources */,
@@ -10407,6 +10606,7 @@
 				32947640213704EB008EE737 /* SectionedFeedRequester.swift in Sources */,
 				0A6FECB02130344000B57004 /* SignupLoginNavigator.swift in Sources */,
 				2E5350411CF8A0C6003B06CC /* ListingStatsView.swift in Sources */,
+				42D3214721510796002B44FC /* LGPlansView.swift in Sources */,
 				0A6FECC02130344000B57004 /* FiltersNavigator.swift in Sources */,
 				0171FA9B2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift in Sources */,
 				32BF680B210F156600360860 /* DeviceFamily+LG.swift in Sources */,
@@ -10447,6 +10647,7 @@
 				2E2FF6E820AC64C800C9A5DA /* ChatUserConversationCell.swift in Sources */,
 				0AE405BC20EDF8530041E3F1 /* ListingCardOnBoardingView.swift in Sources */,
 				8E8EAD2F20A2EBB800ADEAFE /* ChatConversationsListViewController.swift in Sources */,
+				42D3214C215107A2002B44FC /* LGSmokeTestFeedbackViewController.swift in Sources */,
 				50A61C221DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
 				094489A7214F720800F6EACB /* P2PPaymentsPayoutPersonalInfoView.swift in Sources */,
 				507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
@@ -10459,6 +10660,7 @@
 				50D153FC214A5BE600221B06 /* AffiliationInviteSMSContactsViewController.swift in Sources */,
 				C627573520A3439C00B401E7 /* OrderConditionable.swift in Sources */,
 				42E74962212FFC3400297F75 /* SectionControllerFactory.swift in Sources */,
+				42D3213E21510785002B44FC /* LGSmokeTestView.swift in Sources */,
 				2EED4D251D23F03E0024328A /* ChatListing+title.swift in Sources */,
 				0ACA8F37211484A600243850 /* LGLeanplumBuilder.swift in Sources */,
 				0AA03202210A293700728A1A /* LGUserVerificationBuilder.swift in Sources */,
@@ -10478,7 +10680,9 @@
 				0A73F1FC209216070016CC72 /* LGTimer.swift in Sources */,
 				6A5E19EA1D548F5400F92692 /* Date+LG.swift in Sources */,
 				0A45A88D214C01BA0045ACFA /* AffiliationStoreBuilder.swift in Sources */,
+				42D3213F21510785002B44FC /* LGSmokeTestOnBoardingViewController.swift in Sources */,
 				329ACF3E20EA339E00A1C6A4 /* WaterFallListAdapter.swift in Sources */,
+				42D321492151079B002B44FC /* LGFeaturesView.swift in Sources */,
 				5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				0975238F2148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift in Sources */,
 				0A7A05882018A9AE0009D74C /* ListingDeckOnBoardingViewController.swift in Sources */,
@@ -10547,6 +10751,7 @@
 				329ACF4720EA89CF00A1C6A4 /* SectionTitleHeaderView.swift in Sources */,
 				0915FB942140FE0B0003D5B0 /* P2PPaymentsOfferStatusViewController.swift in Sources */,
 				328E8E3520C046A700BBF639 /* SuggestiveSearchInfo.swift in Sources */,
+				42D3215B21510A3D002B44FC /* LGSmokeTestDetailViewModel.swift in Sources */,
 				C75018481D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
 				6A6C756B207B7F0000845A88 /* UserVerificationEmailViewController.swift in Sources */,
 				C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */,
@@ -10558,6 +10763,7 @@
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				325E70D321277ED100D173A1 /* EmbeddedListingViewModel.swift in Sources */,
 				F5A836AB1FD1AE32009E636D /* ListingAttributePickerViewController.swift in Sources */,
+				42D3215821510A2A002B44FC /* LGSmokeTestLayout.swift in Sources */,
 				C7415ED61DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */,
 				0A4AD7FA203DD9B8002625B7 /* UILayoutPriority.swift in Sources */,
 				50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
@@ -10597,6 +10803,7 @@
 				320148782100C1B7003445DA /* SectionControllerLayout.swift in Sources */,
 				0A6FECDC2130344000B57004 /* EditListingModalWireframe.swift in Sources */,
 				F51A082B2031B5360008D744 /* AspectRatio.swift in Sources */,
+				0A9B3720215A5F7B008AC0E9 /* PhotoMediaViewerViewDataSource.swift in Sources */,
 				0A6FECD62130344000B57004 /* ProfessionalDealerAskPhoneModalWireframe.swift in Sources */,
 				0AB63DD32136EA7800FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */,
 				0A04D5DB20760A9D00471B9D /* ChatABGroup.swift in Sources */,
@@ -10617,7 +10824,6 @@
 				C690704A21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */,
 				F5D91E7D2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
 				013B2A2121303DCC00F69613 /* BuildFile in Sources */,
-				01337B952085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */,
 				097EDBE5213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift in Sources */,
 				72D928E11E83EB990030F4C3 /* RatingManager.swift in Sources */,
 				C77B7DBA1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
@@ -10633,15 +10839,18 @@
 				727463B21FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				0183BB21203C8BEE00204383 /* PostingGetStartedViewController.swift in Sources */,
 				0133D912213947BE00AD9959 /* ShareScreenshotBuilder.swift in Sources */,
+				42D32152215107AB002B44FC /* LGSmokeTestFeature+OnBoarding.swift in Sources */,
 				6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */,
 				2E47610B1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */,
 				C7BB25D01E36153600649396 /* GodModeManager.swift in Sources */,
 				6A6C756E207B83B500845A88 /* UserVerificationEmailViewModel.swift in Sources */,
 				097EDBE1213CFE460057D638 /* P2PPaymentsMakeAnOfferWireframe.swift in Sources */,
+				42D3214121510785002B44FC /* LGSmokeTestFeature.swift in Sources */,
 				C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */,
 				2E423784205A7AA00077B62A /* BumpUpTimerBarView.swift in Sources */,
 				09B6C9CC2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift in Sources */,
 				C6977E7D2118441200B57E54 /* ServiceAttributes+LG.swift in Sources */,
+				C6DC012D213EDAA100661438 /* LGSmokeTestPage.swift in Sources */,
 				2E1BC3FD1E648C0A0063D1A7 /* ReceiptURLProvider.swift in Sources */,
 				0AF0A46120EA58C100E9176F /* LPCenterPopupView.swift in Sources */,
 				727EF06C1E0BE16D0037DA4E /* CountryCode.swift in Sources */,
@@ -10674,6 +10883,7 @@
 				721A83111E827FD300507E47 /* MediaPermissions.swift in Sources */,
 				2E4DE8D9206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
+				42D3215921510A34002B44FC /* LGSmokeTestCollectionViewCell.swift in Sources */,
 				0A751481214272570049E135 /* UserRatingListRequester.swift in Sources */,
 				0938412A21521513001A4BD3 /* P2PPaymentsPayoutCardView.swift in Sources */,
 				0AB4F826214677CB009151E6 /* UserDefailts+LG.swift in Sources */,
@@ -10683,6 +10893,7 @@
 				0942C7B62148FE1E00779DF1 /* P2PPaymentsGetPayCodeViewModel.swift in Sources */,
 				C2E9ACEB207B64C00054B246 /* VPPostListingRedCamFooter.swift in Sources */,
 				2E94A75F20AF2F2F00AEA29A /* ChatAvatarView.swift in Sources */,
+				42D3214021510785002B44FC /* LGSmokeTestOnBoardingViewModel.swift in Sources */,
 				01A153532125C74200035DF6 /* LGFeedBadgingSynchronizer.swift in Sources */,
 				2E791C18212C5F3900C9086F /* NotificationsView.swift in Sources */,
 				C7E5902D1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */,
@@ -10692,6 +10903,7 @@
 				0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */,
 				32448E862105CB7100EFF33A /* FeedViewControllerProtocols.swift in Sources */,
 				C66105E02130165300BA4EF7 /* RealEstatePromoCellConfiguration.swift in Sources */,
+				42D32154215107AB002B44FC /* LGSmokeTestFeature+Detail.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
 				01772B5F204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
 				72C7A1C61FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */,
@@ -10721,6 +10933,7 @@
 				C7F4CBA31C9181A5008E40D6 /* PostListingCameraViewModel.swift in Sources */,
 				6A5E19EC1D548F5400F92692 /* NSError+LG.swift in Sources */,
 				55D305CE2101E63600E80843 /* CommunityViewModel.swift in Sources */,
+				C6DC01362141429700661438 /* LGSmokeTestWireframe.swift in Sources */,
 				0AF7CCBD1F8B525E00128303 /* OvalLayer.swift in Sources */,
 				C707D4521E9B7CA100042C03 /* SendMessageTrackingInfo.swift in Sources */,
 				50146BDF1D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
@@ -10785,6 +10998,7 @@
 				0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */,
 				2ED296BE213E7B98003E26A3 /* ChatOtherInfoLocationView.swift in Sources */,
 				42CA899920973F7300CE7B5B /* ListingsMapViewController.swift in Sources */,
+				42D32153215107AB002B44FC /* LGSmokeTestFeature+Banner.swift in Sources */,
 				6A66A284215266CA00EFAC9C /* PasswordlessUsernameBuilder.swift in Sources */,
 				0A6FECF02130344000B57004 /* MeetingAssistantNavigator.swift in Sources */,
 				0A6FED2E2130344000B57004 /* TourPostingWireframe.swift in Sources */,
@@ -10824,6 +11038,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42D3215C21510A57002B44FC /* LGSmokeTestCollectionViewCell.swift in Sources */,
+				42D3215D21510A57002B44FC /* LGSmokeTestLayout.swift in Sources */,
 				726E35BE1FE0342100F98776 /* EditOptionDisclosureView.swift in Sources */,
 				F5BBF67B1FD0649A000E37A0 /* ListingAttributePickerCell.swift in Sources */,
 				C7DB41871C5138B500400945 /* FilterSingleCheckCell.swift in Sources */,
@@ -10938,6 +11154,7 @@
 				8E7F4FDB2119A819004E70C5 /* ConversationCellStatus.swift in Sources */,
 				2ED296C6213EC152003E26A3 /* ChatPaymentBannerViewModel.swift in Sources */,
 				50AB5F251ED4505800E9909D /* UserRatingTag.swift in Sources */,
+				0A9B371B215A5D47008AC0E9 /* PhotoMediaViewerViewModel.swift in Sources */,
 				724D77A51FC3252100DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				017E608020D15D39007025C0 /* NotificationSettingsListDetailViewModel.swift in Sources */,
 				8E814F3D1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
@@ -10957,9 +11174,11 @@
 				0941DEFD2146AB8100576659 /* P2PPaymentsOfferStatusBuilder.swift in Sources */,
 				C271E13B20CEB3B8008868C6 /* ListingCarouselChatContainerView.swift in Sources */,
 				42E1832A21230F6200B78DA8 /* AdsSectionController.swift in Sources */,
+				42D3213921510785002B44FC /* LGSmokeTestOnBoardingViewController.swift in Sources */,
 				42E74963212FFC3400297F75 /* SectionControllerFactory.swift in Sources */,
 				2EB9A15221412DDB0096EB7B /* ButtonActionEvent.swift in Sources */,
 				507440DF1E3F97EB006976F7 /* LoginAppearance+Helper.swift in Sources */,
+				42D3213B21510785002B44FC /* LGSmokeTestFeature.swift in Sources */,
 				C77D64691CBD250700A22510 /* Tab.swift in Sources */,
 				8E15D7981E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */,
 				C72794371D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
@@ -10972,6 +11191,7 @@
 				C6977E8D21218B8300B57E54 /* ListingTitleViewModel.swift in Sources */,
 				4273565820A32F5000C71D49 /* Listing+Map.swift in Sources */,
 				C21E6075208A8828008A1956 /* RecordedVideo.swift in Sources */,
+				42D3216021514737002B44FC /* LGSmokeTestFeature+Feedback.swift in Sources */,
 				0AEDA12E2121CB7000684CA9 /* ExpressChatBuilder.swift in Sources */,
 				0A6FED292130344000B57004 /* ExpressChatWireframe.swift in Sources */,
 				503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */,
@@ -10979,6 +11199,7 @@
 				0904D89F213F310C00D5D554 /* P2PPaymentsCurrencyTextField.swift in Sources */,
 				329ACF4420EA88FA00A1C6A4 /* HorizontalSectionController.swift in Sources */,
 				C7F2E1F31CBFF53F00744D7B /* AppsFlyerDeepLink.swift in Sources */,
+				0A9B3724215A6293008AC0E9 /* PhotoMediaViewerDelegate.swift in Sources */,
 				0A7A05862018A9A20009D74C /* ListingDeckOnBoardingView.swift in Sources */,
 				C7DB41A01C5138B500400945 /* FiltersViewModel.swift in Sources */,
 				C75B5DC01D59E09500112368 /* ListingCarouselPushAnimator.swift in Sources */,
@@ -10989,6 +11210,7 @@
 				0A45A87A214BC66F0045ACFA /* AffiliationStoreViewController.swift in Sources */,
 				2E212C6920FCDEE500FB42B3 /* ChatMyCallToActionCellDrawer.swift in Sources */,
 				50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
+				0A9B371E215A5D4F008AC0E9 /* PhotoMediaViewerView.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostListingViewModel.swift in Sources */,
 				50D153F3214A5BE600221B06 /* AffiliationFAQViewModel.swift in Sources */,
 				C7DB41A41C5138B500400945 /* MainListingsViewController.swift in Sources */,
@@ -10996,6 +11218,7 @@
 				3212AE202119D65200945110 /* ProductListingSectionController.swift in Sources */,
 				50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				0A6FECF32130344000B57004 /* MeetingSafetyTipsNavigator.swift in Sources */,
+				421E4E05214A8984002EAB77 /* SmokeTestDetail.swift in Sources */,
 				2E2D53E21D369B0500348D12 /* LGConfigDAO.swift in Sources */,
 				C7E1DE521E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */,
 				6AA32F3B1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
@@ -11028,6 +11251,7 @@
 				4252685720C7E7F900A6E191 /* TagCollectionViewWithCloseCell.swift in Sources */,
 				C783D98A1C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
 				427070D620764EBA00C1FEB3 /* CellAppereance.swift in Sources */,
+				42D3214A215107A1002B44FC /* LGSmokeTestFeedbackViewController.swift in Sources */,
 				0A6FECD52130344000B57004 /* ProfessionalDealerAskPhoneNavigator.swift in Sources */,
 				A47C4A61213D31ED005AA387 /* TrendingSearchesWireframe.swift in Sources */,
 				A41195F821219B9300EBB210 /* HTMLBoldParser.swift in Sources */,
@@ -11037,6 +11261,7 @@
 				0AE6F4F020F88D7B00D58BCE /* TrendingSearchesViewModel.swift in Sources */,
 				C70A426E1E9666C100B6EFD8 /* CollectionType+Find.swift in Sources */,
 				0A3F3FEB210B75A50070F6A1 /* DropdownSectionViewModel.swift in Sources */,
+				4233E13621467CAB00708284 /* TapToActionViewModel.swift in Sources */,
 				50146BC51D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
 				F52405CA2029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift in Sources */,
 				7285C95C1F83C75F00BD16E9 /* SellNavigationController.swift in Sources */,
@@ -11064,6 +11289,7 @@
 				C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				0AEAFC322152B3D300B8E223 /* AffiliationOnBoardingWireframe.swift in Sources */,
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,
+				C6DC013421413A4800661438 /* LGSmokeTestBuilder.swift in Sources */,
 				72854D211F8E261C00E54530 /* NumberOfBathrooms.swift in Sources */,
 				8E98ECBE214FA4AD00752113 /* ChatSystemCellDrawer.swift in Sources */,
 				2E2208E61DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
@@ -11077,6 +11303,7 @@
 				72C7A1BD1F9F8D150089F175 /* SellNavigationViewModel.swift in Sources */,
 				0AE405CB20EE4FB90041E3F1 /* ListingCardUserView.swift in Sources */,
 				3294762D2133F750008EE737 /* InterestedStateTrackingInfo.swift in Sources */,
+				42D3213A21510785002B44FC /* LGSmokeTestOnBoardingViewModel.swift in Sources */,
 				C271D021206B7C8B00D898F1 /* LGCamera.swift in Sources */,
 				2E4ADED0200516DD00D07D8A /* ProfessionalDealerAskPhoneViewModel.swift in Sources */,
 				0A6FECFD2130344000B57004 /* UserPhoneVerificationNavigator.swift in Sources */,
@@ -11121,6 +11348,7 @@
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
 				2E200D2120BEEB630054F053 /* ChatConnectionStatusView.swift in Sources */,
 				C6FFC49D20F748C500B9F53A /* RealEstateFilters.swift in Sources */,
+				42D3216421514B73002B44FC /* SingleSelectionList.swift in Sources */,
 				0AB6E1D71F9DD4440048AFFD /* ListingDeckViewController.swift in Sources */,
 				42109E7C2112F65100AA979E /* Feed+LG.swift in Sources */,
 				6A5E19FB1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
@@ -11161,6 +11389,7 @@
 				5095988E1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
 				A47C4A5D213D309A005AA387 /* TrendingSearchesBuilder.swift in Sources */,
 				0A04D5DA20760A9D00471B9D /* ABTests.swift in Sources */,
+				42D3214F215107AA002B44FC /* LGSmokeTestFeature+Banner.swift in Sources */,
 				0A376DD421501A3100DFFB7F /* AffiliationVouchersDataSource.swift in Sources */,
 				3237C6A021072A5000B7359B /* ActivityView.swift in Sources */,
 				0A3AF6C0213D48480034143B /* ListingBuilder.swift in Sources */,
@@ -11173,6 +11402,7 @@
 				8E2600771E2FB16D00242B3F /* ChangeEmailViewController.swift in Sources */,
 				C7DB41C91C5138B500400945 /* ListingSortCriteria+LG.swift in Sources */,
 				C730FD0F1E76F93000175C27 /* CacheManager.swift in Sources */,
+				0A9B3721215A5F7B008AC0E9 /* PhotoMediaViewerViewDataSource.swift in Sources */,
 				C7DB41CC1C5138B500400945 /* ListingCellDrawer.swift in Sources */,
 				0A26CF28211C39AC00BCF84C /* ListingListCache.swift in Sources */,
 				C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */,
@@ -11190,6 +11420,7 @@
 				F591700521519F3D00CFE38E /* ReferrerInfo.swift in Sources */,
 				C7DB41CF1C5138B500400945 /* RememberPasswordViewController.swift in Sources */,
 				7204593B1F5008ED008D5A97 /* ListingCell.swift in Sources */,
+				42D3214E215107AA002B44FC /* LGSmokeTestFeature+OnBoarding.swift in Sources */,
 				6A6D196C2147D74000C4C247 /* UserVerificationAwarenessBuilder.swift in Sources */,
 				C7DB41D01C5138B500400945 /* DistanceType+LG.swift in Sources */,
 				C75B5DD61D59E0C500112368 /* ListingCarouselImageCell.swift in Sources */,
@@ -11223,6 +11454,7 @@
 				0AAC7953207F73960096F156 /* FeedViewController.swift in Sources */,
 				8E5320CC2151447900C08618 /* ChatOtherCallToActionCell.swift in Sources */,
 				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
+				4233E1332146741300708284 /* LGTapToActionView.swift in Sources */,
 				8E031CB32033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */,
 				2E6248D9207E352300F4144C /* Sequence+LG.swift in Sources */,
 				8EB6510B205ACBEF00FF50E4 /* MLTrackingInfo.swift in Sources */,
@@ -11246,7 +11478,7 @@
 				C7111F061CA438C2000C5C5A /* UriScheme.swift in Sources */,
 				5020471C1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift in Sources */,
 				0A05F387209B37C400F43A67 /* DeckMapView.swift in Sources */,
-				42F1DE0020BD9C28002E2EE7 /* FilterServicesSection.swift in Sources */,
+				42D3214421510791002B44FC /* LGSmokeTestDetailViewController.swift in Sources */,
 				C7905B881DF1D090009CD191 /* UITextView+Lines.swift in Sources */,
 				506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				0A376DBC214FACE100DFFB7F /* AffiliationModalView.swift in Sources */,
@@ -11292,9 +11524,9 @@
 				C24D33492148289600D9283C /* PostAnotherListingBuilder.swift in Sources */,
 				326C72D8208882F2009D21DB /* WaterFallLayoutSettings.swift in Sources */,
 				0A06C3EC20FCCD3100D41982 /* ListingCardModel.swift in Sources */,
-				72CD80CF203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */,
 				722A6D15205A714F009A43AB /* LGPageControl.swift in Sources */,
 				C7B588801CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
+				C6DC012E213EDAA100661438 /* LGSmokeTestPage.swift in Sources */,
 				0AB63DD42136EA9900FECCEF /* QuickLocationFiltersStandardWireframe.swift in Sources */,
 				0A6FED072130344000B57004 /* BumpUpsStandardWireframe.swift in Sources */,
 				0A376DC82150173200DFFB7F /* AffiliationVouchersViewController.swift in Sources */,
@@ -11342,7 +11574,6 @@
 				0A04D5DE20760A9D00471B9D /* LegacyABGroup.swift in Sources */,
 				72854D241F8E287600E54530 /* NumberOfBedrooms.swift in Sources */,
 				0AF28D7D213EAFFC005A6F8C /* ListingDeckNavigator.swift in Sources */,
-				72CD80CD203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */,
 				2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
 				50D1540B214A5BFF00221B06 /* AffiliationInviteFriendsBuilder.swift in Sources */,
 				50D15431214A6CDF00221B06 /* AffiliationWalletView.swift in Sources */,
@@ -11361,6 +11592,7 @@
 				2EB9A14F214114930096EB7B /* ChatPaymentBannerViewBinder.swift in Sources */,
 				329ACF5320EA8D4E00A1C6A4 /* EmbeddedListingSectionController.swift in Sources */,
 				094489AB214F721800F6EACB /* P2PPaymentsPayoutBankAccountView.swift in Sources */,
+				42D9716D2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift in Sources */,
 				C6977E922121B17200B57E54 /* OverlayDisplayStyle.swift in Sources */,
 				C6C8936E20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
@@ -11395,7 +11627,6 @@
 				0187407B1FD59391009C1363 /* BlockingPostingQueuedRequestsViewController.swift in Sources */,
 				C7D23FE21DCC96BA00931803 /* CarouselUIHelper.swift in Sources */,
 				2ECB417220065FB200482EF7 /* FeaturedInfoViewController.swift in Sources */,
-				72CD80D1203469FB0042E1E0 /* LGTutorialViewController.swift in Sources */,
 				50C63B771DC3B63700836D85 /* ShareType.swift in Sources */,
 				0A6FED2B2130344000B57004 /* TourLoginWireframe.swift in Sources */,
 				6A66A285215266CA00EFAC9C /* PasswordlessUsernameBuilder.swift in Sources */,
@@ -11433,6 +11664,7 @@
 				0171FA9C2087444C00CAFE36 /* NotificationSettingsAccessorCell.swift in Sources */,
 				0AF28D80213EC2FD005A6F8C /* ListingDeckOnBoardingWireframe.swift in Sources */,
 				C6F3CEF320FF457A00AF4D38 /* LGCheckboxView.swift in Sources */,
+				42D3214B215107A1002B44FC /* LGSmokeTestFeedbackViewModel.swift in Sources */,
 				0A6FED372130344000B57004 /* TourNotificationWireframe.swift in Sources */,
 				0975238D2147D97D00F76F54 /* P2PPaymentsStepLineView.swift in Sources */,
 				328E8E3320C0467000BBF639 /* MainListingsHeader.swift in Sources */,
@@ -11444,6 +11676,7 @@
 				8E69F3F31E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */,
 				2E212C6620FCC55400FB42B3 /* ChatMyCallToActionCell.swift in Sources */,
 				C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
+				42D971732153898300B0658B /* LGSmokeTestThankYouViewController.swift in Sources */,
 				8E838215210F4D8000475568 /* ChatConnectionBarStatus.swift in Sources */,
 				C707D4591E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
 				50CFB2F420A2D94800255EE8 /* UserVerificationViewController.swift in Sources */,
@@ -11467,7 +11700,6 @@
 				42E7496A2130102B00297F75 /* AdUpdated.swift in Sources */,
 				8E80F70B20D9390A005256D9 /* ChatBaseViewController.swift in Sources */,
 				0A01C3622100C2D300B0129F /* QuickChatViewController.swift in Sources */,
-				72CD80CB203469FB0042E1E0 /* LGTutorialCollectionViewCell.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ListingPostedViewModel.swift in Sources */,
 				6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */,
@@ -11482,7 +11714,6 @@
 				0A376DB9214FAC8700DFFB7F /* AffiliationModalViewModel.swift in Sources */,
 				0A04D5D820760A9D00471B9D /* RetentionABGroup.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
-				72CD80D3203469FB0042E1E0 /* LGTutorialView.swift in Sources */,
 				42CA89A020975BF400CE7B5B /* ListingsMapViewModel.swift in Sources */,
 				C674D31B20ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift in Sources */,
 				50D15407214A5BFF00221B06 /* AffiliationChallengesBuilder.swift in Sources */,
@@ -11561,6 +11792,7 @@
 				8E7F4FDE2119A856004E70C5 /* ConversationCellData.swift in Sources */,
 				6AA26CFE1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
 				0A8732EF212160EF006DEF11 /* ChangePasswordBuilder.swift in Sources */,
+				42D3213821510785002B44FC /* LGSmokeTestView.swift in Sources */,
 				2E131C6C1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
 				502047161EE1BB22006C0EC2 /* MarkAsSoldTrackingInfo.swift in Sources */,
 				C7C61DF61D63035400F9505D /* ListingCarouselMoreInfoView.swift in Sources */,
@@ -11585,6 +11817,7 @@
 				09B6C9CD2152370100F3DCD4 /* P2PPaymentsPayoutRequestView.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
 				094489A5214F674300F6EACB /* P2PPaymentsTextField.swift in Sources */,
+				42D32150215107AA002B44FC /* LGSmokeTestFeature+Detail.swift in Sources */,
 				0AEB4FF72018C795003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
 				01A824AB203B328D00DF5007 /* BlockingPostingAddPriceViewModel.swift in Sources */,
 				0A45A88A214BFF540045ACFA /* AffiliationStoreWireframe.swift in Sources */,
@@ -11679,6 +11912,7 @@
 				0ACC843A2135838400803D66 /* TourNotificationsBuilder.swift in Sources */,
 				C25C371720A18DE700B0C9E0 /* ProductsABGroup.swift in Sources */,
 				55F90BA1203C3E1000D9F7D0 /* UserProfileHeaderView.swift in Sources */,
+				42D3214621510796002B44FC /* LGPlansView.swift in Sources */,
 				C7DE3ADC1CBD099F002CB482 /* TabBarViewModel.swift in Sources */,
 				0A6FECB32130344000B57004 /* LoginStandardWireframe.swift in Sources */,
 				0938412821510442001A4BD3 /* ChatPaymentBannerView.swift in Sources */,
@@ -11766,6 +12000,7 @@
 				C690704B21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */,
 				50146BE31D4F910B00B0F635 /* ProfileTabNavigator.swift in Sources */,
 				326C72D620888280009D21DB /* UICollectionViewLayoutAttributes+Builder.swift in Sources */,
+				42D3215A21510A3C002B44FC /* LGSmokeTestDetailViewModel.swift in Sources */,
 				F5D91E7E2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
 				8EEC7F62206AA64000616858 /* MoPubAdsRequester.swift in Sources */,
 				0183BB1C203C71F000204383 /* ListingPostedDescriptiveViewController.swift in Sources */,
@@ -11779,6 +12014,7 @@
 				2E8097F32066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift in Sources */,
 				0A6FECCD2130344000B57004 /* RememberPasswordWireframe.swift in Sources */,
 				C2E9ACEC207B64C00054B246 /* VPPostListingRedCamFooter.swift in Sources */,
+				42D321482151079B002B44FC /* LGFeaturesView.swift in Sources */,
 				C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,
 				727463B31FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				C77B7DBB1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
@@ -11791,6 +12027,7 @@
 				0AF0A46220EA5D4900E9176F /* LPCenterPopupView.swift in Sources */,
 				A46057F2212AD33F00386DFC /* VerifyAccountsViewController.swift in Sources */,
 				6A5E19E91D548F5400F92692 /* Int+LG.swift in Sources */,
+				42D97170215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift in Sources */,
 				0A14D276212AE47400E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */,
 				C6BEE65220EE65A9008AEA0B /* CarAttributeItem.swift in Sources */,
 				2E423785205A7AA10077B62A /* BumpUpTimerBarView.swift in Sources */,
@@ -11922,6 +12159,8 @@
 				3212AE332119FB3000945110 /* StatusIndicationController.swift in Sources */,
 				C202E3FA21005A2500E1A5E5 /* Checkbox.swift in Sources */,
 				0A6FECC32130344000B57004 /* FiltersModalWireframe.swift in Sources */,
+				C6DC01372141429700661438 /* LGSmokeTestWireframe.swift in Sources */,
+				42D32151215107AA002B44FC /* Feature+SmokeTestSubscriptionPlan.swift in Sources */,
 				0AFE31202056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */,
 				55A8FBE82097194B00F35D65 /* PasswordlessEmailSentViewModel.swift in Sources */,
 				0AA6A5681FFFBE7B00F72F4A /* LGCGAffineTransform.swift in Sources */,
@@ -12051,7 +12290,7 @@
 		};
 		50D08D4F1E699455009CC260 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FAC894A158C3643151AC60C6 /* Pods-letgoTests.debug.xcconfig */;
+			baseConfigurationReference = E76BB32629E2F420D91DDE40 /* Pods-letgoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -12072,7 +12311,7 @@
 		};
 		50D08D501E699455009CC260 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF4BD2925A7E3804A371D38D /* Pods-letgoTests.release.xcconfig */;
+			baseConfigurationReference = 8DAB3935B283F41F5E923524 /* Pods-letgoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -12093,7 +12332,7 @@
 		};
 		50D08D511E699455009CC260 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 472DC9E5571CD4B3A8659540 /* Pods-letgoTests.adhoc.xcconfig */;
+			baseConfigurationReference = 511F2F4A95997948081A56B5 /* Pods-letgoTests.adhoc.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -12222,7 +12461,7 @@
 		};
 		6608E0561A820FBD005895ED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C3219FB2E7EB5A9C8DBDFE3 /* Pods-LetGo.debug.xcconfig */;
+			baseConfigurationReference = 2251293E6EFBB4FC4D591EEB /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -12261,7 +12500,7 @@
 		};
 		6608E0571A820FBD005895ED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD9408FB1944768116EF87F6 /* Pods-LetGo.release.xcconfig */;
+			baseConfigurationReference = EFBFC109F2FF1358EAF318F6 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -12456,7 +12695,7 @@
 		};
 		C7DB42911C5138B500400945 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6D833186DD78AEF818C2A4E7 /* Pods-LetGoGodMode.debug.xcconfig */;
+			baseConfigurationReference = 63A6F6397307A291E4F756F0 /* Pods-LetGoGodMode.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -12493,7 +12732,7 @@
 		};
 		C7DB42921C5138B500400945 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0AF9EDCDA102BEF092C75CBD /* Pods-LetGoGodMode.release.xcconfig */;
+			baseConfigurationReference = 397D6BA6E737E766AB0F140C /* Pods-LetGoGodMode.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -12530,7 +12769,7 @@
 		};
 		C7DB42931C5138B500400945 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 80E2BC661B25AFEB62753038 /* Pods-LetGoGodMode.adhoc.xcconfig */;
+			baseConfigurationReference = 7C7845EFBBC4BC560C62C7CC /* Pods-LetGoGodMode.adhoc.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -12616,7 +12855,7 @@
 		};
 		D44E065E1AE6D27400A7D3CA /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C46936A6CEBA2677F11C1FEB /* Pods-LetGo.adhoc.xcconfig */;
+			baseConfigurationReference = 856B171BA60BC9DF7ED477BC /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

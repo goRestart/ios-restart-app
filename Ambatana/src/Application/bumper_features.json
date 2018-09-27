@@ -10,6 +10,11 @@
          "description": "API requests timeout"
     },
     {
+         "name": "MarkAsSoldQuickAnswerNewFlow",
+         "values": ["control", "baseline", "mark_as_sold_new_flow_quick_answer"],
+         "description": "New flow when marking an item as sold on chat using quick answers"
+    },
+    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "[MONEY] show ads in feed every X cells"
@@ -164,11 +169,6 @@
         "values": ["control", "baseline", "infoWithLaterals", "infoWithoutLaterals", "buttonWithLaterals", "buttonWithoutLaterals"],
         "description": "[Products] New item page V3 -- all in"
 	},
-    {
-     	"name": "RealEstateMapTooltip",
-    	"values": ["control", "baseline", "active"],
-     	"description": "Show tooltip for Real Estate Map"
-    },
 	 {
      	"name": "AppInstallAdsInFeed",
         "values": ["control", "baseline", "active"],
@@ -193,11 +193,6 @@
         "name": "EngagementBadging",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Show recent items bubble in feed basic approach"
-    },
-    {
-        "name": "ServicesUnifiedFilterScreen",
-        "values": ["control", "baseline", "active"],
-        "description": "Show new services filter screen"
     },
     {
         "name": "FrictionlessShare",
@@ -326,7 +321,7 @@
     },
     {
         "name": "ClickToTalk",
-        "values": ["control", "baseline", "active"],
+        "values": ["control", "baseline", "variantA", "variantB", "variantC"],
         "description": "[VERTICALS] Show Click to talk"
     },
     {

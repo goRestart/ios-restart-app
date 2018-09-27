@@ -27,13 +27,5 @@ final class EmbeddedCollectionViewCell: UICollectionViewCell {
         contentView.addSubviewForAutoLayout(collectionView)
         collectionView.layout(with: contentView).fill()
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        collectionView.setContentOffset(
-            CGPoint(x: -1 * SectionControllerLayout.sectionInset.left,
-                    y: -1 * SectionControllerLayout.sectionInset.top ),
-            animated: false)
-    }
 }
 

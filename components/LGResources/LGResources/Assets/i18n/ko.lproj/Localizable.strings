@@ -1,5 +1,6 @@
 "account_pending_moderation" = "조정중인 계정";
 "account_pending_moderation_w_name" = "%@의 계정은 현재 조정중입니다";
+"advertising_default_cta" = "더 알아보기";
 "advertising_text" = "광고";
 "affiliation_challenges_invite_friends_button" = "친구 초대하기";
 "affiliation_challenges_invite_friends_description" = "%1$@를 초대하여 %2$@점을 얻으세요. %3$@를 더 초대하여 %4$@점을 얻어보세요!";
@@ -845,7 +846,7 @@
 "payments_change_offer_confirmation_button" = "새로운 제안 설정";
 "payments_change_offer_invalid_amount_alert_button" = "확인";
 "payments_change_offer_invalid_amount_alert_message" = "이런! 제안은 반드시 %@이상 %@ 이하여야 합니다";
-"payments_common_contact_us_option" = "Contact us";
+"payments_common_contact_us_option" = "문의하기";
 "payments_common_faqs_option" = "FAQ";
 "payments_create_offer_buyer_protection_description_label" = "letgo를 통해 지불하세요. 구매를 완료하고자 하실 때 판매자에게 금액이 송금됩니다";
 "payments_create_offer_buyer_protection_title_label" = "구매자 보호";

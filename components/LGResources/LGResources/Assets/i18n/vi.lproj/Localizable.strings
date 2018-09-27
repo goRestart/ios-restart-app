@@ -1,5 +1,6 @@
 "account_pending_moderation" = "Tài khoản đang chờ duyệt";
 "account_pending_moderation_w_name" = "Tài khoản của %@ đang chờ duyệt";
+"advertising_default_cta" = "Đọc thêm";
 "advertising_text" = "QC";
 "affiliation_challenges_invite_friends_button" = "Mời bạn bè";
 "affiliation_challenges_invite_friends_description" = "Mời %1$@ bạn để nhận %2$@ điểm. Mời %3$@ bạn và nhận thêm %4$@ điểm!";
