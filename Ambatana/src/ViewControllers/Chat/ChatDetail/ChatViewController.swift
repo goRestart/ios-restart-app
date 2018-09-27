@@ -106,11 +106,8 @@ final class ChatViewController: TextViewController {
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-         setupRxBindings()
+
+        setupRxBindings()
     }
 
     override func viewDidAppear(_ animated: Bool) {
