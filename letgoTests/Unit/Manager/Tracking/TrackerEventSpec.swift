@@ -817,7 +817,8 @@ class TrackerEventSpec: QuickSpec {
                                                    resultsCount: count,
                                                    feedSource: .home,
                                                    success: .trueParameter,
-                                                   recentItems: .falseParameter)
+                                                   recentItems: .falseParameter,
+                                                   pullToRefreshTriggered: .trueParameter)
                 }
                 
                 it("has its event name") {
@@ -848,6 +849,10 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains recentItems parameter with false value") {
                     expect(sut.params!.stringKeyParams["recent-items"] as? String).to(equal("false"))
+                }
+                
+                it("contains reload parameter with true value") {
+                    expect(sut.params!.stringKeyParams["reload"] as? String).to(equal("true"))
                 }
             }
             

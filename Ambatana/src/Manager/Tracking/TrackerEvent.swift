@@ -187,9 +187,11 @@ struct TrackerEvent {
                             resultsCount: ItemsCount?,
                             feedSource: EventParameterFeedSource,
                             success: EventParameterBoolean,
-                            recentItems: EventParameterBoolean) -> TrackerEvent {
+                            recentItems: EventParameterBoolean,
+                            pullToRefreshTriggered: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
-
+        
+        params[.reload] = pullToRefreshTriggered.rawValue
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = (categories ?? [.unassigned]).trackValue
         params[.keywordName] = TrackerEvent.notApply

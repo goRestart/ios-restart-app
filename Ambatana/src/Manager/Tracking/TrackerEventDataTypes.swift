@@ -443,7 +443,7 @@ enum EventParameterName: String {
 
     case messageActionKey     = "action-key"
     case isLetgoAssistant     = "is-letgo-assistant"
-
+    case reload = "reload"
     
     // Machine Learning
     case mlPredictiveFlow = "predictive-flow"
