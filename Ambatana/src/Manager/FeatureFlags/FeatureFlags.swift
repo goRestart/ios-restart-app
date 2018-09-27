@@ -73,7 +73,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Verticals
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
     var servicesPaymentFrequency: ServicesPaymentFrequency { get }
-    var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
@@ -167,10 +166,6 @@ extension EnableJobsAndServicesCategory {
 }
 
 extension ServicesPaymentFrequency {
-    var isActive: Bool { return self == .active }
-}
-
-extension CarExtraFieldsEnabled {
     var isActive: Bool { return self == .active }
 }
 
@@ -1061,13 +1056,6 @@ extension FeatureFlags {
 // MARK: Verticals
 
 extension FeatureFlags {
-    
-    var carExtraFieldsEnabled: CarExtraFieldsEnabled {
-        if Bumper.enabled {
-            return Bumper.carExtraFieldsEnabled
-        }
-        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
-    }
     
     var servicesPaymentFrequency: ServicesPaymentFrequency {
         if Bumper.enabled {
