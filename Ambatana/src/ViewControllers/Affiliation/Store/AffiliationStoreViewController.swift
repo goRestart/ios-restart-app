@@ -243,7 +243,7 @@ extension Reactive where Base: AffiliationStoreViewController {
             guard let redeemCell = redeemCell else { return }
             controller.update(with: redeemCell)
         }
-    }
+   }
 }
 
 extension AffiliationStoreViewController: UICollectionViewDataSource {
@@ -259,7 +259,7 @@ extension AffiliationStoreViewController: UICollectionViewDataSource {
         cell.tag = indexPath.row
 
         cell.rx.redeemTap
-            .drive { [weak self] in self?.viewModel.cellRedeemTapped.accept(cell.tag) }
+            .bind { [weak self] in self?.viewModel.cellRedeemTapped.accept(cell.tag) }
             .disposed(by: cell.disposeBag)
         return cell
     }

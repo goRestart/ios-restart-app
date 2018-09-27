@@ -266,6 +266,7 @@ extension Reactive where Base: AffiliationStoreViewModel {
         return base.cellRedeemTapped
             .map { [unowned base] in RedeemCellModel(index: $0, email: base.myUserRepository.myUser?.email) }
             .asDriver(onErrorJustReturn: nil)
+            .debounce(0.1)
     }
     
     var points: Driver<Int> {
