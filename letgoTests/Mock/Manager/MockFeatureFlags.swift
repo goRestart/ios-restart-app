@@ -76,7 +76,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // MARK:  Verticals
     var servicesPaymentFrequency: ServicesPaymentFrequency = .control
     var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory = .control
     var carPromoCells: CarPromoCells = .control
     var servicesPromoCells: ServicesPromoCells = .control

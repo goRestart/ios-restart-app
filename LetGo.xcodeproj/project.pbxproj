@@ -1086,8 +1086,6 @@
 		42F0688C20FF44C1009AC898 /* DropdownViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0688A20FF44C1009AC898 /* DropdownViewModel.swift */; };
 		42F0688E20FF8D78009AC898 /* ServiceType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0688D20FF8D78009AC898 /* ServiceType+LG.swift */; };
 		42F0688F20FF8D78009AC898 /* ServiceType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0688D20FF8D78009AC898 /* ServiceType+LG.swift */; };
-		42F1DDFF20BD9C22002E2EE7 /* FilterServicesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */; };
-		42F1DE0020BD9C28002E2EE7 /* FilterServicesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */; };
 		42F64F7F20AAE99900CF97AD /* ListingFilters+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */; };
 		42F64F8020AAE99900CF97AD /* ListingFilters+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */; };
 		42F64F8220AB1A4100CF97AD /* MockListingFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F64F8120AB1A4100CF97AD /* MockListingFilters.swift */; };
@@ -3151,7 +3149,6 @@
 		42F0688720FF442B009AC898 /* DropdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownViewController.swift; sourceTree = "<group>"; };
 		42F0688A20FF44C1009AC898 /* DropdownViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownViewModel.swift; sourceTree = "<group>"; };
 		42F0688D20FF8D78009AC898 /* ServiceType+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServiceType+LG.swift"; sourceTree = "<group>"; };
-		42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterServicesSection.swift; sourceTree = "<group>"; };
 		42F64F7E20AAE99900CF97AD /* ListingFilters+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListingFilters+LG.swift"; sourceTree = "<group>"; };
 		42F64F8120AB1A4100CF97AD /* MockListingFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListingFilters.swift; sourceTree = "<group>"; };
 		42FADDDD2069257F00B6B774 /* InfoBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBubbleView.swift; sourceTree = "<group>"; };
@@ -6087,7 +6084,6 @@
 				C7363FB91BFA3E6500A4BF6F /* DistanceType+LG.swift */,
 				C780281C1BF0FB64002B26C5 /* FilterSection.swift */,
 				7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */,
-				42F1DDFE20BD9C22002E2EE7 /* FilterServicesSection.swift */,
 				C7BAC9CC1E49E81E005BD0AF /* Listing+LG.swift */,
 				4273565620A32F5000C71D49 /* Listing+Map.swift */,
 				72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */,
@@ -9922,7 +9918,6 @@
 				50D1541E214A5C2300221B06 /* AffiliationChallengesStandardWireframe.swift in Sources */,
 				C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */,
 				50C63B731DC3A79100836D85 /* SocialSharer.swift in Sources */,
-				42F1DDFF20BD9C22002E2EE7 /* FilterServicesSection.swift in Sources */,
 				0A6FECDE2130344000B57004 /* EditListingNavigator.swift in Sources */,
 				C7B5887F1CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
 				0A0C0491209C91A30028A75D /* NotificationSettingsMainViewController.swift in Sources */,
@@ -9958,7 +9953,6 @@
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				55FABE1920762E63004B0DBD /* UserPhoneVerificationCodeInputViewModel.swift in Sources */,
 				504CD27F214AAF3800A7672C /* AffiliationFAQBuilder.swift in Sources */,
-				72CD80CE203469FB0042E1E0 /* LGTutorialViewModel.swift in Sources */,
 				722A6D14205A714F009A43AB /* LGPageControl.swift in Sources */,
 				72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsView.swift in Sources */,
@@ -10001,7 +9995,6 @@
 				32059FDB20B5CDF30042713A /* ListingsRequesterProtocol.swift in Sources */,
 				F5A836AD1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift in Sources */,
 				0ACC843421357B6300803D66 /* TourNotificationPushWireframe.swift in Sources */,
-				72CD80CC203469FB0042E1E0 /* LGTutorialLayout.swift in Sources */,
 				72DBA6BE214F88F9008D6F39 /* AffiliationInvisteSMSContactsCellViewModel.swift in Sources */,
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ListingListView.swift in Sources */,

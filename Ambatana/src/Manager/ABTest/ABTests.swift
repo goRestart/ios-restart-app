@@ -225,7 +225,6 @@ extension ABTests {
     var jobsAndServicesEnabled: LeanplumABVariable<Int> { return verticals.jobsAndServicesEnabled }
     var servicesPaymentFrequency: LeanplumABVariable<Int> { return verticals.servicesPaymentFrequency }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
-    var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }
     var carPromoCells: LeanplumABVariable<Int> { return verticals.carPromoCells }
     var servicesPromoCells: LeanplumABVariable<Int> { return verticals.servicesPromoCells }
     var realEstatePromoCells: LeanplumABVariable<Int> { return verticals.realEstatePromoCells }

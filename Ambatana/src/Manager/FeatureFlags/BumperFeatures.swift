@@ -55,7 +55,6 @@ extension Bumper  {
         flags.append(OpenChatFromUserProfile.self)
         flags.append(SearchAlertsInSearchSuggestions.self)
         flags.append(EngagementBadging.self)
-        flags.append(ServicesUnifiedFilterScreen.self)
         flags.append(FrictionlessShare.self)
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
@@ -593,19 +592,6 @@ extension Bumper  {
     static var engagementBadgingObservable: Observable<EngagementBadging> {
         return Bumper.observeValue(for: EngagementBadging.key).map {
             EngagementBadging(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
-        guard let value = Bumper.value(for: ServicesUnifiedFilterScreen.key) else { return .control }
-        return ServicesUnifiedFilterScreen(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var servicesUnifiedFilterScreenObservable: Observable<ServicesUnifiedFilterScreen> {
-        return Bumper.observeValue(for: ServicesUnifiedFilterScreen.key).map {
-            ServicesUnifiedFilterScreen(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1625,22 +1611,6 @@ enum EngagementBadging: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Show recent items bubble in feed basic approach" } 
     static func fromPosition(_ position: Int) -> EngagementBadging {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum ServicesUnifiedFilterScreen: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ServicesUnifiedFilterScreen.control.rawValue }
-    static var enumValues: [ServicesUnifiedFilterScreen] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show new services filter screen" } 
-    static func fromPosition(_ position: Int) -> ServicesUnifiedFilterScreen {
         switch position { 
             case 0: return .control
             case 1: return .baseline

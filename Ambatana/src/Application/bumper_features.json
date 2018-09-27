@@ -195,11 +195,6 @@
         "description": "[RETENTION] Show recent items bubble in feed basic approach"
     },
     {
-        "name": "ServicesUnifiedFilterScreen",
-        "values": ["control", "baseline", "active"],
-        "description": "Show new services filter screen"
-    },
-    {
         "name": "FrictionlessShare",
         "values": ["control", "baseline", "active"],
         "description": "[PRODUCTS] Open facebook share dialog in congrats screen"

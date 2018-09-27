@@ -1,7 +1,6 @@
 struct VerticalsABGroup: ABGroupType {
 
     let carExtraFieldsEnabled: LeanplumABVariable<Int>
-    let servicesUnifiedFilterScreen: LeanplumABVariable<Int>
     let servicesPaymentFrequency: LeanplumABVariable<Int>
     let jobsAndServicesEnabled: LeanplumABVariable<Int>
     let carPromoCells: LeanplumABVariable<Int>
@@ -17,7 +16,6 @@ struct VerticalsABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
     private init(carExtraFieldsEnabled: LeanplumABVariable<Int>,
-                 servicesUnifiedFilterScreen: LeanplumABVariable<Int>,
                  servicesPaymentFrequency: LeanplumABVariable<Int>,
                  jobsAndServicesEnabled: LeanplumABVariable<Int>,
                  carPromoCells: LeanplumABVariable<Int>,
@@ -26,7 +24,6 @@ struct VerticalsABGroup: ABGroupType {
                  proUsersExtraImages: LeanplumABVariable<Int>,
                  clickToTalk: LeanplumABVariable<Int>) {
         self.carExtraFieldsEnabled = carExtraFieldsEnabled
-        self.servicesUnifiedFilterScreen = servicesUnifiedFilterScreen
         self.servicesPaymentFrequency = servicesPaymentFrequency
         self.jobsAndServicesEnabled = jobsAndServicesEnabled
         self.carPromoCells = carPromoCells
@@ -35,7 +32,6 @@ struct VerticalsABGroup: ABGroupType {
         self.proUsersExtraImages = proUsersExtraImages
         self.clickToTalk = clickToTalk
         intVariables.append(contentsOf: [carExtraFieldsEnabled,
-                                         servicesUnifiedFilterScreen,
                                          servicesPaymentFrequency,
                                          jobsAndServicesEnabled,
                                          carPromoCells,
@@ -47,7 +43,6 @@ struct VerticalsABGroup: ABGroupType {
     
     static func make() -> VerticalsABGroup {
         return VerticalsABGroup(carExtraFieldsEnabled: verticalsIntFor(key: Keys.carExtraFieldsEnabled),
-                                servicesUnifiedFilterScreen: verticalsIntFor(key: Keys.servicesUnifiedFilterScreen),
                                 servicesPaymentFrequency: verticalsIntFor(key: Keys.servicesPaymentFrequency),
                                 jobsAndServicesEnabled: verticalsIntFor(key: Keys.jobsAndServicesEnabled),
                                 carPromoCells: verticalsIntFor(key: Keys.carPromoCells),
@@ -64,7 +59,6 @@ struct VerticalsABGroup: ABGroupType {
 
 private struct Keys {
     static let carExtraFieldsEnabled = "20180628carExtraFieldsEnabled"
-    static let servicesUnifiedFilterScreen = "20180717servicesUnifiedFilterScreen"
     static let servicesPaymentFrequency = "20180730servicesPriceType"
     static let jobsAndServicesEnabled = "20180806jobsAndServicesEnabled"
     static let carPromoCells = "20182308carPromoCells"

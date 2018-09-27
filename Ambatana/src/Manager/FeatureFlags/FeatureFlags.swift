@@ -74,7 +74,6 @@ protocol FeatureFlaggeable: class {
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
     var servicesPaymentFrequency: ServicesPaymentFrequency { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
@@ -160,10 +159,6 @@ extension DummyUsersInfoProfile {
 
 extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
-}
-
-extension ServicesUnifiedFilterScreen {
-    var isActive: Bool { return self == .active }
 }
 
 extension EnableJobsAndServicesCategory {
@@ -1068,13 +1063,6 @@ extension FeatureFlags {
             return Bumper.carExtraFieldsEnabled
         }
         return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
-    }
-
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
-        if Bumper.enabled {
-            return Bumper.servicesUnifiedFilterScreen
-        }
-        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
     }
     
     var servicesPaymentFrequency: ServicesPaymentFrequency {
