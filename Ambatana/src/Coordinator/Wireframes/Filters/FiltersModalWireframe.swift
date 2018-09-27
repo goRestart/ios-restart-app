@@ -2,15 +2,18 @@ import LGCoreKit
 
 final class FiltersModalWireframe: FiltersNavigator {
     private let controller: UIViewController
-    private let nc: UINavigationController
-    
+    private weak var nc: UINavigationController?
+
+    private let quickFiltersAssembly: QuickLocationFiltersAssembly
+
     init(controller: UIViewController, nc: UINavigationController) {
         self.controller = controller
         self.nc = nc
+        self.quickFiltersAssembly = QuickLocationFiltersBuilder.standard(nc)
     }
     
     func openServicesDropdown(viewModel: DropdownViewModel) {
-        nc.pushViewController(
+        nc?.pushViewController(
             DropdownViewController(withViewModel: viewModel),
             animated: true
         )
@@ -20,16 +23,15 @@ final class FiltersModalWireframe: FiltersNavigator {
                           initialPlace: Place?,
                           distanceRadius: Int?,
                           locationDelegate: EditLocationDelegate) {
-        let assembly = QuickLocationFiltersBuilder.standard(nc)
-        let vc = assembly.buildQuickLocationFilters(mode: mode,
-                                                    initialPlace: initialPlace,
-                                                    distanceRadius: distanceRadius,
-                                                    locationDelegate: locationDelegate)
-        nc.pushViewController(vc, animated: true)
+        let vc = quickFiltersAssembly.buildQuickLocationFilters(mode: mode,
+                                                                initialPlace: initialPlace,
+                                                                distanceRadius: distanceRadius,
+                                                                locationDelegate: locationDelegate)
+        nc?.pushViewController(vc, animated: true)
     }
     
     func openCarAttributeSelection(withViewModel viewModel: CarAttributeSelectionViewModel) {
-        nc.pushViewController(
+        nc?.pushViewController(
             CarAttributeSelectionViewController(viewModel: viewModel),
             animated: true
         )
@@ -38,7 +40,7 @@ final class FiltersModalWireframe: FiltersNavigator {
     func openListingAttributePicker(viewModel: ListingAttributePickerViewModel) {
         let vc = ListingAttributePickerViewController(viewModel: viewModel)
         viewModel.delegate = vc
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
     
     func closeFilters() {
