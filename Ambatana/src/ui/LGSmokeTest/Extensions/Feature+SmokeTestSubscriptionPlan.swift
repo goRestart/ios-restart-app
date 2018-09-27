@@ -18,7 +18,7 @@ extension ClickToTalk {
     
     private func plans(monthPrice: Double, yearPrice: Double) -> [SmokeTestSubscriptionPlan] {
         let monthTitle = "$\(monthPrice) / " + R.Strings.paymentFrequencyPerMonth.capitalizedFirstLetterOnly
-        let yearTitle = "$\(yearPrice) / " + R.Strings.paymentFrequencyPerYear.capitalizedFirstLetterOnly + " " + R.Strings.clickToTalkSmoketestTwoMonthsFree
+        let yearTitle = "$\(yearPrice) / " + R.Strings.paymentFrequencyPerYear.capitalizedFirstLetterOnly + " (\(R.Strings.clickToTalkSmoketestTwoMonthsFree))"
         let subtitle = R.Strings.clickToTalkSmoketestSevenDaysFree
         return [SmokeTestSubscriptionPlan(title: monthTitle, subtitle: subtitle, isRecomended: false, variant: rawValue),
                 SmokeTestSubscriptionPlan(title: yearTitle, subtitle: subtitle, isRecomended: true, variant: rawValue)]
