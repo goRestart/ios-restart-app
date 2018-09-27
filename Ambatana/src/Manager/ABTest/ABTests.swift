@@ -173,6 +173,7 @@ extension ABTests {
     var expressChatImprovement: LeanplumABVariable<Int> { return chat.expressChatImprovement }
     var smartQuickAnswers: LeanplumABVariable<Int> { return chat.smartQuickAnswers }
     var openChatFromUserProfile: LeanplumABVariable<Int> { return chat.openChatFromUserProfile }
+    var markAsSoldQuickAnswerNewFlow: LeanplumABVariable<Int> { return chat.markAsSoldQuickAnswerNewFlow }
 }
 
 //  MARK: Money
@@ -201,7 +202,6 @@ extension ABTests {
 extension ABTests {
     var dummyUsersInfoProfile: LeanplumABVariable<Int> { return retention.dummyUsersInfoProfile }
     var onboardingIncentivizePosting: LeanplumABVariable<Int> { return retention.onboardingIncentivizePosting }
-    var notificationSettings: LeanplumABVariable<Int> { return retention.notificationSettings }
     var searchAlertsInSearchSuggestions: LeanplumABVariable<Int> { return retention.searchAlertsInSearchSuggestions }
     var engagementBadging: LeanplumABVariable<Int> { return retention.engagementBadging }
     var searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int> { return retention.searchAlertsDisableOldestIfMaximumReached }
@@ -225,12 +225,11 @@ extension ABTests {
     var jobsAndServicesEnabled: LeanplumABVariable<Int> { return verticals.jobsAndServicesEnabled }
     var servicesPaymentFrequency: LeanplumABVariable<Int> { return verticals.servicesPaymentFrequency }
     var carExtraFieldsEnabled: LeanplumABVariable<Int> { return verticals.carExtraFieldsEnabled }
-    var servicesUnifiedFilterScreen: LeanplumABVariable<Int> { return verticals.servicesUnifiedFilterScreen }
     var carPromoCells: LeanplumABVariable<Int> { return verticals.carPromoCells }
     var servicesPromoCells: LeanplumABVariable<Int> { return verticals.servicesPromoCells }
     var realEstatePromoCells: LeanplumABVariable<Int> { return verticals.realEstatePromoCells }
     var proUserExtraImages: LeanplumABVariable<Int> { return verticals.proUsersExtraImages }
-    var clickToTalkEnabled: LeanplumABVariable<Int> { return verticals.clickToTalkEnabled }
+    var clickToTalk: LeanplumABVariable<Int> { return verticals.clickToTalk }
 }
 
 //  MARK: Products

@@ -221,28 +221,17 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             let servicesFilters = filters.verticalFilters.services
             servicesFilters.listingTypes.forEach({ resultTags.append(.serviceListingType($0)) })
 
-            if featureFlags.servicesUnifiedFilterScreen.isActive {
-                if let serviceType = servicesFilters.type {
-                    
-                    if let serviceSubtypes = servicesFilters.subtypes {
-                        if serviceType.subTypes.count == serviceSubtypes.count ||
-                            serviceSubtypes.count == 0 {
-                            resultTags.append(.serviceType(serviceType))
-                        } else {
-                            resultTags.append(.unifiedServiceType(type: serviceType,
-                                                                  selectedSubtypes: serviceSubtypes))
-                        }
-                    } else {
+            if let serviceType = servicesFilters.type {
+                if let serviceSubtypes = servicesFilters.subtypes {
+                    if serviceType.subTypes.count == serviceSubtypes.count ||
+                        serviceSubtypes.count == 0 {
                         resultTags.append(.serviceType(serviceType))
+                    } else {
+                        resultTags.append(.unifiedServiceType(type: serviceType,
+                                                              selectedSubtypes: serviceSubtypes))
                     }
-                }
-            } else {
-                if let serviceType = servicesFilters.type {
+                } else {
                     resultTags.append(.serviceType(serviceType))
-                }
-                
-                if let tags = servicesFilters.subtypes?.map({ FilterTag.serviceSubtype($0) }) {
-                    resultTags.append(contentsOf: tags)
                 }
             }
         }

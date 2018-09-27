@@ -403,28 +403,33 @@ extension FeedViewModel {
             if let error = result.error {
                 self?.show(error: error)
             } else if let feed = result.value {
-                self?.removeLoadingBottom()
-                defer {
-                    if feed.isFirstPage {
-                        self?.feedRenderingDelegate?.updateFeed()
-                    } else {
-                        self?.refreshFeed()
-                    }
-                }
-                guard !feed.isEmpty else {
-                    self?.renderEmptyPage(feed)
-                    self?.trackSectionsAndItems(inFeed: feed)
-                    return
-                }
-                self?.updatePaginationLinks(feed.pagination)
-                self?.viewState = .data
-                self?.updateFeedItems(withFeed: feed)
+                self?.onReceiveFeedData(withFeed: feed)
             }
         }
     }
 
     private var isFirstPage: Bool {
         return paginationLinks == nil
+    }
+
+    private func onReceiveFeedData(withFeed feed: Feed) {
+        removeLoadingBottom()
+        defer {
+            if feed.isFirstPage {
+                feedRenderingDelegate?.updateFeed()
+            } else {
+                refreshFeed()
+            }
+        }
+        guard !feed.isEmpty else {
+            renderEmptyPage(feed)
+            trackSectionsAndItems(inFeed: feed)
+            return
+        }
+        updatePaginationLinks(feed.pagination)
+        updateFeedItems(withFeed: feed)
+        updatePermissionBanner()
+        viewState = .data
     }
 
     private func renderEmptyPage(_ feed: Feed) {

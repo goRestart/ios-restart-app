@@ -3,6 +3,7 @@ import LGCoreKit
 import LGComponents
 
 enum ChatDetailNavBarInfo {
+    case user(name: String, imageUrl: URL?)
     case assistant(name: String, imageUrl: URL?)
     case listing(name: String?, price: String, imageUrl: URL?)
 }
@@ -92,8 +93,16 @@ final class ChatDetailNavBarInfoView: UIView {
     func setupWith(info: ChatDetailNavBarInfo, action: (()->())?) {
         self.action = action
         switch info {
+        case .user(let name, let url):
+            setupHeaderViewWith(imageCornerRadius: .round,
+                                imageBadgeStyle: .bottomRight(height: Layout.assistantBadgeHeight),
+                                badgeImage: nil,
+                                placeholderImage: LetgoAvatar.avatarWithID(nil, name: name),
+                                imageURL: url,
+                                titleText: name,
+                                subtitleText: nil,
+                                showArrow: true)
         case .assistant(let name, let url):
-
             setupHeaderViewWith(imageCornerRadius: .round,
                                 imageBadgeStyle: .bottomRight(height: Layout.assistantBadgeHeight),
                                 badgeImage: R.Asset.IconsButtons.icAssistantTag.image,
@@ -123,7 +132,7 @@ final class ChatDetailNavBarInfoView: UIView {
                                      titleText: String?,
                                      subtitleText: String?,
                                      showArrow: Bool) {
-
+ 
         imageView.setCornerRadius(cornerRadius: imageCornerRadius)
         imageView.setBadgeStyle(badgeStyle: imageBadgeStyle)
         imageView.setShareBounds(shareBounds: false)

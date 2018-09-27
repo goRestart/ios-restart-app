@@ -138,8 +138,8 @@ class FeedListingCell: UICollectionViewCell {
 
         if model.isFree  {
             let ribbonConfiguration = LGRibbonConfiguration(title: R.Strings.productFreePrice,
-                                                            icon: R.Asset.IconsButtons.icHeart.image,
-                                                            titleColor: .primaryColor)
+                                                            icon: nil,
+                                                            titleColor: .orangeFree)
             ribbonView.setupRibbon(configuration: ribbonConfiguration)
         } else if model.isFeatured {
             let ribbonConfiguration = LGRibbonConfiguration(title: R.Strings.bumpUpProductCellFeaturedStripe,

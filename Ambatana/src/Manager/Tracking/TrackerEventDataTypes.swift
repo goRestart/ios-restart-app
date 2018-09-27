@@ -117,6 +117,7 @@ enum EventName: String {
     case profileEditEmailStart              = "profile-edit-email-start"
     case profileEditEmailComplete           = "profile-edit-email-complete"
     case profileEditBioComplete             = "profile-edit-bio"
+    case profileChatNowButton               = "profile-detail-ask-question"
 
     case appInviteFriendStart               = "app-invite-friend-start"
     case appInviteFriend                    = "app-invite-friend"
@@ -224,7 +225,13 @@ enum EventName: String {
 
     case showNewItemsBadge                  = "show-new-items-badge"
     case duplicatedItemsInFeed              = "duplicated-items-hidden"
-
+    
+    case smokeTestCtaShown                  = "smoke-test-cta-shown"
+    case smokeTestCtaTapped                 = "smoke-test-cta-tapped"
+    case smokeTestInfoGetStarted            = "smoke-test-info-get-started"
+    case smokeTestFeedbak                   = "smoke-test-feedback"
+    case smokeTestClose                     = "smoke-test-close"
+    
     case verificationModalShown             = "verification-modal-shown"
 
     // Affiliation
@@ -474,6 +481,12 @@ enum EventParameterName: String {
     // Engagement badging
     case recentItems        = "recent-items"
 
+    //  MARK: - Smoke Test
+    case testName = "test-name"
+    case feedback = "feedback"
+    case feedbackText = "feedback-text"
+    case stepName = "step-name"
+
     // Affiliation
     case rewardPoints       = "reward-points"
     case rewardCampaign     = "reward-campaign"
@@ -481,6 +494,7 @@ enum EventParameterName: String {
     case amountGranted      = "amount-granted"
     case numberOfInvitees   = "number-of-invites"
     case rewardCampaignsAvailable = "reward-campaigns-available"
+
 }
 
 enum EventParameterBoolean: String {
@@ -1434,6 +1448,8 @@ enum EventParameterQuickAnswerType: String {
     case freeYours = "free-yours"
     case freeAvailable = "free-available"
     case freeNotAvailable = "free-not-available"
+    case favoritedMyListing = "favorited-listing"
+    case iLikeYourListing = "like-listing"
 }
 
 enum EventParameterNotAvailableReason: String {
@@ -1588,6 +1604,15 @@ enum EventParameterOptionSummary: String {
 
 enum EventParameterTutorialType: String {
     case realEstate = "real-estate"
+}
+
+enum EventParameterSmokeTestType: String {
+    case clickToTalk = "click-to-call-pricing"
+}
+
+enum EventParameterSmokeTestStep: String {
+    case smokeScreen = "smoke-screen"
+    case feedbackScreen = "feedback-screen"
 }
 
 enum EventParameterUserBadge: String {
