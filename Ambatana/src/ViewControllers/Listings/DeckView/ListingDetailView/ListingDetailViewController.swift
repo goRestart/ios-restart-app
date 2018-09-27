@@ -171,7 +171,7 @@ extension ListingDetailViewController: DeckMapViewDelegate {
 private extension Reactive where Base: ListingDetailViewController {
     var media: Binder<[Media]> {
         return Binder(self.base) { controller, media in
-            controller.detailView.populateWith(media: media)
+            controller.detailView.populateWith(media: media, currentIndex: 0)
         }
     }
 

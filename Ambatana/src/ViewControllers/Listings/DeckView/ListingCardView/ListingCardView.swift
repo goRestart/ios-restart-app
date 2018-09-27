@@ -20,7 +20,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     private let cardTapGesture = UITapGestureRecognizer()
 
     private let pageControl = ListingCardPageControl()
-    private var carousel: ListingCardMediaCarousel?
+    private var carousel = ListingCardMediaCarousel(media: [], currentIndex: 0)
 
     private let mediaView: PhotoMediaViewerView
     private var mediaViewModel: PhotoMediaViewerViewModel?
@@ -47,7 +47,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        carousel = nil
+        carousel = ListingCardMediaCarousel(media: [], currentIndex: 0)
         mediaView.reset()
     }
 
@@ -67,7 +67,7 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
                                            imageDownloader: imageDownloader)
         mediaViewModel = vm
         mediaView.set(viewModel: vm)
-        updateWith(carousel: ListingCardMediaCarousel(media: media, current: 0))
+        updateWith(carousel: ListingCardMediaCarousel(media: media, currentIndex: 0))
         mediaView.reloadData()
     }
 
@@ -78,8 +78,8 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     private func updateWith(carousel: ListingCardMediaCarousel) {
         pageControl.isHidden = carousel.media.count <= 1
         pageControl.setPages(carousel.media.count)
-        pageControl.turnOnAt(carousel.current)
-        mediaViewModel?.setIndex(carousel.current)
+        pageControl.turnOnAt(carousel.currentIndex)
+        mediaViewModel?.setIndex(carousel.currentIndex)
         self.carousel = carousel
     }
 
@@ -119,10 +119,10 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         let isBottom = location.y / contentView.height > 0.7
         if isBottom {
             delegate?.cardViewDidTapOnMoreInfo(self)
-        } else if isLeft, let carousel = self.carousel?.makePrevious() {
-            updateWith(carousel: carousel)
-        } else if let carousel = self.carousel?.makeNext() {
-            updateWith(carousel: carousel)
+        } else if isLeft {
+            updateWith(carousel: carousel.makePrevious())
+        } else {
+            updateWith(carousel: carousel.makeNext())
         }
     }
 

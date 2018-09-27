@@ -42,6 +42,9 @@ class ListingCarouselImageCell: UICollectionViewCell, ReusableCell {
         super.prepareForReuse()
         resetZoom()
         imageView.image = nil
+        backgroundImage.image = nil
+        imageURL = nil
+        position = 0
     }
 }
 
@@ -106,16 +109,16 @@ fileprivate extension ListingCarouselImageCell {
     func setupUI() {
         clipsToBounds = true
 
-        addSubview(backgroundImage)
+        contentView.addSubview(backgroundImage)
         backgroundImage.contentMode = .scaleAspectFill
         backgroundImage.frame = bounds
         backgroundImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-        addSubview(effectsView)
+        contentView.addSubview(effectsView)
         effectsView.frame = bounds
         effectsView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-        addSubview(scrollView)
+        contentView.addSubview(scrollView)
         scrollView.frame = bounds
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         scrollView.contentMode = .center
