@@ -1,11 +1,11 @@
 final class QuickLocationFiltersStandardWireframe: QuickLocationFiltersNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     init(nc: UINavigationController) {
         self.nc = nc
     }
 
     func closeQuickLocationFilters() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 }

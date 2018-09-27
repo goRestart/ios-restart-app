@@ -1,13 +1,13 @@
 import Foundation
 
 final class EditUserBioWireframe: EditUserBioNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     init(nc: UINavigationController) {
         self.nc = nc
     }
 
     func closeEditUserBio() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 }

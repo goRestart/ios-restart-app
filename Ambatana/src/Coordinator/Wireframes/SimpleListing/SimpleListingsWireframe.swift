@@ -1,7 +1,7 @@
 import Foundation
 
 final class SimpleListingsWireframe: SimpleProductsNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
     private let listingRouter: ListingWireframe
 
     convenience init(nc: UINavigationController) {
@@ -14,7 +14,7 @@ final class SimpleListingsWireframe: SimpleProductsNavigator {
     }
 
     func closeSimpleProducts() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 
     func openListing(_ data: ListingDetailData,

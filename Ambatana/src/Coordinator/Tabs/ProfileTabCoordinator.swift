@@ -111,7 +111,7 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         let wireframe = LGSmokeTestWireframe(feature: feature,
                                              assembly: smokeTestAssembly,
                                              userAvatarInfo: userAvatarInfo)
-        wireframe.navigator = navigationController
+        wireframe.navigationController = navigationController
         wireframe.openOnBoarding()
     }
 

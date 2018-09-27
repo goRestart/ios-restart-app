@@ -3,7 +3,7 @@ import LGCoreKit
 import LGComponents
 
 final class ListingDetailWireframe: ListingDetailNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     private let sessionManager: SessionManager
     private let featureFlags: FeatureFlaggeable
@@ -15,6 +15,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     private let rateBuyerAssembly: RateBuyerAssembly
 
     private let chatNavigator: ChatNavigator
+    private var userRouter: UserWireframe?
 
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
@@ -72,16 +73,18 @@ final class ListingDetailWireframe: ListingDetailNavigator {
 
     func openUserVerificationView() {
         let vc = verificationAssembly.buildUserVerification()
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func closeProductDetail() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 
     func openUser(_ data: UserDetailData) {
-        let userCoordinator = UserWireframe(nc: nc)
-        userCoordinator.openUser(data)
+        guard let nc = nc else { return }
+        let wireframe = UserWireframe(nc: nc)
+        wireframe.openUser(data)
+        userRouter = wireframe
     }
 
     func editListing(_ listing: Listing,
@@ -96,7 +99,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: maxCountdown,
                                             onEditAction: self)
-                                            nc.present(vc, animated: true)
+        nc?.present(vc, animated: true)
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
@@ -113,7 +116,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                                                                        title: nil) else { return }
                                                         self?.deeplinkMailBox.push(convertible: url)
                 }, accessibility: AccessibilityId.postDeleteAlertButton)
-            nc.showAlertWithTitle(R.Strings.productDeletePostTitle,
+            nc?.showAlertWithTitle(R.Strings.productDeletePostTitle,
                                                      text: R.Strings.productDeletePostSubtitle,
                                                      alertType: .plainAlertOld, actions: [action])
         }
@@ -127,7 +130,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                              purchases: purchases,
                                              typePage: typePage,
                                              maxCountdown: maxCountdown)
-        nc.present(vc, animated: true, completion: nil)
+        nc?.present(vc, animated: true, completion: nil)
     }
 
     func openBumpUpBoost(forListing listing: Listing,
@@ -141,7 +144,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                                    typePage: typePage,
                                                    timeSinceLastBump: timeSinceLastBump,
                                                    maxCountdown: maxCountdown)
-            nc.present(vc, animated: true, completion: nil)
+            nc?.present(vc, animated: true, completion: nil)
         }
     }
 
@@ -153,7 +156,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                                   purchases: purchases,
                                                   typePage: typePage,
                                                   maxCountdown: maxCountdown)
-        nc.present(vc, animated: true, completion: nil)
+        nc?.present(vc, animated: true, completion: nil)
     }
 
     func openMultiDayInfoBumpUp(forListing listing: Listing,
@@ -166,7 +169,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                                   typePage: typePage,
                                                   timeSinceLastBump: timeSinceLastBump,
                                                   maxCountdown: maxCountdown)
-        nc.present(vc, animated: true, completion: nil)
+        nc?.present(vc, animated: true, completion: nil)
     }
 
     func selectBuyerToRate(source: RateUserSource,
@@ -180,9 +183,10 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                                    sourceRateBuyers: sourceRateBuyers,
                                                    trackingInfo: trackingInfo,
                                                    onRateUserFinishAction: self)
-        nc.present(vc, animated: true, completion: nil)
+        nc?.present(vc, animated: true, completion: nil)
     }
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
+        guard let nc = nc else { return }
         bubbleManager.showBubble(data: data,
                                  duration: SharedConstants.bubbleFavoriteDuration,
                                  view: nc.view,
@@ -205,7 +209,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
             cancelAction: nil
         )
         vc.modalTransitionStyle = .crossDissolve
-        nc.present(vc, animated: true)
+        nc?.present(vc, animated: true)
     }
 
     func showBumpUpNotAvailableAlertWithTitle(title: String,
@@ -213,13 +217,14 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                               alertType: AlertType,
                                               buttonsLayout: AlertButtonsLayout,
                                               actions: [UIAction]) {
-        nc.showAlertWithTitle(title,
+        nc?.showAlertWithTitle(title,
                                                  text: text,
                                                  alertType: alertType,
                                                  buttonsLayout: buttonsLayout,
                                                  actions: actions)
     }
     func showBumpUpBoostSucceededAlert() {
+        guard let nc = nc else { return }
         let boostSuccessAlert = BoostSuccessAlertView()
         // the alert view has a thin blur that has to cover the nav bar too
         nc.view.addSubviewForAutoLayout(boostSuccessAlert)
@@ -240,16 +245,18 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                                               type: contactUstype) else {
                 return
         }
-        nc.openInAppWebViewWith(url: contactURL)
+        nc?.openInAppWebViewWith(url: contactURL)
     }
 
     func openFeaturedInfo() {
+        guard let nc = nc else { return }
         let assembly = FeaturedInfoBuilder.modal(nc)
         let vc = assembly.buildFeaturedInfo()
         nc.present(vc, animated: true, completion: nil)
     }
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        guard let nc = nc else { return }
         let assembly = ProfessionalDealerAskPhoneBuilder.modal(nc)
         let vc = assembly.buildProfessionalDealerAskPhone(listing: listing,
                                                           interlocutor: interlocutor,
@@ -259,14 +266,15 @@ final class ListingDetailWireframe: ListingDetailNavigator {
 
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
         let viewController = ListingAttributeTableViewController(withViewModel: viewModel)
-        nc.present(viewController, animated: true, completion: nil)
+        nc?.present(viewController, animated: true, completion: nil)
     }
 
     func closeListingAttributeTable() {
-        nc.dismiss(animated: true, completion: nil)
+        nc?.dismiss(animated: true, completion: nil)
     }
 
     func openPostAnotherListing() {
+        guard let nc = nc else { return }
         let assembly = PostAnotherListingBuilder.modal(nc)
         let vc = assembly.buildPostAnotherListing()
         nc.present(vc, animated: true, completion: nil)

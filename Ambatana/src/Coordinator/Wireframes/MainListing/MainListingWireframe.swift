@@ -17,11 +17,10 @@ protocol MainListingNavigator: class {
 }
 
 final class MainListingWireframe: MainListingNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
     private let listingsMapAssembly: ListingsMapAssembly
     private let sessionManager: SessionManager
     private let loginAssembly: LoginAssembly
-    private lazy var affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(nc)
 
     convenience init(nc: UINavigationController) {
         self.init(nc: nc,
@@ -41,6 +40,8 @@ final class MainListingWireframe: MainListingNavigator {
     }
     
     func openSearchResults(with searchType: SearchType, filters: ListingFilters, searchNavigator: SearchNavigator) {
+        guard let nc = nc else { return }
+
         let oldFeedVM = MainListingsViewModel(searchType: searchType, filters: filters)
         oldFeedVM.searchNavigator = searchNavigator
         oldFeedVM.wireframe = MainListingWireframe(nc: nc)
@@ -50,6 +51,8 @@ final class MainListingWireframe: MainListingNavigator {
     
     func openFilters(withFilters listingFilters: ListingFilters,
                      dataDelegate delegate: FiltersViewModelDataDelegate?) {
+        guard let nc = nc else { return }
+
         let vc = LGFiltersBuilder.standard(navigationController: nc)
             .buildFilters(
                 filters: listingFilters,
@@ -61,6 +64,8 @@ final class MainListingWireframe: MainListingNavigator {
     func openLocationSelection(with place: Place,
                                distanceRadius: Int?,
                                locationDelegate: EditLocationDelegate) {
+        guard let nc = nc else { return }
+
         let assembly = QuickLocationFiltersBuilder.standard(nc)
         let vc = assembly.buildQuickLocationFilters(mode: .quickFilterLocation,
                                                     initialPlace: place,
@@ -72,11 +77,13 @@ final class MainListingWireframe: MainListingNavigator {
     func openMap(requester: ListingListMultiRequester,
                  listingFilters: ListingFilters) {
         let vc = listingsMapAssembly.buildListingsMap(filters: listingFilters)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
     
     func openAffiliationChallenges(sourceButton: AffiliationChallengesSource.FeedButtonName) {
-        let vc = affiliationChallengesAssembly.buildAffiliationChallenges(source: .feed(sourceButton))
+        guard let nc = nc else { return }
+        let assembly = AffiliationChallengesBuilder.standard(nc)
+        let vc = assembly.buildAffiliationChallenges(source: .feed(sourceButton))
         nc.pushViewController(vc, animated: true)
     }
     
@@ -92,19 +99,20 @@ final class MainListingWireframe: MainListingNavigator {
             loginAction: loggedInAction,
             cancelAction: nil)
         let nav = UINavigationController(rootViewController: vc)
-        nc.present(nav, animated: true, completion: nil)
+        nc?.present(nav, animated: true, completion: nil)
     }
     
     func openClassicFeed(navigator: MainTabNavigator,
                          withSearchType searchType: SearchType? = nil,
                          listingFilters: ListingFilters) {
+        guard let nc = nc else { return }
         let (vc, vm) = FeedBuilder.standard(nc: nc).makeClassic(
             withSearchType: searchType, filters: listingFilters)
         vm.navigator = navigator
         nc.pushViewController(vc, animated: true)
     }
     
-    func close() { nc.popViewController(animated: true) }
+    func close() { nc?.popViewController(animated: true) }
     
-    func closeAll() { nc.popToRootViewController(animated: true) }
+    func closeAll() { nc?.popToRootViewController(animated: true) }
 }

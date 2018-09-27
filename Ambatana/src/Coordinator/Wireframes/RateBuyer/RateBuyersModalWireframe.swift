@@ -2,7 +2,7 @@ import LGCoreKit
 
 final class RateBuyersModalWireframe: RateBuyersNavigator {
     private let root: UIViewController
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     private let rateUserAssembly: RateUserAssembly
     private let rateUser: RateUserSource
@@ -47,7 +47,7 @@ final class RateBuyersModalWireframe: RateBuyersNavigator {
 
         let vc = rateUserAssembly.buildRateUser(source: rateUser, data: data, showSkipButton: true,
                                                 onRateUserFinishAction: onRateUserFinishAction)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func rateBuyersFinishNotOnLetgo() {

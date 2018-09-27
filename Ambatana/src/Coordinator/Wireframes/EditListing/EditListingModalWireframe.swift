@@ -3,7 +3,7 @@ import LGCoreKit
 
 final class EditListingModalWireframe: EditListingNavigator {
     private let root: UIViewController
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     private let editLocationAssembly: QuickLocationFiltersAssembly
     private let carMakesAssembly: CarAttributesSelectionAssembly
@@ -39,7 +39,7 @@ final class EditListingModalWireframe: EditListingNavigator {
     func openListingAttributePicker(viewModel: ListingAttributeSingleSelectPickerViewModel) {
         let vc = ListingAttributePickerViewController(viewModel: viewModel)
         viewModel.delegate = vc
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openEditLocation(mode: EditLocationMode,
@@ -49,7 +49,7 @@ final class EditListingModalWireframe: EditListingNavigator {
                                                                 initialPlace: initialPlace,
                                                                 distanceRadius: nil,
                                                                 locationDelegate: locationDelegate)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openCarMakesSelection(_ carMakes: [CarsMake],
@@ -60,7 +60,7 @@ final class EditListingModalWireframe: EditListingNavigator {
                                                          selectedMake: selectedMake,
                                                          style: style,
                                                          delegate: delegate)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
     func openCarModelsSelection(_ carModels: [CarsModel],
                                 selectedModel: String?,
@@ -69,7 +69,7 @@ final class EditListingModalWireframe: EditListingNavigator {
                                                           selectedModel: selectedModel,
                                                           style: style,
                                                           delegate: delegate)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openCarYearSelection(_ yearsList: [Int],
@@ -78,6 +78,6 @@ final class EditListingModalWireframe: EditListingNavigator {
         let vc = carMakesAssembly.buildCarYearSelection(yearsList,
                                                         selectedYear: selectedYear,
                                                         delegate: delegate)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 }
