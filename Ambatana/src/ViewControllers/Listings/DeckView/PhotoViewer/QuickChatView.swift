@@ -32,6 +32,7 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.shortMargin, bottom: 0, right: 0)
         return button
     }()
+    private var proAction: (()->())? = nil
 
     private var alphaAnimationHideTimer: Timer?
 
@@ -63,9 +64,15 @@ final class QuickChatView: UIView, UIGestureRecognizerDelegate {
         proButton.isUserInteractionEnabled = isPro
     }
 
-    func setPro(_ text: String, image: UIImage?) {
+    func setPro(_ text: String, image: UIImage?, action: (()->())?) {
         proButton.setTitle(text, for: .normal)
         proButton.setImage(image, for: .normal)
+        proAction = action
+        proButton.addTarget(self, action: #selector(triggerPro), for: .touchUpInside)
+    }
+
+    @objc private func triggerPro() {
+        proAction?()
     }
 
     func updateWith(bottomInset: CGFloat, animationTime: TimeInterval,
