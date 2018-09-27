@@ -26,7 +26,8 @@ final class AffiliationInviteFriendsStandardWireframe: AffiliationInviteFriendsN
     }
     
     func openInviteTerms() {
-        guard let termsURL = LetgoURLHelper.buildAffiliationFAQS() else { return }
-        navigationController.openInAppWebViewWith(url: termsURL)
+        let assembly = AffiliationFAQBuilder.standard(navigationController)
+        let vc = assembly.buildAffiliationFAQ()
+        navigationController.pushViewController(vc, animated: true)
     }
 }
