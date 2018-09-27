@@ -23,7 +23,7 @@ final class AffiliationVouchersView: UIView {
         backgroundColor = .white
 
         addSubviewsForAutoLayout([tableView])
-        tableView.constraintsToEdges(in: self).activate()
+        tableView.constraintToEdges(in: self)
 
         tableView.register(type: AffiliationVoucherCell.self)
         tableView.rowHeight = 74

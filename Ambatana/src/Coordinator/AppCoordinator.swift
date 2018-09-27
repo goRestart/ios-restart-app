@@ -82,6 +82,7 @@ final class AppCoordinator: NSObject, Coordinator {
     private let promoteAssembly: PromoteBumpAssembly
     private let tourAssembly: TourLoginAssembly
     private let passwordlessUsernameAssembly: PasswordlessUsernameAssembly
+    private let p2pPaymentsOfferStatusAssembly: P2PPaymentsOfferStatusAssembly
 
     private var tourSkipper: TourSkiperNavigator?
 
@@ -182,6 +183,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.tourAssembly = TourLoginBuilder.modal
         self.verificationAwarenessAssembly = UserVerificationAwarenessBuilder.modal(tabBarCtl)
         self.passwordlessUsernameAssembly = PasswordlessUsernameBuilder.modal(tabBarCtl)
+        self.p2pPaymentsOfferStatusAssembly = P2PPaymentsOfferStatusBuilder.modal
         super.init()
         self.tourSkipper = TourSkiperWireframe(appCoordinator: self, deepLinksRouter: deepLinksRouter)
 
@@ -568,6 +570,11 @@ extension AppCoordinator: AppNavigator {
 
     func openCommunityTab() {
         openTab(.community, completion: nil)
+    }
+
+    func openP2PPaymentOfferStatus(offerId: String) {
+        let vc = p2pPaymentsOfferStatusAssembly.buildOfferStatus(offerId: offerId)
+        tabBarCtl.present(vc, animated: true, completion: nil)
     }
 }
 
@@ -1074,6 +1081,11 @@ fileprivate extension AppCoordinator {
                                                           source: .external,
                                                           actionOnFirstAppear: .edit)
             }
+        case let .p2pPaymentsOffer(offerId):
+            tabBarCtl.clearAllPresented(nil)
+            afterDelayClosure = { [weak self] in
+                self?.openP2PPaymentOfferStatus(offerId: offerId)
+            }
         case let .user(userId):
             if userId == myUserRepository.myUser?.objectId {
                 openUserProfile()
@@ -1186,7 +1198,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .passwordlessLogin, .passwordlessSignup, .webView, .appRating, .invite, .userVerification, .affiliation:
+             .notificationCenter, .appStore, .passwordlessLogin, .passwordlessSignup, .webView, .appRating, .invite, .userVerification, .affiliation, .p2pPaymentsOffer:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)

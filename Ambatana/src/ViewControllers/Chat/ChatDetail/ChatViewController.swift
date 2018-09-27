@@ -9,7 +9,8 @@ final class ChatViewController: TextViewController {
     private var cellMapViewer: CellMapViewer = CellMapViewer()
     private let connectionStatusView = ChatConnectionStatusView()
     private var connectionStatusViewTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
-
+    private let chatPaymentBannerView = ChatPaymentBannerView()
+    
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
@@ -265,6 +266,15 @@ final class ChatViewController: TextViewController {
             connectionStatusView.cornerRadius = ChatConnectionStatusView.standardHeight/2
             connectionStatusView.alpha = 0
         }
+
+        view.addSubviewForAutoLayout(chatPaymentBannerView)
+        
+        let chatPaymentBannerConstraints = [
+            chatPaymentBannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            chatPaymentBannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            chatPaymentBannerView.topAnchor.constraint(equalTo: safeTopAnchor)
+        ]
+        chatPaymentBannerConstraints.activate()
     }
 
     fileprivate func setupRelatedProducts() {
@@ -669,6 +679,37 @@ fileprivate extension ChatViewController {
             .skip(1)
             .bind(to: viewModel.chatBoxText)
             .disposed(by: disposeBag)
+        
+
+        viewModel.listingName.asObservable().subscribeNext { [weak viewModel, weak self] _ in
+            guard let viewModel = viewModel else { return }
+            guard let buyerId = viewModel.buyerId, let sellerId = viewModel.sellerId, let listingId = viewModel.listingIdentifier else { return }
+
+            let params = P2PPaymentStateParams(buyerId: buyerId, sellerId: sellerId, listingId: listingId)
+
+            self?.chatPaymentBannerView.configure(with: params)
+        }.disposed(by: disposeBag)
+
+        let actionButtonEvent = chatPaymentBannerView
+            .actionButtonEvent
+            .asObservable()
+        
+        actionButtonEvent.subscribeNext { [weak self] event in
+            switch event {
+            case .makeOffer:
+                self?.viewModel.makeAnOfferButtonPressed()
+            case .viewOffer(offerId: let id):
+                self?.viewModel.viewOfferButtonPressed(offerId: id)
+            case .viewPayCode(offerId: let id):
+                self?.viewModel.viewPayCodeButtonPressed(offerId: id)
+            case .exchangeCode(offerId: let id):
+                self?.viewModel.exchangeCodeButtonPressed(offerId: id)
+            case .payout(offerId: let id):
+                self?.viewModel.payoutButtonPressed(offerId: id)
+            case .none:
+                break // Do nothing
+            }
+        }.disposed(by: disposeBag)
     }
 }
 

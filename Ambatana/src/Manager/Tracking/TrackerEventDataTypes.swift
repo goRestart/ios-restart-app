@@ -242,6 +242,26 @@ enum EventName: String {
     case inviteeRewardBannerShown          = "invitee-reward-banner-shown"
     case inviteeRewardBannerError          = "invitee-reward-banner-error"
 
+
+    case p2pPaymentsBuyerOfferStart         = "p2p-buyer-offer-start"
+    case p2pPaymentsBuyerOfferOnboardStart  = "p2p-buyer-offer-onboard-start"
+    case p2pPaymentsBuyerOfferAbandon       = "p2p-buyer-offer-abandon"
+    case p2pPaymentsBuyerOfferReview        = "p2p-buyer-offer-review"
+    case p2pPaymentsBuyerOfferEditStart     = "p2p-buyer-offer-edit-start"
+    case p2pPaymentsBuyerOfferEditComplete  = "p2p-buyer-offer-edit-complete"
+    case p2pPaymentsBuyerOfferEditCancel    = "p2p-buyer-offer-edit-cancel"
+    case p2pPaymentsBuyerPaymentProcess     = "p2p-buyer-payment-confirmation"
+    case p2pPaymentsBuyerApplePayStart      = "p2p-buyer-applepay-start"
+    case p2pPaymentsBuyerOfferWithdraw      = "p2p-buyer-offer-withdraw"
+    case p2pPaymentsBuyerCodeView           = "p2p-buyer-code-view"
+    case p2pPaymentsSellerOfferDetail       = "p2p-seller-offer-detail"
+    case p2pPaymentsSellerOfferDecide       = "p2p-seller-offer-decide"
+    case p2pPaymentsSellerPayoutStart       = "p2p-seller-payout-start"
+    case p2pPaymentsSellerPayout            = "p2p-seller-payout"
+    case p2pPaymentsSellerPayoutError       = "p2p-seller-payout-error"
+    case p2pPaymentsSellerPayoutSignup      = "p2p-seller-payout-signup"
+    case p2pPaymentsSellerPayoutSignupError = "p2p-seller-payout-signup-error"
+    
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -436,6 +456,15 @@ enum EventParameterName: String {
     case cameraSide           = "camera-side"
     case hasError             = "has-error"
     case fileCount            = "file-count"
+    case conversationId       = "conversation-id"
+    case buyerId              = "buyer-id"
+    case sellerId             = "seller-id"
+    case offerId              = "offer-id"
+    case offerPrice           = "offer-price"
+    case offerCurrency        = "offer-currency"
+    case offerFee             = "offer-seller-fee"
+    case offerSellerChoice    = "choice"
+    case step                 = "step"
     
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
 
@@ -662,6 +691,36 @@ enum EventParameterPostingAbandonStep: String {
     static var allValues: [EventParameterPostingAbandonStep] {
         return [.cameraPermissions, .retry, .summaryOnboarding, .welcomeOnboarding, .mostSearchItems,
                 .productSellTypeSelect]
+    }
+}
+
+enum EventParameterP2PPaymentsAbandonStep: String {
+    case onboarding = "onboarding"
+    case offerEdit = "offer-edit"
+
+    static var allValues: [EventParameterP2PPaymentsAbandonStep] {
+        return [.onboarding, .offerEdit]
+    }
+}
+
+enum EventParameterP2PPaymentsOfferSellerChoice: String {
+    case accept = "accept"
+    case decline = "decline"
+
+    static var allValues: [EventParameterP2PPaymentsOfferSellerChoice] {
+        return [.accept, .decline]
+    }
+}
+
+enum EventParameterP2PPaymentsStep: String {
+    case codeCorrect = "code-correct"
+    case codeEntry = "code-entry"
+    case userDetails = "user-details"
+    case bankAccountEdit = "bank-account-edit"
+    case creditCardEdit = "credit-card-edit"
+
+    static var allValues: [EventParameterP2PPaymentsStep] {
+        return [.codeCorrect, .codeEntry, .userDetails, .bankAccountEdit, .creditCardEdit]
     }
 }
 

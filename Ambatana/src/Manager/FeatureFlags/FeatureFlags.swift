@@ -94,6 +94,7 @@ protocol FeatureFlaggeable: class {
     var simplifiedChatButton: SimplifiedChatButton { get }
     var frictionlessShare: FrictionlessShare { get }
     var turkeyFreePosting: TurkeyFreePosting { get }
+    var makeAnOfferButton: MakeAnOfferButton { get }
 
     // MARK: Users
     var emergencyLocate: EmergencyLocate { get }
@@ -345,6 +346,9 @@ extension TurkeyFreePosting {
     var isActive: Bool { return self == .active }
 }
 
+extension MakeAnOfferButton {
+    var isActive: Bool { return self == .active }
+}
 
 extension FullScreenAdsWhenBrowsingForUS {
     private var shouldShowFullScreenAdsForNewUsers: Bool {
@@ -1239,6 +1243,13 @@ extension FeatureFlags {
             return Bumper.turkeyFreePosting
         }
         return TurkeyFreePosting.fromPosition(abTests.turkeyFreePosting.value)
+    }
+
+    var makeAnOfferButton: MakeAnOfferButton {
+        if Bumper.enabled {
+            return Bumper.makeAnOfferButton
+        }
+        return MakeAnOfferButton.fromPosition(abTests.makeAnOfferButton.value)
     }
 }
 

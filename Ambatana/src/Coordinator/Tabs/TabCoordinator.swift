@@ -38,6 +38,7 @@ class TabCoordinator: NSObject, Coordinator {
     private lazy var verificationAssembly = LGUserVerificationBuilder.standard(nav: navigationController)
     private lazy var rateBuyerAssembly = RateBuyerBuilder.modal(navigationController)
     private lazy var expressChatAssembly = ExpressChatBuilder.modal(navigationController)
+    private lazy var p2pPaymentsMakeAnOfferAssembly = P2PPaymentsMakeAnOfferBuilder.modal
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
@@ -275,6 +276,33 @@ extension TabCoordinator: ChatDetailNavigator {
         let assembly = AssistantMeetingBuilder.modal(navigationController)
         let vc = assembly.buildAssistantFor(listingId: listingId, dataDelegate: dataDelegate)
         navigationController.present(vc, animated: true, completion: nil)
+    }
+
+    func openMakeAnOffer(chatConversation: ChatConversation) {
+        let vc = p2pPaymentsMakeAnOfferAssembly.buildOnboarding(chatConversation: chatConversation)
+        navigationController.present(vc, animated: true)
+    }
+
+    func openOfferStatus(offerId: String) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildOfferStatus(offerId: offerId)
+        navigationController.present(vc, animated: true)
+    }
+
+    func openOfferPayCode(offerId: String) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildGetPayCode(offerId: offerId)
+        navigationController.present(vc, animated: true)
+    }
+
+    func openEnterPayCode(offerId: String, buyerName: String, buyerAvatar: File?) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildEnterPayCode(offerId: offerId,
+                                                                       buyerName: buyerName,
+                                                                       buyerAvatar: buyerAvatar)
+        navigationController.present(vc, animated: true)
+    }
+
+    func openPayout(offerId: String) {
+        let vc = P2PPaymentsOfferStatusBuilder.modal.buildPayout(offerId: offerId)
+        navigationController.present(vc, animated: true)
     }
 }
 
