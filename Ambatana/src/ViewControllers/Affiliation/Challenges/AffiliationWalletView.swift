@@ -12,6 +12,7 @@ final class AffiliationWalletView: UIView {
         static let pointsHSpacing: CGFloat = 4
         static let pointsUnitVSpacing: CGFloat = 5
         static let storeButtonIconSide: CGFloat = 12
+        static let storeButtonVCorrection: CGFloat = 6
         static let storeHSpacing: CGFloat = 8
         static let storeChevronHSpacing: CGFloat = 4
     }
@@ -27,7 +28,7 @@ final class AffiliationWalletView: UIView {
 
     private let titleIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = R.Asset.Affiliation.wallet24.image
+        imageView.image = R.Asset.Affiliation.wallet24.image.tint(color: .grayDark)
         return imageView
     }()
 
@@ -58,12 +59,14 @@ final class AffiliationWalletView: UIView {
         button.titleLabel?.font = UIFont.systemBoldFont(size: 16)
         button.contentHorizontalAlignment = .right
         button.semanticContentAttribute = .forceRightToLeft
-        button.setImage(R.Asset.Affiliation.chevronRight24.image.resizedImageToSize(CGSize(width: Layout.storeButtonIconSide,
-                                                                                           height: Layout.storeButtonIconSide),
-                                                                                    interpolationQuality: .default),
+        button.setImage(R.Asset.Affiliation.chevronRight24.image
+            .tint(color: .lgBlack)
+            .resizedImageToSize(CGSize(width: Layout.storeButtonIconSide,
+                                       height: Layout.storeButtonIconSide),
+                                interpolationQuality: .default),
                         for: .normal)
         button.tintColor = UIColor.lgBlack
-
+        button.isUserInteractionEnabled = false
         button.titleEdgeInsets = UIEdgeInsets(top: 0,
                                               left: 0,
                                               bottom: 0,
@@ -136,7 +139,8 @@ final class AffiliationWalletView: UIView {
                                                                     constant: Layout.storeHSpacing),
                            viewStoreButton.trailingAnchor.constraint(equalTo: trailingAnchor,
                                                                      constant: -Layout.padding),
-                           viewStoreButton.bottomAnchor.constraint(equalTo: pointsValueLabel.bottomAnchor)]
+                           viewStoreButton.bottomAnchor.constraint(equalTo: pointsValueLabel.bottomAnchor,
+                                                                   constant: -Layout.storeButtonVCorrection)]
         constraints.activate()
     }
 

@@ -165,10 +165,13 @@ final class ChatAssistantConversationCell: UITableViewCell, ReusableCell {
         timeLastMessageLabel.text = data.messageDate?.relativeTimeString(false)
         pendingMessagesLabel.isHidden = data.unreadCount <= 0
         pendingMessagesLabel.text = "\(data.unreadCount)"
-
+        assistantInfoLabel.isHidden = data.isFakeListing
+        contentView.backgroundColor = data.backgroundColor
+        
+        let badge = data.isFakeListing ? nil: ChatAssistantConversationCell.badgeImage
         avatarView.setMainImage(mainImage: data.userImagePlaceholder)
-        avatarView.setBadgeImage(badge: ChatAssistantConversationCell.badgeImage)
-
+        avatarView.setBadgeImage(badge: badge)
+ 
         if let avatarURL = data.userImageUrl {
             avatarView.lg_setImageWithURL(avatarURL, placeholderImage: data.userImagePlaceholder) {
                 [weak self] (result, url) in

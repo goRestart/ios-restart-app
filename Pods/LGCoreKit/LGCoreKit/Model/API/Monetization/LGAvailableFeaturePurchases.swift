@@ -11,23 +11,23 @@ public struct LGAvailableFeaturePurchases: AvailableFeaturePurchases, Decodable 
     // MARK: Decode
 
     /*
-     {
-     "available_purchases": [
-            {
+        {
+            "available_purchases": [
+                {
+                    "type": integer (1,2,4,5) [bump, boost, 3x, 7x]
+                    "feature_duration": integer (in seconds)
+                    "provider": string (google|apple|letgo)
+                    "letgo_item_id": uuid
+                    "provider_item_id": string (selected tier, ex: google::::com.abtnprojects.ambatana.bumpup.tier2.us)
+                },
+                (...)
+            ],
+            "feature_in_progress": {
                 "type": integer (1,2,4,5) [bump, boost, 3x, 7x]
+                "seconds_since_last_feature": integer (in seconds)
                 "feature_duration": integer (in seconds)
-                "provider": string (google|apple|letgo)
-                "letgo_item_id": uuid
-                "provider_item_id": string (selected tier, ex: google::::com.abtnprojects.ambatana.bumpup.tier2.us)
-            },
-        (...)
-        ],
-        "feature_in_progress": {
-            "type": integer (1,2,4,5) [bump, boost, 3x, 7x]
-            "seconds_since_last_feature": integer (in seconds)
-            "feature_duration": integer (in seconds)
+            }
         }
-     }
      */
 
     public init(from decoder: Decoder) throws {
@@ -36,12 +36,8 @@ public struct LGAvailableFeaturePurchases: AvailableFeaturePurchases, Decodable 
                                                                 forKey: .availablePurchases).validElements
         availablePurchases = availablePurchasesValue.filter { $0.purchaseType != nil }
         
-        if let featureInProgressValue = try keyedContainer.decode(FailableDecodable<LGFeatureInProgress>.self,
-                                                                  forKey: .featureInProgress).base {
-            featureInProgress = featureInProgressValue
-        } else {
-            featureInProgress = nil
-        }
+        featureInProgress = try keyedContainer.decodeIfPresent(LGFeatureInProgress.self,
+                                                               forKey: .featureInProgress)
     }
 
     enum CodingKeys: String, CodingKey {

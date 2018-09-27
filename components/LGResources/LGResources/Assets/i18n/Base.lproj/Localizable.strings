@@ -193,6 +193,9 @@
 // Affiliation Store screen. View history button
 "affiliation_store_view_history" = "History";
 
+// Affiliation Store screen. Empty screen message
+"affiliation_store_view_history_empty" = "No rewards in your history yet.";
+
 // Affiliation challenges screen. Wallet View. Title.
 "affiliation_wallet_title" = "YOUR WALLET";
 
@@ -2833,13 +2836,13 @@
 "payment_payout_payment_standar_subtitle_label" = "Get the money in 3-7 days";
 
 // Instant payout fee
-"payment_payout_payment_instant_title_label" = "Transaction fee";
+"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
 
 // Instant payout availability
 "payment_payout_payment_instant_subtitle_label" = "Get the money in under 1 hour";
 
 // Transaction fee
-"payment_payout_payment_fee" = "Transaction fee (%@)";
+"payment_payout_payment_fee" = "Transaction fee";
 
 // Money availability
 "payment_payout_payment_availability" = "Get the money in %@";

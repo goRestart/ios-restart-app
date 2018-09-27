@@ -11,8 +11,10 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(tags: [FilterTag])
     func vmFiltersChanged()
-    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmShowAffiliationToolTip(with configuration: TooltipConfiguration)
     func vmHideMapToolTip(hideForever: Bool)
+    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmHideAffiliationToolTip(hideForever: Bool)
 }
 
 protocol MainListingsAdsDelegate: class {
@@ -66,7 +68,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var activeRequesterType: RequesterType?
     
     private var isMapTooltipAdded = false
-    
+    private var isAffiliationTooltipAdded = false
     private var shouldCloseOnRemoveAllFilters: Bool = false
     
     var hasFilters: Bool {
@@ -84,8 +86,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var isEngagementBadgingEnabled: Bool {
         return featureFlags.engagementBadging.isActive
     }
-    
-    var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
+
+    lazy var rightBBItemsRelay = BehaviorRelay<[(image: UIImage, selector: Selector)]>(value: rightBarButtonsItems)
+
+    private var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if isRealEstateSelected {
             rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
@@ -98,8 +102,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         }
         
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
+        
         if shouldShowAffiliateButton {
             rightButtonItems.append((image: R.Asset.Affiliation.affiliationIcon.image.tint(color: .primaryColor), selector: #selector(MainListingsViewController.openAffiliationChallenges)))
+        } else {
+            isAffiliationTooltipAdded = false
+            delegate?.vmHideAffiliationToolTip(hideForever: false)
         }
         return rightButtonItems
     }
@@ -213,28 +221,17 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             let servicesFilters = filters.verticalFilters.services
             servicesFilters.listingTypes.forEach({ resultTags.append(.serviceListingType($0)) })
 
-            if featureFlags.servicesUnifiedFilterScreen.isActive {
-                if let serviceType = servicesFilters.type {
-                    
-                    if let serviceSubtypes = servicesFilters.subtypes {
-                        if serviceType.subTypes.count == serviceSubtypes.count ||
-                            serviceSubtypes.count == 0 {
-                            resultTags.append(.serviceType(serviceType))
-                        } else {
-                            resultTags.append(.unifiedServiceType(type: serviceType,
-                                                                  selectedSubtypes: serviceSubtypes))
-                        }
-                    } else {
+            if let serviceType = servicesFilters.type {
+                if let serviceSubtypes = servicesFilters.subtypes {
+                    if serviceType.subTypes.count == serviceSubtypes.count ||
+                        serviceSubtypes.count == 0 {
                         resultTags.append(.serviceType(serviceType))
+                    } else {
+                        resultTags.append(.unifiedServiceType(type: serviceType,
+                                                              selectedSubtypes: serviceSubtypes))
                     }
-                }
-            } else {
-                if let serviceType = servicesFilters.type {
+                } else {
                     resultTags.append(.serviceType(serviceType))
-                }
-                
-                if let tags = servicesFilters.subtypes?.map({ FilterTag.serviceSubtype($0) }) {
-                    resultTags.append(contentsOf: tags)
                 }
             }
         }
@@ -284,7 +281,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var shouldShowRealEstateMapTooltip: Bool {
-        return keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
+        return !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded && !isAffiliationTooltipAdded
+    }
+    
+    private var shouldShowAffiliationTooltip: Bool {
+        return !keyValueStorage[.affiliationTooltipShown] && !isAffiliationTooltipAdded
     }
     
     private func showTooltipMap() {
@@ -311,6 +312,37 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     func tooltipDidHide() {
         keyValueStorage[.realEstateTooltipMapShown] = true
     }
+    
+    private func showTooltipAffilition() {
+        guard featureFlags.affiliationEnabled.isActive else { return }
+        guard !keyValueStorage[.affiliationTooltipShown] else { return }
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 3
+        let title = R.Strings.affiliationMainFeedTooltipText
+        let titleHighlighted = R.Strings.affiliationMainFeedTooltipTextHighlighted
+        let attributedText = title.bicolorAttributedText(mainColor: .white,
+                                                         colouredText: titleHighlighted,
+                                                         otherColor: .primaryColor,
+                                                         font: UIFont.systemSemiBoldFont(size: 15),
+                                                         paragraphStyle: paragraphStyle)
+        let action: () -> () = {  [weak self] in
+            self?.tooltipAffiliationDidHide()
+            self?.openAffiliationChallenges(sourceButton: .banner)
+        }
+        let tooltipConfiguration = TooltipConfiguration(title: attributedText,
+                                                        style: .black(closeEnabled: false),
+                                                        peakOnTop: true,
+                                                        actionBlock:action,
+                                                        closeBlock: nil)
+        
+        
+        isAffiliationTooltipAdded = true
+        delegate?.vmShowAffiliationToolTip(with: tooltipConfiguration)
+    }
+    
+    func tooltipAffiliationDidHide() {
+       keyValueStorage[.affiliationTooltipShown] = true
+    }
 
     
     let mainListingsHeader = Variable<MainListingsHeader>([])
@@ -331,6 +363,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private let searchAlertsRepository: SearchAlertsRepository
     fileprivate let userRepository: UserRepository
     private let feedBadgingSynchronizer: FeedBadgingSynchronizer
+    private let appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver
     
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -452,7 +485,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          chatWrapper: ChatWrapper,
          adsImpressionConfigurable: AdsImpressionConfigurable,
          interestedHandler: InterestedHandleable,
-         feedBadgingSynchronizer: FeedBadgingSynchronizer) {
+         feedBadgingSynchronizer: FeedBadgingSynchronizer,
+         appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.searchRepository = searchRepository
@@ -475,6 +509,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.adsImpressionConfigurable = adsImpressionConfigurable
         self.interestedHandler = interestedHandler
         self.feedBadgingSynchronizer = feedBadgingSynchronizer
+        self.appsFlyerAffiliationResolver = appsFlyerAffiliationResolver
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? SharedConstants.numListingsPerPageBig : SharedConstants.numListingsPerPageDefault
@@ -528,6 +563,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let adsImpressionConfigurable = LGAdsImpressionConfigurable()
         let interestedHandler = InterestedHandler()
         let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
+        let appsFlyerAffiliationResolver = AppsFlyerAffiliationResolver.shared
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
                   searchRepository: searchRepository,
@@ -548,7 +584,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   chatWrapper: chatWrapper,
                   adsImpressionConfigurable: adsImpressionConfigurable,
                   interestedHandler: interestedHandler,
-                  feedBadgingSynchronizer: feedBadgingSynchronizer)
+                  feedBadgingSynchronizer: feedBadgingSynchronizer,
+                  appsFlyerAffiliationResolver: appsFlyerAffiliationResolver)
         self.shouldCloseOnRemoveAllFilters = shouldCloseOnRemoveAllFilters
     }
     
@@ -616,10 +653,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         wireframe?.openFilters(withFilters: filters, dataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
     }
-    
-    func openAffiliationChallenges() {
+
+    func openAffiliationChallenges(sourceButton: AffiliationChallengesSource.FeedButtonName) {
+        delegate?.vmHideAffiliationToolTip(hideForever: true)
         wireframe?.openLoginIfNeededFromFeed(from: .feed, loggedInAction: { [weak self] in
-            self?.wireframe?.openAffiliationChallenges()
+            self?.wireframe?.openAffiliationChallenges(sourceButton: sourceButton)
         })
     }
     
@@ -849,10 +887,38 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private func setupRx() {
+        featureFlags.rx_affiliationEnabled
+            .asDriver(onErrorJustReturn: .control)
+            .filter { $0 == .active }
+            .distinctUntilChanged()
+            .map { [weak self] enabled in
+                self?.rightBarButtonsItems ?? []
+            }.drive(rightBBItemsRelay)
+            .disposed(by: disposeBag)
+
         listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
         }.disposed(by: disposeBag)
         
+        appsFlyerAffiliationResolver
+            .rx.affiliationCampaign
+            .bind { [weak self] status in
+            switch status {
+            case .campaignNotAvailableForUser:
+                self?.delegate?.vmHideAffiliationToolTip(hideForever: true)
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openWrongCountryModal()
+                })
+            case.referral( let referrer):
+                self?.delegate?.vmHideAffiliationToolTip(hideForever: true)
+                guard !(self?.keyValueStorage[.didShowAffiliationOnBoarding] ?? true) else { return }
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openAffiliationOnboarding(data: referrer)
+                })
+            case .unknown:
+                self?.showTooltipAffilition()
+            }
+        }.disposed(by: disposeBag)
         Observable.combineLatest(notificationsManager.engagementBadgingNotifications.asObservable(),
                                  containsListings.asObservable(),
                                  isShowingCategoriesHeader.asObservable()) { $0 && $1 && $2 }
@@ -888,6 +954,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                 self?.userAvatar.accept(image)
         }
     }
+    
 
     /**
      Returns a view model for search.

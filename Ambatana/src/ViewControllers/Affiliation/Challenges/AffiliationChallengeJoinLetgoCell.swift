@@ -1,4 +1,5 @@
 import LGComponents
+import LGCoreKit
 import UIKit
 
 final class AffiliationChallengeJoinLetgoCell: UITableViewCell {
@@ -41,16 +42,20 @@ final class AffiliationChallengeJoinLetgoCell: UITableViewCell {
 
         challengeView.set(title: R.Strings.affiliationChallengesJoinLetgoTitle)
         challengeView.set(subtitle: R.Strings.affiliationChallengesJoinLetgoSubtitle)
+        challengeView.set(description: R.Strings.affiliationChallengesJoinLetgoDescription)
     }
 
 
     // MARK: - Setup
 
-    func setup(data: ChallengeJoinLetgoData) {
-        challengeView.setup(joinLetgoData: data)
+    func setup(data: ChallengeJoinLetgoData,
+               isCompleted: Bool) {
+        challengeView.setup(joinLetgoData: data,
+                            isCompleted: isCompleted)
 
         let isPhoneConfirmed = data.stepsCompleted.contains(.phoneVerification)
         let isListingPosted = data.stepsCompleted.contains(.listingPosted)
+
         switch (isPhoneConfirmed, isListingPosted) {
         case (false, _):
             challengeView.set(buttonTitle: R.Strings.affiliationChallengesJoinLetgoStepPhoneButton)

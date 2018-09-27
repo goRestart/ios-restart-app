@@ -366,6 +366,7 @@ enum AccessibilityId: Equatable, Accessible {
     case mainSignupLogInButton
     case mainSignupCloseButton
     case mainSignupHelpButton
+    case mainSignupContinueWithEmailButton
 
     // SignUpLogin
     case signUpLoginFacebookButton
@@ -387,6 +388,18 @@ enum AccessibilityId: Equatable, Accessible {
     case recaptchaCloseButton
     case recaptchaLoading
     case recaptchaWebView
+
+    // Passwordless
+    case passwordlessEmailTitleLabel
+    case passwordlessEmailDescriptionLabel
+    case passwordlessEmailTextField
+    case passwordlessEmailContinueButton
+    case passwordlessUsernameTitleLabel
+    case passwordlessUsernameUsernameTextField
+    case passwordlessDoneButton
+    case passwordlessEmailSentTitleLabel
+    case passwordlessEmailSentSubtitleLabel
+    case passwordlessEmailSentImageView
 
     // ChatConversationsList
     case chatConversationsListOptionsNavBarButton
@@ -679,19 +692,32 @@ enum AccessibilityId: Equatable, Accessible {
     case boostTimeLabel
     case boostProgressBar
 
-    // Free bump up screen
-    case freeBumpUpCloseButton
-    case freeBumpUpImage
-    case freeBumpUpTitleLabel
-    case freeBumpUpSubtitleLabel
-    case freeBumpUpSocialShareView
-
     // Payment bump up screen
     case paymentBumpUpCloseButton
     case paymentBumpUpImage
     case paymentBumpUpTitleLabel
     case paymentBumpUpSubtitleLabel
     case paymentBumpUpButton
+
+    // Multi day bump up screen
+    case multiDayBumpCloseButton
+    case multiDayBumpTitleLabel
+    case multiDayBump1DayItem
+    case multiDayBump3DaysItem
+    case multiDayBump7DaysItem
+
+    case multiDayBumpItemTitleLabel
+    case multiDayBumpItemDaysTag
+    case multiDayBumpItemSubtitleLabel
+    case multiDayBumpItemListingImage
+    case multiDayBumpItemButton
+
+    // Multi day info bump up screen
+    case multiDayBumpInfoCloseButton
+    case multiDayBumpInfoTimerBar
+    case multiDayBumpInfo1DayItem
+    case multiDayBumpInfo3DaysItem
+    case multiDayBumpInfo7DaysItem
 
     // Bump up boost screen
     case boostViewTimer
@@ -735,7 +761,7 @@ enum AccessibilityId: Equatable, Accessible {
     case askPhoneNumberLetstalkText
     case askPhoneNumberTextfield
     case askPhoneNumberSendPhoneButton
-    
+
     //  MARK - Verticals
     case promoCell
     case promoCellTitle
@@ -758,6 +784,12 @@ enum AccessibilityId: Equatable, Accessible {
     case dropdownViewControllerSearchBar
     case dropdownViewControllerApplyButton
     case dropdownViewControllerResetButton
+
+    // Post Another Listing
+    case postAnotherListingCloseButton
+    case postAnotherListingTitleLabel
+    case postAnotherListingDescriptionLabel
+    case postAnotherListingPostButton
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -1489,6 +1521,9 @@ enum AccessibilityId: Equatable, Accessible {
             return "mainSignupCloseButton"
         case .mainSignupHelpButton:
             return "mainSignupHelpButton"
+        case .mainSignupContinueWithEmailButton:
+            return "mainSignupContinueWithEmailButton"
+            
             
         // SignUpLogin
         case .signUpLoginFacebookButton:
@@ -1527,6 +1562,29 @@ enum AccessibilityId: Equatable, Accessible {
             return "recaptchaLoading"
         case .recaptchaWebView:
             return "recaptchaWebView"
+
+        // Passowrdless
+        case .passwordlessEmailTitleLabel:
+            return "passwordlessEmailTitleLabel"
+        case .passwordlessEmailDescriptionLabel:
+            return "passwordlessEmailDescriptionLabel"
+        case .passwordlessEmailTextField:
+            return "passwordlessEmailTextField"
+        case .passwordlessEmailContinueButton:
+            return "passwordlessEmailContinueButton"
+        case .passwordlessUsernameTitleLabel:
+            return "passwordlessUsernameTitleLabel"
+        case .passwordlessUsernameUsernameTextField:
+            return "passwordlessUsernameUsernameTextField"
+        case .passwordlessDoneButton:
+            return "passwordlessDoneButton"
+        case .passwordlessEmailSentTitleLabel:
+            return "passwordlessEmailSentTitleLabel"
+        case .passwordlessEmailSentSubtitleLabel:
+            return "passwordlessEmailSentSubtitleLabel"
+        case .passwordlessEmailSentImageView:
+            return "passwordlessEmailSentImageView"
+
             
         // ChatConversationsList
         case .chatConversationsListOptionsNavBarButton:
@@ -2035,18 +2093,6 @@ enum AccessibilityId: Equatable, Accessible {
         case .boostProgressBar:
             return "boostProgressBar"
 
-        // Free bump up screen
-        case .freeBumpUpCloseButton:
-            return "freeBumpUpCloseButton"
-        case .freeBumpUpImage:
-            return "freeBumpUpImage"
-        case .freeBumpUpTitleLabel:
-            return "freeBumpUpTitleLabel"
-        case .freeBumpUpSubtitleLabel:
-            return "freeBumpUpSubtitleLabel"
-        case .freeBumpUpSocialShareView:
-            return "freeBumpUpSocialShareView"
-            
         // Payment bump up screen
         case .paymentBumpUpCloseButton:
             return "paymentBumpUpCloseButton"
@@ -2058,6 +2104,41 @@ enum AccessibilityId: Equatable, Accessible {
             return "paymentBumpUpSubtitleLabel"
         case .paymentBumpUpButton:
             return "paymentBumpUpButton"
+
+        // Multi day bump up screen
+        case .multiDayBumpCloseButton:
+            return "multiDayBumpCloseButton"
+        case .multiDayBumpTitleLabel:
+            return "multiDayBumpTitleLabel"
+        case .multiDayBump1DayItem:
+            return "multiDayBump1DayItem"
+        case .multiDayBump3DaysItem:
+            return "multiDayBump3DaysItem"
+        case .multiDayBump7DaysItem:
+            return "multiDayBump7DaysItem"
+
+        case .multiDayBumpItemTitleLabel:
+            return "multiDayBumpItemTitleLabel"
+        case .multiDayBumpItemDaysTag:
+            return "multiDayBumpItemDaysTag"
+        case .multiDayBumpItemSubtitleLabel:
+            return "multiDayBumpItemSubtitleLabel"
+        case .multiDayBumpItemListingImage:
+            return "multiDayBumpItemListingImage"
+        case .multiDayBumpItemButton:
+            return "multiDayBumpItemButton"
+
+        // Multi day info bump up screen
+        case .multiDayBumpInfoCloseButton:
+            return "multiDayBumpInfoCloseButton"
+        case .multiDayBumpInfoTimerBar:
+            return "multiDayBumpInfoTimerBar"
+        case .multiDayBumpInfo1DayItem:
+            return "multiDayBumpInfo1DayItem"
+        case .multiDayBumpInfo3DaysItem:
+            return "multiDayBumpInfo3DaysItem"
+        case .multiDayBumpInfo7DaysItem:
+            return "multiDayBumpInfo7DaysItem"
 
         // Bump up boost screen
 
@@ -2162,6 +2243,16 @@ enum AccessibilityId: Equatable, Accessible {
             return "dropdownViewControllerApplyButton"
         case .dropdownViewControllerResetButton:
             return "dropdownViewControllerResetButton"
+
+        // Post Another Listing
+        case .postAnotherListingCloseButton:
+            return "postAnotherListingCloseButton"
+        case .postAnotherListingTitleLabel:
+            return "postAnotherListingTitleLabel"
+        case .postAnotherListingDescriptionLabel:
+            return "postAnotherListingDescriptionLabel"
+        case .postAnotherListingPostButton:
+            return "postAnotherListingPostButton"
         }
     }
     

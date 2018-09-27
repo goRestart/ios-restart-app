@@ -499,12 +499,12 @@ final class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+    func showBumpUpView(purchases: [BumpUpProductData],
                         maxCountdown: TimeInterval,
                         bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
-        currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
+        currentListingViewModel?.showBumpUpView(purchases: purchases,
                                                 maxCountdown: maxCountdown,
                                                 bumpUpType: bumpUpType,
                                                 bumpUpSource: bumpUpSource,
@@ -648,6 +648,10 @@ final class ListingCarouselViewModel: BaseViewModel {
     func itemIsPlayable(at index: Int) -> Bool {
         guard let media = currentListingViewModel?.productMedia.value else { return false }
         return media[safeAt: index]?.isPlayable ?? false
+    }
+    
+    func makeSocialMessage() -> SocialMessage? {
+        return currentListingViewModel?.socialMessage.value
     }
 
     // MARK: - Private Methods

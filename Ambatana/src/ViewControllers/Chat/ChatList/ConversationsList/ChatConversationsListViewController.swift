@@ -84,7 +84,7 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         if featureFlags.showChatConnectionStatusBar.isActive {
             setupStatusBarRx()
         }
-        if viewModel.shouldSetupAds() {
+        if viewModel.shouldShowAds() {
             setupAdsRx()
         }
     }
@@ -112,6 +112,9 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         contentView.refreshControlBlock = { [weak self] in
             self?.viewModel.retrieveFirstPage(completion: { [weak self] in
                 self?.contentView.endRefresh()
+                if let viewModel = self?.viewModel, viewModel.shouldShowAds() {
+                    self?.bannerView.load(DFPRequest())
+                }
             })
         }
     }
@@ -170,7 +173,13 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
             switch dataSource[indexPath] {
 
             case .conversationCellData(let conversationCellData):
-                
+                if conversationCellData.isFakeListing {
+                    guard let cell = tableView.dequeue(type: ChatAssistantConversationCell.self, for: indexPath) else {
+                        return UITableViewCell()
+                    }
+                    cell.setupCellWith(data: conversationCellData, indexPath: indexPath)
+                    return cell
+                }
                 if let userType = conversationCellData.userType,
                     userType == .dummy,
                     conversationCellData.listingId == nil {
@@ -256,11 +265,10 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
 
     private func setupAdsRx() {
         bannerView.adUnitID = featureFlags.multiAdRequestInChatSectionAdUnitId
-        let adRequest = DFPRequest()
         bannerView.adSizeDelegate = self
         bannerView.delegate = self
         bannerView.rootViewController = self
-        bannerView.load(adRequest)
+        bannerView.load(DFPRequest())
     }
     
     // MARK: Navigation Bar Actions
@@ -296,7 +304,7 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         contentView.resetDataSource()
         let dataSource = ChatConversationsListViewController.dataSource()
         dataSource.decideViewTransition = { (_, _, changeSet) in
-            return RxDataSources.ViewTransition.animated
+            return RxDataSources.ViewTransition.reload
         }
         guard let adUnitID = bannerView.adUnitID else { return }
         let selectedPosition = selectedPositionFor(adSize: sizeAd)
@@ -310,7 +318,6 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
             .map { [ChatConversationsListSectionModel(conversations: $0, header: "conversations", adData: adData)] }
             .bind(to: contentView.rx_tableView.items(dataSource: dataSource))
             .disposed(by: bag)
-        viewModel.adShown(bannerSize: bannerView.adSize.size)
     }
 }
 
@@ -331,6 +338,7 @@ extension ChatConversationsListViewController: GADBannerViewDelegate {
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
         logMessage(.info, type: [.monetization], message: "bannerView received: \(bannerView)")
         updateWithAd(bannerView: bannerView)
+        viewModel.adShown(bannerSize: bannerView.adSize.size)
     }
     
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {

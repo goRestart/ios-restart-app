@@ -62,6 +62,7 @@
 "affiliation_store_title" = "리워드 스토어";
 "affiliation_store_unknown_error_message" = "이런! 보상을 불러오는 동안 오류가 발생했습니다.";
 "affiliation_store_view_history" = "방문 기록";
+"affiliation_store_view_history_empty" = "사용 기록에 적립된 보상이 없습니다.";
 "affiliation_wallet_open_store_button" = "보상 확인";
 "affiliation_wallet_points_label" = "PTS";
 "affiliation_wallet_title" = "지갑";
@@ -834,9 +835,9 @@
 "payment_frequency_per_year" = "연";
 "payment_payout_navbar_title" = "페이아웃";
 "payment_payout_payment_availability" = "%@ 이내에 금액을 송금받으세요";
-"payment_payout_payment_fee" = "송금 수수료 (%@)";
+"payment_payout_payment_fee" = "송금 수수료";
 "payment_payout_payment_instant_subtitle_label" = "1시간 이내에 금액을 송금받으세요";
-"payment_payout_payment_instant_title_label" = "송금 수수료";
+"payment_payout_payment_instant_title_label" = "송금 수수료 (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "3-7일 이내에 금액을 송금받으세요";
 "payment_payout_payment_standar_title_label" = "무료";
 "payment_payout_payment_type_instant" = "빠른 결제";
@@ -1237,8 +1238,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "전화 번호 입력";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "연락 방법을 검색해주셔서 대단히 감사합니다! 저희에게 전화를 하거나 전화번호를 남겨주시면 연락드리도록 하겠습니다";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "전화번호를 추가해주셔서 감사합니다! 상단의 전화 버튼을 이용하여 저희에게 전화주시는 것이 낫습니다.";
-"profile_ask_verification_button_disabled" = "Verification request sent!";
-"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+"profile_ask_verification_button_disabled" = "인증 요청이 발송되었습니다!";
+"profile_ask_verification_button_enabled" = "프로필 인증을 위해 %@에게 묻기";
 "profile_bio_add_button" = "개인 정보 추가하기";
 "profile_bio_show_more_button" = "상세 사항";
 "profile_blocked_by_me_label" = "회원님께서는 이 사용자를 차단하셨습니다";

@@ -16,8 +16,10 @@ struct ConversationCellData: Equatable {
     let unreadCount: Int
     let messageDate: Date?
     let isTyping: Bool
+    let isFakeListing: Bool
     
     static func make(from conversation: ChatConversation) -> ConversationCellData {
+        let isFakeListing = (conversation.listing?.isFakeListing ?? false) && !(conversation.interlocutor?.userType.isDummy ?? true)
         return ConversationCellData(status: conversation.conversationCellStatus,
                                     conversationId: conversation.objectId,
                                     userId: conversation.interlocutor?.objectId,
@@ -32,23 +34,7 @@ struct ConversationCellData: Equatable {
                                     listingImageUrl: conversation.listing?.image?.fileURL,
                                     unreadCount: conversation.unreadMessageCount,
                                     messageDate: conversation.lastMessageSentAt,
-                                    isTyping: conversation.interlocutorIsTyping.value)
-    }
-    
-    static func ==(lhs: ConversationCellData, rhs: ConversationCellData) -> Bool {
-        return lhs.status == rhs.status
-            && lhs.conversationId == rhs.conversationId
-            && lhs.userId == rhs.userId
-            && lhs.userName == rhs.userName
-            && lhs.userImageUrl == rhs.userImageUrl
-            && lhs.userImagePlaceholder == rhs.userImagePlaceholder
-            && lhs.userType == rhs.userType
-            && lhs.amISelling == rhs.amISelling
-            && lhs.listingId == rhs.listingId
-            && lhs.listingName == rhs.listingName
-            && lhs.listingImageUrl == rhs.listingImageUrl
-            && lhs.unreadCount == rhs.unreadCount
-            && lhs.messageDate == rhs.messageDate
-            && lhs.isTyping == rhs.isTyping
+                                    isTyping: conversation.interlocutorIsTyping.value,
+                                    isFakeListing: isFakeListing)
     }
 }

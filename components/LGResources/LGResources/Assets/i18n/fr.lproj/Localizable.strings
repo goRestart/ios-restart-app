@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Boutique de Récompenses";
 "affiliation_store_unknown_error_message" = "Oups ! Une erreur est survenue au moment de télécharger les récompenses.";
 "affiliation_store_view_history" = "Historique";
+"affiliation_store_view_history_empty" = "Aucune récompense dans votre historique pour le moment.";
 "affiliation_wallet_open_store_button" = "Voir les récompenses";
 "affiliation_wallet_points_label" = "PTS";
 "affiliation_wallet_title" = "VOTRE PORTEFEUILLE";
@@ -836,7 +837,7 @@
 "payment_payout_payment_availability" = "Recevez l'argent dans %@";
 "payment_payout_payment_fee" = "Frais de transaction (%@)";
 "payment_payout_payment_instant_subtitle_label" = "Recevez l'argent en moins d'une heure";
-"payment_payout_payment_instant_title_label" = "Frais de transaction";
+"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Recevez l'argent dans 3 à 7 jours";
 "payment_payout_payment_standar_title_label" = "GRATUIT";
 "payment_payout_payment_type_instant" = "Paiement rapide";

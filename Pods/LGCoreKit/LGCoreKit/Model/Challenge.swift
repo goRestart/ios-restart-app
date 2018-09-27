@@ -3,7 +3,7 @@ public enum Challenge {
     case inviteFriends(ChallengeInviteFriendsData)
     case joinLetgo(ChallengeJoinLetgoData)
     
-    var status: ChallengeStatus {
+    public var status: ChallengeStatus {
         switch self {
         case let .inviteFriends(data):
             return data.status
@@ -14,35 +14,37 @@ public enum Challenge {
 }
 
 public enum ChallengeStatus: String, Decodable {
-    case ongoing, completed, pending
+    case ongoing, completed, pending, processing
 }
 
 public struct ChallengeMilestone {
-    let stepIndex: Int
-    let pointsReward: Int
+    public let stepIndex: Int
+    public let pointsReward: Int
 }
 
 public struct ChallengeInviteFriendsData {
-    let id: String
-    let milestones: [ChallengeMilestone]
-    let stepsCount: Int
-    let currentStep: Int
-    let status: ChallengeStatus
-    
-    func calculateTotalPointsReward() -> Int {
+    public let id: String
+    public let milestones: [ChallengeMilestone]
+    public let stepsCount: Int
+    public let currentStep: Int
+    public let status: ChallengeStatus
+
+    public func calculateTotalPointsReward() -> Int {
         return milestones.reduce(0) { partial, milestone in partial + milestone.pointsReward }
     }
 }
 
 public struct ChallengeJoinLetgoData {
-    enum Step: String, Decodable {
-        case phoneVerification = "phone_verification", listingPosted = "listing_posted"
+    public enum Step: String, Decodable {
+        case phoneVerification = "phone_verification"
+        case listingPosted = "listing_posted"
+        case listingApproved = "listing_approved"
     }
-    let id: String
-    let stepsCount: Int
-    let stepsCompleted: [Step]
-    let pointsReward: Int
-    let status: ChallengeStatus
+    public let id: String
+    public let stepsCount: Int
+    public let stepsCompleted: [Step]
+    public let pointsReward: Int
+    public let status: ChallengeStatus
 }
 
 extension Challenge: Decodable {
@@ -51,7 +53,7 @@ extension Challenge: Decodable {
         case type, id, attributes
     }
     
-    enum ChallengeType: String, Decodable {
+    public enum ChallengeType: String, Decodable {
         case inviteFriends = "referred_friend", joinLetgo = "join_letgo"
     }
     
@@ -135,9 +137,9 @@ extension ChallengeJoinLetgoData: Decodable {
      "id": "xxx", // userId to identify,
      "attributes": {
        "total_steps": 2,
-       "steps_completed": ["phone_verification", "listing_posted"],
+       "steps_completed": ["user_verified", "listing_posted", "phone_verification"],
        "points": 5,
-       "status": "completed" // ongoing|completed|disabled|pending
+       "status": "completed" // ongoing|completed|processing|pending
      }
     */
     

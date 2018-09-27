@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Jutalombolt";
 "affiliation_store_unknown_error_message" = "Hoppá! Hiba történt a jutalmak betöltése során.";
 "affiliation_store_view_history" = "Előzmények";
+"affiliation_store_view_history_empty" = "Még nincsenek jutalmak az előzmények között.";
 "affiliation_wallet_open_store_button" = "Jutalmak megtekintése";
 "affiliation_wallet_points_label" = "pont";
 "affiliation_wallet_title" = "SAJÁT TÁRCA";
@@ -834,9 +835,9 @@
 "payment_frequency_per_year" = "év";
 "payment_payout_navbar_title" = "Kifizetés";
 "payment_payout_payment_availability" = "Kifizetés %@ alatt";
-"payment_payout_payment_fee" = "Tranzakciós díj (%@)";
+"payment_payout_payment_fee" = "Tranzakciós díj";
 "payment_payout_payment_instant_subtitle_label" = "1 órán belül megkapod a pénzt";
-"payment_payout_payment_instant_title_label" = "Tranzakciós díj";
+"payment_payout_payment_instant_title_label" = "Tranzakciós díj (%1$@) – %2$@";
 "payment_payout_payment_standar_subtitle_label" = "3–7 nap alatt kapod meg a pénzt";
 "payment_payout_payment_standar_title_label" = "INGYENES";
 "payment_payout_payment_type_instant" = "Gyors kifizetés";
@@ -1237,8 +1238,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Telefonszám megadása";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Köszönjük, hogy érdeklődsz! Hívj fel, vagy add meg a telefonszámodat, hogy mi hívhassunk.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Köszönjük, hogy megadtad a számodat! Egyszerűbben elérhetsz minket, ha felhívsz a fenti gombbal.";
-"profile_ask_verification_button_disabled" = "Verification request sent!";
-"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+"profile_ask_verification_button_disabled" = "Megerősítési kérés elküldve!";
+"profile_ask_verification_button_enabled" = "Kérd meg %@ felhasználót, hogy erősítse meg a profilját";
 "profile_bio_add_button" = "Bemutatkozás hozzáadása";
 "profile_bio_show_more_button" = "INFORMÁCIÓK RÓLAM";
 "profile_blocked_by_me_label" = "Ezt a felhasználót blokkoltad";

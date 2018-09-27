@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Cửa hàng phần thưởng";
 "affiliation_store_unknown_error_message" = "Ồ! Có lỗi xảy ra trong khi tải phần thưởng.";
 "affiliation_store_view_history" = "Lịch sử";
+"affiliation_store_view_history_empty" = "Chưa có phần thưởng nào trong lịch sử của bạn.";
 "affiliation_wallet_open_store_button" = "Xem phần thưởng";
 "affiliation_wallet_points_label" = "ĐIỂM";
 "affiliation_wallet_title" = "VÍ CỦA BẠN";
@@ -834,9 +835,9 @@
 "payment_frequency_per_year" = "năm";
 "payment_payout_navbar_title" = "Thanh toán";
 "payment_payout_payment_availability" = "Nhận tiền trong %@";
-"payment_payout_payment_fee" = "Miễn phí giao dịch (%@)";
+"payment_payout_payment_fee" = "Phí giao dịch";
 "payment_payout_payment_instant_subtitle_label" = "Nhận tiền sau chưa đầy 1 giờ";
-"payment_payout_payment_instant_title_label" = "Miễn phí giao dịch";
+"payment_payout_payment_instant_title_label" = "Phí giao dịch (%1$@) — %2$@)";
 "payment_payout_payment_standar_subtitle_label" = "Nhận tiền trong 3-7 ngày";
 "payment_payout_payment_standar_title_label" = "MIỄN PHÍ";
 "payment_payout_payment_type_instant" = "Thanh toán nhanh";
@@ -1237,8 +1238,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Nhập số điện thoại";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Cảm ơn bạn đã liên hệ! Vui lòng gọi cho chúng tôi hoặc để lại số điện thoại để chúng tôi gọi cho bạn.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Cảm ơn bạn đã thêm số điện thoại! Sẽ luôn tốt hơn nếu bạn gọi chúng tôi bằng nút gọi bên trên.";
-"profile_ask_verification_button_disabled" = "Verification request sent!";
-"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+"profile_ask_verification_button_disabled" = "Đã gửi yêu cầu xác minh!";
+"profile_ask_verification_button_enabled" = "Yêu cầu %@ xác minh hồ sơ của họ";
 "profile_bio_add_button" = "Thêm tiểu sử";
 "profile_bio_show_more_button" = "THÊM VỀ TÔI";
 "profile_blocked_by_me_label" = "Bạn đã chặn người dùng này";

@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Beloningen winkel";
 "affiliation_store_unknown_error_message" = "Oeps! Er is een fout opgetreden tijdens het laden van beloningen.";
 "affiliation_store_view_history" = "Geschiedenis";
+"affiliation_store_view_history_empty" = "Nog geen beloningen in jouw geschiedenis.";
 "affiliation_wallet_open_store_button" = "Bekijk beloningen";
 "affiliation_wallet_points_label" = "PTN";
 "affiliation_wallet_title" = "JOUW PORTEMONNEE";
@@ -836,7 +837,7 @@
 "payment_payout_payment_availability" = "Ontvang het geld binnen %@";
 "payment_payout_payment_fee" = "Transactiekosten (%@)";
 "payment_payout_payment_instant_subtitle_label" = "Ontvang het geld binnen 1 uur";
-"payment_payout_payment_instant_title_label" = "Transactiekosten";
+"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Ontvang het geld binnen 3-7 dagen";
 "payment_payout_payment_standar_title_label" = "GRATIS";
 "payment_payout_payment_type_instant" = "Snelle betaling";
@@ -1237,8 +1238,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Voer telefoonnummer in";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Bedankt voor het contact opnemen! Je kunt ons bellen of laat je nummer achter zodat wij jou kunnen bellen.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Bedankt voor het toevoegen van je telefoonnummer! Het is altijd beter om ons te bellen via de bovenstaande belknop.";
-"profile_ask_verification_button_disabled" = "Verification request sent!";
-"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+"profile_ask_verification_button_disabled" = "Verificatie-aanvraag verzonden!";
+"profile_ask_verification_button_enabled" = "Vraag %@ om hun profiel te verifiëren";
 "profile_bio_add_button" = "Voeg jouw biografie toe";
 "profile_bio_show_more_button" = "MEER OVER MIJ";
 "profile_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";

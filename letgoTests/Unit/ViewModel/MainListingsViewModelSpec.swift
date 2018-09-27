@@ -51,7 +51,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 chatWrapper: MockChatWrapper(),
                                                 adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                 interestedHandler: MockInterestedHandler(),
-                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
                     expect(sut.currentActiveFilters?.selectedCategories) == []
                 }
                 it("has firstDate no nil (more than one time in Letgo)") {
@@ -76,7 +77,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 chatWrapper: MockChatWrapper(),
                                                 adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                 interestedHandler: MockInterestedHandler(),
-                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
                     expect(sut.currentActiveFilters?.selectedCategories) == []
                 }
             }
@@ -113,7 +115,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 chatWrapper: MockChatWrapper(),
                                                 adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                 interestedHandler: MockInterestedHandler(),
-                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
                 }
                 context("when user set some filters") {
                     
@@ -180,7 +183,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     chatWrapper: MockChatWrapper(),
                                                     adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
-                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                    appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
 
                         sut.listingListVM(listingListViewModel,
                                           didSucceedRetrievingListingsPage: 0,
@@ -223,7 +227,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     chatWrapper: MockChatWrapper(),
                                                     adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
-                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                    appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
                         sut.listingListVM(listingListViewModel,
                                           didSucceedRetrievingListingsPage: 0,
                                           withResultsCount: Int.random(),
@@ -265,7 +270,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     chatWrapper: MockChatWrapper(),
                                                     adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
-                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                    appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
                         sut.listingListVM(listingListViewModel,
                                           didSucceedRetrievingListingsPage: 0,
                                           withResultsCount: Int.random(),
@@ -307,7 +313,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     chatWrapper: MockChatWrapper(),
                                                     adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
-                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                    appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
                         sut.listingListVM(listingListViewModel,
                                           didSucceedRetrievingListingsPage: 0,
                                           withResultsCount: Int.random(),
@@ -349,7 +356,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     chatWrapper: MockChatWrapper(),
                                                     adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
-                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                    appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
                         sut.listingListVM(listingListViewModel,
                                           didSucceedRetrievingListingsPage: 0,
                                           withResultsCount: Int.random(),
@@ -394,7 +402,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     chatWrapper: MockChatWrapper(),
                                                     adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                     interestedHandler: MockInterestedHandler(),
-                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                    feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                    appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
                     }
 
                     context("receives listing page with promo cell active") {
@@ -442,7 +451,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 chatWrapper: MockChatWrapper(),
                                                 adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                 interestedHandler: MockInterestedHandler(),
-                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
                 }
                 
                 context("cars new backend active") {
@@ -485,7 +495,8 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 chatWrapper: MockChatWrapper(),
                                                 adsImpressionConfigurable: MockAdsImpressionConfigurable(),
                                                 interestedHandler: MockInterestedHandler(),
-                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer())
+                                                feedBadgingSynchronizer: MockFeedBadgingSynchronizer(),
+                                                appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver(myUserRepository: MockMyUserRepository()))
                 }
                 
                 context("with too many requests") {

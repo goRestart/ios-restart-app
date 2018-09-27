@@ -1,6 +1,6 @@
 "account_pending_moderation" = "Hesap inceleme altındadır";
 "account_pending_moderation_w_name" = "%@ adlı kullanıcının hesabı inceleme altındadır";
-"advertising_default_cta" = "Read more";
+"advertising_default_cta" = "Daha fazlasını oku";
 "advertising_text" = "Reklam";
 "affiliation_challenges_invite_friends_button" = "Arkadaş davet et";
 "affiliation_challenges_invite_friends_description" = "%2$@ puan kazanmak için %1$@ arkadaşını davet et. %3$@ arkadaşını daha davet et ve %4$@ puan daha kazan!";
@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Ödüller mağazası";
 "affiliation_store_unknown_error_message" = "Oops! Ödüller yüklenirken bir hata oluştu.";
 "affiliation_store_view_history" = "Geçmiş";
+"affiliation_store_view_history_empty" = "Geçmişinde henüz hiç ödül yok.";
 "affiliation_wallet_open_store_button" = "Ödülleri gör";
 "affiliation_wallet_points_label" = "PUAN";
 "affiliation_wallet_title" = "CÜZDANIN";
@@ -834,9 +835,9 @@
 "payment_frequency_per_year" = "yıl";
 "payment_payout_navbar_title" = "Ödeme";
 "payment_payout_payment_availability" = "Parayı %@ içinde al";
-"payment_payout_payment_fee" = "İşlem ücreti (%@)";
+"payment_payout_payment_fee" = "İşlem ücreti";
 "payment_payout_payment_instant_subtitle_label" = "Parayı 1 saatten kısa bir sürede al";
-"payment_payout_payment_instant_title_label" = "İşlem ücreti";
+"payment_payout_payment_instant_title_label" = "İşlem ücreti (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Parayı 3-7 gün içinde al";
 "payment_payout_payment_standar_title_label" = "ÜCRETSİZ";
 "payment_payout_payment_type_instant" = "Hızlı ödeme";
@@ -846,8 +847,8 @@
 "payments_change_offer_confirmation_button" = "Yeni teklif belirle";
 "payments_change_offer_invalid_amount_alert_button" = "Tamam";
 "payments_change_offer_invalid_amount_alert_message" = "Oops! Teklifin %@ ve %@ arasında olmalı.";
-"payments_common_contact_us_option" = "Contact us";
-"payments_common_faqs_option" = "FAQ";
+"payments_common_contact_us_option" = "Bizimle iletişime geç";
+"payments_common_faqs_option" = "SSS";
 "payments_create_offer_buyer_protection_description_label" = "letgo üzerinden öde ve fonların sadece sen ürünü tutmak istediğini onayladığında satıcıya geçsin";
 "payments_create_offer_buyer_protection_title_label" = "Alıcı Koruma";
 "payments_create_offer_change_button" = "Değiştir";
@@ -1237,8 +1238,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Telefon numarasını gir";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "İletişime geçtiğin için teşekkürler. Lütfen bizi ara veya numaranı ekle biz seni arayalım.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Telefon numaranı eklediğin için teşekkürler! Yukarıdaki arama düğmesini kullanarak bizi her zaman arayabilirsin.";
-"profile_ask_verification_button_disabled" = "Verification request sent!";
-"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+"profile_ask_verification_button_disabled" = "Doğrulama talebi gönderildi!";
+"profile_ask_verification_button_enabled" = "%@'ten profilini doğrulamasını iste";
 "profile_bio_add_button" = "Biyografini ekle";
 "profile_bio_show_more_button" = "HAKKIMDA DAHA FAZLA BİLGİ";
 "profile_blocked_by_me_label" = "Bu kullanıcıyı engelledin";

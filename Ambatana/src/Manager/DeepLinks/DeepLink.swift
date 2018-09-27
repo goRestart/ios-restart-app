@@ -59,9 +59,12 @@ enum DeepLinkAction: Equatable {
     case userRating(ratingId: String)
     case notificationCenter
     case appStore
+    case passwordlessSignup(token: String)
+    case passwordlessLogin(token: String)
     case webView(url: URL)
     case invite(userid: String, username: String)
     case userVerification
+    case affiliation
 
     static public func ==(lhs: DeepLinkAction, rhs: DeepLinkAction) -> Bool {
         switch (lhs, rhs) {
@@ -118,6 +121,8 @@ enum DeepLinkAction: Equatable {
         case (.invite(let lhsuserid, let lhsusername), .invite(let rhslhsuserid, let rhssername)):
             return lhsuserid == rhslhsuserid && lhsusername == rhssername
         case (.userVerification, .userVerification):
+            return true
+        case (.affiliation, .affiliation):
             return true
         default:
             return false

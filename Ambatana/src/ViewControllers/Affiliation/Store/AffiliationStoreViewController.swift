@@ -8,8 +8,13 @@ final class AffiliationStoreViewController: BaseViewController {
 
     private let viewModel: AffiliationStoreViewModel
     private let pointsView = AffiliationStorePointsView()
+    private lazy var moreThreeDotsButton = UIBarButtonItem(image: R.Asset.Affiliation.icnThreeDots.image,
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(didTapMoreActions))
+    private lazy var pointsItem = UIBarButtonItem(customView: pointsView)
 
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     init(viewModel: AffiliationStoreViewModel) {
         self.viewModel = viewModel
@@ -32,11 +37,12 @@ final class AffiliationStoreViewController: BaseViewController {
 
     override func viewDidLoad() {
         view.backgroundColor = storeView.backgroundColor
+        moreThreeDotsButton.tintColor = .grayRegular
+
         storeView.collectionView.dataSource = self
         automaticallyAdjustsScrollViewInsets = false
         
         setupRx()
-        storeView.setHistory(enabled: true)
     }
 
     private func setupNavigationBar() {
@@ -44,22 +50,15 @@ final class AffiliationStoreViewController: BaseViewController {
         setNavBarTitle(R.Strings.affiliationStoreTitle)
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.backgroundColor = .clear
-
-
-        let button = UIBarButtonItem(image: R.Asset.Affiliation.icnThreeDots.image,
-                                     style: .plain,
-                                     target: self,
-                                     action: #selector(didTapMoreActions))
-        button.tintColor = .grayLight
-
-        let pointsItem = UIBarButtonItem(customView: pointsView)
-        navigationItem.rightBarButtonItems = [button, pointsItem]
+        navigationItem.rightBarButtonItems = [moreThreeDotsButton, pointsItem]
     }
 
     private func setupRx() {
         let bindings = [
             viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
-            storeView.viewHistoryButton.rx.tap.bind { [weak self] in self?.viewModel.openHistory() }
+            viewModel.rx.redeemTapped.drive(rx.redeemCell),
+            viewModel.rx.points.drive(rx.points),
+            viewModel.rx.pointsVisible.drive(rx.pointsVisible)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -73,20 +72,19 @@ final class AffiliationStoreViewController: BaseViewController {
         case .error(let errorModel), .empty(let errorModel):
             update(with: errorModel)
         }
+
+        pointsView.alpha = state == .data ? 1 : 0
     }
 
     private func showLoading() {
         errorView.removeFromSuperview()
         showLoadingMessageAlert()
-        pointsView.alpha = 0
     }
 
     private func updateWithData() {
         dismissLoadingMessageAlert()
         errorView.removeFromSuperview()
 
-        pointsView.alpha = 1
-        pointsView.populate(with: viewModel.points)
         storeView.collectionView.reloadData()
     }
 
@@ -101,8 +99,18 @@ final class AffiliationStoreViewController: BaseViewController {
                            action: action)
         view.addSubviewForAutoLayout(errorView)
         constraintViewToSafeRootView(errorView)
+    }
 
-        pointsView.alpha = 0
+    fileprivate func updatePoints(with isVisible: Bool) {
+        if isVisible {
+            navigationItem.rightBarButtonItems = [moreThreeDotsButton, pointsItem]
+        } else {
+            navigationItem.rightBarButtonItems = [moreThreeDotsButton]
+        }
+    }
+
+    fileprivate func updatePoints(with points: Int) {
+        pointsView.populate(with: points)
     }
 
     fileprivate func updateRedeem(with state: ViewState) {
@@ -110,14 +118,16 @@ final class AffiliationStoreViewController: BaseViewController {
         case .loading:
             showLoading()
         case .data:
-            pointsView.alpha = 1
             dismissLoadingMessageAlert({ [weak self] in
                 self?.showRedeemSuccess()
             })
         case .empty(_), .error(_):
-            pointsView.alpha = 1
-            viewModel.showFailBubble(withMessage: "Gimme the money bro", duration: TimeInterval(3))
+            showAlert(R.Strings.affiliationStoreGenericError, message: nil, actions: [])
+            delay(2) { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
         }
+        pointsView.alpha = state == .loading ? 0 : 1
     }
 
     fileprivate func showRedeemSuccess() {
@@ -142,14 +152,69 @@ final class AffiliationStoreViewController: BaseViewController {
         present(vc, animated: true, completion: nil)
     }
 
-      fileprivate func setHistory(enabled: Bool) {
-        storeView.setHistory(enabled: enabled)
+    fileprivate func update(with points: Int) {
+        pointsView.populate(with: points)
     }
 }
 
 extension AffiliationStoreViewController {
     @objc func didTapMoreActions() {
         showActionSheet(R.Strings.commonCancel, actions: viewModel.moreActions, barButtonItem: nil)
+    }
+}
+
+extension AffiliationStoreViewController {
+    func openEditEmail(action: UIAlertAction) {
+        viewModel.openEditEmail()
+    }
+
+    func closeAlert(action: UIAlertAction) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    func update(with model: RedeemCellModel) {
+        let actions: [UIAlertAction]
+        let title = R.Strings.affiliationStoreRedeemGiftSuccessHeadline
+        let message: String
+        if model.email != nil {
+            message = R.Strings.affiliationStoreRedeemGiftSuccessSubheadlineWithEmail
+            actions = [
+                UIAlertAction(title: R.Strings.commonCancel, style: .default, handler: closeAlert),
+                UIAlertAction(title: R.Strings.affiliationStoreRedeemGiftEditEmail,
+                              style: .default,
+                              handler: openEditEmail),
+                UIAlertAction(title: R.Strings.affiliationStoreRedeemGiftSend,
+                              style: .default,
+                              handler: { [weak self] _ in
+                                self?.redeem(for: model.index)
+                })
+            ]
+        } else {
+            message = R.Strings.affiliationStoreRedeemGiftSuccessSubheadlineWithoutEmail
+            actions = [
+                UIAlertAction(title: R.Strings.commonCancel, style: .default, handler: closeAlert),
+                UIAlertAction(title: R.Strings.affiliationStoreRedeemGiftAddEmail,
+                              style: .default,
+                              handler: openEditEmail)
+            ]
+        }
+        showEmailAlert(title: title, message: message, actions: actions)
+    }
+
+    private func redeem(for index: Int) {
+        viewModel
+            .redeem(at: index)
+            .drive(onNext: { [weak self] (state) in
+                self?.updateRedeem(with: state)
+            }).disposed(by: disposeBag)
+    }
+
+    private func showEmailAlert(title: String, message: String, actions: [UIAlertAction]) {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.add(actions)
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -160,9 +225,22 @@ extension Reactive where Base: AffiliationStoreViewController {
         }
     }
 
-    var historyEnabled: Binder<Bool> {
-        return Binder(self.base) { controller, enabled in
-            controller.setHistory(enabled: enabled)
+    var points: Binder<Int> {
+        return Binder(self.base) { controller, points in
+            controller.updatePoints(with: points)
+        }
+    }
+
+    var pointsVisible: Binder<Bool> {
+        return Binder(self.base) { controller, visibility in
+            controller.updatePoints(with: visibility)
+        }
+    }
+
+    var redeemCell: Binder<RedeemCellModel?> {
+        return Binder(self.base) { controller, redeemCell in
+            guard let redeemCell = redeemCell else { return }
+            controller.update(with: redeemCell)
         }
     }
 }
@@ -178,16 +256,10 @@ extension AffiliationStoreViewController: UICollectionViewDataSource {
             let data = viewModel.purchases[safeAt: indexPath.row] else { return UICollectionViewCell() }
         cell.populate(with: data)
         cell.tag = indexPath.row
-        cell.redeemButton.removeTarget(self, action: nil, for: .allEvents)
-        cell.redeemButton.addTarget(self, action: #selector(redeem(sender:)), for: .touchUpInside)
-        return cell
-    }
 
-    @objc private func redeem(sender: UIView) {
-        viewModel
-            .redeem(at: sender.tag)
-            .drive(onNext: { [weak self] (state) in
-                self?.updateRedeem(with: state)
-            }).disposed(by: disposeBag)
+        cell.rx.redeemTap
+            .bind { [weak self] in self?.viewModel.cellRedeemTapped.accept(cell.tag) }
+            .disposed(by: cell.disposeBag)
+        return cell
     }
 }

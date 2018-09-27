@@ -250,7 +250,7 @@ class SettingsViewModel: BaseViewModel {
         case .notifications:
             navigator?.openNotificationSettings()
         case .affiliation:
-            navigator?.openAffiliationChallenges()
+            navigator?.openAffiliationChallenges(source: .settings)
         }
     }
 

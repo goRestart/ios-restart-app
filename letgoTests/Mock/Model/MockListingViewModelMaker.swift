@@ -78,7 +78,7 @@ struct MockListingSocialMessage: SocialMessage {
     var fallbackToStore: Bool = false
     var controlParameter: String = ""
 
-    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) { }
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) { }
     func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) { }
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) { }
 }

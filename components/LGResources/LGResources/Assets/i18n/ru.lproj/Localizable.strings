@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Магазин Наград";
 "affiliation_store_unknown_error_message" = "Упс! При загрузке наград произошла ошибка.";
 "affiliation_store_view_history" = "История";
+"affiliation_store_view_history_empty" = "В вашей истории пока нет наград.";
 "affiliation_wallet_open_store_button" = "Смотреть награды";
 "affiliation_wallet_points_label" = "ОЧКИ";
 "affiliation_wallet_title" = "ВАШ КОШЕЛЕК";
@@ -836,7 +837,7 @@
 "payment_payout_payment_availability" = "Вы получите деньги в %@";
 "payment_payout_payment_fee" = "Комиссия (%@)";
 "payment_payout_payment_instant_subtitle_label" = "Вы получите деньги в течение 1 часа";
-"payment_payout_payment_instant_title_label" = "Комиссия";
+"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Вы получите деньги в течение 3-7 дней";
 "payment_payout_payment_standar_title_label" = "БЕСПЛАТНО";
 "payment_payout_payment_type_instant" = "Быстрый платеж";

@@ -32,7 +32,6 @@ final class AffiliationChallengesViewController: BaseViewController {
                    nibName: nil,
                    navBarBackgroundStyle: .white)
         setupUI()
-        setupConstraints()
         setAccessibilityIds()
         setupRx()
     }
@@ -46,9 +45,23 @@ final class AffiliationChallengesViewController: BaseViewController {
         title = R.Strings.affiliationChallengesTitle
         view.backgroundColor = .white
         automaticallyAdjustsScrollViewInsets = false
+        setupNavigationBar()
         setupLoadingView()
         setupDataView()
         setupErrorView()
+    }
+
+    private func setupNavigationBar() {
+        let button = UIBarButtonItem(image: R.Asset.Affiliation.icnReward24.image,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(storeButtonPressed))
+        button.tintColor = .grayRegular
+        navigationItem.rightBarButtonItems = [button]
+    }
+
+    @objc private func storeButtonPressed() {
+        viewModel.storeButtonPressed()
     }
 
     private func setupLoadingView() {
@@ -63,7 +76,7 @@ final class AffiliationChallengesViewController: BaseViewController {
         let constraints = [dataView.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
                            dataView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
                            dataView.topAnchor.constraint(equalTo: safeTopAnchor),
-                           dataView.bottomAnchor.constraint(equalTo: safeBottomAnchor)]
+                           dataView.bottomAnchor.constraint(equalTo: view.bottomAnchor)]
         constraints.activate()
 
         dataView.storeButtonPressedCallback = { [weak viewModel] in
@@ -77,6 +90,9 @@ final class AffiliationChallengesViewController: BaseViewController {
         }
         dataView.confirmPhonePressedCallback = { [weak viewModel] in
             viewModel?.confirmPhoneButtonPressed()
+        }
+        dataView.postListingPressedCallback = { [weak viewModel] in
+            viewModel?.postListingButtonPressed()
         }
         dataView.refreshControlCallback = { [weak viewModel] in
             viewModel?.refreshControlPulled()
@@ -92,15 +108,14 @@ final class AffiliationChallengesViewController: BaseViewController {
         constraints.activate()
     }
 
-    private func setupConstraints() {
-
-    }
-
     private func setAccessibilityIds() {
 
     }
 
     private func setupRx() {
+        viewModel.isLoading
+            .debounce(0.3)
+            .drive(rx.loadingOverContext).disposed(by: disposeBag)
         viewModel.state.drive(onNext: { [weak self] state in
             guard let `self` = self else { return }
             switch state {
@@ -130,5 +145,17 @@ final class AffiliationChallengesViewController: BaseViewController {
                 }
             }
         }).disposed(by: disposeBag)
+    }
+}
+
+extension Reactive where Base: AffiliationChallengesViewController {
+    var loadingOverContext: Binder<Bool> {
+        return Binder(self.base) { controller, isLoadingOverContext in
+            if isLoadingOverContext {
+                controller.showLoadingMessageAlert()
+            } else {
+                controller.dismissLoadingMessageAlert()
+            }
+        }
     }
 }

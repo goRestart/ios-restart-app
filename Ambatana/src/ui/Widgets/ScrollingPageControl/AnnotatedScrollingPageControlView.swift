@@ -63,8 +63,8 @@ final class AnnotatedScrollingPageControlView: UIView, PageControlRepresentable 
         updateHiddenState(forNumberOfPages: numberOfPages)
     }
     
-    func setCurrentPage(to currentPage: Int) {
-        pageControl.updateCurrentPage(to: currentPage)
+    func setCurrentPage(to currentPage: Int, animated: Bool) {
+        pageControl.updateCurrentPage(to: currentPage, animated: animated)
         updateLabelText()
     }
     

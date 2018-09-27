@@ -25,7 +25,7 @@ protocol DeepLinksRouter: class, AppsFlyerTrackerDelegate {
 }
 
 class LGDeepLinksRouter: NSObject, DeepLinksRouter {
-    private struct AppInstallKeys {
+    fileprivate struct AppInstallKeys {
         struct Campaigns {
             static let facebook = "adgroup"
             static let other = "af_sub3"
@@ -84,26 +84,6 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
         let pushNotification = checkInitPushNotification(launchOptions)
 
         return shortcut || uriScheme || universalLink || pushNotification
-    }
-
-    // MARK: > Appsflyer
-
-    func onConversionDataReceived(_ installData: [AnyHashable : Any]!) {
-        guard let deferredDeepLink = buildFromConversionData(installData) else { return }
-        initialDeepLink = deferredDeepLink
-    }
-
-    func onConversionDataRequestFailure(_ error: Error!) {
-        logMessage(.error, type: [.deepLink], message: "App install conversion failed")
-    }
-    
-    func onAppOpenAttribution(_ attributionData: [AnyHashable : Any]!) {
-        guard let deeplink = AppsFlyerDeepLink.buildFromAttributionData(attributionData) else { return }
-        deepLinksSignal.onNext(deeplink)
-    }
-    
-    func onAppOpenAttributionFailure(_ error: Error!) {
-        logMessage(.error, type: [.deepLink], message: "App opening from AppsFlyer link failed")
     }
 
     // MARK: > Shortcut actions (force touch)
@@ -202,18 +182,58 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
         initialDeepLink = pushNotification.deepLink
         return true
     }
+}
 
+
+// MARK: > Appsflyer
+
+extension LGDeepLinksRouter {
+    
+    // Callbacks
+    
+    func onConversionDataReceived(_ installData: [AnyHashable : Any]!) {
+        print("onConversionDataReceived \(installData.keys.count)")
+        guard let deferredDeepLink = buildFromConversionData(installData) else { return }
+        initialDeepLink = deferredDeepLink
+    }
+    
+    func onConversionDataRequestFailure(_ error: Error!) {
+        logMessage(.error, type: [.deepLink], message: "App install conversion failed")
+    }
+    
+    func onAppOpenAttribution(_ attributionData: [AnyHashable : Any]!) {
+        guard let deeplink = AppsFlyerDeepLink.buildFromAttributionData(attributionData) else { return }
+        deepLinksSignal.onNext(deeplink)
+    }
+    
+    func onAppOpenAttributionFailure(_ error: Error!) {
+        logMessage(.error, type: [.deepLink], message: "App opening from AppsFlyer link failed")
+    }
+    
+    // private methods
+    
+    private func isAffiliationCampaign(data: [AnyHashable : Any]) -> Bool {
+        guard let campaign = data[AppsFlyerKeys.campaign] as? String, campaign == AppsFlyerAffiliationResolver.campaignValue else {
+            return false
+        }
+        return true
+    }
+    
     private func buildFromConversionData(_ installData: [AnyHashable : Any]?) -> DeepLink? {
         guard let data = installData else { return nil }
+        if isAffiliationCampaign(data: data) {
+            AppsFlyerAffiliationResolver.shared.appsFlyerConversionData(data: data)
+            return nil
+        }
         if let isFacebook = data[AppInstallKeys.isFacebook] as? Bool, isFacebook {
             return buildFromAppInstall(data, withCampaignID: AppInstallKeys.Campaigns.facebook)
         }
         return buildFromAppInstall(data, withCampaignID: AppInstallKeys.Campaigns.other)
     }
-
+    
     private func buildFromAppInstall(_ installData: [AnyHashable : Any], withCampaignID campaignID: String) -> DeepLink? {
         guard let campaign = installData[campaignID] as? String else { return nil }
-
+        
         let splittedCategory = campaign.components(separatedBy: AppInstallKeys.category)
         if splittedCategory.count == 2, let category = splittedCategory.last {
             return DeepLink.appInstall(.search(query: "",

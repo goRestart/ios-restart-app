@@ -1,6 +1,8 @@
 import UIKit
 import LGComponents
 import LGCoreKit
+import RxSwift
+import RxCocoa
 
 protocol ChatListingViewDelegate: class {
     func listingViewDidTapUserAvatar()
@@ -80,7 +82,14 @@ class ChatListingView: UIView {
         listingImage.alpha = 0.3
         listingButton.isEnabled = false
     }
-
+    
+    fileprivate func hideListingInformation() {
+        listingName.isHidden = true
+        listingPrice.isHidden = true
+        listingImage.isHidden = true
+        listingButton.isHidden = true
+    }
+    
     func disableUserProfileInteraction() {
         userAvatar.alpha = 0.3
         userName.alpha = 0.3
@@ -98,6 +107,15 @@ class ChatListingView: UIView {
     }
 }
 
+// MARK: - View Bindings
+
+extension Reactive where Base: ChatListingView {
+    var listingIsHidden: Binder<Bool> {
+        return Binder(base) { base, isHidden in
+            if isHidden { base.hideListingInformation() }
+        }
+    }
+}
 
 // MARK: - Accessibility
 

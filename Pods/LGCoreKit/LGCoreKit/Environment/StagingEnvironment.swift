@@ -33,4 +33,5 @@ struct StagingEnvironment: Environment {
     let communityBaseURL = "https://community-sso.stg.letgo.com"
     let rewardBaseURL = "https://reward.stg.letgo.com"
     let challengerBaseURL = "https://challenger.stg.letgo.com"
+    let p2pPaymentsBaseURL = "https://p2payments.stg.letgo.com"
 }

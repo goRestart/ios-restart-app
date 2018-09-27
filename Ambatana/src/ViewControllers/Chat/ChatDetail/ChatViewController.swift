@@ -98,13 +98,18 @@ final class ChatViewController: TextViewController {
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupRelatedProducts()
-        setupRxBindings()
+       
         setupStickersView()
         initStickersView()
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+         setupRxBindings()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -505,7 +510,7 @@ fileprivate extension ChatViewController {
         viewModel.chatEnabled.asObservable().bind { [weak self] enabled in
             self?.setTextViewBarHidden(!enabled, animated: false)
             self?.textView.isUserInteractionEnabled = enabled
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
         
         viewModel.textBoxVisible.asDriver().drive(onNext: { [weak self] enabled in
             self?.setTextViewBarHidden(!enabled, animated: false)
@@ -555,6 +560,8 @@ fileprivate extension ChatViewController {
             }
             .disposed(by: disposeBag)
         
+        viewModel.listingIsHidden.drive(listingView.rx.listingIsHidden).disposed(by: disposeBag)
+        
         let placeHolder = Observable.combineLatest(viewModel.interlocutorId.asObservable(),
                                                    viewModel.interlocutorName.asObservable()) {
                                                     (id, name) -> UIImage? in
@@ -578,6 +585,16 @@ fileprivate extension ChatViewController {
                 }
                 self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
             }.disposed(by: disposeBag)
+        
+        Observable.combineLatest(viewModel.interlocutorAvatarURL.asObservable(),
+                                 viewModel.interlocutorName.asObservable())
+            .bind { [weak self] (avatarUrl, name) in
+                guard let vm = self?.viewModel, vm.isFakeListing else { return }
+                self?.chatDetailHeader.setupWith(info: .user(name: name, imageUrl: avatarUrl)) { [weak self] in
+                    self?.viewModel.userInfoPressed()
+                }
+                self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
+            }.disposed(by: disposeBag)
 
         Observable.combineLatest(viewModel.listingName.asObservable(),
                                  viewModel.listingPrice.asObservable(),
@@ -586,15 +603,18 @@ fileprivate extension ChatViewController {
                 guard let strongSelf = self else { return }
                 let isAssistantWithNoProduct = strongSelf.viewModel.isUserDummy
                     && listingName.isEmpty
-                guard !isAssistantWithNoProduct else { return }
+                guard !isAssistantWithNoProduct, !strongSelf.viewModel.isFakeListing else { return }
                 guard let showNoUserHeader = self?.featureFlags.showChatHeaderWithoutUser,
                     showNoUserHeader else { return }
+ 
                 let chatNavBarInfo = ChatDetailNavBarInfo.listing(name: listingName,
                                                                   price: listingPrice,
                                                                   imageUrl: listingImageUrl)
                 self?.chatDetailHeader.setupWith(info: chatNavBarInfo) { [weak self] in
                     self?.viewModel.listingInfoPressed()
                 }
+                
+                
                 self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
             }.disposed(by: disposeBag)
 
@@ -611,7 +631,8 @@ fileprivate extension ChatViewController {
             let visible = state == .visible
             strongSelf.directAnswersPresenter.hidden = !visible
             strongSelf.configureBottomMargin(animated: true)
-            }.disposed(by: disposeBag)
+ 
+        }.disposed(by: disposeBag)
 
         keyboardChanges.bind { [weak self] change in
             if !change.visible {

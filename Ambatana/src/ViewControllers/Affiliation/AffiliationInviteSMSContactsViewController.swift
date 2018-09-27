@@ -26,6 +26,7 @@ final class AffiliationInviteSMSContactsViewController: KeyboardViewController, 
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.bigMargin*4, right: 0)
         tableView.allowsSelection = true
         tableView.allowsMultipleSelection = true
+        tableView.estimatedRowHeight = Layout.contactCellHeight
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: CGFloat.leastNormalMagnitude))
         tableView.sectionHeaderHeight = CGFloat.leastNormalMagnitude
         
@@ -43,6 +44,7 @@ final class AffiliationInviteSMSContactsViewController: KeyboardViewController, 
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.bigMargin*4, right: 0)
         tableView.allowsSelection = true
         tableView.allowsMultipleSelection = true
+        tableView.estimatedRowHeight = Layout.contactCellHeight
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: CGFloat.leastNormalMagnitude))
         tableView.sectionHeaderHeight = CGFloat.leastNormalMagnitude
         
@@ -196,7 +198,7 @@ final class AffiliationInviteSMSContactsViewController: KeyboardViewController, 
             constraintViewToSafeRootView(emptyState)
         case .needPermissions:
             let block: () -> () = { self.openSettings() }
-            let action = UIAction(interface: .button(R.Strings.commonErrorListRetryButton,
+            let action = UIAction(interface: .button(R.Strings.affiliationInviteSmsGoSettingsButton,
                                                      .primary(fontSize: .medium)),
                                   action: block )
             emptyState.populate(message: R.Strings.affiliationInviteSmsContactsNeedPermissions,
@@ -291,11 +293,6 @@ final class AffiliationInviteSMSContactsViewController: KeyboardViewController, 
         }
     }
     
-    func tableView(_ tableView: UITableView,
-                   heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Layout.contactCellHeight
-    }
-    
     private func updateTableViewSelectionState(cellState state: AffiliationInviteSMSContactsCellState,
                                                atIndexPath indexPath: IndexPath, tableView: UITableView) {
         switch state {
@@ -359,6 +356,7 @@ extension AffiliationInviteSMSContactsViewController: MFMessageComposeViewContro
         case .cancelled:
             callbackMessage = R.Strings.affiliationInviteSmsMessageCancel
         case .sent:
+            viewModel.didSendMessages()
             callbackMessage = R.Strings.affiliationInviteSmsMessageSent
         case .failed:
             callbackMessage = R.Strings.affiliationInviteSmsMessageError
@@ -369,6 +367,7 @@ extension AffiliationInviteSMSContactsViewController: MFMessageComposeViewContro
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         searchBar.resignFirstResponder()
         self.navigationController?.isNavigationBarHidden = false
     }

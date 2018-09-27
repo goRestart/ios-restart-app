@@ -44,7 +44,7 @@ final class AffiliationStorePointsView: UIView {
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
     convenience init() {
-        self.init(frame: .zero)
+        self.init(frame: CGRect(origin: .zero, size:  Layout.Size.container))
     }
 
     override init(frame: CGRect) {
@@ -55,9 +55,9 @@ final class AffiliationStorePointsView: UIView {
     private func setupUI() {
         addSubviewsForAutoLayout([container, pointsIcon, pointsLabel])
         [
-            container.heightAnchor.constraint(equalToConstant: Layout.Size.container.height),
-            container.widthAnchor.constraint(equalToConstant: Layout.Size.container.width),
             container.leadingAnchor.constraint(equalTo: leadingAnchor),
+            container.bottomAnchor.constraint(equalTo: bottomAnchor),
+            container.trailingAnchor.constraint(equalTo: trailingAnchor),
             container.topAnchor.constraint(equalTo: topAnchor),
 
             pointsIcon.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Layout.margin),

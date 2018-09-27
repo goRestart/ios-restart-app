@@ -286,8 +286,11 @@ fileprivate extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackItemPressed(source: EventParameterNotificationClickArea, cardAction: String?, notificationCampaign: String?) {
-        let event = TrackerEvent.notificationCenterComplete(source: source, cardAction: cardAction,
+    func trackItemPressed(source: EventParameterNotificationClickArea,
+                          cardAction: String?,
+                          notificationCampaign: String?) {
+        let event = TrackerEvent.notificationCenterComplete(source: source,
+                                                            cardAction: cardAction,
                                                             notificationCampaign: notificationCampaign)
         tracker.trackEvent(event)
     }

@@ -25,7 +25,8 @@ protocol FeatureFlaggeable: class {
     var mutePushNotifications: MutePushNotifications { get }
     var showProTagUserProfile: Bool { get }
     var showExactLocationForPros: Bool { get }
-
+    var showPasswordlessLogin: ShowPasswordlessLogin { get }
+    
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var shouldHightlightFreeFilterInFeed: Bool { get }
@@ -55,6 +56,7 @@ protocol FeatureFlaggeable: class {
 
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish { get }
     var multiAdRequestMoreInfo: MultiAdRequestMoreInfo { get }
+    var multiDayBumpUp: MultiDayBumpUp { get }
     
     // MARK: Chat
     var showInactiveConversations: Bool { get }
@@ -66,15 +68,16 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
     var smartQuickAnswers: SmartQuickAnswers { get }
     var openChatFromUserProfile: OpenChatFromUserProfile { get }
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow { get }
 
     // MARK: Verticals
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
     var servicesPaymentFrequency: ServicesPaymentFrequency { get }
     var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
+    var clickToTalk: ClickToTalk { get }
     var proUsersExtraImages: ProUsersExtraImages { get }
     
     // MARK: Discovery
@@ -109,7 +112,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
-    var notificationSettings: NotificationSettings { get }
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
     var engagementBadging: EngagementBadging { get }
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
@@ -118,6 +120,8 @@ protocol FeatureFlaggeable: class {
     var imInterestedInProfile: ImInterestedInProfile { get }
     var shareAfterScreenshot: ShareAfterScreenshot { get }
     var affiliationEnabled: AffiliationEnabled { get }
+
+    var rx_affiliationEnabled: Observable<AffiliationEnabled> { get }
 }
 
 extension FeatureFlaggeable {
@@ -157,10 +161,6 @@ extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
 }
 
-extension ServicesUnifiedFilterScreen {
-    var isActive: Bool { return self == .active }
-}
-
 extension EnableJobsAndServicesCategory {
     var isActive: Bool { return self == .active }
 }
@@ -171,10 +171,6 @@ extension ServicesPaymentFrequency {
 
 extension CarExtraFieldsEnabled {
     var isActive: Bool { return self == .active }
-}
-
-extension RealEstateMapTooltip {
-    var isActive: Bool { return self == .active  }
 }
 
 extension CarPromoCells {
@@ -190,6 +186,10 @@ extension RealEstatePromoCells {
 }
 
 extension NewItemPageV3 {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension OpenChatFromUserProfile {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
@@ -299,10 +299,6 @@ extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
-extension NotificationSettings {
-    var isActive: Bool { return self == .differentLists || self == .sameList }
-}
-
 extension EngagementBadging {
     var isActive: Bool { return self == .active }
 }
@@ -329,7 +325,7 @@ extension PredictivePosting {
     var isActive: Bool { return self == .active }
 
     func isSupportedFor(postCategory: PostCategory?, language: String) -> Bool {
-        if #available(iOS 11, *), isActive, postCategory?.listingCategory.isProduct ?? true, language == "en" {
+        if #available(iOS 11, *), isActive, postCategory?.listingCategory.isProduct ?? false, language == "en" {
             return true
         } else {
             return false
@@ -440,10 +436,13 @@ extension BumpInEditCopys {
 
 extension MultiAdRequestMoreInfo {
     var isActive: Bool { return self == .active }
-
 }
 
-final class FeatureFlags: FeatureFlaggeable {    
+extension MultiDayBumpUp {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
+final class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
@@ -496,7 +495,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(mutePushNotifications: Bumper.mutePushNotifications,
                      hourStart: abTests.core.mutePushNotificationsStartHour.value,
                      hourEnd: abTests.core.mutePushNotificationsEndHour.value)
-
+            dao.save(affiliationEnabled: Bumper.affiliationEnabled)
         } else {
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
@@ -506,6 +505,7 @@ final class FeatureFlags: FeatureFlaggeable {
             dao.save(mutePushNotifications: MutePushNotifications.fromPosition(abTests.core.mutePushNotifications.value),
                      hourStart: abTests.core.mutePushNotificationsStartHour.value,
                      hourEnd: abTests.core.mutePushNotificationsEndHour.value)
+            dao.save(affiliationEnabled: AffiliationEnabled.fromPosition(abTests.affiliationCampaign.value))
         }
     }
 
@@ -602,7 +602,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return ShowPasswordlessLogin.fromPosition(abTests.showPasswordlessLogin.value)
     }
-
+    
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow {
+        if Bumper.enabled {
+            return Bumper.markAsSoldQuickAnswerNewFlow
+        }
+        return MarkAsSoldQuickAnswerNewFlow.fromPosition(abTests.markAsSoldQuickAnswerNewFlow.value)
+    }
+ 
     var emergencyLocate: EmergencyLocate {
         if Bumper.enabled {
             return Bumper.emergencyLocate
@@ -939,6 +946,14 @@ final class FeatureFlags: FeatureFlaggeable {
         return MultiAdRequestMoreInfo.fromPosition(abTests.multiAdRequestMoreInfo.value)
     }
 
+    var multiDayBumpUp: MultiDayBumpUp {
+        if Bumper.enabled {
+            return Bumper.multiDayBumpUp
+        }
+        return MultiDayBumpUp.fromPosition(abTests.multiDayBumpUp.value)
+    }
+
+    
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -1049,13 +1064,6 @@ extension FeatureFlags {
         }
         return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
     }
-
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
-        if Bumper.enabled {
-            return Bumper.servicesUnifiedFilterScreen
-        }
-        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
-    }
     
     var servicesPaymentFrequency: ServicesPaymentFrequency {
         if Bumper.enabled {
@@ -1104,11 +1112,11 @@ extension FeatureFlags {
         return ProUsersExtraImages.fromPosition(abTests.proUserExtraImages.value)
     }
     
-    var clickToTalkEnabled: ClickToTalk {
+    var clickToTalk: ClickToTalk {
         if Bumper.enabled {
             return Bumper.clickToTalk
         }
-        return .control // ClickToTalk.fromPosition(abTests.clickToTalkEnabled.value)
+        return ClickToTalk.fromPosition(abTests.clickToTalk.value)
     }
 }
 
@@ -1286,13 +1294,6 @@ extension FeatureFlags {
         return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
     }
     
-    var notificationSettings: NotificationSettings {
-        if Bumper.enabled {
-            return Bumper.notificationSettings
-        }
-        return NotificationSettings.fromPosition(abTests.notificationSettings.value)
-    }
-    
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
         if Bumper.enabled {
             return Bumper.searchAlertsInSearchSuggestions
@@ -1346,6 +1347,13 @@ extension FeatureFlags {
         if Bumper.enabled {
             return Bumper.affiliationEnabled
         }
-        return .control // ABIOS-5051
+        return AffiliationEnabled.fromPosition(abTests.affiliationCampaign.value)
+    }
+
+    var rx_affiliationEnabled: Observable<AffiliationEnabled> {
+        let old = affiliationEnabled
+        return syncedData.filter { $0 }.map { [weak self] synced in
+            return self?.affiliationEnabled ?? old
+        }
     }
 }

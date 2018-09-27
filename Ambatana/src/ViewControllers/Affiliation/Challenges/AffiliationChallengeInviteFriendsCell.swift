@@ -1,4 +1,5 @@
 import LGComponents
+import LGCoreKit
 import UIKit
 
 final class AffiliationChallengeInviteFriendsCell: UITableViewCell {
@@ -47,14 +48,17 @@ final class AffiliationChallengeInviteFriendsCell: UITableViewCell {
 
     // MARK: - Setup
 
-    func setup(data: ChallengeInviteFriendsData) {
-        challengeView.setup(inviteFriendsData: data)
+    func setup(data: ChallengeInviteFriendsData,
+               isCompleted: Bool) {
+        challengeView.setup(inviteFriendsData: data,
+                            isCompleted: isCompleted)
 
         guard let milestone1 = data.milestones[safeAt: 0],
             let milestone2 = data.milestones[safeAt: 1] else { return }
+        let difference = milestone2.stepIndex - milestone1.stepIndex
         challengeView.set(description: R.Strings.affiliationChallengesInviteFriendsDescription("\(milestone1.stepIndex)",
                                                                                                "\(milestone1.pointsReward)",
-                                                                                               "\(milestone2.stepIndex)",
+                                                                                               "\(difference)",
                                                                                                "\(milestone2.pointsReward)"))
     }
 }

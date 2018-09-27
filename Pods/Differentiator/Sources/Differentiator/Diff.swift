@@ -648,7 +648,7 @@ public enum Diff {
             }
             // }
 
-            if deletedItems.isEmpty && deletedSections.isEmpty && updatedItems.isEmpty {
+            if deletedItems.count == 0 && deletedSections.count == 0 && updatedItems.count == 0 {
                 return []
             }
 
@@ -687,7 +687,7 @@ public enum Diff {
                 }
             }
             
-            if insertedSections.isEmpty && movedSections.isEmpty {
+            if insertedSections.count ==  0 && movedSections.count == 0 {
                 return []
             }
             
@@ -780,7 +780,7 @@ public enum Diff {
             }
             // }
             
-            if insertedItems.isEmpty && movedItems.isEmpty {
+            if insertedItems.count == 0 && movedItems.count == 0 {
                 return []
             }
             return [Changeset(

@@ -28,6 +28,8 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
 
     @IBOutlet weak var signUpButton: LetgoButton!
     @IBOutlet weak var logInButton: LetgoButton!
+    @IBOutlet weak var continueWithEmailButton: LetgoButton!
+    @IBOutlet weak var emailImageView: UIImageView!
     
     // Footer
     
@@ -122,7 +124,10 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     @IBAction func logInButtonPressed(_ sender: AnyObject) {
         viewModel.logInButtonPressed()
     }
-    
+
+    @IBAction func continueWithEmailButtonPressed(_ sender: AnyObject) {
+        viewModel.continueWithEmailButtonPressed()
+    }
     
     // MARK: UITextViewDelegate
     
@@ -154,6 +159,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
 
         signUpButton.setStyle(.secondary(fontSize: .medium, withBorder: true))
         logInButton.setStyle(.secondary(fontSize: .medium, withBorder: true))
+        continueWithEmailButton.setStyle(.primary(fontSize: .medium))
 
         // i18n
         claimLabel.text = R.Strings.mainSignUpClaimLabel
@@ -166,8 +172,14 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         orLabel.text = R.Strings.mainSignUpOrLabel
         orLabel.font = UIFont.smallBodyFont
         orLabel.backgroundColor = view.backgroundColor
+        continueWithEmailButton.setTitle(R.Strings.passwordlessMainSignupButton, for: .normal)
         signUpButton.setTitle(R.Strings.mainSignUpSignUpButton, for: .normal)
         logInButton.setTitle(R.Strings.mainSignUpLogInLabel, for: .normal)
+
+        continueWithEmailButton.isHidden = !viewModel.showpasswordlessLogin
+        emailImageView.isHidden = !viewModel.showpasswordlessLogin
+        signUpButton.isHidden = viewModel.showpasswordlessLogin
+        logInButton.isHidden = viewModel.showpasswordlessLogin
 
         setupTermsAndConditions()
         setupRAssets()
@@ -177,6 +189,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
         logoBigImageView.image = R.Asset.BackgroundsAndImages.logoBig.image
         logoFacebook.image = R.Asset.IconsButtons.icFacebookRounded.image
         logoGoogle.image = R.Asset.IconsButtons.icGoogleRounded.image
+        emailImageView.image = R.Asset.IconsButtons.icPasswordlessEmail.image
     }
 
     private func setupRx() {

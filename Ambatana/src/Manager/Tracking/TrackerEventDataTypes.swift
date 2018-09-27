@@ -13,7 +13,9 @@ enum EventName: String {
     case signupEmail                        = "signup-email"
     case logout                             = "logout"
     case passwordResetVisit                 = "login-reset-password"
-    
+    case loginEmailStart                    = "login-email-start"
+    case loginEmailSubmit                   = "login-email-submit"
+
     case loginEmailError                    = "login-error"
     case loginFBError                       = "login-signup-error-facebook"
     case loginGoogleError                   = "login-signup-error-google"
@@ -115,6 +117,7 @@ enum EventName: String {
     case profileEditEmailStart              = "profile-edit-email-start"
     case profileEditEmailComplete           = "profile-edit-email-complete"
     case profileEditBioComplete             = "profile-edit-bio"
+    case profileChatNowButton               = "profile-detail-ask-question"
 
     case appInviteFriendStart               = "app-invite-friend-start"
     case appInviteFriend                    = "app-invite-friend"
@@ -222,9 +225,23 @@ enum EventName: String {
 
     case showNewItemsBadge                  = "show-new-items-badge"
     case duplicatedItemsInFeed              = "duplicated-items-hidden"
-
-    case verificationModalShown             = "verification-modal-shown"
     
+    case smokeTestCtaShown                  = "smoke-test-cta-shown"
+    case smokeTestCtaTapped                 = "smoke-test-cta-tapped"
+    case smokeTestInfoGetStarted            = "smoke-test-info-get-started"
+    case smokeTestFeedbak                   = "smoke-test-feedback"
+    case smokeTestClose                     = "smoke-test-close"
+    
+    case verificationModalShown             = "verification-modal-shown"
+
+    // Affiliation
+    case redeemRewardStart                 = "redeem-reward-start"
+    case redeemRewardComplete              = "redeem-reward-complete"
+    case redeemRewardError                 = "redeem-reward-error"
+    case rewardCenterOpen                  = "reward-center-open"
+    case inviteeRewardBannerShown          = "invitee-reward-banner-shown"
+    case inviteeRewardBannerError          = "invitee-reward-banner-error"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -337,6 +354,8 @@ enum EventParameterName: String {
     case numberPhotosPosting  = "number-photos-posting"
     case bumpUpPrice          = "price"
     case bumpUpType           = "bump-type"
+    case purchaseType         = "purchase-type"
+    case paymentEnabled       = "payment-enabled"
     case paymentId            = "payment-id"
     case retriesNumber        = "retries-number"
     case storeProductId       = "store-productId"
@@ -461,6 +480,21 @@ enum EventParameterName: String {
 
     // Engagement badging
     case recentItems        = "recent-items"
+
+    //  MARK: - Smoke Test
+    case testName = "test-name"
+    case feedback = "feedback"
+    case feedbackText = "feedback-text"
+    case stepName = "step-name"
+
+    // Affiliation
+    case rewardPoints       = "reward-points"
+    case rewardCampaign     = "reward-campaign"
+    case rewardRedeemed     = "reward-redeemed"
+    case amountGranted      = "amount-granted"
+    case numberOfInvitees   = "number-of-invites"
+    case rewardCampaignsAvailable = "reward-campaigns-available"
+
 }
 
 enum EventParameterBoolean: String {
@@ -523,6 +557,8 @@ enum EventParameterButtonNameType: String {
 enum EventParameterButtonType: String {
     case button = "button"
     case itemPicture = "item-picture"
+    case icon = "icon"
+    case banner = "banner"
 }
 
 enum EventParameterButtonPosition: String {
@@ -539,6 +575,7 @@ enum EventParameterSellButtonPosition: String {
     case realEstatePromo = "real-estate-promo"
     case carPromo = "car-promo"
     case servicesPromo = "services-promo"
+    case referralNotAvailable = "referral-not-available"
 }
 
 enum EventParameterShareNetwork: String {
@@ -551,6 +588,7 @@ enum EventParameterShareNetwork: String {
     case sms = "sms"
     case copyLink = "copy_link"
     case native = "native"
+    case other = "other"
     case notAvailable = "N/A"
 }
 
@@ -994,6 +1032,8 @@ enum EventParameterTypePage: String {
     case nextItem = "next-item"
     case feed = "feed"
     case notificationCenter = "notification-center"
+    case rewardCenter = "reward-center"
+    case referralNotAvailable = "referral-not-available"
 }
 
 enum EventParameterPermissionType: String {
@@ -1325,12 +1365,32 @@ enum EventParameterBumpUpType: String {
         switch bumpType {
         case .free:
             self = .free
-        case .priced, .hidden, .boost:
+        case .priced, .hidden, .boost, .ongoingBump:
             self = .paid
         case .restore:
             self = .retry
         case .loading:
             self = .loading
+        }
+    }
+}
+
+enum EventParameterPurchaseType: String {
+    case bump = "bump"
+    case boost = "boost"
+    case threeDays = "3x"
+    case sevenDays = "7x"
+
+    init(type: FeaturePurchaseType) {
+        switch type {
+        case .bump:
+            self = .bump
+        case .boost:
+            self = .boost
+        case .threeDays:
+            self = .threeDays
+        case .sevenDays:
+            self = .sevenDays
         }
     }
 }
@@ -1388,6 +1448,8 @@ enum EventParameterQuickAnswerType: String {
     case freeYours = "free-yours"
     case freeAvailable = "free-available"
     case freeNotAvailable = "free-not-available"
+    case favoritedMyListing = "favorited-listing"
+    case iLikeYourListing = "like-listing"
 }
 
 enum EventParameterNotAvailableReason: String {
@@ -1542,6 +1604,15 @@ enum EventParameterOptionSummary: String {
 
 enum EventParameterTutorialType: String {
     case realEstate = "real-estate"
+}
+
+enum EventParameterSmokeTestType: String {
+    case clickToTalk = "click-to-call-pricing"
+}
+
+enum EventParameterSmokeTestStep: String {
+    case smokeScreen = "smoke-screen"
+    case feedbackScreen = "feedback-screen"
 }
 
 enum EventParameterUserBadge: String {

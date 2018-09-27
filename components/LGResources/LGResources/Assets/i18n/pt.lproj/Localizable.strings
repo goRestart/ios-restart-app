@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Rewards store";
 "affiliation_store_unknown_error_message" = "Oops! An error occurred while loading rewards.";
 "affiliation_store_view_history" = "History";
+"affiliation_store_view_history_empty" = "No rewards in your history yet.";
 "affiliation_wallet_open_store_button" = "View rewards";
 "affiliation_wallet_points_label" = "PTS";
 "affiliation_wallet_title" = "YOUR WALLET";
@@ -834,9 +835,9 @@
 "payment_frequency_per_year" = "year";
 "payment_payout_navbar_title" = "Payout";
 "payment_payout_payment_availability" = "Get the money in %@";
-"payment_payout_payment_fee" = "Transaction fee (%@)";
+"payment_payout_payment_fee" = "Transaction fee";
 "payment_payout_payment_instant_subtitle_label" = "Get the money in under 1 hour";
-"payment_payout_payment_instant_title_label" = "Transaction fee";
+"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Get the money in 3-7 days";
 "payment_payout_payment_standar_title_label" = "FREE";
 "payment_payout_payment_type_instant" = "Fast payment";

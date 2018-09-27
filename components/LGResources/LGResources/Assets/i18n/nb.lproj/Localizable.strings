@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Belønningsbutikken";
 "affiliation_store_unknown_error_message" = "Oops! En feil oppstod ved lasting av belønninger.";
 "affiliation_store_view_history" = "Historikk";
+"affiliation_store_view_history_empty" = "Ingen belønninger i din historikk enda.";
 "affiliation_wallet_open_store_button" = "Vis belønninger";
 "affiliation_wallet_points_label" = "POENG";
 "affiliation_wallet_title" = "DIN LOMMEBOK";
@@ -836,7 +837,7 @@
 "payment_payout_payment_availability" = "Få pengene innen %@";
 "payment_payout_payment_fee" = "Transaksjonsavgift (%@)";
 "payment_payout_payment_instant_subtitle_label" = "Få pengene i løpet av 1 time";
-"payment_payout_payment_instant_title_label" = "Transaksjonsavgift";
+"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Få pengene innen 3-7 dager";
 "payment_payout_payment_standar_title_label" = "GRATIS";
 "payment_payout_payment_type_instant" = "Hurtigbetaling";
