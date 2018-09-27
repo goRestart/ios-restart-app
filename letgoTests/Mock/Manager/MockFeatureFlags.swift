@@ -3,6 +3,7 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
+    
     var rx_affiliationEnabled: Observable<AffiliationEnabled> { return .just(.control) }
 
     var trackingData: Observable<[(String, ABGroup)]?> {
@@ -88,6 +89,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var emptySearchImprovements: EmptySearchImprovements = .control
     var sectionedFeedABTestIntValue: Int = 0
     var sectionedFeed: SectionedDiscoveryFeed = .control
+    var newSearchAPI: NewSearchAPIEndPoint = .control
     
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control

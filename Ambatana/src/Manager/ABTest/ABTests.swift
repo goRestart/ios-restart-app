@@ -136,6 +136,8 @@ extension ABTests {
     var sectionedFeedIsActive: Bool {
         return sectionedFeed.value > 1
     }
+    
+    var newSearchAPI: LeanplumABVariable<Int> { return discovery.newSearchAPI }
 }
 
 //  MARK: Users

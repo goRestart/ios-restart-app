@@ -86,6 +86,7 @@ extension Bumper  {
         flags.append(MultiAdRequestInChatSectionForTR.self)
         flags.append(AffiliationEnabled.self)
         flags.append(MakeAnOfferButton.self)
+        flags.append(NewSearchAPIEndPoint.self)
         Bumper.initialize(flags)
     } 
 
@@ -998,17 +999,21 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var newSearchAPIEndPoint: NewSearchAPIEndPoint {
+        guard let value = Bumper.value(for: NewSearchAPIEndPoint.key) else { return .control }
+        return NewSearchAPIEndPoint(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var newSearchAPIEndPointObservable: Observable<NewSearchAPIEndPoint> {
+        return Bumper.observeValue(for: NewSearchAPIEndPoint.key).map {
+            NewSearchAPIEndPoint(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
-
-enum UserReviewsReportEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
-    static var enumValues: [UserReviewsReportEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User reviews report enabled" } 
-    var asBool: Bool { return self == .yes }
-}
 
 enum RealEstateEnabled: String, BumperFeature  {
     case control, baseline, active
@@ -2128,6 +2133,22 @@ enum MakeAnOfferButton: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[P2P PAYMENTS] Show make an offer button" } 
     static func fromPosition(_ position: Int) -> MakeAnOfferButton {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum NewSearchAPIEndPoint: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return NewSearchAPIEndPoint.control.rawValue }
+    static var enumValues: [NewSearchAPIEndPoint] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[DISCOVERY] Use New Search API Endpoint" } 
+    static func fromPosition(_ position: Int) -> NewSearchAPIEndPoint {
         switch position { 
             case 0: return .control
             case 1: return .baseline

@@ -85,6 +85,7 @@ protocol FeatureFlaggeable: class {
     var emptySearchImprovements: EmptySearchImprovements { get }
     var sectionedFeed: SectionedDiscoveryFeed { get }
     var sectionedFeedABTestIntValue: Int { get }
+    var newSearchAPI: NewSearchAPIEndPoint { get }
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
@@ -988,6 +989,10 @@ extension SmartQuickAnswers {
     var isActive: Bool { return self == .active }
 }
 
+extension NewSearchAPIEndPoint {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeatureFlags {
     
     var showInactiveConversations: Bool {
@@ -1161,6 +1166,11 @@ extension FeatureFlags {
     
     var sectionedFeedABTestIntValue: Int {
         return abTests.sectionedFeed.value
+    }
+    
+    var newSearchAPI: NewSearchAPIEndPoint {
+        if Bumper.enabled { return Bumper.newSearchAPIEndPoint }
+        return NewSearchAPIEndPoint.fromPosition(abTests.newSearchAPI.value)
     }
 }
 

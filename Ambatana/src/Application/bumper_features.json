@@ -348,5 +348,10 @@
         "name": "MakeAnOfferButton",
         "values": ["control", "baseline", "active"],
         "description": "[P2P PAYMENTS] Show make an offer button"
+    },
+    {
+        "name": "NewSearchAPIEndPoint",
+        "values": ["control", "baseline", "active"],
+        "description": "[DISCOVERY] Use New Search API Endpoint"
     }
 ]
