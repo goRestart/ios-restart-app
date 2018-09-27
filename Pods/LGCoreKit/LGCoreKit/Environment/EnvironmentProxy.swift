@@ -60,6 +60,7 @@ class EnvironmentProxy: Environment {
     var paymentsBaseURL: String { return environment.paymentsBaseURL }
     var suggestiveSearchBaseURL: String { return environment.suggestiveSearchBaseURL }
     var searchProductsBaseURL: String { return environment.searchProductsBaseURL }
+    var newSearchProductsBaseURL: String { return environment.newSearchProductsBaseURL }
     var searchRealEstateBaseURL: String { return environment.searchRealEstateBaseURL }
     var searchCarsBaseURL: String { return environment.searchCarsBaseURL }
     var niordBaseURL: String { return environment.niordBaseURL }

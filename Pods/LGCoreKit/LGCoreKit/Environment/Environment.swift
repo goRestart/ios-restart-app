@@ -22,6 +22,7 @@ protocol Environment {
     var paymentsBaseURL: String { get }
     var suggestiveSearchBaseURL: String { get }
     var searchProductsBaseURL: String { get }
+    var newSearchProductsBaseURL: String { get }
     var searchRealEstateBaseURL: String { get }
     var searchCarsBaseURL: String { get }
     var searchServicesBaseURL: String { get }

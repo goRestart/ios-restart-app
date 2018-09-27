@@ -252,6 +252,7 @@ enum EventName: String {
     case p2pPaymentsBuyerOfferEditCancel    = "p2p-buyer-offer-edit-cancel"
     case p2pPaymentsBuyerPaymentProcess     = "p2p-buyer-payment-confirmation"
     case p2pPaymentsBuyerApplePayStart      = "p2p-buyer-applepay-start"
+    case p2pPaymentsBuyerApplePayError      = "p2p-buyer-applepay-autherror"
     case p2pPaymentsBuyerOfferWithdraw      = "p2p-buyer-offer-withdraw"
     case p2pPaymentsBuyerCodeView           = "p2p-buyer-code-view"
     case p2pPaymentsSellerOfferDetail       = "p2p-seller-offer-detail"

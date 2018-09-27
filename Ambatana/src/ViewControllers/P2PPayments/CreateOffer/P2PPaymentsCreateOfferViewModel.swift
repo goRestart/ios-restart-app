@@ -129,7 +129,8 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
                 delay(P2PPayments.chatRefreshDelay) { [weak self] in
                     self?.navigator?.closeOnboarding()
                 }
-            case .failure: break
+            case .failure:
+                self?.trackMakeAnOfferError()
             }
         }
         paymentAuthControllerRelay.accept(authController)
@@ -159,6 +160,15 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
         let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferPaymentComplete(userId: userId,
                                                                               chatConversation: chatConversation,
                                                                               offerFees: offerFees)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackMakeAnOfferError() {
+        guard let userId = myUserRepository.myUser?.objectId,
+            let offerFees = offerFeesRelay.value else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferPaymentError(userId: userId,
+                                                                           chatConversation: chatConversation,
+                                                                           offerFees: offerFees)
         tracker.trackEvent(trackerEvent)
     }
 
