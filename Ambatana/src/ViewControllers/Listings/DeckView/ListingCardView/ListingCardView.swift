@@ -12,6 +12,7 @@ private enum Layout {
     enum Height {
         static let full: CGFloat = 58
         static let simple: CGFloat = 30
+        static let gradient: CGFloat = 100
     }
 }
 
@@ -32,6 +33,19 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
 
     private let moreInfoView: MoreInfoViewType
     private let setupMoreInfo: (MoreInfoViewType, UIView) -> ()
+    private let topGradientView: GradientView = {
+        let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.3), .clear])
+        gradient.startPoint = CGPoint(x: 0.5, y: 0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1)
+        return gradient
+    }()
+
+    private let bottomGradientView: GradientView = {
+        let gradient = GradientView(colors: [.clear, UIColor.black.withAlphaComponent(0.3)])
+        gradient.startPoint = CGPoint(x: 0.5, y: 0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1)
+        return gradient
+    }()
 
     override init(frame: CGRect) {
         self.moreInfoView = FeatureFlags.sharedInstance.deckItemPage.moreInfoView
@@ -84,18 +98,32 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     }
 
     private func setupUI() {
-        contentView.addSubviewsForAutoLayout([mediaView, pageControl])
+        contentView.addSubviewsForAutoLayout([mediaView,
+                                              topGradientView,
+                                              bottomGradientView,
+                                              pageControl,
+                                              moreInfoView])
+        setupMoreInfoView()
         [
             mediaView.topAnchor.constraint(equalTo: contentView.topAnchor),
             mediaView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             mediaView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             mediaView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 
+            bottomGradientView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            bottomGradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bottomGradientView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bottomGradientView.heightAnchor.constraint(equalToConstant: Layout.Height.gradient),
+
             pageControl.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
             pageControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
-            pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin)
+            pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin),
+
+            topGradientView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            topGradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            topGradientView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            topGradientView.heightAnchor.constraint(equalToConstant: Layout.Height.gradient)
         ].activate()
-        setupMoreInfoView()
         setupTapGesture()
 
         backgroundColor = .clear
@@ -144,7 +172,6 @@ private extension NewItemPageV3 {
     var simpleMoreInfo: Bool { return self == .buttonWithLaterals || self == .buttonWithoutLaterals }
 
     func constraintFull(moreInfo: MoreInfoViewType, into view: UIView) {
-        view.addSubviewForAutoLayout(moreInfo)
         [
             moreInfo.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Metrics.margin),
             moreInfo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.margin),
@@ -154,7 +181,6 @@ private extension NewItemPageV3 {
     }
 
     func constraintSimple(moreInfo: MoreInfoViewType, into view: UIView) {
-        view.addSubviewForAutoLayout(moreInfo)
         [
             moreInfo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             moreInfo.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Metrics.margin),
