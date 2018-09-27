@@ -45,6 +45,8 @@ final class UserProfileViewController: BaseViewController {
     private var headerContainerTopConstraint: NSLayoutConstraint?
     private var userRelationViewHeightConstraint: NSLayoutConstraint?
     private var dummyViewHeightConstraint: NSLayoutConstraint?
+    private var bioAndTrustViewTopConstraint: NSLayoutConstraint?
+    private var askVerificationButtonConstraints: [NSLayoutConstraint]?
     private var updatingUserRelation: Bool = false
     private let emptyReviewsTopMargin: CGFloat = 90
 
@@ -153,10 +155,6 @@ final class UserProfileViewController: BaseViewController {
 
         headerContainerView.addSubviewsForAutoLayout([headerView, dummyView, userRelationView,
                                                       bioAndTrustView, tabsView])
-
-        if viewModel.shouldShowAskVerificationButton {
-            headerContainerView.addSubviewForAutoLayout(askVerificationButton)
-        }
 
         if viewModel.shouldShowKarmaView {
             headerContainerView.addSubviewForAutoLayout(karmaView)
@@ -292,20 +290,6 @@ final class UserProfileViewController: BaseViewController {
             emptyReviewsLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
         ]
 
-        if viewModel.shouldShowAskVerificationButton {
-            constraints.append(contentsOf: [
-                askVerificationButton.topAnchor.constraint(equalTo: userRelationView.bottomAnchor),
-                askVerificationButton.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
-                askVerificationButton.rightAnchor.constraint(lessThanOrEqualTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-                askVerificationButton.heightAnchor.constraint(equalToConstant: Layout.askVerificationButtonHeight),
-                bioAndTrustView.topAnchor.constraint(equalTo: askVerificationButton.bottomAnchor),
-                ])
-        } else {
-            constraints.append(contentsOf: [
-                bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor),
-                ])
-        }
-
         if viewModel.shouldShowKarmaView {
             constraints.append(contentsOf: [
                 karmaView.topAnchor.constraint(equalTo: bioAndTrustView.bottomAnchor, constant: Metrics.shortMargin),
@@ -330,6 +314,10 @@ final class UserProfileViewController: BaseViewController {
         let dummyViewHeight = dummyView.heightAnchor.constraint(equalToConstant: 0)
         dummyViewHeightConstraint = dummyViewHeight
         constraints.append(dummyViewHeight)
+
+        let bioAndTrustViewTop = bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor)
+        bioAndTrustViewTopConstraint = bioAndTrustViewTop
+        constraints.append(bioAndTrustViewTop)
 
         headerView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         bioAndTrustView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
@@ -702,6 +690,13 @@ extension UserProfileViewController {
             .drive(onNext: { [weak self] isSent in
                 self?.askVerificationButton.setState(isSent ? .disabled : .enabled)
             }).disposed(by: disposeBag)
+
+        viewModel
+            .shouldShowAskVerificationButton
+            .distinctUntilChanged()
+            .drive(onNext: { [weak self] visible in
+                self?.updateAskVerificationButton(visible: visible)
+        }).disposed(by: disposeBag)
     }
 
     private func setupPushPermissionsRx() {
@@ -730,6 +725,35 @@ extension UserProfileViewController {
         } else {
             tableView.tableHeaderView = nil
         }
+    }
+
+    private func updateAskVerificationButton(visible: Bool) {
+        if visible {
+            headerContainerView.addSubviewForAutoLayout(askVerificationButton)
+            self.bioAndTrustViewTopConstraint?.isActive = false
+
+            let askVerificationButtonConstraints = [
+                askVerificationButton.topAnchor.constraint(equalTo: userRelationView.bottomAnchor),
+                askVerificationButton.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
+                askVerificationButton.rightAnchor.constraint(lessThanOrEqualTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
+                askVerificationButton.heightAnchor.constraint(equalToConstant: Layout.askVerificationButtonHeight),
+                ]
+            let bioAndTrustViewTopConstraint = bioAndTrustView.topAnchor.constraint(equalTo: askVerificationButton.bottomAnchor)
+
+            NSLayoutConstraint.activate(askVerificationButtonConstraints + [bioAndTrustViewTopConstraint])
+            self.askVerificationButtonConstraints = askVerificationButtonConstraints
+            self.bioAndTrustViewTopConstraint = bioAndTrustViewTopConstraint
+        } else {
+            if let askVerificationButtonConstraints = askVerificationButtonConstraints,
+                let bioAndTrustViewTopConstraint = bioAndTrustViewTopConstraint {
+                NSLayoutConstraint.deactivate(askVerificationButtonConstraints + [bioAndTrustViewTopConstraint])
+            }
+
+            bioAndTrustViewTopConstraint = bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor)
+            bioAndTrustViewTopConstraint?.isActive = true
+            askVerificationButton.removeFromSuperview()
+        }
+        headerContainerView.setNeedsLayout()
     }
 
     private func updateUserRelation(with text: String?) {

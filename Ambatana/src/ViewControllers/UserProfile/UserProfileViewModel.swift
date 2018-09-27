@@ -76,7 +76,6 @@ final class UserProfileViewModel: BaseViewModel {
 
     var shouldShowKarmaView: Bool { return isPrivateProfile }
     var shouldShowRatingCount: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
-    var shouldShowAskVerificationButton: Bool { return self.featureFlags.advancedReputationSystem13.isActive }
     var isTapOnRatingStarsEnabled: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
 
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
@@ -99,7 +98,14 @@ final class UserProfileViewModel: BaseViewModel {
     var listingListViewModel: Driver<ListingListViewModel?> { return makeListingListViewModelDriver() }
     let ratingListViewModel: UserRatingListViewModel
     let showBubbleNotification = PublishSubject<BubbleNotificationData>()
-    
+
+    var shouldShowAskVerificationButton: Driver<Bool> {
+        return Observable.combineLatest(user.asObservable(), isMyUser.asObservable()) { user, isMyUser in
+            guard let user = user else { return false }
+            return !isMyUser && !user.hasBadge && self.featureFlags.advancedReputationSystem13.isActive
+        }.asDriver(onErrorJustReturn: false)
+    }
+
     var chatNowButtonIsHidden: Driver<Bool> {
         return Observable.combineLatest(user.asObservable(), isMyUser.asObservable()) { user, isMyUser in
             guard let user = user else { return false }

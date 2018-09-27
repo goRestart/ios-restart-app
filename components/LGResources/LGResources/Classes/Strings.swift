@@ -156,6 +156,8 @@ extension R {
     public static let affiliationStoreUnknownErrorMessage = Strings.tr("Localizable", "affiliation_store_unknown_error_message")
     /// History
     public static let affiliationStoreViewHistory = Strings.tr("Localizable", "affiliation_store_view_history")
+    /// No rewards in your history yet.
+    public static let affiliationStoreViewHistoryEmpty = Strings.tr("Localizable", "affiliation_store_view_history_empty")
     /// View rewards
     public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
     /// PTS
@@ -1832,14 +1834,14 @@ extension R {
     public static func paymentPayoutPaymentAvailability(_ p1: String) -> String {
       return Strings.tr("Localizable", "payment_payout_payment_availability", p1)
     }
-    /// Transaction fee (%@)
-    public static func paymentPayoutPaymentFee(_ p1: String) -> String {
-      return Strings.tr("Localizable", "payment_payout_payment_fee", p1)
-    }
+    /// Transaction fee
+    public static let paymentPayoutPaymentFee = Strings.tr("Localizable", "payment_payout_payment_fee")
     /// Get the money in under 1 hour
     public static let paymentPayoutPaymentInstantSubtitleLabel = Strings.tr("Localizable", "payment_payout_payment_instant_subtitle_label")
-    /// Transaction fee
-    public static let paymentPayoutPaymentInstantTitleLabel = Strings.tr("Localizable", "payment_payout_payment_instant_title_label")
+    /// Transaction fee (%1$@) — %2$@
+    public static func paymentPayoutPaymentInstantTitleLabel(_ p1: String, _ p2: String) -> String {
+      return Strings.tr("Localizable", "payment_payout_payment_instant_title_label", p1, p2)
+    }
     /// Get the money in 3-7 days
     public static let paymentPayoutPaymentStandarSubtitleLabel = Strings.tr("Localizable", "payment_payout_payment_standar_subtitle_label")
     /// FREE
