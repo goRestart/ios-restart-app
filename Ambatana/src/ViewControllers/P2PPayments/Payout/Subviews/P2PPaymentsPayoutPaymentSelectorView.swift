@@ -73,7 +73,6 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(size: 16)
         label.textColor = UIColor.grayDark
-        label.text = R.Strings.paymentPayoutPaymentInstantTitleLabel
         return label
     }()
 
@@ -145,7 +144,7 @@ final class P2PPaymentsPayoutPaymentSelectorView: UIView {
         freeSubtitleLabel.isHidden = state.kind != .standard
         instantTitleLabel.isHidden = state.kind != .instant
         instantSubtitleLabel.isHidden = state.kind != .instant
-        instantTitleLabel.text = R.Strings.paymentPayoutPaymentFee(state.feeText ?? "")
+        instantTitleLabel.text = state.feeText
         freeSubtitleLabel.text = R.Strings.paymentPayoutPaymentAvailability(state.fundsAvailableText ?? "")
         instantSubtitleLabel.text = R.Strings.paymentPayoutPaymentAvailability(state.fundsAvailableText ?? "")
         backgroundColor = isSelected ? UIColor.veryLightGray : UIColor.white
