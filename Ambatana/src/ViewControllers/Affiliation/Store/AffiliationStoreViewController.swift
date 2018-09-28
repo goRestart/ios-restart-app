@@ -59,7 +59,6 @@ final class AffiliationStoreViewController: BaseViewController {
             viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
             viewModel.rx.redeemTapped.drive(rx.redeemCell),
             viewModel.rx.points.drive(rx.points),
-            viewModel.rx.pointsVisible.drive(rx.pointsVisible)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -73,8 +72,6 @@ final class AffiliationStoreViewController: BaseViewController {
         case .error(let errorModel), .empty(let errorModel):
             update(with: errorModel)
         }
-
-        pointsView.alpha = state == .data ? 1 : 0
     }
 
     private func showLoading() {
@@ -100,14 +97,6 @@ final class AffiliationStoreViewController: BaseViewController {
                            action: action)
         view.addSubviewForAutoLayout(errorView)
         constraintViewToSafeRootView(errorView)
-    }
-
-    fileprivate func updatePoints(with isVisible: Bool) {
-        if isVisible {
-            navigationItem.rightBarButtonItems = [moreThreeDotsButton, pointsItem]
-        } else {
-            navigationItem.rightBarButtonItems = [moreThreeDotsButton]
-        }
     }
 
     fileprivate func updatePoints(with points: Int) {
@@ -229,12 +218,6 @@ extension Reactive where Base: AffiliationStoreViewController {
     var points: Binder<Int> {
         return Binder(self.base) { controller, points in
             controller.updatePoints(with: points)
-        }
-    }
-
-    var pointsVisible: Binder<Bool> {
-        return Binder(self.base) { controller, visibility in
-            controller.updatePoints(with: visibility)
         }
     }
 

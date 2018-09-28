@@ -272,10 +272,6 @@ extension Reactive where Base: AffiliationStoreViewModel {
     var points: Driver<Int> {
         return base.pointsRelay.asDriver()
     }
-    
-    var pointsVisible: Driver<Bool> {
-        return points.map { $0 >= 0 ? true : false }
-    }
 }
 
 struct RedeemCellModel {
