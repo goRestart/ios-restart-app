@@ -482,15 +482,21 @@ class ChatViewModel: ChatBaseViewModel {
     }
     
     func setupRx() {
+        messages.observable.subscribeNext { [weak self] _ in
+            guard let strongSelf = self else { return }
+            
+            let isChatEnabled = strongSelf.conversation.value.chatEnabled
+            
+            if strongSelf.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
+                strongSelf.chatEnabled.value = isChatEnabled && strongSelf.thereAreMessagesSent
+            } else {
+                strongSelf.chatEnabled.value = isChatEnabled
+            }
+        }.disposed(by: disposeBag)
+        
+        
         conversation.asObservable().subscribeNext { [weak self] conversation in
             self?.chatStatus.value = conversation.chatStatus
-            
-            if self?.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
-                self?.chatEnabled.value = conversation.chatEnabled && (self?.thereAreMessagesSent ?? false)
-            } else {
-                self?.chatEnabled.value = conversation.chatEnabled
-            }
-
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
             self?.title.value = conversation.listing?.name ?? ""
@@ -1918,7 +1924,10 @@ fileprivate extension ChatConversation {
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
     var thereAreMessagesSent: Bool {
-        return conversation.value.lastMessageSentAt != nil
+        return !messages.value.filter {
+            if case .userInfo(_) = $0.type { return false }
+            return true
+        }.isEmpty
     }
     /*
      Quick answers priorities:

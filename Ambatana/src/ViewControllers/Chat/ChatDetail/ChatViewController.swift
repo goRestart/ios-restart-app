@@ -15,6 +15,7 @@ final class ChatViewController: TextViewController {
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
     let professionalSellerBannerHeight: CGFloat = 44
+    private let quickAnswerBottomHeight: CGFloat = 50
 
     let listingView: ChatListingView
     let chatDetailHeader: ChatDetailNavBarInfoView
@@ -128,7 +129,12 @@ final class ChatViewController: TextViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableView.contentInset.bottom = tableViewInsetBottom
+        tableView.contentInset.bottom = tableViewInsetBottom
+
+        if featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
+            let topSpace = viewModel.thereAreMessagesSent ? 0: quickAnswerBottomHeight
+            tableView.contentInset.top = topSpace
+        }
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
