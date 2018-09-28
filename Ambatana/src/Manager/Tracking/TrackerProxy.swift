@@ -34,6 +34,7 @@ final class TrackerProxy: Tracker {
     private let installationRepository: InstallationRepository
     private let notificationsManager: NotificationsManager
     private var analyticsSessionManager: AnalyticsSessionManager
+    private let analyticsMiddlewares: [AnalyticsMiddleware]
 
 
     // MARK: - Lifecycle
@@ -48,13 +49,16 @@ final class TrackerProxy: Tracker {
         let dao = AnalyticsSessionUDDAO(keyValueStorage: keyValueStorage)
         let analyticsSessionManager = LGAnalyticsSessionManager(myUserRepository: myUserRepository,
                                                                 dao: dao)
+        let analyticsMiddlewares = [AnalyticsSell24hMiddleware(keyValueStorage: keyValueStorage)]
+
         self.init(trackers: trackers,
                   sessionManager: Core.sessionManager,
                   myUserRepository: myUserRepository,
                   locationManager: Core.locationManager,
                   installationRepository: Core.installationRepository,
                   notificationsManager: LGNotificationsManager.sharedInstance,
-                  analyticsSessionManager: analyticsSessionManager)
+                  analyticsSessionManager: analyticsSessionManager,
+                  analyticsMiddlewares: analyticsMiddlewares)
     }
 
     init(trackers: [Tracker],
@@ -63,7 +67,8 @@ final class TrackerProxy: Tracker {
          locationManager: LocationManager,
          installationRepository: InstallationRepository,
          notificationsManager: NotificationsManager,
-         analyticsSessionManager: AnalyticsSessionManager) {
+         analyticsSessionManager: AnalyticsSessionManager,
+         analyticsMiddlewares: [AnalyticsMiddleware]) {
         self.trackers = trackers
         self.locationManager = locationManager
         self.sessionManager = sessionManager
@@ -71,6 +76,7 @@ final class TrackerProxy: Tracker {
         self.installationRepository = installationRepository
         self.notificationsManager = notificationsManager
         self.analyticsSessionManager = analyticsSessionManager
+        self.analyticsMiddlewares = analyticsMiddlewares
 
         self.analyticsSessionManager.sessionThresholdReachedCompletion = { [weak self] in
             let event = TrackerEvent.sessionOneMinuteFirstWeek()
@@ -137,6 +143,10 @@ final class TrackerProxy: Tracker {
     func trackEvent(_ event: TrackerEvent) {
         logMessage(.verbose, type: .tracking, message: "\(event.actualName) -> \(String(describing: event.params))")
         trackers.forEach { $0.trackEvent(event) }
+
+        analyticsMiddlewares.forEach { $0.process(event: event) { [weak self] newEvent in
+            self?.trackEvent(newEvent)
+        }}
     }
 
     func setLocation(_ location: LGLocation?, postalAddress: PostalAddress?) {
