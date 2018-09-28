@@ -356,7 +356,7 @@ extension FiltersViewController: UICollectionViewDataSource {
         case .realEstateInfo:
             return viewModel.numberOfRealEstateRows
         case .servicesInfo:
-            return viewModel.serviceSections.count
+            return 1
         case .jobsServicesToggle:
             return viewModel.serviceListingTypeOptions.count
         }
@@ -477,14 +477,7 @@ extension FiltersViewController: UICollectionViewDelegate {
                 break
             }
         case .servicesInfo:
-            switch viewModel.serviceSections[indexPath.item] {
-            case .type:
-                viewModel.servicesTypeTapped()
-            case .subtype:
-                viewModel.servicesSubtypeTapped()
-            case .unified:
-                viewModel.unifiedServicesFilterTapped()
-            }
+            viewModel.servicesFilterTapped()
         case .within:
             viewModel.selectWithinTimeAtIndex(indexPath.row)
         case .sortBy:
@@ -733,23 +726,10 @@ extension FiltersViewController {
     
     private func newServicesCell(forIndexPath indexPath: IndexPath,
                                  inCollectionView collectionView: UICollectionView) -> UICollectionViewCell {
-        let serviceSection = viewModel.serviceSections[indexPath.item]
         guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
                                                 for: indexPath) else { return UICollectionViewCell() }
-        switch serviceSection {
-        case .type:
-            cell.setup(withTitle: serviceSection.title,
-                       subtitle: viewModel.currentServiceTypeName ?? R.Strings.filtersServiceTypeNotSet)
-            cell.topSeparator?.isHidden = false
-        case .subtype:
-            cell.setup(withTitle: serviceSection.title,
-                       subtitle: viewModel.selectedServiceSubtypesDisplayName,
-                       isTitleEnabled: viewModel.serviceSubtypeCellEnabled,
-                       isUserInteractionEnabled: viewModel.serviceSubtypeCellEnabled)
-        case .unified:
-            cell.setup(withTitle: viewModel.currentServiceTypeName ?? serviceSection.title,
-                       subtitle: viewModel.selectedServiceSubtypesDisplayName)
-        }
+        cell.setup(withTitle: viewModel.currentServiceTypeName ?? R.Strings.servicesUnifiedFilterTitle,
+                   subtitle: viewModel.selectedServiceSubtypesDisplayName)
         return cell
     }
 

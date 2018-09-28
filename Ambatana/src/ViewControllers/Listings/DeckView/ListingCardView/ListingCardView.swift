@@ -12,6 +12,7 @@ private enum Layout {
     enum Height {
         static let full: CGFloat = 58
         static let simple: CGFloat = 30
+        static let gradient: CGFloat = 100
     }
 }
 
@@ -20,26 +21,31 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     private let cardTapGesture = UITapGestureRecognizer()
 
     private let pageControl = ListingCardPageControl()
-    private var carousel: ListingCardMediaCarousel?
+    private var carousel = ListingCardMediaCarousel(media: [], currentIndex: 0)
 
-    private let videoPreview = VideoPreview(frame: .zero)
-    private let previewImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = .gray
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
+    private let mediaView: PhotoMediaViewerView
+    private var mediaViewModel: PhotoMediaViewerViewModel?
 
     var previewVisibleFrame: CGRect {
-        let size = CGSize(width: contentView.width, height: previewImageView.height)
+        let size = CGSize(width: contentView.width, height: contentView.height)
         return CGRect(origin: frame.origin, size: size)
     }
 
     private let moreInfoView: MoreInfoViewType
     private let setupMoreInfo: (MoreInfoViewType, UIView) -> ()
+    private let topGradientView: GradientView = {
+        let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.3), .clear])
+        gradient.startPoint = CGPoint(x: 0.5, y: 0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1)
+        return gradient
+    }()
 
-    private var imageDownloader: ImageDownloaderType?
+    private let bottomGradientView: GradientView = {
+        let gradient = GradientView(colors: [.clear, UIColor.black.withAlphaComponent(0.3)])
+        gradient.startPoint = CGPoint(x: 0.5, y: 0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1)
+        return gradient
+    }()
 
     override init(frame: CGRect) {
         self.moreInfoView = FeatureFlags.sharedInstance.deckItemPage.moreInfoView
@@ -48,27 +54,35 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         } else {
             setupMoreInfo = FeatureFlags.sharedInstance.deckItemPage.constraintSimple
         }
+        self.mediaView = PhotoMediaViewerView(frame: frame)
         super.init(frame: frame)
         setupUI()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        previewImageView.image = nil
-        carousel = nil
-        videoPreview.pause()
+        carousel = ListingCardMediaCarousel(media: [], currentIndex: 0)
+        mediaView.reset()
     }
 
     func populateWith(_ model: ListingCardModel, imageDownloader: ImageDownloaderType) {
-        self.imageDownloader = imageDownloader
-        populateWith(media: model.media)
         populateWith(title: model.title ?? "", price: model.price)
+        populateWith(media: model.media, imageDownloader: imageDownloader)
     }
 
-    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
-    func populateWith(media: [Media]) {
-        updateWith(carousel: ListingCardMediaCarousel(media: media, current: 0))
+    func populateWith(media: [Media], imageDownloader: ImageDownloaderType) {
+        let vm = PhotoMediaViewerViewModel(tag: 0,
+                                           media: media,
+                                           backgroundColor: .white,
+                                           placeholderImage: nil,
+                                           imageDownloader: imageDownloader)
+        mediaViewModel = vm
+        mediaView.set(viewModel: vm)
+        updateWith(carousel: ListingCardMediaCarousel(media: media, currentIndex: 0))
+        mediaView.reloadData()
     }
 
     private func populateWith(title: String, price: String) {
@@ -78,42 +92,38 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
     private func updateWith(carousel: ListingCardMediaCarousel) {
         pageControl.isHidden = carousel.media.count <= 1
         pageControl.setPages(carousel.media.count)
-        pageControl.turnOnAt(carousel.current)
-        populateWith(media: carousel.media[safeAt: carousel.current])
+        pageControl.turnOnAt(carousel.currentIndex)
+        mediaViewModel?.setIndex(carousel.currentIndex)
         self.carousel = carousel
     }
 
-    private func populateWith(media: Media?) {
-        if let video = media?.outputs.video {
-            videoPreview.isHidden = false
-            previewImageView.isHidden = true
-            videoPreview.url = video
-            videoPreview.play()
-        } else  if let previewURL = media?.outputs.image {
-            videoPreview.isHidden = true
-            previewImageView.isHidden = false
-            previewImageView.lg_setImageWithURL(previewURL)
-        }
-    }
-
     private func setupUI() {
-        contentView.addSubviewsForAutoLayout([previewImageView, videoPreview, pageControl])
+        contentView.addSubviewsForAutoLayout([mediaView,
+                                              topGradientView,
+                                              bottomGradientView,
+                                              pageControl,
+                                              moreInfoView])
+        setupMoreInfoView()
         [
-            previewImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            previewImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            previewImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            previewImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            mediaView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            mediaView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            mediaView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            mediaView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 
-            videoPreview.topAnchor.constraint(equalTo: contentView.topAnchor),
-            videoPreview.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            videoPreview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            videoPreview.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            bottomGradientView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            bottomGradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bottomGradientView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bottomGradientView.heightAnchor.constraint(equalToConstant: Layout.Height.gradient),
 
             pageControl.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
             pageControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metrics.margin),
-            pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin)
+            pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin),
+
+            topGradientView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            topGradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            topGradientView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            topGradientView.heightAnchor.constraint(equalToConstant: Layout.Height.gradient)
         ].activate()
-        setupMoreInfoView()
         setupTapGesture()
 
         backgroundColor = .clear
@@ -137,17 +147,16 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         let isBottom = location.y / contentView.height > 0.7
         if isBottom {
             delegate?.cardViewDidTapOnMoreInfo(self)
-        } else if isLeft, let carousel = self.carousel?.makePrevious() {
-            updateWith(carousel: carousel)
-        } else if let carousel = self.carousel?.makeNext() {
-            updateWith(carousel: carousel)
+        } else if isLeft {
+            updateWith(carousel: carousel.makePrevious())
+        } else {
+            updateWith(carousel: carousel.makeNext())
         }
     }
 
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
         contentView.layer.cornerRadius = Metrics.margin
-        previewImageView.layer.cornerRadius = Metrics.margin
         applyShadow(withOpacity: 0.15, radius: Metrics.margin)
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: Metrics.margin).cgPath
     }
@@ -163,7 +172,6 @@ private extension NewItemPageV3 {
     var simpleMoreInfo: Bool { return self == .buttonWithLaterals || self == .buttonWithoutLaterals }
 
     func constraintFull(moreInfo: MoreInfoViewType, into view: UIView) {
-        view.addSubviewForAutoLayout(moreInfo)
         [
             moreInfo.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Metrics.margin),
             moreInfo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.margin),
@@ -173,7 +181,6 @@ private extension NewItemPageV3 {
     }
 
     func constraintSimple(moreInfo: MoreInfoViewType, into view: UIView) {
-        view.addSubviewForAutoLayout(moreInfo)
         [
             moreInfo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             moreInfo.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Metrics.margin),

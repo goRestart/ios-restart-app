@@ -21,6 +21,6 @@ final class DeckViewCollectionDelegate: NSObject, ListingCardViewDelegate, Listi
     }
 
     func cardViewDidTapOnMoreInfo(_ cardView: ListingCardView) {
-        viewModel.showListingDetail(at: cardView.tag)
+        viewModel.showListingDetail()
     }
 }

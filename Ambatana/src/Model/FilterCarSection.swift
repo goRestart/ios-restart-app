@@ -6,14 +6,10 @@ enum FilterCarSection {
     make, model, year, bodyType,
     transmission, fuelType, driveTrain, mileage, numberOfSeats
     
-    static func all(showCarExtraFilters: Bool) -> [FilterCarSection] {
-        if showCarExtraFilters {
-            return [.individual, .dealership,
-                    .make, .model, .year,
-                    .mileage, .bodyType, .transmission, .fuelType, .driveTrain, .numberOfSeats]
-        }
-        
-        return [.individual, .dealership, .make, .model, .year]
+    static var allCases: [FilterCarSection] {
+        return [.individual, .dealership,
+                .make, .model, .year,
+                .mileage, .bodyType, .transmission, .fuelType, .driveTrain, .numberOfSeats]
     }
     
     var isCarSellerTypeSection: Bool {

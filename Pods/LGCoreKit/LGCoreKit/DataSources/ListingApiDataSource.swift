@@ -19,6 +19,11 @@ final class ListingApiDataSource: ListingDataSource {
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
     }
     
+    func indexNewSearchAPI(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
+        let request = ListingRouter.indexNewSearchAPI(params: parameters)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
+    }
+    
     func indexCustomFeed(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
         let request = ListingRouter.indexCustomFeed(params: parameters)
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)

@@ -835,9 +835,9 @@
 "payment_frequency_per_year" = "vuosi";
 "payment_payout_navbar_title" = "Maksu";
 "payment_payout_payment_availability" = "Saat rahat %@ kuluessa";
-"payment_payout_payment_fee" = "Maksutapahtumakulu (%@)";
+"payment_payout_payment_fee" = "Transaction fee (%@)";
 "payment_payout_payment_instant_subtitle_label" = "Saat rahat alle tunnissa";
-"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
+"payment_payout_payment_instant_title_label" = "Maksutapahtumakulu (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Saat rahat 3-7 päivässä";
 "payment_payout_payment_standar_title_label" = "ILMAINEN";
 "payment_payout_payment_type_instant" = "Pikamaksu";
@@ -1238,8 +1238,9 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Syötä puhelinnumero";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Kiitos yhteydenotostasi! Soitathan meille tai jätät numerosi, jotta voimme soittaa sinulle.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Kiitos kun lisäsit puhelinnumerosi! On aina parempi idea soittaa meille käyttämällä yllä olevaa soittopainiketta.";
-"profile_ask_verification_button_disabled" = "Verification request sent!";
-"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+"profile_ask_verification_button_disabled" = "Varmennuspyyntö lähetetty!";
+"profile_ask_verification_button_enabled" = "Pyydä käyttäjää %@ varmentamaan profiilinsa";
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 "profile_bio_add_button" = "Lisää biografia";
 "profile_bio_show_more_button" = "LISÄÄ MINUSTA";
 "profile_blocked_by_me_label" = "Olet estänyt tämän käyttäjän";

@@ -5,7 +5,7 @@ struct TourPosting {
 }
 
 final class TourPostingWireframe: TourPostingNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
     private let action: TourPostingAction
 
     init(nc: UINavigationController, action: @escaping TourPostingAction) {

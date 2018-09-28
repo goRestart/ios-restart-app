@@ -37,7 +37,8 @@ final class FeedBadgingSynchronizerSpec: QuickSpec {
                                                         listingRepository: listingRepository,
                                                         keyValueStorage: keyValueStorage,
                                                         notificationsManager: notificationsManager,
-                                                        appIconBadgeNumber: Int.makeRandom())
+                                                        appIconBadgeNumber: Int.makeRandom(),
+                                                        featureFlags: MockFeatureFlags())
                     }
                     
                     context("Last session date is higher than 1 hour from now") {
@@ -78,7 +79,8 @@ final class FeedBadgingSynchronizerSpec: QuickSpec {
                                                         listingRepository: listingRepository,
                                                         keyValueStorage: keyValueStorage,
                                                         notificationsManager: notificationsManager,
-                                                        appIconBadgeNumber: 0)
+                                                        appIconBadgeNumber: 0,
+                                                        featureFlags: MockFeatureFlags())
                     }
                     
                     context("Last session date is higher than 1 hour from now") {

@@ -2836,13 +2836,13 @@
 "payment_payout_payment_standar_subtitle_label" = "Get the money in 3-7 days";
 
 // Instant payout fee
-"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
+"payment_payout_payment_instant_title_label" = "Transaction fee";
 
 // Instant payout availability
 "payment_payout_payment_instant_subtitle_label" = "Get the money in under 1 hour";
 
 // Transaction fee
-"payment_payout_payment_fee" = "Transaction fee";
+"payment_payout_payment_fee" = "Transaction fee (%@)";
 
 // Money availability
 "payment_payout_payment_availability" = "Get the money in %@";
@@ -3687,6 +3687,9 @@
 
 // Ask user to verify its profile
 "profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+
+// Ask user to verify its profile (Short version)
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 
 // Verification request has already been sent
 "profile_ask_verification_button_disabled" = "Verification request sent!";

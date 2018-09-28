@@ -99,6 +99,12 @@ struct SearchProductsBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct NewSearchProductsBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.newSearchProductsBaseURL
+    static let acceptHeader: String? = "application/json;version=2"
+    static let contentTypeHeader: String? = nil
+}
+
 struct NiordBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.niordBaseURL
     static let acceptHeader: String? = nil

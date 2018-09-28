@@ -235,7 +235,7 @@ final class NotificationSettingsAccessorListViewModel: BaseViewModel {
             trackPushNotificationsStatus()
         case .mail:
             trackMailNotificationsStatus()
-        case .marketing, .searchAlerts:
+        case .searchAlerts:
             break
         }
     }

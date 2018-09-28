@@ -56,10 +56,6 @@ final class NotificationsViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     var sections: [NotificationCenterSection] = []
-    
-    var isNotificationCenterRedesign: Bool {
-        return featureFlags.notificationCenterRedesign == .active
-    }
 
     convenience override init() {
         self.init(notificationsRepository: Core.notificationsRepository,
@@ -99,34 +95,24 @@ final class NotificationsViewModel: BaseViewModel {
     // MARK: - Public
 
     var numberOfSections: Int {
-        return isNotificationCenterRedesign ? sections.count : 1
+        return sections.count
     }
     
     func dataCount(atSection section: Int = 0) -> Int {
-        if isNotificationCenterRedesign {
-            guard section < sections.count else { return 0 }
-            return sections[section].notifications.count
-        } else {
-            return notificationsData.count
-        }
+        guard section < sections.count else { return 0 }
+        return sections[section].notifications.count
     }
 
     func data(atSection section: Int = 0, atIndex index: Int) -> NotificationData? {
-        if isNotificationCenterRedesign {
-            guard 0..<dataCount(atSection: section) ~= index else { return nil }
-            return sections[safeAt: section]?.notifications[safeAt: index]
-        } else {
-            guard 0..<dataCount(atSection: section) ~= index else { return nil }
-            return notificationsData[safeAt: index]
-        }
+        return sections[safeAt: section]?.notifications[safeAt: index]
     }
 
     func refresh() {
         reloadNotifications()
     }
 
-    func selectedItemAtIndex(_ index: Int) {
-        guard let data = data(atIndex: index) else { return }
+    func selectedItemAtIndexPath(_ indexPath: IndexPath) {
+        guard let data = data(atSection: indexPath.section, atIndex: indexPath.row) else { return }
         data.primaryAction?()
     }
     
@@ -146,9 +132,7 @@ final class NotificationsViewModel: BaseViewModel {
             if let notifications = result.value {
                 let remoteNotifications = notifications.compactMap{ strongSelf.buildNotification($0) }
                 strongSelf.notificationsData = remoteNotifications
-                if strongSelf.isNotificationCenterRedesign {
-                    strongSelf.populateNotificationSections()
-                }
+                strongSelf.populateNotificationSections()
                 if strongSelf.notificationsData.isEmpty {
                     let emptyViewModel = LGEmptyViewModel(icon: R.Asset.IconsButtons.icNotificationsEmpty.image,
                         title:  R.Strings.notificationsEmptyTitle,
@@ -235,23 +219,10 @@ fileprivate extension NotificationsViewModel {
                                 campaignType: notification.campaignType,
                                 primaryAction: { [weak self] in
                                     guard let deeplink = notification.modules.callToActions.first?.deeplink else { return }
-                                    self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main,
-                                                                             notificationCampaign: notification.campaignType)
+                                    self?.triggerModularNotification(deeplink: deeplink,
+                                                                     source: .main,
+                                                                     notificationCampaign: notification.campaignType)
                                 })
-    }
-}
-
-
-// MARK: - modularNotificationCellDelegate
-
-extension NotificationsViewModel: ModularNotificationCellDelegate {
-    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea,
-                                            notificationCampaign: String?) {
-        guard let deepLinkURL = URL(string: deeplink) else { return }
-        guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
-        trackItemPressed(source: source, cardAction: deepLink.cardActionParameter,
-                         notificationCampaign: notificationCampaign)
-        navigator?.openNotificationDeepLink(deepLink: deepLink)
     }
 }
 

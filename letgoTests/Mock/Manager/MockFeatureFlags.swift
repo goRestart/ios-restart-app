@@ -3,6 +3,7 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
+    
     var rx_affiliationEnabled: Observable<AffiliationEnabled> { return .just(.control) }
 
     var trackingData: Observable<[(String, ABGroup)]?> {
@@ -71,18 +72,16 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var expressChatImprovement: ExpressChatImprovement = .control
     var smartQuickAnswers: SmartQuickAnswers = .control
     var openChatFromUserProfile: OpenChatFromUserProfile = .control
-    
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow = .control
+
     // MARK:  Verticals
     var servicesPaymentFrequency: ServicesPaymentFrequency = .control
-    var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
-    var realEstateMapTooltip: RealEstateMapTooltip = .control
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory = .control
     var carPromoCells: CarPromoCells = .control
     var servicesPromoCells: ServicesPromoCells = .control
     var realEstatePromoCells: RealEstatePromoCells = .control
     var proUsersExtraImages: ProUsersExtraImages = .control
-    var clickToTalkEnabled: ClickToTalk = .control
+    var clickToTalk: ClickToTalk = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
@@ -90,6 +89,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var emptySearchImprovements: EmptySearchImprovements = .control
     var sectionedFeedABTestIntValue: Int = 0
     var sectionedFeed: SectionedDiscoveryFeed = .control
+    var newSearchAPI: NewSearchAPIEndPoint = .control
     
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
@@ -98,6 +98,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var simplifiedChatButton: SimplifiedChatButton = .control
     var frictionlessShare: FrictionlessShare = .control
     var turkeyFreePosting: TurkeyFreePosting = .control
+    var makeAnOfferButton: MakeAnOfferButton = .control
 
     // MARK: Users
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
@@ -114,15 +115,14 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS = .control
     var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR = .control
     var multiAdRequestInChatSectionAdUnitId: String? = ""
+    var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit = .control
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
-    var notificationSettings: NotificationSettings = .control
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
     var engagementBadging: EngagementBadging = .control
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
-    var notificationCenterRedesign: NotificationCenterRedesign = .control
     var randomImInterestedMessages: RandomImInterestedMessages = .control
     var imInterestedInProfile: ImInterestedInProfile = .control
     var shareAfterScreenshot: ShareAfterScreenshot = .control

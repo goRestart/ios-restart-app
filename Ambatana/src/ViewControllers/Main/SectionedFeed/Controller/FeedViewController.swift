@@ -368,7 +368,8 @@ extension FeedViewController: FeedRenderable {
         return collectionView.convert(originalFrame, to: collectionView.superview)
     }
     
-    func updateFeed() {
+    func updateFeed(forceLayoutCalculation: Bool) {
+        waterFallLayout.forceLayoutCalculation = forceLayoutCalculation
         adapter.performUpdates(animated: true, completion: nil)
     }
     

@@ -68,15 +68,15 @@ protocol FeatureFlaggeable: class {
     var expressChatImprovement: ExpressChatImprovement { get }
     var smartQuickAnswers: SmartQuickAnswers { get }
     var openChatFromUserProfile: OpenChatFromUserProfile { get }
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow { get }
 
     // MARK: Verticals
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
     var servicesPaymentFrequency: ServicesPaymentFrequency { get }
-    var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen { get }
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
+    var clickToTalk: ClickToTalk { get }
     var proUsersExtraImages: ProUsersExtraImages { get }
     
     // MARK: Discovery
@@ -85,6 +85,7 @@ protocol FeatureFlaggeable: class {
     var emptySearchImprovements: EmptySearchImprovements { get }
     var sectionedFeed: SectionedDiscoveryFeed { get }
     var sectionedFeedABTestIntValue: Int { get }
+    var newSearchAPI: NewSearchAPIEndPoint { get }
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
@@ -93,6 +94,7 @@ protocol FeatureFlaggeable: class {
     var simplifiedChatButton: SimplifiedChatButton { get }
     var frictionlessShare: FrictionlessShare { get }
     var turkeyFreePosting: TurkeyFreePosting { get }
+    var makeAnOfferButton: MakeAnOfferButton { get }
 
     // MARK: Users
     var emergencyLocate: EmergencyLocate { get }
@@ -107,15 +109,14 @@ protocol FeatureFlaggeable: class {
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS { get }
     var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR { get }
     var multiAdRequestInChatSectionAdUnitId: String? { get }
+    var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit { get }
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
-    var notificationSettings: NotificationSettings { get }
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
     var engagementBadging: EngagementBadging { get }
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
-    var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
     var imInterestedInProfile: ImInterestedInProfile { get }
     var shareAfterScreenshot: ShareAfterScreenshot { get }
@@ -161,24 +162,12 @@ extension OnboardingIncentivizePosting {
     var isActive: Bool { return self == .blockingPosting || self == .blockingPostingSkipWelcome }
 }
 
-extension ServicesUnifiedFilterScreen {
-    var isActive: Bool { return self == .active }
-}
-
 extension EnableJobsAndServicesCategory {
     var isActive: Bool { return self == .active }
 }
 
 extension ServicesPaymentFrequency {
     var isActive: Bool { return self == .active }
-}
-
-extension CarExtraFieldsEnabled {
-    var isActive: Bool { return self == .active }
-}
-
-extension RealEstateMapTooltip {
-    var isActive: Bool { return self == .active  }
 }
 
 extension CarPromoCells {
@@ -194,6 +183,10 @@ extension RealEstatePromoCells {
 }
 
 extension NewItemPageV3 {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension OpenChatFromUserProfile {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
@@ -303,10 +296,6 @@ extension PersonalizedFeed {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
-extension NotificationSettings {
-    var isActive: Bool { return self == .differentLists || self == .sameList }
-}
-
 extension EngagementBadging {
     var isActive: Bool { return self == .active }
 }
@@ -353,6 +342,9 @@ extension TurkeyFreePosting {
     var isActive: Bool { return self == .active }
 }
 
+extension MakeAnOfferButton {
+    var isActive: Bool { return self == .active }
+}
 
 extension FullScreenAdsWhenBrowsingForUS {
     private var shouldShowFullScreenAdsForNewUsers: Bool {
@@ -377,6 +369,10 @@ extension PreventMessagesFromFeedToProUsers {
     var isActive: Bool { return self == .active }
 }
 
+extension MarkAsSoldQuickAnswerNewFlow {
+    var isActive: Bool { return self == .markAsSoldNewFlowQuickAnswer }
+}
+
 extension MultiAdRequestInChatSectionForUS {
     var isActive: Bool { return self == .active }
     
@@ -393,6 +389,10 @@ extension MultiAdRequestInChatSectionForTR {
         guard isActive else { return false }
         return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
     }
+}
+
+extension BumpPromoAfterSellNoLimit {
+    var isActive: Bool { return self == .alwaysShow || self == .straightToBump }
 }
 
 extension AppInstallAdsInFeed {
@@ -451,6 +451,7 @@ extension MultiDayBumpUp {
 }
 
 final class FeatureFlags: FeatureFlaggeable {
+    
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     private let locale: Locale
@@ -609,7 +610,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         return ShowPasswordlessLogin.fromPosition(abTests.showPasswordlessLogin.value)
     }
-
+    
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow {
+        if Bumper.enabled {
+            return Bumper.markAsSoldQuickAnswerNewFlow
+        }
+        return MarkAsSoldQuickAnswerNewFlow.fromPosition(abTests.markAsSoldQuickAnswerNewFlow.value)
+    }
+ 
     var emergencyLocate: EmergencyLocate {
         if Bumper.enabled {
             return Bumper.emergencyLocate
@@ -989,6 +997,10 @@ extension SmartQuickAnswers {
     var isActive: Bool { return self == .active }
 }
 
+extension NewSearchAPIEndPoint {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeatureFlags {
     
     var showInactiveConversations: Bool {
@@ -1058,20 +1070,6 @@ extension FeatureFlags {
 
 extension FeatureFlags {
     
-    var carExtraFieldsEnabled: CarExtraFieldsEnabled {
-        if Bumper.enabled {
-            return Bumper.carExtraFieldsEnabled
-        }
-        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
-    }
-
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen {
-        if Bumper.enabled {
-            return Bumper.servicesUnifiedFilterScreen
-        }
-        return ServicesUnifiedFilterScreen.fromPosition(abTests.servicesUnifiedFilterScreen.value)
-    }
-    
     var servicesPaymentFrequency: ServicesPaymentFrequency {
         if Bumper.enabled {
             return Bumper.servicesPaymentFrequency
@@ -1119,11 +1117,11 @@ extension FeatureFlags {
         return ProUsersExtraImages.fromPosition(abTests.proUserExtraImages.value)
     }
     
-    var clickToTalkEnabled: ClickToTalk {
+    var clickToTalk: ClickToTalk {
         if Bumper.enabled {
             return Bumper.clickToTalk
         }
-        return .control // ClickToTalk.fromPosition(abTests.clickToTalkEnabled.value)
+        return ClickToTalk.fromPosition(abTests.clickToTalk.value)
     }
 }
 
@@ -1176,6 +1174,11 @@ extension FeatureFlags {
     
     var sectionedFeedABTestIntValue: Int {
         return abTests.sectionedFeed.value
+    }
+    
+    var newSearchAPI: NewSearchAPIEndPoint {
+        if Bumper.enabled { return Bumper.newSearchAPIEndPoint }
+        return NewSearchAPIEndPoint.fromPosition(abTests.newSearchAPI.value)
     }
 }
 
@@ -1247,6 +1250,13 @@ extension FeatureFlags {
         }
         return TurkeyFreePosting.fromPosition(abTests.turkeyFreePosting.value)
     }
+
+    var makeAnOfferButton: MakeAnOfferButton {
+        if Bumper.enabled {
+            return Bumper.makeAnOfferButton
+        }
+        return MakeAnOfferButton.fromPosition(abTests.makeAnOfferButton.value)
+    }
 }
 
 // MARK: Money
@@ -1288,6 +1298,13 @@ extension FeatureFlags {
             return nil
         }
     }
+
+    var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit {
+        if Bumper.enabled {
+            return Bumper.bumpPromoAfterSellNoLimit
+        }
+        return BumpPromoAfterSellNoLimit.fromPosition(abTests.bumpPromoAfterSellNoLimit.value)
+    }
 }
 
 // MARK: Retention
@@ -1299,13 +1316,6 @@ extension FeatureFlags {
             return Bumper.onboardingIncentivizePosting
         }
         return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
-    }
-    
-    var notificationSettings: NotificationSettings {
-        if Bumper.enabled {
-            return Bumper.notificationSettings
-        }
-        return NotificationSettings.fromPosition(abTests.notificationSettings.value)
     }
     
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions {
@@ -1327,13 +1337,6 @@ extension FeatureFlags {
             return Bumper.searchAlertsDisableOldestIfMaximumReached
         }
         return SearchAlertsDisableOldestIfMaximumReached.fromPosition(abTests.searchAlertsDisableOldestIfMaximumReached.value)
-    }
-    
-    var notificationCenterRedesign: NotificationCenterRedesign {
-        if Bumper.enabled {
-            return Bumper.notificationCenterRedesign
-        }
-        return NotificationCenterRedesign.fromPosition(abTests.notificationCenterRedesign.value)
     }
     
     var randomImInterestedMessages: RandomImInterestedMessages {

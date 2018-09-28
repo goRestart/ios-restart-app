@@ -22,6 +22,12 @@ public protocol ChatListing: BaseModel, Priceable {
 }
 
 extension ChatListing {
+    public var isFakeListing: Bool {
+        return objectId == nil || objectId == LGChatListing.emptyListingId
+    }
+}
+
+extension ChatListing {
     func updating(listing: Listing) -> ChatListing {
         return type(of: self).init(objectId: listing.objectId,
                                    name: listing.name,
@@ -42,9 +48,9 @@ extension ChatListing {
 }
 
 struct LGChatListing: ChatListing, Decodable {
-
-    private static let emptyListingId = "00000000-0000-0000-0000-000000000000" // empty product id, to keep retrocompatibility with old app versions
-
+    
+    fileprivate static let emptyListingId = "00000000-0000-0000-0000-000000000000" // empty product id, to keep retrocompatibility with old app versions
+    
     let objectId: String?
     let name: String?
     let status: ListingStatus

@@ -1,6 +1,7 @@
 import LGCoreKit
 import RxSwift
 import LGComponents
+import RxCocoa
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
 
@@ -109,7 +110,12 @@ class ChatViewModel: ChatBaseViewModel {
     var userIsTypingTimeout: Timer?
     var stoppedTypingEventEnabled: Bool = true
     let chatUserInteractionsEnabled = Variable<Bool>(true)
-
+    
+    private let listingIsHiddenSubject = BehaviorRelay(value: true)
+    var listingIsHidden: Driver<Bool> {
+        return listingIsHiddenSubject.asDriver()
+    }
+    
     var keyForTextCaching: String { return userDefaultsSubKey }
     
     let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersBadgeAlreadyShown])
@@ -129,10 +135,17 @@ class ChatViewModel: ChatBaseViewModel {
     
     var isUserDummy: Bool {
         guard let userType = conversation.value.interlocutor?.userType else { return false }
-        if case userType = UserType.dummy {
-            return true
-        }
-        return false
+        return userType == .dummy
+    }
+    
+    var isUserProfessional: Bool {
+        guard let userType = conversation.value.interlocutor?.userType else { return false }
+        return userType == .pro
+    }
+    
+    var isFakeListing: Bool {
+        guard let listing = conversation.value.listing else { return false }
+        return listing.isFakeListing && !isUserDummy && !isUserProfessional
     }
 
     var showWhiteBackground: Bool {
@@ -146,6 +159,7 @@ class ChatViewModel: ChatBaseViewModel {
     fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
     fileprivate let stickersRepository: StickersRepository
+    private let p2pPaymentsRepository: P2PPaymentsRepository
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
     fileprivate let tracker: Tracker
     fileprivate let configManager: ConfigManager
@@ -212,11 +226,22 @@ class ChatViewModel: ChatBaseViewModel {
         }
     }
 
-    fileprivate var buyerId: String? {
+    var listingIdentifier: String? {
+        return conversation.value.listing?.objectId
+    }
+    
+    var buyerId: String? {
         let myUserId = myUserRepository.myUser?.objectId
         let interlocutorId = conversation.value.interlocutor?.objectId
         let currentBuyer = conversation.value.amISelling ? interlocutorId : myUserId
         return currentBuyer
+    }
+    
+    var sellerId: String? {
+        let myUserId = myUserRepository.myUser?.objectId
+        let interlocutorId = conversation.value.interlocutor?.objectId
+        let currentSeller = conversation.value.amISelling ? myUserId : interlocutorId
+        return currentSeller
     }
 
     fileprivate var shouldShowSafetyTips: Bool {
@@ -259,6 +284,7 @@ class ChatViewModel: ChatBaseViewModel {
         let chatRepository = Core.chatRepository
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
+        let p2pPaymentsRepository = Core.p2pPaymentsRepository
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
         let configManager = LGConfigManager.sharedInstance
@@ -270,7 +296,7 @@ class ChatViewModel: ChatBaseViewModel {
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
+                  stickersRepository: stickersRepository, p2pPaymentsRepository: p2pPaymentsRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
                   predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil)
@@ -288,6 +314,7 @@ class ChatViewModel: ChatBaseViewModel {
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let stickersRepository = Core.stickersRepository
+        let p2pPaymentsRepository = Core.p2pPaymentsRepository
         let tracker = TrackerProxy.sharedInstance
         let configManager = LGConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
@@ -300,7 +327,7 @@ class ChatViewModel: ChatBaseViewModel {
                                       listing: nil, interlocutor: nil)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
+                  stickersRepository: stickersRepository, p2pPaymentsRepository: p2pPaymentsRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
                   openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor)
@@ -309,15 +336,17 @@ class ChatViewModel: ChatBaseViewModel {
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
-          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
-          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
+          p2pPaymentsRepository: P2PPaymentsRepository, tracker: Tracker, configManager: ConfigManager,
+          sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, navigator: ChatDetailNavigator?,
+          featureFlags: FeatureFlaggeable, source: EventParameterTypePage, ratingManager: RatingManager,
+          pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
           openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.listingRepository = listingRepository
         self.userRepository = userRepository
+        self.p2pPaymentsRepository = p2pPaymentsRepository
         self.tracker = tracker
         self.featureFlags = featureFlags
         self.configManager = configManager
@@ -355,6 +384,8 @@ class ChatViewModel: ChatBaseViewModel {
             retrieveRelatedListings()
             setupExpressChat()
             refreshChat()
+        } else if p2pPaymentsRepository.shouldRefreshChatMessages {
+            refreshChat()
         }
         trackVisit()
     }
@@ -369,6 +400,7 @@ class ChatViewModel: ChatBaseViewModel {
         // Note: In some corner cases (staging only atm) the interlocutor may come as nil
         if let interlocutor = conversation.value.interlocutor, interlocutor.isBanned { return }
         refreshMessages()
+        p2pPaymentsRepository.markChatMessagesAsRefreshed()
     }
 
     func wentBack() {
@@ -450,9 +482,21 @@ class ChatViewModel: ChatBaseViewModel {
     }
     
     func setupRx() {
+        messages.observable.subscribeNext { [weak self] _ in
+            guard let strongSelf = self else { return }
+            
+            let isChatEnabled = strongSelf.conversation.value.chatEnabled && !strongSelf.isUserDummy
+            
+            if strongSelf.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
+                strongSelf.chatEnabled.value = isChatEnabled && strongSelf.thereAreMessagesSent
+            } else {
+                strongSelf.chatEnabled.value = isChatEnabled
+            }
+        }.disposed(by: disposeBag)
+        
+        
         conversation.asObservable().subscribeNext { [weak self] conversation in
             self?.chatStatus.value = conversation.chatStatus
-            self?.chatEnabled.value = conversation.chatEnabled
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
             self?.title.value = conversation.listing?.name ?? ""
@@ -475,6 +519,7 @@ class ChatViewModel: ChatBaseViewModel {
                                                     (id, name) -> UIImage? in
                                                     return LetgoAvatar.avatarWithID(id, name: name)
         }
+    
         Observable.combineLatest(placeHolder, interlocutorAvatarURL.asObservable()) { ($0, $1) }
             .bind { [weak self] (placeholder, avatarUrl) in
                 guard let showUserAvatarinCells = self?.featureFlags.showChatHeaderWithoutUser,
@@ -545,10 +590,21 @@ class ChatViewModel: ChatBaseViewModel {
                                  expressMessagesAlreadySent.asObservable(),
                                  interlocutorProfessionalInfo.asObservable()) { $0 && $1 && !$2 && !$3.isProfessional }
             .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
-
+        
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedListingsState.asObservable(),
                                         resultSelector: { chatEnabled, relatedState in
+ 
+                                            let shouldEnableCustomQuestionsForOpenChatFromProfile = self.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers
+                                                && (self.conversation.value.listing?.isFakeListing ?? false)
+                                            
+                                            if shouldEnableCustomQuestionsForOpenChatFromProfile {
+                                                if (self.thereAreMessagesSent) {
+                                                    return .notAvailable
+                                                }
+                                                return .visible
+                                            }
+                                            
                                             switch relatedState {
                                             case .loading, .visible:
                                                 return .notAvailable
@@ -584,6 +640,10 @@ class ChatViewModel: ChatBaseViewModel {
             self?.professionalSellerAfterMessageEventsFor(messageType: messageType)
         }.disposed(by: disposeBag)
 
+        if let listing = conversation.value.listing {
+            listingIsHiddenSubject.accept(listing.isFakeListing)
+        }
+   
         setupUserIsTypingRx()
         setupChatEventsRx()
     }
@@ -1133,22 +1193,55 @@ extension ChatViewModel {
 extension ChatViewModel {
     fileprivate func markListingAsSold() {
         guard conversation.value.amISelling else { return }
-        guard let listingId = conversation.value.listing?.objectId else { return }
+        guard let listing = conversation.value.listing else { return }
+        guard let listingId = listing.objectId else { return }
         
         delegate?.vmShowLoading(nil)
+ 
         listingRepository.markAsSold(listingId: listingId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
             if let _ = result.value {
-                self?.trackMarkAsSold()
+                strongSelf.trackMarkAsSold()
             }
-            let errorMessage: String? = result.error != nil ? R.Strings.productMarkAsSoldErrorGeneric : nil
-            self?.delegate?.vmHideLoading(errorMessage) {
+            let errorMessage = result.error != nil ? R.Strings.productMarkAsSoldErrorGeneric : nil
+            
+            strongSelf.delegate?.vmHideLoading(errorMessage) {
                 guard let _ = result.value else { return }
-                self?.refreshConversation()
+                strongSelf.refreshConversation()
+                
+                if strongSelf.featureFlags.markAsSoldQuickAnswerNewFlow.isActive {
+                    strongSelf.continueWithRatingProcess(listing, listingId)
+                }
+            }
+        }
+    }
+ 
+    private func continueWithRatingProcess(_ listing: ChatListing, _ listingId: String) {
+        listingRepository.possibleBuyersOf(listingId: listingId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            guard let buyers = result.value, !buyers.isEmpty else {
+                let errorMessage = result.error != nil ? R.Strings.productMarkAsSoldErrorGeneric : nil
+                
+                strongSelf.delegate?.vmHideLoading(errorMessage) {
+                    guard let _ = result.value else { return }
+                    strongSelf.refreshConversation()
+                }
+                return
+            }
+            
+            strongSelf.delegate?.vmHideLoading(nil) {
+                let trackingInfo = MarkAsSoldTrackingInfo.make(chatListing: listing,
+                                                               isBumpedUp: .notAvailable,
+                                                               isFreePostingModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
+                                                               typePage: .chat)
+                
+                strongSelf.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers, listingId: listingId, sourceRateBuyers: .markAsSold, trackingInfo: trackingInfo)
             }
         }
     }
 }
-
 
 // MARK: - Options Menu
 
@@ -1330,7 +1423,6 @@ extension ChatViewModel {
         }
     }
 }
-
 
 // MARK: - Paginable
 
@@ -1800,6 +1892,13 @@ fileprivate extension ChatViewModel {
         }
         return sendMessageInfo
     }
+
+    func trackMakeAnOfferStart() {
+        guard let userId = myUserRepository.myUser?.objectId else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsMakeAnOfferOnboardingStart(userId: userId,
+                                                                              chatConversation: conversation.value)
+        tracker.trackEvent(trackerEvent)
+    }
 }
 
 // MARK: - Private ChatConversation Extension
@@ -1857,6 +1956,12 @@ fileprivate extension ChatConversation {
 
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
+    var thereAreMessagesSent: Bool {
+        return !messages.value.filter {
+            if case .userInfo(_) = $0.type { return false }
+            return true
+        }.isEmpty
+    }
     /*
      Quick answers priorities:
      1- dynamic answers (embedded in a chat message)
@@ -1864,7 +1969,17 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
      3- legacy quick answers (hardcoded in app)
      */
     var directAnswers: [QuickAnswer] {
+        if featureFlags.openChatFromUserProfile == .vatiant1NoQuickAnswers && isFakeListing {
+            return []
+        }
         
+        if featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers && isFakeListing {
+            if thereAreMessagesSent {
+                return []
+            }
+            return QuickAnswer.quickAnswersForOpenChatFromProfile()
+        }
+
         if let lastMessage = messages.value.first,
             let userId = myUserRepository.myUser?.objectId,
             lastMessage.talkerId != userId,
@@ -1892,6 +2007,10 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
              .freeAvailable:
             clearListingSoldDirectAnswer()
             send(quickAnswer: answer)
+        case .favoritedMyListing ,.iLikeYourListing:
+            send(quickAnswer: answer)
+            directAnswersState.value = .notAvailable
+            chatEnabled.value = true
         case .meetingAssistant:
             onMeetingAssistantPressed()
         case .dynamic(let chatAnswer):
@@ -2097,5 +2216,34 @@ extension ChatViewModel {
 
     private func firstMeetingIn(messages: [ChatMessage]) -> ChatMessage? {
         return messages.first(matching: { $0.content.type == .meeting } )
+    }
+}
+
+// MARK: - P2P Payments
+
+extension ChatViewModel {
+    func makeAnOfferButtonPressed() {
+        trackMakeAnOfferStart()
+        navigator?.openMakeAnOffer(chatConversation: conversation.value)
+    }
+
+    func viewOfferButtonPressed(offerId: String) {
+        navigator?.openOfferStatus(offerId: offerId)
+    }
+
+    func viewPayCodeButtonPressed(offerId: String) {
+        navigator?.openOfferPayCode(offerId: offerId)
+    }
+
+    func exchangeCodeButtonPressed(offerId: String) {
+        let buyerName = conversation.value.interlocutor?.name ?? ""
+        let buyerAvatar = conversation.value.interlocutor?.avatar
+        navigator?.openEnterPayCode(offerId: offerId,
+                                    buyerName: buyerName,
+                                    buyerAvatar: buyerAvatar)
+    }
+
+    func payoutButtonPressed(offerId: String) {
+        navigator?.openPayout(offerId: offerId)
     }
 }

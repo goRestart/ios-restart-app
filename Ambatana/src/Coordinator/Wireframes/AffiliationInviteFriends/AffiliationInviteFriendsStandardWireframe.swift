@@ -1,7 +1,7 @@
 import LGComponents
 
 final class AffiliationInviteFriendsStandardWireframe: AffiliationInviteFriendsNavigator {
-    private let navigationController: UINavigationController
+    private weak var navigationController: UINavigationController?
     private let affiliationInviteSMSContactsAssembly: AffiliationInviteSMSContactsAssembly
 
     convenience init(navigationController: UINavigationController) {
@@ -17,12 +17,12 @@ final class AffiliationInviteFriendsStandardWireframe: AffiliationInviteFriendsN
     }
 
     func closeAffiliationInviteFriends() {
-        navigationController.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
     func openAffiliationInviteSMSContacts() {
         let viewController = affiliationInviteSMSContactsAssembly.buildAffiliationInviteSMSContacts()
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     func openInviteTerms() {

@@ -221,28 +221,17 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             let servicesFilters = filters.verticalFilters.services
             servicesFilters.listingTypes.forEach({ resultTags.append(.serviceListingType($0)) })
 
-            if featureFlags.servicesUnifiedFilterScreen.isActive {
-                if let serviceType = servicesFilters.type {
-                    
-                    if let serviceSubtypes = servicesFilters.subtypes {
-                        if serviceType.subTypes.count == serviceSubtypes.count ||
-                            serviceSubtypes.count == 0 {
-                            resultTags.append(.serviceType(serviceType))
-                        } else {
-                            resultTags.append(.unifiedServiceType(type: serviceType,
-                                                                  selectedSubtypes: serviceSubtypes))
-                        }
-                    } else {
+            if let serviceType = servicesFilters.type {
+                if let serviceSubtypes = servicesFilters.subtypes {
+                    if serviceType.subTypes.count == serviceSubtypes.count ||
+                        serviceSubtypes.count == 0 {
                         resultTags.append(.serviceType(serviceType))
+                    } else {
+                        resultTags.append(.unifiedServiceType(type: serviceType,
+                                                              selectedSubtypes: serviceSubtypes))
                     }
-                }
-            } else {
-                if let serviceType = servicesFilters.type {
+                } else {
                     resultTags.append(.serviceType(serviceType))
-                }
-                
-                if let tags = servicesFilters.subtypes?.map({ FilterTag.serviceSubtype($0) }) {
-                    resultTags.append(contentsOf: tags)
                 }
             }
         }
@@ -1281,7 +1270,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                        hasListings: Bool,
                        containsRecentListings: Bool) {
         isCurrentFeedACachedFeed = false
-
+        let pullToRefreshTriggered = viewModel.pullToRefreshTriggered
+        
         // Only save the string when there is products and we are not searching a collection
         if let search = searchType, hasListings {
             updateLastSearchStored(lastSearch: search)
@@ -1313,7 +1303,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                     resultsCount: resultsCount,
                                     hasListings: hasListings,
                                     searchRelatedItems: featureFlags.emptySearchImprovements.isActive,
-                                    recentItems: containsRecentListings)
+                                    recentItems: containsRecentListings,
+                                    pullToRefreshTriggered: pullToRefreshTriggered)
 
             } else {
                 listViewModel.retrieveListingsNextPage()
@@ -1329,7 +1320,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                     resultsCount: resultsCount,
                                     hasListings: hasListings,
                                     searchRelatedItems: true,
-                                    recentItems: containsRecentListings)
+                                    recentItems: containsRecentListings,
+                                    pullToRefreshTriggered: pullToRefreshTriggered)
+                
                 shouldHideCategoryAfterSearch = true
                 filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
                 filterTitle.value = filterTitleString(forRequesterType: requesterType)
@@ -1339,14 +1332,16 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                     resultsCount: resultsCount,
                                     hasListings: hasListings,
                                     searchRelatedItems: false,
-                                    recentItems: containsRecentListings)
+                                    recentItems: containsRecentListings,
+                                    pullToRefreshTriggered: pullToRefreshTriggered)
             }
         } else {
             trackRequestSuccess(page: page,
                                 resultsCount: resultsCount,
                                 hasListings: hasListings,
                                 searchRelatedItems: false,
-                                recentItems: containsRecentListings)
+                                recentItems: containsRecentListings,
+                                pullToRefreshTriggered: pullToRefreshTriggered)
         }
         
         errorMessage.value = nil
@@ -2005,17 +2000,20 @@ fileprivate extension MainListingsViewModel {
                                      resultsCount: Int,
                                      hasListings: Bool,
                                      searchRelatedItems: Bool,
-                                     recentItems: Bool) {
+                                     recentItems: Bool,
+                                     pullToRefreshTriggered: Bool) {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasListings ? .trueParameter : .falseParameter
         let recentItemsParameter: EventParameterBoolean = recentItems ? .trueParameter : .falseParameter
+        let reloadParameter: EventParameterBoolean = pullToRefreshTriggered ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
                                                     searchQuery: queryString,
                                                     resultsCount: resultsCount,
                                                     feedSource: feedSource,
                                                     success: successParameter,
-                                                    recentItems: recentItemsParameter)
+                                                    recentItems: recentItemsParameter,
+                                                    pullToRefreshTriggered: reloadParameter)
 
         tracker.trackEvent(trackerEvent)
         
