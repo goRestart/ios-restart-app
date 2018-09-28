@@ -107,7 +107,6 @@ enum EventName: String {
     case profileEditEditLocationStart       = "profile-edit-edit-location-start"
     case profileEditEditPicture             = "profile-edit-edit-picture"
     case profileOpenUserPicture             = "profile-photo-tapped"
-    case profileReport                      = "profile-report"
     case profileBlock                       = "profile-block"
     case profileUnblock                     = "profile-unblock"
     case profileShareStart                  = "profile-share-start"

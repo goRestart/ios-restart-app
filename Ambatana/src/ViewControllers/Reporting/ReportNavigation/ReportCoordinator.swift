@@ -123,10 +123,10 @@ extension ReportCoordinator: ReportNavigator {
     }
 
     func openReviewUser() {
-        guard let rate = type.rateData else { return }
-        let assembly = LGRateBuilder.modal(root: viewController)
-        let vc = assembly.buildRateUser(source: .report, data: rate, showSkipButton: false)
-        let nav = UINavigationController(rootViewController: vc)
-        viewController.present(nav, animated: true, completion: nil)
+//        guard let rate = type.rateData else { return }
+//        let assembly = LGRateBuilder.modal(root: viewController)
+//        let vc = assembly.buildRateUser(source: .report, data: rate, showSkipButton: false)
+//        let nav = UINavigationController(rootViewController: vc)
+//        viewController.present(nav, animated: true, completion: nil)
     }
 }

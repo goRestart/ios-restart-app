@@ -95,6 +95,10 @@ final class UserWireframe {
 }
 
 extension UserWireframe: PublicProfileNavigator {
+    func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData) {
+        // TODO
+    }
+
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {
         let vc = userAssembly.buildUserReport(source: source, userReportedId: userReportedId)
         nc?.pushViewController(vc, animated: true)

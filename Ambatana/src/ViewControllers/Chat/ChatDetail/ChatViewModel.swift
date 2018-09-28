@@ -1319,7 +1319,7 @@ extension ChatViewModel {
     private func reportUserAction() {
         guard let interlocutor = conversation.value.interlocutor, let userID = interlocutor.objectId else { return }
         if featureFlags.reportingFostaSesta.isActive {
-             navigator?.openUserReport(user: interlocutor, source: .chat)
+//             navigator?.openUserReport(user: interlocutor, source: .chat)
         } else {
             let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
             delegate?.vmDidPressReportUser(reportVM)
