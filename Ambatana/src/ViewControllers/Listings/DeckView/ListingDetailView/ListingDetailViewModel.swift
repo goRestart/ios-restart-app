@@ -12,13 +12,10 @@ struct UserDetail {
 
 final class ListingDetailViewModel: BaseViewModel {
     var navigator: ListingFullDetailNavigator?
-    lazy var listingViewModel: ListingViewModel = maker.build(listing: listing, visitSource: visitSource)
-
-    private let maker: ListingViewModelAssembly
-    private let listing: Listing
-    private let visitSource: EventParameterListingVisitSource
+    let listingViewModel: ListingViewModel
     private let featureFlags: FeatureFlaggeable
-
+    private let visitSource: EventParameterListingVisitSource
+    
     var deckMapData: DeckMapData? {
         guard let location = listingViewModel.productInfo.value?.location?.coordinates2DfromLocation() else { return nil }
         let shouldShowExactLocation = listingViewModel.showExactLocationOnMap.value
@@ -49,26 +46,22 @@ final class ListingDetailViewModel: BaseViewModel {
     }
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
 
-    convenience init(withListing listing: Listing,
-                     viewModelMaker: ListingViewModelAssembly,
+    convenience init(withVM listingViewModel: ListingViewModel,
                      visitSource: EventParameterListingVisitSource) {
-        self.init(withListing: listing,
-                  viewModelMaker: viewModelMaker,
+        self.init(withVM: listingViewModel,
                   visitSource: visitSource,
                   featureFlags: FeatureFlags.sharedInstance,
                   adsImpressionConfigurable: LGAdsImpressionConfigurable())
     }
 
-    init(withListing listing: Listing,
-         viewModelMaker: ListingViewModelAssembly,
+    init(withVM listingViewModel: ListingViewModel,
          visitSource: EventParameterListingVisitSource,
          featureFlags: FeatureFlaggeable,
          adsImpressionConfigurable: AdsImpressionConfigurable) {
-        self.listing = listing
-        self.visitSource = visitSource
         self.featureFlags = featureFlags
+        self.visitSource = visitSource
         self.adsImpressionConfigurable = adsImpressionConfigurable
-        self.maker = viewModelMaker
+        self.listingViewModel = listingViewModel
         super.init()
     }
 
@@ -86,6 +79,22 @@ final class ListingDetailViewModel: BaseViewModel {
 
     func closeDetail() {
         navigator?.closeDetail()
+    }
+
+    @objc func listingAction() {
+        if listingViewModel.isMine {
+            listingViewModel.editListing()
+        } else {
+            listingViewModel.switchFavorite()
+        }
+    }
+
+    @objc func switchFavorite() {
+        listingViewModel.switchFavorite()
+    }
+
+    @objc func share() {
+        listingViewModel.shareProduct()
     }
 }
 
@@ -206,4 +215,14 @@ extension Reactive where Base: ListingDetailViewModel {
             .asDriver(onErrorJustReturn: nil)
     }
 
+    var action: Driver<ListingAction> {
+        let isFavorite = base.listingViewModel.isFavorite.asObservable()
+        let isFavoritable = base.listingViewModel.productIsFavoriteable.asObservable()
+        let isEditable = base.listingViewModel.status.asObservable().map { return $0.isEditable }
+
+        return Observable.combineLatest(isFavorite, isFavoritable, isEditable) { ($0, $1, $2) }
+            .map { return ListingAction(isFavorite: $0, isFavoritable: $1, isEditable: $2) }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: ListingAction(isFavorite: false, isFavoritable: false, isEditable: false))
+    }
 }
