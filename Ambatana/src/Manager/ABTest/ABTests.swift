@@ -207,7 +207,6 @@ extension ABTests {
     var searchAlertsInSearchSuggestions: LeanplumABVariable<Int> { return retention.searchAlertsInSearchSuggestions }
     var engagementBadging: LeanplumABVariable<Int> { return retention.engagementBadging }
     var searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int> { return retention.searchAlertsDisableOldestIfMaximumReached }
-    var notificationCenterRedesign: LeanplumABVariable<Int> { return retention.notificationCenterRedesign }
     var randomImInterestedMessages: LeanplumABVariable<Int> { return retention.randomImInterestedMessages }
     var imInterestedInProfile: LeanplumABVariable<Int> { return retention.imInterestedInProfile }
     var shareAfterScreenshot: LeanplumABVariable<Int> { return retention.shareAfterScreenshot }
