@@ -7,13 +7,14 @@ import RxCocoa
 final class P2PPaymentsCurrencyTextField: UIView, UITextFieldDelegate {
     fileprivate static let valueFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
-        formatter.locale = Locale.current
+        formatter.locale = Locale.autoupdatingCurrent
         formatter.numberStyle = .decimal
+        formatter.usesGroupingSeparator = false
         return formatter
     }()
 
     var value: Decimal = Decimal(0)
-    var currencyCode: String? = Locale.current.currencyCode
+    var currencyCode: String? = Locale.autoupdatingCurrent.currencyCode
 
     private let formattedTextLabel: UILabel = {
         let label = UILabel()
