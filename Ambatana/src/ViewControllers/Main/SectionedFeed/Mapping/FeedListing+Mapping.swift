@@ -60,7 +60,7 @@ extension Array where Element == FeedListing {
         let imageSize = cellMetrics.cellAdaptedSize(fromOriginalCellSize: originalCellSize)
         let interestedState = listing.interestedState(myUserRepository: myUserRepository,
                                                       listingInterestStates: listingInterestStates)
-        let preventMessageToProUsers = !preventMessagesFromFeedToProUser && !listing.isVertical
+        let preventMessageToProUsers = preventMessagesFromFeedToProUser && listing.isVertical
         return FeedListingData(listing: listing,
                                isFree: listing.price.isFree,
                                isFeatured: listing.featured ?? false,
