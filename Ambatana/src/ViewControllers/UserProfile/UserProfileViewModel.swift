@@ -99,20 +99,23 @@ final class UserProfileViewModel: BaseViewModel {
     let ratingListViewModel: UserRatingListViewModel
     let showBubbleNotification = PublishSubject<BubbleNotificationData>()
 
+    var shouldShowChatNowButton: Driver<Bool> {
+        return Observable.combineLatest(user.asObservable(), isMyUser.asObservable()) { user, isMyUser in
+            guard let user = user else { return false }
+            return !user.isDummy && !user.isProfessional && !isMyUser
+                && self.featureFlags.openChatFromUserProfile.isActive
+            }.asDriver(onErrorJustReturn: false)
+    }
+
     var shouldShowAskVerificationButton: Driver<Bool> {
         return Observable.combineLatest(user.asObservable(), isMyUser.asObservable()) { user, isMyUser in
             guard let user = user else { return false }
-            return !isMyUser && !user.hasBadge && self.featureFlags.advancedReputationSystem13.isActive
+            return !user.isDummy && !user.isProfessional
+                && !isMyUser && !user.hasBadge
+                && self.featureFlags.advancedReputationSystem13.isActive
         }.asDriver(onErrorJustReturn: false)
     }
 
-    var chatNowButtonIsHidden: Driver<Bool> {
-        return Observable.combineLatest(user.asObservable(), isMyUser.asObservable()) { user, isMyUser in
-            guard let user = user else { return false }
-            return user.isDummy || user.isProfessional || isMyUser || !self.featureFlags.openChatFromUserProfile.isActive
-        }.asDriver(onErrorJustReturn: false)
-    }
-    
     weak var delegate: UserProfileViewModelDelegate?
 
     // MARK: - Private
