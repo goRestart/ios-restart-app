@@ -35,4 +35,5 @@ struct StagingEnvironment: Environment {
     let rewardBaseURL = "https://reward.stg.letgo.com"
     let challengerBaseURL = "https://challenger.stg.letgo.com"
     let p2pPaymentsBaseURL = "https://p2payments.stg.letgo.com"
+    let reputationBaseURL = "https://reputation.stg.letgo.com"
 }

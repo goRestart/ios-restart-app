@@ -35,4 +35,5 @@ struct ProductionEnvironment: Environment {
     let rewardBaseURL = "https://reward.letgo.com"
     let challengerBaseURL = "https://challenger.letgo.com"
     let p2pPaymentsBaseURL = "https://p2payments.letgo.com"
+    let reputationBaseURL = "https://reputation.letgo.com"
 }
