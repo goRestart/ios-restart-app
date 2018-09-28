@@ -35,4 +35,5 @@ struct EscrowEnvironment: Environment {
     let rewardBaseURL = "https://reward.escrowverification.letgo.com"
     let challengerBaseURL = "https://challenger.escrowverification.letgo.com"
     let p2pPaymentsBaseURL = "https://p2payments.escrow.letgo.com"
+    let reputationBaseURL = "https://reputation.escrow.letgo.com"
 }

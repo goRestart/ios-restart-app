@@ -75,4 +75,5 @@ class EnvironmentProxy: Environment {
     var rewardBaseURL: String { return environment.rewardBaseURL }
     var challengerBaseURL: String { return environment.challengerBaseURL }
     var p2pPaymentsBaseURL: String { return environment.p2pPaymentsBaseURL }
+    var reputationBaseURL: String { return environment.reputationBaseURL }
 }

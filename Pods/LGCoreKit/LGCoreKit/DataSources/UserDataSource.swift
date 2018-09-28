@@ -70,4 +70,17 @@ protocol UserDataSource {
     */
     func saveReport(_ reportedUserId: String, userId: String, parameters: [String: Any],
         completion: UserDataSourceEmptyCompletion?)
+
+    /**
+     Request a user to verify its profile  
+     - parameter params: dictionary created from a LGUserVerificationRequest with JSON API structure
+     */
+    func requestVerification(params: [String: Any], completion: DataSourceCompletion<Void>?)
+
+    /**
+     Retrieve the list of verification requests between myUserId and requestedUserId
+     - parameter requestedUserId: the id of the user that was requested to verify
+     - parameter myUserId: current user id that requested the other user to verify
+     */
+    func readVerificationRequests(requestedUserId: String, myUserId: String, completion: DataSourceCompletion<[UserVerificationRequest]>?)
 }

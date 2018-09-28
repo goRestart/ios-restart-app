@@ -177,6 +177,12 @@ struct P2PPaymentsBaseURL: BaseURL {
     static let contentTypeHeader: String? = "application/json"
 }
 
+struct ReputationBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.reputationBaseURL
+    static let acceptHeader: String? = "application/vnd.api+json;version=1"
+    static let contentTypeHeader: String? = "application/vnd.api+json;version=1"
+}
+
 enum Encoding {
     case json, url
 }

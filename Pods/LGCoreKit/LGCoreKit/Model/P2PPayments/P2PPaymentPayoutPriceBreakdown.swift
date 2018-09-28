@@ -4,6 +4,7 @@ public struct P2PPaymentPayoutPriceBreakdown {
     public let originalAmount: Decimal
     public let receivedAmount: Decimal
     public let fee: Decimal
+    public let feePercentage: Double
     public let currency: Currency
 }
 
@@ -20,6 +21,7 @@ extension P2PPaymentPayoutPriceBreakdown: Decodable {
         case originalAmount
         case receivedAmount
         case fee
+        case feePercentage = "feePercent"
         case currency
     }
 
@@ -30,6 +32,7 @@ extension P2PPaymentPayoutPriceBreakdown: Decodable {
         originalAmount = try attributes.decode(Decimal.self, forKey: .originalAmount)
         receivedAmount = try attributes.decode(Decimal.self, forKey: .receivedAmount)
         fee = try attributes.decode(Decimal.self, forKey: .fee)
+        feePercentage = try attributes.decode(Double.self, forKey: .feePercentage)
         currency = try attributes.decode(Currency.self, forKey: .currency)
     }
 }
@@ -41,6 +44,7 @@ extension P2PPaymentPayoutPriceBreakdown: Decodable {
 //            "originalAmount": 50.2,
 //            "receivedAmount": 49.45,
 //            "fee": 0.75,
+//            "feePercent": 1.5,
 //            "currency": "USD"
 //        },
 //        "links": {
