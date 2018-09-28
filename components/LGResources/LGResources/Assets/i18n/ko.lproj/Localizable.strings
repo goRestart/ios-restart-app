@@ -835,7 +835,7 @@
 "payment_frequency_per_year" = "연";
 "payment_payout_navbar_title" = "페이아웃";
 "payment_payout_payment_availability" = "%@ 이내에 금액을 송금받으세요";
-"payment_payout_payment_fee" = "송금 수수료";
+"payment_payout_payment_fee" = "Transaction fee (%@)";
 "payment_payout_payment_instant_subtitle_label" = "1시간 이내에 금액을 송금받으세요";
 "payment_payout_payment_instant_title_label" = "송금 수수료 (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "3-7일 이내에 금액을 송금받으세요";
@@ -1240,6 +1240,7 @@
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "전화번호를 추가해주셔서 감사합니다! 상단의 전화 버튼을 이용하여 저희에게 전화주시는 것이 낫습니다.";
 "profile_ask_verification_button_disabled" = "인증 요청이 발송되었습니다!";
 "profile_ask_verification_button_enabled" = "프로필 인증을 위해 %@에게 묻기";
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 "profile_bio_add_button" = "개인 정보 추가하기";
 "profile_bio_show_more_button" = "상세 사항";
 "profile_blocked_by_me_label" = "회원님께서는 이 사용자를 차단하셨습니다";

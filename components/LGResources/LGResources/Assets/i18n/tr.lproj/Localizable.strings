@@ -835,7 +835,7 @@
 "payment_frequency_per_year" = "yıl";
 "payment_payout_navbar_title" = "Ödeme";
 "payment_payout_payment_availability" = "Parayı %@ içinde al";
-"payment_payout_payment_fee" = "İşlem ücreti";
+"payment_payout_payment_fee" = "Transaction fee (%@)";
 "payment_payout_payment_instant_subtitle_label" = "Parayı 1 saatten kısa bir sürede al";
 "payment_payout_payment_instant_title_label" = "İşlem ücreti (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Parayı 3-7 gün içinde al";
@@ -1240,6 +1240,7 @@
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Telefon numaranı eklediğin için teşekkürler! Yukarıdaki arama düğmesini kullanarak bizi her zaman arayabilirsin.";
 "profile_ask_verification_button_disabled" = "Doğrulama talebi gönderildi!";
 "profile_ask_verification_button_enabled" = "%@'ten profilini doğrulamasını iste";
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 "profile_bio_add_button" = "Biyografini ekle";
 "profile_bio_show_more_button" = "HAKKIMDA DAHA FAZLA BİLGİ";
 "profile_blocked_by_me_label" = "Bu kullanıcıyı engelledin";

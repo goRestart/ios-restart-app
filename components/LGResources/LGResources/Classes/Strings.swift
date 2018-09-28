@@ -1834,14 +1834,14 @@ extension R {
     public static func paymentPayoutPaymentAvailability(_ p1: String) -> String {
       return Strings.tr("Localizable", "payment_payout_payment_availability", p1)
     }
-    /// Transaction fee
-    public static let paymentPayoutPaymentFee = Strings.tr("Localizable", "payment_payout_payment_fee")
+    /// Transaction fee (%@)
+    public static func paymentPayoutPaymentFee(_ p1: String) -> String {
+      return Strings.tr("Localizable", "payment_payout_payment_fee", p1)
+    }
     /// Get the money in under 1 hour
     public static let paymentPayoutPaymentInstantSubtitleLabel = Strings.tr("Localizable", "payment_payout_payment_instant_subtitle_label")
-    /// Transaction fee (%1$@) — %2$@
-    public static func paymentPayoutPaymentInstantTitleLabel(_ p1: String, _ p2: String) -> String {
-      return Strings.tr("Localizable", "payment_payout_payment_instant_title_label", p1, p2)
-    }
+    /// Transaction fee
+    public static let paymentPayoutPaymentInstantTitleLabel = Strings.tr("Localizable", "payment_payout_payment_instant_title_label")
     /// Get the money in 3-7 days
     public static let paymentPayoutPaymentStandarSubtitleLabel = Strings.tr("Localizable", "payment_payout_payment_standar_subtitle_label")
     /// FREE
@@ -2728,6 +2728,8 @@ extension R {
     public static func profileAskVerificationButtonEnabled(_ p1: String) -> String {
       return Strings.tr("Localizable", "profile_ask_verification_button_enabled", p1)
     }
+    /// Ask to verify profile
+    public static let profileAskVerificationButtonEnabledShort = Strings.tr("Localizable", "profile_ask_verification_button_enabled_short")
     /// Add your bio
     public static let profileBioAddButton = Strings.tr("Localizable", "profile_bio_add_button")
     /// MORE ABOUT ME

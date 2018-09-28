@@ -835,7 +835,7 @@
 "payment_frequency_per_year" = "ano";
 "payment_payout_navbar_title" = "Pagamento";
 "payment_payout_payment_availability" = "Receba o dinheiro em %@";
-"payment_payout_payment_fee" = "Taxa de transação";
+"payment_payout_payment_fee" = "Transaction fee (%@)";
 "payment_payout_payment_instant_subtitle_label" = "Receba o dinheiro em menos de 1 hora";
 "payment_payout_payment_instant_title_label" = "Taxa de transação (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Receba o dinheiro em 3-7 dias";
@@ -1240,6 +1240,7 @@
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Obrigado por adicionar o seu número de telefone! É sempre preferível ligar-nos através do botão de chamada acima indicado.";
 "profile_ask_verification_button_disabled" = "Pedido de verificação enviado!";
 "profile_ask_verification_button_enabled" = "Peça a %@ que verifique o seu perfil";
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 "profile_bio_add_button" = "Adicione a sua biografia";
 "profile_bio_show_more_button" = "MAIS SOBRE MIM";
 "profile_blocked_by_me_label" = "Bloqueou este utilizador";
