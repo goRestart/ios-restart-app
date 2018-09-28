@@ -485,7 +485,7 @@ class ChatViewModel: ChatBaseViewModel {
         messages.observable.subscribeNext { [weak self] _ in
             guard let strongSelf = self else { return }
             
-            let isChatEnabled = strongSelf.conversation.value.chatEnabled
+            let isChatEnabled = strongSelf.conversation.value.chatEnabled && !strongSelf.isUserDummy
             
             if strongSelf.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
                 strongSelf.chatEnabled.value = isChatEnabled && strongSelf.thereAreMessagesSent
@@ -1193,22 +1193,55 @@ extension ChatViewModel {
 extension ChatViewModel {
     fileprivate func markListingAsSold() {
         guard conversation.value.amISelling else { return }
-        guard let listingId = conversation.value.listing?.objectId else { return }
+        guard let listing = conversation.value.listing else { return }
+        guard let listingId = listing.objectId else { return }
         
         delegate?.vmShowLoading(nil)
+ 
         listingRepository.markAsSold(listingId: listingId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
             if let _ = result.value {
-                self?.trackMarkAsSold()
+                strongSelf.trackMarkAsSold()
             }
-            let errorMessage: String? = result.error != nil ? R.Strings.productMarkAsSoldErrorGeneric : nil
-            self?.delegate?.vmHideLoading(errorMessage) {
+            let errorMessage = result.error != nil ? R.Strings.productMarkAsSoldErrorGeneric : nil
+            
+            strongSelf.delegate?.vmHideLoading(errorMessage) {
                 guard let _ = result.value else { return }
-                self?.refreshConversation()
+                strongSelf.refreshConversation()
+                
+                if strongSelf.featureFlags.markAsSoldQuickAnswerNewFlow.isActive {
+                    strongSelf.continueWithRatingProcess(listing, listingId)
+                }
+            }
+        }
+    }
+ 
+    private func continueWithRatingProcess(_ listing: ChatListing, _ listingId: String) {
+        listingRepository.possibleBuyersOf(listingId: listingId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            guard let buyers = result.value, !buyers.isEmpty else {
+                let errorMessage = result.error != nil ? R.Strings.productMarkAsSoldErrorGeneric : nil
+                
+                strongSelf.delegate?.vmHideLoading(errorMessage) {
+                    guard let _ = result.value else { return }
+                    strongSelf.refreshConversation()
+                }
+                return
+            }
+            
+            strongSelf.delegate?.vmHideLoading(nil) {
+                let trackingInfo = MarkAsSoldTrackingInfo.make(chatListing: listing,
+                                                               isBumpedUp: .notAvailable,
+                                                               isFreePostingModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
+                                                               typePage: .chat)
+                
+                strongSelf.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers, listingId: listingId, sourceRateBuyers: .markAsSold, trackingInfo: trackingInfo)
             }
         }
     }
 }
-
 
 // MARK: - Options Menu
 

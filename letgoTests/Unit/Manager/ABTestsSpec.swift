@@ -324,7 +324,7 @@ final class ABTestsSpec: QuickSpec {
             }
 
             context("registering all products variables") {
-                it("the products int variable registered are 8") {
+                it("the products int variable registered are correct") {
                     expect(products.intVariables.count) == 8
                 }
 

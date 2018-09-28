@@ -11,7 +11,7 @@
     },
     {
          "name": "MarkAsSoldQuickAnswerNewFlow",
-         "values": ["control", "baseline", "mark_as_sold_new_flow_quick_answer"],
+         "values": ["control", "baseline", "markAsSoldNewFlowQuickAnswer"],
          "description": "New flow when marking an item as sold on chat using quick answers"
     },
     {

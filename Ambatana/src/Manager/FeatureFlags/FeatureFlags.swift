@@ -368,6 +368,10 @@ extension PreventMessagesFromFeedToProUsers {
     var isActive: Bool { return self == .active }
 }
 
+extension MarkAsSoldQuickAnswerNewFlow {
+    var isActive: Bool { return self == .markAsSoldNewFlowQuickAnswer }
+}
+
 extension MultiAdRequestInChatSectionForUS {
     var isActive: Bool { return self == .active }
     

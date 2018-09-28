@@ -1036,16 +1036,16 @@ enum RequestsTimeOut: String, BumperFeature  {
 }
 
 enum MarkAsSoldQuickAnswerNewFlow: String, BumperFeature  {
-    case control, baseline, mark_as_sold_new_flow_quick_answer
+    case control, baseline, markAsSoldNewFlowQuickAnswer
     static var defaultValue: String { return MarkAsSoldQuickAnswerNewFlow.control.rawValue }
-    static var enumValues: [MarkAsSoldQuickAnswerNewFlow] { return [.control, .baseline, .mark_as_sold_new_flow_quick_answer]}
+    static var enumValues: [MarkAsSoldQuickAnswerNewFlow] { return [.control, .baseline, .markAsSoldNewFlowQuickAnswer]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New flow when marking an item as sold on chat using quick answers" } 
     static func fromPosition(_ position: Int) -> MarkAsSoldQuickAnswerNewFlow {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .mark_as_sold_new_flow_quick_answer
+            case 2: return .markAsSoldNewFlowQuickAnswer
             default: return .control
         }
     }

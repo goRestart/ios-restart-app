@@ -97,6 +97,7 @@ final class ChatViewController: TextViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupRelatedProducts()
@@ -107,13 +108,10 @@ final class ChatViewController: TextViewController {
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
+        
+        setupRxBindings()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-         setupRxBindings()
-    }
-
+ 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
@@ -553,7 +551,7 @@ fileprivate extension ChatViewController {
             case .insert, .remove, .composite, .swap, .move:
                 self?.tableView.handleCollectionChange(change)
             }
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.interlocutorProfessionalInfo.asObservable()
             .map { !$0.isProfessional }
