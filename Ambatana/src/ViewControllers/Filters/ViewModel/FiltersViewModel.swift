@@ -271,8 +271,7 @@ final class FiltersViewModel: BaseViewModel {
         switch category {
         case .category(let listingCategory):
             if let carSectionIndex = sections.index(of: .carsInfo),
-                listingCategory.isCar,
-                featureFlags.carExtraFieldsEnabled.isActive {
+                listingCategory.isCar {
                 delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: carSectionIndex))
             } else if let realEstateSectionIndex = sections.index(of: .realEstateInfo),
                 listingCategory.isRealEstate {
@@ -585,7 +584,7 @@ extension FiltersViewModel {
 extension FiltersViewModel: CarAttributeSelectionDelegate {
     
     var carSections: [FilterCarSection] {
-        return FilterCarSection.all(showCarExtraFilters: featureFlags.carExtraFieldsEnabled.isActive)
+        return FilterCarSection.allCases
     }
     
     var isCarsInfoCellEnabled: Bool {

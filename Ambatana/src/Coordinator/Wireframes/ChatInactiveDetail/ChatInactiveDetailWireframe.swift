@@ -5,13 +5,13 @@ protocol ChatInactiveDetailNavigator {
 }
 
 final class ChatInactiveDetailWireframe: ChatInactiveDetailNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     init(nc: UINavigationController) {
         self.nc = nc
     }
 
     func closeChatInactiveDetail() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 }

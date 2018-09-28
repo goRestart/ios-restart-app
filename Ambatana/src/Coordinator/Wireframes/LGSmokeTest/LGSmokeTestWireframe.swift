@@ -9,7 +9,7 @@ protocol LGSmokeTestNavigator {
 
 final class LGSmokeTestWireframe: LGSmokeTestNavigator {
 
-    weak var navigator: UIViewController?
+    weak var navigationController: UIViewController?
     
     private let assembly: LGSmokeTestAssembly
     private let feature: LGSmokeTestFeature
@@ -26,12 +26,12 @@ final class LGSmokeTestWireframe: LGSmokeTestNavigator {
     func openOnBoarding() {
         let vc = assembly.buildSmokeTestOnBoarding(withFeature: feature,
                                                    startAction: openDetail)
-        navigator?.present(vc, animated: true)
+        navigationController?.present(vc, animated: true)
     }
     
     func openThankYou() {
         let vc = assembly.buildSmokeTestThankYou(withFeature: feature)
-        navigator?.present(vc, animated: true)
+        navigationController?.present(vc, animated: true)
     }
     
     func openDetail() {
@@ -39,12 +39,12 @@ final class LGSmokeTestWireframe: LGSmokeTestNavigator {
                                                userAvatarInfo: userAvatarInfo,
                                                openFeedbackAction: openFeedback,
                                                openThankYouAction: openThankYou)
-        navigator?.present(vc, animated: true)
+        navigationController?.present(vc, animated: true)
     }
     
     func openFeedback() {
         let vc = assembly.buildSmokeTestFeedback(withFeature: feature,
                                                  openThankYouAction: openThankYou)
-        navigator?.present(vc, animated: true)
+        navigationController?.present(vc, animated: true)
     }
 }

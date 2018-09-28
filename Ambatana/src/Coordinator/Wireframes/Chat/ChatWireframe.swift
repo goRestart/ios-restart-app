@@ -12,7 +12,7 @@ protocol ChatNavigator {
 
 final class ChatWireframe: ChatNavigator {
 
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     private let chatAssembly: ChatAssembly
     private let chatInactiveAssembly: ChatInactiveDetailAssembly
@@ -69,33 +69,33 @@ final class ChatWireframe: ChatNavigator {
                                                   source: source,
                                                   openChatAutomaticMessage: openChatAutomaticMessage,
                                                   interlocutor: interlocutor) else { return }
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openConversation(_ conversation: ChatConversation,
                           source: EventParameterTypePage,
                           predefinedMessage: String?) {
         let vc = chatAssembly.buildChatFrom(conversation, source: source, predefinedMessage: predefinedMessage)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openInactiveConversations() {
         let vc = chatAssembly.buildChatInactiveConversationsList()
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openInactiveConversation(conversation: ChatInactiveConversation) {
         let vc = chatInactiveAssembly.buildChatInactiveConversationDetails(conversation: conversation)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openChatFromConversationId(_ conversationId: String,
                                     source: EventParameterTypePage,
                                     predefinedMessage: String?) {
-        nc.showLoadingMessageAlert()
+        nc?.showLoadingMessageAlert()
 
         let completion: ChatConversationCompletion = { [weak self] result in
-            self?.nc.dismissLoadingMessageAlert { [weak self] in
+            self?.nc?.dismissLoadingMessageAlert { [weak self] in
                 if let conversation = result.value {
                     self?.openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
                 } else if let error = result.error {
@@ -119,6 +119,6 @@ private extension ChatWireframe {
              .wsChatError, .searchAlertError:
             message = R.Strings.commonChatNotAvailable
         }
-        nc.showAutoFadingOutMessageAlert(message: message)
+        nc?.showAutoFadingOutMessageAlert(message: message)
     }
 }

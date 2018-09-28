@@ -1,7 +1,7 @@
 typealias AffiliationChallengesOpenSell = () -> ()
 
 final class AffiliationChallengesStandardWireframe: AffiliationChallengesNavigator {
-    private let navigationController: UINavigationController
+    private weak var navigationController: UINavigationController?
     private let affiliationStoreAssembly: AffiliationStoreAssembly
     private let affiliationInviteFriendsAssembly: AffiliationInviteFriendsAssembly
     private let affiliationFAQAssembly: AffiliationFAQAssembly
@@ -37,27 +37,27 @@ final class AffiliationChallengesStandardWireframe: AffiliationChallengesNavigat
     }
 
     func closeAffiliationChallenges() {
-        navigationController.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
     func openAffiliationStore() {
         let viewController = affiliationStoreAssembly.buildAffiliationStore()
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
     func openAffiliationInviteFriends() {
         let viewController = affiliationInviteFriendsAssembly.buildAffiliationInviteFriends()
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
     func openAffiliationFAQ() {
         let viewController = affiliationFAQAssembly.buildAffiliationFAQ()
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
     func openConfirmPhone() {
         let viewController = userVerificationAssembly.buildPhoneNumberVerification(editing: false)
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
     func openPostListing() {

@@ -162,6 +162,35 @@ final class LGUserRepository: InternalUserRepository {
         }
     }
 
+    func requestVerification(_ requestedUserId: String, completion: RepositoryCompletion<Void>?) {
+        guard let userId = myUserRepository.myUser?.objectId else {
+            completion?(UserVoidResult(error: .internalError(message: "Missing objectId in MyUser")))
+            return
+        }
+        let request = LGUserVerificationRequest(requesterUserId: userId, requestedUserId: requestedUserId, status: .requested)
+        guard let params = try? request.asDictionary() else {
+            completion?(UserVoidResult(error: .internalError(message: "Error generating request params")))
+            return
+        }
+        dataSource.requestVerification(params: params) { result in
+            if let error = result.error {
+                completion?(RepositoryResult<Void>(error: RepositoryError(apiError: error)))
+            } else if let _ = result.value {
+                completion?(RepositoryResult<Void>(value: Void()))
+            }
+        }
+    }
+
+    func retriveVerificationRequests(_ requestedUserId: String, completion: RepositoryCompletion<[UserVerificationRequest]>?) {
+        guard let userId = myUserRepository.myUser?.objectId else {
+            completion?(RepositoryResult<[UserVerificationRequest]>(error: .internalError(message: "Missing objectId in MyUser")))
+            return
+        }
+        dataSource.readVerificationRequests(requestedUserId: requestedUserId, myUserId: userId) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+
 
     // MARK: - Private methods
 

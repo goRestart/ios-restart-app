@@ -73,7 +73,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Verticals
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
     var servicesPaymentFrequency: ServicesPaymentFrequency { get }
-    var carExtraFieldsEnabled: CarExtraFieldsEnabled { get }
     var carPromoCells: CarPromoCells { get }
     var servicesPromoCells: ServicesPromoCells { get }
     var realEstatePromoCells: RealEstatePromoCells { get }
@@ -86,6 +85,7 @@ protocol FeatureFlaggeable: class {
     var emptySearchImprovements: EmptySearchImprovements { get }
     var sectionedFeed: SectionedDiscoveryFeed { get }
     var sectionedFeedABTestIntValue: Int { get }
+    var newSearchAPI: NewSearchAPIEndPoint { get }
 
     // MARK: Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
@@ -109,6 +109,7 @@ protocol FeatureFlaggeable: class {
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS { get }
     var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR { get }
     var multiAdRequestInChatSectionAdUnitId: String? { get }
+    var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit { get }
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
@@ -116,7 +117,6 @@ protocol FeatureFlaggeable: class {
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions { get }
     var engagementBadging: EngagementBadging { get }
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached { get }
-    var notificationCenterRedesign: NotificationCenterRedesign { get }
     var randomImInterestedMessages: RandomImInterestedMessages { get }
     var imInterestedInProfile: ImInterestedInProfile { get }
     var shareAfterScreenshot: ShareAfterScreenshot { get }
@@ -167,10 +167,6 @@ extension EnableJobsAndServicesCategory {
 }
 
 extension ServicesPaymentFrequency {
-    var isActive: Bool { return self == .active }
-}
-
-extension CarExtraFieldsEnabled {
     var isActive: Bool { return self == .active }
 }
 
@@ -373,6 +369,10 @@ extension PreventMessagesFromFeedToProUsers {
     var isActive: Bool { return self == .active }
 }
 
+extension MarkAsSoldQuickAnswerNewFlow {
+    var isActive: Bool { return self == .markAsSoldNewFlowQuickAnswer }
+}
+
 extension MultiAdRequestInChatSectionForUS {
     var isActive: Bool { return self == .active }
     
@@ -389,6 +389,10 @@ extension MultiAdRequestInChatSectionForTR {
         guard isActive else { return false }
         return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
     }
+}
+
+extension BumpPromoAfterSellNoLimit {
+    var isActive: Bool { return self == .alwaysShow || self == .straightToBump }
 }
 
 extension AppInstallAdsInFeed {
@@ -993,6 +997,10 @@ extension SmartQuickAnswers {
     var isActive: Bool { return self == .active }
 }
 
+extension NewSearchAPIEndPoint {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeatureFlags {
     
     var showInactiveConversations: Bool {
@@ -1061,13 +1069,6 @@ extension FeatureFlags {
 // MARK: Verticals
 
 extension FeatureFlags {
-    
-    var carExtraFieldsEnabled: CarExtraFieldsEnabled {
-        if Bumper.enabled {
-            return Bumper.carExtraFieldsEnabled
-        }
-        return CarExtraFieldsEnabled.fromPosition(abTests.carExtraFieldsEnabled.value)
-    }
     
     var servicesPaymentFrequency: ServicesPaymentFrequency {
         if Bumper.enabled {
@@ -1173,6 +1174,11 @@ extension FeatureFlags {
     
     var sectionedFeedABTestIntValue: Int {
         return abTests.sectionedFeed.value
+    }
+    
+    var newSearchAPI: NewSearchAPIEndPoint {
+        if Bumper.enabled { return Bumper.newSearchAPIEndPoint }
+        return NewSearchAPIEndPoint.fromPosition(abTests.newSearchAPI.value)
     }
 }
 
@@ -1292,6 +1298,13 @@ extension FeatureFlags {
             return nil
         }
     }
+
+    var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit {
+        if Bumper.enabled {
+            return Bumper.bumpPromoAfterSellNoLimit
+        }
+        return BumpPromoAfterSellNoLimit.fromPosition(abTests.bumpPromoAfterSellNoLimit.value)
+    }
 }
 
 // MARK: Retention
@@ -1324,13 +1337,6 @@ extension FeatureFlags {
             return Bumper.searchAlertsDisableOldestIfMaximumReached
         }
         return SearchAlertsDisableOldestIfMaximumReached.fromPosition(abTests.searchAlertsDisableOldestIfMaximumReached.value)
-    }
-    
-    var notificationCenterRedesign: NotificationCenterRedesign {
-        if Bumper.enabled {
-            return Bumper.notificationCenterRedesign
-        }
-        return NotificationCenterRedesign.fromPosition(abTests.notificationCenterRedesign.value)
     }
     
     var randomImInterestedMessages: RandomImInterestedMessages {

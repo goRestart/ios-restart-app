@@ -178,6 +178,7 @@ enum CoreReportDataSource: ReportType {
         case p2pPaymentSeller
         case p2pPaymentPayoutPriceBreakdown
         case p2pPaymentPayout
+        case verificationRequests
         
         var type: Any.Type {
             switch self {
@@ -279,6 +280,8 @@ enum CoreReportDataSource: ReportType {
                 return P2PPaymentPayoutPriceBreakdown.self
             case .p2pPaymentPayout:
                 return LGP2PPaymentCreatePayoutResponse.self
+            case .verificationRequests:
+                return LGUserVerificationRequest.self
             }
         }
     }

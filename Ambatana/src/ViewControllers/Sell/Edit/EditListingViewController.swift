@@ -22,8 +22,7 @@ final class EditListingViewController: BaseViewController, UITextFieldDelegate,
     private static let separatorOptionsViewDistance = LGUIKitConstants.onePixelSize
     private static let viewOptionGenericHeight: CGFloat = 50
     private static let viewOptionVerticalCellHeight: CGFloat = 44
-    private static let carsInfoContainerWithExtraFieldsHeight: CGFloat = 9*EditListingViewController.viewOptionVerticalCellHeight + 8
-    private static let carsInfoContainerHeight: CGFloat = 3*EditListingViewController.viewOptionVerticalCellHeight + 3
+    private static let carsInfoContainerHeight: CGFloat = 9*EditListingViewController.viewOptionVerticalCellHeight + 8
     private static let realEstateInfoContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
     private static let realEstateTurkishContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
     private static let servicesInfoContainerHeight: CGFloat = 2*EditListingViewController.viewOptionVerticalCellHeight + 1
@@ -1070,11 +1069,9 @@ extension EditListingViewController {
     }
     
     private func showCarsAttributesView() {
-        let showExtraFields = featureFlags.carExtraFieldsEnabled.isActive
         carInfoContainer.isHidden = false
-        verticalFieldsContainerConstraint.constant = showExtraFields ? EditListingViewController.carsInfoContainerWithExtraFieldsHeight :
-            EditListingViewController.carsInfoContainerHeight
-        carExtraFieldsContainer.isHidden = !showExtraFields
+        carExtraFieldsContainer.isHidden = false
+        verticalFieldsContainerConstraint.constant = EditListingViewController.carsInfoContainerHeight
     }
     
     private func hideCarsAttributesView() {

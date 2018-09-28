@@ -6076,6 +6076,48 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
 
+                describe("Buyer offer review") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsBuyerOfferReview(offer: offer, listing: listing)
+                    }
+                    it("event name is p2p-buyer-offer-review") {
+                        expect(sut.name.rawValue) == "p2p-buyer-offer-review"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == listing.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == listing.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
                 describe("Make an offer edit start") {
                     beforeEach {
                         chatConversation.amISelling = false
@@ -6254,14 +6296,20 @@ class TrackerEventSpec: QuickSpec {
                 }
 
                 describe("Make an offert payment error") {
+                    var error: PaymentRequestError!
                     beforeEach {
+                        error = PaymentRequestError.systemCanceled
                         chatConversation.amISelling = false
                         sut = TrackerEvent.p2pPaymentsMakeAnOfferPaymentError(userId: user.objectId!,
                                                                               chatConversation: chatConversation,
-                                                                              offerFees: offerFees)
+                                                                              offerFees: offerFees,
+                                                                              error: error)
                     }
-                    it("event name is p2p-buyer-applepay-autherror") {
-                        expect(sut.name.rawValue) == "p2p-buyer-applepay-autherror"
+                    it("event name is p2p-buyer-payment-abandon") {
+                        expect(sut.name.rawValue) == "p2p-buyer-payment-abandon"
+                    }
+                    it("has error-code") {
+                        expect(sut.params!.stringKeyParams["error-code"] as? String) == "system-canceled"
                     }
                     it("has buyer-id") {
                         expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId

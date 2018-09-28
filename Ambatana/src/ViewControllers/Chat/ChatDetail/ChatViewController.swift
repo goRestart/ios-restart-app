@@ -15,6 +15,7 @@ final class ChatViewController: TextViewController {
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
     let professionalSellerBannerHeight: CGFloat = 44
+    private let quickAnswerBottomHeight: CGFloat = 50
 
     let listingView: ChatListingView
     let chatDetailHeader: ChatDetailNavBarInfoView
@@ -96,6 +97,7 @@ final class ChatViewController: TextViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupRelatedProducts()
@@ -106,10 +108,10 @@ final class ChatViewController: TextViewController {
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
-
+        
         setupRxBindings()
     }
-
+ 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
@@ -125,7 +127,12 @@ final class ChatViewController: TextViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableView.contentInset.bottom = tableViewInsetBottom
+        tableView.contentInset.bottom = tableViewInsetBottom
+
+        if featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
+            let topSpace = viewModel.thereAreMessagesSent ? 0: quickAnswerBottomHeight
+            tableView.contentInset.top = topSpace
+        }
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
@@ -544,7 +551,7 @@ fileprivate extension ChatViewController {
             case .insert, .remove, .composite, .swap, .move:
                 self?.tableView.handleCollectionChange(change)
             }
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.interlocutorProfessionalInfo.asObservable()
             .map { !$0.isProfessional }
