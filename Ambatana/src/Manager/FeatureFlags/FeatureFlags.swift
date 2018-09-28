@@ -121,6 +121,7 @@ protocol FeatureFlaggeable: class {
     var imInterestedInProfile: ImInterestedInProfile { get }
     var shareAfterScreenshot: ShareAfterScreenshot { get }
     var affiliationEnabled: AffiliationEnabled { get }
+    var imageSizesNotificationCenter: ImageSizesNotificationCenter { get }
 
     var rx_affiliationEnabled: Observable<AffiliationEnabled> { get }
 }
@@ -425,6 +426,12 @@ extension ShareAfterScreenshot {
 
 extension AffiliationEnabled {
     var isActive: Bool { return self == .active }
+}
+
+extension ImageSizesNotificationCenter {
+    var isActive: Bool {
+        return self == .nineSix || self == .oneTwoEight
+    }
 }
 
 extension BumpInEditCopys {
@@ -1365,6 +1372,13 @@ extension FeatureFlags {
             return Bumper.affiliationEnabled
         }
         return AffiliationEnabled.fromPosition(abTests.affiliationCampaign.value)
+    }
+    
+    var imageSizesNotificationCenter: ImageSizesNotificationCenter {
+        if Bumper.enabled {
+            return Bumper.imageSizesNotificationCenter
+        }
+        return ImageSizesNotificationCenter.fromPosition(abTests.imageSizesNotificationCenter.value)
     }
 
     var rx_affiliationEnabled: Observable<AffiliationEnabled> {
