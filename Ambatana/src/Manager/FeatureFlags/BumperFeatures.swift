@@ -87,6 +87,7 @@ extension Bumper  {
         flags.append(BumpPromoAfterSellNoLimit.self)
         flags.append(MakeAnOfferButton.self)
         flags.append(NewSearchAPIEndPoint.self)
+        flags.append(ImageSizesNotificationCenter.self)
         Bumper.initialize(flags)
     } 
 
@@ -1009,6 +1010,19 @@ extension Bumper  {
     static var newSearchAPIEndPointObservable: Observable<NewSearchAPIEndPoint> {
         return Bumper.observeValue(for: NewSearchAPIEndPoint.key).map {
             NewSearchAPIEndPoint(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var imageSizesNotificationCenter: ImageSizesNotificationCenter {
+        guard let value = Bumper.value(for: ImageSizesNotificationCenter.key) else { return .control }
+        return ImageSizesNotificationCenter(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var imageSizesNotificationCenterObservable: Observable<ImageSizesNotificationCenter> {
+        return Bumper.observeValue(for: ImageSizesNotificationCenter.key).map {
+            ImageSizesNotificationCenter(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2154,6 +2168,23 @@ enum NewSearchAPIEndPoint: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ImageSizesNotificationCenter: String, BumperFeature  {
+    case control, baseline, nineSix, oneTwoEight
+    static var defaultValue: String { return ImageSizesNotificationCenter.control.rawValue }
+    static var enumValues: [ImageSizesNotificationCenter] { return [.control, .baseline, .nineSix, .oneTwoEight]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] Notification center with different thumbnails sizes" } 
+    static func fromPosition(_ position: Int) -> ImageSizesNotificationCenter {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .nineSix
+            case 3: return .oneTwoEight
             default: return .control
         }
     }

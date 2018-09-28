@@ -19,6 +19,7 @@ struct RetentionABGroup: ABGroupType {
         static let imInterestedInProfile = "20180828ImInterestedInProfile"
         static let shareAfterScreenshot = "20180905ShareAfterScreenshot"
         static let affiliationCampaign = "20180919AffiliationCampaign"
+        static let imageSizesNotificationCenter = "20180928ImageSizesNotificationCenter"
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>
     let onboardingIncentivizePosting: LeanplumABVariable<Int>
@@ -29,6 +30,7 @@ struct RetentionABGroup: ABGroupType {
     let imInterestedInProfile: LeanplumABVariable<Int>
     let shareAfterScreenshot: LeanplumABVariable<Int>
     let affiliationCampaign: LeanplumABVariable<Int>
+    let imageSizesNotificationCenter: LeanplumABVariable<Int>
     
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -44,7 +46,8 @@ struct RetentionABGroup: ABGroupType {
          randomImInterestedMessages: LeanplumABVariable<Int>,
          imInterestedInProfile: LeanplumABVariable<Int>,
          shareAfterScreenshot: LeanplumABVariable<Int>,
-         affiliationCampaign: LeanplumABVariable<Int>) {
+         affiliationCampaign: LeanplumABVariable<Int>,
+         imageSizesNotificationCenter: LeanplumABVariable<Int>) {
         self.dummyUsersInfoProfile = dummyUsersInfoProfile
         self.onboardingIncentivizePosting = onboardingIncentivizePosting
         self.searchAlertsInSearchSuggestions = searchAlertsInSearchSuggestions
@@ -54,6 +57,7 @@ struct RetentionABGroup: ABGroupType {
         self.imInterestedInProfile = imInterestedInProfile
         self.shareAfterScreenshot = shareAfterScreenshot
         self.affiliationCampaign = affiliationCampaign
+        self.imageSizesNotificationCenter = imageSizesNotificationCenter
 
         intVariables.append(contentsOf: [dummyUsersInfoProfile,
                                         onboardingIncentivizePosting,
@@ -63,7 +67,8 @@ struct RetentionABGroup: ABGroupType {
                                         randomImInterestedMessages,
                                         imInterestedInProfile,
                                         shareAfterScreenshot,
-                                        affiliationCampaign])
+                                        affiliationCampaign,
+                                        imageSizesNotificationCenter])
     }
 
     static func make() -> RetentionABGroup {
@@ -93,6 +98,9 @@ struct RetentionABGroup: ABGroupType {
                                                                groupType: .retention),
                                 affiliationCampaign: .makeInt(key: Keys.affiliationCampaign,
                                                               defaultValue: 0,
+                                                              groupType: .retention),
+                                imageSizesNotificationCenter: .makeInt(key: Keys.imageSizesNotificationCenter,
+                                                                        defaultValue: 0,
                                                               groupType: .retention))
     }
 }
