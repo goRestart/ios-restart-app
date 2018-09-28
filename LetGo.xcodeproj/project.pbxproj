@@ -1468,6 +1468,7 @@
 		50DBEE2C215E09F300E64142 /* AnalyticsSell24hMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE2B215E09F300E64142 /* AnalyticsSell24hMiddleware.swift */; };
 		50DBEE2D215E09F300E64142 /* AnalyticsSell24hMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE2B215E09F300E64142 /* AnalyticsSell24hMiddleware.swift */; };
 		50DBEE2F215E0B0400E64142 /* MockAnalyticsMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE2E215E0B0400E64142 /* MockAnalyticsMiddleware.swift */; };
+		50DBEE31215E0E0800E64142 /* AnalyticsSell24hMiddlewareSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE30215E0E0800E64142 /* AnalyticsSell24hMiddlewareSpec.swift */; };
 		50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */; };
 		50EAFB211F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EAFB201F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift */; };
 		50EAFB221F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EAFB201F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift */; };
@@ -3514,6 +3515,7 @@
 		50DBEE28215E09C600E64142 /* AnalyticsMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsMiddleware.swift; sourceTree = "<group>"; };
 		50DBEE2B215E09F300E64142 /* AnalyticsSell24hMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSell24hMiddleware.swift; sourceTree = "<group>"; };
 		50DBEE2E215E0B0400E64142 /* MockAnalyticsMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsMiddleware.swift; sourceTree = "<group>"; };
+		50DBEE30215E0E0800E64142 /* AnalyticsSell24hMiddlewareSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSell24hMiddlewareSpec.swift; sourceTree = "<group>"; };
 		50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactSubject.swift; sourceTree = "<group>"; };
 		50EAFB201F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSuggestiveSearch.swift; sourceTree = "<group>"; };
 		50EAFB231F7A2CE5003B96D5 /* LocalSuggestiveSearchSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSuggestiveSearchSpec.swift; sourceTree = "<group>"; };
@@ -6864,6 +6866,7 @@
 		50D08D861E69AF14009CC260 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
+				50DBEE30215E0E0800E64142 /* AnalyticsSell24hMiddlewareSpec.swift */,
 				5011939020C6990C00FA7C20 /* AnalyticsSessionDataSpec.swift */,
 				5011939920CA601000FA7C20 /* AnalyticsSessionUDDAOSpec.swift */,
 				5011939220C7C3BE00FA7C20 /* LGAnalyticsSessionManagerSpec.swift */,
@@ -9745,6 +9748,7 @@
 				01990F61203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift in Sources */,
 				329476432137E426008EE737 /* SectionedFeedRequesterSpec.swift in Sources */,
 				A4E093892119E255002235FC /* FiltersModalRouterSpec.swift in Sources */,
+				50DBEE31215E0E0800E64142 /* AnalyticsSell24hMiddlewareSpec.swift in Sources */,
 				50D08DB81E69AF14009CC260 /* MockListingListRequester.swift in Sources */,
 				50D08DB21E69AF14009CC260 /* MockFeatureFlags.swift in Sources */,
 				50D08DBA1E69AF14009CC260 /* MockPurchaseableProduct.swift in Sources */,
