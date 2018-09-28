@@ -155,6 +155,7 @@ class SignUpViewModel: BaseViewModel {
 
     func continueWithEmailButtonPressed() {
         router?.showPasswordlessEmail()
+        tracker.trackEvent(.loginEmailStart())
     }
 
     func helpButtonPressed() {

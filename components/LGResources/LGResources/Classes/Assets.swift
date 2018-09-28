@@ -47,11 +47,17 @@ extension R {
   public enum Asset {
     public enum Affiliation {
       public enum Error {
+        public static let amazon10 = ImageAsset(name: "amazon_10")
         public static let errorFeatureUnavailable = ImageAsset(name: "error_feature_unavailable")
         public static let errorOops = ImageAsset(name: "error_oops")
       }
       public enum Partners {
         public static let amazon = ImageAsset(name: "amazon")
+      }
+      public enum Vouchers {
+        public static let amazon10 = ImageAsset(name: "amazon_10")
+        public static let amazon5 = ImageAsset(name: "amazon_5")
+        public static let amazon50 = ImageAsset(name: "amazon_50")
       }
       public static let affiliationIcon = ImageAsset(name: "affiliationIcon")
       public static let chevronRight24 = ImageAsset(name: "chevronRight24")
@@ -62,6 +68,7 @@ extension R {
       public static let icnModalSuccess = ImageAsset(name: "icn_modal_success")
       public static let icnThreeDots = ImageAsset(name: "icn_three_dots")
       public static let iconCheck = ImageAsset(name: "iconCheck")
+      public static let inviteHeader = ImageAsset(name: "invite_header")
       public static let materialBackground = ImageAsset(name: "material_background")
       public static let question24 = ImageAsset(name: "question24")
       public static let wallet24 = ImageAsset(name: "wallet24")
@@ -70,9 +77,13 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
+        Error.amazon10,
         Error.errorFeatureUnavailable,
         Error.errorOops,
         Partners.amazon,
+        Vouchers.amazon10,
+        Vouchers.amazon5,
+        Vouchers.amazon50,
         affiliationIcon,
         chevronRight24,
         icnCheck,
@@ -82,6 +93,7 @@ extension R {
         icnModalSuccess,
         icnThreeDots,
         iconCheck,
+        inviteHeader,
         materialBackground,
         question24,
         wallet24,
@@ -91,7 +103,6 @@ extension R {
       public static let allValues: [AssetType] = allImages
     }
     public enum BackgroundsAndImages {
-      public static let affStoreBackground = ImageAsset(name: "aff_store_background")
       public static let bg1New = ImageAsset(name: "bg_1_new")
       public static let bg2New = ImageAsset(name: "bg_2_new")
       public static let bg3New = ImageAsset(name: "bg_3_new")
@@ -128,7 +139,6 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
-        affStoreBackground,
         bg1New,
         bg2New,
         bg3New,
@@ -485,6 +495,7 @@ extension R {
       public static let icPasswordActiveDark = ImageAsset(name: "ic_password_active_dark")
       public static let icPasswordDark = ImageAsset(name: "ic_password_dark")
       public static let icPasswordlessEmail = ImageAsset(name: "ic_passwordless_email")
+      public static let icPasswordlessEmailWhite = ImageAsset(name: "ic_passwordless_email_white")
       public static let icPen = ImageAsset(name: "ic_pen")
       public static let icPendingModeration = ImageAsset(name: "ic_pending_moderation")
       public static let icPhone = ImageAsset(name: "ic_phone")
@@ -799,6 +810,7 @@ extension R {
         icPasswordActiveDark,
         icPasswordDark,
         icPasswordlessEmail,
+        icPasswordlessEmailWhite,
         icPen,
         icPendingModeration,
         icPhone,

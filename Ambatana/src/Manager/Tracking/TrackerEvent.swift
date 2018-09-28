@@ -2035,7 +2035,7 @@ extension TrackerEvent {
         var params = EventParameters()
         params[.rewardRedeemed] = rewardType.trackingValue
         params[.errorDescription] = error.affiliationDescription()
-        return TrackerEvent(name: .redeemRewardStart, params: params)
+        return TrackerEvent(name: .redeemRewardError, params: params)
     }
 
     static func inviteeRewardBannerShown() -> TrackerEvent {

@@ -156,6 +156,8 @@ extension R {
     public static let affiliationStoreUnknownErrorMessage = Strings.tr("Localizable", "affiliation_store_unknown_error_message")
     /// History
     public static let affiliationStoreViewHistory = Strings.tr("Localizable", "affiliation_store_view_history")
+    /// No rewards in your history yet.
+    public static let affiliationStoreViewHistoryEmpty = Strings.tr("Localizable", "affiliation_store_view_history_empty")
     /// View rewards
     public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
     /// PTS
@@ -2720,6 +2722,14 @@ extension R {
     public static let professionalDealerAskPhoneThanksOtherCellMessage = Strings.tr("Localizable", "professional_dealer_ask_phone_thanks_other_cell_message")
     /// Thanks for adding your phone number! It's always better to give us a call using the call button above.
     public static let professionalDealerAskPhoneThanksPhoneCellMessage = Strings.tr("Localizable", "professional_dealer_ask_phone_thanks_phone_cell_message")
+    /// Verification request sent!
+    public static let profileAskVerificationButtonDisabled = Strings.tr("Localizable", "profile_ask_verification_button_disabled")
+    /// Ask %@ to verify their profile
+    public static func profileAskVerificationButtonEnabled(_ p1: String) -> String {
+      return Strings.tr("Localizable", "profile_ask_verification_button_enabled", p1)
+    }
+    /// Ask to verify profile
+    public static let profileAskVerificationButtonEnabledShort = Strings.tr("Localizable", "profile_ask_verification_button_enabled_short")
     /// Add your bio
     public static let profileBioAddButton = Strings.tr("Localizable", "profile_bio_add_button")
     /// MORE ABOUT ME

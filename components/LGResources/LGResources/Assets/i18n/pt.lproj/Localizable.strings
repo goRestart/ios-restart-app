@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Rewards store";
 "affiliation_store_unknown_error_message" = "Oops! An error occurred while loading rewards.";
 "affiliation_store_view_history" = "History";
+"affiliation_store_view_history_empty" = "No rewards in your history yet.";
 "affiliation_wallet_open_store_button" = "View rewards";
 "affiliation_wallet_points_label" = "PTS";
 "affiliation_wallet_title" = "YOUR WALLET";
@@ -1237,6 +1238,9 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or add your number so we can call you.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
+"profile_ask_verification_button_disabled" = "Verification request sent!";
+"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 "profile_bio_add_button" = "Add your bio";
 "profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "You've blocked this user";

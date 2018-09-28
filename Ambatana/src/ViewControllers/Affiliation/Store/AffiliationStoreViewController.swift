@@ -36,6 +36,7 @@ final class AffiliationStoreViewController: BaseViewController {
     }
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = storeView.backgroundColor
         moreThreeDotsButton.tintColor = .grayRegular
 
@@ -242,7 +243,7 @@ extension Reactive where Base: AffiliationStoreViewController {
             guard let redeemCell = redeemCell else { return }
             controller.update(with: redeemCell)
         }
-    }
+   }
 }
 
 extension AffiliationStoreViewController: UICollectionViewDataSource {

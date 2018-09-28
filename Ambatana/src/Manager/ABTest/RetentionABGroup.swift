@@ -18,7 +18,7 @@ struct RetentionABGroup: ABGroupType {
         static let randomImInterestedMessages = "20180817RandomImInterestedMessages"
         static let imInterestedInProfile = "20180828ImInterestedInProfile"
         static let shareAfterScreenshot = "20180905ShareAfterScreenshot"
-        static let affiliationCampaign = "20180919AffiliationCampaign"
+        static let affiliationCampaign = "20180927Affiliation"
         static let imageSizesNotificationCenter = "20180928ImageSizesNotificationCenter"
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>

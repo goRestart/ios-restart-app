@@ -10,6 +10,13 @@ public extension Array where Element == Int {
         guard !isEmpty else { return nil }
         return compactMap { String($0) }.joined(separator: ",")
     }
+    
+    func offsetBounds(by value: Int) -> [Int] {
+        let sortedSelf = sorted()
+        return [sortedSelf.first.map({$0 - value}),
+                sortedSelf.last.map({$0 + value})]
+            .compactMap({$0}).sorted()
+    }
 }
 
 public extension Array where Index == Int {

@@ -27,7 +27,7 @@ PODS:
   - Crashlytics (3.9.3):
     - Fabric (~> 1.7.2)
   - DeviceGuru (3.0.1)
-  - Differentiator (3.0.2)
+  - Differentiator (3.1.0)
   - Fabric (1.7.2)
   - FBSDKCoreKit (4.29.0):
     - Bolts (~> 1.7)
@@ -268,7 +268,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   DeviceGuru: 648c34deb10c6ef59b013ea2922c04c18d8973f0
-  Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
+  Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
   Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   FBSDKCoreKit: 6f139173dc63a1deaff4430a55f2fe5bb222d2af
   FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4

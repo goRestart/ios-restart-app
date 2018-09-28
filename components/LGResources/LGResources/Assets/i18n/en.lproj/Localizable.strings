@@ -193,6 +193,9 @@
 // Affiliation Store screen. View history button
 "affiliation_store_view_history" = "History";
 
+// Affiliation Store screen. Empty screen message
+"affiliation_store_view_history_empty" = "No rewards in your history yet.";
+
 // Affiliation challenges screen. Wallet View. Title.
 "affiliation_wallet_title" = "YOUR WALLET";
 
@@ -3681,6 +3684,15 @@
 
 // Not valid phone number error alert text
 "professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
+
+// Ask user to verify its profile
+"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+
+// Ask user to verify its profile (Short version)
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
+
+// Verification request has already been sent
+"profile_ask_verification_button_disabled" = "Verification request sent!";
 
 // Button asking the user to add a Bio
 "profile_bio_add_button" = "Add your bio";
