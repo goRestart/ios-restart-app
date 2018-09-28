@@ -13,6 +13,9 @@ struct UserDetail {
 final class ListingDetailViewModel: BaseViewModel {
     var navigator: ListingFullDetailNavigator?
     let listingViewModel: ListingViewModel
+
+    var navBarButtons: [UIAction] { return listingViewModel.navBarActionsNewItemPage }
+
     private let featureFlags: FeatureFlaggeable
     private let visitSource: EventParameterListingVisitSource
     
@@ -225,4 +228,9 @@ extension Reactive where Base: ListingDetailViewModel {
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: ListingAction(isFavorite: false, isFavoritable: false, isEditable: false))
     }
+
+    var social: Driver<(SocialSharer, SocialMessage?)> {
+        return Driver.combineLatest(Driver.just(base.listingViewModel.socialSharer),
+                                    base.listingViewModel.socialMessage.asDriver()) { ($0, $1) }
+        }
 }

@@ -19,7 +19,7 @@ enum SocialShareState {
 }
 
 protocol SocialShareViewDelegate: class {
-    func viewController() -> UIViewController?
+    var viewControllerToShareOver: UIViewController? { get }
 }
 
 enum SocialShareViewStyle {
@@ -135,7 +135,7 @@ class SocialShareView: UIView {
         return createButton(image, accessibilityId: shareType.accessibilityId) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
-            guard let viewController = strongSelf.delegate?.viewController() else { return }
+            guard let viewController = strongSelf.delegate?.viewControllerToShareOver else { return }
 
             strongSelf.socialSharer?.share(socialMessage, shareType: shareType, viewController: viewController)
         }

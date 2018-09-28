@@ -110,6 +110,7 @@ final class ListingDetailView: UIView {
         label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
+
     private let socialShareView: SocialShareView = {
         let view = SocialShareView()
         view.style = .grid
@@ -134,6 +135,12 @@ final class ListingDetailView: UIView {
                                                             size: CGSize(width: frame.width, height: Layout.galleryHeight)))
         super.init(frame: frame)
         setupUI()
+    }
+
+    func set(socialSharer: SocialSharer?, socialMessage: SocialMessage?, socialDelegate: SocialShareViewDelegate) {
+        socialShareView.delegate = socialDelegate
+        socialShareView.socialMessage = socialMessage
+        socialShareView.socialSharer = socialSharer
     }
 
     private func setupUI() {

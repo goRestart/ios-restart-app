@@ -82,7 +82,7 @@ final class ListingDetailViewController: BaseViewController {
     }
 
     @objc private func didTapMoreActions() {
-
+        showActionSheet(R.Strings.commonCancel, actions: viewModel.navBarButtons, barButtonItem: nil)
     }
 
     private func addQuickChat() {
@@ -129,7 +129,8 @@ final class ListingDetailViewController: BaseViewController {
             viewModel.rx.stats.drive(rx.stats),
             viewModel.rx.user.drive(rx.userDetail),
             viewModel.rx.location.drive(rx.location),
-            viewModel.rx.action.drive(rx.action)
+            viewModel.rx.action.drive(rx.action),
+            viewModel.rx.social.drive(rx.social)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
 
@@ -266,6 +267,16 @@ private extension Reactive where Base: ListingDetailViewController {
             controller.detailView.populateWith(location: location)
         }
     }
+    
+    var social: Binder<(SocialSharer, SocialMessage?)> {
+        return Binder(self.base) { controller, social in
+            controller.detailView.set(socialSharer: social.0, socialMessage: social.1, socialDelegate: controller)
+        }
+    }
+}
+
+extension ListingDetailViewController: SocialShareViewDelegate {
+    var viewControllerToShareOver: UIViewController? { return self }
 }
 
 // MARK: - GADAdSizeDelegate, GADBannerViewDelegate
