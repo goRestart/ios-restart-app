@@ -88,6 +88,7 @@ extension Bumper  {
         flags.append(MakeAnOfferButton.self)
         flags.append(NewSearchAPIEndPoint.self)
         flags.append(ImageSizesNotificationCenter.self)
+        flags.append(BlockingSignUp.self)
         Bumper.initialize(flags)
     } 
 
@@ -1023,6 +1024,19 @@ extension Bumper  {
     static var imageSizesNotificationCenterObservable: Observable<ImageSizesNotificationCenter> {
         return Bumper.observeValue(for: ImageSizesNotificationCenter.key).map {
             ImageSizesNotificationCenter(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var blockingSignUp: BlockingSignUp {
+        guard let value = Bumper.value(for: BlockingSignUp.key) else { return .control }
+        return BlockingSignUp(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var blockingSignUpObservable: Observable<BlockingSignUp> {
+        return Bumper.observeValue(for: BlockingSignUp.key).map {
+            BlockingSignUp(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2185,6 +2199,22 @@ enum ImageSizesNotificationCenter: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .nineSix
             case 3: return .oneTwoEight
+            default: return .control
+        }
+    }
+}
+
+enum BlockingSignUp: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return BlockingSignUp.control.rawValue }
+    static var enumValues: [BlockingSignUp] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] User needs to sign up/sign in even after killing the app in log in screen" } 
+    static func fromPosition(_ position: Int) -> BlockingSignUp {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

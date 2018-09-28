@@ -9,6 +9,7 @@
 @testable import LetGoGodMode
 
 class MockFeatureFlagsDAO: FeatureFlagsDAO {
+    
     var timeoutForRequests: TimeInterval?
     var emergencyLocate: EmergencyLocate?
     var community: ShowCommunity?
@@ -17,6 +18,7 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     var advancedReputationSystem13: AdvancedReputationSystem13?
     var mutePushNotifications: (MutePushNotifications, Int, Int)?
     var affiliationEnabled: AffiliationEnabled?
+    var blockingSignUp: BlockingSignUp?
 
     func retrieveTimeoutForRequests() -> TimeInterval? {
         return timeoutForRequests
@@ -86,4 +88,11 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
         self.affiliationEnabled = affiliationEnabled
     }
 
+    func retrieveBlockingSignUp() -> BlockingSignUp? {
+        return blockingSignUp
+    }
+    
+    func save(blockingSignUp: BlockingSignUp) {
+        self.blockingSignUp = blockingSignUp
+    }
 }
