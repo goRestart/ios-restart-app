@@ -25,6 +25,7 @@ extension DefaultsKeys {
     static let lastRunAppVersion = DefaultsKey<String?>("lastRunAppVersion")
 
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
+    static let didShowBlockingSignUp = DefaultsKey<Bool>("didShowBlockingSignUp")
     static let didShowListingDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
     static let didShowDeckOnBoarding = DefaultsKey<Bool>("didShowDeckOnBoarding")
     static let didShowCardGesturesOnBoarding = DefaultsKey<Bool>("didShowCardGesturesOnBoarding")

@@ -128,5 +128,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shareAfterScreenshot: ShareAfterScreenshot = .control
     var affiliationEnabled: AffiliationEnabled = .control
     var imageSizesNotificationCenter: ImageSizesNotificationCenter = .control
+    var blockingSignUp: BlockingSignUp = .control
 }
 

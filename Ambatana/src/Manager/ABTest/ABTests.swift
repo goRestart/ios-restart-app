@@ -213,6 +213,7 @@ extension ABTests {
     var shareAfterScreenshot: LeanplumABVariable<Int> { return retention.shareAfterScreenshot }
     var affiliationCampaign: LeanplumABVariable<Int> { return retention.affiliationCampaign }
     var imageSizesNotificationCenter: LeanplumABVariable<Int> { return retention.imageSizesNotificationCenter }
+    var blockingSignUp: LeanplumABVariable<Int> { return retention.blockingSignUp }
 }
 
 //  MARK: RealEstate

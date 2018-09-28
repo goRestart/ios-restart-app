@@ -122,6 +122,7 @@ protocol FeatureFlaggeable: class {
     var shareAfterScreenshot: ShareAfterScreenshot { get }
     var affiliationEnabled: AffiliationEnabled { get }
     var imageSizesNotificationCenter: ImageSizesNotificationCenter { get }
+    var blockingSignUp: BlockingSignUp {  get }
 
     var rx_affiliationEnabled: Observable<AffiliationEnabled> { get }
 }
@@ -434,6 +435,10 @@ extension ImageSizesNotificationCenter {
     }
 }
 
+extension BlockingSignUp {
+    var isActive: Bool { return self == .active }
+}
+
 extension BumpInEditCopys {
     var variantString: String {
         switch self {
@@ -511,6 +516,7 @@ final class FeatureFlags: FeatureFlaggeable {
                      hourStart: abTests.core.mutePushNotificationsStartHour.value,
                      hourEnd: abTests.core.mutePushNotificationsEndHour.value)
             dao.save(affiliationEnabled: Bumper.affiliationEnabled)
+            dao.save(blockingSignUp: Bumper.blockingSignUp)
         } else {
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
@@ -521,6 +527,7 @@ final class FeatureFlags: FeatureFlaggeable {
                      hourStart: abTests.core.mutePushNotificationsStartHour.value,
                      hourEnd: abTests.core.mutePushNotificationsEndHour.value)
             dao.save(affiliationEnabled: AffiliationEnabled.fromPosition(abTests.affiliationCampaign.value))
+            dao.save(blockingSignUp: BlockingSignUp.fromPosition(abTests.blockingSignUp.value))
         }
     }
 
@@ -1379,6 +1386,13 @@ extension FeatureFlags {
             return Bumper.imageSizesNotificationCenter
         }
         return ImageSizesNotificationCenter.fromPosition(abTests.imageSizesNotificationCenter.value)
+    }
+    
+    var blockingSignUp: BlockingSignUp {
+        if Bumper.enabled {
+            return Bumper.blockingSignUp
+        }
+        return BlockingSignUp.fromPosition(abTests.blockingSignUp.value)
     }
 
     var rx_affiliationEnabled: Observable<AffiliationEnabled> {

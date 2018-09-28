@@ -358,5 +358,10 @@
         "name": "ImageSizesNotificationCenter",
         "values": ["control", "baseline", "nineSix", "oneTwoEight"],
         "description": "[RETENTION] Notification center with different thumbnails sizes"
+    },
+    {
+        "name": "BlockingSignUp",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] User needs to sign up/sign in even after killing the app in log in screen"
     }
 ]

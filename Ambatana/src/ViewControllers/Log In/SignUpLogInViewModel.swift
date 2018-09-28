@@ -272,7 +272,7 @@ class SignUpLogInViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func cancel() {
-        router?.close()
+        close(completion: nil)
     }
 
     func openHelp() {
@@ -323,13 +323,14 @@ class SignUpLogInViewModel: BaseViewModel {
             
             if let user = signUpResult.value {
                 strongSelf.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
+                strongSelf.persistLogInProcessed()
                 
                 // Tracking
                 strongSelf.tracker.trackEvent(
                     TrackerEvent.signupEmail(strongSelf.loginSource, newsletter: strongSelf.newsletterParameter))
                 
                 strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
-                    self?.router?.close(onFinish: self?.onLoginCallback)
+                    self?.close(completion: self?.onLoginCallback)
                 }
             } else if let signUpError = signUpResult.error {
                 if signUpError.isUserExists {
@@ -341,7 +342,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                                                        rememberedAccount: rememberedAccount)
                             strongSelf.tracker.trackEvent(trackerEvent)
                             strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
-                                self?.router?.close(onFinish: self?.onLoginCallback)
+                                self?.close(completion: self?.onLoginCallback)
                             }
                         } else {
                             strongSelf.process(signupError: signUpError)
@@ -398,7 +399,7 @@ class SignUpLogInViewModel: BaseViewModel {
                 self?.tracker.trackEvent(trackerEvent)
                 
                 self?.delegate?.vmHideLoading(nil) { [weak self] in
-                    self?.router?.close(onFinish: self?.onLoginCallback)
+                    self?.close(completion: self?.onLoginCallback)
                 }
             } else if let sessionManagerError = loginResult.error {
                 strongSelf.processLoginSessionError(sessionManagerError)
@@ -547,7 +548,7 @@ class SignUpLogInViewModel: BaseViewModel {
         case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, userEmailOrName: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.router?.close(onFinish: self?.onLoginCallback)
+                self?.close(completion: self?.onLoginCallback)
             }
         case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
@@ -567,7 +568,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                                                 installation: installationRepository.installation,
                                                                 listing: nil,
                                                                 type: .scammer) else {
-                                                                    router?.close()
+                                                                    close(completion: nil)
                                                                     return
         }
         
@@ -575,14 +576,14 @@ class SignUpLogInViewModel: BaseViewModel {
             interface: .button(R.Strings.loginScammerAlertContactButton, .primary(fontSize: .medium)),
             action: {
                 self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .accountUnderReview))
-                self.router?.close(onFinish: { self.router?.open(url: contactURL) })
+                self.close(completion: { self.router?.open(url: contactURL) })
         })
         let keepBrowsing = UIAction(
             interface: .button(R.Strings.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
                                                                                          withBorder: false)),
             action: {
                 self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .accountUnderReview))
-                self.router?.close()
+                self.close(completion: nil)
         })
         
         let actions = [contact, keepBrowsing]
@@ -602,7 +603,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                                                 installation: installationRepository.installation,
                                                                 listing: nil,
                                                                 type: .deviceNotAllowed) else {
-                                                                    router?.close(onFinish: self.onCancelCallback)
+                                                                    close(completion: self.onCancelCallback)
                                                                     return
         }
         
@@ -610,7 +611,7 @@ class SignUpLogInViewModel: BaseViewModel {
             interface: .button(R.Strings.loginDeviceNotAllowedAlertContactButton, .primary(fontSize: .medium)),
             action: {
                 self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .secondDevice))
-                self.router?.close(onFinish: { self.router?.open(url: contactURL) })
+                self.close(completion: { self.router?.open(url: contactURL) })
         })
         
         let keepBrowsing = UIAction(
@@ -618,7 +619,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                                                                         withBorder: false)),
             action: {
                 self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .secondDevice))
-                self.router?.close()
+                self.close(completion: nil)
         })
         
         router?.showAlert(
@@ -628,6 +629,24 @@ class SignUpLogInViewModel: BaseViewModel {
             andActions: [contact, keepBrowsing])
         
         tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .secondDevice))
+    }
+    
+    private func persistLogInProcessed() {
+        guard featureFlags.blockingSignUp.isActive else { return }
+        keyValueStorage[.didShowOnboarding] = true
+        keyValueStorage[.didShowBlockingSignUp] = true
+    }
+    
+    
+    // MARK: - Navigation
+    
+    private func close(completion: (()->())?) {
+        persistLogInProcessed()
+        if let completion = completion {
+            self.router?.close(onFinish: completion)
+        } else {
+            self.router?.close()
+        }
     }
     
     
