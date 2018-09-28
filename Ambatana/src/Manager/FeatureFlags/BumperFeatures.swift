@@ -84,6 +84,7 @@ extension Bumper  {
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
         flags.append(AffiliationEnabled.self)
+        flags.append(BumpPromoAfterSellNoLimit.self)
         flags.append(MakeAnOfferButton.self)
         flags.append(NewSearchAPIEndPoint.self)
         Bumper.initialize(flags)
@@ -969,6 +970,19 @@ extension Bumper  {
     static var affiliationEnabledObservable: Observable<AffiliationEnabled> {
         return Bumper.observeValue(for: AffiliationEnabled.key).map {
             AffiliationEnabled(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit {
+        guard let value = Bumper.value(for: BumpPromoAfterSellNoLimit.key) else { return .control }
+        return BumpPromoAfterSellNoLimit(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var bumpPromoAfterSellNoLimitObservable: Observable<BumpPromoAfterSellNoLimit> {
+        return Bumper.observeValue(for: BumpPromoAfterSellNoLimit.key).map {
+            BumpPromoAfterSellNoLimit(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2091,6 +2105,23 @@ enum AffiliationEnabled: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum BumpPromoAfterSellNoLimit: String, BumperFeature  {
+    case control, baseline, alwaysShow, straightToBump
+    static var defaultValue: String { return BumpPromoAfterSellNoLimit.control.rawValue }
+    static var enumValues: [BumpPromoAfterSellNoLimit] { return [.control, .baseline, .alwaysShow, .straightToBump]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Remove the 24h limit in bump after sell promo" } 
+    static func fromPosition(_ position: Int) -> BumpPromoAfterSellNoLimit {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .alwaysShow
+            case 3: return .straightToBump
             default: return .control
         }
     }

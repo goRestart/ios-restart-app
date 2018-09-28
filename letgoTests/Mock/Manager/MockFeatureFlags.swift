@@ -115,6 +115,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS = .control
     var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR = .control
     var multiAdRequestInChatSectionAdUnitId: String? = ""
+    var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit = .control
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control

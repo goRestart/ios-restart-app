@@ -109,6 +109,7 @@ protocol FeatureFlaggeable: class {
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS { get }
     var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR { get }
     var multiAdRequestInChatSectionAdUnitId: String? { get }
+    var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit { get }
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
@@ -388,6 +389,10 @@ extension MultiAdRequestInChatSectionForTR {
         guard isActive else { return false }
         return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
     }
+}
+
+extension BumpPromoAfterSellNoLimit {
+    var isActive: Bool { return self == .alwaysShow || self == .straightToBump }
 }
 
 extension AppInstallAdsInFeed {
@@ -1292,6 +1297,13 @@ extension FeatureFlags {
         default:
             return nil
         }
+    }
+
+    var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit {
+        if Bumper.enabled {
+            return Bumper.bumpPromoAfterSellNoLimit
+        }
+        return BumpPromoAfterSellNoLimit.fromPosition(abTests.bumpPromoAfterSellNoLimit.value)
     }
 }
 
