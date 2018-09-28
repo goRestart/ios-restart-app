@@ -7,6 +7,7 @@ import LGComponents
 struct ProChatViewState {
     let message: String
     let icon: UIImage?
+    let action: (()->())?
 }
 
 struct QuickAnswersViewState {
@@ -19,39 +20,48 @@ struct QuickChatViewState {
     let isInterested: Bool
 }
 
+struct SellerTrackingInfo {
+    var source: EventParameterListingVisitSource
+    var feedPosition: EventParameterFeedPosition
+}
+
 final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelegate {
     var listingViewModel: ListingViewModel? {
         didSet { setupRx() }
     }
     
     var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?
-    private var disposeBag = DisposeBag()
+    var sellerTrackInfo: SellerTrackingInfo?
 
-    fileprivate let chatState: BehaviorRelay<QuickChatViewState?> = .init(value: nil)
-
-    let directChatMessages = CollectionVariable<ChatViewMessage>([])
+    private var activeDisposeBag = DisposeBag()
+    var objectCount: Int { return directChatMessages.value.count }
+    fileprivate let chatState = BehaviorRelay<QuickChatViewState>(value: QuickChatViewState(quickAnswersState: nil,
+                                                                                            proState: nil,
+                                                                                            isInterested: false))
+    fileprivate let directChatMessages = CollectionVariable<ChatViewMessage>([])
 
     private func setupRx() {
-        disposeBag = DisposeBag()
+        activeDisposeBag = DisposeBag()
 
         guard let listingVM = listingViewModel else { return }
 
-        let isInterested = listingVM.isInterested.asObservable().distinctUntilChanged()
+        let isInterested = listingVM.isInterested.asDriver().distinctUntilChanged()
 
-        let bindings = [
-            Observable.combineLatest(rx.quickAnswersViewState(listingVM: listingVM),
-                                     rx.proChatViewState(listingVM: listingVM),
-                                     isInterested) { ($0, $1, $2) }
-                .map { return QuickChatViewState(quickAnswersState: $0, proState: $1, isInterested: $2) }
-                .bind { [weak self] in self?.chatState.accept($0) }
-        ]
+        Driver.combineLatest(rx.quickAnswersViewState(listingVM: listingVM),
+                             rx.proChatViewState(listingVM: listingVM),
+                             isInterested) { ($0, $1, $2) }
+            .map { return QuickChatViewState(quickAnswersState: $0, proState: $1, isInterested: $2) }
+            .drive(chatState)
+            .disposed(by: activeDisposeBag)
         listingVM.directChatMessages
             .changesObservable
             .subscribe(onNext: { [weak self] (change) in
             self?.performCollectionChange(change: change)
-        }).disposed(by: disposeBag)
+        }).disposed(by: activeDisposeBag)
+    }
 
-        bindings.forEach { $0.disposed(by: disposeBag) }
+    func message(at index: Int) -> ChatViewMessage? {
+        return directChatMessages.value[safeAt: index] ?? nil
     }
 
     func messageExists(_ messageID: String) -> Bool {
@@ -90,23 +100,36 @@ final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelega
                                           trackingInfo: sectionFeedChatTrackingInfo)
     }
 
+    func openAskPhone() {
+        listingViewModel?.openAskPhone()
+    }
+
+    func callSeller() {
+        guard let phoneNumber = listingViewModel?.seller.value?.phone else { return }
+        PhoneCallsHelper.call(phoneNumber: phoneNumber)
+        if let source = sellerTrackInfo?.source, let feedPosition = sellerTrackInfo?.feedPosition {
+            listingViewModel?.trackCallTapped(source: source, feedPosition: feedPosition)
+        }
+    }
 }
 
 extension QuickChatViewModel: ReactiveCompatible {}
 extension Reactive where Base: QuickChatViewModel {
-    var directMessages: Observable<CollectionChange<ChatViewMessage>> { return base.directChatMessages.changesObservable }
-    var chatState: Observable<QuickChatViewState> { return base.chatState.asObservable().ignoreNil() }
+    var directMessages: Driver<CollectionChange<ChatViewMessage>> {
+        return base.directChatMessages.changesObservable.asDriver(onErrorJustReturn: .composite([]))
+    }
+    var chatState: Driver<QuickChatViewState> { return base.chatState.asDriver() }
 
-    fileprivate func quickAnswersViewState(listingVM: ListingViewModel) -> Observable<QuickAnswersViewState?> {
+    fileprivate func quickAnswersViewState(listingVM: ListingViewModel) -> Driver<QuickAnswersViewState?> {
         return listingVM.cardDirectChatEnabled
             .asObservable()
             .distinctUntilChanged()
             .map {
                 return $0 ? QuickAnswersViewState(quickAnswers: listingVM.quickAnswers) : nil
-        }
+        }.asDriver(onErrorJustReturn: nil)
     }
 
-    fileprivate func proChatViewState(listingVM: ListingViewModel) -> Observable<ProChatViewState?> {
+    fileprivate func proChatViewState(listingVM: ListingViewModel) -> Driver<ProChatViewState?> {
         let seller = listingVM.seller.asObservable().share()
         let phoneNumber = seller.map { $0?.phone }
 
@@ -121,11 +144,12 @@ extension Reactive where Base: QuickChatViewModel {
             allowsCalls = .just(false)
         }
         return Observable.combineLatest(isPro, allowsCalls) { ($0, $1) }
-            .map {
+            .map { [unowned base] in
                 guard $0 else { return nil }
-                let message = $1 ? R.Strings.productProfessionalCallButton : R.Strings.productProfessionalCallButton
+                let message = $1 ? R.Strings.productProfessionalCallButton : R.Strings.productProfessionalChatButton
                 let icon = $1 ? R.Asset.Monetization.icPhoneCall.image : nil
-                return ProChatViewState(message: message, icon: icon)
-        }
+                let action = $1 ? base.callSeller : base.openAskPhone
+                return ProChatViewState(message: message, icon: icon, action: action)
+        }.asDriver(onErrorJustReturn: nil)
     }
 }

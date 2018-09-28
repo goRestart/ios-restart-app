@@ -33,6 +33,25 @@ final class ListingDetailViewController: BaseViewController {
         return dfpBanner
     }()
 
+    fileprivate lazy var moreButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(R.Asset.IconsButtons.NewItemPage.nitMore.image, for: .normal)
+        button.addTarget(self, action: #selector(ListingDetailViewController.didTapMoreActions), for: .touchUpInside)
+        return button
+    }()
+    fileprivate lazy var actionButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(R.Asset.IconsButtons.icPen.image, for: .normal)
+        button.addTarget(viewModel, action: #selector(ListingDetailViewModel.listingAction), for: .touchUpInside)
+        return button
+    }()
+    fileprivate lazy var shareButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(R.Asset.IconsButtons.NewItemPage.nitShare.image, for: .normal)
+        button.addTarget(viewModel, action: #selector(ListingDetailViewModel.share), for: .touchUpInside)
+        return button
+    }()
+
     init(viewModel: ListingDetailViewModel) {
         self.viewModel = viewModel
         self.quickChatViewController = QuickChatViewController(listingViewModel: viewModel.listingViewModel)
@@ -60,6 +79,10 @@ final class ListingDetailViewController: BaseViewController {
         addQuickChat()
         addBanner()
         setupRx()
+    }
+
+    @objc private func didTapMoreActions() {
+
     }
 
     private func addQuickChat() {
@@ -105,9 +128,11 @@ final class ListingDetailViewController: BaseViewController {
             viewModel.rx.detail.drive(rx.detail),
             viewModel.rx.stats.drive(rx.stats),
             viewModel.rx.user.drive(rx.userDetail),
-            viewModel.rx.location.drive(rx.location)
-            ]
+            viewModel.rx.location.drive(rx.location),
+            viewModel.rx.action.drive(rx.action)
+        ]
         bindings.forEach { $0.disposed(by: disposeBag) }
+
         detailView.rx
             .map
             .asObservable()
@@ -122,7 +147,7 @@ final class ListingDetailViewController: BaseViewController {
     }
 
     private func setupTransparentNavigationBar() {
-        setLeftCloseButton()
+        setNavBar()
     }
 
     override func viewDidFirstLayoutSubviews() {
@@ -130,14 +155,26 @@ final class ListingDetailViewController: BaseViewController {
         detailView.pageControlTop?.constant = statusBarHeight
     }
 
-    private func setLeftCloseButton() {
+    private func setNavBar() {
         let button = UIButton(type: .custom)
-        detailView.addSubviewForAutoLayout(button)
+        detailView.addSubviewsForAutoLayout([button, moreButton, shareButton, actionButton])
         NSLayoutConstraint.activate([
             button.topAnchor.constraint(equalTo: detailView.topAnchor, constant: statusBarHeight + Metrics.shortMargin),
             button.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: Metrics.veryShortMargin),
             button.heightAnchor.constraint(equalToConstant: Layout.buttonSize.height),
-            button.widthAnchor.constraint(equalToConstant: Layout.buttonSize.width)
+            button.widthAnchor.constraint(equalToConstant: Layout.buttonSize.width),
+
+            moreButton.centerYAnchor.constraint(equalTo: button.centerYAnchor),
+            moreButton.trailingAnchor.constraint(equalTo: detailView.trailingAnchor,
+                                                 constant: -Metrics.shortMargin),
+
+            shareButton.centerYAnchor.constraint(equalTo: button.centerYAnchor),
+            shareButton.trailingAnchor.constraint(equalTo: moreButton.leadingAnchor,
+                                                  constant: -Metrics.margin),
+
+            actionButton.centerYAnchor.constraint(equalTo: button.centerYAnchor),
+            actionButton.trailingAnchor.constraint(equalTo: shareButton.leadingAnchor,
+                                                   constant: -Metrics.margin)
         ])
         button.addTarget(self, action: #selector(closeView), for: .touchUpInside)
         button.setImage(R.Asset.IconsButtons.icCloseCarousel.image, for: .normal)
@@ -169,9 +206,27 @@ extension ListingDetailViewController: DeckMapViewDelegate {
 }
 
 private extension Reactive where Base: ListingDetailViewController {
+    var action: Binder<ListingAction> {
+        return Binder(self.base) { controller, action in
+            if action.isFavoritable {
+                if action.isFavorite {
+                    controller.actionButton.setImage(R.Asset.IconsButtons.NewItemPage.nitFavouriteOn.image,
+                                                     for: .normal)
+                } else {
+                    controller.actionButton.setImage(R.Asset.IconsButtons.NewItemPage.nitFavourite.image,
+                                                     for: .normal)
+                }
+            } else if action.isEditable {
+                controller.actionButton.setImage(R.Asset.IconsButtons.icPen.image, for: .normal)
+            } else {
+                controller.actionButton.alpha = 0
+            }
+        }
+    }
+
     var media: Binder<[Media]> {
         return Binder(self.base) { controller, media in
-            controller.detailView.populateWith(media: media)
+            controller.detailView.populateWith(media: media, currentIndex: 0)
         }
     }
 

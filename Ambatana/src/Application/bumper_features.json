@@ -11,7 +11,7 @@
     },
     {
          "name": "MarkAsSoldQuickAnswerNewFlow",
-         "values": ["control", "baseline", "mark_as_sold_new_flow_quick_answer"],
+         "values": ["control", "baseline", "markAsSoldNewFlowQuickAnswer"],
          "description": "New flow when marking an item as sold on chat using quick answers"
     },
     {
@@ -150,11 +150,6 @@
         "description": "[CHAT] Show a toast in the chat with the websocket and network connection status"
     },
     {
-         "name": "CarExtraFieldsEnabled",
-         "values": ["control", "baseline", "active"],
-         "description": "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)"
-    },
-    {
         "name": "ReportingFostaSesta",
         "values": ["control", "baseline", "withIcons", "withoutIcons"],
         "description": "Show new user/product reporting flow (FOSTA-SESTA compliance)"
@@ -255,11 +250,6 @@
         "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
     },
     {
-        "name": "NotificationCenterRedesign",
-        "values": ["control", "baseline", "active"],
-        "description": "[RETENTION] Notification center redesign with sections and modern UI design"
-    },
-    {
         "name": "TurkeyFreePosting",
         "values": ["control", "baseline", "active"],
         "description": "[PRODUCTS] Enable Leanplum driven Turkey free posting"
@@ -350,8 +340,18 @@
         "description": "[RETENTION] Enables Affiliation / Referral Program"
     },
     {
+        "name": "BumpPromoAfterSellNoLimit",
+        "values": ["control", "baseline", "AlwaysShow", "StraightToBump"],
+        "description": "[MONEY] Remove the 24h limit in bump after sell promo"
+    },
+    {
         "name": "MakeAnOfferButton",
         "values": ["control", "baseline", "active"],
         "description": "[P2P PAYMENTS] Show make an offer button"
+    },
+    {
+        "name": "NewSearchAPIEndPoint",
+        "values": ["control", "baseline", "active"],
+        "description": "[DISCOVERY] Use New Search API Endpoint"
     }
 ]

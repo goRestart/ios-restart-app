@@ -482,15 +482,21 @@ class ChatViewModel: ChatBaseViewModel {
     }
     
     func setupRx() {
+        messages.observable.subscribeNext { [weak self] _ in
+            guard let strongSelf = self else { return }
+            
+            let isChatEnabled = strongSelf.conversation.value.chatEnabled && !strongSelf.isUserDummy
+            
+            if strongSelf.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
+                strongSelf.chatEnabled.value = isChatEnabled && strongSelf.thereAreMessagesSent
+            } else {
+                strongSelf.chatEnabled.value = isChatEnabled
+            }
+        }.disposed(by: disposeBag)
+        
+        
         conversation.asObservable().subscribeNext { [weak self] conversation in
             self?.chatStatus.value = conversation.chatStatus
-            
-            if self?.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
-                self?.chatEnabled.value = conversation.chatEnabled && (self?.thereAreMessagesSent ?? false)
-            } else {
-                self?.chatEnabled.value = conversation.chatEnabled
-            }
-
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
             self?.title.value = conversation.listing?.name ?? ""
@@ -1187,22 +1193,55 @@ extension ChatViewModel {
 extension ChatViewModel {
     fileprivate func markListingAsSold() {
         guard conversation.value.amISelling else { return }
-        guard let listingId = conversation.value.listing?.objectId else { return }
+        guard let listing = conversation.value.listing else { return }
+        guard let listingId = listing.objectId else { return }
         
         delegate?.vmShowLoading(nil)
+ 
         listingRepository.markAsSold(listingId: listingId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
             if let _ = result.value {
-                self?.trackMarkAsSold()
+                strongSelf.trackMarkAsSold()
             }
-            let errorMessage: String? = result.error != nil ? R.Strings.productMarkAsSoldErrorGeneric : nil
-            self?.delegate?.vmHideLoading(errorMessage) {
+            let errorMessage = result.error != nil ? R.Strings.productMarkAsSoldErrorGeneric : nil
+            
+            strongSelf.delegate?.vmHideLoading(errorMessage) {
                 guard let _ = result.value else { return }
-                self?.refreshConversation()
+                strongSelf.refreshConversation()
+                
+                if strongSelf.featureFlags.markAsSoldQuickAnswerNewFlow.isActive {
+                    strongSelf.continueWithRatingProcess(listing, listingId)
+                }
+            }
+        }
+    }
+ 
+    private func continueWithRatingProcess(_ listing: ChatListing, _ listingId: String) {
+        listingRepository.possibleBuyersOf(listingId: listingId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            guard let buyers = result.value, !buyers.isEmpty else {
+                let errorMessage = result.error != nil ? R.Strings.productMarkAsSoldErrorGeneric : nil
+                
+                strongSelf.delegate?.vmHideLoading(errorMessage) {
+                    guard let _ = result.value else { return }
+                    strongSelf.refreshConversation()
+                }
+                return
+            }
+            
+            strongSelf.delegate?.vmHideLoading(nil) {
+                let trackingInfo = MarkAsSoldTrackingInfo.make(chatListing: listing,
+                                                               isBumpedUp: .notAvailable,
+                                                               isFreePostingModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
+                                                               typePage: .chat)
+                
+                strongSelf.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers, listingId: listingId, sourceRateBuyers: .markAsSold, trackingInfo: trackingInfo)
             }
         }
     }
 }
-
 
 // MARK: - Options Menu
 
@@ -1918,7 +1957,10 @@ fileprivate extension ChatConversation {
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
     var thereAreMessagesSent: Bool {
-        return conversation.value.lastMessageSentAt != nil
+        return !messages.value.filter {
+            if case .userInfo(_) = $0.type { return false }
+            return true
+        }.isEmpty
     }
     /*
      Quick answers priorities:

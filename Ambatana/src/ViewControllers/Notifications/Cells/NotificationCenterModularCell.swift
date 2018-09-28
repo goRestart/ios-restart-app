@@ -143,6 +143,7 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
                                           forCellWithReuseIdentifier: NotificationCenterThumbnailCell.reusableID)
         setupLayout()
         setupUI()
+        setAccesibilityIds()
     }
     
     required init?(coder aDecoder: NSCoder) {

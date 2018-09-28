@@ -58,12 +58,8 @@ final class QuickChatViewController: BaseViewController {
 
     private func setupRx() {
         let bindings = [
-            viewModel.rx.directMessages.asDriver(onErrorJustReturn: .composite([])).drive(rx.directMessages),
-            viewModel.rx.chatState
-                .asDriver(onErrorJustReturn: QuickChatViewState(quickAnswersState: nil,
-                                                                proState: nil,
-                                                                isInterested: false))
-                .drive(rx.chatState)
+            viewModel.rx.directMessages.drive(rx.directMessages),
+            viewModel.rx.chatState.drive(rx.chatState)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -73,7 +69,7 @@ final class QuickChatViewController: BaseViewController {
 extension QuickChatViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.directChatMessages.value.count
+        return viewModel.objectCount
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -81,8 +77,7 @@ extension QuickChatViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let messages = viewModel.directChatMessages.value
-        guard let message = messages[safeAt: indexPath.row] else { return UITableViewCell() }
+        guard let message = viewModel.message(at: indexPath.row) else { return UITableViewCell() }
         let drawer = ChatCellDrawerFactory.drawerForMessage(message,
                                                             autoHide: true,
                                                             disclosure: true,
@@ -117,6 +112,7 @@ private extension QuickChatViewState {
     var isPro: Bool { return proState != nil }
     var proText: String { return proState?.message ?? "" }
     var proImage: UIImage? { return proState?.icon }
+    var proAction: (()->())? { return proState?.action }
 }
 
 extension Reactive where Base: QuickChatViewController {
@@ -126,7 +122,7 @@ extension Reactive where Base: QuickChatViewController {
             controller.chatView.setChatEnabled(chatState.areQuickAnswersEnabled)
             controller.chatView.updateDirectChatWith(answers: chatState.quickAnswers)
             controller.chatView.setSellerAsPro(chatState.isPro)
-            controller.chatView.setPro(chatState.proText, image: chatState.proImage)
+            controller.chatView.setPro(chatState.proText, image: chatState.proImage, action: chatState.proAction)
             controller.chatView.setListingAs(interested: chatState.isInterested)
         }
     }

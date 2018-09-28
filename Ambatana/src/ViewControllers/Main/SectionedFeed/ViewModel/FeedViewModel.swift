@@ -322,8 +322,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
         }.disposed(by: disposeBag)
     }
     
-    private func refreshFeed() {
-        feedRenderingDelegate?.updateFeed()
+    private func refreshFeed(forceLayoutCalculation: Bool = false) {
+        feedRenderingDelegate?.updateFeed(forceLayoutCalculation: forceLayoutCalculation)
     }
     
     private func refreshFiltersVar() {
@@ -416,7 +416,7 @@ extension FeedViewModel {
         removeLoadingBottom()
         defer {
             if feed.isFirstPage {
-                feedRenderingDelegate?.updateFeed()
+                self.feedRenderingDelegate?.updateFeed(forceLayoutCalculation: false)
             } else {
                 refreshFeed()
             }
@@ -457,7 +457,8 @@ extension FeedViewModel {
             return false
         }
         
-        feedItems.append(contentsOf: horizontalSections.listDiffable())
+        let horizontalSectionsWithBannerAds = updateWithBannerAds(listDiffable: horizontalSections.listDiffable())
+        feedItems.append(contentsOf: horizontalSectionsWithBannerAds)
         
         if locationSectionIndex == nil {
             feedItems.append(LocationData(locationString: locationText))
@@ -935,8 +936,8 @@ extension FeedViewModel {
 //  MARK: - AdUpdated
 
 extension FeedViewModel: AdUpdated {
-    func updatedAd() {
-        refreshFeed()
+    func updatedAd(isBannerSection: Bool) {
+        refreshFeed(forceLayoutCalculation: isBannerSection)
     }
 }
 

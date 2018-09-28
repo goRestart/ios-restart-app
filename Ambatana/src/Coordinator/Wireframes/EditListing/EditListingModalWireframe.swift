@@ -3,43 +3,56 @@ import LGCoreKit
 
 final class EditListingModalWireframe: EditListingNavigator {
     private let root: UIViewController
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     private let editLocationAssembly: QuickLocationFiltersAssembly
     private let carMakesAssembly: CarAttributesSelectionAssembly
 
     weak var listingRefreshable: ListingsRefreshable?
     private weak var onEditActionable: OnEditActionable?
+    private weak var onCancelEditActionable: OnEditActionable?
 
-    init(root: UIViewController, nc: UINavigationController, onEditActionable: OnEditActionable?) {
+    init(root: UIViewController,
+         nc: UINavigationController,
+         onEditActionable: OnEditActionable?,
+         onCancelEditActionable: OnEditActionable?) {
         self.root = root
         self.nc = nc
         self.onEditActionable = onEditActionable
+        self.onCancelEditActionable = onCancelEditActionable
         self.editLocationAssembly = QuickLocationFiltersBuilder.standard(nc)
         self.carMakesAssembly = CarAttributesSelectionBuilder.standard(nc)
     }
 
-    func editingListingDidCancel() {
-        root.dismiss(animated: true, completion: nil)
+    func editingListingDidCancel(_ originalListing: Listing,
+                                 purchases: [BumpUpProductData],
+                                 timeSinceLastBump: TimeInterval?,
+                                 maxCountdown: TimeInterval) {
+        root.dismiss(animated: true, completion: { [weak self] in
+            self?.onCancelEditActionable?.onEdit(listing: originalListing,
+                                                 purchases: purchases,
+                                                 timeSinceLastBump: timeSinceLastBump,
+                                                 maxCountdown: maxCountdown)
+        })
     }
-
+    
     func editingListingDidFinish(_ editedListing: Listing,
                                  purchases: [BumpUpProductData],
                                  timeSinceLastBump: TimeInterval?,
                                  maxCountdown: TimeInterval) {
         listingRefreshable?.listingsRefresh()
-        root.dismiss(animated: true, completion: {
-            self.onEditActionable?.onEdit(listing: editedListing,
-                                          purchases: purchases,
-                                          timeSinceLastBump: timeSinceLastBump,
-                                          maxCountdown: maxCountdown)
+        root.dismiss(animated: true, completion: {[weak self] in
+            self?.onEditActionable?.onEdit(listing: editedListing,
+                                           purchases: purchases,
+                                           timeSinceLastBump: timeSinceLastBump,
+                                           maxCountdown: maxCountdown)
         })
     }
 
     func openListingAttributePicker(viewModel: ListingAttributeSingleSelectPickerViewModel) {
         let vc = ListingAttributePickerViewController(viewModel: viewModel)
         viewModel.delegate = vc
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openEditLocation(mode: EditLocationMode,
@@ -49,7 +62,7 @@ final class EditListingModalWireframe: EditListingNavigator {
                                                                 initialPlace: initialPlace,
                                                                 distanceRadius: nil,
                                                                 locationDelegate: locationDelegate)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openCarMakesSelection(_ carMakes: [CarsMake],
@@ -60,7 +73,7 @@ final class EditListingModalWireframe: EditListingNavigator {
                                                          selectedMake: selectedMake,
                                                          style: style,
                                                          delegate: delegate)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
     func openCarModelsSelection(_ carModels: [CarsModel],
                                 selectedModel: String?,
@@ -69,7 +82,7 @@ final class EditListingModalWireframe: EditListingNavigator {
                                                           selectedModel: selectedModel,
                                                           style: style,
                                                           delegate: delegate)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openCarYearSelection(_ yearsList: [Int],
@@ -78,6 +91,6 @@ final class EditListingModalWireframe: EditListingNavigator {
         let vc = carMakesAssembly.buildCarYearSelection(yearsList,
                                                         selectedYear: selectedYear,
                                                         delegate: delegate)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 }
