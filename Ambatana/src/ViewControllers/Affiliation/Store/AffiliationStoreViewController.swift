@@ -112,12 +112,18 @@ final class AffiliationStoreViewController: BaseViewController {
                 self?.showRedeemSuccess()
             })
         case .empty(_), .error(_):
-            showAlert(R.Strings.affiliationStoreGenericError, message: nil, actions: [])
-            delay(2) { [weak self] in
-                self?.dismiss(animated: true, completion: nil)
-            }
+            dismiss(animated: true, completion: { [weak self] in
+                self?.showError()
+            })
         }
         pointsView.alpha = state == .loading ? 0 : 1
+    }
+
+    private func showError() {
+        showAlert(R.Strings.affiliationStoreGenericError, message: nil, actions: [])
+        delay(2) { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
 
     fileprivate func showRedeemSuccess() {
@@ -194,6 +200,7 @@ extension AffiliationStoreViewController {
     private func redeem(for index: Int) {
         viewModel
             .redeem(at: index)
+            .throttle(RxTimeInterval(1))
             .drive(onNext: { [weak self] (state) in
                 self?.updateRedeem(with: state)
             }).disposed(by: disposeBag)
