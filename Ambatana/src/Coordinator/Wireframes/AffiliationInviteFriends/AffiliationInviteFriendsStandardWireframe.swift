@@ -26,6 +26,7 @@ final class AffiliationInviteFriendsStandardWireframe: AffiliationInviteFriendsN
     }
     
     func openInviteTerms() {
+        guard let navigationController = navigationController else { return }
         let assembly = AffiliationFAQBuilder.standard(navigationController)
         let vc = assembly.buildAffiliationFAQ()
         navigationController.pushViewController(vc, animated: true)
