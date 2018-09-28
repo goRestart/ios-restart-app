@@ -1957,6 +1957,30 @@
 		A47C4A69213D5B3F005AA387 /* SearchWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47C4A67213D5B3F005AA387 /* SearchWireframe.swift */; };
 		A4B06436212FF82000769B6B /* FeedBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B06435212FF82000769B6B /* FeedBuilder.swift */; };
 		A4B06437212FF82000769B6B /* FeedBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B06435212FF82000769B6B /* FeedBuilder.swift */; };
+		A4CD266E215BDF4100EA61D3 /* yellowShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266B215BDF4000EA61D3 /* yellowShape@3x.png */; };
+		A4CD266F215BDF4100EA61D3 /* yellowShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266B215BDF4000EA61D3 /* yellowShape@3x.png */; };
+		A4CD2670215BDF4100EA61D3 /* yellowShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266C215BDF4000EA61D3 /* yellowShape.png */; };
+		A4CD2671215BDF4100EA61D3 /* yellowShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266C215BDF4000EA61D3 /* yellowShape.png */; };
+		A4CD2672215BDF4100EA61D3 /* yellowShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266D215BDF4100EA61D3 /* yellowShape@2x.png */; };
+		A4CD2673215BDF4100EA61D3 /* yellowShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266D215BDF4100EA61D3 /* yellowShape@2x.png */; };
+		A4CD2677215BDF6400EA61D3 /* blueShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2674215BDF6300EA61D3 /* blueShape@2x.png */; };
+		A4CD2678215BDF6400EA61D3 /* blueShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2674215BDF6300EA61D3 /* blueShape@2x.png */; };
+		A4CD2679215BDF6400EA61D3 /* blueShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2675215BDF6300EA61D3 /* blueShape.png */; };
+		A4CD267A215BDF6400EA61D3 /* blueShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2675215BDF6300EA61D3 /* blueShape.png */; };
+		A4CD267B215BDF6400EA61D3 /* blueShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2676215BDF6400EA61D3 /* blueShape@3x.png */; };
+		A4CD267C215BDF6400EA61D3 /* blueShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2676215BDF6400EA61D3 /* blueShape@3x.png */; };
+		A4CD2680215BDFB100EA61D3 /* lightBlueShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267D215BDFAF00EA61D3 /* lightBlueShape.png */; };
+		A4CD2681215BDFB100EA61D3 /* lightBlueShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267D215BDFAF00EA61D3 /* lightBlueShape.png */; };
+		A4CD2682215BDFB100EA61D3 /* lightBlueShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267E215BDFB000EA61D3 /* lightBlueShape@2x.png */; };
+		A4CD2683215BDFB100EA61D3 /* lightBlueShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267E215BDFB000EA61D3 /* lightBlueShape@2x.png */; };
+		A4CD2684215BDFB100EA61D3 /* lightBlueShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267F215BDFB100EA61D3 /* lightBlueShape@3x.png */; };
+		A4CD2685215BDFB100EA61D3 /* lightBlueShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267F215BDFB100EA61D3 /* lightBlueShape@3x.png */; };
+		A4CD2689215BDFDB00EA61D3 /* letgoLogoWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2686215BDFDA00EA61D3 /* letgoLogoWhite.png */; };
+		A4CD268A215BDFDB00EA61D3 /* letgoLogoWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2686215BDFDA00EA61D3 /* letgoLogoWhite.png */; };
+		A4CD268B215BDFDB00EA61D3 /* letgoLogoWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2687215BDFDA00EA61D3 /* letgoLogoWhite@2x.png */; };
+		A4CD268C215BDFDB00EA61D3 /* letgoLogoWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2687215BDFDA00EA61D3 /* letgoLogoWhite@2x.png */; };
+		A4CD268D215BDFDB00EA61D3 /* letgoLogoWhite@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2688215BDFDB00EA61D3 /* letgoLogoWhite@3x.png */; };
+		A4CD268E215BDFDB00EA61D3 /* letgoLogoWhite@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2688215BDFDB00EA61D3 /* letgoLogoWhite@3x.png */; };
 		A4E093892119E255002235FC /* FiltersModalRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E093882119E255002235FC /* FiltersModalRouterSpec.swift */; };
 		A4E0938B2119E265002235FC /* FiltersStandardRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0938A2119E265002235FC /* FiltersStandardRouterSpec.swift */; };
 		A4E0938E2119E280002235FC /* LGFiltersBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0938D2119E280002235FC /* LGFiltersBuilder.swift */; };
@@ -3787,6 +3811,18 @@
 		A47C4A63213D558B005AA387 /* SearchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBuilder.swift; sourceTree = "<group>"; };
 		A47C4A67213D5B3F005AA387 /* SearchWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWireframe.swift; sourceTree = "<group>"; };
 		A4B06435212FF82000769B6B /* FeedBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBuilder.swift; sourceTree = "<group>"; };
+		A4CD266B215BDF4000EA61D3 /* yellowShape@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellowShape@3x.png"; sourceTree = "<group>"; };
+		A4CD266C215BDF4000EA61D3 /* yellowShape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowShape.png; sourceTree = "<group>"; };
+		A4CD266D215BDF4100EA61D3 /* yellowShape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellowShape@2x.png"; sourceTree = "<group>"; };
+		A4CD2674215BDF6300EA61D3 /* blueShape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueShape@2x.png"; sourceTree = "<group>"; };
+		A4CD2675215BDF6300EA61D3 /* blueShape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueShape.png; sourceTree = "<group>"; };
+		A4CD2676215BDF6400EA61D3 /* blueShape@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueShape@3x.png"; sourceTree = "<group>"; };
+		A4CD267D215BDFAF00EA61D3 /* lightBlueShape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightBlueShape.png; sourceTree = "<group>"; };
+		A4CD267E215BDFB000EA61D3 /* lightBlueShape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lightBlueShape@2x.png"; sourceTree = "<group>"; };
+		A4CD267F215BDFB100EA61D3 /* lightBlueShape@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lightBlueShape@3x.png"; sourceTree = "<group>"; };
+		A4CD2686215BDFDA00EA61D3 /* letgoLogoWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = letgoLogoWhite.png; sourceTree = "<group>"; };
+		A4CD2687215BDFDA00EA61D3 /* letgoLogoWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "letgoLogoWhite@2x.png"; sourceTree = "<group>"; };
+		A4CD2688215BDFDB00EA61D3 /* letgoLogoWhite@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "letgoLogoWhite@3x.png"; sourceTree = "<group>"; };
 		A4E093882119E255002235FC /* FiltersModalRouterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersModalRouterSpec.swift; sourceTree = "<group>"; };
 		A4E0938A2119E265002235FC /* FiltersStandardRouterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersStandardRouterSpec.swift; sourceTree = "<group>"; };
 		A4E0938D2119E280002235FC /* LGFiltersBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFiltersBuilder.swift; sourceTree = "<group>"; };
@@ -6386,6 +6422,7 @@
 		508011081D474ED80073F362 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				A4CD265E21553FD900EA61D3 /* Splash */,
 				5080110F1D474ED80073F362 /* Icons-Launchers.xcassets */,
 			);
 			path = img;
@@ -7705,6 +7742,41 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		A4CD265E21553FD900EA61D3 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				A4CD266A215BDEFD00EA61D3 /* Shapes */,
+				A4CD2669215BDEF300EA61D3 /* light */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		A4CD2669215BDEF300EA61D3 /* light */ = {
+			isa = PBXGroup;
+			children = (
+				A4CD2686215BDFDA00EA61D3 /* letgoLogoWhite.png */,
+				A4CD2687215BDFDA00EA61D3 /* letgoLogoWhite@2x.png */,
+				A4CD2688215BDFDB00EA61D3 /* letgoLogoWhite@3x.png */,
+			);
+			path = light;
+			sourceTree = "<group>";
+		};
+		A4CD266A215BDEFD00EA61D3 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				A4CD267D215BDFAF00EA61D3 /* lightBlueShape.png */,
+				A4CD267E215BDFB000EA61D3 /* lightBlueShape@2x.png */,
+				A4CD267F215BDFB100EA61D3 /* lightBlueShape@3x.png */,
+				A4CD2675215BDF6300EA61D3 /* blueShape.png */,
+				A4CD2674215BDF6300EA61D3 /* blueShape@2x.png */,
+				A4CD2676215BDF6400EA61D3 /* blueShape@3x.png */,
+				A4CD266C215BDF4000EA61D3 /* yellowShape.png */,
+				A4CD266D215BDF4100EA61D3 /* yellowShape@2x.png */,
+				A4CD266B215BDF4000EA61D3 /* yellowShape@3x.png */,
+			);
+			path = Shapes;
+			sourceTree = "<group>";
+		};
 		A4E093862119E222002235FC /* Router */ = {
 			isa = PBXGroup;
 			children = (
@@ -8995,14 +9067,17 @@
 			files = (
 				C73FABB81DD37968008F4519 /* SettingsLogoutCell.xib in Resources */,
 				C7DE8AD31C888761005CF37E /* SellListingCell.xib in Resources */,
+				A4CD268D215BDFDB00EA61D3 /* letgoLogoWhite@3x.png in Resources */,
 				A46057F3212AD33F00386DFC /* VerifyAccountsViewController.xib in Resources */,
 				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
 				C75B5DC91D59E09500112368 /* ListingDetailOnboardingView.xib in Resources */,
+				A4CD2689215BDFDB00EA61D3 /* letgoLogoWhite.png in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				2E4ADEC3200515FC00D07D8A /* BumpUpPayViewController.xib in Resources */,
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
+				A4CD266E215BDF4100EA61D3 /* yellowShape@3x.png in Resources */,
 				2E7F4A462074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */,
 				2E5350441CF8A181003B06CC /* ListingStatsView.xib in Resources */,
 				5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */,
@@ -9023,9 +9098,12 @@
 				0A82A1A22141A7CD005ECA58 /* RateUserViewController.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
+				A4CD2670215BDF4100EA61D3 /* yellowShape.png in Resources */,
 				508011031D4749030073F362 /* LaunchScreen.xib in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				508011001D4748120073F362 /* SettingsViewController.xib in Resources */,
+				A4CD2684215BDFB100EA61D3 /* lightBlueShape@3x.png in Resources */,
+				A4CD2679215BDF6400EA61D3 /* blueShape.png in Resources */,
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				2E9A899520A048D4009F6BB7 /* ChatOtherMeetingCell.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
@@ -9033,17 +9111,22 @@
 				6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
+				A4CD2680215BDFB100EA61D3 /* lightBlueShape.png in Resources */,
 				C73FABBE1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */,
+				A4CD268B215BDFDB00EA61D3 /* letgoLogoWhite@2x.png in Resources */,
+				A4CD2682215BDFB100EA61D3 /* lightBlueShape@2x.png in Resources */,
 				8E26E9591ED5AF9A0086D3EC /* FilterDistanceSlider.xib in Resources */,
 				C6D5FF1A20B6B0A50045E3D3 /* ServicesInfo.json in Resources */,
 				C7DE8AD91C8892C9005CF37E /* PostListingCameraView.xib in Resources */,
 				8E80179E2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */,
 				50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */,
+				A4CD2672215BDF4100EA61D3 /* yellowShape@2x.png in Resources */,
 				0A751485214272570049E135 /* UserRatingListViewController.xib in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
 				C7B588471CE1DE1C009B3975 /* ChatListingView.xib in Resources */,
 				C7415ED81DE880BD0003D6C1 /* SimpleListingsViewController.xib in Resources */,
 				2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */,
+				A4CD267B215BDF6400EA61D3 /* blueShape@3x.png in Resources */,
 				C74016DC1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */,
@@ -9054,6 +9137,7 @@
 				2E36656C1DE4882E00000F68 /* PostIncentivatorView.xib in Resources */,
 				C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				C7DE8AC91C888761005CF37E /* EditListingViewController.xib in Resources */,
+				A4CD2677215BDF6400EA61D3 /* blueShape@2x.png in Resources */,
 				C7F18A971C89CB4C00D23319 /* PostListingGalleryView.xib in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
 				2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */,
@@ -9082,9 +9166,11 @@
 			files = (
 				0A8275131F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */,
 				0A8275141F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */,
+				A4CD268A215BDFDB00EA61D3 /* letgoLogoWhite.png in Resources */,
 				0A8275151F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */,
 				0A82750C1F7D0DAD00A6A0C5 /* DeferredDeepLinkTargetListing.json in Resources */,
 				0A82750B1F7D0DA400A6A0C5 /* DeferredDeepLinkTargetSearchQuery.json in Resources */,
+				A4CD266F215BDF4100EA61D3 /* yellowShape@3x.png in Resources */,
 				0A6D88C51F7CFECA00819E89 /* DeferredDeepLinkTargetCategory.json in Resources */,
 				C73FABB91DD37968008F4519 /* SettingsLogoutCell.xib in Resources */,
 				C7DE8AD41C888761005CF37E /* SellListingCell.xib in Resources */,
@@ -9092,12 +9178,16 @@
 				C7DB424B1C5138B500400945 /* words_lowercase.json in Resources */,
 				C75B5DCA1D59E09500112368 /* ListingDetailOnboardingView.xib in Resources */,
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
+				A4CD267C215BDF6400EA61D3 /* blueShape@3x.png in Resources */,
 				C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
+				A4CD2678215BDF6400EA61D3 /* blueShape@2x.png in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
 				2E5350451CF8A181003B06CC /* ListingStatsView.xib in Resources */,
 				0A751486214272570049E135 /* UserRatingListViewController.xib in Resources */,
+				A4CD268E215BDFDB00EA61D3 /* letgoLogoWhite@3x.png in Resources */,
 				2E423799205C005B0077B62A /* ChatOtherMeetingCell.xib in Resources */,
 				5015881F1C7396B7006AEFC8 /* UserView.xib in Resources */,
+				A4CD2671215BDF4100EA61D3 /* yellowShape.png in Resources */,
 				C783D97F1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				6A12E04C1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,
 				2E9DF9741E8AA23800969E0F /* CarsInfo.json in Resources */,
@@ -9111,6 +9201,7 @@
 				C7DB425E1C5138B500400945 /* levelup.caf in Resources */,
 				2E9716A91D5A284F009B3A32 /* ExpressChatCell.xib in Resources */,
 				2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */,
+				A4CD2683215BDFB100EA61D3 /* lightBlueShape@2x.png in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				A46057F4212AD33F00386DFC /* VerifyAccountsViewController.xib in Resources */,
 				6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
@@ -9119,6 +9210,8 @@
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C75B5DC41D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
+				A4CD268C215BDFDB00EA61D3 /* letgoLogoWhite@2x.png in Resources */,
+				A4CD2685215BDFB100EA61D3 /* lightBlueShape@3x.png in Resources */,
 				2E7F4A472074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */,
 				6A879DA31C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				8E80179F2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */,
@@ -9126,6 +9219,7 @@
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
 				C73FABBF1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */,
 				8E26E95A1ED5AF9A0086D3EC /* FilterDistanceSlider.xib in Resources */,
+				A4CD2681215BDFB100EA61D3 /* lightBlueShape.png in Resources */,
 				8EB6510F205C1C1500FF50E4 /* MobileNetLetgov7final.json in Resources */,
 				C7DE8ADA1C8892C9005CF37E /* PostListingCameraView.xib in Resources */,
 				2E92CC0620248E2800451B65 /* SuggestedLocationCell.xib in Resources */,
@@ -9137,10 +9231,12 @@
 				C74016DD1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C6D5FF1B20B6B0AC0045E3D3 /* ServicesInfo.json in Resources */,
+				A4CD267A215BDF6400EA61D3 /* blueShape.png in Resources */,
 				2E92CC0320248E2800451B65 /* MeetingAssistantViewController.xib in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				2E423797205C004B0077B62A /* ChatMyMeetingCell.xib in Resources */,
 				C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */,
+				A4CD2673215BDF4100EA61D3 /* yellowShape@2x.png in Resources */,
 				2ECB417020065FB200482EF7 /* BumpUpPayViewController.xib in Resources */,
 				C7DB427F1C5138B500400945 /* ChatSafetyTipsView.xib in Resources */,
 				C7B588521CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
@@ -10823,6 +10919,7 @@
 				0A6FECAA2130343F00B57004 /* EditUserBioWireframe.swift in Sources */,
 				C690704A21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */,
 				F5D91E7D2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
+				01337B952085F55D00AC8385 /* NotificationSettingsSwitchCell.swift in Sources */,
 				013B2A2121303DCC00F69613 /* BuildFile in Sources */,
 				097EDBE5213CFF180057D638 /* P2PPaymentsMakeAnOfferBuilder.swift in Sources */,
 				72D928E11E83EB990030F4C3 /* RatingManager.swift in Sources */,
