@@ -6602,14 +6602,18 @@ class TrackerEventSpec: QuickSpec {
                 }
 
                 describe("Seller offer entered code") {
+                    let retries = 2
                     beforeEach {
-                        sut = TrackerEvent.p2pPaymentsOfferSellerCodeEntered(offer: offer)
+                        sut = TrackerEvent.p2pPaymentsOfferSellerCodeEntered(offer: offer, retries: retries)
                     }
                     it("event name is p2p-seller-payout") {
                         expect(sut.name.rawValue) == "p2p-seller-payout"
                     }
                     it("has step") {
                         expect(sut.params!.stringKeyParams["step"] as? String) == "code-entry"
+                    }
+                    it("has retries") {
+                        expect(sut.params!.stringKeyParams["retries"] as? Int) == retries
                     }
                     it("has buyer-id") {
                         expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
@@ -6647,14 +6651,18 @@ class TrackerEventSpec: QuickSpec {
                 }
 
                 describe("Seller offer code correct") {
+                    let retries = 2
                     beforeEach {
-                        sut = TrackerEvent.p2pPaymentsOfferSellerCodeCorrect(offer: offer)
+                        sut = TrackerEvent.p2pPaymentsOfferSellerCodeCorrect(offer: offer, retries: retries)
                     }
                     it("event name is p2p-seller-payout") {
                         expect(sut.name.rawValue) == "p2p-seller-payout"
                     }
                     it("has step") {
                         expect(sut.params!.stringKeyParams["step"] as? String) == "code-correct"
+                    }
+                    it("has retries") {
+                        expect(sut.params!.stringKeyParams["retries"] as? Int) == retries
                     }
                     it("has buyer-id") {
                         expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
@@ -6692,11 +6700,15 @@ class TrackerEventSpec: QuickSpec {
                 }
 
                 describe("Seller offer code incorrect") {
+                    let retries = 2
                     beforeEach {
-                        sut = TrackerEvent.p2pPaymentsOfferSellerCodeIncorrect(offer: offer)
+                        sut = TrackerEvent.p2pPaymentsOfferSellerCodeIncorrect(offer: offer, retries: retries)
                     }
                     it("event name is p2p-seller-payout-error") {
                         expect(sut.name.rawValue) == "p2p-seller-payout-error"
+                    }
+                    it("has retries") {
+                        expect(sut.params!.stringKeyParams["retries"] as? Int) == retries
                     }
                     it("has buyer-id") {
                         expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId

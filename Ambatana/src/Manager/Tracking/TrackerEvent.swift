@@ -1894,20 +1894,23 @@ struct TrackerEvent {
         return TrackerEvent(name: .p2pPaymentsSellerPayoutStart, params: params)
     }
 
-    static func p2pPaymentsOfferSellerCodeEntered(offer: P2PPaymentOffer) -> TrackerEvent {
+    static func p2pPaymentsOfferSellerCodeEntered(offer: P2PPaymentOffer, retries: Int) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
         params[.step] = EventParameterP2PPaymentsStep.codeEntry.rawValue
+        params[.retries] = retries
         return TrackerEvent(name: .p2pPaymentsSellerPayout, params: params)
     }
 
-    static func p2pPaymentsOfferSellerCodeCorrect(offer: P2PPaymentOffer) -> TrackerEvent {
+    static func p2pPaymentsOfferSellerCodeCorrect(offer: P2PPaymentOffer, retries: Int) -> TrackerEvent {
         var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
         params[.step] = EventParameterP2PPaymentsStep.codeCorrect.rawValue
+        params[.retries] = retries
         return TrackerEvent(name: .p2pPaymentsSellerPayout, params: params)
     }
 
-    static func p2pPaymentsOfferSellerCodeIncorrect(offer: P2PPaymentOffer) -> TrackerEvent {
-        let params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+    static func p2pPaymentsOfferSellerCodeIncorrect(offer: P2PPaymentOffer, retries: Int) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.retries] = retries
         return TrackerEvent(name: .p2pPaymentsSellerPayoutError, params: params)
     }
 

@@ -466,6 +466,7 @@ enum EventParameterName: String {
     case offerFee             = "offer-seller-fee"
     case offerSellerChoice    = "choice"
     case step                 = "step"
+    case retries              = "retries"
     
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
 

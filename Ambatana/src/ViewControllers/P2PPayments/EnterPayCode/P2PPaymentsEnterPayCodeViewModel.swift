@@ -15,6 +15,7 @@ final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
     private let installationRepository: InstallationRepository
     private let tracker: Tracker
     fileprivate lazy var uiStateRelay = BehaviorRelay<UIState>(value: .enterCode(buyerName: buyerName, buyerAvatar: buyerAvatar))
+    private var codeRetries = 0
 
     init(offerId: String,
          buyerName: String,
@@ -54,15 +55,17 @@ final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
     private func usePayCode(_ payCode: String) {
         uiStateRelay.accept(.loading(buyerName: buyerName, buyerAvatar: buyerAvatar))
         p2pPaymentsRepository.usePayCode(payCode: payCode, offerId: offerId) { [weak self] result in
+            guard let strongSelf = self else { return }
             switch result {
             case .success:
-                self?.trackCodeCorrect()
+                strongSelf.trackCodeCorrect(retries: strongSelf.codeRetries)
                 delay(P2PPayments.chatRefreshDelay) { [weak self] in
                     self?.navigator?.close()
                 }
             case .failure:
-                self?.trackCodeIncorrect()
-                self?.enterPayCode()
+                strongSelf.trackCodeIncorrect(retries: strongSelf.codeRetries)
+                strongSelf.codeRetries = strongSelf.codeRetries + 1
+                strongSelf.enterPayCode()
             }
         }
     }
@@ -71,21 +74,21 @@ final class P2PPaymentsEnterPayCodeViewModel: BaseViewModel {
         uiStateRelay.accept(.enterCode(buyerName: buyerName, buyerAvatar: buyerAvatar))
     }
 
-    private func trackCodeEntered() {
+    private func trackCodeEntered(retries: Int) {
         guard let offer = offer else { return }
-        let trackerEvent = TrackerEvent.p2pPaymentsOfferSellerCodeEntered(offer: offer)
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferSellerCodeEntered(offer: offer, retries: retries)
         tracker.trackEvent(trackerEvent)
     }
 
-    private func trackCodeCorrect() {
+    private func trackCodeCorrect(retries: Int) {
         guard let offer = offer else { return }
-        let trackerEvent = TrackerEvent.p2pPaymentsOfferSellerCodeCorrect(offer: offer)
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferSellerCodeCorrect(offer: offer, retries: retries)
         tracker.trackEvent(trackerEvent)
     }
 
-    private func trackCodeIncorrect() {
+    private func trackCodeIncorrect(retries: Int) {
         guard let offer = offer else { return }
-        let trackerEvent = TrackerEvent.p2pPaymentsOfferSellerCodeIncorrect(offer: offer)
+        let trackerEvent = TrackerEvent.p2pPaymentsOfferSellerCodeIncorrect(offer: offer, retries: retries)
         tracker.trackEvent(trackerEvent)
     }
 }
@@ -137,7 +140,7 @@ extension P2PPaymentsEnterPayCodeViewModel {
 
 extension P2PPaymentsEnterPayCodeViewModel {
     func payCodeEntered(_ payCode: String) {
-        trackCodeEntered()
+        trackCodeEntered(retries: codeRetries)
         usePayCode(payCode)
     }
 
