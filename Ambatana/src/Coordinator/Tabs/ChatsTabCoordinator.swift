@@ -51,8 +51,6 @@ extension ChatsTabCoordinator: ChatsTabNavigator {
     }
 
     func openInactiveConversations() {
-        let vm = ChatInactiveConversationsListViewModel(navigator: self)
-        let vc = ChatInactiveConversationsListViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
+        chatNavigator.openInactiveConversations()
     }
 }

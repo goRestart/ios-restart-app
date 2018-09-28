@@ -32,6 +32,7 @@ class LGSessionManager: InternalSessionManager {
 
     private let events = PublishSubject<SessionEvent>()
     private let disposeBag = DisposeBag()
+    private let defaultPasswordlessLoginUsername = "letgo"
 
     var loggedIn: Bool {
         return myUserRepository.myUser != nil && tokenDAO.token.level == .user
@@ -230,7 +231,7 @@ class LGSessionManager: InternalSessionManager {
      */
     func loginPasswordlessWith(token: String,
                                completion: LoginCompletion?) {
-        let provider: UserSessionProvider = .passwordless(token: token, username: nil)
+        let provider: UserSessionProvider = .passwordless(token: token, username: defaultPasswordlessLoginUsername)
         login(provider, completion: completion)
     }
 

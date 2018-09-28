@@ -9,12 +9,11 @@
 import Foundation
 import LGCoreKit
 
-class ChatCellDrawerFactory {
+struct ChatCellDrawerFactory {
     
     static func drawerForMessage(_ message: ChatViewMessage,
                                  autoHide: Bool = false,
                                  disclosure: Bool = false,
-                                 showClock: Bool = false,
                                  meetingsEnabled: Bool) -> ChatCellDrawer {
         let myUserRepository = Core.myUserRepository
         
@@ -22,7 +21,7 @@ class ChatCellDrawerFactory {
         switch message.type {
         case .offer, .text, .multiAnswer, .unsupported:
             if isMine {
-                return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
+                return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide)
             } else {
                 return ChatOthersMessageCellDrawer(autoHide: autoHide)
             }
@@ -43,13 +42,21 @@ class ChatCellDrawerFactory {
                 }
             } else {
                 if isMine {
-                    return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
+                    return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide)
                 } else {
                     return ChatOthersMessageCellDrawer(autoHide: autoHide)
                 }
             }
         case .cta:
-            return ChatCallToActionCellDrawer(autoHide: autoHide)
+            if isMine {
+                return ChatMyCallToActionCellDrawer(autoHide: autoHide)
+            } else {
+                return ChatOtherCallToActionCellDrawer(autoHide: autoHide)
+            }
+        case .carousel:
+            return ChatCarouselDrawer(autoHide: autoHide)
+        case .system:
+            return ChatSystemCellDrawer(autoHide: autoHide)
         case .interlocutorIsTyping:
             return ChatInterlocutorIsTypingCellDrawer(autoHide: autoHide)
         }
@@ -63,8 +70,10 @@ class ChatCellDrawerFactory {
         ChatOtherInfoCellDrawer.registerClassCell(tableView)
         ChatAskPhoneNumberCellDrawer.registerClassCell(tableView)
         ChatInterlocutorIsTypingCellDrawer.registerClassCell(tableView)
-        ChatCallToActionCellDrawer.registerClassCell(tableView)
-
+        ChatMyCallToActionCellDrawer.registerClassCell(tableView)
+        ChatOtherCallToActionCellDrawer.registerClassCell(tableView)
+        ChatCarouselDrawer.registerClassCell(tableView)
+        ChatSystemCellDrawer.registerClassCell(tableView)
         ChatOtherMeetingCellDrawer.registerCell(tableView)
         ChatMyMeetingCellDrawer.registerCell(tableView)
     }

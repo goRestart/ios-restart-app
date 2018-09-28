@@ -130,4 +130,5 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openUserVerificationView() {}
     func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String) {}
     func openCommunityTab() {}
+    func openP2PPaymentOfferStatus(offerId: String) {}
 }

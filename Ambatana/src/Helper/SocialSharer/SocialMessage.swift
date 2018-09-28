@@ -23,6 +23,9 @@ enum ShareSource: String {
     case native = "native"
 }
 
+protocol SocialMessageConvertible {
+    func retrieveSocialMessage() -> SocialMessage?
+}
 
 // MARK: - SocialMessage
 
@@ -42,15 +45,15 @@ protocol SocialMessage {
     var fallbackToStore: Bool { get }
     var controlParameter: String { get }
     
-    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion)
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion)
     func retrieveWhatsappShareText(completion: @escaping MessageWithURLCompletion)
     func retrieveTelegramShareText(completion: @escaping MessageWithURLCompletion)
     func retrieveSMSShareText(completion: @escaping MessageWithURLCompletion)
     func retrieveCopyLinkText(completion: @escaping MessageWithURLCompletion)
     func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion)
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion)
-    func retrieveFBShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
-    func retrieveFBMessengerShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
+    func retrieveFBShareContent(image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion)
+    func retrieveFBMessengerShareContent(image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion)
     func retrieveTwitterShareText(completion: @escaping MessageWithURLCompletion)
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion)
 }
@@ -65,6 +68,7 @@ extension SocialMessage {
     static var siteIDKey: String { return "af_siteid" }
     static var sub1: String { return "af_sub1" }
     static var sub2: String { return "af_sub2" }
+    static var sub3: String { return "af_sub3" }
     static var webDeeplink: String { return "af_web_dp" }
     
     
@@ -95,15 +99,15 @@ extension SocialMessage {
         }
     }
     
-    func retrieveFBShareContent(completion: @escaping FBSDKShareLinkContentCompletion) {
-        fbShareLinkContent(.facebook, completion: completion)
+    func retrieveFBShareContent(image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion) {
+        fbShareLinkContent(.facebook, image: image, completion: completion)
     }
     
-    func retrieveFBMessengerShareContent(completion: @escaping FBSDKShareLinkContentCompletion) {
-        fbShareLinkContent(.fbMessenger, completion: completion)
+    func retrieveFBMessengerShareContent(image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion) {
+        fbShareLinkContent(.fbMessenger, image: image, completion: completion)
     }
     
-    private func fbShareLinkContent(_ source: ShareSource, completion: @escaping FBSDKShareLinkContentCompletion) {
+    private func fbShareLinkContent(_ source: ShareSource, image: UIImage?, completion: @escaping FBSDKShareLinkContentCompletion) {
         let shareContent = FBSDKShareLinkContent()
         retrieveShareURL(source: source) { url in
             if let url = url {
@@ -121,7 +125,7 @@ extension SocialMessage {
     // MARK: - AppsFlyer
     
     func retrieveShareURL(source: ShareSource?, campaign: String, deepLinkString: String, webURLString: String?,
-                          fallbackToStore: Bool, myUserId: String?, myUserName: String?,
+                          fallbackToStore: Bool, myUserId: String?, myUserName: String?, myUserAvatar: String?,
                           completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
         AppsFlyerShareInviteHelper.generateInviteUrl(linkGenerator: { generator in
             return self.appsFlyerLinkGenerator(generator,
@@ -131,7 +135,8 @@ extension SocialMessage {
                                                webURLString: webURLString,
                                                fallbackToStore: fallbackToStore,
                                                myUserId: myUserId,
-                                               myUserName: myUserName)}) { url in
+                                               myUserName: myUserName,
+                                               myUserAvatar: myUserAvatar)}) { url in
                                                 // The callback is handled by another thread invoked by AppsFlyer
                                                 // Dispatch to main thread to avoid unexpected behaviours,
                                                 // i.e. FacebookMessageDialog crashes if not called from main
@@ -141,14 +146,15 @@ extension SocialMessage {
         }
     }
     
-    private func appsFlyerLinkGenerator(_ generator: AppsFlyerLinkGenerator,
-                                        source: ShareSource?,
-                                        campaign: String,
-                                        deepLinkString: String,
-                                        webURLString: String?,
-                                        fallbackToStore: Bool,
-                                        myUserId: String?,
-                                        myUserName: String?) -> AppsFlyerLinkGenerator {
+    func appsFlyerLinkGenerator(_ generator: AppsFlyerLinkGenerator,
+                                source: ShareSource?,
+                                campaign: String,
+                                deepLinkString: String,
+                                webURLString: String?,
+                                fallbackToStore: Bool,
+                                myUserId: String?,
+                                myUserName: String?,
+                                myUserAvatar: String?) -> AppsFlyerLinkGenerator {
         generator.setCampaign(campaign)
         if let source = source {
             generator.setChannel(source.rawValue)
@@ -164,6 +170,9 @@ extension SocialMessage {
         }
         if let myUserName = myUserName {
             generator.addParameterValue(myUserName, forKey: Self.sub2)
+        }
+        if let myUserAvatar = myUserAvatar {
+            generator.addParameterValue(myUserAvatar, forKey: Self.sub3)
         }
         
         return generator
@@ -185,7 +194,7 @@ extension SocialMessage {
         }
         return completeURLString
     }
-    
+
     func addCustomSchemeToDeeplinkPath(_ deepLinkPath: String) -> String {
         return "\(SharedConstants.deepLinkScheme)\(deepLinkPath)"
     }
@@ -195,7 +204,12 @@ extension SocialMessage {
 // MARK: - Listing Share
 
 struct ListingSocialMessage: SocialMessage {
-    static var utmCampaignValue = "product-detail-share"
+    enum Campaign: String {
+        case detail = "product-detail-share"
+        case posted = "product-sell-confirmation-share"
+    }
+
+    static var utmCampaignValue: String = Campaign.detail.rawValue
 
     let emailShareIsHtml = false
     var emailShareSubject: String {
@@ -207,6 +221,7 @@ struct ListingSocialMessage: SocialMessage {
     }
     var myUserId: String?
     var myUserName: String?
+    var image: UIImage?
     
     private var fullMessage: String {
         return title + " - " + body
@@ -235,8 +250,9 @@ struct ListingSocialMessage: SocialMessage {
     private let imageURL: URL?
     private let listingId: String
     private let isMine: Bool
+    private let campaign: Campaign
 
-    init(title: String, listing: Listing, isMine: Bool, fallbackToStore: Bool, myUserId: String?, myUserName: String?) {
+    init(title: String, listing: Listing, isMine: Bool, fallbackToStore: Bool, myUserId: String?, myUserName: String?, campaign: Campaign = .detail) {
         self.title = title
         self.listingUserName = listing.user.name ?? ""
         self.listingTitle = listing.title ?? ""
@@ -247,24 +263,29 @@ struct ListingSocialMessage: SocialMessage {
         self.fallbackToStore = fallbackToStore
         self.myUserId = myUserId
         self.myUserName = myUserName
+        self.campaign = campaign
     }
     
-    init(listing: Listing, fallbackToStore: Bool, myUserId: String?, myUserName: String?) {
+    init(listing: Listing, fallbackToStore: Bool, myUserId: String?, myUserName: String?, campaign: Campaign = .detail) {
         let listingIsMine = Core.myUserRepository.myUser?.objectId == listing.user.objectId
         let socialTitleMyListing = listing.price.isFree ? R.Strings.productIsMineShareBodyFree :
             R.Strings.productIsMineShareBody
         let socialTitle = listingIsMine ? socialTitleMyListing : R.Strings.productShareBody
         self.init(title: socialTitle, listing: listing, isMine: listingIsMine, fallbackToStore: fallbackToStore,
-                  myUserId: myUserId, myUserName: myUserName)
+                  myUserId: myUserId, myUserName: myUserName, campaign: campaign)
     }
 
-    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
         retrieveShareURL(source: .native) { url in
-            guard let shareUrl = url else {
-                completion([self.fullMessage])
-                return
+            var shareItems: [Any] = [] // Append order matters for fb and fbmessenger, giving priority to the last item
+            if let image = image {
+                shareItems.append(image)
             }
-            completion([shareUrl, self.fullMessage])
+            if let shareUrl = url {
+                let shareMessage = self.fullMessage + "\n" + shareUrl.absoluteString
+                shareItems.append(shareMessage)
+            }
+            completion(shareItems)
         }
     }
     
@@ -295,13 +316,27 @@ struct ListingSocialMessage: SocialMessage {
                                                      source: source)
         let deepLinkString = addCustomSchemeToDeeplinkPath(deepLinkPath)
         retrieveShareURL(source: source,
-                         campaign: ListingSocialMessage.utmCampaignValue,
+                         campaign: campaign.rawValue,
                          deepLinkString: deepLinkString,
                          webURLString: webUrlLangLocalizedString,
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
+                         myUserAvatar: nil,
                          completion: completion)
+    }
+    
+    func addUtmParamsToURLString(_ string: String, source: ShareSource?) -> String {
+        guard !string.isEmpty else { return "" }
+        let mediumValue = source?.rawValue ?? ""
+        let completeURLString = string + "?" +
+            ListingSocialMessage.utmCampaignKey + "=" + campaign.rawValue + "&" +
+            ListingSocialMessage.utmMediumKey + "=" + mediumValue + "&" +
+            ListingSocialMessage.utmSourceKey + "=" + ListingSocialMessage.utmSourceValue
+        if let percentEncodedURLString = AppsFlyerDeepLink.percentEncodeForAmpersands(urlString: completeURLString) {
+            return percentEncodedURLString
+        }
+        return completeURLString
     }
 }
 
@@ -326,13 +361,17 @@ struct AppShareSocialMessage: SocialMessage {
         self.myUserName = myUserName
     }
     
-    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
         retrieveShareURL(source: .native) { url in
-            if let shareUrl = url {
-                completion([shareUrl, R.Strings.appShareMessageText])
-            } else {
-                completion([R.Strings.appShareMessageText])
+            var shareItems: [Any] = [] // Append order matters for fb and fbmessenger, giving priority to the last item
+            if let image = image {
+                shareItems.append(image)
             }
+            shareItems.append(R.Strings.appShareMessageText)
+            if let shareUrl = url {
+                shareItems.append(shareUrl)
+            }
+            completion(shareItems)
         }
     }
 
@@ -370,6 +409,7 @@ struct AppShareSocialMessage: SocialMessage {
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
+                         myUserAvatar: nil,
                          completion: completion)
     }
 }
@@ -420,13 +460,17 @@ struct UserSocialMessage: SocialMessage {
         }
     }
 
-    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
         retrieveShareURL(source: .native) { url in
-            if let shareUrl = url {
-                completion([shareUrl, self.messageText])
-            } else {
-                completion([self.messageText])
+            var shareItems: [Any] = [] // Append order matters for fb and fbmessenger, giving priority to the last item
+            if let image = image {
+                shareItems.append(image)
             }
+            shareItems.append(self.messageText)
+            if let shareUrl = url {
+                shareItems.append(shareUrl)
+            }
+            completion(shareItems)
         }
     }
     
@@ -480,6 +524,82 @@ struct UserSocialMessage: SocialMessage {
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
+                         myUserAvatar: nil,
+                         completion: completion)
+    }
+}
+
+// MARK: - Affiliation Share
+
+struct AffiliationSocialMessage: SocialMessage {
+    
+    static let utmCampaignValue = AppsFlyerAffiliationResolver.campaignValue
+    
+    let emailShareIsHtml = true
+    let emailShareSubject: String = R.Strings.appShareSubjectText
+
+    let fallbackToStore = true
+    let controlParameter = "home"
+    let myUserId: String?
+    let myUserName: String?
+    let myUserAvatar: String?
+    
+    private var displayName: String {
+        return myUserName ?? ""
+    }
+    
+    init(myUserId: String?, myUserName: String?, myUserAvatar: String?) {
+        self.myUserId = myUserId
+        self.myUserName = myUserName
+        self.myUserAvatar = myUserAvatar
+    }
+    
+    func retrieveNativeShareItems(image: UIImage?, completion: @escaping NativeShareItemsCompletion) {
+        let infoText: String = R.Strings.affiliationInviteMessageText
+        retrieveShareURL(source: .native) { url in
+            if let shareUrl = url {
+                completion([shareUrl, infoText])
+            } else {
+                completion([infoText])
+            }
+        }
+    }
+    
+    func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) {
+        var shareBody = R.Strings.affiliationInviteMessageText
+        retrieveShareURL(source: .email) { url in
+            if let shareUrl = url  {
+                shareBody += ":\n\n"
+                let shareUrlString = shareUrl.absoluteString
+                let fullBody = shareBody + "<a href=\"" + shareUrlString + "\">"+shareBody+"</a>"
+                completion(fullBody)
+            } else {
+                completion(shareBody)
+            }
+        }
+    }
+    
+    func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {
+        let fullMessage = R.Strings.affiliationInviteMessageText
+        retrieveShareURL(source: source) { url in
+            let urlString = url?.absoluteString ?? ""
+            let fullMessage = fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString
+            completion(fullMessage)
+        }
+    }
+    
+    func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
+        let deepLinkPath = addUtmParamsToURLString(controlParameter,
+                                                   source: source)
+        let deepLinkString = addCustomSchemeToDeeplinkPath(deepLinkPath)
+        retrieveShareURL(source: source,
+                         campaign: AffiliationSocialMessage.utmCampaignValue,
+                         deepLinkString: deepLinkString,
+                         webURLString: LetgoURLHelper.buildHomeURLString(),
+                         fallbackToStore: fallbackToStore,
+                         myUserId: myUserId,
+                         myUserName: myUserName,
+                         myUserAvatar: myUserAvatar,
                          completion: completion)
     }
 }

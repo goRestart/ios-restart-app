@@ -1,17 +1,10 @@
-//
-//  CarsInfoDAO.swift
-//  LGCoreKit
-//
-//  Created by Dídac on 24/03/17.
-//  Copyright © 2017 Ambatana Inc. All rights reserved.
-//
-
 protocol CarsInfoDAO {
+    var isExpired: Bool { get }
     var carsMakesList: [CarsMake] { get }
-    func save(carsInfo: [CarsMakeWithModels])
+    var countryCode: String? { get }
+    func save(carsInfo: [CarsMakeWithModels], countryCode: String?)
     func modelsForMake(makeId: String) -> [CarsModel]
     func clean()
-    func loadFirstRunCacheIfNeeded(jsonURL: URL)
     func retrieveModelName(with makeId: String?, modelId: String?) -> String?
     func retrieveMakeName(with makeId: String?) -> String?
 }

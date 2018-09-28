@@ -15,8 +15,8 @@ public typealias BumpeableListingCompletion = (BumpeableListingResult) -> Void
 public typealias BumpResult = Result<Void, RepositoryError>
 public typealias BumpCompletion = (BumpResult) -> Void
 
-public typealias AvailableFeaturePurchasesResult = Result<AvailableFeaturePurchases, RepositoryError>
-public typealias AvailableFeaturePurchasesCompletion = (AvailableFeaturePurchasesResult) -> Void
+public typealias ListingAvailablePurchasesResult = Result<[ListingAvailablePurchases], RepositoryError>
+public typealias ListingAvailablePurchasesCompletion = (ListingAvailablePurchasesResult) -> Void
 
 
 public enum MonetizationEvent: Equatable {
@@ -42,6 +42,6 @@ public protocol MonetizationRepository {
     func pricedBump(forListingId listingId: String, paymentId: String, letgoItemId: String?, receiptData: String,
                     itemId: String, itemPrice: String, itemCurrency: String, amplitudeId: String?, appsflyerId: String?,
                     idfa: String?, bundleId: String?, completion: BumpCompletion?)
-    func retrieveAvailablePurchasesFor(listingId: String,
-                                       completion: AvailableFeaturePurchasesCompletion?)
+    func retrieveAvailablePurchasesFor(listingIds: [String],
+                                       completion: ListingAvailablePurchasesCompletion?)
 }

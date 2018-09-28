@@ -3,6 +3,8 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
+    
+    var rx_affiliationEnabled: Observable<AffiliationEnabled> { return .just(.control) }
 
     var trackingData: Observable<[(String, ABGroup)]?> {
         return trackingDataVar.asObservable()
@@ -13,26 +15,24 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var surveyUrl: String = ""
     var surveyEnabled: Bool = false
 
-    var freeBumpUpEnabled: Bool = false
-    var pricedBumpUpEnabled: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
-    var deckItemPage: DeckItemPage = .control
+
+    var deckItemPage: NewItemPageV3 = .control
     var realEstateEnabled: RealEstateEnabled = .control
-    var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
-    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
-    var bumpUpBoost: BumpUpBoost = .control
+    var mutePushNotifications: MutePushNotifications = .control
     var showProTagUserProfile: Bool = false
-    var sectionedMainFeed: SectionedMainFeed = .control
     var showExactLocationForPros: Bool = true
     
     // Country dependant features
     var freePostingModeAllowed = false
+    var shouldHightlightFreeFilterInFeed = false
+
     var postingFlowType: PostingFlowType = .standard
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
@@ -41,9 +41,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var feedDFPAdUnitId: String? = ""
     var shouldChangeChatNowCopyInTurkey = false
     var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
-    var feedAdsProviderForUS: FeedAdsProviderForUS = .control
     var feedAdUnitId: String? = ""
-    var feedAdsProviderForTR: FeedAdsProviderForTR = .control
     var fullScreenAdsWhenBrowsingForUS: FullScreenAdsWhenBrowsingForUS = .control
     var fullScreenAdUnitId: String? = ""
     var appInstallAdsInFeed: AppInstallAdsInFeed = .control
@@ -52,7 +50,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showSellFasterInProfileCells: ShowSellFasterInProfileCells = .control
     var bumpInEditCopys: BumpInEditCopys = .control
     var multiAdRequestMoreInfo: MultiAdRequestMoreInfo = .control
-    var cachedFeed: CachedFeed = .control
+    var multiDayBumpUp: MultiDayBumpUp = .control
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
@@ -62,35 +60,36 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shouldChangeChatNowCopyInEnglish = false
     var shouldChangeSellFasterNowCopyInEnglish = false
     var copyForSellFasterNowInEnglish: CopyForSellFasterNowInEnglish = .control
-    var shouldShowIAmInterestedInFeed: IAmInterestedFeed = .control
-    var googleAdxForTR: GoogleAdxForTR = .control
     var copyForSellFasterNowInTurkish: CopyForSellFasterNowInTurkish = .control
 
     // MARK: Chat
     var showInactiveConversations: Bool = false
     var showChatSafetyTips: Bool = false
-    var userIsTyping: UserIsTyping = .control
     var chatNorris: ChatNorris = .control
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
-    var showChatHeaderWithoutListingForAssistant: Bool = true
     var showChatHeaderWithoutUser: Bool = true
     var enableCTAMessageType: Bool = true
     var expressChatImprovement: ExpressChatImprovement = .control
     var smartQuickAnswers: SmartQuickAnswers = .control
     var openChatFromUserProfile: OpenChatFromUserProfile = .control
-    
+    var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow = .control
+
     // MARK:  Verticals
     var servicesPaymentFrequency: ServicesPaymentFrequency = .control
-    var carExtraFieldsEnabled: CarExtraFieldsEnabled = .control
-    var realEstateMapTooltip: RealEstateMapTooltip = .control
-    var servicesUnifiedFilterScreen: ServicesUnifiedFilterScreen = .control
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory = .control
+    var carPromoCells: CarPromoCells = .control
+    var servicesPromoCells: ServicesPromoCells = .control
+    var realEstatePromoCells: RealEstatePromoCells = .control
+    var proUsersExtraImages: ProUsersExtraImages = .control
+    var clickToTalk: ClickToTalk = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
     var personalizedFeedABTestIntValue: Int? = nil
-    var multiContactAfterSearch: MultiContactAfterSearch = .control
     var emptySearchImprovements: EmptySearchImprovements = .control
+    var sectionedFeedABTestIntValue: Int = 0
+    var sectionedFeed: SectionedDiscoveryFeed = .control
+    var newSearchAPI: NewSearchAPIEndPoint = .control
     
     //  MARK:  Products
     var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
@@ -98,6 +97,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var videoPosting: VideoPosting = .control
     var simplifiedChatButton: SimplifiedChatButton = .control
     var frictionlessShare: FrictionlessShare = .control
+    var turkeyFreePosting: TurkeyFreePosting = .control
+    var makeAnOfferButton: MakeAnOfferButton = .control
 
     // MARK: Users
     var showPasswordlessLogin: ShowPasswordlessLogin = .control
@@ -105,18 +106,25 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var offensiveReportAlert: OffensiveReportAlert = .control
     var reportingFostaSesta: ReportingFostaSesta = .control
     var community: ShowCommunity = .control
-    
+    var advancedReputationSystem11: AdvancedReputationSystem11 = .control
+    var advancedReputationSystem12: AdvancedReputationSystem12 = .control
+    var advancedReputationSystem13: AdvancedReputationSystem13 = .control
+
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
+    var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS = .control
+    var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR = .control
+    var multiAdRequestInChatSectionAdUnitId: String? = ""
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
-    var highlightedIAmInterestedInFeed: HighlightedIAmInterestedFeed = .control
-    var notificationSettings: NotificationSettings = .control
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
     var engagementBadging: EngagementBadging = .control
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
-    var notificationCenterRedesign: NotificationCenterRedesign = .control
+    var randomImInterestedMessages: RandomImInterestedMessages = .control
+    var imInterestedInProfile: ImInterestedInProfile = .control
+    var shareAfterScreenshot: ShareAfterScreenshot = .control
+    var affiliationEnabled: AffiliationEnabled = .control
 }
 

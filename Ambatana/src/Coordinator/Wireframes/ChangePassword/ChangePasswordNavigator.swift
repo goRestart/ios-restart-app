@@ -1,0 +1,3 @@
+protocol ChangePasswordNavigator {
+    func closeChangePassword()
+}

@@ -21,7 +21,6 @@ open class MockCarsInfoRepository: CarsInfoRepository {
     
     
     public func loadFirstRunCacheIfNeeded(jsonURL: URL) { }
-    public func refreshCarsInfoFile() { }
     public func retrieveCarsMakes() -> [CarsMake] { return carsMakeRetrieved }
     public func retrieveCarsModelsFormake(makeId: String) -> [CarsModel] { return  carsModelRetrieved }
     public func retrieveValidYears(withFirstYear firstYear: Int?, ascending: Bool) -> [Int] { return yearRetrieved }

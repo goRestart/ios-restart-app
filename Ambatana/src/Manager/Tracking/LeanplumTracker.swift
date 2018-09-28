@@ -22,7 +22,7 @@ fileprivate extension TrackerEvent {
                  .firstMessage, .listingOpenChat, .listingFavorite, .listingShareComplete,
                  .listingMarkAsSold, .listingDetailVisit,
                  .listingSellComplete, .listingSellStart,
-                 .profileVisit, .surveyStart, .surveyCompleted, .onboardingInterestsComplete:
+                 .profileVisit, .onboardingInterestsComplete:
                 return true
             default:
                 return false
@@ -64,6 +64,8 @@ final class LeanplumTracker: Tracker {
         }
         Leanplum.onVariablesChanged { [weak featureFlags] in
             featureFlags?.variablesUpdated()
+            let isAffiliationCampaignActive = featureFlags?.affiliationEnabled.isActive ?? false
+            AppsFlyerAffiliationResolver.shared.setCampaignFeatureAs(active: isAffiliationCampaignActive)
         }
         Leanplum.start()
     }

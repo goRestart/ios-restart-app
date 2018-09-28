@@ -1,10 +1,11 @@
 import UIKit
 
-// MARK: > Basic Letgo Palette
+// MARK: > Not that basic Letgo Palette
 
 public extension UIColor {
     static var soldColor: UIColor { return tealBlue }
     static var soldFreeColor: UIColor { return tealBlue }
+
 }
 
 public extension UIColor {
@@ -19,7 +20,7 @@ public extension UIColor {
 // MARK: > Basic Buttons Palette
 
 public extension UIColor {
-    
+
     static var primaryColor: UIColor { return watermelon }
     static var secondaryColor: UIColor { return white }
     static var terciaryColor: UIColor { return tealBlue }
@@ -119,6 +120,7 @@ public extension UIColor {
 
     static let asparagus = UIColor(rgb: 0x81ac56) // (129, 172, 86)
     static let macaroniAndCheese = UIColor(rgb: 0xf1b83d)
+    static let orangeFree = UIColor(red: 252, green: 152, blue: 84)
 }
 
 // MARK: > Text colors
@@ -225,6 +227,7 @@ public extension UIColor {
 
     static var listBackgroundColor: UIColor { return grayBackground }
 
+    static var chatSystemBubbleBgColor: UIColor { return UIColor(rgb: 0xDFE9F7) } // (223, 233, 247)
     static var chatMyBubbleBgColor: UIColor { return primaryColorAlpha16 }
     static var chatMyBubbleBgColorSelected: UIColor { return primaryColorAlpha30 }
 
@@ -345,4 +348,17 @@ public extension UIColor {
 public extension UIColor {
     static var serviceTypeRed: UIColor { return existentialDoubtRed }
     fileprivate static let existentialDoubtRed = UIColor(rgb: 0xfc7d91) // (252, 125, 145)
+}
+
+// MARK: > P2P Payments Colors
+
+public extension UIColor {
+    static let p2pPaymentsPositive = UIColor(rgb: 0x00A8A8) // (0, 168, 168)
+    static let p2pPaymentsWarning = UIColor(rgb: 0xffd200) // (255, 210, 0)
+}
+
+// MARK: - SmokeTest Colors
+
+public extension UIColor {
+    static var clickToTalk: UIColor { return UIColor(rgb: 0x48bba5) } //  72, 187, 113
 }

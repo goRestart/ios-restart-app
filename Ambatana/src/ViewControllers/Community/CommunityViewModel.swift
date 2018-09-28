@@ -1,30 +1,60 @@
 import Foundation
 import LGComponents
 import LGCoreKit
+import RxSwift
+import RxCocoa
 
-class CommunityViewModel: BaseViewModel {
+final class CommunityViewModel: BaseViewModel {
 
     weak var navigator: CommunityTabNavigator?
     private let communityRepository: CommunityRepository
+    private let sessionManager: SessionManager
     private let tracker: Tracker
     private let source: CommunitySource
+    private let disposeBag = DisposeBag()
+    private let urlRequestVariable = BehaviorRelay<URLRequest?>(value: nil)
 
-    var urlRequest: URLRequest?
+    var urlRequest: Observable<URLRequest?> { return urlRequestVariable.asObservable() }
     var showNavBar: Bool
     var showCloseButton: Bool
 
-    init(communityRepository: CommunityRepository, source: CommunitySource, tracker: Tracker) {
+    init(communityRepository: CommunityRepository,
+         sessionManager: SessionManager,
+         source: CommunitySource,
+         tracker: Tracker) {
         self.communityRepository = communityRepository
+        self.sessionManager = sessionManager
         self.showNavBar = source == .navBar
         self.showCloseButton = source == .navBar
         self.source = source
         self.tracker = tracker
         super.init()
-        setupRequest()
+        setupRx()
     }
 
-    private func setupRequest() {
-        urlRequest = communityRepository.buildCommunityURLRequest()
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        buildRequest()
+    }
+
+    private func setupRx() {
+        sessionManager
+            .sessionEvents
+            .distinctUntilChanged {
+                switch($0, $1) {
+                case (.login, .login), (.logout, .logout): return true
+                default: return false
+                }
+            }
+            .subscribe { [weak self] sessionEvent in
+                guard self?.active ?? false else { return }
+                self?.buildRequest()
+            }
+            .disposed(by: disposeBag)
+    }
+
+    private func buildRequest() {
+        urlRequestVariable.accept(communityRepository.buildCommunityURLRequest())
     }
 
     func didTapClose() {
@@ -33,6 +63,19 @@ class CommunityViewModel: BaseViewModel {
 
     func didAppear() {
         trackOpenCommunity()
+    }
+
+    func openLetgoHome() {
+        switch source {
+        case .navBar:
+            navigator?.closeCommunity()
+        case .tabbar:
+            navigator?.openHome()
+        }
+    }
+
+    func openLetgoLogin() {
+        navigator?.openLogin()
     }
 
     private func trackOpenCommunity() {

@@ -38,7 +38,9 @@ public struct SharedConstants {
     public static let websiteContactUsEndpoint = "/contact_app"
     public static let websitePrivacyEndpoint = "/privacy_app"
     public static let websiteTermsEndpoint = "/terms_app"
+    public static let websiteAffiliationHowItWorks = "/rewards-how-it-works"
     public static let websiteCommunityGuideline = "/community-guidelines"
+    public static let websitePaymentsFaqs = "/paymentsfaqs"
     public static func websiteListingEndpoint(_ listingId: String) -> String {
         return String(format: "/product/%@", arguments: [listingId])
     }
@@ -68,6 +70,7 @@ public struct SharedConstants {
     public static let listingsPagingThresholdPercentage: Float = 0.4 // Percentage of page to check bottom threshold to paginate
     public static let maxSelectedForYouQueryTerms = 15
     public static let listingsSearchSuggestionsMaxResults = 10
+    public static let selectedForYouPosition = 10
     
     // Categories
     public static let categoriesCellFactor: CGFloat = 150.0 / 160.0
@@ -79,10 +82,6 @@ public struct SharedConstants {
     // Pre Permissions
     public static let pushPermissionRepeatTime = TimeInterval.make(days: 1)
 
-    // Surveys
-    public static let surveysMinGapTime = TimeInterval.make(days: 1)
-    public static let surveyDefaultTestUrl = "https://letgo1.typeform.com/to/e9Ndb4"
-
     // Listing posting
     public static var maxImageCount: Int = 10
     public static let maxPriceIntegerCharacters = 9
@@ -91,6 +90,7 @@ public struct SharedConstants {
     public static let defaultPrice: ListingPrice = .normal(0)
     public static let sizeSquareMetersUnit: String = "㎡"
     public static let maxNumberMultiPosting = 15
+    
 
     // Camera
     public static let videoMaxRecordingDuration: TimeInterval = 15
@@ -190,4 +190,12 @@ public struct SharedConstants {
     // Chat norris
     public static let minSafeHourForMeetings = 10
     public static let maxSafeHourForMeetings = 17
+    
+    public enum Feed {
+        public static let adInFeedInitialPosition = 3
+        public static let adsInFeedRatio = 20
+        public static let firstAdBannerIndex = 1
+        public static let adBannerRatio = 6
+    }
+    
 }

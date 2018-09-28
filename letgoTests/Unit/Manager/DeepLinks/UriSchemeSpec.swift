@@ -9,6 +9,7 @@ class UriSchemeSpec: QuickSpec {
         var listingId: String!
         var message: String!
         var conversationId: String!
+        var offerId: String!
         
         describe("build from letgo scheme URL") {
             context("with a notification center URL") {
@@ -79,6 +80,33 @@ class UriSchemeSpec: QuickSpec {
                     expect(sut.deepLink.action) == DeepLinkAction.listingEdit(listingId: listingId)
                 }
             }
+
+            context("with a p2p payment status URL") {
+                beforeEach {
+                    offerId = String.makeRandom()
+                    url = URL(string: "letgo://p2payments_offer/" + offerId)
+                    sut = UriScheme.buildFromUrl(url)
+                }
+                it("is not nil") {
+                    expect(sut).toNot(beNil())
+                }
+                it("has a deep link with p2p payment offer action") {
+                    expect(sut.deepLink.action) == DeepLinkAction.p2pPaymentsOffer(offerId: offerId)
+                }
+            }
+            
+            context("with open affiliation") {
+                beforeEach {
+                    url = URL(string: "letgo://rewards/")
+                    sut = UriScheme.buildFromUrl(url)
+                }
+                it("is not nil") {
+                    expect(sut).toNot(beNil())
+                }
+                it("has a deep link with affiliation challenges action") {
+                    expect(sut.deepLink.action) == DeepLinkAction.affiliation
+                }
+            }
             
             context("with a chat predefined message URL") {
                 beforeEach {
@@ -127,6 +155,55 @@ class UriSchemeSpec: QuickSpec {
                 it("has a deep link with a webview action") {
                     link = URL(string: decodedLink)
                     expect(sut.deepLink.action) == DeepLinkAction.webView(url: link)
+                }
+            }
+            
+            describe("with a search deeplink") {
+                var url: URL!
+                context("with a query parameter") {
+                    beforeEach {
+                        url = URL(string: "letgo://search?query=value")
+                        sut = UriScheme.buildFromUrl(url)
+                    }
+                    it("is not nil") {
+                        expect(sut).toNot(beNil())
+                    }
+                    it("has a search deeplink with a query parameter value") {
+                        expect(sut.deepLink.action) == DeepLinkAction.search(query: "value",
+                                                                             categories: nil,
+                                                                             distanceRadius: nil,
+                                                                             sortCriteria: nil,
+                                                                             priceFlag: nil,
+                                                                             minPrice: nil,
+                                                                             maxPrice: nil)
+                    }
+                }
+                context("with free price flag") {
+                    beforeEach {
+                        url = URL(string: "letgo://search?price_flag=1")
+                        sut = UriScheme.buildFromUrl(url)
+                    }
+                    it("is not nil") {
+                        expect(sut).toNot(beNil())
+                    }
+                    it("has a search deeplink with a price flag parameter value") {
+                        expect(sut.deepLink.action) == DeepLinkAction.search(query: nil,
+                                                                             categories: nil,
+                                                                             distanceRadius: nil,
+                                                                             sortCriteria: nil,
+                                                                             priceFlag: "1",
+                                                                             minPrice: nil,
+                                                                             maxPrice: nil)
+                    }
+                }
+                context("without parameters") {
+                    beforeEach {
+                        url = URL(string: "letgo://search")
+                        sut = UriScheme.buildFromUrl(url)
+                    }
+                    it("is nil") {
+                        expect(sut).to(beNil())
+                    }
                 }
             }
             

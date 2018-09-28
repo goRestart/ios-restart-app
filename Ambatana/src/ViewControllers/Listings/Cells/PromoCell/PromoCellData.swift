@@ -1,48 +1,50 @@
 import LGComponents
 
-enum PromoCellConfiguration: Int {
-    case darkFirst, darkSecond, lightFirst, lightSecond, lightThird, lightFourth, lightFifth
-    
-    private var configuration: PromoCellData {
+enum PromoCellType {
+    case realEstate, car, services
+
+    var postCategory: PostCategory {
         switch self {
-        case .darkFirst:
-            return PromoCellData(appereance: .dark, arrangement: .imageOnTop,
-                                 title: R.Strings.realEstatePromoTitleVersion1,
-                                 image: R.Asset.RealEstate.Promo.realEstatePromo1.image)
-        case .darkSecond:
-            return PromoCellData(appereance: .dark, arrangement: .imageOnTop,
-                                 title: R.Strings.realEstatePromoTitleVersion2,
-                                 image: R.Asset.RealEstate.Promo.realEstatePromo2.image)
-        case .lightFirst:
-            return PromoCellData(appereance: .light, arrangement: .titleOnTop,
-                                 title: R.Strings.realEstatePromoTitleVersion3,
-                                 image: R.Asset.RealEstate.Promo.realEstatePromo3.image)
-        case .lightSecond:
-            return PromoCellData(appereance: .light, arrangement: .titleOnTop,
-                                 title: R.Strings.realEstatePromoTitleVersion4,
-                                 image: R.Asset.RealEstate.Promo.realEstatePromo4.image)
-        case .lightThird:
-            return PromoCellData(appereance: .light, arrangement: .titleOnTop,
-                                 title: R.Strings.realEstatePromoTitleVersion5,
-                                 image: R.Asset.RealEstate.Promo.realEstatePromo5.image)
-        case .lightFourth:
-            return PromoCellData(appereance: .light, arrangement: .titleOnTop,
-                                 title: R.Strings.realEstatePromoTitleVersion6,
-                                 image: R.Asset.RealEstate.Promo.realEstatePromo6.image)
-        case .lightFifth:
-            return PromoCellData(appereance: .light, arrangement: .titleOnTop,
-                                 title: R.Strings.realEstatePromoTitleVersion7,
-                                 image: R.Asset.RealEstate.Promo.realEstatePromo7.image)
+        case .realEstate:
+            return .realEstate
+        case .car:
+            return .car
+        case .services:
+            return .services
         }
     }
+    
+    var postingSource: PostingSource {
+        switch self {
+        case .realEstate:
+            return .realEstatePromo
+        case .car:
+            return .carPromo
+        case .services:
+            return .servicesPromo
+        }
+    }
+}
 
-    static var all: [PromoCellConfiguration] {
-        return [.darkFirst, .darkSecond, .lightFirst, .lightSecond, .lightThird, .lightFourth, .lightFifth]
-    }
+struct PromoCellData {
+    let appearance: CellAppearance
+    let arrangement: PromoCellArrangement
+    let title: String?
+    let attributedTitle: NSAttributedString?
+    let image: UIImage
+    let type: PromoCellType
     
-    static var randomCellData: PromoCellData {
-        let randomConfiguration = all.random() ?? .darkFirst
-        return randomConfiguration.configuration
+    init(appearance: CellAppearance,
+         arrangement: PromoCellArrangement,
+         title: String? = nil,
+         attributedTitle: NSAttributedString? = nil,
+         image: UIImage,
+         type: PromoCellType) {
+        self.appearance = appearance
+        self.arrangement = arrangement
+        self.title = title
+        self.attributedTitle = attributedTitle
+        self.image = image
+        self.type = type
     }
-    
 }

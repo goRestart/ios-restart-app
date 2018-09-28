@@ -213,10 +213,6 @@ enum AccessibilityId: Equatable, Accessible {
     case notificationsModularThumbnailCollectionView
     case notificationsModularThumbnailCollectionViewCell
     case notificationsModularThumbnailView
-    case notificationsModularThumbnailView1
-    case notificationsModularThumbnailView2
-    case notificationsModularThumbnailView3
-    case notificationsModularThumbnailView4
     case notificationsModularCTA1
     case notificationsModularCTA2
     case notificationsModularCTA3
@@ -306,6 +302,7 @@ enum AccessibilityId: Equatable, Accessible {
     case editListingFeatureSwitch
     case editListingServicesTypeButton
     case editListingServicesSubtypeButton
+    case editListingServicesListingTypeButton
     case editListingPaymentFrequencyButton
     
     // ReportUser
@@ -382,6 +379,7 @@ enum AccessibilityId: Equatable, Accessible {
     case mainSignupLogInButton
     case mainSignupCloseButton
     case mainSignupHelpButton
+    case mainSignupContinueWithEmailButton
 
     // SignUpLogin
     case signUpLoginFacebookButton
@@ -403,6 +401,18 @@ enum AccessibilityId: Equatable, Accessible {
     case recaptchaCloseButton
     case recaptchaLoading
     case recaptchaWebView
+
+    // Passwordless
+    case passwordlessEmailTitleLabel
+    case passwordlessEmailDescriptionLabel
+    case passwordlessEmailTextField
+    case passwordlessEmailContinueButton
+    case passwordlessUsernameTitleLabel
+    case passwordlessUsernameUsernameTextField
+    case passwordlessDoneButton
+    case passwordlessEmailSentTitleLabel
+    case passwordlessEmailSentSubtitleLabel
+    case passwordlessEmailSentImageView
 
     // ChatConversationsList
     case chatConversationsListOptionsNavBarButton
@@ -482,6 +492,7 @@ enum AccessibilityId: Equatable, Accessible {
     case chatCellMessageLabel
     case chatCellDateLabel
     case chatCellAvatar
+    case chatCellSystemLabel
 
     // ChatStickerCell
     case chatStickerCellContainer
@@ -554,6 +565,14 @@ enum AccessibilityId: Equatable, Accessible {
     case userProfileVerifiedWithFacebook
     case userProfileVerifiedWithGoogle
     case userProfileVerifiedWithEmail
+    
+    // Verify Accounts popup
+    case verifyAccountsBackgroundButton
+    case verifyAccountsFacebookButton
+    case verifyAccountsGoogleButton
+    case verifyAccountsEmailButton
+    case verifyAccountsEmailTextField
+    case verifyAccountsEmailTextFieldButton
 
     // Verifications view
     case verificationsOptionsTitle
@@ -578,6 +597,12 @@ enum AccessibilityId: Equatable, Accessible {
     case phoneVerificationCodeInputInfoButton
     case phoneVerificationCountryPickerTable
     case phoneVerificationCountryPickerSearchBar
+
+    // Verification awareness
+    case verificationAwarenessAvatar
+    case verificationAwarenessLabel
+    case verificationAwarenessButton
+    case verificationAwarenessLaterButton
 
     // Settings
     case settingsList
@@ -680,19 +705,32 @@ enum AccessibilityId: Equatable, Accessible {
     case boostTimeLabel
     case boostProgressBar
 
-    // Free bump up screen
-    case freeBumpUpCloseButton
-    case freeBumpUpImage
-    case freeBumpUpTitleLabel
-    case freeBumpUpSubtitleLabel
-    case freeBumpUpSocialShareView
-
     // Payment bump up screen
     case paymentBumpUpCloseButton
     case paymentBumpUpImage
     case paymentBumpUpTitleLabel
     case paymentBumpUpSubtitleLabel
     case paymentBumpUpButton
+
+    // Multi day bump up screen
+    case multiDayBumpCloseButton
+    case multiDayBumpTitleLabel
+    case multiDayBump1DayItem
+    case multiDayBump3DaysItem
+    case multiDayBump7DaysItem
+
+    case multiDayBumpItemTitleLabel
+    case multiDayBumpItemDaysTag
+    case multiDayBumpItemSubtitleLabel
+    case multiDayBumpItemListingImage
+    case multiDayBumpItemButton
+
+    // Multi day info bump up screen
+    case multiDayBumpInfoCloseButton
+    case multiDayBumpInfoTimerBar
+    case multiDayBumpInfo1DayItem
+    case multiDayBumpInfo3DaysItem
+    case multiDayBumpInfo7DaysItem
 
     // Bump up boost screen
     case boostViewTimer
@@ -736,12 +774,12 @@ enum AccessibilityId: Equatable, Accessible {
     case askPhoneNumberLetstalkText
     case askPhoneNumberTextfield
     case askPhoneNumberSendPhoneButton
-    
+
     //  MARK - Verticals
-    case realEstateCell
-    case realEstatePromoTitle
-    case realEstatePromoIcon
-    case realEstatePromoPostNowButton
+    case promoCell
+    case promoCellTitle
+    case promoCellIcon
+    case promoCellPostNowButton
 
     // Search Alerts Placeholder
     case searchAlertsPlaceholderIcon
@@ -759,6 +797,12 @@ enum AccessibilityId: Equatable, Accessible {
     case dropdownViewControllerSearchBar
     case dropdownViewControllerApplyButton
     case dropdownViewControllerResetButton
+
+    // Post Another Listing
+    case postAnotherListingCloseButton
+    case postAnotherListingTitleLabel
+    case postAnotherListingDescriptionLabel
+    case postAnotherListingPostButton
     
     static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -956,6 +1000,8 @@ enum AccessibilityId: Equatable, Accessible {
                 idSuffix = AccessibilityId.rangeIdentifier(forRange: AccessibilityRange(withLowerBound: from,
                                                                                         upperBound: to),
                                                            identifierPrefix: "RealEstateSizeSquareMetersRange")
+            case let .serviceListingType(listingType):
+                idSuffix = "ServicesListingType-\(listingType.rawValue)"
             }
             return idPrefix + idSuffix
         case .filterTagCellTagIcon:
@@ -1200,14 +1246,6 @@ enum AccessibilityId: Equatable, Accessible {
             return "notificationsModularThumbnailView"
         case .notificationsModularHeroImageView:
             return "notificationsModularHeroImageView"
-        case .notificationsModularThumbnailView1:
-            return "notificationsModularThumbnailView1"
-        case .notificationsModularThumbnailView2:
-            return "notificationsModularThumbnailView2"
-        case .notificationsModularThumbnailView3:
-            return "notificationsModularThumbnailView3"
-        case .notificationsModularThumbnailView4:
-            return "notificationsModularThumbnailView4"
         case .notificationsModularCTA1:
             return "notificationsModularCTA1"
         case .notificationsModularCTA2:
@@ -1383,6 +1421,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "editListingServicesTypeButton"
         case .editListingServicesSubtypeButton:
             return "editListingServicesSubtypeButton"
+        case .editListingServicesListingTypeButton:
+            return "editListingServicesListingTypeButton"
         case .editListingPaymentFrequencyButton:
             return "editListingPaymentFrequencyButton"
 
@@ -1518,6 +1558,9 @@ enum AccessibilityId: Equatable, Accessible {
             return "mainSignupCloseButton"
         case .mainSignupHelpButton:
             return "mainSignupHelpButton"
+        case .mainSignupContinueWithEmailButton:
+            return "mainSignupContinueWithEmailButton"
+            
             
         // SignUpLogin
         case .signUpLoginFacebookButton:
@@ -1556,6 +1599,29 @@ enum AccessibilityId: Equatable, Accessible {
             return "recaptchaLoading"
         case .recaptchaWebView:
             return "recaptchaWebView"
+
+        // Passowrdless
+        case .passwordlessEmailTitleLabel:
+            return "passwordlessEmailTitleLabel"
+        case .passwordlessEmailDescriptionLabel:
+            return "passwordlessEmailDescriptionLabel"
+        case .passwordlessEmailTextField:
+            return "passwordlessEmailTextField"
+        case .passwordlessEmailContinueButton:
+            return "passwordlessEmailContinueButton"
+        case .passwordlessUsernameTitleLabel:
+            return "passwordlessUsernameTitleLabel"
+        case .passwordlessUsernameUsernameTextField:
+            return "passwordlessUsernameUsernameTextField"
+        case .passwordlessDoneButton:
+            return "passwordlessDoneButton"
+        case .passwordlessEmailSentTitleLabel:
+            return "passwordlessEmailSentTitleLabel"
+        case .passwordlessEmailSentSubtitleLabel:
+            return "passwordlessEmailSentSubtitleLabel"
+        case .passwordlessEmailSentImageView:
+            return "passwordlessEmailSentImageView"
+
             
         // ChatConversationsList
         case .chatConversationsListOptionsNavBarButton:
@@ -1692,6 +1758,10 @@ enum AccessibilityId: Equatable, Accessible {
                 suffix = "AskPhoneNumber"
             case .callToAction:
                 suffix = "CallToAction"
+            case .carousel:
+                suffix = "Carousel"
+            case .system:
+                suffix = "System"
             }
             return "chatCellContainer\(suffix)"
         case .chatCellMessageLabel:
@@ -1700,6 +1770,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "chatCellDateLabel"
         case .chatCellAvatar:
             return "chatCellAvatar"
+        case .chatCellSystemLabel:
+            return "chatCellSystemLabel"
             
         // ChatStickerCell
         case .chatStickerCellContainer:
@@ -1827,6 +1899,20 @@ enum AccessibilityId: Equatable, Accessible {
         case .userProfileVerifiedWithEmail:
             return "userProfileVerifiedWithEmail"
 
+        // Verify Accounts popup
+        case .verifyAccountsBackgroundButton:
+            return "verifyAccountsBackgroundButton"
+        case .verifyAccountsFacebookButton:
+            return "verifyAccountsFacebookButton"
+        case .verifyAccountsGoogleButton:
+            return "verifyAccountsGoogleButton"
+        case .verifyAccountsEmailButton:
+            return "verifyAccountsEmailButton"
+        case .verifyAccountsEmailTextField:
+            return "verifyAccountsEmailTextField"
+        case .verifyAccountsEmailTextFieldButton:
+            return "verifyAccountsEmailTextFieldButton"
+            
         // Verifications view
         case .verificationsOptionsTitle:
             return "verificationsOptionsTitle"
@@ -1870,6 +1956,16 @@ enum AccessibilityId: Equatable, Accessible {
             return "phoneVerificationCountryPickerTable"
         case .phoneVerificationCountryPickerSearchBar:
             return "phoneVerificationCountryPickerSearchBar"
+
+        // Verification awareness
+        case .verificationAwarenessLabel:
+            return "verificationAwarenessLabel"
+        case .verificationAwarenessAvatar:
+            return "verificationAwarenessAvatar"
+        case .verificationAwarenessButton:
+            return "verificationAwarenessButton"
+        case .verificationAwarenessLaterButton:
+            return "verificationAwarenessLaterButton"
 
         // Settings
         case .settingsList:
@@ -2034,18 +2130,6 @@ enum AccessibilityId: Equatable, Accessible {
         case .boostProgressBar:
             return "boostProgressBar"
 
-        // Free bump up screen
-        case .freeBumpUpCloseButton:
-            return "freeBumpUpCloseButton"
-        case .freeBumpUpImage:
-            return "freeBumpUpImage"
-        case .freeBumpUpTitleLabel:
-            return "freeBumpUpTitleLabel"
-        case .freeBumpUpSubtitleLabel:
-            return "freeBumpUpSubtitleLabel"
-        case .freeBumpUpSocialShareView:
-            return "freeBumpUpSocialShareView"
-            
         // Payment bump up screen
         case .paymentBumpUpCloseButton:
             return "paymentBumpUpCloseButton"
@@ -2057,6 +2141,41 @@ enum AccessibilityId: Equatable, Accessible {
             return "paymentBumpUpSubtitleLabel"
         case .paymentBumpUpButton:
             return "paymentBumpUpButton"
+
+        // Multi day bump up screen
+        case .multiDayBumpCloseButton:
+            return "multiDayBumpCloseButton"
+        case .multiDayBumpTitleLabel:
+            return "multiDayBumpTitleLabel"
+        case .multiDayBump1DayItem:
+            return "multiDayBump1DayItem"
+        case .multiDayBump3DaysItem:
+            return "multiDayBump3DaysItem"
+        case .multiDayBump7DaysItem:
+            return "multiDayBump7DaysItem"
+
+        case .multiDayBumpItemTitleLabel:
+            return "multiDayBumpItemTitleLabel"
+        case .multiDayBumpItemDaysTag:
+            return "multiDayBumpItemDaysTag"
+        case .multiDayBumpItemSubtitleLabel:
+            return "multiDayBumpItemSubtitleLabel"
+        case .multiDayBumpItemListingImage:
+            return "multiDayBumpItemListingImage"
+        case .multiDayBumpItemButton:
+            return "multiDayBumpItemButton"
+
+        // Multi day info bump up screen
+        case .multiDayBumpInfoCloseButton:
+            return "multiDayBumpInfoCloseButton"
+        case .multiDayBumpInfoTimerBar:
+            return "multiDayBumpInfoTimerBar"
+        case .multiDayBumpInfo1DayItem:
+            return "multiDayBumpInfo1DayItem"
+        case .multiDayBumpInfo3DaysItem:
+            return "multiDayBumpInfo3DaysItem"
+        case .multiDayBumpInfo7DaysItem:
+            return "multiDayBumpInfo7DaysItem"
 
         // Bump up boost screen
 
@@ -2129,15 +2248,15 @@ enum AccessibilityId: Equatable, Accessible {
         case .askPhoneNumberSendPhoneButton:
             return "askPhoneNumberSendPhoneButton"
             
-        //  MARK: Verticals
-        case .realEstateCell:
-            return "realEstateCell"
-        case .realEstatePromoTitle:
-            return "realEstatePromoTitle"
-        case .realEstatePromoIcon:
-            return "realEstatePromoIcon"
-        case .realEstatePromoPostNowButton:
-            return "realEstatePromoPostNowButton"
+            //  MARK: Verticals
+        case .promoCell:
+            return "promoCell"
+        case .promoCellTitle:
+            return "promoCellTitle"
+        case .promoCellIcon:
+            return "promoCellIcon"
+        case .promoCellPostNowButton:
+            return "promoCellPostNowButton"
         // Search Alerts Placeholder
         case .searchAlertsPlaceholderIcon:
             return "searchAlertsPlaceholderIcon"
@@ -2161,6 +2280,16 @@ enum AccessibilityId: Equatable, Accessible {
             return "dropdownViewControllerApplyButton"
         case .dropdownViewControllerResetButton:
             return "dropdownViewControllerResetButton"
+
+        // Post Another Listing
+        case .postAnotherListingCloseButton:
+            return "postAnotherListingCloseButton"
+        case .postAnotherListingTitleLabel:
+            return "postAnotherListingTitleLabel"
+        case .postAnotherListingDescriptionLabel:
+            return "postAnotherListingDescriptionLabel"
+        case .postAnotherListingPostButton:
+            return "postAnotherListingPostButton"
         }
     }
     

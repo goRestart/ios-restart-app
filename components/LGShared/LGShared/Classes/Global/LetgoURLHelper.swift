@@ -8,6 +8,7 @@ public enum ContactUsType {
     case scammer
     case deviceNotAllowed
     case bumpUpNotAllowed
+    case payment
 }
 
 public final class LetgoURLHelper {
@@ -80,6 +81,10 @@ public final class LetgoURLHelper {
     public static func buildTermsAndConditionsURL() -> URL? {
         return LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteTermsEndpoint)
     }
+    
+    public static func buildAffiliationFAQS() -> URL? {
+        return LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteAffiliationHowItWorks)
+    }
 
     public static func buildPrivacyURL() -> URL? {
         return LetgoURLHelper.composeLocalizedURL(SharedConstants.websitePrivacyEndpoint)
@@ -107,6 +112,10 @@ public final class LetgoURLHelper {
 
     public static func buildCommunityGuidelineURL() -> URL? {
         return LetgoURLHelper.composeLocalizedURL(SharedConstants.websiteCommunityGuideline)
+    }
+
+    public static func buildPaymentFaqsURL() -> URL? {
+        return LetgoURLHelper.composeLocalizedURL(SharedConstants.websitePaymentsFaqs)
     }
 
     // MARK: - Private methods
@@ -165,6 +174,8 @@ public final class LetgoURLHelper {
         case .bumpUpNotAllowed:
             param["bumpup"] = "true"
             param["product_id"] = listingId ?? ""
+        case .payment:
+            param["payment"] = "true"
         }
         return param.map{"\($0)=\($1)"}
             .joined(separator: "&")

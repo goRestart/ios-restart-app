@@ -9,6 +9,10 @@ struct UniversalLink {
 
     let deepLink: DeepLink
 
+    private enum LinkParamKey: String {
+        case passwordlessSignup, passwordlessLogin
+    }
+
     static func buildFromUserActivity(_ userActivity: NSUserActivity) -> UniversalLink? {
         // we don't need to handle Branch links as we will get the branch object in the callback
         guard !isBranchDeepLink(userActivity) else { return nil }
@@ -30,6 +34,8 @@ struct UniversalLink {
      {country}.letgo.com/<language_code>/reset-password-renew?token=<token> -> Reset Password
      {country}.letgo.com/<language_code>/account-chat-conversation/<conversation_id> -> specific chat
      {country}.letgo.com/<language_code>/account-chat-list -> chats tab
+     {country}.letgo.com/<language_code>/?passwordlessLogin={token} -> Automatic login
+     {country}.letgo.com/<language_code>/?passwordlessSignup={token} -> Select username screen
 
      Or same as uri schemes but startig with {whatever}.letgo.com, such as:
      {country}.letgo.com/products/{product_id} is the same as letgo://products/{product_id}
@@ -59,7 +65,17 @@ struct UniversalLink {
                 return UniversalLink(deepLink: DeepLink.link(.user(userId: userId), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "q", "scq":
                 guard components.count > 2, let query = components.last else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.search(query: query, categories: queryParams["categories"]), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
+                return UniversalLink(deepLink: DeepLink.link(.search(query: query,
+                                                                     categories: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.categories.rawValue],
+                                                                     distanceRadius: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.distanceRadius.rawValue],
+                                                                     sortCriteria: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.sortCriteria.rawValue],
+                                                                     priceFlag: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.priceFlag.rawValue],
+                                                                     minPrice: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.minPrice.rawValue],
+                                                                     maxPrice: queryParams[DeepLinkAction.SearchDeepLinkQueryParameters.maxPrice.rawValue]),
+                                                             campaign: campaign,
+                                                             medium: medium,
+                                                             source: source,
+                                                             cardActionParameter: cardAction))
             case "account-chat-list":
                 return UniversalLink(deepLink: DeepLink.link(.conversations, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "account-chat-conversation":
@@ -71,6 +87,19 @@ struct UniversalLink {
             default: break
             }
         }
+
+        if let firstParam = queryParams.first,
+            let paramKey = LinkParamKey(rawValue: firstParam.key) {
+            switch paramKey {
+            case .passwordlessSignup:
+                let action = DeepLinkAction.passwordlessSignup(token: firstParam.value)
+                return UniversalLink(deepLink: DeepLink.link(action, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
+            case .passwordlessLogin:
+                let action = DeepLinkAction.passwordlessLogin(token: firstParam.value)
+                return UniversalLink(deepLink: DeepLink.link(action, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
+            }
+        }
+
         if let schemeHost = components.first, let uriSchemeHost = UriSchemeHost(rawValue: schemeHost) {
             // the ones same as uri scheme but with {whatever}.letgo.com/ instead of letgo://
             var schemeComponents = components

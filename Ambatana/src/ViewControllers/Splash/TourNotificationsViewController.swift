@@ -9,7 +9,6 @@ final class TourNotificationsViewController: BaseViewController {
 
     let viewModel: TourNotificationsViewModel
 
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var notifyButton: LetgoButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
@@ -26,11 +25,6 @@ final class TourNotificationsViewController: BaseViewController {
     @IBOutlet weak var iPhoneBottomImage: UIImageView!
     @IBOutlet weak var pushImage: UIImageView!
     @IBOutlet weak var permissionAlertImage: UIImageView!
-    
-    
-    var completion: (() -> ())?
-    var pushDialogWasShown = false
-    
 
     // MARK: - Lifecycle
     
@@ -39,95 +33,63 @@ final class TourNotificationsViewController: BaseViewController {
         
         switch DeviceFamily.current {
         case .iPhone4:
-            super.init(viewModel: viewModel, nibName: "TourNotificationsViewControllerMini",
-                       statusBarStyle: .lightContent)
+            super.init(viewModel: viewModel,
+                       nibName: "TourNotificationsViewControllerMini",
+                       statusBarStyle: .lightContent,
+                       navBarBackgroundStyle: .transparent(substyle: .dark))
         case .iPhone5, .iPhone6, .iPhone6Plus, .biggerUnknown:
-            super.init(viewModel: viewModel, nibName: "TourNotificationsViewController", statusBarStyle: .lightContent)
+            super.init(viewModel: viewModel,
+                       nibName: String(describing: TourNotificationsViewController.self),
+                       statusBarStyle: .lightContent,
+                       navBarBackgroundStyle: .transparent(substyle: .dark))
         }
-        self.viewModel.delegate = self
     }
-    
+
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupAccessibilityIds()
         setupTexts()
-        NotificationCenter.default.addObserver(self,
-            selector: #selector(TourNotificationsViewController.didRegisterUserNotificationSettings),
-            name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didBecomeActive),
-                                               name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+
+        let close = UIBarButtonItem.init(image: R.Asset.IconsButtons.icClose.image,
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(closeButtonPressed))
+        close.set(accessibilityId: .tourNotificationsCloseButton)
+        navigationItem.leftBarButtonItem = close
         viewModel.viewDidLoad()
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
-    @objc func didRegisterUserNotificationSettings() {
-        let time = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
-            guard let viewAlpha = self?.view.alpha, viewAlpha > 0 else { return }
-            self?.openNextStep()
-        }
-    }
-    
-    
-    @objc func didBecomeActive() {
-        guard pushDialogWasShown else { return }
-        openNextStep()
-    }
-    
-        
-    // MARK: - Navigation
-    
-    func openNextStep() {
-        guard let step = viewModel.nextStep() else { return }
-        switch step {
-        case .location:
-            showTourLocation()
-        case .noStep:
-            dismiss(animated: true, completion: completion)
-        }
-    }
-    
-    
     // MARK: - IBActions
     
-    @IBAction func closeButtonPressed(_ sender: AnyObject) {
+    @objc private func closeButtonPressed(_ sender: AnyObject) {
         noButtonPressed(sender)
     }
    
     @IBAction func noButtonPressed(_ sender: AnyObject) {
-        viewModel.userDidTapNoButton()
+        let actionOk = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertYes),
+                                action: { [weak self] in
+                                    self?.viewModel.okAlertTapped()
+
+        })
+        let actionCancel = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertNo),
+                                    action: { [weak self] in
+                                        self?.viewModel.cancelAlertTapped()
+
+        })
+        showAlert(R.Strings.onboardingNotificationsPermissionsAlertTitle,
+                  message: R.Strings.onboardingNotificationsPermissionsAlertSubtitle,
+                  actions: [actionCancel, actionOk])
     }
     
     @IBAction func yesButtonPressed(_ sender: AnyObject) {
-        shouldShowPermissions()
-    }
-    
-    fileprivate func shouldShowPermissions() {
         viewModel.userDidTapYesButton()
-        LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .onboarding)
-        pushDialogWasShown = true
-    }
-    
-    func showTourLocation() {
-        let vm = TourLocationViewModel(source: .install)
-        let vc = TourLocationViewController(viewModel: vm)
-        UIView.animate(withDuration: 0.3, delay: 0.1, options: UIViewAnimationOptions(), animations: {
-            self.view.alpha = 0
-        }, completion: nil)
-        
-        present(vc, animated: true, completion: nil)
-    }
-    
+    }    
     
     // MARK: - UI
     
@@ -169,7 +131,6 @@ final class TourNotificationsViewController: BaseViewController {
     }
     
     private func setupImages() {
-        closeButton.setImage(R.Asset.IconsButtons.icClose.image, for: .normal)
         iPhoneTopImage.image = R.Asset.IPhoneParts.iphoneTop.image
         iPhoneLeftImage.image = R.Asset.IPhoneParts.iphoneLeft.image
         iPhoneRightImage.image = R.Asset.IPhoneParts.iphoneRight.image
@@ -180,21 +141,7 @@ final class TourNotificationsViewController: BaseViewController {
     }
 
     func setupAccessibilityIds() {
-        closeButton.set(accessibilityId: .tourNotificationsCloseButton)
         notifyButton.set(accessibilityId: .tourNotificationsOKButton)
         alertContainer.set(accessibilityId: .tourNotificationsAlert)
-    }
-}
-
-
-// MARK: - TourLocationViewModelDelegate
-
-extension TourNotificationsViewController: TourNotificationsViewModelDelegate {
-    func  requestPermissionFinished() {
-        openNextStep()
-    }
-    
-    func requestPermissionAccepted() {
-        shouldShowPermissions()
     }
 }

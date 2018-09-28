@@ -2,6 +2,7 @@ import LGCoreKit
 import RxSwift
 import RxCocoa
 import LGComponents
+import GoogleMobileAds
 
 final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     
@@ -9,14 +10,20 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
 
     private let chatRepository: ChatRepository
     private let sessionManager: SessionManager
+    private let notificationsManager: NotificationsManager
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
     private var websocketWasClosedDuringCurrentSession = false
+    private var localChatCounter: Int = 0
+    private let myUserRepository: MyUserRepository
+    var adData: ConversationAdCellData?
     
     let rx_navigationBarTitle = Variable<String?>(nil)
     let rx_navigationBarFilterButtonImage = Variable<UIImage>(R.Asset.IconsButtons.icChatFilter.image)
     let rx_isEditing = Variable<Bool>(false)
     let rx_conversations = Variable<[ChatConversation]>([])
+    let rx_items = Variable<[Any]>([])
+    let rx_ad = Variable<ConversationAdCellData?>(nil)
     let rx_viewState = Variable<ViewState>(.loading)
     var viewState: Driver<ViewState> { return rx_viewState.asDriver().distinctUntilChanged() }
     let rx_connectionBarStatus = Variable<ChatConnectionBarStatus>(.wsConnected)
@@ -29,12 +36,16 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
 
     init(chatRepository: ChatRepository = Core.chatRepository,
          sessionManager: SessionManager = Core.sessionManager,
+         notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
          featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
-         tracker: Tracker = TrackerProxy.sharedInstance) {
+         tracker: Tracker = TrackerProxy.sharedInstance,
+         myUserRepository: MyUserRepository = Core.myUserRepository) {
         self.chatRepository = chatRepository
         self.sessionManager = sessionManager
+        self.notificationsManager = notificationsManager
         self.featureFlags = featureFlags
         self.tracker = tracker
+        self.myUserRepository = myUserRepository
         super.init()
     }
     
@@ -146,16 +157,31 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     // MARK: Table View Actions
     
     func tableViewDidSelectItem(at indexPath: IndexPath) {
-        guard rx_conversations.value.indices.contains(indexPath.row) else { return }
-        let conversation = rx_conversations.value[indexPath.row]
+        var position: Int
+        if let adData = adData {
+            guard indexPath.row != adData.position else { return }
+            position = (indexPath.row < adData.position) ? indexPath.row : indexPath.row - 1
+        }
+        else {
+            position = indexPath.row
+        }
+        guard rx_conversations.value.indices.contains(position) else { return }
+        let conversation = rx_conversations.value[position]
         navigator?.openChat(.conversation(conversation: conversation),
                             source: .chatList,
                             predefinedMessage: nil)
     }
     
     func tableViewDidDeleteItem(at indexPath: IndexPath) {
-        guard rx_conversations.value.indices.contains(indexPath.row) else { return }
-        let conversation = rx_conversations.value[indexPath.row]
+        var position: Int
+        if let adData = adData {
+            guard indexPath.row != adData.position else { return }
+            position = (indexPath.row < adData.position) ? indexPath.row : indexPath.row - 1
+        } else {
+            position = indexPath.row
+        }
+        guard rx_conversations.value.indices.contains(position) else { return }
+        let conversation = rx_conversations.value[position]
         presentDeleteAlert(for: conversation)
     }
     
@@ -175,6 +201,14 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                 )
             }
         }
+    }
+    
+    // MARK: Ads
+    
+    func shouldShowAds() -> Bool {
+        let creationDate = myUserRepository.myUser?.creationDate
+        return featureFlags.multiAdRequestInChatSectionForUS.shouldShowAdsForUser(createdIn: creationDate) ||
+            featureFlags.multiAdRequestInChatSectionForTR.shouldShowAdsForUser(createdIn: creationDate)
     }
     
     // MARK: Rx
@@ -247,11 +281,18 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         
         rx_conversations
             .asObservable()
-            .filter { $0.count > 0 }
-            .bind { [weak self] _ in
-                if let viewState = self?.rx_viewState.value, viewState != .data {
-                   self?.rx_viewState.value = .data
-                }
+            .bind { [weak self] conversations in
+                self?.updateViewState(for: conversations)
+                self?.updateChatCounter(for: conversations)
+            }
+            .disposed(by: bag)
+        
+        notificationsManager.unreadMessagesCount
+            .asObservable()
+            .ignoreNil()
+            .distinctUntilChanged()
+            .bind { [weak self] unreadMessagesCount in
+                self?.localChatCounter = unreadMessagesCount
             }
             .disposed(by: bag)
     }
@@ -267,6 +308,29 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                 self?.rx_conversations.value = conversations
             }
             .disposed(by: conversationsFilterBag)
+    }
+    
+    // MARK: Helpers
+    
+    private func updateViewState(for conversations: [ChatConversation]) {
+        guard conversations.count > 0 else { return }
+        if rx_viewState.value != .data {
+            rx_viewState.value = .data
+        }
+    }
+    
+    private func updateChatCounter(for conversations: [ChatConversation]) {
+        let chatCounter = unreadCount(for: conversations)
+        if localChatCounter != chatCounter {
+            localChatCounter = chatCounter
+            notificationsManager.updateChatCounters()
+        }
+    }
+    
+    func unreadCount(for conversations: [ChatConversation]) -> Int {
+        return conversations
+            .map { $0.unreadMessageCount }
+            .reduce(0, +)
     }
     
     // MARK: Pagination protocol
@@ -410,7 +474,6 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                                                          sellButtonPosition: source.sellButtonPosition,
                                                          category: nil))
     }
-    
     private func trackMarkAllConversationsAsRead() {
         tracker.trackEvent(TrackerEvent.chatMarkMessagesAsRead())
     }
@@ -419,4 +482,47 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
                                                            isInactiveConversation: false))
     }
+    
+    func adTapped(willLeaveApp: Bool, bannerSize: CGSize) {
+        let adType = AdRequestType.dfp.trackingParamValueFor(size: bannerSize)
+        let willLeave = EventParameterBoolean(bool: willLeaveApp)
+        let isMine: EventParameterBoolean = .falseParameter
+        let trackerEvent = TrackerEvent.adTapped(listingId: nil,
+                                                 adType: adType,
+                                                 isMine: isMine,
+                                                 queryType: nil,
+                                                 query: nil,
+                                                 willLeaveApp: willLeave,
+                                                 typePage: EventParameterTypePage.chatList,
+                                                 categories: nil,
+                                                 feedPosition: .none)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    func adShown(bannerSize: CGSize) {
+        let adType = AdRequestType.dfp.trackingParamValueFor(size: bannerSize)
+        let adShown: EventParameterBoolean = .trueParameter
+        let isMine: EventParameterBoolean = .falseParameter
+        let trackerEvent = TrackerEvent.adShown(listingId: nil,
+                                                adType: adType,
+                                                isMine: isMine,
+                                                queryType: nil,
+                                                query: nil,
+                                                adShown: adShown,
+                                                typePage: EventParameterTypePage.chatList,
+                                                categories: nil,
+                                                feedPosition: .none)
+        tracker.trackEvent(trackerEvent)
+    }
+    func adError(bannerSize: CGSize, errorCode: GADErrorCode) {
+        let errorReason: EventParameterAdSenseRequestErrorReason? = EventParameterAdSenseRequestErrorReason(errorCode: errorCode)
+        let adType = AdRequestType.dfp.trackingParamValueFor(size: nil)
+        let adShown: EventParameterBoolean = .falseParameter
+        let trackerEvent = TrackerEvent.adError(adShown: adShown, adType: adType, typePage: EventParameterTypePage.chatList, errorReason: errorReason)
+        
+        tracker.trackEvent(trackerEvent)
+        
+    }
+    
+    
 }

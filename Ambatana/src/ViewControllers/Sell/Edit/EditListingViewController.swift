@@ -5,7 +5,7 @@ import RxSwift
 import KMPlaceholderTextView
 import LGComponents
 
-class EditListingViewController: BaseViewController, UITextFieldDelegate,
+final class EditListingViewController: BaseViewController, UITextFieldDelegate,
     UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
     UINavigationControllerDelegate {
     
@@ -22,8 +22,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     private static let separatorOptionsViewDistance = LGUIKitConstants.onePixelSize
     private static let viewOptionGenericHeight: CGFloat = 50
     private static let viewOptionVerticalCellHeight: CGFloat = 44
-    private static let carsInfoContainerWithExtraFieldsHeight: CGFloat = 9*EditListingViewController.viewOptionVerticalCellHeight + 8
-    private static let carsInfoContainerHeight: CGFloat = 3*EditListingViewController.viewOptionVerticalCellHeight + 3
+    private static let carsInfoContainerHeight: CGFloat = 9*EditListingViewController.viewOptionVerticalCellHeight + 8
     private static let realEstateInfoContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
     private static let realEstateTurkishContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
     private static let servicesInfoContainerHeight: CGFloat = 2*EditListingViewController.viewOptionVerticalCellHeight + 1
@@ -184,6 +183,15 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var serviceSubtypeValueLabel: UILabel!
     @IBOutlet weak var serviceSubtypeButton: UIButton!
     @IBOutlet weak var serviceSubtypeChevron: UIImageView!
+    
+    @IBOutlet weak var serviceListingTypeContainer: UIView!
+    @IBOutlet weak var serviceListingTitleLabel: UILabel!
+    @IBOutlet weak var serviceListingValueLabel: UILabel!
+    @IBOutlet weak var serviceListingButton: UIButton!
+    @IBOutlet weak var serviceListingChevron: UIImageView!
+
+    @IBOutlet var serviceListingTypeTopConstraint: NSLayoutConstraint!
+    @IBOutlet var serviceListingTypeHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var sendButton: LetgoButton!
     @IBOutlet weak var shareFBSwitch: UISwitch!
@@ -610,10 +618,13 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         realEstateTurkishNumberOfRoomsTitleLabel.text = R.Strings.realEstateRoomsTitle
         realEstateTurkishSizeTitleLabel.text = SharedConstants.sizeSquareMetersUnit
         
-        serviceTypeTitleLabel.text = R.Strings.servicesServiceTypeTitle
-        serviceSubtypeTitleLabel.text = R.Strings.servicesServiceSubtypeTitle
+        serviceTypeTitleLabel.text = viewModel.serviceTypeTitleText
+        serviceSubtypeTitleLabel.text = viewModel.serviceSubtypeTitleText
         paymentFrequencyTitleLabel.text = R.Strings.editPaymentFrequencyTitle
         paymentFrequencyLabel.text = ""
+        
+        serviceListingTitleLabel.text = R.Strings.editJobsServicesListingTypeTitle
+        serviceListingValueLabel.text = ""
         
         sendButton.setTitle(R.Strings.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))
@@ -671,6 +682,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         realEstateTurkishNumberOfRoomsChevron.image = chevron
         serviceChevron.image = chevron
         serviceSubtypeChevron.image = chevron
+        serviceListingChevron.image = chevron
         paymentFrequencyChevronImageView.image = chevron
     }
 
@@ -905,7 +917,13 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         
         viewModel.servicePaymentFrequency.asObservable()
             .map({ [weak self] _ in self?.viewModel.paymentFrequencyText })
-            .bind(to: paymentFrequencyLabel.rx.text).disposed(by: disposeBag)
+            .bind(to: paymentFrequencyLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.serviceListingType.asObservable()
+            .map({ $0?.pluralDisplayName })
+            .bind(to: serviceListingValueLabel.rx.text)
+            .disposed(by: disposeBag)
         
         serviceTypeButton.rx.tap.bind { [weak self] in
             self?.viewModel.serviceTypeButtonPressed()
@@ -915,10 +933,13 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             self?.viewModel.serviceSubtypeButtonPressed()
             }.disposed(by: disposeBag)
         
+        serviceListingButton.rx.tap.bind { [weak self] in
+            self?.viewModel.serviceListingTypeButtonPressed()
+        }.disposed(by: disposeBag)
+        
         paymentFrequencyButton.rx.tap.bind { [weak self] in
             self?.viewModel.paymentFrequencyButtonPressed()
             }.disposed(by: disposeBag)
-        
         
         viewModel.loadingProgress.asObservable().map { $0 == nil }.bind(to: loadingView.rx.isHidden).disposed(by: disposeBag)
         viewModel.loadingProgress.asObservable().ignoreNil().bind(to: loadingProgressView.rx.progress).disposed(by: disposeBag)
@@ -1048,11 +1069,9 @@ extension EditListingViewController {
     }
     
     private func showCarsAttributesView() {
-        let showExtraFields = featureFlags.carExtraFieldsEnabled.isActive
         carInfoContainer.isHidden = false
-        verticalFieldsContainerConstraint.constant = showExtraFields ? EditListingViewController.carsInfoContainerWithExtraFieldsHeight :
-            EditListingViewController.carsInfoContainerHeight
-        carExtraFieldsContainer.isHidden = !showExtraFields
+        carExtraFieldsContainer.isHidden = false
+        verticalFieldsContainerConstraint.constant = EditListingViewController.carsInfoContainerHeight
     }
     
     private func hideCarsAttributesView() {
@@ -1081,7 +1100,14 @@ extension EditListingViewController {
     
     private func showServicesAttributesView() {
         servicesInfoContainer.isHidden = false
-        verticalFieldsContainerConstraint.constant = EditListingViewController.servicesInfoContainerHeight
+        if viewModel.shouldShowListingType {
+            let listingTypeContainerHeight: CGFloat = EditListingViewController.viewOptionVerticalCellHeight
+            verticalFieldsContainerConstraint.constant = EditListingViewController.servicesInfoContainerHeight + listingTypeContainerHeight
+            showServiceListingTypeView()
+        } else {
+            verticalFieldsContainerConstraint.constant = EditListingViewController.servicesInfoContainerHeight
+            hideServiceListingTypeView()
+        }
     }
     
     private func hideServicesAttributesView() {
@@ -1098,6 +1124,18 @@ extension EditListingViewController {
         paymentFrequencyHeightConstraint.constant = 0
         paymentFrequencyTopConstraint.constant = 0
         paymentFrequencyContainer.isUserInteractionEnabled = false
+    }
+    
+    private func showServiceListingTypeView() {
+        serviceListingTypeHeightConstraint.constant = EditListingViewController.viewOptionVerticalCellHeight
+        serviceListingTypeTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
+        serviceListingTypeContainer.isUserInteractionEnabled = true
+    }
+    
+    private func hideServiceListingTypeView() {
+        serviceListingTypeHeightConstraint.constant = 0
+        serviceListingTypeTopConstraint.constant = 0
+        serviceListingTypeContainer.isUserInteractionEnabled = false
     }
 }
 
@@ -1121,22 +1159,6 @@ extension EditListingViewController: EditListingViewModelDelegate {
 
     func vmShareOnFbWith(content: FBSDKShareLinkContent) {
         FBSDKShareDialog.show(from: self, with: content, delegate: self)
-    }
-
-    func openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel) {
-        let vc = CarAttributeSelectionViewController(viewModel: attributesChoiceViewModel)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func openAttributesPicker(viewModel: ListingAttributePickerViewModel) {
-        let vc = ListingAttributePickerViewController(viewModel: viewModel)
-        viewModel.delegate = vc
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func vmShouldOpenMapWithViewModel(_ locationViewModel: EditLocationViewModel) {
-        let vc = EditLocationViewController(viewModel: locationViewModel)
-        navigationController?.pushViewController(vc, animated: true)
     }
 
     func vmHideKeyboard() {
@@ -1181,6 +1203,7 @@ extension EditListingViewController {
         carsYearButton.set(accessibilityId: .editListingCarsYearButton)
         serviceTypeButton.set(accessibilityId: .editListingServicesTypeButton)
         serviceSubtypeButton.set(accessibilityId: .editListingServicesSubtypeButton)
+        serviceListingButton.set(accessibilityId: .editListingServicesListingTypeButton)
         paymentFrequencyButton.set(accessibilityId: .editListingPaymentFrequencyButton)
         sendButton.set(accessibilityId: .editListingSendButton)
         shareFBSwitch.set(accessibilityId: .editListingShareFBSwitch)

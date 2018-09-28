@@ -25,7 +25,7 @@ final class MeetingAssistantViewModel: BaseViewModel {
     var selectedPlace: Place?
     let selectedLocation = Variable<SuggestedLocation?>(nil)
 
-    weak var navigator: MeetingAssistantNavigator?
+    var navigator: MeetingAssistantNavigator?
     weak var dataDelegate: MeetingAssistantDataDelegate?
 
     let activityIndicatorActive = Variable<Bool>(false)
@@ -120,11 +120,9 @@ final class MeetingAssistantViewModel: BaseViewModel {
     }
 
     func openLocationSelector() {
-        let editLocVM = EditLocationViewModel(mode: .editFilterLocation,
-                                              initialPlace: selectedPlace,
-                                              distanceRadius: nil)
-        editLocVM.locationDelegate = self
-        navigator?.openEditLocation(withViewModel: editLocVM)
+        navigator?.openEditLocation(mode: .editFilterLocation,
+                                    initialPlace: selectedPlace,
+                                    locationDelegate: self)
     }
 
     func saveDate(date: Date) {

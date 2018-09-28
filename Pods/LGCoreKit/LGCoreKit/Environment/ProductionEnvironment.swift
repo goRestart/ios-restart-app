@@ -23,6 +23,7 @@ struct ProductionEnvironment: Environment {
     let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
     let niordBaseURL = "https://niord.letgo.com"
     let searchProductsBaseURL = "https://search-products.letgo.com"
+    let newSearchProductsBaseURL = "https://search.letgo.com"
     let spellCorrectorBaseURL = "https://spellcorrector.letgo.com"
     let meetingsBaseURL = "https://meeting.letgo.com"
     let searchAlertsBaseURL = "https://searchalerts.letgo.com"
@@ -31,4 +32,7 @@ struct ProductionEnvironment: Environment {
     let notificationSettingsMailerBaseURL = "https://mailer.letgo.com"
     let reportingBaseURL = "https://reporting.letgo.com"
     let communityBaseURL = "https://community-sso.letgo.com"
+    let rewardBaseURL = "https://reward.letgo.com"
+    let challengerBaseURL = "https://challenger.letgo.com"
+    let p2pPaymentsBaseURL = "https://p2payments.letgo.com"
 }

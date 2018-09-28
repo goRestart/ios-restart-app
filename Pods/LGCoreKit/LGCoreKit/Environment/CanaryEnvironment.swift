@@ -21,6 +21,7 @@ struct CanaryEnvironment: Environment {
     let paymentsBaseURL = "https://payment.canary.letgo.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.canary.letgo.com"
     let searchProductsBaseURL = "https://search-products.canary.letgo.com"
+    let newSearchProductsBaseURL = "https://search.canary.letgo.com"
     let searchRealEstateBaseURL = "https://searchrealestate.canary.letgo.com"
     let niordBaseURL = "https://niord.letgo.com"
     let spellCorrectorBaseURL = "https://spellcorrector.canary.letgo.com"
@@ -31,4 +32,7 @@ struct CanaryEnvironment: Environment {
     let notificationSettingsMailerBaseURL = "https://mailer.canary.letgo.com"
     let reportingBaseURL = "https://reporting.canary.letgo.com"
     let communityBaseURL = "https://community-sso.canary.letgo.com"
+    let rewardBaseURL = "https://reward.canary.letgo.com"
+    let challengerBaseURL = "https://challenger.canary.letgo.com"
+    let p2pPaymentsBaseURL = "https://p2payments.can.letgo.com"
 }

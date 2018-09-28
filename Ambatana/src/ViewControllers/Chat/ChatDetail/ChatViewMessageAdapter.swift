@@ -1,11 +1,11 @@
 import LGCoreKit
 import LGComponents
 
-class ChatViewMessageAdapter {
-    let stickersRepository: StickersRepository
-    let myUserRepository: MyUserRepository
-    let featureFlags: FeatureFlaggeable
-    let tracker: TrackerProxy
+final class ChatViewMessageAdapter {
+    private let stickersRepository: StickersRepository
+    private let myUserRepository: MyUserRepository
+    private let featureFlags: FeatureFlaggeable
+    private let tracker: TrackerProxy
 
     convenience init() {
         let stickersRepository = Core.stickersRepository
@@ -88,13 +88,14 @@ class ChatViewMessageAdapter {
             type = ChatViewMessageType.interlocutorIsTyping
         case .unsupported(let defaultText):
             type = ChatViewMessageType.unsupported(text: defaultText ?? R.Strings.chatMessageTypeNotSupported)
-            tracker.trackEvent(TrackerEvent.chatUpdateAppWarningShow())
         case .multiAnswer(let question, let answers):
             type = ChatViewMessageType.multiAnswer(question: question, answers: answers)
         case .cta(let ctaData, let ctas):
             type = ChatViewMessageType.cta(ctaData: ctaData, ctas: ctas)
-        case .carousel:
-            type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
+        case .carousel(let cards, let answers):
+            type = ChatViewMessageType.carousel(cards: cards, answers: answers)
+        case .system(let message):
+            type = ChatViewMessageType.system(message: message)
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
@@ -128,15 +129,13 @@ class ChatViewMessageAdapter {
         case .interlocutorIsTyping:
             type = ChatViewMessageType.interlocutorIsTyping
         case .cta(let ctaData, let ctas):
-            if featureFlags.enableCTAMessageType {
-                type = ChatViewMessageType.cta(ctaData: ctaData, ctas: ctas)
-            } else {
-                type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
-            }
+            type = ChatViewMessageType.cta(ctaData: ctaData, ctas: ctas)
         case .unsupported(let defaultText):
             type = ChatViewMessageType.unsupported(text: defaultText ?? R.Strings.chatMessageTypeNotSupported)
-        case .carousel:
-            type = ChatViewMessageType.unsupported(text: R.Strings.chatMessageTypeNotSupported)
+        case .carousel(let cards, let answers):
+            type = ChatViewMessageType.carousel(cards: cards, answers: answers)
+        case .system(let message):
+            type = ChatViewMessageType.system(message: message)
         }
         return ChatViewMessage(objectId: message.objectId,
                                talkerId: message.talkerId,
@@ -235,13 +234,18 @@ class ChatViewMessageAdapter {
         let email = user.emailAccount?.verified ?? false
         let name = R.Strings.chatUserInfoName(user.name ?? "")
         let address = user.postalAddress.zipCodeCityString
+ 
+        let chatUserInfo = ChatUserInfo(
+            isDummy: user.isDummy,
+            name: name,
+            address: address,
+            rating: user.ratingAverage,
+            isFacebookVerified: facebook,
+            isGoogleVerified: google,
+            isEmailVerified: email
+        )
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                               type: .userInfo(isDummy: user.isDummy,
-                                               name: name,
-                                               address: address,
-                                               facebook: facebook,
-                                               google: google,
-                                               email: email),
+                               type: .userInfo(userInfo: chatUserInfo),
                                status: nil, warningStatus: .normal,
                                userAvatarData: userAvatarData)
     }

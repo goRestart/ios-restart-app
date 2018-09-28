@@ -14,10 +14,12 @@ class DropdownViewModelSpec: QuickSpec {
             let dropdownSectionA = MockServiceType.makeMock().sectionRepresentable
             let dropdownSectionB = MockServiceType.makeMock().sectionRepresentable
             
+            let featureFlags = MockFeatureFlags()
             sut = DropdownViewModel(screenTitle: String.makeRandom(),
                                     searchPlaceholderTitle: String.makeRandom(),
                                     attributes: [dropdownSectionA, dropdownSectionB],
-                                    buttonAction: nil)
+                                    buttonAction: nil,
+                                    featureFlags: featureFlags)
         }
 
         context("test item selection") {

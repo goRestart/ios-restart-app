@@ -11,26 +11,29 @@ import Result
 
 class MonetizationApiDataSource : MonetizationDataSource {
 
-    static let platformNameKey = "platform"
-    static let platformNameValue = "ios"
+    private enum Keys {
+        static let platformNameKey = "platform"
+        static let platformNameValue = "ios"
 
-    static let paymentIdKey = "id"
-    static let itemIdKey = "item_id"
-    static let listingIdKey = "product_id"
-    static let receiptDataKey = "receipt_data"
-    static let priceAmountKey = "price_amount"
-    static let priceCurrencyKey = "price_currency"
-    static let letgoItemIdKey = "letgo_item_id"
+        static let paymentIdKey = "id"
+        static let itemIdKey = "item_id"
+        static let listingIdKey = "product_id"
+        static let receiptDataKey = "receipt_data"
+        static let priceAmountKey = "price_amount"
+        static let priceCurrencyKey = "price_currency"
+        static let letgoItemIdKey = "letgo_item_id"
 
-    // Payment tracking info:
-    static let analyticsContextKey = "analytics_context"
-    static let amplitudeKey = "amplitude"
-    static let amplitudeIdKey = "id"
-    static let appsflyerKey = "appsflyer"
-    static let appsflyerIdKey = "id"
-    static let appsflyerIDFAKey = "idfa"
-    static let appsflyerBundleIdKey = "bundle_id"
+        static let availableProductsListingIdKey = "productIds"
 
+        // Payment tracking info:
+        static let analyticsContextKey = "analytics_context"
+        static let amplitudeKey = "amplitude"
+        static let amplitudeIdKey = "id"
+        static let appsflyerKey = "appsflyer"
+        static let appsflyerIdKey = "id"
+        static let appsflyerIDFAKey = "idfa"
+        static let appsflyerBundleIdKey = "bundle_id"
+    }
 
     let apiClient: ApiClient
 
@@ -47,15 +50,15 @@ class MonetizationApiDataSource : MonetizationDataSource {
     func retrieveBumpeableListingInfo(listingId: String,
                                       completion: MonetizationDataSourceBumpeableListingCompletion?) {
         let request = MonetizationRouter.showBumpeable(listingId: listingId,
-                                                       params: [MonetizationApiDataSource.platformNameKey:MonetizationApiDataSource.platformNameValue])
+                                                       params: [Keys.platformNameKey:Keys.platformNameValue])
         apiClient.request(request, decoder: MonetizationApiDataSource.decoderBumpeableListing, completion: completion)
     }
 
     func freeBump(forListingId listingId: String, itemId: String, paymentId: String,
                   completion: MonetizationDataSourceBumpCompletion?) {
-        let params: [String : Any] = [MonetizationApiDataSource.paymentIdKey: paymentId,
-                                      MonetizationApiDataSource.itemIdKey: itemId,
-                                      MonetizationApiDataSource.listingIdKey: listingId]
+        let params: [String : Any] = [Keys.paymentIdKey: paymentId,
+                                      Keys.itemIdKey: itemId,
+                                      Keys.listingIdKey: listingId]
         let request = MonetizationRouter.freeBump(params: params)
 
         apiClient.request(request, completion: completion)
@@ -67,26 +70,27 @@ class MonetizationApiDataSource : MonetizationDataSource {
 
         let analyticsParams: [String : Any] = buildAnalyticsParams(amplitudeId: amplitudeId, appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId)
 
-        let params: [String : Any] = [MonetizationApiDataSource.paymentIdKey: paymentId,
-                                      MonetizationApiDataSource.receiptDataKey: receiptData,
-                                      MonetizationApiDataSource.itemIdKey: itemId,
-                                      MonetizationApiDataSource.listingIdKey: listingId,
-                                      MonetizationApiDataSource.priceAmountKey: itemPrice,
-                                      MonetizationApiDataSource.priceCurrencyKey: itemCurrency,
-                                      MonetizationApiDataSource.analyticsContextKey: analyticsParams,
-                                      MonetizationApiDataSource.letgoItemIdKey: letgoItemId]
+        let params: [String : Any] = [Keys.paymentIdKey: paymentId,
+                                      Keys.receiptDataKey: receiptData,
+                                      Keys.itemIdKey: itemId,
+                                      Keys.listingIdKey: listingId,
+                                      Keys.priceAmountKey: itemPrice,
+                                      Keys.priceCurrencyKey: itemCurrency,
+                                      Keys.analyticsContextKey: analyticsParams,
+                                      Keys.letgoItemIdKey: letgoItemId]
         let request = MonetizationRouter.pricedBump(params: params)
 
         apiClient.request(request, completion: completion)
     }
 
 
-    func retrieveAvailablePurchasesFor(listingId: String,
-                                       completion: MonetizationDataSourceAvailableFeaturePurchasesCompletion?) {
-        let params: [String:Any] = [MonetizationApiDataSource.platformNameKey:MonetizationApiDataSource.platformNameValue]
-        let request = MonetizationRouter.showAvailablePurchases(listingId: listingId,
-                                                                params: params)
-        apiClient.request(request, decoder: MonetizationApiDataSource.decoderAvailableFeaturePurchases, completion: completion)
+    func retrieveAvailablePurchasesFor(listingIds: [String],
+                                       completion: MonetizationDataSourceListingAvailablePurchasesCompletion?) {
+        let params: [String:Any] = [Keys.platformNameKey:Keys.platformNameValue,
+                                    Keys.availableProductsListingIdKey: listingIds]
+
+        let request = MonetizationRouter.showAvailablePurchases(params: params)
+        apiClient.request(request, decoder: MonetizationApiDataSource.decoderArrayAvailableFeaturePurchases, completion: completion)
     }
 
 
@@ -104,14 +108,20 @@ class MonetizationApiDataSource : MonetizationDataSource {
         return nil
     }
 
-    private static func decoderAvailableFeaturePurchases(object: Any) -> AvailableFeaturePurchases? {
-        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+    private static func decoderArrayAvailableFeaturePurchases(object: Any) -> [ListingAvailablePurchases]? {
+        guard let availablePurchasesDict = object as? [String : Any] else { return nil }
         do {
-            let availablePurchases = try LGAvailableFeaturePurchases.decode(jsonData: data)
-            return availablePurchases
+            let listingsWithPurchases: [ListingAvailablePurchases] = try availablePurchasesDict
+                .compactMap { (key, value) in
+                    guard let purchasesData = try? JSONSerialization.data(withJSONObject: value,
+                                                                          options: .prettyPrinted) else { return nil }
+                    let purchases = try JSONDecoder().decode(LGAvailableFeaturePurchases.self, from: purchasesData)
+                    return LGListingAvailablePurchases(listingId: key, purchases: purchases)
+            }
+            return listingsWithPurchases
         } catch {
-            logAndReportParseError(object: object, entity: .availableFeaturePurchases,
-                                   comment: "could not parse LGAvailableFeaturePurchases")
+            logAndReportParseError(object: object, entity: .listingAvailablePurchases,
+                                   comment: "could not parse LGListingAvailablePurchases")
         }
         return nil
     }
@@ -124,17 +134,17 @@ class MonetizationApiDataSource : MonetizationDataSource {
 
         var amplitudeParams: [String : Any] = [:]
         if let amplitudeId = amplitudeId {
-            amplitudeParams = [MonetizationApiDataSource.amplitudeIdKey: amplitudeId]
+            amplitudeParams = [Keys.amplitudeIdKey: amplitudeId]
         }
 
         var appsflyerParams: [String : Any] = [:]
         if let appsflyerId = appsflyerId, let idfa = idfa, let bundleId = bundleId {
-            appsflyerParams = [MonetizationApiDataSource.appsflyerIdKey: appsflyerId,
-                               MonetizationApiDataSource.appsflyerIDFAKey: idfa,
-                               MonetizationApiDataSource.appsflyerBundleIdKey: bundleId]
+            appsflyerParams = [Keys.appsflyerIdKey: appsflyerId,
+                               Keys.appsflyerIDFAKey: idfa,
+                               Keys.appsflyerBundleIdKey: bundleId]
         }
-        let analyticsParams: [String : Any] = [MonetizationApiDataSource.amplitudeKey: amplitudeParams,
-                                               MonetizationApiDataSource.appsflyerKey: appsflyerParams]
+        let analyticsParams: [String : Any] = [Keys.amplitudeKey: amplitudeParams,
+                                               Keys.appsflyerKey: appsflyerParams]
         return analyticsParams
     }
 }

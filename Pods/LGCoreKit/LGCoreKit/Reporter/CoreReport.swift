@@ -166,8 +166,18 @@ enum CoreReportDataSource: ReportType {
         case serviceType
         case feed
         case report
-        case availableFeaturePurchases
-
+        case listingAvailablePurchases
+        case rewardPoints
+        case reward
+        case voucher
+        case p2pPaymentOfferId
+        case p2pPaymentOffer
+        case p2pPaymentOfferFees
+        case p2pPaymentOfferState
+        case p2pPaymentPayCode
+        case p2pPaymentSeller
+        case p2pPaymentPayoutPriceBreakdown
+        case p2pPaymentPayout
         
         var type: Any.Type {
             switch self {
@@ -245,8 +255,30 @@ enum CoreReportDataSource: ReportType {
                 return LGFeed.self
             case .report:
                 return LGReport.self
-            case .availableFeaturePurchases:
-                return LGAvailableFeaturePurchases.self
+            case .listingAvailablePurchases:
+                return LGListingAvailablePurchases.self
+            case .rewardPoints:
+                return LGRewardPoints.self
+            case .reward:
+                return LGReward.self
+            case .voucher:
+                return LGVoucher.self
+            case .p2pPaymentOfferId:
+                return String.self
+            case .p2pPaymentOffer:
+                return LGP2PPaymentOffer.self
+            case .p2pPaymentOfferFees:
+                return LGP2PPaymentOfferFees.self
+            case .p2pPaymentOfferState:
+                return P2PPaymentState.self
+            case .p2pPaymentPayCode:
+                return LGP2PPaymentPayCode.self
+            case .p2pPaymentSeller:
+                return P2PPaymentSeller.self
+            case .p2pPaymentPayoutPriceBreakdown:
+                return P2PPaymentPayoutPriceBreakdown.self
+            case .p2pPaymentPayout:
+                return LGP2PPaymentCreatePayoutResponse.self
             }
         }
     }

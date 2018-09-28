@@ -1,14 +1,17 @@
 import LGCoreKit
 import RxSwift
+import RxCocoa
 import LGComponents
 import GoogleMobileAds
 
 final class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
+    
     private struct Layout {
         static let pageControlArbitraryTopMargin: CGFloat = 40
         static let pageControlArbitraryWidth: CGFloat = 50
         static let videoProgressViewHeight: CGFloat = 4.0
     }
+    
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -91,8 +94,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         }
     }
 
-
-    private let pageControl: UIPageControl
+    fileprivate let pageControl: UIView & PageControlRepresentable
     private var pageControlWidth: NSLayoutConstraint?
     private var pageControlTopMargin: NSLayoutConstraint?
 
@@ -167,7 +169,13 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         self.fullScreenAvatarEffectView = UIVisualEffectView(effect: blurEffect)
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
         self.animator = pushAnimator
-        self.pageControl = UIPageControl(frame: CGRect.zero)
+        
+        if viewModel.shouldShowScrollingPageControl {
+            self.pageControl = AnnotatedScrollingPageControlView(frame: CGRect.zero)
+        } else {
+            self.pageControl = UIPageControl(frame: CGRect.zero)
+        }
+        
         self.imageDownloader = imageDownloader
         self.carouselImageDownloader = carouselImageDownloader
         let mainBlurEffect = UIBlurEffect(style: .light)
@@ -226,11 +234,14 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
             chatContainer.becomeFirstResponder()
         case .showShareSheet:
             viewModel.shareButtonPressed()
-        case let .triggerBumpUp(bumpUpProductData,
+
+        case let .triggerBumpUp(purchases,
+                                maxCountdown,
                                 bumpUpType,
                                 triggerBumpUpSource,
                                 typePage):
-            viewModel.showBumpUpView(bumpUpProductData: bumpUpProductData,
+            viewModel.showBumpUpView(purchases: purchases,
+                                     maxCountdown: maxCountdown,
                                      bumpUpType: bumpUpType,
                                      bumpUpSource: triggerBumpUpSource,
                                      typePage: typePage)
@@ -339,23 +350,7 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         collectionView.alwaysBounceHorizontal = false
         automaticallyAdjustsScrollViewInsets = false
 
-        let pcWidth = pageControl.widthAnchor.constraint(equalToConstant: Layout.pageControlArbitraryWidth)
-        let pcTopMargin = pageControl.centerYAnchor.constraint(equalTo: safeTopAnchor,
-                                                               constant: Layout.pageControlArbitraryTopMargin)
-
-        NSLayoutConstraint.activate([
-            pageControl.centerXAnchor.constraint(equalTo: view.leftAnchor, constant: CarouselUI.pageControlMargin),
-            pageControl.heightAnchor.constraint(equalToConstant: Metrics.bigMargin),
-            pcTopMargin, pcWidth
-        ])
-        pageControlWidth = pcWidth
-        pageControlTopMargin = pcTopMargin
-
-        pageControl.cornerRadius = CarouselUI.pageControlWidth/2
-        pageControl.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
-        pageControl.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-        pageControl.currentPageIndicatorTintColor = .white
-        pageControl.hidesForSinglePage = true
+        setupPageControlConstraints()
 
         mainViewBlurEffectView.layout(with: imageBackground).fill()
         fullScreenAvatarEffectView.layout(with: view).fill()
@@ -404,6 +399,39 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
         mainResponder = chatContainer
         setupDirectMessages()
         setupBumpUpBanner()
+    }
+    
+    private func setupPageControlConstraints() {
+        
+        if viewModel.shouldShowScrollingPageControl {
+            
+            NSLayoutConstraint.activate([
+                pageControl.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                                     constant: CarouselUI.ProPageControlUI.proPageControlLeadingConstant),
+                pageControl.heightAnchor.constraint(equalToConstant: CarouselUI.ProPageControlUI.proPageControlHeight),
+                pageControl.widthAnchor.constraint(equalToConstant: CarouselUI.ProPageControlUI.proPageControlWidth),
+                pageControl.topAnchor.constraint(equalTo: safeTopAnchor,
+                                                 constant: CarouselUI.ProPageControlUI.proPageControlTopConstant)
+                ])
+        } else {
+            let pcWidth = pageControl.widthAnchor.constraint(equalToConstant: Layout.pageControlArbitraryWidth)
+            let pcTopMargin = pageControl.centerYAnchor.constraint(equalTo: safeTopAnchor,
+                                                                   constant: Layout.pageControlArbitraryTopMargin)
+            
+            NSLayoutConstraint.activate([
+                pageControl.centerXAnchor.constraint(equalTo: view.leftAnchor, constant: CarouselUI.pageControlMargin),
+                pageControl.heightAnchor.constraint(equalToConstant: Metrics.bigMargin),
+                pcTopMargin, pcWidth
+                ])
+            pageControlWidth = pcWidth
+            pageControlTopMargin = pcTopMargin
+            
+            pageControl.cornerRadius = CarouselUI.pageControlWidth/2
+            pageControl.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
+            pageControl.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+            pageControl.currentPageIndicatorTintColor = .white
+            pageControl.hidesForSinglePage = true
+        }
     }
 
     private func setupCallButton() {
@@ -658,18 +686,19 @@ extension ListingCarouselViewController {
         moreInfoView.setupWith(viewModel: viewModel)
         moreInfoState.asObservable().bind(to: viewModel.moreInfoState).disposed(by: disposeBag)
     }
-
+    
     private func setupPageControlRx() {
-        viewModel.productImageURLs.asObservable().bind { [weak self] images in
-            guard let pageControl = self?.pageControl else { return }
-            pageControl.currentPage = 0
-            pageControl.numberOfPages = images.count
-
-            let width = pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth
-            self?.pageControlWidth?.constant = width
-            self?.pageControlTopMargin?.constant = width / 2.0
-
-        }.disposed(by: disposeBag)
+        viewModel.productImageURLs.asObservable()
+            .map { $0.count }
+            .bind(to: rx.numberOfPages)
+            .disposed(by: disposeBag)
+    }
+    
+    fileprivate func updatePageControlConstraints(forItemCount count: Int) {
+        guard let pageControl = pageControl as? UIPageControl else { return }
+        let width = pageControl.size(forNumberOfPages: count).width + CarouselUI.pageControlWidth
+        pageControlWidth?.constant = width
+        pageControlTopMargin?.constant = width / 2.0
     }
 
     fileprivate func setupUserInfoRx() {
@@ -779,7 +808,6 @@ extension ListingCarouselViewController {
                                                   viewModel.ownerPhoneNumber.asObservable()) { ($0, $1) }
         allowCalls.asObservable().bind { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }
-
             if phoneNum != nil, isPro && strongSelf.viewModel.deviceCanCall {
                 strongSelf.buttonCall.isHidden = false
                 strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = Metrics.margin
@@ -1001,7 +1029,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     }
 
     func didScrollToPage(_ page: Int) {
-        pageControl.currentPage = page
+        pageControl.setCurrentPage(to: page, animated: true)
         shouldShowProgressView = viewModel.itemIsPlayable(at: page)
     }
 
@@ -1280,7 +1308,6 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         let drawer = ChatCellDrawerFactory.drawerForMessage(message,
                                                             autoHide: true,
                                                             disclosure: true,
-                                                            showClock: viewModel.featureFlags.showClockInDirectAnswer == .active,
                                                             meetingsEnabled: viewModel.meetingsEnabled)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
@@ -1296,6 +1323,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
 extension ListingCarouselViewController {
     func showBumpUpBanner(bumpInfo: BumpUpInfo){
+        viewModel.bumpUpBannerShown(bumpInfo: bumpInfo)
         guard bannerContainer.isHidden else {
             // banner is already visible, but info changes
             if bumpUpBanner.type != bumpInfo.type {
@@ -1304,8 +1332,6 @@ extension ListingCarouselViewController {
             }
             return
         }
-
-        viewModel.bumpUpBannerShown(bumpInfo: bumpInfo)
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: bumpInfo)
@@ -1328,7 +1354,7 @@ extension ListingCarouselViewController {
         switch type {
         case .boost(let boostBannerVisible):
             bannerTotalHeight = boostBannerVisible ? CarouselUI.bannerHeight*2 : CarouselUI.bannerHeight
-        case .free, .hidden, .priced, .restore, .loading:
+        case .free, .hidden, .priced, .restore, .loading, .ongoingBump:
             bannerTotalHeight = CarouselUI.bannerHeight
         }
 
@@ -1427,6 +1453,12 @@ extension ListingCarouselViewController {
     }
 }
 
+extension ListingCarouselViewController {
+    func retrieveSocialMessage() -> SocialMessage? {
+        return viewModel.makeSocialMessage()
+    }
+}
+
 
 // MARK: - Accessibility ids
 
@@ -1465,4 +1497,22 @@ extension ListingCarouselViewController: GADInterstitialDelegate {
         viewModel.interstitialAdTapped(typePage: EventParameterTypePage.nextItem)
     }
     
+}
+
+
+extension Reactive where Base: ListingCarouselViewController {
+    
+    var currentPage: Binder<Int> {
+        return Binder(self.base) { view, currentPage in
+            view.pageControl.setCurrentPage(to: currentPage, animated: true)
+        }
+    }
+    
+    var numberOfPages: Binder<Int> {
+        return Binder(self.base) { view, numberOfPages in
+            view.pageControl.setup(withNumberOfPages: numberOfPages)
+            view.pageControl.setCurrentPage(to: 0, animated: false)
+            view.updatePageControlConstraints(forItemCount: numberOfPages)
+        }
+    }
 }

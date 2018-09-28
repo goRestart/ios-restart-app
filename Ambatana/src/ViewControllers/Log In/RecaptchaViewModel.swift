@@ -1,16 +1,17 @@
 import LGCoreKit
 import LGComponents
 
-protocol RecaptchaNavigator: class {
-    func recaptchaClose()
-    func recaptchaFinishedWithToken(_ token: String, action: LoginActionType)
+protocol RecaptchaTokenDelegate: class {
+    func recaptchaTokenObtained(token: String, action: LoginActionType)
 }
 
 final class RecaptchaViewModel: BaseViewModel {
 
-    weak var navigator: RecaptchaNavigator?
+    weak var delegate: RecaptchaTokenDelegate?
     private let action: LoginActionType
     private let tracker: Tracker
+    
+    var router: RecaptchaPasswordWireframe?
 
     convenience init(action: LoginActionType) {
         self.init(action: action,
@@ -35,12 +36,13 @@ final class RecaptchaViewModel: BaseViewModel {
     }
 
     @objc func closeButtonPressed() {
-        navigator?.recaptchaClose()
+        router?.closeRecaptcha()
     }
 
     func startedLoadingURL(_ url: URL) {
         guard let token = tokenFromURL(url) else { return }
-        navigator?.recaptchaFinishedWithToken(token, action: action)
+        router?.closeRecaptcha()
+        delegate?.recaptchaTokenObtained(token: token, action: action)
     }
 
     func urlLoaded(_ url: URL) { }

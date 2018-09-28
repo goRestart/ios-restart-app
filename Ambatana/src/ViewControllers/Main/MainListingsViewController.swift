@@ -24,14 +24,14 @@ enum SearchSuggestionType {
     }
 }
 
-class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
+final class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
     FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop, MainListingsAdsDelegate {
     
     // ViewModel
     var viewModel: MainListingsViewModel
     
     // MARK: - Subviews
-    private let listingListView = ListingListView()
+    private let listingListView = ListingListView(source: .feed)
     private let filterDescriptionHeaderView = FilterDescriptionHeaderView()
     private let filterTitleHeaderView = FilterTitleHeaderView()
     private let infoBubbleView = InfoBubbleView(style: .light)
@@ -56,8 +56,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }()
     
     private var mapTooltip: Tooltip?
-    
-
+    private var affiliationTooltip: Tooltip?
     // MARK: - Constraints
     
     private var filterDescriptionTopConstraint: NSLayoutConstraint?
@@ -112,7 +111,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if #available(iOS 11.0, *) {
             listingListView.collectionView.contentInsetAdjustmentBehavior = .never
         } else {
@@ -124,9 +123,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         setupFilterHeaders()
         setupListingView()
-        if viewModel.shouldSetupFeedBubble {
-            setupFreshFeedBuble()
-        }
+        setupFreshFeedBuble()
         setupInfoBubble()
         if viewModel.isEngagementBadgingEnabled {
             setupRecentItemsBubbleView()
@@ -266,6 +263,41 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             }
         }
     }
+    
+    func vmShowAffiliationToolTip(with configuration: TooltipConfiguration) {
+        guard let affiliationButton = navigationItem.rightBarButtonItems?.first?.customView
+        else { return }
+    
+        let tooltip = Tooltip(targetView: affiliationButton,
+                              superView: view,
+                              button: nil,
+                              configuration: configuration)
+        
+        tooltip.alpha = 0.0
+        tooltip.targetViewCenter = affiliationButton.convert(affiliationButton.frame.center, to: view)
+        view.addSubviewForAutoLayout(tooltip)
+        NSLayoutConstraint.activate([affiliationButton.heightAnchor.constraint(equalToConstant: Layout.ToolTipAffiliation.buttonHeight),
+                                     tooltip.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Layout.ToolTipAffiliation.right),
+                                     tooltip.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: Layout.ToolTipAffiliation.left),
+                                     tooltip.topAnchor.constraint(lessThanOrEqualTo: safeTopAnchor)])
+        self.affiliationTooltip = tooltip
+        UIView.animate(withDuration: 0.3) {
+            self.affiliationTooltip?.alpha = 1.0
+        }
+    }
+    
+    func vmHideAffiliationToolTip(hideForever: Bool) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.affiliationTooltip?.alpha = 0.0
+        }) { [weak self] _ in
+            self?.affiliationTooltip?.removeFromSuperview()
+            self?.affiliationTooltip = nil
+            if hideForever {
+                self?.viewModel.tooltipAffiliationDidHide()
+            }
+        }
+    }
+
 
     // MARK: - MainListingsAdsDelegate
 
@@ -357,7 +389,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @objc private func endEdit() {
         trendingSearchView.isHidden = true
         setFiltersNavBarButton()
-        setLeftNavBarButtons()
+        setLeftNavBarButtons(withAvatar: viewModel.userAvatar.value)
         navbarSearch.cancelEdit()
     }
 
@@ -379,12 +411,18 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         viewModel.showFilters()
     }
     
+    @objc func openAffiliationChallenges(_ sender: AnyObject) {
+        navbarSearch.searchTextField.resignFirstResponder()
+        vmHideAffiliationToolTip(hideForever: true)
+        viewModel.openAffiliationChallenges(sourceButton: .icon)
+    }
+    
     @objc func openMap(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
         vmHideMapToolTip(hideForever: true)
         viewModel.showMap()
     }
-    
+
     private func setupTagsView() {
 
         tagsContainerView.addSubviewForAutoLayout(filterTagsView)
@@ -418,7 +456,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     private func setFiltersNavBarButton() {
-        let buttons = viewModel.rightBarButtonsItems
+        let buttons = viewModel.rightBBItemsRelay.value
         setLetGoRightButtonsWith(images: buttons.map { $0.image }, selectors: buttons.map { $0.selector })
     }
     
@@ -435,12 +473,12 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
     }
 
-    private func setLeftNavBarButtons() {
+    private func setLeftNavBarButtons(withAvatar avatar: UIImage? = nil) {
         guard isRootViewController() else { return }
         if viewModel.shouldShowCommunityButton {
             setCommunityButton()
         } else if viewModel.shouldShowUserProfileButton {
-            setUserProfileButton()
+            setUserProfileButton(withAvatar: avatar)
         } else {
             setInviteNavBarButton()
         }
@@ -454,8 +492,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navigationItem.setLeftBarButton(button, animated: false)
     }
 
-    private func setUserProfileButton() {
-        let button = UIBarButtonItem(image: R.Asset.IconsButtons.tabbarProfile.image,
+    private func setUserProfileButton(withAvatar avatar: UIImage?) {
+        let image = avatar?.af_imageScaled(to: Layout.TabBarIcons.avatarSize)
+            .af_imageRoundedIntoCircle()
+            .withRenderingMode(.alwaysOriginal)
+            ?? R.Asset.IconsButtons.tabbarProfile.image
+
+        let button = UIBarButtonItem(image: image,
                                      style: .plain,
                                      target: self,
                                      action: #selector(didTapUserProfile))
@@ -593,7 +636,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func setupRxBindings() {
-        
+        viewModel.rightBBItemsRelay
+            .skip(1)
+            .filter { _ in return self.trendingSearchView.isHidden }
+            .bind { [weak self] buttons in
+                self?.setLetGoRightButtonsWith(images: buttons.map { $0.image },
+                                               selectors: buttons.map { $0.selector })
+            }.disposed(by: disposeBag)
+
         viewModel.infoBubbleText.asObservable()
             .bind { [weak self] _ in
                 self?.infoBubbleView.invalidateIntrinsicContentSize()
@@ -663,6 +713,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }.disposed(by: disposeBag)
         
         navbarSearch.searchTextField.rx.text.asObservable().bind(to: viewModel.searchText).disposed(by: disposeBag)
+
+        viewModel
+            .userAvatar
+            .asDriver()
+            .drive(onNext:{ [weak self] image in
+                self?.setLeftNavBarButtons(withAvatar: image)
+            })
+            .disposed(by: disposeBag)
     }
 
     private func updateTopInset() {
@@ -702,8 +760,18 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             static let buttonHeight: CGFloat = 32
             static let buttonSidePadding: CGFloat = 20
         }
+        
+        struct ToolTipAffiliation  {
+            static let left: CGFloat = 50
+            static let right: CGFloat = -10
+            static let buttonHeight: CGFloat = 32
+            static let buttonSidePadding: CGFloat = 20
+        }
         struct FreshBubble {
             static let height: CGFloat = 45
+        }
+        struct TabBarIcons {
+            static let avatarSize = CGSize(width: 26, height: 26)
         }
     }
 }
@@ -724,10 +792,6 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if shouldShowSearchAlertBanner {
             totalHeight += SearchAlertFeedHeader.viewHeight
         }
-        if viewModel.shouldShowCommunityBanner {
-            totalHeight += CommunityHeaderView.viewHeight
-        }
-
         return totalHeight
     }
 
@@ -761,13 +825,6 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             searchAlertHeader.tag = 3
             searchAlertHeader.delegate = self
             header.addHeader(searchAlertHeader, height: SearchAlertFeedHeader.viewHeight)
-        }
-
-        if viewModel.shouldShowCommunityBanner {
-            let community = CommunityHeaderView()
-            community.delegate = self
-            community.tag = 4
-            header.addHeader(community, height: CommunityHeaderView.viewHeight)
         }
     }
 
@@ -892,12 +949,6 @@ extension MainListingsViewController: TrendingSearchViewDelegate {
         viewModel.searchText.value = text
         navbarSearch.searchTextField.text = text
         navBarSearchTextFieldDidUpdate(text: text)
-    }
-}
-
-extension MainListingsViewController: CommunityHeaderViewDelegate {
-    func didTapCommunityHeader() {
-        viewModel.vmUserDidTapCommunity()
     }
 }
 

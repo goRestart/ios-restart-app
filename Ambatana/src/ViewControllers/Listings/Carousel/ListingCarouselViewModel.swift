@@ -56,7 +56,7 @@ enum AdRequestQueryType {
     }
 }
 
-class ListingCarouselViewModel: BaseViewModel {
+final class ListingCarouselViewModel: BaseViewModel {
 
     // Paginable
     let firstPage: Int = 0
@@ -67,21 +67,20 @@ class ListingCarouselViewModel: BaseViewModel {
     var currentListingViewModel: ListingViewModel?
     let currentViewModelIsBeingUpdated = Variable<Bool>(false)
     let startIndex: Int
-    fileprivate(set) var currentIndex: Int = 0 {
+    private(set) var currentIndex: Int = 0 {
         didSet {
             // Just for pagination
             setCurrentIndex(currentIndex)
         }
     }
-    fileprivate var lastMovement: CarouselMovement = .initial
+    private var lastMovement: CarouselMovement = .initial
     
     weak var delegate: ListingCarouselViewModelDelegate?
-    weak var navigator: ListingDetailNavigator? {
+    var navigator: ListingDetailNavigator? {
         didSet {
             currentListingViewModel?.navigator = navigator
         }
     }
-
     let objects = CollectionVariable<ListingCarouselCellModel>([])
     var objectChanges: Observable<CollectionChange<ListingCarouselCellModel>> {
         return objects.changesObservable
@@ -141,11 +140,11 @@ class ListingCarouselViewModel: BaseViewModel {
     let moreInfoState = Variable<MoreInfoState>(.hidden)
 
     // Image prefetching
-    fileprivate let previousImagesToPrefetch = 1
-    fileprivate let nextImagesToPrefetch = 3
-    fileprivate var prefetchingIndexes: [Int] = []
+    private let previousImagesToPrefetch = 1
+    private let nextImagesToPrefetch = 3
+    private var prefetchingIndexes: [Int] = []
 
-    fileprivate var shouldShowOnboarding: Bool { return !keyValueStorage[.didShowListingDetailOnboarding] }
+    private var shouldShowOnboarding: Bool { return !keyValueStorage[.didShowListingDetailOnboarding] }
 
     var imageScrollDirection: UICollectionViewScrollDirection = .vertical
 
@@ -153,22 +152,25 @@ class ListingCarouselViewModel: BaseViewModel {
         return currentListingViewModel?.isMine ?? false
     }
 
-    fileprivate var trackingIndex: Int?
-    fileprivate var initialThumbnail: UIImage?
+    private var trackingIndex: Int?
+    private var sectionIndex: UInt?
+    private let trackingIdentifier: String?
+    private var initialThumbnail: UIImage?
 
     private var activeDisposeBag = DisposeBag()
 
-    fileprivate let source: EventParameterListingVisitSource
-    fileprivate let listingListRequester: ListingListRequester
-    fileprivate var productsViewModels: [String: ListingViewModel] = [:]
-    fileprivate let keyValueStorage: KeyValueStorageable
-    fileprivate let imageDownloader: ImageDownloaderType
-    fileprivate let listingViewModelMaker: ListingViewModelMaker
+    private let source: EventParameterListingVisitSource
+    private let listingListRequester: ListingListRequester
+    private var productsViewModels: [String: ListingViewModel] = [:]
+    private let keyValueStorage: KeyValueStorageable
+    private let imageDownloader: ImageDownloaderType
+    private let listingViewModelAssembly: ListingViewModelAssembly
     let featureFlags: FeatureFlaggeable
-    fileprivate let locationManager: LocationManager
-    fileprivate let myUserRepository: MyUserRepository
+    private let locationManager: LocationManager
+    private let myUserRepository: MyUserRepository
+    private let adsImpressionConfigurable: AdsImpressionConfigurable
 
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     override var active: Bool {
         didSet {
@@ -176,8 +178,13 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    fileprivate let adsRequester: AdsRequester
+    private let adsRequester: AdsRequester
 
+    var trackingSectionPosition: EventParameterSectionPosition {
+        guard let sectionIndex = sectionIndex else { return .none }
+        return .position(index: sectionIndex)
+    }
+    
     // Ads
     var dfpAdUnitId: String {
         return featureFlags.moreInfoDFPAdUnitId
@@ -190,8 +197,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var userShouldSeeAds: Bool {
-        let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
-        return featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInMoreInfoForUser(createdIn: myUserCreationDate)
+        return adsImpressionConfigurable.shouldShowAdsForUser
     }
 
     var dfpContentURL: String? {
@@ -207,6 +213,16 @@ class ListingCarouselViewModel: BaseViewModel {
     var currentAdRequestType: AdRequestType? {
         return adActive ? .dfp : nil
     }
+    
+    var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo? {
+        guard let id = trackingIdentifier else {
+                return nil
+        }
+        let sectionName = EventParameterSectionName.identifier(id: id)
+        return SectionedFeedChatTrackingInfo(sectionId: sectionName,
+                                             itemIndexInSection: trackingFeedPosition)
+    }
+    
     var currentAdRequestQueryType: AdRequestQueryType? = nil
     var adRequestQuery: String? = nil
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
@@ -216,83 +232,104 @@ class ListingCarouselViewModel: BaseViewModel {
         return featureFlags.chatNorris.isActive
     }
     
-    var extraFieldsGridEnabled: Bool {
-        return featureFlags.carExtraFieldsEnabled.isActive
+    var shouldShowScrollingPageControl: Bool {
+        return featureFlags.proUsersExtraImages.isActive
     }
 
     // MARK: - Init
 
     convenience init(listing: Listing,
+                     viewModelMaker: ListingViewModelAssembly,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
-                     trackingIndex: Int?) {
+                     trackingIndex: Int?,
+                     sectionIndex: UInt?) {
         self.init(productListModels: nil,
                   initialListing: listing,
+                  viewModelMaker: viewModelMaker,
                   thumbnailImage: nil,
                   listingListRequester: listingListRequester,
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  sectionIndex: sectionIndex,
+                  trackingIdentifier: nil,
                   firstProductSyncRequired: true)
     }
 
     convenience init(listing: Listing,
+                     viewModelMaker: ListingViewModelAssembly,
                      thumbnailImage: UIImage?,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
-                     trackingIndex: Int?) {
+                     trackingIndex: Int?,
+                     sectionIndex: UInt?,
+                     trackingIdentifier: String?) {
         self.init(productListModels: nil,
                   initialListing: listing,
+                  viewModelMaker: viewModelMaker,
                   thumbnailImage: thumbnailImage,
                   listingListRequester: listingListRequester,
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  sectionIndex: sectionIndex,
+                  trackingIdentifier: trackingIdentifier,
                   firstProductSyncRequired: false)
     }
 
     convenience init(productListModels: [ListingCellModel]?,
-         initialListing: Listing?,
-         thumbnailImage: UIImage?,
-         listingListRequester: ListingListRequester,
-         source: EventParameterListingVisitSource,
-         actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
-         trackingIndex: Int?,
-         firstProductSyncRequired: Bool) {
+                     initialListing: Listing?,
+                     viewModelMaker: ListingViewModelAssembly,
+                     thumbnailImage: UIImage?,
+                     listingListRequester: ListingListRequester,
+                     source: EventParameterListingVisitSource,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
+                     trackingIndex: Int?,
+                     sectionIndex: UInt?,
+                     trackingIdentifier: String?,
+                     firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
                   initialListing: initialListing,
+                  viewModelMaker: viewModelMaker,
                   thumbnailImage: thumbnailImage,
                   listingListRequester: listingListRequester,
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
+                  sectionIndex: sectionIndex,
+                  trackingIdentifier: trackingIdentifier,
                   firstProductSyncRequired: firstProductSyncRequired,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
-                  listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   adsRequester: AdsRequester(),
                   locationManager: Core.locationManager,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  adsImpressionConfigurable: LGAdsImpressionConfigurable())
     }
 
     init(productListModels: [ListingCellModel]?,
          initialListing: Listing?,
+         viewModelMaker: ListingViewModelAssembly,
          thumbnailImage: UIImage?,
          listingListRequester: ListingListRequester,
          source: EventParameterListingVisitSource,
          actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
+         sectionIndex: UInt?,
+         trackingIdentifier: String?,
          firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
-         listingViewModelMaker: ListingViewModelMaker,
          adsRequester: AdsRequester,
          locationManager: LocationManager,
-         myUserRepository: MyUserRepository) {
+         myUserRepository: MyUserRepository,
+         adsImpressionConfigurable: AdsImpressionConfigurable) {
+
         if let productListModels = productListModels {
             let listingCarouselCellModels = productListModels
                 .compactMap(ListingCarouselCellModel.adapter)
@@ -313,19 +350,23 @@ class ListingCarouselViewModel: BaseViewModel {
         self.actionOnFirstAppear = actionOnFirstAppear
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
-        self.listingViewModelMaker = listingViewModelMaker
+        self.listingViewModelAssembly = viewModelMaker
         self.featureFlags = featureFlags
         self.adsRequester = adsRequester
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
+        self.adsImpressionConfigurable = adsImpressionConfigurable
+
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
             self.startIndex = 0
         }
         self.currentIndex = startIndex
-        super.init()
+        self.trackingIdentifier = trackingIdentifier
         self.trackingIndex = trackingIndex
+        self.sectionIndex = sectionIndex
+        super.init()
         setupRxBindings()
         moveToProductAtIndex(startIndex, movement: .initial)
 
@@ -338,7 +379,11 @@ class ListingCarouselViewModel: BaseViewModel {
         if firstTime && shouldShowOnboarding {
             delegate?.vmShowOnboarding()
         }
-        currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
+        currentListingViewModel?.trackVisit(.none,
+                                            source: source,
+                                            feedPosition: trackingFeedPosition,
+                                            sectionPosition: trackingSectionPosition,
+                                            feedSectionName: trackingFeedSectionName)
     }
         
     private func syncFirstListing() {
@@ -374,7 +419,9 @@ class ListingCarouselViewModel: BaseViewModel {
         if active {
             currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                 source: movement.visitSource(source),
-                                                feedPosition: trackingFeedPosition)
+                                                feedPosition: trackingFeedPosition,
+                                                sectionPosition: trackingSectionPosition,
+                                                feedSectionName: trackingFeedSectionName)
         }
     }
 
@@ -398,21 +445,17 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.openProductOwnerProfile()
     }
 
-    func videoButtonTapped() {
-        currentListingViewModel?.openVideoPlayer(atIndex: 0, source: source)
-        currentListingViewModel?.trackPlayVideo(source: source)
-    }
-
     func directMessagesItemPressed() {
         currentListingViewModel?.chatWithSeller()
     }
 
     func send(quickAnswer: QuickAnswer) {
-        currentListingViewModel?.sendQuickAnswer(quickAnswer: quickAnswer)
+        currentListingViewModel?.sendQuickAnswer(quickAnswer: quickAnswer,
+                                                 trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func interestedButtonTapped() {
-        currentListingViewModel?.sendInterested()
+        currentListingViewModel?.sendInterested(trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func chatButtonTapped() {
@@ -420,7 +463,9 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func send(directMessage: String, isDefaultText: Bool) {
-        currentListingViewModel?.sendDirectMessage(directMessage, isDefaultText: isDefaultText)
+        currentListingViewModel?.sendDirectMessage(directMessage,
+                                                   isDefaultText: isDefaultText,
+                                                   trackingInfo: sectionFeedChatTrackingInfo)
     }
 
     func editButtonPressed() {
@@ -450,11 +495,13 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    func showBumpUpView(bumpUpProductData: BumpUpProductData?,
+    func showBumpUpView(purchases: [BumpUpProductData],
+                        maxCountdown: TimeInterval,
                         bumpUpType: BumpUpType?,
                         bumpUpSource: BumpUpSource?,
                         typePage: EventParameterTypePage?) {
-        currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
+        currentListingViewModel?.showBumpUpView(purchases: purchases,
+                                                maxCountdown: maxCountdown,
                                                 bumpUpType: bumpUpType,
                                                 bumpUpSource: bumpUpSource,
                                                 typePage: typePage)
@@ -598,10 +645,14 @@ class ListingCarouselViewModel: BaseViewModel {
         guard let media = currentListingViewModel?.productMedia.value else { return false }
         return media[safeAt: index]?.isPlayable ?? false
     }
+    
+    func makeSocialMessage() -> SocialMessage? {
+        return currentListingViewModel?.socialMessage.value
+    }
 
     // MARK: - Private Methods
 
-    fileprivate func listingAt(index: Int) -> Listing? {
+    private func listingAt(index: Int) -> Listing? {
         return listingCellModelAt(index: index)?.listing
     }
 
@@ -615,7 +666,7 @@ class ListingCarouselViewModel: BaseViewModel {
         if let vm = productsViewModels[listingId] {
             return vm
         }
-        let vm = listingViewModelMaker.make(listing: listing, visitSource: source)
+        let vm = listingViewModelAssembly.build(listing: listing, visitSource: source)
         vm.navigator = navigator
         productsViewModels[listingId] = vm
         return vm
@@ -818,6 +869,11 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
         return .position(index: trackingIndex)
     }
     
+    var trackingFeedSectionName: EventParameterSectionName? {
+        guard let trackingId = trackingIdentifier else { return nil }
+        return .identifier(id: trackingId)
+    }
+    
     var listingOrigin: ListingOrigin {
         let result: ListingOrigin
         switch lastMovement {
@@ -897,11 +953,12 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 extension CarouselMovement {
 
     func visitSource(_ origin: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
+        let newOrigin: EventParameterListingVisitSource = origin == .sectionList ? .relatedItemList : origin
         switch self {
         case .tap: fallthrough
-        case .swipeRight: return origin.next
-        case .initial: return origin
-        case .swipeLeft: return origin.previous
+        case .swipeRight: return newOrigin.next
+        case .initial: return newOrigin
+        case .swipeLeft: return newOrigin.previous
         }
     }
 

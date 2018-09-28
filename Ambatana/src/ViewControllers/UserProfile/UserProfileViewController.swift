@@ -63,6 +63,8 @@ final class UserProfileViewController: BaseViewController {
         }
     }
 
+    private var tabsContentOffsetState = [CGPoint](repeating: CGPoint(x: 0, y: -Layout.tabsHeight), count: 4)
+
     private let userNavBarAnimationDelta: CGFloat = 40.0
     private let userNavBarAnimationStartOffset: CGFloat = 44.0
 
@@ -90,7 +92,8 @@ final class UserProfileViewController: BaseViewController {
         self.disposeBag = DisposeBag()
         self.headerView = UserProfileHeaderView(isPrivate: viewModel.isPrivateProfile)
         self.bioAndTrustView = UserProfileBioAndTrustView(isPrivate: viewModel.isPrivateProfile)
-        self.listingView = ListingListView(viewModel: ListingListViewModel(),
+        let source: ListingListViewModel.ListingListViewContainer = viewModel.isPrivateProfile ? .privateProfileSelling : .publicProfileSelling
+        self.listingView = ListingListView(viewModel: ListingListViewModel(source: source),
                                            featureFlags: FeatureFlags.sharedInstance)
         self.socialSharer = socialSharer
         self.socialSharer.delegate = viewModel
@@ -143,13 +146,13 @@ final class UserProfileViewController: BaseViewController {
         headerContainerView.addSubviewsForAutoLayout([headerView, dummyView, userRelationView,
                                                       bioAndTrustView, tabsView])
 
-        if viewModel.showKarmaView {
+        if viewModel.shouldShowKarmaView {
             headerContainerView.addSubviewForAutoLayout(karmaView)
 
             let tap = UITapGestureRecognizer(target: self, action: #selector(didTapKarmaScore))
             karmaView.addGestureRecognizer(tap)
         }
-        bioAndTrustView.onlyShowBioText = viewModel.showKarmaView
+        bioAndTrustView.onlyShowBioText = viewModel.shouldShowKarmaView
 
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
 
@@ -197,7 +200,7 @@ final class UserProfileViewController: BaseViewController {
     private func setupNavBar() {
         let backIcon = R.Asset.IconsButtons.navbarBackRed.image
         setNavBarBackButton(backIcon)
-        if viewModel.showCloseButtonInNavBar {
+        if viewModel.shouldShowCloseButtonInNavBar {
             setNavBarCloseButton(#selector(close))
         }
 
@@ -278,7 +281,7 @@ final class UserProfileViewController: BaseViewController {
             emptyReviewsLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
         ]
 
-        if viewModel.showKarmaView {
+        if viewModel.shouldShowKarmaView {
             constraints.append(contentsOf: [
                 karmaView.topAnchor.constraint(equalTo: bioAndTrustView.bottomAnchor, constant: Metrics.shortMargin),
                 karmaView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
@@ -437,10 +440,21 @@ extension UserProfileViewController {
 // MARK: - Tabs Delegate
 
 extension UserProfileViewController: UserProfileTabsViewDelegate {
-    func didSelect(tab: UserProfileTabType) {
-        viewModel.selectedTab.value = tab
-        listingView.isHidden = tab == .reviews
-        tableView.isHidden = tab != .reviews
+    func didSelect(tab newTab: UserProfileTabType) {
+        // Store current tab offset state
+        let scrollView = newTab == .reviews ? tableView : listingView.collectionView
+        let previousTab = viewModel.selectedTab.value
+        tabsContentOffsetState[previousTab.rawValue] = CGPoint(x: 0, y: max(scrollView.contentOffset.y, -Layout.tabsHeight))
+
+        // Handle tab content visibility
+        viewModel.selectedTab.value = newTab
+        listingView.isHidden = newTab == .reviews
+        tableView.isHidden = newTab != .reviews
+
+        // Set new tab offset state (previously stored)
+        if scrollView.contentOffset.y >= -Layout.tabsHeight {
+            scrollView.setContentOffset(tabsContentOffsetState[newTab.rawValue], animated: false)
+        }
     }
 }
 
@@ -448,12 +462,23 @@ extension UserProfileViewController: UserProfileTabsViewDelegate {
 // MARK: - Header Delegate
 
 extension UserProfileViewController: UserProfileHeaderDelegate {
+    func didTapChatNow() {
+        viewModel.openChatNow()
+    }
+    
     func didTapEditAvatar() {
         guard viewModel.isPrivateProfile else { return }
         MediaPickerManager.showImagePickerIn(self)
     }
 
-    func didTapAvatar() {}
+    func didTapAvatar() {
+        viewModel.didTapAvatar()
+    }
+
+    func didTapRating() {
+        guard viewModel.isTapOnRatingStarsEnabled else { return }
+        tabsView.select(tab: .reviews)
+    }
 }
 
 // MARK: - Image Picker Delegate
@@ -517,6 +542,12 @@ extension UserProfileViewController: UserRatingListViewModelDelegate {
     }
 }
 
+extension UserProfileViewController: SocialMessageConvertible {
+    func retrieveSocialMessage() -> SocialMessage? {
+        return viewModel.makeSocialMessage()
+    }
+}
+
 // MARK: - Rx
 
 extension UserProfileViewController {
@@ -551,7 +582,14 @@ extension UserProfileViewController {
             .userRatingCount
             .drive(onNext: { [weak self] in
                 self?.headerView.setUser(hasRatings: $0 > 0)
+                if let showRatingsCount = self?.viewModel.shouldShowRatingCount, showRatingsCount {
+                    self?.headerView.setUser(numberOfRatings: $0)
+                }
             })
+            .disposed(by: disposeBag)
+        
+        viewModel.chatNowButtonIsHidden
+            .drive(headerView.rx.chatNowButtonIsHidden)
             .disposed(by: disposeBag)
 
         Observable
@@ -585,7 +623,7 @@ extension UserProfileViewController {
         viewModel
             .userScore
             .drive(onNext: { [weak self] score in
-                guard let strongSelf = self, strongSelf.viewModel.showKarmaView else { return }
+                guard let strongSelf = self, strongSelf.viewModel.shouldShowKarmaView else { return }
                 strongSelf.karmaView.score = score
             })
             .disposed(by: disposeBag)
@@ -617,6 +655,11 @@ extension UserProfileViewController {
                 self?.updateDummyUsersView(isDummy: isDummy, userName: userName)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.showBubbleNotification.asObserver().bind { [weak self] data in
+            guard let view = self?.view else { return }
+            self?.viewModel.showUndoBubble(inView: view, data: data)
+        }.disposed(by: disposeBag)
     }
 
     private func setupPushPermissionsRx() {
@@ -630,21 +673,21 @@ extension UserProfileViewController {
             .disposed(by: disposeBag)
     }
 
+
     private func didChangePushPermissions() {
         listingView.refreshDataView()
-        tableView.tableHeaderView = buildNotificationBanner()
+        addTableHeaderView()
     }
-
-    private func buildNotificationBanner() -> UIView? {
-        guard viewModel.showPushPermissionsBanner else { return nil }
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: PushPermissionsHeader.viewHeight))
-        let pushHeader = PushPermissionsHeader()
-        pushHeader.delegate = self
-        pushHeader.cornerRadius = 10
-        container.addSubviewForAutoLayout(pushHeader)
-        pushHeader.layout(with: container).fillHorizontal(by: 10).fillVertical()
-        container.layout().height(PushPermissionsHeader.viewHeight)
-        return container
+    
+    private func addTableHeaderView() {
+        if let notificationBanner = buildNotificationBanner() {
+            tableView.tableHeaderView = notificationBanner
+        } else if let smokeTestBannerView = smokeTestBannerView {
+            viewModel.trackSmokeTestShown(testType: smokeTestFeature.testType)
+            tableView.tableHeaderView = smokeTestBannerView
+        } else {
+            tableView.tableHeaderView = nil
+        }
     }
 
     private func updateUserRelation(with text: String?) {
@@ -709,27 +752,73 @@ extension UserProfileViewController: UserProfileViewModelDelegate {
     }
 }
 
-// MARK: - PushPermissions
+// MARK: - ListingListViewHeaderDelegate
 
-extension UserProfileViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
+extension UserProfileViewController: ListingListViewHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
-        var totalHeight: CGFloat = 0
-        totalHeight += viewModel.showPushPermissionsBanner ? PushPermissionsHeader.viewHeight : 0
-        return totalHeight
+        return viewModel.bannerHeight
     }
 
     func setupViewsIn(header: ListHeaderContainer) {
         header.clear()
-        if viewModel.showPushPermissionsBanner {
+        if viewModel.shouldShowPushPermissionsBanner {
             let pushHeader = PushPermissionsHeader()
             pushHeader.tag = 0
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight, style: .bubble)
+        } else if viewModel.showClickToTalkBanner,
+            let smokeTestBannerView = smokeTestBannerView {
+            header.addHeader(smokeTestBannerView, height: viewModel.bannerHeight)
         }
     }
 
+}
+
+// MARK: - PushPermissionsHeaderDelegate
+
+extension UserProfileViewController: PushPermissionsHeaderDelegate {
     func pushPermissionHeaderPressed() {
         viewModel.didTapPushPermissionsBanner()
+    }
+    
+    private func buildNotificationBanner() -> UIView? {
+        guard viewModel.shouldShowPushPermissionsBanner else { return nil }
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: PushPermissionsHeader.viewHeight))
+        let pushHeader = PushPermissionsHeader()
+        pushHeader.delegate = self
+        pushHeader.cornerRadius = 10
+        container.addSubviewForAutoLayout(pushHeader)
+        pushHeader.layout(with: container).fillHorizontal(by: 10).fillVertical()
+        container.layout().height(PushPermissionsHeader.viewHeight)
+        return container
+    }
+}
+
+// MARK: - SmokeTestBanner
+
+extension UserProfileViewController {
+    var smokeTestFeature: LGSmokeTestFeature {
+        return .clickToTalk
+    }
+    
+    var smokeTestBannerView: UIView? {
+        guard viewModel.showClickToTalkBanner,
+            let smokeTestBanner = buildSmokeTestBanner(feature: smokeTestFeature) else { return nil }
+        return smokeTestBanner
+    }
+    private func buildSmokeTestBanner(feature: LGSmokeTestFeature) -> UIView? {
+        let container = UIView()
+        let header = LGTapToActionView(viewModel: feature.tapToActionViewModel,
+                                       configuration: feature.tapToActionUIConfiguration)
+        header.addTarget(self, action: #selector(smokeTestBannerTapped), for: .touchUpInside)
+        container.addSubviewForAutoLayout(header)
+        header.layout(with: container).fillHorizontal(by: Metrics.shortMargin).fillVertical()
+        container.layout().height(LGTapToActionView.viewHeight)
+        return container
+    }
+    
+    @objc private func smokeTestBannerTapped() {
+        viewModel.didTapSmokeTestBanner(feature: smokeTestFeature)
     }
 }

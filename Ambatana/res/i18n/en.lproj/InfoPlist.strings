@@ -16,3 +16,5 @@
 
 "NSPhotoLibraryAddUsageDescription" = "Your image library will be used so you can select pictures of what you want to sell from all the images in your camera roll.";
 
+"NSContactsUsageDescription" = "letgo needs to access your contacts to invite your friends";
+

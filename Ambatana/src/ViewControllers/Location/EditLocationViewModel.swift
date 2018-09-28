@@ -31,11 +31,11 @@ enum EditLocationMode {
     }
 }
 
-class EditLocationViewModel: BaseViewModel {
+final class EditLocationViewModel: BaseViewModel {
    
     weak var delegate: EditLocationViewModelDelegate?
-    weak var navigator: EditLocationNavigator?
-    weak var quickLocationFiltersNavigator: QuickLocationFiltersNavigator?
+    var navigator: EditLocationNavigator?
+    var quickLocationFiltersNavigator: QuickLocationFiltersNavigator?
     weak var locationDelegate: EditLocationDelegate?
     
     private let locationManager: LocationManager
@@ -167,15 +167,15 @@ class EditLocationViewModel: BaseViewModel {
     }
     
     func placeResumedDataAtPosition(_ position: Int) -> String? {
-        return predictiveResults[position].placeResumedData
+        return predictiveResults[safeAt: position]?.placeResumedData
     }
     
     func locationForPlaceAtPosition(_ position: Int) -> LGLocationCoordinates2D? {
-        return predictiveResults[position].location
+        return predictiveResults[safeAt: position]?.location
     }
 
     func postalAddressForPlaceAtPosition(_ position: Int) -> PostalAddress? {
-        return predictiveResults[position].postalAddress
+        return predictiveResults[safeAt: position]?.postalAddress
     }
 
     func showGPSLocation() {
@@ -185,8 +185,7 @@ class EditLocationViewModel: BaseViewModel {
     }
 
     func selectPlace(_ resultsIndex: Int) {
-        guard resultsIndex >= 0 && resultsIndex < predictiveResults.count else { return }
-        let place = predictiveResults[resultsIndex]
+        guard let place = predictiveResults[safeAt: resultsIndex] else { return }
         if let shouldRetrieveDetails = place.shouldRetrieveDetails, shouldRetrieveDetails {
             guard let placeId = place.placeId else { return }
             delegate?.vmShowLoading(nil)

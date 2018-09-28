@@ -35,7 +35,9 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
 
     init(viewModel: TourLoginViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "TourLoginViewController", statusBarStyle: .lightContent,
+        super.init(viewModel: viewModel,
+                   nibName: nil,
+                   statusBarStyle: .lightContent,
                    navBarBackgroundStyle: .transparent(substyle: .dark))
 
         self.viewModel.delegate = self

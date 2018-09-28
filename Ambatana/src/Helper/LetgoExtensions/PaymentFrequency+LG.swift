@@ -5,7 +5,7 @@ import LGComponents
 extension PaymentFrequency {
     
     static var allCases: [PaymentFrequency] {
-        return [.hourly, .daily, .biweekly, .weekly, .monthly, .yearly, .oneOff]
+        return [.hourly, .daily, .weekly, .biweekly, .monthly, .yearly, .oneOff]
     }
     
     var localizedDisplayName: String {

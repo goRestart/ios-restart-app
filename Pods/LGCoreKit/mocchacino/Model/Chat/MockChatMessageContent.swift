@@ -71,6 +71,16 @@ public struct MockChatMessageContent: ChatMessageContent {
         case .carousel(let cards, let answers):
             result[typeKey] = ChatMessageTypeDecodable.carousel.rawValue
             result[textKey] = text
+            let cards = cards.map { MockChatCarouselCard(from: $0).makeDictionary() }
+            result[LGChatMessageContent.CodingKeys.cards.rawValue] = cards
+            let answers = answers.map { MockChatAnswer(from: $0).makeDictionary() }
+            result[LGChatMessageContent.CodingKeys.answers.rawValue] = answers
+        case .system(let message):
+            result[typeKey] = ChatMessageTypeDecodable.system.rawValue
+            result[textKey] = text
+            result[LGChatMessageContent.CodingKeys.localizedKey.rawValue] = message.localizedKey
+            result[LGChatMessageContent.CodingKeys.localizedText.rawValue] = message.localizedText
+            result[LGChatMessageContent.CodingKeys.severity.rawValue] = message.severity
         case .unsupported, .interlocutorIsTyping:
             result[typeKey] = "an_unsupported_type"
         }

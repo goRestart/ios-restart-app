@@ -30,6 +30,40 @@ extension URL {
     static func makeAppRatingDeeplink(with source: EventParameterRatingSource) -> URL? {
         return URL(string: String(format: "letgo://app_rating?rating-source=%@", source.rawValue))
     }
+
+    static func makeSellDeeplink(with source: PostingSource?, category: PostCategory?, title: String?) -> URL? {
+        var params: [String] = []
+        var deeplink = "letgo://sell"
+        if let source = source {
+            params.append("source=\(source.rawValue)")
+        }
+        if let category = category {
+            params.append("category=\(category.description)")
+        }
+        if let title = title {
+            params.append("title=\(title)")
+        }
+        if params.count > 0 {
+            deeplink += "?\(params.joined(separator: "&"))"
+        }
+        return URL(string: deeplink)
+    }
+    
+    static func makeInvitationDeepLink(withUsername username: String, andUserId userid: String) -> URL? {
+        guard let encodedUsername = username.addingPercentEncoding(
+            withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
+            return nil
+        }
+        return URL(string: String(
+            format: "letgo://app_invite?user-name=%@&user-id=%@",
+            encodedUsername,
+            userid
+        ))
+    }
+
+    static func makeP2PPaymentOfferDeepLink(with offerId: String) -> URL? {
+        return URL(string: "letgo://p2payments_offer/\(offerId)")
+    }
 }
 
 final class LGDeepLinkMailBox: DeepLinkMailBox {

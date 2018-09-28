@@ -16,6 +16,8 @@ extension ListingFilters: MockFactory {
     }
 }
 
+extension ListingFilters: Equatable {}
+
 extension VerticalFilters: MockFactory {
     
     public static func makeMock() -> VerticalFilters {
@@ -50,7 +52,8 @@ extension ServicesFilters: MockFactory {
     
     public static func makeMock() -> ServicesFilters {
         return ServicesFilters(type: MockServiceType.makeMock(),
-                               subtypes: MockServiceSubtype.makeMocks())
+                               subtypes: MockServiceSubtype.makeMocks(),
+                               listingTypes: [ServiceListingType.job])
     }
 }
 

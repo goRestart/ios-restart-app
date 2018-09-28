@@ -27,7 +27,11 @@ final class CommunityTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        let viewModel = CommunityViewModel(communityRepository: Core.communityRepository, source: source, tracker: tracker)
+
+        let viewModel = CommunityViewModel(communityRepository: Core.communityRepository,
+                                           sessionManager: Core.sessionManager,
+                                           source: source,
+                                           tracker: tracker)
         let rootViewController = CommunityViewController(viewModel: viewModel)
 
         super.init(listingRepository: listingRepository, userRepository: userRepository,
@@ -56,6 +60,13 @@ final class CommunityTabCoordinator: TabCoordinator {
 
 extension CommunityTabCoordinator: CommunityTabNavigator {
     func closeCommunity() {
-        dismissViewController(animated: true, completion: nil)
+        closeCoordinator(animated: true, completion: nil)
+    }
+
+    func openLogin() {
+        guard !sessionManager.loggedIn else { return }
+        let vc = LoginBuilder.modal.buildMainSignIn(withSource: .community, loginAction: nil, cancelAction: nil)
+        let nav = UINavigationController(rootViewController: vc)
+        viewController.present(nav, animated: true)
     }
 }

@@ -26,6 +26,7 @@ enum ListingRouter: URLRequestAuthenticable {
     case createServices(params: [[String : Any]])
     case updateService(listingId: String, params: [String : Any])
     case index(params: [String : Any])
+    case indexNewSearchAPI(params: [String : Any])
     case indexRealEstate(params: [String : Any])
     case indexRealEstateRelatedSearch(params: [String : Any])
     case indexCars(params: [String : Any])
@@ -65,7 +66,7 @@ enum ListingRouter: URLRequestAuthenticable {
 
     var endpoint: String {
         switch self {
-        case .delete, .update, .patch, .show, .create, .index, .indexCustomFeed:
+        case .delete, .update, .patch, .show, .create, .index, .indexCustomFeed, .indexNewSearchAPI:
             return ListingRouter.listingBaseUrl
         case .createRealEstate, .updateRealEstate:
             return ListingRouter.listingRealEstateBaseUrl
@@ -137,7 +138,7 @@ enum ListingRouter: URLRequestAuthenticable {
         case .show, .index, .showCar, .showRealEstate, .showService, .indexRealEstate, .indexRealEstateRelatedSearch, .indexCars,
              .indexCarsRelatedSearch, .indexForUser, .indexFavorites, .indexRelatedListings,
              .indexRelatedRealEstate, .indexRelatedCars, .indexServices, .indexServicesRelatedSearch, .indexRelatedServices, .indexDiscoverListings, .indexTrending, .showStats,
-             .updateStats, .indexCustomFeed:
+             .updateStats, .indexCustomFeed, .indexNewSearchAPI:
             return .nonexistent
         }
     }
@@ -208,6 +209,8 @@ enum ListingRouter: URLRequestAuthenticable {
                                              encoding: nil).asURLRequest()
         case let .index(params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case let .indexNewSearchAPI(params):
+            return try Router<NewSearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexCustomFeed(params):
             return try Router<CustomFeedBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexRealEstate(params):

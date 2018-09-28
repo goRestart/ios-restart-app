@@ -61,6 +61,19 @@ enum InterestedState: Equatable {
     }
 }
 
+extension InterestedState {
+    
+    var image: UIImage? {
+        switch self {
+        case .none: return nil
+        case .send(let enabled):
+            let alpha: CGFloat = enabled ? 1 : 0.7
+            return R.Asset.IconsButtons.IAmInterested.icIamiSend.image.withAlpha(alpha) ?? R.Asset.IconsButtons.IAmInterested.icIamiSend.image
+        case .seeConversation: return R.Asset.IconsButtons.IAmInterested.icIamiSeeconv.image
+        }
+    }
+}
+
 struct ListingData {
     var listing: Listing?
     var delegate: ListingCellDelegate?
@@ -89,19 +102,18 @@ struct ListingData {
     }
     
     var paymentFrequency: String? {
-        return listing?.service?.servicesAttributes.paymentFrequency?.perValueDisplayName
+        return listing?.paymentFrequencyString
     }
     
-    var distanceToListing: Double? {
-        guard let listingPosition = listing?.location,
-              let userLocation = currentLocation?.location else { return nil }
-        return userLocation.distanceTo(listingPosition).roundNearest(0.1)
+    var serviceListingTypeDisplayText: String? {
+        return listing?.service?.servicesAttributes.listingType?.displayName.localizedCapitalized
     }
     
     func titleViewModel(featureFlags: FeatureFlaggeable) -> ListingTitleViewModel? {
         return ListingTitleViewModel(listing: listing,
                                      featureFlags: featureFlags)
     }
+
 }
 
 enum CollectionCellType: String {
@@ -119,6 +131,19 @@ enum CollectionCellType: String {
         case .selectedForYou:
             return R.Strings.collectionYouTitle
         }
+    }
+    
+    func buildQueryString(from keyValueStorage: KeyValueStorageable) -> String {
+        var query: String
+        switch self {
+        case .selectedForYou:
+            query = keyValueStorage[.lastSuggestiveSearches]
+                .compactMap { $0.suggestiveSearch.name }
+                .reversed()
+                .joined(separator: " ")
+                .clipMoreThan(wordCount: SharedConstants.maxSelectedForYouQueryTerms)
+        }
+        return query
     }
 }
 
@@ -162,11 +187,4 @@ struct AdvertisementAdxData {
 enum AdProviderType {
     case dfp
     case moPub
-}
-
-struct PromoCellData {
-    var appereance: CellAppereance
-    var arrangement: PromoCellArrangement
-    var title: String
-    var image: UIImage
 }

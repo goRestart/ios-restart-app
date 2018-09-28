@@ -35,7 +35,8 @@ class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
         let columns = show3Columns ? 3 : 2
         self.listingListViewModel = ListingListViewModel(requester: requester,
                                                          listings: listings,
-                                                         numberOfColumns: columns)
+                                                         numberOfColumns: columns,
+                                                         source: .simpleListings)
         self.featureFlags = featureFlags
         super.init()
         listingListViewModel.dataDelegate = self
@@ -64,7 +65,8 @@ class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
-                       hasListings: Bool) {
+                       hasListings: Bool,
+                       containsRecentListings: Bool) {
 
     }
     func listingListVM(_ viewModel: ListingListViewModel, 

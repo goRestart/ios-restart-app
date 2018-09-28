@@ -23,7 +23,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
     override func spec() {
         var sut: ListingCarouselViewModel!
 
-        var listingViewModelMaker: MockListingViewModelMaker!
+        var listingViewModelAssembly: MockListingViewModelAssembly!
         var listingListRequester: MockListingListRequester!
         var keyValueStorage: MockKeyValueStorage!
         var imageDownloader: MockImageDownloader!
@@ -72,27 +72,32 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                           source: LetGoGodMode.EventParameterListingVisitSource = .listingList,
                           actionOnFirstAppear: ProductCarouselActionOnFirstAppear = .nonexistent,
                           trackingIndex: Int? = nil,
+                          trackingIdentifier: String? = nil,
                           firstProductSyncRequired: Bool = false) {
 
                 var initialListing: Listing? = nil
                 if let initialProduct = initialProduct {
                     initialListing = .product(initialProduct)
                 }
+                let nc = UINavigationController()
                 sut = ListingCarouselViewModel(productListModels: productListModels,
                                                initialListing: initialListing,
+                                               viewModelMaker: listingViewModelAssembly,
                                                thumbnailImage: nil,
                                                listingListRequester: listingListRequester,
                                                source: source,
                                                actionOnFirstAppear: actionOnFirstAppear,
                                                trackingIndex: trackingIndex,
+                                               sectionIndex: nil,
+                                               trackingIdentifier: trackingIdentifier,
                                                firstProductSyncRequired: firstProductSyncRequired,
                                                featureFlags: featureFlags,
                                                keyValueStorage: keyValueStorage,
                                                imageDownloader: imageDownloader,
-                                               listingViewModelMaker: listingViewModelMaker,
                                                adsRequester: AdsRequester(),
                                                locationManager: locationManager,
-                                               myUserRepository: myUserRepository)
+                                               myUserRepository: myUserRepository,
+                                               adsImpressionConfigurable: MockAdsImpressionConfigurable())
                 sut.delegate = self
 
                 disposeBag = DisposeBag()
@@ -138,7 +143,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 keyValueStorage = MockKeyValueStorage()
                 imageDownloader = MockImageDownloader()
 
-                listingViewModelMaker = MockListingViewModelMaker(myUserRepository: myUserRepository,
+                listingViewModelAssembly = MockListingViewModelAssembly(myUserRepository: myUserRepository,
                                                                   userRepository: userRepository,
                                                                   listingRepository: listingRepository,
                                                                   chatWrapper: chatWrapper,
@@ -238,12 +243,13 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
             describe("show more info") {
                 context ("ads for everyone") {
                     beforeEach {
-                        featureFlags.noAdsInFeedForNewUsers = .control
                         product.status = .approved
                         buildSut(initialProduct: product)
                         sut.active = true
                         sut.moreInfoState.value = .shown
-                        sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height,
+                        sut.didReceiveAd(bannerTopPosition: 0,
+                                         bannerBottomPosition: 0,
+                                         screenHeight: UIScreen.main.bounds.height,
                                          bannerSize: CGSize.zero)
                     }
                     it("tracks more info visit") {
@@ -255,9 +261,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 context("ads only for new users") {
-                    beforeEach {
-                       featureFlags.noAdsInFeedForNewUsers = .noAdsForNewUsers
-                    }
                     context("the user is new (less than 2 weeks") {
                         beforeEach {
                             var myUser = MockMyUser.makeMock()
@@ -286,7 +289,9 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             sut.moreInfoState.value = .shown
-                            sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height,
+                            sut.didReceiveAd(bannerTopPosition: 0,
+                                             bannerBottomPosition: 0,
+                                             screenHeight: UIScreen.main.bounds.height,
                                              bannerSize: CGSize.zero)
                         }
                         it("tracks more info visit") {
@@ -700,7 +705,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     }
                     it("there's a share navbar button") {
                         let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                        expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                        expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                     }
                     it("directchatenabled is true") {
                         expect(directChatEnabledObserver.eventValues) == [true]
@@ -727,7 +732,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("share navbar button remains share") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                            expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                     }
                     describe("user logs in, product is mine") {
@@ -753,7 +758,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("navbar buttons now have share and edit") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                            expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                     }
                 }
@@ -797,7 +802,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             }
                             it("navbar buttons have edit and options") {
                                 let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                                expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                             }
                             it("there are no action buttons") {
                                 expect(actionButtonsObserver.lastValue?.count) == 0
@@ -806,7 +811,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 expect(statusObserver.lastValue) == .pending
                             }
                             it("isFeatured is false") {
-                                expect(isFeaturedObserver.lastValue) == product.featured ?? false
+                                expect(isFeaturedObserver.lastValue) == false
                             }
                             it("quick answers are disabled") {
                                 expect(quickAnswersAvailableObserver.lastValue) == false
@@ -840,7 +845,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             }
                             it("navbar buttons have edit and options") {
                                 let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                                expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                             }
                             it("there are no action buttons") {
                                 expect(actionButtonsObserver.lastValue?.count) == 0
@@ -870,6 +875,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             product.status = .approved
                             product.price = .normal(25)
                             product.name = String.makeRandom()
+                            product.featured = false
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -884,7 +890,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("navbar buttons have edit and options") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                            expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there is a mark sold action") {
                             expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productMarkAsSoldButton]
@@ -893,7 +899,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(statusObserver.lastValue) == .available
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == product.featured ?? false
+                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -927,7 +933,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("navbar buttons have edit and options") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                            expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there is a mark sold action") {
                             expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productMarkAsSoldFreeButton]
@@ -970,7 +976,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("navbar buttons have just options") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                            expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there is a sell again action") {
                             expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productSellAgainButton]
@@ -1013,7 +1019,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("navbar buttons have just options") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                            expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there is a sell again action") {
                             expect(actionButtonsObserver.lastValue?.compactMap { $0.text }) == [R.Strings.productSellAgainFreeButton]
@@ -1057,7 +1063,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                            expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
@@ -1066,7 +1072,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(statusObserver.lastValue) == .notAvailable
                         }
                         it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == false
+                            expect(isFeaturedObserver.lastValue) == product.featured ?? false
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -1090,6 +1096,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 product.status = .approved
                                 product.price = .normal(25)
                                 product.name = String.makeRandom()
+                                product.featured = false
                                 buildSut(initialProduct: product)
                                 sut.active = true
                                 expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
@@ -1105,7 +1112,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             }
                             it("navbar buttons has share button") {
                                 let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                                expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                             }
                             it("there are no action buttons") {
                                 expect(actionButtonsObserver.lastValue?.count) == 0
@@ -1137,6 +1144,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 product.status = .approved
                                 product.price = .normal(25)
                                 product.name = String.makeRandom()
+                                product.featured = false
                                 buildSut(initialProduct: product)
                                 sut.active = true
                                 expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
@@ -1152,7 +1160,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             }
                             it("navbar buttons has share button") {
                                 let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                                expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                             }
                             it("there is an action button (chat)") {
                                 expect(actionButtonsObserver.lastValue?.count) == 1
@@ -1186,6 +1194,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 product.status = .approved
                                 product.price = .free
                                 product.name = String.makeRandom()
+                                product.featured = false
                                 buildSut(initialProduct: product)
                                 sut.active = true
                                 expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
@@ -1201,7 +1210,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             }
                             it("navbar buttons has share button") {
                                 let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                                expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                             }
                             it("there are no action buttons") {
                                 expect(actionButtonsObserver.lastValue?.count) == 0
@@ -1233,6 +1242,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 product.status = .approved
                                 product.price = .free
                                 product.name = String.makeRandom()
+                                product.featured = false
                                 buildSut(initialProduct: product)
                                 sut.active = true
                                 expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
@@ -1248,7 +1258,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             }
                             it("navbar buttons has share button") {
                                 let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                                expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                             }
                             it("there is an action button (chat)") {
                                 expect(actionButtonsObserver.lastValue?.count) == 1
@@ -1292,7 +1302,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                            expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
@@ -1335,7 +1345,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
+                            expect(navBarButtonsObserver.lastValue?.compactMap { $0.accessibility?.identifier }) == accesibilityIds.map{ $0.identifier }
                         }
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0

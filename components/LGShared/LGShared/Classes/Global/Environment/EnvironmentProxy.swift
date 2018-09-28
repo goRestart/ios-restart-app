@@ -117,32 +117,8 @@ public final class EnvironmentProxy: AppEnvironment {
         return environment.feedAdUnitIdDFPUSA20Ratio
     }
     
-    public var feedAdUnitIdMoPubUSAForAllUsers: String {
-        return environment.feedAdUnitIdMoPubUSAForAllUsers
-    }
-    
-    public var feedAdUnitIdMoPubUSAForOldUsers: String {
-        return environment.feedAdUnitIdMoPubUSAForOldUsers
-    }
-    
-    public var feedAdUnitIdMoPubTRForAllUsers: String {
-        return environment.feedAdUnitIdMoPubTRForAllUsers
-    }
-    
-    public var feedAdUnitIdMoPubTRForOldUsers: String {
-        return environment.feedAdUnitIdMoPubTRForOldUsers
-    }
-    
-    public var feedAdUnitIdAdxUSAForAllUsers: String {
-        return environment.feedAdUnitIdAdxUSAForAllUsers
-    }
-    
     public var feedAdUnitIdAdxUSAForOldUsers: String {
         return environment.feedAdUnitIdAdxUSAForOldUsers
-    }
-    
-    public var feedAdUnitIdAdxTRForAllUsers: String {
-        return environment.feedAdUnitIdAdxTRForAllUsers
     }
     
     public var feedAdUnitIdAdxTRForOldUsers: String {
@@ -176,5 +152,18 @@ public final class EnvironmentProxy: AppEnvironment {
     public var feedAdUnitIdAdxInstallAppTR: String {
         return environment.feedAdUnitIdAdxInstallAppTR
     }
+    
+    public var chatSectionAdUnitForOldUsersUS: String {
+        return environment.chatSectionAdUnitForOldUsersUS
+    }
+    
+    public var chatSectionAdUnitForOldUsersTR: String {
+        return environment.chatSectionAdUnitForOldUsersTR
+    }
+    
+    public var sectionedFeedAdUnitForUS: String {
+        return environment.sectionedFeedAdUnitForUS
+    }
+    
     
 }

@@ -18,7 +18,7 @@ final class FiltersViewModel: BaseViewModel {
     
     weak var delegate: FiltersViewModelDelegate?
     weak var dataDelegate: FiltersViewModelDataDelegate?
-    var navigator: FiltersRouter?
+    var navigator: FiltersNavigator?
 
     var sections: [FilterSection]
 
@@ -32,12 +32,8 @@ final class FiltersViewModel: BaseViewModel {
     }
     
     var currentDistanceRadius : Int {
-        get {
-            return productFilter.distanceRadius ?? 0
-        }
-        set {
-            productFilter.distanceRadius = newValue > 0 ? newValue : nil
-        }
+        get { return productFilter.distanceRadius ?? 0 }
+        set { productFilter.distanceRadius = newValue > 0 ? newValue : nil }
     }
     
     var distanceType : DistanceType {
@@ -56,7 +52,7 @@ final class FiltersViewModel: BaseViewModel {
     }
 
     var isOddNumCategories: Bool {
-        return self.categories.count%2 == 1
+        return categories.count%2 == 1
     }
 
     var isPriceCellEnabled: Bool {
@@ -180,15 +176,15 @@ final class FiltersViewModel: BaseViewModel {
         return updatedSections.filter { $0 != .price || isPriceCellEnabled }
             .filter { $0 != .carsInfo || isCarsInfoCellEnabled }
             .filter { !$0.isRealEstateSection || isRealEstateInfoCellEnabled }
+            .filter { $0 != .jobsServicesToggle || isJobsServicesSectionEnabled }
             .filter { $0 != .servicesInfo || isServicesInfoCellEnabled }
     }
 
     func locationButtonPressed() {
-        let locationVM = EditLocationViewModel(mode: .editFilterLocation,
-                                               initialPlace: place,
-                                               distanceRadius: productFilter.distanceRadius)
-        locationVM.locationDelegate = self
-        navigator?.openEditLocation(withViewModel: locationVM)
+        navigator?.openEditLocation(mode: .editFilterLocation,
+                                    initialPlace: place,
+                                    distanceRadius: productFilter.distanceRadius,
+                                    locationDelegate: self)
     }
     
     func resetFilters() {
@@ -230,25 +226,25 @@ final class FiltersViewModel: BaseViewModel {
     // MARK: Categories
 
     func retrieveCategories() {
-        categoryRepository.index(servicesIncluded: true,
-                                 carsIncluded: false,
-                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
-                                    
+        let realEstateActive = featureFlags.realEstateEnabled.isActive
+        let toFilter: [ListingCategory] = realEstateActive ? [.cars, .unassigned] : [.cars, .realEstate, .unassigned]
+        categoryRepository.index { [weak self] result in
             guard let strongSelf = self else { return }
             guard let categories = result.value else { return }
-            strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(categories)
+            let filtered = categories.filteringBy(toFilter)
+            
+            strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(filtered)
             strongSelf.delegate?.vmDidUpdate()
         }
     }
 
     private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
-
-        var filterCatItems: [FilterCategoryItem] = [.category(category: .cars)]
+        var filterCarItems: [FilterCategoryItem] = [.category(category: .cars)]
         if featureFlags.freePostingModeAllowed {
-            filterCatItems.append(.free)
+            filterCarItems.append(.free)
         }
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
-        return filterCatItems + builtCategories
+        return filterCarItems + builtCategories
     }
 
     func selectCategoryAtIndex(_ index: Int) {
@@ -275,12 +271,15 @@ final class FiltersViewModel: BaseViewModel {
         switch category {
         case .category(let listingCategory):
             if let carSectionIndex = sections.index(of: .carsInfo),
-                listingCategory.isCar,
-                featureFlags.carExtraFieldsEnabled.isActive {
+                listingCategory.isCar {
                 delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: carSectionIndex))
             } else if let realEstateSectionIndex = sections.index(of: .realEstateInfo),
                 listingCategory.isRealEstate {
                 delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: realEstateSectionIndex))
+            } else if let jobsServicesToggleSectionIndex = sections.index(of: .jobsServicesToggle),
+                listingCategory.isServices,
+                featureFlags.jobsAndServicesEnabled.isActive {
+                delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: jobsServicesToggleSectionIndex))
             } else if let servicesSectionIndex = sections.index(of: .servicesInfo),
                 listingCategory.isServices {
                 delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: servicesSectionIndex))
@@ -585,7 +584,7 @@ extension FiltersViewModel {
 extension FiltersViewModel: CarAttributeSelectionDelegate {
     
     var carSections: [FilterCarSection] {
-        return FilterCarSection.all(showCarExtraFilters: featureFlags.carExtraFieldsEnabled.isActive)
+        return FilterCarSection.allCases
     }
     
     var isCarsInfoCellEnabled: Bool {
@@ -855,6 +854,36 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
 
 extension FiltersViewModel {
     
+    
+    // MARK: Jobs & Services Toggle
+    
+    var isJobsServicesSectionEnabled: Bool {
+        return isServicesInfoCellEnabled && featureFlags.jobsAndServicesEnabled.isActive
+    }
+    
+    var serviceListingTypeOptions: [ServiceListingType] {
+        return ServiceListingType.allCases(withFirstItem: .job)
+    }
+    
+    func serviceListingTypeDisplayText(atIndex index: Int) -> String? {
+        return serviceListingTypeOptions[safeAt: index]?.pluralDisplayName
+    }
+    
+    func isServiceListingTypeSelected(atIndex index: Int) -> Bool {
+        guard let item = serviceListingTypeOptions[safeAt: index] else { return false }
+        return productFilter.verticalFilters.services.listingTypes.contains(item)
+    }
+    
+    func selectServiceListingTypeOption(atIndex index: Int) {
+        guard let selectedListingType = serviceListingTypeOptions[safeAt: index] else { return }
+        
+        productFilter.verticalFilters.services.listingTypes.removeIfContainsElseAppend(selectedListingType)
+        delegate?.vmDidUpdate()
+    }
+    
+    
+    // MARK: Services
+    
     var currentServiceTypeName: String? {
         return productFilter.verticalFilters.services.type?.name
     }
@@ -863,42 +892,10 @@ extension FiltersViewModel {
         return productFilter.selectedCategories.contains(.services)
     }
     
-    var serviceSubtypeCellEnabled: Bool {
-        return productFilter.verticalFilters.services.type != nil
-    }
-    
-    var serviceSections: [FilterServicesSection] {
-        return FilterServicesSection.allSections(isUnifiedActive: featureFlags.servicesUnifiedFilterScreen.isActive)
-    }
-    
     var selectedServiceSubtypesDisplayName: String {
-        if featureFlags.servicesUnifiedFilterScreen.isActive {
-            return createUnifiedSelectedServiceDisplayName() ?? ""
-        } else {
-            return createSelectedServiceSubtypeDisplayName() ?? R.Strings.filtersServiceSubtypeNotSet
-        }
-    }
-    
-    private func createSelectedServiceSubtypeDisplayName() -> String? {
-        
         guard let firstSubtype =
             productFilter.verticalFilters.services.subtypes?.first?.name else {
-            return nil
-        }
-        
-        guard let secondSubtype =
-            productFilter.verticalFilters.services.subtypes?[safeAt: 1]?.name else {
-            return firstSubtype
-        }
-        
-        return "\(firstSubtype), \(secondSubtype)"
-    }
-    
-    private func createUnifiedSelectedServiceDisplayName() -> String? {
-        
-        guard let firstSubtype =
-            productFilter.verticalFilters.services.subtypes?.first?.name else {
-            return nil
+                return ""
         }
         
         if let count =
@@ -908,57 +905,17 @@ extension FiltersViewModel {
         
         return firstSubtype
     }
-
     
     // MARK: Actions
     
-    func servicesTypeTapped() {
-
-        let serviceTypeNames = serviceTypes.map( { $0.name } )
-        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
-                                                             attributes: serviceTypeNames,
-                                                             selectedAttribute: currentServiceTypeName)
-        { [weak self] selectedIndex in
-            if let selectedIndex = selectedIndex {
-                self?.updateServiceType(withServiceType: self?.serviceTypes[safeAt: selectedIndex])
-            } else {
-                self?.clearServiceType()
-            }
-            
-            self?.delegate?.vmDidUpdate()
-        }
-        navigator?.openListingAttributePicker(viewModel: vm)
-    }
-    
-    func servicesSubtypeTapped() {
-        
-        guard let serviceTypeId = productFilter.verticalFilters.services.type?.id else {
-            return
-        }
-        
-        let serviceSubtypes = servicesInfoRepository.serviceSubtypes(forServiceTypeId: serviceTypeId)
-        let serviceSubtypeNames = serviceSubtypes.map( { $0.name } )
-        let selectedSubtypeNames = (productFilter.verticalFilters.services.subtypes?.map( { $0.name } )) ?? []
-        let vm = ListingAttributeMultiselectPickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
-                                                            attributes: serviceSubtypeNames,
-                                                            selectedAttributes: selectedSubtypeNames,
-                                                            canSearchAttributes: true)
-        { [weak self] (selectedIndexes) in
-            let selectedSubtypes = self?.selectedAttributes(forIndexes: selectedIndexes, in: serviceSubtypes)
-            self?.updateServiceSubtypes(withServiceSubtypes: selectedSubtypes)
-            self?.delegate?.vmDidUpdate()
-        }
-        
-        navigator?.openListingAttributePicker(viewModel: vm)
-    }
-    
-    func unifiedServicesFilterTapped() {
+    func servicesFilterTapped() {
         let sectionRepresentables = serviceTypes.sectionRepresentables
             .updatedSectionRepresentables(withServicesFilters: productFilter.verticalFilters.services)
         let vm = DropdownViewModel(screenTitle: R.Strings.filtersServicesServicesListTitle,
                                    searchPlaceholderTitle: R.Strings.filtersServicesServicesListSearchPlaceholder,
                                    attributes: sectionRepresentables,
-                                   buttonAction: updateAllServices)
+                                   buttonAction: updateAllServices,
+                                   featureFlags: featureFlags)
         navigator?.openServicesDropdown(viewModel: vm)
     }
     

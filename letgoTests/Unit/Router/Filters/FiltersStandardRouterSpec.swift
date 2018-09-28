@@ -1,8 +1,9 @@
 import Quick
 import Nimble
+import LGCoreKit
 @testable import LetGoGodMode
 
-final class FiltersStandardRouterSpec: QuickSpec {
+final class FiltersStandardWireframeSpec: QuickSpec {
     override func spec() {
         class MockNavigationController: UINavigationController {
             var pushWasCalled: Bool = false
@@ -20,12 +21,12 @@ final class FiltersStandardRouterSpec: QuickSpec {
             }
         }
         
-        var subject: FiltersStandardRouter?
+        var subject: FiltersStandardWireframe?
         var navigationSubject: MockNavigationController?
         
         beforeEach {
             navigationSubject = MockNavigationController()
-            subject = FiltersStandardRouter(controller: navigationSubject!)
+            subject = FiltersStandardWireframe(nc: navigationSubject!)
         }
         
         describe("closeFilters") {
@@ -40,10 +41,12 @@ final class FiltersStandardRouterSpec: QuickSpec {
         
         describe("openServicesDropdown") {
             beforeEach {
+                let featureFlags = MockFeatureFlags()
                 subject?.openServicesDropdown(viewModel: DropdownViewModel(screenTitle: "Commander",
                                                                            searchPlaceholderTitle: "Keen",
                                                                            attributes: [],
-                                                                           buttonAction: nil))
+                                                                           buttonAction: nil,
+                                                                           featureFlags: featureFlags))
             }
             
             it("should push the view") {
@@ -57,7 +60,12 @@ final class FiltersStandardRouterSpec: QuickSpec {
         
         describe("openEditLocation") {
             beforeEach {
-                subject?.openEditLocation(withViewModel: EditLocationViewModel(mode: .editUserLocation))
+                let mode = EditLocationMode.editUserLocation
+                let place: Place = Place.init(placeId: String.makeRandom(), placeResumedData: String.makeRandom())
+                subject?.openEditLocation(mode: mode,
+                                          initialPlace:place,
+                                          distanceRadius: nil,
+                                          locationDelegate: self)
             }
             
             it("should push the view") {
@@ -85,4 +93,8 @@ final class FiltersStandardRouterSpec: QuickSpec {
             }
         }
     }
+}
+
+extension FiltersStandardWireframeSpec: EditLocationDelegate {
+    func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {}
 }

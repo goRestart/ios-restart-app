@@ -20,6 +20,7 @@ final class ChatConversationsListViewModelSpec: QuickSpec {
         var sut: ChatConversationsListViewModel!
         var chatRepository: MockChatRepository!
         var sessionManager: MockSessionManager!
+        var notificationsManager: MockNotificationsManager!
         var featureFlags: MockFeatureFlags!
         var tracker: MockTracker!
         
@@ -30,10 +31,12 @@ final class ChatConversationsListViewModelSpec: QuickSpec {
             beforeEach {
                 chatRepository = MockChatRepository()
                 sessionManager = MockSessionManager()
+                notificationsManager = MockNotificationsManager()
                 featureFlags = MockFeatureFlags()
                 tracker = MockTracker()
                 sut = ChatConversationsListViewModel(chatRepository: chatRepository,
                                                      sessionManager: sessionManager,
+                                                     notificationsManager: notificationsManager,
                                                      featureFlags: featureFlags,
                                                      tracker: tracker)
                 scheduler = TestScheduler(initialClock: 0)
@@ -133,6 +136,41 @@ final class ChatConversationsListViewModelSpec: QuickSpec {
                     }
                     it("resets the isEditing value") {
                         expect(sut.rx_isEditing.value).toEventually(equal(false))
+                    }
+                }
+            }
+            context("Helpers") {
+                context("chat counter") {
+                    var counter: Int!
+                    context("empty conversations") {
+                        beforeEach {
+                            counter = sut.unreadCount(for: [])
+                        }
+                        it("returns a counter of 0") {
+                            expect(counter) == 0
+                        }
+                    }
+                    context("one conversations") {
+                        beforeEach {
+                            var conv1 = MockChatConversation.makeMock()
+                            conv1.unreadMessageCount = 1
+                            counter = sut.unreadCount(for: [conv1])
+                        }
+                        it("returns a counter of 1") {
+                            expect(counter) == 1
+                        }
+                    }
+                    context("more than one conversations") {
+                        beforeEach {
+                            var conv1 = MockChatConversation.makeMock()
+                            conv1.unreadMessageCount = 1
+                            var conv2 = MockChatConversation.makeMock()
+                            conv2.unreadMessageCount = 2
+                            counter = sut.unreadCount(for: [conv1, conv2])
+                        }
+                        it("returns a counter of 3") {
+                            expect(counter) == 3
+                        }
                     }
                 }
             }

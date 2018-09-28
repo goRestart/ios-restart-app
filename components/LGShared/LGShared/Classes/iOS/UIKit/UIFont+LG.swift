@@ -152,8 +152,8 @@ public extension UIFont {
 
 // MARK: - DeckView
 public extension UIFont {
-    static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
-    static var deckPriceFont: UIFont { return systemBoldFont(size: 27) }
+    static var deckTitleFont: UIFont { return systemMediumFont(size: 27) }
+    static var deckPriceFont: UIFont { return systemBoldFont(size: 17) }
     static var deckDetailFont: UIFont { return systemRegularFont(size: 15) }
     static var deckSocialHeaderFont: UIFont { return systemRegularFont(size: 13) }
     static var deckUsernameFont: UIFont { return systemBoldFont(size: 15) }
@@ -179,6 +179,8 @@ public extension UIFont {
     static var profileKarmaOpenVerificationFont: UIFont { return UIFont.systemBoldFont(size: 15) }
     static var verificationItemTitle: UIFont { return systemBoldFont(size: 23) }
     static var verificationEventCountFont: UIFont { return systemBoldFont(size: 10) }
+    static var verificationsAwarenessMessageFont: UIFont { return systemRegularFont(size: 16) }
+    static var verificationsAwarenessMessageBoldFont: UIFont { return systemBoldFont(size: 16) }
 }
 
 // MARK: - SMS Verification
@@ -196,4 +198,12 @@ public extension UIFont {
     static var reportCellTitleFont: UIFont { return UIFont.systemBoldFont(size: 17) }
     static var reportSentTitleText: UIFont { return UIFont.systemBoldFont(size: 27) }
     static var reportSentUserNameText: UIFont { return UIFont.systemBoldFont(size: 17) }
+}
+
+// MARK: - Passwordless
+public extension UIFont {
+    static var passwordLessEmailTitleFont: UIFont { return systemBoldFont(size: 27) }
+    static var passwordLessEmailDescriptionFont: UIFont { return systemRegularFont(size: 15) }
+    static var passwordLessEmailTextFieldFont: UIFont { return systemBoldFont(size: 23)}
+    static var passwordLessUsernameTitleFont: UIFont { return systemBoldFont(size: 35) }
 }

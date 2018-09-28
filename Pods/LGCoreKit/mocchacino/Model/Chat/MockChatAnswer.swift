@@ -7,11 +7,11 @@
 //
 
 public struct MockChatAnswer: ChatAnswer {
-    public var id: String
+    public var id: String?
     public var key: String
     public var type: ChatAnswerType
     
-    public init(id: String,
+    public init(id: String?,
                 key: String,
                 type: ChatAnswerType) {
         

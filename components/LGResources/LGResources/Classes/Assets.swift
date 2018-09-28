@@ -45,7 +45,53 @@ extension R {
 
   // swiftlint:disable identifier_name line_length nesting type_body_length type_name
   public enum Asset {
+    public enum Affiliation {
+      public enum Error {
+        public static let errorFeatureUnavailable = ImageAsset(name: "error_feature_unavailable")
+        public static let errorOops = ImageAsset(name: "error_oops")
+      }
+      public enum Partners {
+        public static let amazon = ImageAsset(name: "amazon")
+      }
+      public static let affiliationIcon = ImageAsset(name: "affiliationIcon")
+      public static let chevronRight24 = ImageAsset(name: "chevronRight24")
+      public static let icnCheck = ImageAsset(name: "icnCheck")
+      public static let icnClockFill24 = ImageAsset(name: "icnClockFill24")
+      public static let icnReward24 = ImageAsset(name: "icnReward24")
+      public static let icnAffiliationPoints = ImageAsset(name: "icn_affiliation_points")
+      public static let icnModalSuccess = ImageAsset(name: "icn_modal_success")
+      public static let icnThreeDots = ImageAsset(name: "icn_three_dots")
+      public static let iconCheck = ImageAsset(name: "iconCheck")
+      public static let materialBackground = ImageAsset(name: "material_background")
+      public static let question24 = ImageAsset(name: "question24")
+      public static let wallet24 = ImageAsset(name: "wallet24")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        Error.errorFeatureUnavailable,
+        Error.errorOops,
+        Partners.amazon,
+        affiliationIcon,
+        chevronRight24,
+        icnCheck,
+        icnClockFill24,
+        icnReward24,
+        icnAffiliationPoints,
+        icnModalSuccess,
+        icnThreeDots,
+        iconCheck,
+        materialBackground,
+        question24,
+        wallet24,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum BackgroundsAndImages {
+      public static let affStoreBackground = ImageAsset(name: "aff_store_background")
       public static let bg1New = ImageAsset(name: "bg_1_new")
       public static let bg2New = ImageAsset(name: "bg_2_new")
       public static let bg3New = ImageAsset(name: "bg_3_new")
@@ -83,6 +129,7 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
+        affStoreBackground,
         bg1New,
         bg2New,
         bg3New,
@@ -232,12 +279,28 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
+    public enum Icons {
+      public static let icArrowLeft = ImageAsset(name: "ic_arrow_left")
+      public static let icPen = ImageAsset(name: "ic_pen")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        icArrowLeft,
+        icPen,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum IconsButtons {
       public enum CategoriesHeaderIcons {
         public static let carsFeed = ImageAsset(name: "cars_feed")
         public static let childFeed = ImageAsset(name: "child_feed")
         public static let entretainmentFeed = ImageAsset(name: "entretainment_feed")
         public static let fashionFeed = ImageAsset(name: "fashion_feed")
+        public static let freeFeed = ImageAsset(name: "free_feed")
         public static let homeFeed = ImageAsset(name: "home_feed")
         public static let housingFeed = ImageAsset(name: "housing_feed")
         public static let leisureFeed = ImageAsset(name: "leisure_feed")
@@ -257,14 +320,16 @@ extension R {
         public static let icIamiSend = ImageAsset(name: "ic_iami_send")
       }
       public enum NewItemPage {
-        public static let nitEdit = ImageAsset(name: "nit_edit")
+        public static let nitArrowDown = ImageAsset(name: "nit_arrow_down")
         public static let nitFavourite = ImageAsset(name: "nit_favourite")
         public static let nitFavouriteOn = ImageAsset(name: "nit_favourite_on")
         public static let nitLocation = ImageAsset(name: "nit_location")
+        public static let nitMore = ImageAsset(name: "nit_more")
         public static let nitOnboarding = ImageAsset(name: "nit_onboarding")
         public static let nitPhotoChat = ImageAsset(name: "nit_photo_chat")
         public static let nitPreviewCount = ImageAsset(name: "nit_preview_count")
         public static let nitShare = ImageAsset(name: "nit_share")
+        public static let nitTapGesture = ImageAsset(name: "nit_tap_gesture")
       }
       public enum SearchAlerts {
         public static let icSearchAlertsEmpty = ImageAsset(name: "ic_search_alerts_empty")
@@ -275,6 +340,7 @@ extension R {
       }
       public static let carIcon = ImageAsset(name: "carIcon")
       public static let checkboxSelectedRound = ImageAsset(name: "checkbox_selected_round")
+      public static let checkboxSelectedRoundGray = ImageAsset(name: "checkbox_selected_round_gray")
       public static let chevronDownGrey = ImageAsset(name: "chevron_down_grey")
       public static let customPermissionProfile = ImageAsset(name: "custom_permission_profile")
       public static let downChevronRed = ImageAsset(name: "down_chevron_red")
@@ -367,13 +433,16 @@ extension R {
       public static let icChevronRight = ImageAsset(name: "ic_chevron_right")
       public static let icChevronUp = ImageAsset(name: "ic_chevron_up")
       public static let icCirlePlus = ImageAsset(name: "ic_cirle_plus")
+      public static let icClickToTalk = ImageAsset(name: "ic_click_to_talk")
       public static let icClose = ImageAsset(name: "ic_close")
       public static let icCloseCarousel = ImageAsset(name: "ic_close_carousel")
       public static let icCloseDark = ImageAsset(name: "ic_close_dark")
+      public static let icCloseGray = ImageAsset(name: "ic_close_gray")
       public static let icCrossTags = ImageAsset(name: "ic_cross_tags")
       public static let icDeviceBlockedAlert = ImageAsset(name: "ic_device_blocked_alert")
       public static let icDisclosure = ImageAsset(name: "ic_disclosure")
       public static let icDisclosureChat = ImageAsset(name: "ic_disclosure_chat")
+      public static let icDisclosureTapToAction = ImageAsset(name: "ic_disclosure_tap_to_action")
       public static let icDownTriangle = ImageAsset(name: "ic_down_triangle")
       public static let icEmail = ImageAsset(name: "ic_email")
       public static let icEmailActive = ImageAsset(name: "ic_email_active")
@@ -402,6 +471,7 @@ extension R {
       public static let icKeyboard = ImageAsset(name: "ic_keyboard")
       public static let icLocation = ImageAsset(name: "ic_location")
       public static let icLocationAlert = ImageAsset(name: "ic_location_alert")
+      public static let icMagic = ImageAsset(name: "ic_magic")
       public static let icMap = ImageAsset(name: "ic_map")
       public static let icMessages = ImageAsset(name: "ic_messages")
       public static let icModerationAlert = ImageAsset(name: "ic_moderation_alert")
@@ -416,7 +486,10 @@ extension R {
       public static let icPasswordActive = ImageAsset(name: "ic_password_active")
       public static let icPasswordActiveDark = ImageAsset(name: "ic_password_active_dark")
       public static let icPasswordDark = ImageAsset(name: "ic_password_dark")
+      public static let icPasswordlessEmail = ImageAsset(name: "ic_passwordless_email")
+      public static let icPen = ImageAsset(name: "ic_pen")
       public static let icPendingModeration = ImageAsset(name: "ic_pending_moderation")
+      public static let icPhone = ImageAsset(name: "ic_phone")
       public static let icPostClose = ImageAsset(name: "ic_post_close")
       public static let icPostCorner = ImageAsset(name: "ic_post_corner")
       public static let icPostDisclousure = ImageAsset(name: "ic_post_disclousure")
@@ -449,6 +522,7 @@ extension R {
       public static let icSearchFill = ImageAsset(name: "ic_search_fill")
       public static let icSellWhite = ImageAsset(name: "ic_sell_white")
       public static let icSend = ImageAsset(name: "ic_send")
+      public static let icSettingAffiliation = ImageAsset(name: "ic_setting_affiliation")
       public static let icSettingEmail = ImageAsset(name: "ic_setting_email")
       public static let icSettingHelp = ImageAsset(name: "ic_setting_help")
       public static let icSettingLocation = ImageAsset(name: "ic_setting_location")
@@ -565,6 +639,7 @@ extension R {
         CategoriesHeaderIcons.childFeed,
         CategoriesHeaderIcons.entretainmentFeed,
         CategoriesHeaderIcons.fashionFeed,
+        CategoriesHeaderIcons.freeFeed,
         CategoriesHeaderIcons.homeFeed,
         CategoriesHeaderIcons.housingFeed,
         CategoriesHeaderIcons.leisureFeed,
@@ -578,19 +653,22 @@ extension R {
         Community.shapeYellow,
         IAmInterested.icIamiSeeconv,
         IAmInterested.icIamiSend,
-        NewItemPage.nitEdit,
+        NewItemPage.nitArrowDown,
         NewItemPage.nitFavourite,
         NewItemPage.nitFavouriteOn,
         NewItemPage.nitLocation,
+        NewItemPage.nitMore,
         NewItemPage.nitOnboarding,
         NewItemPage.nitPhotoChat,
         NewItemPage.nitPreviewCount,
         NewItemPage.nitShare,
+        NewItemPage.nitTapGesture,
         SearchAlerts.icSearchAlertsEmpty,
         SearchAlerts.icSearchAlertsError,
         VideoPosting.icVideopostingPlay,
         carIcon,
         checkboxSelectedRound,
+        checkboxSelectedRoundGray,
         chevronDownGrey,
         customPermissionProfile,
         downChevronRed,
@@ -669,13 +747,16 @@ extension R {
         icChevronRight,
         icChevronUp,
         icCirlePlus,
+        icClickToTalk,
         icClose,
         icCloseCarousel,
         icCloseDark,
+        icCloseGray,
         icCrossTags,
         icDeviceBlockedAlert,
         icDisclosure,
         icDisclosureChat,
+        icDisclosureTapToAction,
         icDownTriangle,
         icEmail,
         icEmailActive,
@@ -704,6 +785,7 @@ extension R {
         icKeyboard,
         icLocation,
         icLocationAlert,
+        icMagic,
         icMap,
         icMessages,
         icModerationAlert,
@@ -718,7 +800,10 @@ extension R {
         icPasswordActive,
         icPasswordActiveDark,
         icPasswordDark,
+        icPasswordlessEmail,
+        icPen,
         icPendingModeration,
+        icPhone,
         icPostClose,
         icPostCorner,
         icPostDisclousure,
@@ -751,6 +836,7 @@ extension R {
         icSearchFill,
         icSellWhite,
         icSend,
+        icSettingAffiliation,
         icSettingEmail,
         icSettingHelp,
         icSettingLocation,
@@ -871,6 +957,8 @@ extension R {
       public static let clock = ImageAsset(name: "clock")
       public static let cloud = ImageAsset(name: "cloud")
       public static let fakeCellBottom = ImageAsset(name: "fake_cell_bottom")
+      public static let featured3DaysBackground = ImageAsset(name: "featured_3_days_background")
+      public static let featured7DaysBackground = ImageAsset(name: "featured_7_days_background")
       public static let featuredBackground = ImageAsset(name: "featured_background")
       public static let grayChevronDown = ImageAsset(name: "gray_chevron_down")
       public static let grayChevronUp = ImageAsset(name: "gray_chevron_up")
@@ -899,6 +987,8 @@ extension R {
         clock,
         cloud,
         fakeCellBottom,
+        featured3DaysBackground,
+        featured7DaysBackground,
         featuredBackground,
         grayChevronDown,
         grayChevronUp,
@@ -913,6 +1003,33 @@ extension R {
         redChevronDown,
         redChevronUp,
         redRibbon,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
+    public enum P2PPayments {
+      public static let close = ImageAsset(name: "close")
+      public static let icError = ImageAsset(name: "ic_Error")
+      public static let icCheck = ImageAsset(name: "ic_check")
+      public static let icOptions = ImageAsset(name: "ic_options")
+      public static let icTrust = ImageAsset(name: "ic_trust")
+      public static let onboardingStep1 = ImageAsset(name: "onboardingStep1")
+      public static let onboardingStep2 = ImageAsset(name: "onboardingStep2")
+      public static let onboardingStep3 = ImageAsset(name: "onboardingStep3")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        close,
+        icError,
+        icCheck,
+        icOptions,
+        icTrust,
+        onboardingStep1,
+        onboardingStep2,
+        onboardingStep3,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")
@@ -948,28 +1065,116 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
-    public enum RealEstate {
-      public enum Promo {
-        public static let realEstatePromo1 = ImageAsset(name: "real-estate-promo-1")
-        public static let realEstatePromo2 = ImageAsset(name: "real-estate-promo-2")
-        public static let realEstatePromo3 = ImageAsset(name: "real-estate-promo-3")
-        public static let realEstatePromo4 = ImageAsset(name: "real-estate-promo-4")
-        public static let realEstatePromo5 = ImageAsset(name: "real-estate-promo-5")
-        public static let realEstatePromo6 = ImageAsset(name: "real-estate-promo-6")
-        public static let realEstatePromo7 = ImageAsset(name: "real-estate-promo-7")
+    public enum Verticals {
+      public enum CarPromos {
+        public enum Backgrounds {
+          public static let background1 = ImageAsset(name: "background-1")
+          public static let background2 = ImageAsset(name: "background-2")
+          public static let background3 = ImageAsset(name: "background-3")
+          public static let background4 = ImageAsset(name: "background-4")
+          public static let background5 = ImageAsset(name: "background-5")
+        }
+        public enum Icons {
+          public static let promo1 = ImageAsset(name: "promo-1")
+          public static let promo2 = ImageAsset(name: "promo-2")
+          public static let promo3 = ImageAsset(name: "promo-3")
+          public static let promo4 = ImageAsset(name: "promo-4")
+          public static let promo5 = ImageAsset(name: "promo-5")
+        }
+      }
+      public enum RealEstatePromos {
+        public enum Backgrounds {
+          public static let realEstateBackground1 = ImageAsset(name: "real-estate-background-1")
+          public static let realEstateBackground2 = ImageAsset(name: "real-estate-background-2")
+          public static let realEstateBackground3 = ImageAsset(name: "real-estate-background-3")
+          public static let realEstateBackground4 = ImageAsset(name: "real-estate-background-4")
+          public static let realEstateBackground5 = ImageAsset(name: "real-estate-background-5")
+          public static let realEstateBackground6 = ImageAsset(name: "real-estate-background-6")
+        }
+        public enum Icons {
+          public static let realEstatePromo1 = ImageAsset(name: "real-estate-promo-1")
+          public static let realEstatePromo2 = ImageAsset(name: "real-estate-promo-2")
+          public static let realEstatePromo3 = ImageAsset(name: "real-estate-promo-3")
+          public static let realEstatePromo4 = ImageAsset(name: "real-estate-promo-4")
+          public static let realEstatePromo5 = ImageAsset(name: "real-estate-promo-5")
+          public static let realEstatePromo6 = ImageAsset(name: "real-estate-promo-6")
+          public static let realEstatePromo7 = ImageAsset(name: "real-estate-promo-7")
+          public static let realEstatePromoCell1 = ImageAsset(name: "real-estate-promo-cell-1")
+          public static let realEstatePromoCell2 = ImageAsset(name: "real-estate-promo-cell-2")
+          public static let realEstatePromoCell3 = ImageAsset(name: "real-estate-promo-cell-3")
+          public static let realEstatePromoCell4 = ImageAsset(name: "real-estate-promo-cell-4")
+          public static let realEstatePromoCell5 = ImageAsset(name: "real-estate-promo-cell-5")
+          public static let realEstatePromoCell6 = ImageAsset(name: "real-estate-promo-cell-6")
+        }
+      }
+      public enum ServicesPromos {
+        public enum Backgrounds {
+          public static let servicesBackground1 = ImageAsset(name: "services-background-1")
+          public static let servicesBackground2 = ImageAsset(name: "services-background-2")
+          public static let servicesBackground3 = ImageAsset(name: "services-background-3")
+          public static let servicesBackground4 = ImageAsset(name: "services-background-4")
+          public static let servicesBackground5 = ImageAsset(name: "services-background-5")
+        }
+        public enum Icons {
+          public static let servicesPromo1 = ImageAsset(name: "services-promo-1")
+          public static let servicesPromo2 = ImageAsset(name: "services-promo-2")
+          public static let servicesPromo3 = ImageAsset(name: "services-promo-3")
+          public static let servicesPromo4 = ImageAsset(name: "services-promo-4")
+          public static let servicesPromo5 = ImageAsset(name: "services-promo-5")
+        }
+      }
+      public enum SmokeTests {
+        public enum ClickToTalk {
+          public static let smokeTestClickToTalkImage = ImageAsset(name: "SmokeTestClickToTalkImage")
+          public static let bannerClickToTalk = ImageAsset(name: "banner-click-to-talk")
+        }
       }
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
-        Promo.realEstatePromo1,
-        Promo.realEstatePromo2,
-        Promo.realEstatePromo3,
-        Promo.realEstatePromo4,
-        Promo.realEstatePromo5,
-        Promo.realEstatePromo6,
-        Promo.realEstatePromo7,
+        CarPromos.Backgrounds.background1,
+        CarPromos.Backgrounds.background2,
+        CarPromos.Backgrounds.background3,
+        CarPromos.Backgrounds.background4,
+        CarPromos.Backgrounds.background5,
+        CarPromos.Icons.promo1,
+        CarPromos.Icons.promo2,
+        CarPromos.Icons.promo3,
+        CarPromos.Icons.promo4,
+        CarPromos.Icons.promo5,
+        RealEstatePromos.Backgrounds.realEstateBackground1,
+        RealEstatePromos.Backgrounds.realEstateBackground2,
+        RealEstatePromos.Backgrounds.realEstateBackground3,
+        RealEstatePromos.Backgrounds.realEstateBackground4,
+        RealEstatePromos.Backgrounds.realEstateBackground5,
+        RealEstatePromos.Backgrounds.realEstateBackground6,
+        RealEstatePromos.Icons.realEstatePromo1,
+        RealEstatePromos.Icons.realEstatePromo2,
+        RealEstatePromos.Icons.realEstatePromo3,
+        RealEstatePromos.Icons.realEstatePromo4,
+        RealEstatePromos.Icons.realEstatePromo5,
+        RealEstatePromos.Icons.realEstatePromo6,
+        RealEstatePromos.Icons.realEstatePromo7,
+        RealEstatePromos.Icons.realEstatePromoCell1,
+        RealEstatePromos.Icons.realEstatePromoCell2,
+        RealEstatePromos.Icons.realEstatePromoCell3,
+        RealEstatePromos.Icons.realEstatePromoCell4,
+        RealEstatePromos.Icons.realEstatePromoCell5,
+        RealEstatePromos.Icons.realEstatePromoCell6,
+        ServicesPromos.Backgrounds.servicesBackground1,
+        ServicesPromos.Backgrounds.servicesBackground2,
+        ServicesPromos.Backgrounds.servicesBackground3,
+        ServicesPromos.Backgrounds.servicesBackground4,
+        ServicesPromos.Backgrounds.servicesBackground5,
+        ServicesPromos.Icons.servicesPromo1,
+        ServicesPromos.Icons.servicesPromo2,
+        ServicesPromos.Icons.servicesPromo3,
+        ServicesPromos.Icons.servicesPromo4,
+        ServicesPromos.Icons.servicesPromo5,
+        SmokeTests.ClickToTalk.smokeTestClickToTalkImage,
+        SmokeTests.ClickToTalk.bannerClickToTalk,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")

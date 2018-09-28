@@ -16,6 +16,7 @@ final class SellNavigationViewModel : BaseViewModel {
     private let disposeBag = DisposeBag()
 
     var shouldModifyProgress: Bool = false
+
     var hasInitialCategory: Bool = false
     
     let featureFlags: FeatureFlags
@@ -49,6 +50,7 @@ final class SellNavigationViewModel : BaseViewModel {
             .bind(to: numberOfSteps)
             .disposed(by: disposeBag)
     }
+    
     
     // MARK: - Actions
     

@@ -13,6 +13,8 @@ enum ListingDetailData {
     case listingList(listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool, index: Int)
     case listingChat(chatConversation: ChatConversation)
+    case sectionedRelatedListing(listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?, index: Int, sectionIdentifier: String?, sectionIndex: UInt?)
+    case sectionedNonRelatedListing(listing: Listing, feedListingDatas: [FeedListingData], thumbnailImage: UIImage?, originFrame: CGRect?, index: Int, sectionIdentifier: String, sectionIndex: UInt?)
 }
 
 enum ChatDetailData {
@@ -27,7 +29,8 @@ enum ProductCarouselActionOnFirstAppear {
     case nonexistent
     case showKeyboard
     case showShareSheet
-    case triggerBumpUp(bumpUpProductData: BumpUpProductData?,
+    case triggerBumpUp(purchases: [BumpUpProductData],
+        maxCountdown: TimeInterval,
         bumpUpType: BumpUpType?,
         triggerBumpUpSource: BumpUpSource,
         typePage: EventParameterTypePage?)
@@ -67,28 +70,32 @@ protocol ListingDetailNavigator: class {
     func openAppRating(_ source: EventParameterRatingSource)
     func openUser(_ data: UserDetailData)
     func openUserVerificationView()
-
     func closeProductDetail()
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?,
+                     purchases: [BumpUpProductData],
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval)
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?)
     func closeListingAfterDelete(_ listing: Listing)
-    func openFreeBumpUp(forListing listing: Listing,
-                        bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?,
-                        maxCountdown: TimeInterval)
     func openPayBumpUp(forListing listing: Listing,
-                       bumpUpProductData: BumpUpProductData,
+                       purchases: [BumpUpProductData],
                        typePage: EventParameterTypePage?,
                        maxCountdown: TimeInterval)
     func openBumpUpBoost(forListing listing: Listing,
-                         bumpUpProductData: BumpUpProductData,
+                         purchases: [BumpUpProductData],
                          typePage: EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval)
+    func openMultiDayBumpUp(forListing listing: Listing,
+                            purchases: [BumpUpProductData],
+                            typePage: EventParameterTypePage?,
+                            maxCountdown: TimeInterval)
+    func openMultiDayInfoBumpUp(forListing listing: Listing,
+                                featurePurchaseType: FeaturePurchaseType,
+                                typePage: EventParameterTypePage?,
+                                timeSinceLastBump: TimeInterval,
+                                maxCountdown: TimeInterval)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
@@ -105,20 +112,13 @@ protocol ListingDetailNavigator: class {
     func showBumpUpBoostSucceededAlert()
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
     func openFeaturedInfo()
-    func closeFeaturedInfo()
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?)
-    func closeAskPhoneFor(listing: Listing,
-                          openChat: Bool,
-                          withPhoneNum: String?,
-                          source: EventParameterTypePage,
-                          interlocutor: User?)
-
-    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource)
     
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel)
     func closeListingAttributeTable()
     func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String)
+    func openPostAnotherListing()
 }
 
 protocol SimpleProductsNavigator: class {

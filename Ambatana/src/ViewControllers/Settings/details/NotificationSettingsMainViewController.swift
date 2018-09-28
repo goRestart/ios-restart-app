@@ -29,7 +29,6 @@ final class NotificationSettingsViewController: BaseViewController, UITableViewD
         setupUI()
         setupConstraints()
         setupAccessibilityIds()
-        setupRx()
     }
     
     private func setupUI() {
@@ -42,8 +41,6 @@ final class NotificationSettingsViewController: BaseViewController, UITableViewD
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(NotificationSettingsSwitchCell.self,
-                           forCellReuseIdentifier: NotificationSettingsSwitchCell.reusableID)
         tableView.register(NotificationSettingsAccessorCell.self,
                            forCellReuseIdentifier: NotificationSettingsAccessorCell.reusableID)
     }
@@ -58,12 +55,6 @@ final class NotificationSettingsViewController: BaseViewController, UITableViewD
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ]
         NSLayoutConstraint.activate(constraints)
-    }
-    
-    private func setupRx() {
-        viewModel.settings.asDriver().drive(onNext: { [weak self] _ in
-            self?.tableView.reloadData()
-        }).disposed(by: disposeBag)
     }
     
     private func setupAccessibilityIds() {
@@ -84,18 +75,10 @@ final class NotificationSettingsViewController: BaseViewController, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let setting = viewModel.settingAtIndex(indexPath.row) else { return UITableViewCell() }
-        switch setting {
-        case .marketing:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationSettingsSwitchCell.reusableID, for: indexPath)
-                as? NotificationSettingsSwitchCell else { return UITableViewCell() }
-            cell.setupWithSetting(setting)
-            return cell
-        case .searchAlerts, .push, .mail:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationSettingsAccessorCell.reusableID, for: indexPath)
-                as? NotificationSettingsAccessorCell else { return UITableViewCell() }
-            cell.setup(withTitle: setting.title)
-            return cell
-        }
+        guard let cell = tableView.dequeue(type: NotificationSettingsAccessorCell.self, for: indexPath)
+            else { return UITableViewCell() }
+        cell.setup(withTitle: setting.title)
+        return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

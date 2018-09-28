@@ -48,7 +48,7 @@ final public class LGBubbleNotificationManager: BubbleNotificationManager {
         let finalDuration = (data.action == nil && duration <= 0) ? LGBubbleNotificationManager.defaultDuration : duration
         bubble.showBubble(autoDismissTime: finalDuration)
         
-        if alignment == .bottom {
+        if bubble.isBottomAligned {
             bottomNotifications.value.append(bubble)
         }
     }

@@ -10,16 +10,16 @@ import Foundation
 
 struct DiscoveryABGroup: ABGroupType {
     private struct Keys {
-        static let sectionedMainFeed = "20180411SectionedMainFeed"
         static let personalizedFeed = "20180509PersonalizedFeed"
-        static let multiContact = "20180515MultiContact"
         static let emptySearchImprovements = "20180718EmptySearchImprovementsWithTracking"
+        static let sectionedFeed = "20180828SectionedDiscoveryFeed"
+        static let newSearchAPI = "20180927NewSearchAPI"
     }
     
-    let sectionedMainFeed: LeanplumABVariable<Int>
     let personalizedFeed: LeanplumABVariable<Int>
-    let multiContact: LeanplumABVariable<Int>
     let emptySearchImprovements: LeanplumABVariable<Int>
+    let sectionedFeed: LeanplumABVariable<Int>
+    let newSearchAPI: LeanplumABVariable<Int>
     
     let group: ABGroup = .discovery
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -27,33 +27,33 @@ struct DiscoveryABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
-    init(sectionedMainFeed: LeanplumABVariable<Int>,
-         personalizedFeed: LeanplumABVariable<Int>,
-         multiContact: LeanplumABVariable<Int>,
-         emptySearchImprovements: LeanplumABVariable<Int>) {
-        self.sectionedMainFeed = sectionedMainFeed
+    init(personalizedFeed: LeanplumABVariable<Int>,
+         emptySearchImprovements: LeanplumABVariable<Int>,
+         sectionedFeed: LeanplumABVariable<Int>,
+         newSearchAPI: LeanplumABVariable<Int>) {
         self.personalizedFeed = personalizedFeed
-        self.multiContact = multiContact
         self.emptySearchImprovements = emptySearchImprovements
-        
-        intVariables.append(contentsOf: [sectionedMainFeed,
-                                         personalizedFeed,
-                                         multiContact,
-                                         emptySearchImprovements])
+        self.sectionedFeed = sectionedFeed
+        self.newSearchAPI = newSearchAPI
+        intVariables.append(contentsOf: [personalizedFeed,
+                                         emptySearchImprovements,
+                                         sectionedFeed,
+                                         newSearchAPI])
     }
     
     static func make() -> DiscoveryABGroup {
-        return DiscoveryABGroup(sectionedMainFeed: .makeInt(key: Keys.sectionedMainFeed,
-                                                            defaultValue: 0,
-                                                            groupType: .discovery),
-                                personalizedFeed: .makeInt(key: Keys.personalizedFeed,
+        return DiscoveryABGroup(personalizedFeed: .makeInt(key: Keys.personalizedFeed,
                                                            defaultValue: 0,
                                                            groupType: .discovery),
-                                multiContact: .makeInt(key: Keys.multiContact,
-                                                       defaultValue: 0,
-                                                       groupType: .discovery),
                                 emptySearchImprovements: .makeInt(key: Keys.emptySearchImprovements,
                                                        defaultValue: 0,
-                                                       groupType: .discovery))
+                                                       groupType: .discovery),
+                                sectionedFeed: .makeInt(key: Keys.sectionedFeed,
+                                                        defaultValue: 0,
+                                                        groupType: .discovery),
+                                newSearchAPI: .makeInt(key: Keys.newSearchAPI,
+                                                        defaultValue: 0,
+                                                        groupType: .discovery)
+        )
     }
 }

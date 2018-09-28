@@ -10,7 +10,7 @@ workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
 
 def shared_pods
-    pod "AlamofireImage",       "3.3.0"
+    pod "AlamofireImage",       "3.3.1"
 
     pod "FBSDKLoginKit",        "4.29.0"    # Obj-c
     pod "FBSDKCoreKit",         "4.29.0"    # Obj-c
@@ -41,13 +41,12 @@ def shared_pods
 
     # letgo components
     pod "LGComponents",            :path => "components"
-
-
+ 
     # letgo Core
 
-    pod "LGCoreKit",             "4.66.0", :inhibit_warnings => false
-#     pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-    #pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-4648-remove-taxonomies', :inhibit_warnings => false
+   pod "LGCoreKit",             "4.86.0", :inhibit_warnings => false
+#    pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit", :inhibit_warnings => false
+#   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-5204-NewSearchAPI', :inhibit_warnings => false
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"
@@ -80,7 +79,7 @@ def shared_pods
     # TextView with placeholder
     pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6', :inhibit_warnings => false
 
-    pod "KeychainSwift",        "10.0.0"
+    pod "KeychainSwift",        "11.0.0"
     
     pod 'lottie-ios',           "2.5.0" # Obj-c
     

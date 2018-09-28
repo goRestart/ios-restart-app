@@ -2,8 +2,7 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
-protocol TourLoginViewModelDelegate: BaseViewModelDelegate {
-}
+protocol TourLoginViewModelDelegate: BaseViewModelDelegate { }
 
 final class TourLoginViewModel: BaseViewModel {
 
@@ -11,7 +10,7 @@ final class TourLoginViewModel: BaseViewModel {
         return signUpViewModel.attributedLegalText
     }
 
-    weak var navigator: TourLoginNavigator?
+    var navigator: TourLoginWireframe?
     weak var delegate: TourLoginViewModelDelegate?
 
     private let signUpViewModel: SignUpViewModel

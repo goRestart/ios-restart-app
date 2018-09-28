@@ -56,20 +56,16 @@ extension RetrieveListingParams {
             typeIds = [typeId]
         }
         
-        if featureFlags.servicesUnifiedFilterScreen.isActive {
-            if let selectedServiceSubtypeCount = verticalFilters.services.subtypes?.count,
-                let serviceSubtypesCount = verticalFilters.services.type?.subTypes.count,
-                selectedServiceSubtypeCount < serviceSubtypesCount {
-                subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
-            } else {
-                subtypeIds = nil
-            }
-        } else {
+        if let selectedServiceSubtypeCount = verticalFilters.services.subtypes?.count,
+            let serviceSubtypesCount = verticalFilters.services.type?.subTypes.count,
+            selectedServiceSubtypeCount < serviceSubtypesCount {
             subtypeIds = verticalFilters.services.subtypes?.map( { $0.id } )
+        } else {
+            subtypeIds = nil
         }
         
         if featureFlags.jobsAndServicesEnabled.isActive {
-            // FIXME: Implement this in ABIOS-4741
+            serviceListingTypes = verticalFilters.services.listingTypes
         } else {
             // More info here: ABIOS-4795
             if let categoryIds = categoryIds,

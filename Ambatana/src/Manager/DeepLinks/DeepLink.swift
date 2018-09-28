@@ -1,12 +1,5 @@
-//
-//  DeepLink.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 24/03/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import Foundation
+import LGCoreKit
 
 struct DeepLink {
     let action: DeepLinkAction
@@ -43,34 +36,47 @@ struct DeepLink {
 enum DeepLinkAction: Equatable {
     case appRating(source: String)
     case home
-    case sell
+    case sell(source: String?, category: String?, title: String?)
     case listing(listingId: String)
     case listingShare(listingId: String)
     case listingBumpUp(listingId: String)
     case listingMarkAsSold(listingId: String)
     case listingEdit(listingId: String)
+    case p2pPaymentsOffer(offerId: String)
     case user(userId: String)
     case conversations
     case conversation(conversationId: String)
     case conversationWithMessage(conversationId: String, message: String)
     case message(messageType: DeepLinkMessageType, conversationId: String)
-    case search(query: String, categories: String?)
+    case search(query: String?,
+        categories: String?,
+        distanceRadius: String?,
+        sortCriteria: String?,
+        priceFlag: String?,
+        minPrice: String?,
+        maxPrice: String?)
     case resetPassword(token: String)
     case userRatings
     case userRating(ratingId: String)
     case notificationCenter
     case appStore
+    case passwordlessSignup(token: String)
+    case passwordlessLogin(token: String)
     case webView(url: URL)
     case report(reportId: String, username: String, reason: ReportOptionType, userId: String, product: String?)
-    
+    case invite(userid: String, username: String)
+    case userVerification
+    case affiliation
+
     static public func ==(lhs: DeepLinkAction, rhs: DeepLinkAction) -> Bool {
         switch (lhs, rhs) {
         case (.appRating(let sourceLhs), .appRating(let sourceRhs)):
             return sourceLhs == sourceRhs
         case (.home, .home):
             return true
-        case (.sell, .sell):
-            return true
+        case (.sell(let lhsSource, let lhsCategory, let lhsTitle),
+              .sell(let rhsSource, let rhsCategory, let rhsTitle)):
+            return lhsSource == rhsSource && lhsCategory == rhsCategory && lhsTitle == rhsTitle
         case (.listing(let lhsDetail), .listing(let rhsDetail)):
             return lhsDetail == rhsDetail
         case (.listingShare(let lhsDetail), .listingShare(let rhsDetail)):
@@ -81,6 +87,8 @@ enum DeepLinkAction: Equatable {
             return lhsDetail == rhsDetail
         case (.listingEdit(let lhsDetail), .listingEdit(let rhsDetail)):
             return lhsDetail == rhsDetail
+        case (.p2pPaymentsOffer(let lhsOffer), .p2pPaymentsOffer(let rhsOffer)):
+            return lhsOffer == rhsOffer
         case (.user(let lhsUser), .user(let rhsUser)):
             return lhsUser == rhsUser
         case (.conversations, .conversations):
@@ -91,8 +99,17 @@ enum DeepLinkAction: Equatable {
             return lhsData == rhsData && lhsMessage == rhsMessage
         case (.message(let lhsMessageType, let lhsData), .message(let rhsMessageType, let rhsData)):
             return lhsMessageType == rhsMessageType && lhsData == rhsData
-        case (.search(let lhsQuery, let lhsCategories), .search(let rhsQuery, let rhsCategories)):
-            return lhsQuery == rhsQuery && lhsCategories == rhsCategories
+        case (.search(let lhsQuery, let lhsCategories, let lhsDistanceRadius, let lhsSortCriteria,
+                      let lhsPriceFlag, let lhsMinPrice, let lhsMaxPrice),
+              .search(let rhsQuery, let rhsCategories, let rhsDistanceRadius, let rhsSortCriteria,
+                      let rhsPriceFlag, let rhsMinPrice, let rhsMaxPrice)):
+            return lhsQuery == rhsQuery &&
+                lhsCategories == rhsCategories &&
+                lhsSortCriteria == rhsSortCriteria &&
+                lhsDistanceRadius == rhsDistanceRadius &&
+                lhsPriceFlag == rhsPriceFlag &&
+                lhsMinPrice == rhsMinPrice &&
+                lhsMaxPrice == rhsMaxPrice
         case (.resetPassword(let lhsToken), .resetPassword(let rhsToken)):
             return lhsToken == rhsToken
         case (.userRatings, .userRatings):
@@ -107,9 +124,25 @@ enum DeepLinkAction: Equatable {
             return lhsUrl == rhsUrl
         case (.report(let lhsId, _, _, _, _), .report(let rhsId, _, _, _, _)):
             return lhsId == rhsId
+        case (.invite(let lhsuserid, let lhsusername), .invite(let rhslhsuserid, let rhssername)):
+            return lhsuserid == rhslhsuserid && lhsusername == rhssername
+        case (.userVerification, .userVerification):
+            return true
+        case (.affiliation, .affiliation):
+            return true
         default:
             return false
         }
+    }
+    
+    enum SearchDeepLinkQueryParameters: String {
+        case query = "query"
+        case categories = "categories"
+        case distanceRadius = "distance_radius"
+        case sortCriteria = "sort"
+        case priceFlag = "price_flag"
+        case minPrice = "min_price"
+        case maxPrice = "max_price"
     }
 }
 
@@ -181,4 +214,35 @@ enum DeepLinkMessageType: Int {
     case message = 0
     case offer = 1
     case sticker = 2
+}
+
+enum DeepLinkSortCriteria: String {
+    case distance = "distance"
+    case priceAsc = "price_asc"
+    case priceDesc = "price_desc"
+    case recent = "recent"
+    
+    var intValue: Int {
+        switch self {
+        case .distance:
+            return 1
+        case .priceAsc:
+            return 2
+        case .priceDesc:
+            return 3
+        case .recent:
+            return 4
+        }
+    }
+}
+
+enum DeepLinkPriceFlag: Int {
+    case normal = 0
+    case free = 1
+    case negotiable = 2
+    case firm = 3
+    
+    var isFree: Bool {
+        return self == .free
+    }
 }

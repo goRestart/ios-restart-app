@@ -356,7 +356,9 @@ extension FiltersViewController: UICollectionViewDataSource {
         case .realEstateInfo:
             return viewModel.numberOfRealEstateRows
         case .servicesInfo:
-            return viewModel.serviceSections.count
+            return 1
+        case .jobsServicesToggle:
+            return viewModel.serviceListingTypeOptions.count
         }
     }
     
@@ -406,6 +408,13 @@ extension FiltersViewController: UICollectionViewDataSource {
         case .price:
             return newPriceCell(forIndexPath: indexPath,
                                 inCollectionView: collectionView)
+        case .jobsServicesToggle:
+            guard let cell = collectionView.dequeue(type: FilterSingleCheckCell.self,
+                                                  for: indexPath) else { return UICollectionViewCell() }
+            cell.setup(withTitle: viewModel.serviceListingTypeDisplayText(atIndex: indexPath.row),
+                       isSelected: viewModel.isServiceListingTypeSelected(atIndex: indexPath.row),
+                       showsBottomSeparator: true)
+            return cell
         }
     }
     
@@ -452,7 +461,6 @@ extension FiltersViewController: UICollectionViewDelegate {
             case .year, .bodyType, .transmission, .fuelType, .driveTrain, .mileage, .numberOfSeats:
                 break
             }
-            
         case .realEstateInfo:
             switch viewModel.filterRealEstateSections[indexPath.item] {
             case .propertyType:
@@ -469,18 +477,13 @@ extension FiltersViewController: UICollectionViewDelegate {
                 break
             }
         case .servicesInfo:
-            switch viewModel.serviceSections[indexPath.item] {
-            case .type:
-                viewModel.servicesTypeTapped()
-            case .subtype:
-                viewModel.servicesSubtypeTapped()
-            case .unified:
-                viewModel.unifiedServicesFilterTapped()
-            }
+            viewModel.servicesFilterTapped()
         case .within:
             viewModel.selectWithinTimeAtIndex(indexPath.row)
         case .sortBy:
             viewModel.selectSortOptionAtIndex(indexPath.row)
+        case .jobsServicesToggle:
+            viewModel.selectServiceListingTypeOption(atIndex: indexPath.row)
         case .price, .distance:
             // Do nothing
             break
@@ -521,7 +524,7 @@ extension FiltersViewController: UICollectionViewDelegateFlowLayout {
                                                            forContainerWidth: view.bounds.width)
                 return CGSize(width: view.bounds.width, height: height)
             }
-        case .sortBy, .within, .location:
+        case .sortBy, .within, .location, .jobsServicesToggle:
             return CGSize(width: view.bounds.width, height: Layout.singleCheckHeight)
         case .price:
             return CGSize(width: view.bounds.width, height: Layout.pricesHeight)
@@ -618,7 +621,7 @@ extension FiltersViewController {
             guard let cell = collectionView.dequeue(type: FilterSliderYearCell.self,
                                                     for: indexPath) else { return UICollectionViewCell() }
             cell.setupSlider(minimumValue: SharedConstants.filterMinCarYear,
-                             maximumValue: Date().year,
+                             maximumValue: Date().nextYear,
                              minimumValueSelected: viewModel.carYearStart,
                              maximumValueSelected: viewModel.carYearEnd)
             cell.delegate = self
@@ -723,23 +726,10 @@ extension FiltersViewController {
     
     private func newServicesCell(forIndexPath indexPath: IndexPath,
                                  inCollectionView collectionView: UICollectionView) -> UICollectionViewCell {
-        let serviceSection = viewModel.serviceSections[indexPath.item]
         guard let cell = collectionView.dequeue(type: FilterDisclosureCell.self,
                                                 for: indexPath) else { return UICollectionViewCell() }
-        switch serviceSection {
-        case .type:
-            cell.setup(withTitle: serviceSection.title,
-                       subtitle: viewModel.currentServiceTypeName ?? R.Strings.filtersServiceTypeNotSet)
-            cell.topSeparator?.isHidden = false
-        case .subtype:
-            cell.setup(withTitle: serviceSection.title,
-                       subtitle: viewModel.selectedServiceSubtypesDisplayName,
-                       isTitleEnabled: viewModel.serviceSubtypeCellEnabled,
-                       isUserInteractionEnabled: viewModel.serviceSubtypeCellEnabled)
-        case .unified:
-            cell.setup(withTitle: viewModel.currentServiceTypeName ?? serviceSection.title,
-                       subtitle: viewModel.selectedServiceSubtypesDisplayName)
-        }
+        cell.setup(withTitle: viewModel.currentServiceTypeName ?? R.Strings.servicesUnifiedFilterTitle,
+                   subtitle: viewModel.selectedServiceSubtypesDisplayName)
         return cell
     }
 

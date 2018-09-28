@@ -93,8 +93,8 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
     // Max 3 CTA buttons
     private var ctaButtons: [LetgoButton] = [
         LetgoButton(withStyle: .primary(fontSize: .verySmallBold)),
-        LetgoButton(withStyle: .secondary(fontSize: .verySmallBold, withBorder: true)),
-        LetgoButton(withStyle: .secondary(fontSize: .verySmallBold, withBorder: true))]
+        LetgoButton(withStyle: .secondary(fontSize: .verySmallBold, withBorder: false)),
+        LetgoButton(withStyle: .secondary(fontSize: .verySmallBold, withBorder: false))]
     
     private let dateLabel: UILabel = {
         let dateLabel = UILabel()
@@ -119,6 +119,7 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
     private var titleLabelLeftMargin: NSLayoutConstraint?
     private var bodyLabelTopMargin: NSLayoutConstraint?
     private var ctaButtonsHeightConstraints: [NSLayoutConstraint] = []
+    private var ctaButtonsTopMarginConstraints: [NSLayoutConstraint] = []
     
     private var basicImageIncluded: Bool = false
     
@@ -142,6 +143,7 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
                                           forCellWithReuseIdentifier: NotificationCenterThumbnailCell.reusableID)
         setupLayout()
         setupUI()
+        setAccesibilityIds()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -160,6 +162,7 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
         titleLabel.text = ""
         bodyLabel.text = ""
         ctaButtonsHeightConstraints.forEach { $0.constant = 0 }
+        ctaButtonsTopMarginConstraints.forEach { $0.constant = 0 }
         heroImageHeightConstraint?.constant = 0
         basicImageWidthConstraint?.constant = 0
         basicImageHeightConstraint?.constant = 0
@@ -168,6 +171,7 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
         titleLabelLeftMargin?.constant = 0
         callsToActionDeeplinks = []
         thumbnails = []
+        thumbnailsCollectionView.reloadData()
     }
     
     
@@ -276,16 +280,22 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
             constraints.append(contentsOf: [leftConstraint, heightConstraint])
             
             let isFirstButton = index == 0
+            var topMarginConstraint: NSLayoutConstraint?
             if isFirstButton {
-                constraints.append(
-                    contentsOf: [button.topAnchor.constraint(greaterThanOrEqualTo: thumbnailsCollectionView.bottomAnchor,
-                                                             constant: Metrics.margin)])
+                topMarginConstraint = button.topAnchor.constraint(greaterThanOrEqualTo: thumbnailsCollectionView.bottomAnchor,
+                                                                      constant: Metrics.margin)
             } else if let previousButton = ctaButtons[safeAt: index-1] {
-                constraints.append(button.topAnchor.constraint(equalTo: previousButton.bottomAnchor, constant: Metrics.margin))
+                topMarginConstraint = button.topAnchor.constraint(equalTo: previousButton.bottomAnchor, constant: Metrics.margin)
             }
+            if let topMarginConstraint = topMarginConstraint {
+                ctaButtonsTopMarginConstraints.append(topMarginConstraint)
+                constraints.append(topMarginConstraint)
+            }
+            
             let isLastButton = index == ctaButtons.count-1
             if isLastButton {
-                constraints.append(button.bottomAnchor.constraint(equalTo: separator.topAnchor))
+                constraints.append(button.bottomAnchor.constraint(equalTo: separator.topAnchor,
+                                                                  constant: -Metrics.veryBigMargin))
             }
             NSLayoutConstraint.activate(constraints)
         }
@@ -333,6 +343,7 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
         
         for (index, item) in modules.callToActions.enumerated() {
             ctaButtonsHeightConstraints[index].constant = Layout.ctaButtonHeight
+            ctaButtonsTopMarginConstraints[index].constant = Metrics.margin
             addCTA(to: ctaButtons[index], title: item.title, deeplink: item.deeplink)
         }
     }
@@ -385,7 +396,7 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
         titleLabelLeftMargin?.constant = basicImageIncluded ? Metrics.margin : 0
         bodyLabel.font = UIFont.notificationSubtitleFont(read: isRead)
         if isRead {
-            bodyLabel.setHTMLFromString(htmlText: body)
+            bodyLabel.boldStyledHTML(htmlBuffer: body)
         } else {
             bodyLabel.text = body.ignoreHTMLTags
         }
@@ -496,11 +507,12 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
 
 fileprivate extension Date {
     func notificationCellDate() -> NotificationCenterCellDate {
-        let calendar = NSCalendar.current
+        let calendar = Calendar.current
+        let now = Date()
         let startOfNow = calendar.startOfDay(for: Date())
         let startOfTimeStamp = calendar.startOfDay(for: self)
-        let minutes = calendar.dateComponents([.minute], from: startOfNow, to: startOfTimeStamp).minute
-        let hours = calendar.dateComponents([.hour], from: startOfNow, to: startOfTimeStamp).hour
+        let minutes = calendar.dateComponents([.minute], from: now, to: self).minute
+        let hours = calendar.dateComponents([.hour], from: now, to: self).hour
         let days = calendar.dateComponents([.day], from: startOfNow, to: startOfTimeStamp).day
         let weeks = calendar.dateComponents([.weekOfMonth], from: startOfNow, to: startOfTimeStamp).weekOfMonth
         

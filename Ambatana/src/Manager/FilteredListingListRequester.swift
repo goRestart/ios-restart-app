@@ -93,7 +93,11 @@ class FilteredListingListRequester: ListingListRequester {
         } else if isEmptyQueryAndDefaultFilters {
             listingRepository.indexCustomFeed(retrieveCustomFeedParams, completion: completion)
         } else {
-            listingRepository.index(retrieveListingsParams, completion: completion)
+            if featureFlags.newSearchAPI.isActive {
+                listingRepository.indexNewSearchAPI(retrieveListingsParams, completion: completion)
+            } else {
+                listingRepository.index(retrieveListingsParams, completion: completion)
+            }
         }
     }
 
@@ -162,10 +166,10 @@ class FilteredListingListRequester: ListingListRequester {
             }
         } else if let startYear = carFilters.yearStart {
             // only start specified
-            if startYear == Date().year {
+            if startYear == Date().nextYear {
                 return String(startYear)
             } else {
-             return String(startYear) + " - " + String(Date().year)
+             return String(startYear) + " - " + String(Date().nextYear)
             }
         } else if let endYear = carFilters.yearEnd {
             // only end specified

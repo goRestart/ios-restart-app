@@ -37,9 +37,7 @@ final class ProductionEnvironment: AppEnvironment {
     let feedAdUnitIdDFPUSA15Ratio = "/21666124832/us/iOS/feed/fluid_var_b"
     let feedAdUnitIdDFPUSA20Ratio = "/21666124832/us/iOS/feed/fluid_var_c"
     
-    let feedAdUnitIdAdxUSAForAllUsers = "/21666124832/us/iOS/feed/c_render_var_a"
     let feedAdUnitIdAdxUSAForOldUsers = "/21666124832/us/iOS/feed/c_render_var_b"
-    let feedAdUnitIdAdxTRForAllUsers = "/21636273254/turkey/iOS/feed/c_render_var_a"
     let feedAdUnitIdAdxTRForOldUsers = "/21636273254/turkey/iOS/feed/c_render_var_b"
     
     var feedAdUnitIdAdxInstallAppUSA = "/21666124832/us/iOS/feed/c_render_var_a"
@@ -50,15 +48,14 @@ final class ProductionEnvironment: AppEnvironment {
 
     let moreInfoMultiAdUnitIdDFP = "/21636273254/turkey/iOS/moreinfo/300x250_var_a"
     let moreInfoMultiAdUnitIdDFPUSA = "/21666124832/us/iOS/moreinfo/300x250_var_a"
+
+    let chatSectionAdUnitForOldUsersUS = "/21666124832/us/iOS/chat/300x250_var_b"
+    let chatSectionAdUnitForOldUsersTR = "/21636273254/turkey/iOS/chat/300x250_var_b"
     
-    // MoPub Ads
-    let feedAdUnitIdMoPubUSAForAllUsers = "23d1d6db6b9848ba94f27887bb3585d2"
-    let feedAdUnitIdMoPubUSAForOldUsers = "657d10ec0c1c48c3a280766a4dd821f4"
-    let feedAdUnitIdMoPubTRForAllUsers = "05cf3847a6b24c389fc4127f595f5889"
-    let feedAdUnitIdMoPubTRForOldUsers = "c6c5061b958949b0a90397d7346718aa"
+    let sectionedFeedAdUnitForUS = "/21666124832/us/iOS/feed/300x250_var_a"
 
     // Stripe
-    let stripeAPIKey = "pk_live_reeoNOBIaAAXXS2qQgwvaAKE"
+    let stripeAPIKey = "pk_live_t2XkxF05GAxpGgMaxiW45vSs"
 
     private let _godmode: Bool
     

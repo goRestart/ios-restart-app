@@ -10,6 +10,13 @@ final class ProfileTabCoordinator: TabCoordinator {
 
     weak var profileCoordinatorSearchAlertsDelegate: ProfileCoordinatorSearchAlertsDelegate?
 
+    private lazy var changePasswordAssembly = ChangePasswordBuilder.standard(root: navigationController)
+    private lazy var editAssembly = EditListingBuilder.modal(navigationController)
+    private lazy var userAssembly = LGUserBuilder.standard(navigationController)
+    private lazy var affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(navigationController)
+    private lazy var editEmailAssembly = EditEmailBuilder.standard(navigationController)
+    private lazy var smokeTestAssembly = LGSmokeTestBuilder.modal(navigationController)
+
     convenience init(source: UserSource = .tabBar) {
         let sessionManager = Core.sessionManager
         let listingRepository = Core.listingRepository
@@ -23,7 +30,6 @@ final class ProfileTabCoordinator: TabCoordinator {
         let featureFlags = FeatureFlags.sharedInstance
         let viewModel = UserProfileViewModel.makePrivateProfile(source: source)
         let rootViewController = UserProfileViewController(viewModel: viewModel)
-
         self.init(listingRepository: listingRepository,
                   userRepository: userRepository,
                   chatRepository: chatRepository,
@@ -59,21 +65,58 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
     }
 
     func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
-        let nav = UINavigationController()
-        let assembly = LGListingBuilder.standard(navigationController: navigationController)
-        let vc = assembly.buildEditView(listing: listing,
-                                        pageType: pageType,
-                                        bumpUpProductData: nil,
-                                        listingCanBeBoosted: false,
-                                        timeSinceLastBump: nil,
-                                        maxCountdown: 0,
-                                        onEditAction: nil)
-        nav.viewControllers = [vc]
-        navigationController.present(nav, animated: true)
+        let vc = editAssembly.buildEditView(listing: listing,
+                                           pageType: pageType,
+                                           purchases: [],
+                                           listingCanBeBoosted: false,
+                                           timeSinceLastBump: nil,
+                                           maxCountdown: 0,
+                                           onEditAction: nil)
+        navigationController.present(vc, animated: true)
     }
 
     func closeProfile() {
         dismissViewController(animated: true, completion: nil)
+    }
+
+    func openAvatarDetail(isPrivate: Bool, user: User) {
+        let vc = userAssembly.buildUserAvatar(isPrivate: isPrivate, user: user)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+    }
+    
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?, openChatAutomaticMessage: ChatWrapperMessageType?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
+    }
+    
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
+    }
+    
+    func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
+        // Ignore. This case only needs to be handled by the public user coordinator
+        // Should disappear after navigation refactor
+        return
+    }
+
+    func openSmokeTest(feature: LGSmokeTestFeature, userAvatarInfo: UserAvatarInfo?) {
+        let wireframe = LGSmokeTestWireframe(feature: feature,
+                                             assembly: smokeTestAssembly,
+                                             userAvatarInfo: userAvatarInfo)
+        wireframe.navigationController = navigationController
+        wireframe.openOnBoarding()
+    }
+
+    func closeAvatarDetail() {
+        navigationController.popViewController(animated: true)
     }
 }
 
@@ -86,28 +129,26 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openEditEmail() {
-        let vm = ChangeEmailViewModel()
-        vm.navigator = self
-        let vc = ChangeEmailViewController(with: vm)
+        let vc = editEmailAssembly.buildEditEmail()
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openEditLocation(withDistanceRadius distanceRadius: Int?) {
-        let vm = EditLocationViewModel(mode: .editUserLocation, distanceRadius: distanceRadius)
-        vm.navigator = self
-        let vc = EditLocationViewController(viewModel: vm)
+        let assembly = QuickLocationFiltersBuilder.standard(navigationController)
+        let vc = assembly.buildQuickLocationFilters(mode: .editUserLocation,
+                                                    initialPlace: nil,
+                                                    distanceRadius: distanceRadius,
+                                                    locationDelegate: nil)
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openChangePassword() {
-        let vc = LGChangePasswordBuilder.standard(navigationController).buildChangePassword()
+        let vc = changePasswordAssembly.buildChangePassword()
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openHelp() {
-        let vm = HelpViewModel()
-        vm.navigator = self
-        let vc = HelpViewController(viewModel: vm)
+        let vc = LGHelpBuilder.standard(navigationController).buildHelp()
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -121,25 +162,16 @@ extension ProfileTabCoordinator: SettingsNavigator {
     func closeSettings() {
         navigationController.popViewController(animated: true)
     }
+
+    func openAffiliationChallenges(source: AffiliationChallengesSource) {
+        let vc = affiliationChallengesAssembly.buildAffiliationChallenges(source: source)
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
 
 extension ProfileTabCoordinator: ChangeUsernameNavigator {
 
     func closeChangeUsername() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: ChangeEmailNavigator {
-
-    func closeChangeEmail() {
-        navigationController.popViewController(animated: true)
-    }
-}
-
-extension ProfileTabCoordinator: EditLocationNavigator {
-
-    func closeEditLocation() {
         navigationController.popViewController(animated: true)
     }
 }
@@ -167,11 +199,7 @@ extension ProfileTabCoordinator: NotificationSettingsNavigator {
     }
     
     func openNotificationSettingsList(notificationSettingsType: NotificationSettingsType) {
-        if featureFlags.notificationSettings == .differentLists {
-            openNotificationSettingsAccessorList(notificationSettingsType: notificationSettingsType)
-        } else if featureFlags.notificationSettings == .sameList {
-            openNotificationSettingsCompleteList(notificationSettingType: notificationSettingsType)
-        }
+        openNotificationSettingsAccessorList(notificationSettingsType: notificationSettingsType)
     }
     
     private func openNotificationSettingsAccessorList(notificationSettingsType: NotificationSettingsType) {
@@ -181,26 +209,11 @@ extension ProfileTabCoordinator: NotificationSettingsNavigator {
             vm = NotificationSettingsAccessorListViewModel.makePusherNotificationSettingsListViewModel()
         case .mail:
             vm = NotificationSettingsAccessorListViewModel.makeMailerNotificationSettingsListViewModel()
-        case .marketing, .searchAlerts:
+        case .searchAlerts:
             return
         }
         vm.navigator = self
         let vc = NotificationSettingsAccessorListViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
-    private func openNotificationSettingsCompleteList(notificationSettingType: NotificationSettingsType) {
-        let vm: NotificationSettingsCompleteListViewModel
-        switch notificationSettingType {
-        case .push:
-            vm = NotificationSettingsCompleteListViewModel.makePusherNotificationSettingsListViewModel()
-        case .mail:
-            vm = NotificationSettingsCompleteListViewModel.makeMailerNotificationSettingsListViewModel()
-        case .marketing, .searchAlerts:
-            return
-        }
-        vm.navigator = self
-        let vc = NotificationSettingsCompleteListViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
     

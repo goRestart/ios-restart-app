@@ -99,6 +99,12 @@ struct SearchProductsBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct NewSearchProductsBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.newSearchProductsBaseURL
+    static let acceptHeader: String? = "application/json;version=2"
+    static let contentTypeHeader: String? = nil
+}
+
 struct NiordBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.niordBaseURL
     static let acceptHeader: String? = nil
@@ -151,6 +157,24 @@ struct FeedBaseURL: BaseURL {
     static let baseURL = EnvironmentProxy.sharedInstance.customFeedBaseURL
     static let acceptHeader: String? = "application/vnd.api+json;version=1"
     static let contentTypeHeader: String? = nil
+}
+
+struct RewardBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.rewardBaseURL
+    static let acceptHeader: String? = "application/vnd.api+json;version=1"
+    static let contentTypeHeader: String? = nil
+}
+
+struct ChallengerBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.challengerBaseURL
+    static let acceptHeader: String? = "application/vnd.api+json;version=1"
+    static let contentTypeHeader: String? = nil
+}
+
+struct P2PPaymentsBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.p2pPaymentsBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = "application/json"
 }
 
 enum Encoding {

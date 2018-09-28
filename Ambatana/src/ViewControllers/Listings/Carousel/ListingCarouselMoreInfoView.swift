@@ -436,6 +436,7 @@ final class ListingCarouselMoreInfoView: UIView, ListingTitleFontDescriptor {
         // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
         // https://stackoverflow.com/a/44467194
         tagCollectionView.collectionViewLayout.invalidateLayout()
+        tagCollectionView.layoutIfNeeded()
     }
 
     func dismissed() {
@@ -653,9 +654,8 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 private extension ListingCarouselMoreInfoView {
 
     func setupAttributeGridView(withTitle title: String?,
-                                items: [ListingAttributeGridItem]?,
-                                showExtraCardFields: Bool = false) {
-        guard let items = items, items.count > 0, showExtraCardFields else {
+                                items: [ListingAttributeGridItem]?) {
+        guard let items = items, items.count > 0 else {
                 attributeGridViewHeightConstraint?.constant = 0.0
                 return
         }
@@ -694,7 +694,6 @@ private extension ListingCarouselMoreInfoView {
                                                          bottom: status.scrollBottomInset(chatEnabled: chatEnabled), right: 0)
         }.disposed(by: disposeBag)
         
-        let showCarExtraFields = viewModel.extraFieldsGridEnabled
         let showPaymentFrequency = viewModel.shouldShowPaymentFrequency
         
         viewModel.productInfo.asObservable().unwrap().bind { [weak self] info in
@@ -708,8 +707,7 @@ private extension ListingCarouselMoreInfoView {
             self?.descriptionLabel.setNeedsLayout()
             self?.updateTags(tags: info.attributeTags)
             self?.setupAttributeGridView(withTitle: info.attributeGridTitle,
-                                         items: info.attributeGridItems,
-                                         showExtraCardFields: showCarExtraFields)
+                                         items: info.attributeGridItems)
         }.disposed(by: disposeBag)
     }
     
@@ -740,7 +738,7 @@ private extension ListingCarouselMoreInfoView {
                                        paymentFrequency: String?) -> NSAttributedString? {
         guard let paymentFrequency = paymentFrequency else { return nil }
         
-        let text = "\(price) \(paymentFrequency)"
+        let text = "\(price)\(paymentFrequency)"
         return text.bifontAttributedText(highlightedText: paymentFrequency,
                                          mainFont: .productPriceFont,
                                          mainColour: .white,
@@ -751,8 +749,25 @@ private extension ListingCarouselMoreInfoView {
     private func updateTags(tags: [String]?) {
         tagCollectionViewModel.tags = tags ?? []
         tagCollectionView.reloadData()
+ 
+        if (isIOSBuggyVersion()) {
+            tagCollectionView.collectionViewLayout.invalidateLayout()
+            tagCollectionView.layoutIfNeeded()
+        }
     }
-    
+ 
+    private func isIOSBuggyVersion() -> Bool {
+        /* This referece https://stackoverflow.com/questions/39867325/ios-10-bug-uicollectionview-received-layout-attributes-for-a-cell-with-an-index says that it's a iOS 10 UIKit related bug, we are having this issue from version 10.0.0 to 10.3.3 so this is a check for only those versions
+         
+            Fabric link: https://www.fabric.io/ambatana/ios/apps/com.letgo.ios/issues/5b3519386007d59fcd17c8c4
+        */
+        
+        return ProcessInfo().isIOSVersionInRange(
+            from: OperatingSystemVersion(majorVersion: 10, minorVersion: 0, patchVersion: 0),
+            to: OperatingSystemVersion(majorVersion: 10, minorVersion: 3, patchVersion: 4)
+        )
+    }
+ 
     func setupStatsRx(viewModel: ListingCarouselViewModel) {
         let productCreation = viewModel.productInfo.asObservable().map { $0?.creationDate }
         let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { ($0, $1) }
@@ -832,10 +847,6 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
             let bannerTop = absolutePosition.y
             let bannerBottom = bannerTop + sizeFromAdSize.height
-            viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
-                                    bannerBottomPosition: bannerBottom,
-                                    screenHeight: UIScreen.main.bounds.height,
-                                    bannerSize: bannerView.adSize.size)
         }
     }
 

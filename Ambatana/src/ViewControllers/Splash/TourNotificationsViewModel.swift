@@ -7,32 +7,21 @@ enum TourNotificationNextStep {
     case noStep
 }
 
-protocol TourNotificationsViewModelDelegate: BaseViewModelDelegate {
-    func requestPermissionFinished()
-    func requestPermissionAccepted()
-}
-
 final class TourNotificationsViewModel: BaseViewModel {
 
-    weak var navigator: TourNotificationsNavigator?
+    var navigator: TourNotificationsNavigator?
     
     let title: String
     let subtitle: String
     let pushText: String
     let source: PrePermissionType
     let featureFlags: FeatureFlaggeable
-    
-    weak var delegate: TourNotificationsViewModelDelegate?
-    
-    var showPushInfo: Bool {
-        return false
-    }
-    var showAlertInfo: Bool {
-        return !showPushInfo
-    }
-    var infoImage: UIImage? {
-        return R.Asset.IPhoneParts.imgPermissionsBackground.image
-    }
+
+    var showPushInfo: Bool { return false }
+    var showAlertInfo: Bool { return !showPushInfo }
+    var infoImage: UIImage? { return R.Asset.IPhoneParts.imgPermissionsBackground.image }
+
+    private var pushDialogWasShown = false
     
     init(title: String, subtitle: String, pushText: String, source: PrePermissionType, featureFlags: FeatureFlags) {
         self.title = title
@@ -47,10 +36,7 @@ final class TourNotificationsViewModel: BaseViewModel {
     }
 
     func nextStep() -> TourNotificationNextStep? {
-        guard navigator == nil else {
-            navigator?.tourNotificationsFinish()
-            return nil
-        }
+        guard navigator != nil else { return .noStep }
         switch source {
         case .onboarding:
             return Core.locationManager.shouldAskForLocationPermissions() ? .location : .noStep
@@ -59,48 +45,88 @@ final class TourNotificationsViewModel: BaseViewModel {
         }
     }
 
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if pushDialogWasShown {
+            openNextStep()
+        }
+    }
+
+    @objc func didRegisterUserNotificationSettings() {
+        DispatchQueue
+            .main
+            .asyncAfter(deadline: .now() + .milliseconds(500)) { [weak self] in
+                self?.openNextStep()
+        }
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     // MARK: - Tracking
     
     func viewDidLoad() {
-        let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: source.trackingParam, alertType: .fullScreen,
-            permissionGoToSettings: .notAvailable)
+        let trackerEvent = TrackerEvent.permissionAlertStart(.push,
+                                                             typePage: source.trackingParam,
+                                                             alertType: .fullScreen,
+                                                             permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
-    
-    func userDidTapNoButton() {
-        let actionOk = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertYes),
-                                action: { [weak self] in
-                                    self?.trackCloseTourNotifications()
-                                    self?.delegate?.requestPermissionFinished()
 
-        })
-        let actionCancel = UIAction(interface: UIActionInterface.text(R.Strings.onboardingAlertNo),
-                                    action: { [weak self] in
-                                        self?.trackAskPermissions()
-                                        self?.delegate?.requestPermissionAccepted()
-        })
-        delegate?.vmShowAlert(R.Strings.onboardingNotificationsPermissionsAlertTitle,
-                              message: R.Strings.onboardingNotificationsPermissionsAlertSubtitle,
-                              actions: [actionCancel, actionOk])
+    func cancelAlertTapped() {
+        trackCloseTourNotifications()
+        openNextStep()
+    }
+
+    func okAlertTapped() {
+        userDidTapYesButton()
     }
 
     func userDidTapYesButton() {
+        pushDialogWasShown = true
+
+        requestPermissionAccepted()
         trackAskPermissions()
-        delegate?.requestPermissionFinished()
+        openNextStep()
     }
     
     // MARK: - Private methods
     
     private func trackAskPermissions() {
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: source.trackingParam, alertType: .fullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.push,
+                                                                typePage: source.trackingParam,
+                                                                alertType: .fullScreen,
                                                                 permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     private func trackCloseTourNotifications() {
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: source.trackingParam, alertType: .fullScreen,
-        permissionGoToSettings: .notAvailable)
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.push,
+                                                              typePage: source.trackingParam,
+                                                              alertType: .fullScreen,
+                                                              permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+}
+
+extension TourNotificationsViewModel {
+    private func requestPermissionAccepted() {
+        LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .onboarding)
+        let name = NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didRegisterUserNotificationSettings),
+                                               name: name,
+                                               object: nil)
+    }
+
+    func openNextStep() {
+        guard let step = nextStep() else { return }
+        switch step {
+        case .location:
+            navigator?.showTourLocation()
+        case .noStep:
+            navigator?.closeTour()
+        }
     }
 }

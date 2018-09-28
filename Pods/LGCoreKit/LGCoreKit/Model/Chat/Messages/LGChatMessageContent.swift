@@ -19,6 +19,7 @@ enum ChatMessageTypeDecodable: String, Decodable {
     case multiAnswer = "multi_answer"
     case cta = "call_to_action"
     case carousel = "carousel"
+    case system = "system"
 }
 
 public protocol ChatMessageContent {
@@ -120,8 +121,19 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
             case .carousel:
                 text = nil
                 let answers = try keyedContainer.decodeIfPresent([LGChatAnswer].self, forKey: .answers) ?? []
-                if let cards = try? keyedContainer.decode([LGChatCarouselCard].self, forKey: .card) {
+                if let cards = try? keyedContainer.decode([LGChatCarouselCard].self, forKey: .cards) {
                     type = .carousel(cards: cards, answers: answers)
+                } else {
+                    type = .unsupported(defaultText: defaultText)
+                }
+            case .system:
+                text = nil
+                if let localizedKey = try? keyedContainer.decode(String.self, forKey: .localizedKey),
+                    let localizedText = try? keyedContainer.decode(String.self, forKey: .localizedText) {
+                    let severity = (try? keyedContainer.decode(ChatMessageSystemSeverity.self, forKey: .severity)) ?? .info
+                    type = .system(message: LGChatMessageSystem(localizedKey: localizedKey,
+                                                                localizedText: localizedText,
+                                                                severity: severity))
                 } else {
                     type = .unsupported(defaultText: defaultText)
                 }
@@ -141,7 +153,10 @@ struct LGChatMessageContent: ChatMessageContent, Decodable, Equatable {
         case cta
         case title
         case image
-        case card
+        case cards
+        case localizedKey = "key_text"
+        case localizedText = "default_text"
+        case severity
     }
     
     // MARK: Equatable

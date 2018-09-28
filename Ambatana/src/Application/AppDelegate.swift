@@ -91,6 +91,7 @@ extension AppDelegate: UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.white
         window.rootViewController = appCoordinator.tabBarCtl
+
         self.window = window
 
         window.makeKeyAndVisible()
@@ -161,7 +162,6 @@ extension AppDelegate: UIApplicationDelegate {
         appIsActive.value = true
         pushManager?.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
-        navigator?.openSurveyIfNeeded()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -311,13 +311,6 @@ fileprivate extension AppDelegate {
                                                 didFinishLaunchingWithOptions: launchOptions,
                                                 featureFlags: featureFlags)
         LGNotificationsManager.sharedInstance.setup()
-        setupStripeManager()
-    }
-
-    private func setupStripeManager() {
-        let config = StripeManager.Config(apiKey: EnvironmentProxy.sharedInstance.stripeAPIKey,
-                                          appleMerchantId: EnvironmentProxy.sharedInstance.appleMerchantId)
-        StripeManager.setup(config: config)
     }
 }
 
@@ -356,7 +349,6 @@ fileprivate extension AppDelegate {
             let featureFlagsSynced = featureFlags.syncedData.asObservable().distinctUntilChanged()
             Observable.combineLatest(appActive.asObservable().distinctUntilChanged(), featureFlagsSynced.asObservable()) { ($0, $1) }
                 .bind { [weak self] (appActive, _) in
-                    guard featureFlags.pricedBumpUpEnabled else { return }
                     if appActive {
                         // observe payment transactions
                         self?.purchasesShopper?.startObservingTransactions()

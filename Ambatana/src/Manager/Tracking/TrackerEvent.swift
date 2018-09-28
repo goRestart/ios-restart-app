@@ -12,7 +12,7 @@ func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
 struct TrackerEvent {
     static let notApply: String = "N/A"
     static let defaultValue = "default"
-    fileprivate static let itemsCountThreshold = 50
+    static let itemsCountThreshold = 50
 
     private(set) var name: EventName
     var actualName: String {
@@ -107,6 +107,14 @@ struct TrackerEvent {
         return TrackerEvent(name: .passwordResetVisit, params: nil)
     }
 
+    static func loginEmailStart() -> TrackerEvent {
+        return TrackerEvent(name: .loginEmailStart, params: nil)
+    }
+
+    static func loginEmailSubmit() -> TrackerEvent {
+        return TrackerEvent(name: .loginEmailSubmit, params: nil)
+    }
+
     static func loginEmailError(_ errorDescription: EventParameterLoginError) -> TrackerEvent {
         var params = EventParameters()
 
@@ -173,10 +181,17 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func listingList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
-                            resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
+    static func listingList(_ user: User?,
+                            categories: [ListingCategory]?,
+                            searchQuery: String?,
+                            resultsCount: ItemsCount?,
+                            feedSource: EventParameterFeedSource,
+                            success: EventParameterBoolean,
+                            recentItems: EventParameterBoolean,
+                            pullToRefreshTriggered: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
-
+        
+        params[.reload] = pullToRefreshTriggered.rawValue
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = (categories ?? [.unassigned]).trackValue
         params[.keywordName] = TrackerEvent.notApply
@@ -188,6 +203,44 @@ struct TrackerEvent {
             params[.numberOfItems] = count.value
         }
         params[.listSuccess] = success.rawValue
+        params[.recentItems] = recentItems.rawValue
+        return TrackerEvent(name: .listingList, params: params)
+    }
+    
+    static func listingListSectionedFeed(_ user: User?,
+                                         categories: [ListingCategory]?,
+                                         searchQuery: String?,
+                                         sectionItemCount: Int,
+                                         inifiteSectionItemCount: Int,
+                                         sectionNamesShown: [String],
+                                         feedSource: EventParameterFeedSource,
+                                         success: EventParameterBoolean?,
+                                         sectionPosition: EventParameterSectionPosition?,
+                                         sectionName: EventParameterSectionName?) -> TrackerEvent {
+        var params = EventParameters()
+        
+        params[.feedSource] = feedSource.rawValue
+        params[.categoryId] = (categories ?? [.unassigned]).trackValue
+        params[.keywordName] = TrackerEvent.notApply
+
+        if let actualSearchQuery = searchQuery {
+            params[.searchString] = actualSearchQuery
+        }
+        params[.numberOfItems] = "\(inifiteSectionItemCount)"
+        params[.numberOfItemsInSection] = "\(sectionItemCount)"
+        params[.sectionShown] = sectionNamesShown.joined(separator: ",")
+
+        if let sectionPosition = sectionPosition {
+            params[.sectionPosition] = sectionPosition.value
+        }
+        
+        if let sectionName = sectionName?.value {
+            params[.sectionIdentifier] = sectionName
+        }
+        if let success = success {
+            params[.listSuccess] = success.rawValue
+        }
+        
         return TrackerEvent(name: .listingList, params: params)
     }
     
@@ -264,41 +317,31 @@ struct TrackerEvent {
         return TrackerEvent(name: .searchAlertSwitchChanged, params: params)
     }
 
-    static func listingVisitPhotoViewer(_ listing: Listing,
-                                        source: EventParameterListingVisitSource,
-                                        numberOfPictures: Int) -> TrackerEvent {
-        var params = EventParameters()
-        params.addListingParams(listing)
-        params[.listingVisitSource] = source.rawValue
-        params[.photoViewerNumberOfPhotos] = numberOfPictures
-        return TrackerEvent(name: .listingVisitPhotoViewer, params: params)
-    }
-
-    static func listingVisitPhotoChat(_ listing: Listing,
-                                        source: EventParameterListingVisitSource) -> TrackerEvent {
-        var params = EventParameters()
-        params.addListingParams(listing)
-        params[.listingVisitSource] = source.rawValue
-        return TrackerEvent(name: .listingVisitPhotoChat, params: params)
-    }
-
     static func listingDetailVisit(_ listing: Listing,
                                    visitUserAction: ListingVisitUserAction,
                                    source: EventParameterListingVisitSource,
                                    feedPosition: EventParameterFeedPosition,
+                                   sectionPosition: EventParameterSectionPosition,
                                    isBumpedUp: EventParameterBoolean,
                                    sellerBadge: EventParameterUserBadge,
                                    isMine: EventParameterBoolean,
-                                   containsVideo: EventParameterBoolean) -> TrackerEvent {
+                                   containsVideo: EventParameterBoolean,
+                                   sectionName: EventParameterSectionName?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.userAction] = visitUserAction.rawValue
         params[.listingVisitSource] = source.rawValue
-        params[.feedPosition] = feedPosition.value
         params[.isBumpedUp] = isBumpedUp.rawValue
         params[.sellerReputationBadge] = sellerBadge.rawValue
         params[.isMine] = isMine.rawValue
         params[.isVideo] = containsVideo.rawValue
+        if let sectionName = sectionName?.value {
+            params[.itemPositionInSection] = feedPosition.value
+            params[.sectionPosition] = sectionPosition.value
+            params[.sectionIdentifier] = sectionName
+        } else {
+            params[.feedPosition] = feedPosition.value
+        }
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
 
@@ -420,6 +463,18 @@ struct TrackerEvent {
         
         return TrackerEvent(name: .adShown, params: params)
     }
+    
+    static func adError(adShown: EventParameterBoolean,
+                        adType: EventParameterAdType?,
+                        typePage: EventParameterTypePage,
+                        errorReason: EventParameterAdSenseRequestErrorReason?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.adType] = adType?.stringValue ?? TrackerEvent.notApply
+        params[.adShown] = adShown.rawValue
+        params[.reason] = errorReason?.rawValue ?? TrackerEvent.notApply
+        return TrackerEvent(name: .adError, params: params)
+    }
 
     static func listingFavorite(_ listing: Listing, typePage: EventParameterTypePage,
                                 isBumpedUp: EventParameterBoolean) -> TrackerEvent {
@@ -441,7 +496,7 @@ struct TrackerEvent {
         switch actualNetwork {
         case .native:
             actualNetwork = .notAvailable
-        case .email, .facebook, .whatsapp, .twitter, .fbMessenger, .telegram, .sms, .copyLink, .notAvailable:
+        case .email, .facebook, .whatsapp, .twitter, .fbMessenger, .telegram, .sms, .copyLink, .notAvailable, .other:
             break
         }
         params[.shareNetwork] = actualNetwork.rawValue
@@ -609,6 +664,7 @@ struct TrackerEvent {
         
         params[.serviceType] = listing.service?.servicesAttributes.typeId ?? SharedConstants.parameterNotApply
         params[.serviceSubtype] = listing.service?.servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
+        params[.serviceListingType] = listing.service?.servicesAttributes.listingType?.rawValue ?? SharedConstants.parameterNotApply
         
         return TrackerEvent(name: .listingSellComplete, params: params)
     }
@@ -842,6 +898,7 @@ struct TrackerEvent {
         if let servicesAttributes = listing.service?.servicesAttributes {
             params[.serviceType] = servicesAttributes.typeId ?? SharedConstants.parameterNotApply
             params[.serviceSubtype] = servicesAttributes.subtypeId ?? SharedConstants.parameterNotApply
+            params[.serviceListingType] = servicesAttributes.listingType?.rawValue ?? SharedConstants.parameterNotApply
             params[.paymentFrequency] = servicesAttributes.paymentFrequency?.rawValue
         }
         
@@ -919,13 +976,21 @@ struct TrackerEvent {
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
                              feedPosition: EventParameterFeedPosition,
+                             sectionPosition: EventParameterSectionPosition,
                              userBadge: EventParameterUserBadge,
                              containsVideo: EventParameterBoolean,
-                             isProfessional: Bool?) -> TrackerEvent {
+                             isProfessional: Bool?,
+                             sectionName: EventParameterSectionName?) -> TrackerEvent {
         info.set(isProfessional:isProfessional)
         var params = info.params
         params[.listingVisitSource] = listingVisitSource.rawValue
-        params[.feedPosition] = feedPosition.value
+        if let sectionName = sectionName?.value {
+            params[.itemPositionInSection] = feedPosition.value
+            params[.sectionPosition] = sectionPosition.value
+            params[.sectionIdentifier] = sectionName
+        } else {
+            params[.feedPosition] = feedPosition.value
+        }
         params[.sellerReputationBadge] = userBadge.rawValue
         params[.isVideo] = containsVideo.rawValue
         return TrackerEvent(name: .firstMessage, params: params)
@@ -957,11 +1022,18 @@ struct TrackerEvent {
         return TrackerEvent(name: .chatRelatedItemsComplete, params: params)
     }
     
-    static func chatLetgoServiceQuestionReceived(questionKey: String, listingId: String) -> TrackerEvent {
+    static func chatLetgoServiceQuestionReceived(questionKey: String, listingId: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.messageGoal] = questionKey
         params[.listingId] = listingId
         return TrackerEvent(name: .chatLetgoServiceQuestionReceived, params: params)
+    }
+    
+    static func chatLetgoServiceCTAReceived(questionKey: String, listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.messageGoal] = questionKey
+        params[.listingId] = listingId
+        return TrackerEvent(name: .chatLetgoServiceCTAReceived, params: params)
     }
 
     static func chatCallToActionTapped(ctaKey: String, isLetgoAssistant: EventParameterBoolean) -> TrackerEvent {
@@ -998,6 +1070,16 @@ struct TrackerEvent {
         return TrackerEvent(name: .profileEditEditPicture, params: nil)
     }
 
+    static func profileOpenPictureDetail() -> TrackerEvent {
+        return TrackerEvent(name: .profileOpenUserPicture, params: nil)
+    }
+    
+    static func profileChatNowButtonTapped(user: User) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userToId] = user.objectId
+        return TrackerEvent(name: .profileChatNowButton, params: params)
+    }
+
     static func profileShareStart(_ type: EventParameterProfileType)  -> TrackerEvent {
         var params = EventParameters()
         params[.profileType] = type.rawValue
@@ -1030,17 +1112,26 @@ struct TrackerEvent {
         return TrackerEvent(name: .profileEditBioComplete, params: params)
     }
 
-    static func appInviteFriendStart(_ typePage: EventParameterTypePage) -> TrackerEvent {
-            var params = EventParameters()
-            params[.typePage] = typePage.rawValue
-            return TrackerEvent(name: .appInviteFriendStart, params: params)
+    static func appInviteFriendStart(_ typePage: EventParameterTypePage,
+                                     rewardCampaign: RewardCampaign? = nil) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        if let campaign = rewardCampaign {
+            params[.rewardCampaign] = campaign.rawValue
+        }
+        return TrackerEvent(name: .appInviteFriendStart, params: params)
     }
 
-    static func appInviteFriend(_ network: EventParameterShareNetwork, typePage: EventParameterTypePage)
+    static func appInviteFriend(_ network: EventParameterShareNetwork,
+                                typePage: EventParameterTypePage,
+                                rewardCampaign: RewardCampaign? = nil)
         -> TrackerEvent {
             var params = EventParameters()
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
+            if let campaign = rewardCampaign {
+                params[.rewardCampaign] = campaign.rawValue
+            }
             return TrackerEvent(name: .appInviteFriend, params: params)
     }
 
@@ -1059,11 +1150,20 @@ struct TrackerEvent {
             return TrackerEvent(name: .appInviteFriendDontAsk, params: params)
     }
 
-    static func appInviteFriendComplete(_ network: EventParameterShareNetwork, typePage: EventParameterTypePage)
+    static func appInviteFriendComplete(_ network: EventParameterShareNetwork,
+                                        typePage: EventParameterTypePage,
+                                        rewardCampaign: RewardCampaign? = nil,
+                                        numberOfInvitees: Int? = nil)
         -> TrackerEvent {
             var params = EventParameters()
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
+            if let campaign = rewardCampaign {
+                params[.rewardCampaign] = campaign.rawValue
+            }
+            if let numberOfInvitees = numberOfInvitees {
+                params[.numberOfInvitees] = numberOfInvitees
+            }
             return TrackerEvent(name: .appInviteFriendComplete, params: params)
     }
 
@@ -1253,20 +1353,6 @@ struct TrackerEvent {
         return TrackerEvent(name: .expressChatDontAsk, params: params)
     }
 
-    static func surveyStart(userId: String?, surveyUrl: String) -> TrackerEvent {
-        var params = EventParameters()
-        params[.userId] = userId
-        params[.surveyUrl] = surveyUrl
-        return TrackerEvent(name: .surveyStart, params: params)
-    }
-
-    static func surveyCompleted(userId: String?, surveyUrl: String) -> TrackerEvent {
-        var params = EventParameters()
-        params[.userId] = userId
-        params[.surveyUrl] = surveyUrl
-        return TrackerEvent(name: .surveyCompleted, params: params)
-    }
-
     static func verifyAccountStart(_ typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
@@ -1340,7 +1426,8 @@ struct TrackerEvent {
                                     listingId: String?,
                                     storeProductId: String?,
                                     typePage: EventParameterTypePage?,
-                                    isBoost: EventParameterBoolean) -> TrackerEvent {
+                                    isBoost: EventParameterBoolean,
+                                    paymentEnabled: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
@@ -1349,6 +1436,7 @@ struct TrackerEvent {
             params[.typePage] = typePage.rawValue
         }
         params[.boost] = isBoost.rawValue
+        params[.paymentEnabled] = paymentEnabled.rawValue
         return TrackerEvent(name: .bumpInfoShown, params: params)
     }
 
@@ -1357,7 +1445,7 @@ struct TrackerEvent {
                                    storeProductId: String?,
                                    isPromotedBump: EventParameterBoolean,
                                    typePage: EventParameterTypePage?,
-                                   isBoost: EventParameterBoolean) -> TrackerEvent {
+                                   featurePurchaseType: EventParameterPurchaseType) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
 
@@ -1368,7 +1456,7 @@ struct TrackerEvent {
         if let typePage = typePage {
             params[.typePage] = typePage.rawValue
         }
-        params[.boost] = isBoost.rawValue
+        params[.purchaseType] = featurePurchaseType.rawValue
         return TrackerEvent(name: .bumpUpStart, params: params)
     }
 
@@ -1380,7 +1468,7 @@ struct TrackerEvent {
                                       storeProductId: String?,
                                       isPromotedBump: EventParameterBoolean,
                                       typePage: EventParameterTypePage?,
-                                      isBoost: EventParameterBoolean,
+                                      featurePurchaseType: EventParameterPurchaseType,
                                       paymentId: String?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
@@ -1394,7 +1482,7 @@ struct TrackerEvent {
         if let typePage = typePage {
             params[.typePage] = typePage.rawValue
         }
-        params[.boost] = isBoost.rawValue
+        params[.purchaseType] = featurePurchaseType.rawValue
         params[.paymentId] = paymentId
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
@@ -1404,7 +1492,7 @@ struct TrackerEvent {
                                   transactionStatus: EventParameterTransactionStatus?,
                                   storeProductId: String?,
                                   typePage: EventParameterTypePage?,
-                                  isBoost: EventParameterBoolean) -> TrackerEvent {
+                                  featurePurchaseType: EventParameterPurchaseType) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
@@ -1413,25 +1501,29 @@ struct TrackerEvent {
         if let typePage = typePage {
             params[.typePage] = typePage.rawValue
         }
-        params[.boost] = isBoost.rawValue
+        params[.purchaseType] = featurePurchaseType.rawValue
         return TrackerEvent(name: .bumpUpFail, params: params)
     }
 
     static func mobilePaymentComplete(paymentId: String, listingId: String?,
-                                      transactionStatus: EventParameterTransactionStatus) -> TrackerEvent {
+                                      transactionStatus: EventParameterTransactionStatus,
+                                      featurePurchaseType: EventParameterPurchaseType) -> TrackerEvent {
         var params = EventParameters()
         params[.paymentId] = paymentId
         params[.listingId] = listingId ?? ""
         params[.transactionStatus] = transactionStatus.rawValue
+        params[.purchaseType] = featurePurchaseType.rawValue
         return TrackerEvent(name: .mobilePaymentComplete, params: params)
     }
 
     static func mobilePaymentFail(reason: String?, listingId: String?,
-                                  transactionStatus: EventParameterTransactionStatus) -> TrackerEvent {
+                                  transactionStatus: EventParameterTransactionStatus,
+                                  featurePurchaseType: EventParameterPurchaseType) -> TrackerEvent {
         var params = EventParameters()
         params[.reason] = reason ?? ""
         params[.listingId] = listingId ?? ""
         params[.transactionStatus] = transactionStatus.rawValue
+        params[.purchaseType] = featurePurchaseType.rawValue
         return TrackerEvent(name: .mobilePaymentFail, params: params)
     }
 
@@ -1698,14 +1790,316 @@ struct TrackerEvent {
     static func openCommunityFromTabBar() -> TrackerEvent {
         return TrackerEvent(name: .openCommunity, params: nil)
     }
+
+    static func phoneNumberEditStart() -> TrackerEvent {
+        return TrackerEvent(name: .phoneNumberEditStart, params: nil)
+    }
+
+    static func phoneNumberEditComplete() -> TrackerEvent {
+        return TrackerEvent(name: .phoneNumberEditComplete, params: nil)
+    }
     
+    static func filterDuplicatedItemInSectionedFeed(pageNumber: Int, numberOfDuplicates: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.pageNumber] = pageNumber
+        params[.numberOfItems] = numberOfDuplicates
+        return TrackerEvent(name: .duplicatedItemsInFeed, params: params)
+    }
     
+    //  MARK: - Smoke Tests
+    
+    static func smokeTestCtaShown(testType: EventParameterSmokeTestType,
+                                  source: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.testName] = testType.rawValue
+        params[.typePage] = source.rawValue
+        return TrackerEvent(name: .smokeTestCtaShown, params: params)
+    }
+    
+    static func smokeTestCtaTapped(testType: EventParameterSmokeTestType,
+                                   source: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.testName] = testType.rawValue
+        params[.typePage] = source.rawValue
+        return TrackerEvent(name: .smokeTestCtaTapped, params: params)
+    }
+    
+    static func smokeTestInfoGetStarted(testType: EventParameterSmokeTestType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.testName] = testType.rawValue
+        return TrackerEvent(name: .smokeTestInfoGetStarted, params: params)
+    }
+    
+    static func smokeTestFeedback(testType: EventParameterSmokeTestType,
+                                  feedback: String,
+                                  feedbackDescription: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.testName] = testType.rawValue
+        params[.feedback] = feedback
+        params[.feedbackText] = feedbackDescription ?? notApply
+        return TrackerEvent(name: .smokeTestFeedbak, params: params)
+    }
+    
+    static func smokeTestClose(testType: EventParameterSmokeTestType,
+                               stepName: EventParameterSmokeTestStep) -> TrackerEvent {
+        var params = EventParameters()
+        params[.testName] = testType.rawValue
+        params[.stepName] = stepName.rawValue
+        return TrackerEvent(name: .smokeTestClose, params: params)
+    }
+    static func verificationModalShown() -> TrackerEvent {
+        return TrackerEvent(name: .verificationModalShown, params: nil)
+    }
+
+    static func p2pPaymentsMakeAnOfferOnboardingStart(userId: String,
+                                                      chatConversation: ChatConversation) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(userId: userId, chatConversation: chatConversation).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferOnboardStart, params: params)
+    }
+
+    static func p2pPaymentsMakeAnOfferStart(userId: String,
+                                            chatConversation: ChatConversation) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(userId: userId, chatConversation: chatConversation).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferStart, params: params)
+    }
+
+    static func p2pPaymentsMakeAnOfferOnboardingAbandon(userId: String,
+                                                        chatConversation: ChatConversation) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(userId: userId, chatConversation: chatConversation).eventParameters
+        params[.abandonStep] = EventParameterP2PPaymentsAbandonStep.onboarding
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferAbandon, params: params)
+    }
+
+    static func p2pPaymentsMakeAnOfferAbandon(userId: String,
+                                              chatConversation: ChatConversation,
+                                              offerFees: P2PPaymentOfferFees) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(userId: userId,
+                                             chatConversation: chatConversation,
+                                             offerFees: offerFees).eventParameters
+        params[.abandonStep] = EventParameterP2PPaymentsAbandonStep.offerEdit
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferAbandon, params: params)
+    }
+
+    static func p2pPaymentsMakeAnOfferEditPriceStart(userId: String,
+                                                     chatConversation: ChatConversation) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(userId: userId, chatConversation: chatConversation).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferEditStart, params: params)
+    }
+
+    static func p2pPaymentsMakeAnOfferEditPriceCancel(userId: String,
+                                                      chatConversation: ChatConversation) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(userId: userId, chatConversation: chatConversation).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferEditCancel, params: params)
+    }
+
+    static func p2pPaymentsMakeAnOfferEditPriceComplete(userId: String,
+                                                        chatConversation: ChatConversation) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(userId: userId, chatConversation: chatConversation).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferEditComplete, params: params)
+    }
+
+    static func p2pPaymentsMakeAnOfferPaymentStart(userId: String,
+                                                   chatConversation: ChatConversation,
+                                                   offerFees: P2PPaymentOfferFees) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(userId: userId,
+                                             chatConversation: chatConversation,
+                                             offerFees: offerFees).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerApplePayStart, params: params)
+    }
+
+    static func p2pPaymentsMakeAnOfferPaymentComplete(userId: String,
+                                                      chatConversation: ChatConversation,
+                                                      offerFees: P2PPaymentOfferFees) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(userId: userId,
+                                             chatConversation: chatConversation,
+                                             offerFees: offerFees).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerPaymentProcess, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusWithdraw(offer: P2PPaymentOffer,
+                                               listing: Listing) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerOfferWithdraw, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusViewCode(offer: P2PPaymentOffer,
+                                               listing: Listing) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        return TrackerEvent(name: .p2pPaymentsBuyerCodeView, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusSeller(offer: P2PPaymentOffer,
+                                            listing: Listing) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        return TrackerEvent(name: .p2pPaymentsSellerOfferDetail, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusSellerAccept(offer: P2PPaymentOffer,
+                                                   listing: Listing) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        params[.offerSellerChoice] = EventParameterP2PPaymentsOfferSellerChoice.accept
+        return TrackerEvent(name: .p2pPaymentsSellerOfferDecide, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusSellerDecline(offer: P2PPaymentOffer,
+                                                    listing: Listing) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        params[.offerSellerChoice] = EventParameterP2PPaymentsOfferSellerChoice.decline
+        return TrackerEvent(name: .p2pPaymentsSellerOfferDecide, params: params)
+    }
+
+    static func p2pPaymentsOfferStatusSellerEnterCode(offer: P2PPaymentOffer,
+                                                      listing: Listing) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(offer: offer, listing: listing).eventParameters
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutStart, params: params)
+    }
+
+    static func p2pPaymentsOfferSellerCodeEntered(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = EventParameterP2PPaymentsStep.codeEntry
+        return TrackerEvent(name: .p2pPaymentsSellerPayout, params: params)
+    }
+
+    static func p2pPaymentsOfferSellerCodeCorrect(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = EventParameterP2PPaymentsStep.codeCorrect
+        return TrackerEvent(name: .p2pPaymentsSellerPayout, params: params)
+    }
+
+    static func p2pPaymentsOfferSellerCodeIncorrect(offer: P2PPaymentOffer) -> TrackerEvent {
+        let params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutError, params: params)
+    }
+
+    static func p2pPaymentsPayoutUserInfoEntered(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = EventParameterP2PPaymentsStep.userDetails
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignup, params: params)
+    }
+
+    static func p2pPaymentsPayoutUserInfoError(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = EventParameterP2PPaymentsStep.userDetails
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignupError, params: params)
+    }
+
+    static func p2pPaymentsPayoutBankAccountEntered(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = EventParameterP2PPaymentsStep.bankAccountEdit
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignup, params: params)
+    }
+
+    static func p2pPaymentsPayoutBankAccountError(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = EventParameterP2PPaymentsStep.bankAccountEdit
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignupError, params: params)
+    }
+
+    static func p2pPaymentsPayoutDebitCardEntered(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = EventParameterP2PPaymentsStep.creditCardEdit
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignup, params: params)
+    }
+
+    static func p2pPaymentsPayoutDebitCardError(offer: P2PPaymentOffer) -> TrackerEvent {
+        var params = P2PPaymentsTrackingInfo(offer: offer).eventParameters
+        params[.step] = EventParameterP2PPaymentsStep.creditCardEdit
+        return TrackerEvent(name: .p2pPaymentsSellerPayoutSignupError, params: params)
+    }
+
     // MARK: - Private methods
     
     static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,
                                                                 priceRange: FilterPriceRange) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return priceRange.free ? .trueParameter : .falseParameter
+    }
+    
+    static func showNewItemsBadge() -> TrackerEvent {
+        return TrackerEvent(name: .showNewItemsBadge, params: nil)
+    }
+}
+
+// MARK: Affiliation
+private extension RewardType {
+    var trackingValue: String {
+        switch self {
+        case .amazon5: return "amazon-5"
+        case .amazon10: return "amazon-10"
+        case .amazon50: return "amazon-50"
+        }
+    }
+}
+
+extension TrackerEvent {
+    static func rewardCenterOpen(with typePage: EventParameterTypePage,
+                                 buttonType: EventParameterButtonType?,
+                                 walletPoints: Int?,
+                                 inviteFriendsIsAvailable: Bool?,
+                                 joinLetgoChallengeIsAvailable: Bool?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        if let buttonType = buttonType {
+            params[.buttonName] = buttonType.rawValue
+        }
+        if let walletPoints = walletPoints {
+            params[.rewardPoints] = walletPoints
+        }
+        var campaigns = [String]()
+        if let inviteFriendsIsAvailable = inviteFriendsIsAvailable, inviteFriendsIsAvailable {
+            campaigns.append("invite-friends-amazon")
+        }
+        if let joinLetgoChallengeIsAvailable = joinLetgoChallengeIsAvailable, joinLetgoChallengeIsAvailable {
+            campaigns.append("complete-registration-new-user")
+        }
+        if !campaigns.isEmpty {
+            params[.rewardCampaignsAvailable] = campaigns.joined(separator: ",")
+        }
+        return TrackerEvent(name: .rewardCenterOpen, params: params)
+    }
+    static func redeemRewardStart(with points: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.rewardPoints] = points
+        return TrackerEvent(name: .redeemRewardStart, params: params)
+    }
+
+    static func redeemRewardComplete(rewardType: RewardType, amountGranted: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.rewardRedeemed] = rewardType.trackingValue
+        params[.amountGranted] = amountGranted
+        return TrackerEvent(name: .redeemRewardComplete, params: params)
+    }
+
+    static func redeemRewardError(rewardType: RewardType, error: RepositoryError) -> TrackerEvent {
+        var params = EventParameters()
+        params[.rewardRedeemed] = rewardType.trackingValue
+        params[.errorDescription] = error.affiliationDescription()
+        return TrackerEvent(name: .redeemRewardStart, params: params)
+    }
+
+    static func inviteeRewardBannerShown() -> TrackerEvent {
+        return TrackerEvent(name: .inviteeRewardBannerShown, params: nil)
+    }
+
+    static func inviteeRewardBannerError() -> TrackerEvent {
+        return TrackerEvent(name: .inviteeRewardBannerError, params: nil)
+    }
+}
+
+enum RewardCampaign: String {
+    case inviteFriendsAmazon = "invite-friends-amazon"
+}
+
+private extension RepositoryError {
+    func affiliationDescription() -> String {
+        switch self.errorCode {
+        case 400?: return "bad-request"
+        case 404?: return "not-found"
+        case 401: return "unauthorized"
+        case 403?: return "forbidden"
+        case 422?: return "unprocessable-entity"
+        default: return "unknown"
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 "NSCameraUsageDescription" = "Je camera zal gebruikt worden om foto's te maken van wat je wilt verkopen.";
+"NSContactsUsageDescription" = "letgo heeft toegang nodig tot je contacten om je vrienden uit te nodigen";
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo gebruikt jouw locatie om deals in de buurt weer te geven en ontmoetingsplaatsen voor te stellen";
 "NSLocationAlwaysUsageDescription" = "letgo gebruikt jouw locatie om deals in de buurt weer te geven en ontmoetingsplaatsen voor te stellen";
 "NSLocationWhenInUseUsageDescription" = "letgo heeft toegang nodig tot jouw locatie om je producten te kunnen laten zien in jouw buurt";

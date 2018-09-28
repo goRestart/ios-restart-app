@@ -2,6 +2,7 @@ import CoreLocation
 import LGCoreKit
 import Result
 import RxSwift
+import RxCocoa
 import GoogleMobileAds
 import MoPub
 import LGComponents
@@ -10,12 +11,18 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(tags: [FilterTag])
     func vmFiltersChanged()
-    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmShowAffiliationToolTip(with configuration: TooltipConfiguration)
     func vmHideMapToolTip(hideForever: Bool)
+    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmHideAffiliationToolTip(hideForever: Bool)
 }
 
 protocol MainListingsAdsDelegate: class {
     func rootViewControllerForAds() -> UIViewController
+}
+
+protocol MainListingsTagsDelegate: class {
+    func onCloseAllFilters(finalFiters: ListingFilters)
 }
 
 final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
@@ -25,6 +32,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     static let adInFeedInitialPosition = 3
     private static let adsInFeedRatio = 20
     private static let searchAlertLimit = 20
+    
+    var wireframe: MainListingNavigator? // We'll call this wireframe to avoid clashing. Too many navigators here
     
     // > Input
     var searchString: String? {
@@ -39,28 +48,17 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var clearTextOnSearch: Bool {
         guard let searchType = searchType else { return false }
         switch searchType {
-        case .collection:
+        case .collection, .feed:
             return true
         case .user, .trending, .suggestive, .lastSearch:
             return false
         }
     }
     
-    var interestingListingIDs: Set<String> = Set<String>() {
-        didSet {
-            let empty = [String: InterestedState]()
-            let dict: [String: InterestedState] = interestingListingIDs.reduce(empty) {
-                (dict, identifier) -> [String: InterestedState] in
-                var dict = dict
-                dict[identifier] = .seeConversation
-                return dict
-            }
-            listViewModel.listingInterestState = dict
-        }
-    }
-    
     private let interestingUndoTimeout: TimeInterval = 5
     private let chatWrapper: ChatWrapper
+    private let adsImpressionConfigurable: AdsImpressionConfigurable
+    private let interestedHandler: InterestedHandleable
 
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
@@ -70,6 +68,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var activeRequesterType: RequesterType?
     
     private var isMapTooltipAdded = false
+    private var isAffiliationTooltipAdded = false
+    private var shouldCloseOnRemoveAllFilters: Bool = false
     
     var hasFilters: Bool {
         return !filters.isDefault()
@@ -86,8 +86,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var isEngagementBadgingEnabled: Bool {
         return featureFlags.engagementBadging.isActive
     }
-    
-    var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
+
+    lazy var rightBBItemsRelay = BehaviorRelay<[(image: UIImage, selector: Selector)]>(value: rightBarButtonsItems)
+
+    private var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if isRealEstateSelected {
             rightButtonItems.append((image: R.Asset.IconsButtons.icMap.image, selector: #selector(MainListingsViewController.openMap)))
@@ -98,7 +100,15 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             isMapTooltipAdded = false
             delegate?.vmHideMapToolTip(hideForever: false)
         }
+        
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
+        
+        if shouldShowAffiliateButton {
+            rightButtonItems.append((image: R.Asset.Affiliation.affiliationIcon.image.tint(color: .primaryColor), selector: #selector(MainListingsViewController.openAffiliationChallenges)))
+        } else {
+            isAffiliationTooltipAdded = false
+            delegate?.vmHideAffiliationToolTip(hideForever: false)
+        }
         return rightButtonItems
     }
     
@@ -117,16 +127,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let errorMessage = Variable<String?>(nil)
     let containsListings = Variable<Bool>(false)
     let isShowingCategoriesHeader = Variable<Bool>(false)
-    
-    var categoryHeaderElements: [ListingCategory] {
-        return ListingCategory.visibleValuesInFeed(servicesIncluded: true,
-                                                   realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                                   servicesHighlighted: true)
-    }
-    
-    var categoryHighlighted: ListingCategory {
-        return .services
-    }
+
+    var userAvatar = BehaviorRelay<UIImage?>(value: nil)
+
+    var categoryHeaderElements: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
+    var categoryHighlighted: FilterCategoryItem { return FilterCategoryItem(category: .services) }
     
     private static let firstVersionNumber = 1
     
@@ -214,29 +219,19 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         if isServicesSelected {
             let servicesFilters = filters.verticalFilters.services
+            servicesFilters.listingTypes.forEach({ resultTags.append(.serviceListingType($0)) })
 
-            if featureFlags.servicesUnifiedFilterScreen.isActive {
-                if let serviceType = servicesFilters.type {
-                    
-                    if let serviceSubtypes = servicesFilters.subtypes {
-                        if serviceType.subTypes.count == serviceSubtypes.count ||
-                            serviceSubtypes.count == 0 {
-                            resultTags.append(.serviceType(serviceType))
-                        } else {
-                            resultTags.append(.unifiedServiceType(type: serviceType,
-                                                                  selectedSubtypes: serviceSubtypes))
-                        }
-                    } else {
+            if let serviceType = servicesFilters.type {
+                if let serviceSubtypes = servicesFilters.subtypes {
+                    if serviceType.subTypes.count == serviceSubtypes.count ||
+                        serviceSubtypes.count == 0 {
                         resultTags.append(.serviceType(serviceType))
+                    } else {
+                        resultTags.append(.unifiedServiceType(type: serviceType,
+                                                              selectedSubtypes: serviceSubtypes))
                     }
-                }
-            } else {
-                if let serviceType = servicesFilters.type {
+                } else {
                     resultTags.append(.serviceType(serviceType))
-                }
-                
-                if let tags = servicesFilters.subtypes?.map({ FilterTag.serviceSubtype($0) }) {
-                    resultTags.append(contentsOf: tags)
                 }
             }
         }
@@ -245,7 +240,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     var shouldShowInviteButton: Bool {
+        guard !shouldShowAffiliateButton else { return false }
         return navigator?.canOpenAppInvite() ?? false
+    }
+    
+    var shouldShowAffiliateButton: Bool {
+        return featureFlags.affiliationEnabled.isActive
     }
 
     var shouldShowCommunityButton: Bool {
@@ -254,10 +254,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
     var shouldShowUserProfileButton: Bool {
         return featureFlags.community.shouldShowOnTab
-    }
-
-    var shouldShowCommunityBanner: Bool {
-        return featureFlags.community.isActive && !listViewModel.isListingListEmpty.value
     }
     
     private var carSelectedWithFilters: Bool {
@@ -285,7 +281,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var shouldShowRealEstateMapTooltip: Bool {
-        return featureFlags.realEstateMapTooltip.isActive && !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
+        return !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded && !isAffiliationTooltipAdded
+    }
+    
+    private var shouldShowAffiliationTooltip: Bool {
+        return !keyValueStorage[.affiliationTooltipShown] && !isAffiliationTooltipAdded
     }
     
     private func showTooltipMap() {
@@ -312,6 +312,37 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     func tooltipDidHide() {
         keyValueStorage[.realEstateTooltipMapShown] = true
     }
+    
+    private func showTooltipAffilition() {
+        guard featureFlags.affiliationEnabled.isActive else { return }
+        guard !keyValueStorage[.affiliationTooltipShown] else { return }
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 3
+        let title = R.Strings.affiliationMainFeedTooltipText
+        let titleHighlighted = R.Strings.affiliationMainFeedTooltipTextHighlighted
+        let attributedText = title.bicolorAttributedText(mainColor: .white,
+                                                         colouredText: titleHighlighted,
+                                                         otherColor: .primaryColor,
+                                                         font: UIFont.systemSemiBoldFont(size: 15),
+                                                         paragraphStyle: paragraphStyle)
+        let action: () -> () = {  [weak self] in
+            self?.tooltipAffiliationDidHide()
+            self?.openAffiliationChallenges(sourceButton: .banner)
+        }
+        let tooltipConfiguration = TooltipConfiguration(title: attributedText,
+                                                        style: .black(closeEnabled: false),
+                                                        peakOnTop: true,
+                                                        actionBlock:action,
+                                                        closeBlock: nil)
+        
+        
+        isAffiliationTooltipAdded = true
+        delegate?.vmShowAffiliationToolTip(with: tooltipConfiguration)
+    }
+    
+    func tooltipAffiliationDidHide() {
+       keyValueStorage[.affiliationTooltipShown] = true
+    }
 
     
     let mainListingsHeader = Variable<MainListingsHeader>([])
@@ -331,6 +362,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     fileprivate let categoryRepository: CategoryRepository
     private let searchAlertsRepository: SearchAlertsRepository
     fileprivate let userRepository: UserRepository
+    private let feedBadgingSynchronizer: FeedBadgingSynchronizer
+    private let appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver
     
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -344,10 +377,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     // > Delegate
     weak var delegate: MainListingsViewModelDelegate?
     weak var adsDelegate: MainListingsAdsDelegate?
+    weak var tagsDelegate: MainListingsTagsDelegate?
     
     // > Navigator
     weak var navigator: MainTabNavigator?
-    var feedNavigator: FeedNavigator? { return navigator }
+    var feedNavigator: MainTabNavigator? { return navigator }
     
     // List VM
     let listViewModel: ListingListViewModel
@@ -395,15 +429,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         return myUserRepository.myUser?.name
     }
     
-    private var isRealEstateSearch: Bool {
-        return filters.selectedCategories == [.realEstate]
-    }
-
     private var isCurrentFeedACachedFeed: Bool = false {
-        didSet {
-            guard featureFlags.cachedFeed.isActive else { return }
-            isFreshBubbleVisible.value = isCurrentFeedACachedFeed
-        }
+        didSet { isFreshBubbleVisible.value = isCurrentFeedACachedFeed }
     }
     
     fileprivate let disposeBag = DisposeBag()
@@ -415,11 +442,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let hasSearchQuery = searchType?.text != nil
         return isThereLoggedUser && hasSearchQuery
     }
-    var shouldSetupFeedBubble: Bool { return featureFlags.cachedFeed.isActive }
     private var shouldFetchCache: Bool {
-        let abTestActive = featureFlags.cachedFeed.isActive
         let isEmpty = listViewModel.isListingListEmpty.value
-        return abTestActive && !isCurrentFeedACachedFeed && (isEmpty || !hasFilters)
+        return !isCurrentFeedACachedFeed && isEmpty && !hasFilters
     }
 
     private var shouldDisableOldestSearchAlertIfMaximumReached: Bool {
@@ -428,6 +453,15 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     private let requesterFactory: RequesterFactory
     private let requesterDependencyContainer: RequesterDependencyContainer
+    
+    
+    private var canShowCarPromoCells: Bool {
+        return featureFlags.carPromoCells.isActive && filters.isCarSearch
+    }
+    
+    private var canShowServicePromoCells: Bool {
+        return featureFlags.servicesPromoCells.isActive && filters.isJobsAndServicesSearch
+    }
     
     // MARK: - Lifecycle
     
@@ -448,7 +482,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable,
          bubbleTextGenerator: DistanceBubbleTextGenerator,
-         chatWrapper: ChatWrapper) {
+         chatWrapper: ChatWrapper,
+         adsImpressionConfigurable: AdsImpressionConfigurable,
+         interestedHandler: InterestedHandleable,
+         feedBadgingSynchronizer: FeedBadgingSynchronizer,
+         appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.searchRepository = searchRepository
@@ -468,6 +506,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.featureFlags = featureFlags
         self.bubbleTextGenerator = bubbleTextGenerator
         self.chatWrapper = chatWrapper
+        self.adsImpressionConfigurable = adsImpressionConfigurable
+        self.interestedHandler = interestedHandler
+        self.feedBadgingSynchronizer = feedBadgingSynchronizer
+        self.appsFlyerAffiliationResolver = appsFlyerAffiliationResolver
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? SharedConstants.numListingsPerPageBig : SharedConstants.numListingsPerPageDefault
@@ -478,7 +520,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer,
                                                       featureFlags: featureFlags)
         self.requesterFactory = requesterFactory
-        self.listViewModel = ListingListViewModel(numberOfColumns: columns, tracker: tracker, featureFlags: featureFlags, requesterFactory: requesterFactory, searchType: searchType)
+        self.listViewModel = ListingListViewModel(numberOfColumns: columns,
+                                                  tracker: tracker,
+                                                  featureFlags: featureFlags,
+                                                  requesterFactory: requesterFactory,
+                                                  searchType: searchType,
+                                                  source: .feed,
+                                                  interestedStateUpdater: interestedHandler.interestedStateUpdater)
         let multiRequester = self.listViewModel.currentActiveRequester as? ListingListMultiRequester
         self.listingListRequester = multiRequester ?? ListingListMultiRequester()
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
@@ -490,11 +538,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         super.init()
         
         self.listViewModel.listingCellDelegate = self
-        
         setup()
     }
     
-    convenience init(searchType: SearchType? = nil, filters: ListingFilters) {
+    convenience init(searchType: SearchType? = nil,
+                     filters: ListingFilters,
+                     shouldCloseOnRemoveAllFilters: Bool) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let searchRepository = Core.searchRepository
@@ -511,6 +560,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         let chatWrapper = LGChatWrapper()
+        let adsImpressionConfigurable = LGAdsImpressionConfigurable()
+        let interestedHandler = InterestedHandler()
+        let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
+        let appsFlyerAffiliationResolver = AppsFlyerAffiliationResolver.shared
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
                   searchRepository: searchRepository,
@@ -528,7 +581,18 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   keyValueStorage: keyValueStorage,
                   featureFlags: featureFlags,
                   bubbleTextGenerator: bubbleTextGenerator,
-                  chatWrapper: chatWrapper)
+                  chatWrapper: chatWrapper,
+                  adsImpressionConfigurable: adsImpressionConfigurable,
+                  interestedHandler: interestedHandler,
+                  feedBadgingSynchronizer: feedBadgingSynchronizer,
+                  appsFlyerAffiliationResolver: appsFlyerAffiliationResolver)
+        self.shouldCloseOnRemoveAllFilters = shouldCloseOnRemoveAllFilters
+    }
+    
+    convenience init(searchType: SearchType? = nil, filters: ListingFilters) {
+        self.init(searchType: searchType,
+                  filters: filters,
+                  shouldCloseOnRemoveAllFilters: false)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -542,12 +606,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        interestingListingIDs = keyValueStorage.interestingListingIDs
         updatePermissionsWarning()
         updateCategoriesHeader()
         if firstTime {
             setupRx()
-            notificationsManager.updateEngagementBadgingNotifications()
         }
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
@@ -575,31 +637,33 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         guard !query.isEmpty else { return }
         
         delegate?.vmDidSearch()
-        if let searchNavigator = searchNavigator  {
-            searchNavigator.openSearchResults(with: .user(query: query), filters: filters)
-        } else {
-            navigator?.openMainListings(withSearchType: .user(query: query), listingFilters: filters)
+        guard let searchNavigator = searchNavigator else {
+            navigator?.openMainListings(withSearchType: .user(query: query),
+                                        listingFilters: filters)
+            return
         }
+        wireframe?.openSearchResults(
+            with: .user(query: query),
+            filters: filters,
+            searchNavigator: searchNavigator
+        )
     }
     
     func showFilters() {
-        if let searchNavigator = searchNavigator  {
-            searchNavigator.openFilters(with: filters, dataDelegate: self)
-        } else {
-            navigator?.openFilters(withListingFilters: filters, filtersVMDataDelegate: self)
-        }
+        wireframe?.openFilters(withFilters: filters, dataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
+    }
+
+    func openAffiliationChallenges(sourceButton: AffiliationChallengesSource.FeedButtonName) {
+        delegate?.vmHideAffiliationToolTip(hideForever: true)
+        wireframe?.openLoginIfNeededFromFeed(from: .feed, loggedInAction: { [weak self] in
+            self?.wireframe?.openAffiliationChallenges(sourceButton: sourceButton)
+        })
     }
     
     func showMap() {
-        if let searchNavigator = searchNavigator  {
-            searchNavigator.openMap(requester: listingListRequester,
-                                    listingFilters: filters)
-        } else {
-            navigator?.openMap(requester: listingListRequester,
-                               listingFilters: filters,
-                               locationManager: locationManager)
-        }
+        wireframe?.openMap(requester: listingListRequester,
+                        listingFilters: filters)
     }
     
     /**
@@ -614,6 +678,13 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
      */
     func updateFiltersFromTags(_ tags: [FilterTag],
                                removedTag: FilterTag?) {
+        guard !shouldCloseOnRemoveAllFilters || tags.count > 0 else {
+            wireframe?.close()
+            var newFilter = ListingFilters()
+            newFilter.place = filters.place
+            tagsDelegate?.onCloseAllFilters(finalFiters: newFilter)
+            return
+        }
         var categories: [FilterCategoryItem] = []
         var orderBy = ListingSortCriteria.defaultOption
         var within = ListingTimeFilter.defaultOption
@@ -645,6 +716,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         
         var servicesServiceType: ServiceType? = nil
         var servicesServiceSubtype: [ServiceSubtype] = []
+        var servicesListingTypes: [ServiceListingType] = []
         
         for filterTag in tags {
             switch filterTag {
@@ -694,6 +766,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             case .unifiedServiceType(let type, let selectedSubtypes):
                 servicesServiceType = type
                 servicesServiceSubtype = selectedSubtypes
+            case .serviceListingType(let listingType):
+                servicesListingTypes.append(listingType)
             case .carBodyType(let bodyType):
                 carBodyTypes.append(bodyType)
             case .carFuelType(let fuelType):
@@ -765,6 +839,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             filters.verticalFilters.services.subtypes = nil
         }
         
+        filters.verticalFilters.services.listingTypes = servicesListingTypes
+
         updateCategoriesHeader()
         updateListView()
     }
@@ -778,28 +854,26 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
-        filters.selectedCategories = [categoryHeaderInfo.listingCategory]
+        switch categoryHeaderInfo.filterCategoryItem {
+        case .category(let category):
+            filters.selectedCategories = [category]
+        case .free:
+            filters.priceRange = .freePrice
+        }
         applyFilters(categoryHeaderInfo)
     }
     
     func bubbleTapped() {
         let initialPlace = filters.place ?? Place(postalAddress: locationManager.currentLocation?.postalAddress,
                                                   location: locationManager.currentLocation?.location)
-        if let searchNavigator = searchNavigator  {
-            searchNavigator.openLocationSelection(with: initialPlace,
-                                                  distanceRadius: filters.distanceRadius,
-                                                  locationDelegate: self)
-        } else {
-            navigator?.openLocationSelection(initialPlace: initialPlace,
-                                             distanceRadius: filters.distanceRadius,
-                                             locationDelegate: self)
-        }
-        
+        wireframe?.openLocationSelection(with: initialPlace,
+                                      distanceRadius: filters.distanceRadius,
+                                      locationDelegate: self)
     }
     
     func recentItemsBubbleTapped() {
-        listViewModel.retrieveRecentItems()
-        notificationsManager.hideEngagementBadgingNotifications()
+        listViewModel.showRecentListings()
+        feedBadgingSynchronizer.hideBadge()
     }
     
     
@@ -813,17 +887,75 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private func setupRx() {
+        featureFlags.rx_affiliationEnabled
+            .asDriver(onErrorJustReturn: .control)
+            .filter { $0 == .active }
+            .distinctUntilChanged()
+            .map { [weak self] enabled in
+                self?.rightBarButtonsItems ?? []
+            }.drive(rightBBItemsRelay)
+            .disposed(by: disposeBag)
+
         listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
         }.disposed(by: disposeBag)
         
+        appsFlyerAffiliationResolver
+            .rx.affiliationCampaign
+            .bind { [weak self] status in
+            switch status {
+            case .campaignNotAvailableForUser:
+                self?.delegate?.vmHideAffiliationToolTip(hideForever: true)
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openWrongCountryModal()
+                })
+            case.referral( let referrer):
+                self?.delegate?.vmHideAffiliationToolTip(hideForever: true)
+                guard !(self?.keyValueStorage[.didShowAffiliationOnBoarding] ?? true) else { return }
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openAffiliationOnboarding(data: referrer)
+                })
+            case .unknown:
+                self?.showTooltipAffilition()
+            }
+        }.disposed(by: disposeBag)
         Observable.combineLatest(notificationsManager.engagementBadgingNotifications.asObservable(),
                                  containsListings.asObservable(),
                                  isShowingCategoriesHeader.asObservable()) { $0 && $1 && $2 }
             .bind(to: recentItemsBubbleVisible)
             .disposed(by: disposeBag)
+
+        myUserRepository
+            .rx_myUser
+            .distinctUntilChanged { $0?.objectId == $1?.objectId }
+            .subscribe(onNext: { [weak self] myUser in
+                self?.loadAvatar(for: myUser)
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func loadAvatar(for user: User?) {
+        guard featureFlags.advancedReputationSystem11.isActive else { return }
+
+        guard let avatarUrl = user?.avatar?.fileURL else {
+            self.userAvatar.accept(nil)
+            return
+        }
+
+        if let cachedImage = ImageDownloader.sharedInstance.cachedImageForUrl(avatarUrl) {
+            self.userAvatar.accept(cachedImage)
+            return
+        }
+
+        ImageDownloader
+            .sharedInstance
+            .downloadImageWithURL(avatarUrl) { [weak self] (result, _) in
+                guard case .success((let image, _)) = result else { return }
+                self?.userAvatar.accept(image)
+        }
     }
     
+
     /**
      Returns a view model for search.
      
@@ -854,11 +986,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         errorMessage.value = nil
         listViewModel.cellStyle = cellStyle
         listViewModel.resetUI()
-        listViewModel.refresh(shouldSaveToCache: !hasFilters)
 
-        if shouldFetchCache {
-            listViewModel.fetchFromCache()
-        }
+        listViewModel.refresh(shouldSaveToCache: !hasFilters)
     }
     
     
@@ -1047,6 +1176,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 extension MainListingsViewModel: FiltersViewModelDataDelegate {
     
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
+        guard !shouldCloseOnRemoveAllFilters || !filters.isDefault() else {
+            wireframe?.close()
+            self.filters = filters
+            return
+        }
         self.filters = filters
         delegate?.vmShowTags(tags: tags)
         updateListView()
@@ -1126,9 +1260,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func listingListVM(_ viewModel: ListingListViewModel,
                        didSucceedRetrievingListingsPage page: UInt,
                        withResultsCount resultsCount: Int,
-                       hasListings: Bool) {
+                       hasListings: Bool,
+                       containsRecentListings: Bool) {
         isCurrentFeedACachedFeed = false
-
+        let pullToRefreshTriggered = viewModel.pullToRefreshTriggered
+        
         // Only save the string when there is products and we are not searching a collection
         if let search = searchType, hasListings {
             updateLastSearchStored(lastSearch: search)
@@ -1151,12 +1287,18 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             if let isLastPage = requester?.multiIsLastPage, isLastPage {
                 let hasPerformedSearch = queryString != nil || hasFilters
                 let emptyViewModel = EmptyViewModelBuilder(hasPerformedSearch: hasPerformedSearch,
-                                                           isRealEstateSearch: isRealEstateSearch).build()
+                                                           isRealEstateSearch: filters.isRealEstateSearch).build()
                 listViewModel.setEmptyState(emptyViewModel)
                 filterDescription.value = nil
                 filterTitle.value = nil
                 
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: featureFlags.emptySearchImprovements.isActive)
+                trackRequestSuccess(page: page,
+                                    resultsCount: resultsCount,
+                                    hasListings: hasListings,
+                                    searchRelatedItems: featureFlags.emptySearchImprovements.isActive,
+                                    recentItems: containsRecentListings,
+                                    pullToRefreshTriggered: pullToRefreshTriggered)
+
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
@@ -1167,16 +1309,32 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             let isFirstRequesterInAlwaysSimilarCase = featureFlags.emptySearchImprovements == .alwaysSimilar && requesterType == .nonFilteredFeed
             let isFirstRequesterInOtherCases = featureFlags.emptySearchImprovements != .alwaysSimilar && requesterType != .search
             if isFirstRequesterInAlwaysSimilarCase || isFirstRequesterInOtherCases {
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: true)
+                trackRequestSuccess(page: page,
+                                    resultsCount: resultsCount,
+                                    hasListings: hasListings,
+                                    searchRelatedItems: true,
+                                    recentItems: containsRecentListings,
+                                    pullToRefreshTriggered: pullToRefreshTriggered)
+                
                 shouldHideCategoryAfterSearch = true
                 filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
                 filterTitle.value = filterTitleString(forRequesterType: requesterType)
                 updateCategoriesHeader()
             } else {
-                trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
+                trackRequestSuccess(page: page,
+                                    resultsCount: resultsCount,
+                                    hasListings: hasListings,
+                                    searchRelatedItems: false,
+                                    recentItems: containsRecentListings,
+                                    pullToRefreshTriggered: pullToRefreshTriggered)
             }
         } else {
-            trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings, searchRelatedItems: false)
+            trackRequestSuccess(page: page,
+                                resultsCount: resultsCount,
+                                hasListings: hasListings,
+                                searchRelatedItems: false,
+                                recentItems: containsRecentListings,
+                                pullToRefreshTriggered: pullToRefreshTriggered)
         }
         
         errorMessage.value = nil
@@ -1187,6 +1345,26 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         
         if(page == 0) {
             bubbleDistance = 1
+        }
+        
+        let isDefaultFeed = !hasFilters && searchType == nil
+        let shouldShowRecentItems = (requester?.multiIsFirstPage == true) &&
+            isDefaultFeed &&
+            hasListings &&
+            !containsRecentListings &&
+        isEngagementBadgingEnabled
+        if shouldShowRecentItems {
+            // If recent listings have not been retrieved, retrieve them and show badge if necessary
+            if listViewModel.recentListings.count == 0 {
+                feedBadgingSynchronizer.retrieveRecentListings { [weak self] recentListings in
+                    guard recentListings.count > 0 else { return }
+                    self?.listViewModel.addRecentListings(recentListings)
+                    self?.trackShowNewItemsBadge()
+                }
+            } else if listViewModel.hasPreviouslyShownRecentListings {
+                // If already retrieved before, we should show them directly
+                listViewModel.showRecentListings()
+            }
         }
     }
     
@@ -1253,11 +1431,12 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         var totalListings = listings
         totalListings = addCollections(to: totalListings, page: page)
         totalListings = addRealEstatePromoItem(to: totalListings)
+        totalListings = addCarPromoItem(to: totalListings)
+        totalListings = addServicesPromoItem(to: totalListings)
+        
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         if featureFlags.showAdsInFeedWithRatio.isActive ||
-            featureFlags.feedAdsProviderForUS.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
-            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) ||
-            featureFlags.googleAdxForTR.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
+            adsImpressionConfigurable.shouldShowAdsForUser {
             totalListings = addAds(to: totalListings, page: page)
         }
         return totalListings
@@ -1295,26 +1474,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
         return cellModels
     }
-
-    private func setupAdsCellModelForMoPub(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
-        let settings = MPStaticNativeAdRendererSettings()
-        guard let feedAdUnitId = featureFlags.feedAdUnitId,
-            let config = MPStaticNativeAdRenderer.rendererConfiguration(with: settings) else { return nil }
-        settings.renderingViewClass = MoPubNativeView.self
-        let configurations: [MPNativeAdRendererConfiguration] = [config]
-        let nativeAdRequest = MPNativeAdRequest.init(adUnitIdentifier: feedAdUnitId,
-                                                     rendererConfigurations: configurations)
-        let adData = AdvertisementMoPubData(adUnitId: feedAdUnitId,
-                                            rootViewController: adsDelegate.rootViewControllerForAds(),
-                                            adPosition: lastAdPosition,
-                                            bannerHeight: LGUIKitConstants.advertisementCellDefaultHeight,
-                                            adRequested: false,
-                                            categories: filters.selectedCategories,
-                                            nativeAdRequest: nativeAdRequest,
-                                            moPubNativeAd: nil,
-                                            moPubView: NativeAdBlankStateView())
-       return ListingCellModel.mopubAdvertisement(data: adData)
-    }
     
     private func setupAdsCellModelForGoogleAdx(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
         guard var feedAdUnitId = featureFlags.feedAdUnitId else { return nil }
@@ -1339,41 +1498,16 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         return ListingCellModel.adxAdvertisement(data: adData)
     }
     
-    private func setupAdsCellModelForDFP(adsDelegate: MainListingsAdsDelegate) -> ListingCellModel? {
-        guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return nil }
-        let request = DFPRequest()
-        var customTargetingValue = ""
-        if featureFlags.showAdsInFeedWithRatio.isActive {
-            customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
-        } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
-            customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
-        }
-        request.customTargeting = [SharedConstants.adInFeedCustomTargetingKey: customTargetingValue]
-        let adData = AdvertisementDFPData(adUnitId: feedAdUnitId,
-                                          rootViewController: adsDelegate.rootViewControllerForAds(),
-                                          adPosition: lastAdPosition,
-                                          bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
-                                          adRequested: false,
-                                          categories: filters.selectedCategories,
-                                          adRequest: request,
-                                          bannerView: nil)
-        return ListingCellModel.dfpAdvertisement(data: adData)
-    }
-    
     private func addAds(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         if page == 0 {
             lastAdPosition = MainListingsViewModel.adInFeedInitialPosition
             previousPagesAdsOffset = 0
         }
         guard let adsDelegate = adsDelegate else { return listings }
-        let adsActive = featureFlags.showAdsInFeedWithRatio.isActive ||
-            featureFlags.feedAdsProviderForUS.shouldShowAdsInFeed ||
-            featureFlags.feedAdsProviderForTR.shouldShowAdsInFeed ||
-            featureFlags.googleAdxForTR.shouldShowAdsInFeed
         var cellModels = listings
         var canInsertAds = true
 
-        guard let _ = featureFlags.feedAdUnitId, adsActive else { return listings }
+        guard featureFlags.feedAdUnitId != nil else { return listings }
         while canInsertAds {
             
             let adPositionInPage = lastAdPosition-previousPagesAdsOffset
@@ -1381,14 +1515,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                                     itemsInPage: cellModels.count,
                                                                     pageSize: listingListRequester.itemsPerPage,
                                                                     adPosition: adPositionInPage) else { break }
-            var adsCellModel: ListingCellModel?
-            if featureFlags.feedAdsProviderForUS.shouldShowGoogleAdxAds || featureFlags.googleAdxForTR.shouldShowGoogleAdxAds {
-                adsCellModel = setupAdsCellModelForGoogleAdx(adsDelegate: adsDelegate)
-            } else if featureFlags.feedAdsProviderForUS.shouldShowMoPubAds || featureFlags.feedAdsProviderForTR.shouldShowMoPubAds {
-                adsCellModel = setupAdsCellModelForMoPub(adsDelegate: adsDelegate)
-            } else {
-                adsCellModel = setupAdsCellModelForDFP(adsDelegate: adsDelegate)
-            }
+
+            let adsCellModel = setupAdsCellModelForGoogleAdx(adsDelegate: adsDelegate)
+
             guard let listingCellModel = adsCellModel else { return listings }
             cellModels.insert(listingCellModel, at: adRelativePosition)
             lastAdPosition = adAbsolutePosition()
@@ -1399,15 +1528,40 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
     
     private func addRealEstatePromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
-        guard isRealEstateSearch, !listings.isEmpty
+        guard filters.isRealEstateSearch, !listings.isEmpty
             else { return listings }
         
         guard (!filters.hasAnyRealEstateAttributes && listingListRequester.multiIsFirstPage) ||
             (filters.hasAnyRealEstateAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
         
         var cellModels = listings
-        cellModels.insert(ListingCellModel.promo(data: PromoCellConfiguration.randomCellData,  delegate: self), at: 0)
+        let configuration =  RealEstatePromoCellConfiguration.createRandomCellData(showNewDesign: featureFlags.realEstatePromoCells.isActive)
+        cellModels.insert(ListingCellModel.promo(data: configuration, delegate: self), at: 0)
         return cellModels
+    }
+    
+    private func addCarPromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard canShowCarPromoCells,
+            !listings.isEmpty
+            else { return listings }
+        
+        guard let carPromoCellModel = featureFlags.carPromoCells.newCarPromoCellModel(withDelegate: self),
+            (!filters.hasAnyCarAttributes && listingListRequester.multiIsFirstPage) ||
+            (filters.hasAnyCarAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
+        
+        return [carPromoCellModel] + listings
+    }
+
+    private func addServicesPromoItem(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard canShowServicePromoCells,
+            !listings.isEmpty
+            else { return listings }
+        
+        guard let servicesPromoCellModel = featureFlags.servicesPromoCells.newServicesPromoCellModel(withDelegate: self),
+            (!filters.hasAnyServicesAttributes && listingListRequester.multiIsFirstPage) ||
+                (filters.hasAnyServicesAttributes && listingListRequester.isFirstPageInLastRequester) else { return listings }
+        
+        return [servicesPromoCellModel] + listings
     }
     
     private func adAbsolutePosition() -> Int {
@@ -1561,7 +1715,10 @@ extension MainListingsViewModel {
     private func selectedTrendingSearchAtIndex(_ index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index), !trendingSearch.isEmpty else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainListings(withSearchType: .trending(query: trendingSearch), listingFilters: filters)
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openClassicFeed(navigator: safeNavigator,
+                                   withSearchType: .trending(query: trendingSearch),
+                                   listingFilters: filters)
     }
     
     private func selectedSuggestiveSearchAtIndex(_ index: Int) {
@@ -1574,16 +1731,21 @@ extension MainListingsViewModel {
         } else {
             newFilters = filters
         }
-        navigator?.openMainListings(withSearchType: .suggestive(search: suggestiveSearch,
-                                                                indexSelected: index),
-                                    listingFilters: newFilters)
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openClassicFeed(navigator: safeNavigator,
+                                   withSearchType: .suggestive(
+                                    search: suggestiveSearch,
+                                    indexSelected: index),
+                                   listingFilters: newFilters)
     }
     
     private func selectedLastSearchAtIndex(_ index: Int) {
         guard let lastSearch = lastSearchAtIndex(index), let name = lastSearch.name, !name.isEmpty else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainListings(withSearchType: .lastSearch(search: lastSearch),
-                                    listingFilters: filters)
+        guard let safeNavigator = navigator else { return }
+        wireframe?.openClassicFeed(navigator: safeNavigator,
+                                   withSearchType: .lastSearch(search: lastSearch),
+                                   listingFilters: filters)
     }
     
     func cleanUpLastSearches() {
@@ -1664,7 +1826,7 @@ extension MainListingsViewModel {
             suggestiveSearch = search
         case let .lastSearch(search):
             suggestiveSearch = search
-        case .collection:
+        case .collection, .feed:
             suggestiveSearch = nil
         }
         if let suggestiveSearch = suggestiveSearch {
@@ -1787,7 +1949,7 @@ fileprivate extension MainListingsViewModel {
     var listingVisitSource: EventParameterListingVisitSource {
         if let searchType = searchType {
             switch searchType {
-            case .collection:
+            case .collection, .feed:
                 return .collection
             case .user, .trending, .suggestive, .lastSearch:
                 if !hasFilters {
@@ -1827,13 +1989,25 @@ fileprivate extension MainListingsViewModel {
         return .home
     }
 
-    private func trackRequestSuccess(page: UInt, resultsCount: Int, hasListings: Bool, searchRelatedItems: Bool) {
+    private func trackRequestSuccess(page: UInt,
+                                     resultsCount: Int,
+                                     hasListings: Bool,
+                                     searchRelatedItems: Bool,
+                                     recentItems: Bool,
+                                     pullToRefreshTriggered: Bool) {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasListings ? .trueParameter : .falseParameter
+        let recentItemsParameter: EventParameterBoolean = recentItems ? .trueParameter : .falseParameter
+        let reloadParameter: EventParameterBoolean = pullToRefreshTriggered ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
-                                                    searchQuery: queryString, resultsCount: resultsCount,
-                                                    feedSource: feedSource, success: successParameter)
+                                                    searchQuery: queryString,
+                                                    resultsCount: resultsCount,
+                                                    feedSource: feedSource,
+                                                    success: successParameter,
+                                                    recentItems: recentItemsParameter,
+                                                    pullToRefreshTriggered: reloadParameter)
+
         tracker.trackEvent(trackerEvent)
         
         if let searchType = searchType, let searchQuery = searchType.query, shouldTrackSearch {
@@ -1879,6 +2053,11 @@ fileprivate extension MainListingsViewModel {
                                                          sellButtonPosition: source.sellButtonPosition,
                                                          category: category.listingCategory))
     }
+    
+    func trackShowNewItemsBadge() {
+        let trackerEvent = TrackerEvent.showNewItemsBadge()
+        tracker.trackEvent(trackerEvent)
+    }
 }
 
 
@@ -1906,88 +2085,45 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 // MARK: ListingCellDelegate
 
 extension MainListingsViewModel: ListingCellDelegate {
-    func interestedActionFor(_ listing: Listing) {
-        guard let identifier = listing.objectId else { return }
-        guard let index = listViewModel.indexFor(listingId: identifier) else { return }
-        if let state = listViewModel.listingInterestState[identifier],
-            case .send(let enabled) = state, !enabled {
-            return
-        }
-        markListingWithUndoableInterest(listing, atIndex: index)
-    }
     
-    private func markListingWithUndoableInterest(_ listing: Listing, atIndex index: Int) {
-        guard let identifier = listing.objectId else { return }
-        
-        let action: () -> () = { [weak self] in
-            guard let strSelf = self else { return }
-            guard !strSelf.interestingListingIDs.contains(identifier) else {
-                strSelf.navigator?.openChat(.listingAPI(listing: listing),
-                                            source: .listingList,
-                                            predefinedMessage: nil)
-                return
-            }
-            
-            strSelf.listViewModel.update(listing: listing, interestedState: .send(enabled: false))
-            let (cancellable, timer) = LGTimer.cancellableWait(strSelf.interestingUndoTimeout)
-            strSelf.showCancellableInterestedBubbleWith(duration: strSelf.interestingUndoTimeout) {
-                cancellable.cancel()
-            }
-            timer.subscribe { [weak self] (event) in
-                guard let strSelf = self else { return }
-                guard event.error == nil else {
-                    strSelf.sendInterestedMessage(forListing: listing, atIndex: index, withID: identifier)
-                    return
+    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
+        let interestedAction: () -> () = { [weak self] in
+            self?.interestedHandler.interestedActionFor(listing,
+                                                        userListing: userListing,
+                                                        stateCompletion: completion) { [weak self] interestedAction in
+                switch interestedAction {
+                case .openChatProUser:
+                    guard let interlocutor = userListing else { return }
+                    self?.navigator?.openListingChat(listing,
+                                                     source: .listingList,
+                                                     interlocutor: interlocutor)
+                case .askPhoneProUser:
+                    guard let interlocutor = userListing else { return }
+                    self?.navigator?.openAskPhoneFromMainFeedFor(listing: listing, interlocutor: interlocutor)
+                case .openChatNonProUser:
+                    let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+                    self?.navigator?.openChat(chatDetailData,
+                                              source: .listingListFeatured,
+                                              predefinedMessage: nil)
+                case .triggerInterestedAction:
+                    let (cancellable, timer) = LGTimer.cancellableWait(5)
+                    self?.showUndoBubble(withMessage: R.Strings.productInterestedBubbleMessage,
+                                         duration: InterestedHandler.undoTimeout) {
+                                            cancellable.cancel()
+                    }
+                    self?.interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
                 }
-                strSelf.undoInterestingMessageFor(listing: listing, withID: identifier)
-                }.disposed(by: strSelf.disposeBag)
+            }
         }
-        navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: action)
+        navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: interestedAction)
     }
     
-    private func undoInterestingMessageFor(listing: Listing, withID identifier: String) {
-        tracker.trackEvent(TrackerEvent.undoSentMessage())
-        interestingListingIDs.remove(identifier)
-        syncInterestingListings(interestingListingIDs)
-        listViewModel.update(listing: listing, interestedState: .send(enabled: true))
-        
-    }
-    
-    private func syncInterestingListings(_ interestingListingIDs: Set<String>?) {
-        guard let set = interestingListingIDs else { return }
-        keyValueStorage.interestingListingIDs = set
-    }
-    
-    private func sendInterestedMessage(forListing listing: Listing, atIndex index: Int, withID identifier: String) {
-        interestingListingIDs.update(with: identifier)
-        syncInterestingListings(interestingListingIDs)
-        let type: ChatWrapperMessageType = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
-        let trackingInfo = SendMessageTrackingInfo.makeWith(type: type,
-                                                            listing: listing,
-                                                            freePostingAllowed: featureFlags.freePostingModeAllowed)
-            .set(typePage: .listingList)
-            .set(isBumpedUp: .falseParameter)
-            .set(containsEmoji: false)
-        
-        let containsVideo = EventParameterBoolean(bool: listing.containsVideo())
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: trackingInfo, isProfessional: nil))
-        chatWrapper.sendMessageFor(listing: listing,
-                                   type: type,
-                                   completion: { [weak self] isFirstMessage in
-                                    if isFirstMessage.value ?? false {
-                                        self?.tracker.trackEvent(TrackerEvent.firstMessage(info: trackingInfo,
-                                                                                           listingVisitSource: .listingList,
-                                                                                           feedPosition: .none,
-                                                                                           userBadge: .noBadge,
-                                                                                           containsVideo: containsVideo, isProfessional: nil))
-                                    }
-        })
-        listViewModel.update(listing: listing, interestedState: .seeConversation)
-    }
-    
-    private func showCancellableInterestedBubbleWith(duration: TimeInterval, then action: @escaping ()->()) {
-        let message = R.Strings.productInterestedBubbleMessage
-        navigator?.showUndoBubble(withMessage: message, duration: duration, withAction: action)
+    private func showUndoBubble(withMessage message: String,
+                                duration: TimeInterval,
+                                then action: @escaping () -> ()) {
+        navigator?.showUndoBubble(withMessage: message,
+                                  duration: duration,
+                                  withAction: action)
     }
     
     func chatButtonPressedFor(listing: Listing) {
@@ -2002,11 +2138,11 @@ extension MainListingsViewModel: ListingCellDelegate {
     // Discarded listings are never shown in the main feed
     func moreOptionsPressedForDiscarded(listing: Listing) {}
     
-    func postNowButtonPressed(_ view: UIView) {
-        let postCategory: PostCategory = .realEstate
-        let source: PostingSource = .realEstatePromo
-        navigator?.openSell(source: source, postCategory: postCategory)
-        trackStartSelling(source: source, category: postCategory)
+    func postNowButtonPressed(_ view: UIView,
+                              category: PostCategory,
+                              source: PostingSource) {
+        navigator?.openSell(source: source, postCategory: category)
+        trackStartSelling(source: source, category: category)
     }
     
     func openAskPhoneFor(_ listing: Listing, interlocutor: LocalUser) {
@@ -2037,44 +2173,49 @@ extension MainListingsViewModel: ListingCellDelegate {
     func bumpUpPressedFor(listing: Listing) { }
 }
 
-extension NoAdsInFeedForNewUsers {
-    var ratio: Int {
-        return shouldShowAdsInFeed ? 20 : 0
+private extension ListingFilters {
+    
+    var isRealEstateSearch: Bool {
+        return selectedCategories == [.realEstate]
     }
     
-    func customTargetingValueFor(position: Int) -> String {
-        guard self.ratio != 0 else { return "" }
-        let numberOfAd = ((position - MainListingsViewModel.adInFeedInitialPosition)/self.ratio) + 1
-        return "var_c_pos_\(numberOfAd)"
+    var isCarSearch: Bool {
+        return selectedCategories == [.cars]
+    }
+    
+    var isJobsAndServicesSearch: Bool {
+        return selectedCategories == [.services]
     }
 }
 
-extension ShowAdsInFeedWithRatio {
-    var ratio: Int {
+private extension ServicesPromoCells {
+    
+    func newServicesPromoCellModel(withDelegate delegate: ListingCellDelegate) -> ListingCellModel? {
         switch self {
         case .control, .baseline:
-            return 0
-        case .ten:
-            return 10
-        case .fifteen:
-            return 15
-        case .twenty:
-            return 20
+            return nil
+        case .activeWithCallToAction:
+            return ListingCellModel.promo(data: ServicesPromoCellConfiguration.createRandomCellData(showsPostButton: true),
+                                          delegate: delegate)
+        case .activeWithoutCallToAction:
+            return ListingCellModel.promo(data: ServicesPromoCellConfiguration.createRandomCellData(showsPostButton: false),
+                                          delegate: delegate)
         }
     }
+}
+
+private extension CarPromoCells {
     
-    func customTargetingValueFor(position: Int) -> String {
-        guard self.ratio != 0 else { return "" }
-        let numberOfAd = ((position - MainListingsViewModel.adInFeedInitialPosition)/self.ratio) + 1
+    func newCarPromoCellModel(withDelegate delegate: ListingCellDelegate) -> ListingCellModel? {
         switch self {
         case .control, .baseline:
-            return ""
-        case .ten:
-            return "var_a_pos_\(numberOfAd)"
-        case .fifteen:
-            return "var_b_pos_\(numberOfAd)"
-        case .twenty:
-            return "var_c_pos_\(numberOfAd)"
+            return nil
+        case .variantA:
+            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: true),
+                                          delegate: delegate)
+        case .variantB:
+            return ListingCellModel.promo(data: CarPromoCellConfiguration.createRandomCellData(showsPostButton: false),
+                                          delegate: delegate)
         }
     }
 }

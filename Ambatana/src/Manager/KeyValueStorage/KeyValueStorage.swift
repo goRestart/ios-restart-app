@@ -1,11 +1,3 @@
-//
-//  KeyValueStorage.swift
-//  LetGo
-//
-//  Created by Albert Hernández López on 09/05/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 import SwiftyUserDefaults
 import RxSwift
@@ -35,6 +27,7 @@ extension DefaultsKeys {
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
     static let didShowListingDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
     static let didShowDeckOnBoarding = DefaultsKey<Bool>("didShowDeckOnBoarding")
+    static let didShowCardGesturesOnBoarding = DefaultsKey<Bool>("didShowCardGesturesOnBoarding")
 
     static let listingMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
     static let favoriteCategories = DefaultsKey<[Int]>("favoriteCategories")
@@ -55,14 +48,16 @@ extension DefaultsKeys {
     static let sessionNumber = DefaultsKey<Int>("sessionNumber")
     static let postListingLastGalleryAlbumSelected = DefaultsKey<String?>("postProductLastGalleryAlbumSelected")
 
-    static let lastShownSurveyDate = DefaultsKey<Date?>("lastShownSurveyDate")
     static let lastShownPromoteBumpDate = DefaultsKey<Date?>("lastShownPromoteBumpDate")
     static let realEstateTooltipSellButtonAlreadyShown = DefaultsKey<Bool>("realEstateTooltipSellButtonAlreadyShown")
     static let realEstateTooltipMapShown = DefaultsKey<Bool>("realEstateTooltipMapShown")
-    
+    static let clickToTalkShown = DefaultsKey<Bool>("clickToTalkShown")
+    static let affiliationTooltipShown = DefaultsKey<Bool>("affiliationTooltipShown")
     static let lastShownSecurityWarningDate = DefaultsKey<Date?>("lastShownSecurityWarningDate")
 
     static let showOffensiveReportOnNextStart = DefaultsKey<Bool>("showOffensiveReportOnNextStart")
+
+    static let showVerificationAwarenessOnNextStart = DefaultsKey<Bool>("showVerificationAwarenessOnNextStart")
 
     static let machineLearningOnboardingShown = DefaultsKey<Bool>("machineLearningOnboardingShown")
 
@@ -71,12 +66,15 @@ extension DefaultsKeys {
     static let sellAutoShareOnFacebook = DefaultsKey<Bool?>("sellAutoShareOnFacebook")
     
     static let lastSessionDate = DefaultsKey<Date?>("lastSessionDate")
+
+    // Affiliation
+    static let didShowAffiliationOnBoarding = DefaultsKey<Bool>("didShowAffiliationOnBoarding")
 }
 
 
 // MARK: - KeyValueStorage
 
-class KeyValueStorage {
+final class KeyValueStorage {
     static let sharedInstance: KeyValueStorage = KeyValueStorage()
 
     fileprivate var storage: KeyValueStorageable

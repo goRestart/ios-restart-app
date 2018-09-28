@@ -89,6 +89,7 @@ public protocol ListingRepository {
     // MARK: - Listing CRUD
     
     func index(_ params: RetrieveListingParams, completion: ListingsCompletion?)
+    func indexNewSearchAPI(_ params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexSimilar(_ params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexCustomFeed(_ params: RetrieveListingParams, completion: ListingsCompletion?)
     func index(userId: String, params: RetrieveListingParams, completion: ListingsCompletion?)

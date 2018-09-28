@@ -7,6 +7,11 @@ enum UserReputationBadge: String {
     case gold = "gold"
 }
 
+struct UserAvatarInfo {
+    let avatarURL: URL?
+    let placeholder: UIImage?
+}
+
 extension User {
     var facebookAccount: Account? {
         return accountWithProvider(.facebook)
@@ -28,6 +33,18 @@ extension User {
     }
     var hasBadge: Bool {
         return reputationBadge != .noBadge
+    }
+}
+
+//  MARK: - Avatar
+
+extension User {
+    func makeAvatarPlaceholder(isPrivateProfile: Bool) -> UIImage? {
+        if isPrivateProfile {
+            return LetgoAvatar.avatarWithColor(.defaultAvatarColor, name: name)
+        } else {
+            return LetgoAvatar.avatarWithID(objectId, name: name)
+        }
     }
 }
 

@@ -4,6 +4,213 @@
 // When a user Account is deactivated because is a scammer (includes user name)
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 
+//  tooltip message on mainfeed
+"affiliation_main_feed_tooltip_text" = "Get up to $60 in Amazon gift cards";
+
+// tooltip text in red
+"affiliation_main_feed_tooltip_text_highlighted" = "$60 in Amazon gift cards";
+
+// Affiliation challenges screen. Cell points label.
+"affiliation_challenges_points" = "%@ points";
+
+// Affiliation challenges screen. Invite friends cell title.
+"affiliation_challenges_invite_friends_title" = "INVITE YOUR FRIENDS";
+
+// Affiliation challenges screen. Invite friends cell subtitle.
+"affiliation_challenges_invite_friends_subtitle" = "Get a $60 Amazon Gift Card";
+
+// Affiliation challenges screen. Invite friends cell description.
+"affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite %3$@ more friends and earn %4$@ more points!";
+
+// Affiliation challenges screen. Invite friends cell milestone label.
+"affiliation_challenges_invite_friends_milestone" = "%@ pts";
+
+// Affiliation challenges screen. Invite friends cell button.
+"affiliation_challenges_invite_friends_button" = "Invite friends";
+
+// Affiliation challenges screen. Join letgo cell title.
+"affiliation_challenges_join_letgo_title" = "JOIN LETGO";
+
+// Affiliation challenges screen. Join letgo cell subtitle.
+"affiliation_challenges_join_letgo_subtitle" = "Get an Amazon Gift Card";
+
+// Affiliation challenges screen. Join letgo cell description.
+"affiliation_challenges_join_letgo_description" = "Complete the following steps to get your gift cards";
+
+// Affiliation challenges screen. Join letgo cell verify phone label.
+"affiliation_challenges_join_letgo_step_phone_label" = "Verify your phone number";
+
+// Affiliation challenges screen. Join letgo cell verified phone label.
+"affiliation_challenges_join_letgo_step_phone_verified_label" = "Phone number verified";
+
+// Affiliation challenges screen. Join letgo cell verify phone button.
+"affiliation_challenges_join_letgo_step_phone_button" = "Verify phone number";
+
+// Affiliation challenges screen. Join letgo cell post listing label.
+"affiliation_challenges_join_letgo_step_post_label" = "Post your first listing";
+
+// Affiliation challenges screen. Join letgo cell posted listing label.
+"affiliation_challenges_join_letgo_step_posted_label" = "Listing posted";
+
+// Affiliation challenges screen. Join letgo cell post listing button.
+"affiliation_challenges_join_letgo_step_post_button" = "Post listing";
+
+// Affiliation challenges screen. Join letgo cell processing label.
+"affiliation_challenges_join_letgo_processing" = "Processing... We'll let you know when it's ready!";
+
+// Affiliation challenges screen. Title.
+"affiliation_challenges_title" = "Rewards";
+
+// Affiliation challenges screen. Subtitle.
+"affiliation_challenges_subtitle" = "Earn Points";
+
+// Affiliation challenges screen. Unknown error message
+"affiliation_challenges_unknown_error_message" = "Oops! An error occurred while loading rewards.";
+
+// Affiliation Invite SMS contacts screen. Title.
+"affiliation_invite_sms_contacts_title" = "Invite contacts";
+
+// Affiliation Invite SMS contacts screen. Select all title
+"affiliation_invite_sms_contacts_select_all" = "Select / Unselect";
+
+// Affiliation invite sms contacts search bar placeholder
+"affiliation_invite_sms_contacts_search_placeholder" = "Search by name or number";
+
+// Affiliation invite sms no contacts on the list
+"affiliation_invite_sms_contacts_empty_state" = "We couldn't find any contacts on your phone.";
+
+// Affiliation invite sms no permissions granted
+"affiliation_invite_sms_contacts_need_permissions" = "letgo needs to access your contacts to invite your friends";
+
+// Message sent 
+"affiliation_invite_sms_message_sent" = "Message sent!";
+
+// Message cancelled by user
+"affiliation_invite_sms_message_cancel" = "Your message hasn't been sent.";
+
+// Error when sending message
+"affiliation_invite_sms_message_error" = "An error occurred while sending your message.";
+
+// Button title to go to settings when there is no access to contacts
+"affiliation_invite_sms_go_settings_button" = "Go to settings";
+
+// Message on onboarding
+"affiliation_invite_onboarding_text" = "Since %@ invited you to use letgo, you could win a $5 Amazon gift card.";
+
+// Affiliation Invite message text
+"affiliation_invite_message_text" = "Join a community of local buyers and sellers on letgo! Sign up and get $5 when you get started:";
+
+// Affiliation Invite message text (fallback)
+"affiliation_invite_message_text_no_name" = "You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
+
+// Affiliation invite friends main title label
+"affiliation_invite_friends_title_label" = "Invite your friends";
+
+// Affiliation invite friends subtitle label
+"affiliation_invite_friends_subtitle_label" = "Invite 3 friends to earn $10 when they start using letgo. Invite 10 friends and earn $50! \n\nYour friends will each get a $5 gift card, too.";
+
+// Affilation Invite friends screen. Title.
+"affiliation_invite_friends_title" = "Invite friends";
+
+// Affilation Invite friends screen. Others Button.
+"affiliation_invite_friends_others_button" = "Others ways to share";
+
+// Affilation Invite friends screen. Terms and conditions
+"affiliation_invite_friends_terms_button" = "Learn more";
+
+// Affilation Invite friends screen. SMS Button.
+"affiliation_invite_friends_sms_button" = "Invite via text";
+
+// Affilation FAQ screen.Title.
+"affiliation_faq_title" = "How it works";
+
+// Wrong country alert when open the app
+"affiliation_onboarding_country_error_message" = "Oops! Unfortunately rewards aren’t available in your country. \n\nBut you can still make money selling on letgo!";
+
+// Sell your stuff
+"affiliation_onboarding_country_error_main_button" = "Sell your stuff";
+
+// Keep browsing
+"affiliation_onboarding_country_error_secondary_button" = "Keep browsing";
+
+// Affiliation Store screen. Country unavailable error message
+"affiliation_store_country_error_message" = "Oops! Unfortunately rewards aren’t available in your country.";
+
+// Affiliation Store screen. Email alert. Title
+"affiliation_store_email_alert_title" = "Enter your email";
+
+// Affiliation Store screen. Email alert. Subtitle
+"affiliation_store_email_alert_subtitle" = "The gift card will be sent to %@";
+
+// Affiliation Store screen. Redeem Success. Modal headline
+"affiliation_store_redeem_gift_success_headline" = "Gift card requested";
+
+// Affiliation Store screen. Redeem Success. Modal subheadline
+"affiliation_store_redeem_gift_success_subheadline_with_email" = "We’ll send you an email when your gift card’s ready. This might take up to 24h.";
+
+// Affiliation Store screen. Redeem Success. Modal subheadline
+"affiliation_store_redeem_gift_success_subheadline_without_email" = "In order to get the gift card you need to add an email to your account.";
+
+// Affiliation Store screen. Redeem Success. Modal action
+"affiliation_store_redeem_gift_add_email" = "Add email";
+
+// Affiliation Store screen. Redeem Success. Modal action
+"affiliation_store_redeem_gift_edit_email" = "Edit email";
+
+// Affiliation Store screen. Redeem Success. Modal action
+"affiliation_store_redeem_gift_send" = "Send";
+
+// Affiliation Store screen. Unknown error message
+"affiliation_store_unknown_error_message" = "Oops! An error occurred while loading rewards.";
+
+// Affilation Store screen. Title
+"affiliation_store_title" = "Rewards store";
+
+// Affiliation Store screen. History
+"affiliation_store_history" = "History";
+
+// Affiliation Store screen. Points label
+"affiliation_store_points" = "%@ pts";
+
+// Affilation Store screen. Redeem button
+"affiliation_store_redeem_gift" = "Get gift card";
+
+// Affiliation Store screen. 5$ reward
+"affiliation_store_rewards_amazon_5" = "$5 Amazon gift card";
+
+// Affiliation Store screen. 10$ reward
+"affiliation_store_rewards_amazon_10" = "$10 Amazon gift card";
+
+// Affiliation Store screen. 50$ reward
+"affiliation_store_rewards_amazon_50" = "$50 Amazon gift card";
+
+// Affiliation Store. Generic error message
+"affiliation_store_generic_error" = "Oops! An error occurred while loading the rewards store.";
+
+// Affiliation Store Vouchers screen. Resend button
+"affiliation_store_resend_voucher" = "Resend";
+
+// Affiliation Store screen. View history button
+"affiliation_store_view_history" = "History";
+
+// Affiliation challenges screen. Wallet View. Title.
+"affiliation_wallet_title" = "YOUR WALLET";
+
+// Affiliation challenges screen. Wallet View. Points label.
+"affiliation_wallet_points_label" = "PTS";
+
+// Affiliation challenges screen. Wallet View. Open store button.
+"affiliation_wallet_open_store_button" = "View rewards";
+
+// Affiliation wrong country screen. Modal view.
+"affiliation_wrong_country_keep_browsing" = "Keep browsing";
+
+// Affiliation wrong country screen. Modal view. Headline
+"affiliation_wrong_country_error_headline" = "Oops! Unfortunately rewards aren’t available in your country.";
+
+// Affiliation wrong country screen. Modal view. Subheadline
+"affiliation_wrong_country_error_subheadline" = "But you can still make money selling on letgo!";
+
 // Text of the link that will go to the appstore
 "app_share_download_text" = "Download";
 
@@ -33,6 +240,21 @@
 
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
+
+// Bulk posting congrats screen main label
+"bulk_posting_congrats_primary_label" = "Congratulations!";
+
+// Bulk posting congrats screen secondary label
+"bulk_posting_congrats_secondary_label" = "Your listings has been posted.";
+
+// Bulk posting congrats screen post button
+"bulk_posting_congrats_post_button" = "Post More Listings";
+
+// Bulk posting congrats screen posted listings section label
+"bulk_posting_congrats_listings_section_label" = "Add more details";
+
+// Bulk posting congrats screen edit button
+"bulk_posting_congrats_edit_button" = "Edit";
 
 // Text for bubble in free bump
 "bump_up_banner_free_text" = "Bump Up for free to sell faster";
@@ -72,6 +294,15 @@
 
 // Text for the timer progress view, this text is followed by the time left (e.g.: 2h 32m 15s)
 "bump_up_banner_boost_progress_title" = "Featured for the next";
+
+// text for multi day ongoing bump, next to the timer
+"bump_up_banner_multi_day_progress_title" = "until it moves to the top again";
+
+// text for multi day ongoing bump, when less than 1 day is left, next to the timer
+"bump_up_banner_multi_day_progress_title_1_day_remaining" = "remaining";
+
+// top tag for banner
+"bump_up_banner_multi_day_progress_top_tag" = "TOP";
 
 // Title for bubble button
 "bump_up_banner_free_button_title" = "Bump Up";
@@ -176,7 +407,49 @@
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
 
 // Subtitle for payment bump view when boost is not ready yet
-"bump_up_view_boost_subtitle_not_ready" = "You can add another boost in %@ to move it to the top and be featured for 24 additional hours";
+"bump_up_view_boost_subtitle_not_ready" = "You can feature your listing again in %@ to move it back to the top";
+
+// Title for multi day bump screen
+"bump_up_view_multi_day_title" = "Sell faster now";
+
+// title for 1 day bump view
+"bump_up_view_multi_day_1_day_title" = "Attract 2x more buyers";
+
+// tag for num of days - 1 day
+"bump_up_view_multi_day_1_day_tag" = "1 DAY";
+
+// subtitle for 1 day bump view
+"bump_up_view_multi_day_1_day_subtitle" = "We’ll feature your listing for 24 hours so more buyers will see your listing and you’ll sell faster";
+
+// title for 3 day bump view
+"bump_up_view_multi_day_3_days_title" = "Attract 6x more buyers";
+
+// tag for num of days - 3 days
+"bump_up_view_multi_day_3_days_tag" = "3 DAYS";
+
+// subtitle for 3 day bump view
+"bump_up_view_multi_day_3_days_subtitle" = "Feature your listing for 3 days at a discounted rate. We'll move it to the top every 24 hours so you'll sell faster!";
+
+// title for 7 day bump view
+"bump_up_view_multi_day_7_days_title" = "Attract 14x more buyers";
+
+// tag for num of days - 7 days
+"bump_up_view_multi_day_7_days_tag" = "7 DAYS";
+
+// subtitle for 7 day bump view
+"bump_up_view_multi_day_7_days_subtitle" = "Feature your listing for 7 days at a discounted rate. We'll move it to the top every 24 hours so you'll sell faster!";
+
+// title for multi day info bump screen
+"bump_up_view_multi_day_info_title" = "Your listing is featured!";
+
+// subtitle for multi day info bump screen, 1 day ongoing
+"bump_up_view_multi_day_info_1_day_subtitle" = "Your listing has increased visibility";
+
+// subtitle for multi day info bump screen, 3 days ongoing
+"bump_up_view_multi_day_info_3_days_subtitle" = "We'll move your listing to the top 3 times- once every 24 hours.";
+
+// subtitle for multi day info bump screen, 7 days ongoing
+"bump_up_view_multi_day_info_7_days_subtitle" = "We'll move your listing to the top 7 times- once every 24 hours.";
 
 // Text for boost success alert
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
@@ -201,6 +474,12 @@
 
 // Text for telling the user that there are fresh listings.
 "cached_feed_new_listings" = "New items";
+
+// First part of car promo cell text (bolded)
+"car_promo_cell_title_bold_text" = "Make money";
+
+// Second part of car promo cell text (regular)
+"car_promo_cell_title_regular_text" = "selling your car";
 
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
@@ -234,6 +513,9 @@
 
 // Categories services
 "categories_services" = "Services";
+
+// Cateogries Jobs & Services
+"categories_jobs_services" = "Jobs & Services";
 
 // Categories sports leisure and games. Check image @ "categories_cars_and_motors" segment
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
@@ -399,6 +681,9 @@
 
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
+
+// Chat now button in profile
+"chat_user_profile_chat_now" = "Chat now";
 
 "chat_conversations_list_filter_all" = "All";
 
@@ -728,6 +1013,36 @@
 // Title of transport collection
 "collection_transport_title" = "Travel in style";
 
+// Payment state to make an offer for an item
+"chat_payment_state_make_offer" = "Pay securely through the letgo app";
+
+// The seller received a new offer from other use to sell it's item
+"chat_payment_state_view_offer" = "You've got a new offer to accept";
+
+// Share payment code with seller
+"chat_payment_state_view_payment_code" = "Share the code with the seller when you receive the item";
+
+// Get buyer payment code 
+"chat_payment_state_exchange_code" = "Make sure to get the buyer's payment code when you give them the item";
+
+// Finish the payout process
+"chat_payment_state_payout" = "Finish the payout process to receive your payment";
+
+// Make an offer
+"chat_payment_state_make_offer_button_title" = "Make an offer";
+
+// See offer
+"chat_payment_state_view_offer_button_title" = "See offer";
+
+// Received Item
+"chat_payment_state_view_payment_code_button_title" = "Received Item";
+
+// Enter code to get paid
+"chat_payment_state_exchange_code_button_title" = "Enter code to get paid";
+
+// Payout
+"chat_payment_state_payout_button_title" = "Payout";
+
 // Title of furniture collection
 "collection_furniture_title" = "No place like home";
 
@@ -837,7 +1152,7 @@
 "common_product_given_away" = "Given away";
 
 // Common product not available.
-"common_product_not_available" = "Oops! This listing is no longer available";
+"common_product_not_available" = "Removed or no longer available";
 
 // Common product sold.
 "common_product_sold" = "Sold";
@@ -904,6 +1219,18 @@
 // Common display for time
 "common_hours_mins_secs" = "%@h %@m %@s";
 
+// System message shown in chat for an offer that has been accepted and is expired
+"communication_offer_accepted_expired" = "The offer has expired";
+
+// System message shown in chat for an offer that is pending and expiring soon
+"communication_offer_pending_expiring" = "The offer's expiring soon";
+
+// System message shown in chat for an offer that is completed and expired
+"communication_offer_completed_expired" = "The offer has expired";
+
+// System message shown in chat for an offer that is accepted and expiring soon
+"communication_offer_accepted_expiring" = "The offer's expiring soon";
+
 // Text shown in the Community Banner
 "community_banner_title" = "Join the letgo community!";
 
@@ -925,6 +1252,72 @@
 // Contact subject option report. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_report" = "Report user or spam";
 
+// Title for the click to talk smoketest
+"click_to_talk_smoketest_title" = "Click to Talk";
+
+// Subtitle for the click to talk smoketest
+"click_to_talk_smoketest_subtitle" = "Receive calls";
+
+// Description for the click to talk smoketest
+"click_to_talk_smoketest_description" = "Connect with your most interested buyers quickly and sell your items twice as fast.";
+
+// Action Button for the click to talk smoketest
+"click_to_talk_smoketest_action_button" = "Get Started";
+
+// Title for the click to talk smoketest banner
+"click_to_talk_smoketest_banner_title" = "Introducing \"Click to Talk\"";
+
+// Subtitle for the click to talk smoketest - developing
+"smoketest_detail_developing" = "We are currently testing %@.";
+
+// Subtitle for the click to talk smoketest - no charge
+"smoketest_detail_no_charge" = "You won't be charged for using it.";
+
+// First click to talk feature
+"click_to_talk_smoketest_feature_1" = "Speak directly to buyers";
+
+// Second click to talk feature
+"click_to_talk_smoketest_feature_2" = "Masked phone, your number is private";
+
+// Third click to talk feature
+"click_to_talk_smoketest_feature_3" = "Receive calls about all of your listings";
+
+// Free trial title
+"click_to_talk_smoketest_seven_days_free" = "Includes a 7-day FREE trial";
+
+// Two months free description
+"click_to_talk_smoketest_two_months_free" = "2 free months";
+
+// Title for feedback screen
+"smoketest_feedback_title" = "Why wouldn’t you use it?";
+
+// Smoketest feedback sustitle
+"smoketest_feedback_subtitle" = "We are currently testing %@ and we'd like to hear your feedback. Please help us improve.";
+
+// Feedback first option
+"smoketest_feedback_expensive" = "It's too expensive";
+
+// Feedback second option
+"smoketest_feedback_option_no_phone_call" = "I don’t want phone calls";
+
+// Feedback third option
+"smoketest_feedback_other" = "Other";
+
+// Feedback text title
+"smoketest_feedback_tell_us" = "Tell us more";
+
+// Feedback button title
+"smoketest_feedback_send" = "Send";
+
+// Thank you page - subtitle
+"smoketest_thank_you_title" = "Thank for your feedback!";
+
+// Thank you page - second subtitle
+"smoketest_thank_you_register_interest" = "We've registered your interest.";
+
+// Subscription recommended label
+"smoketest_recommended" = "Recommended";
+
 // Chat direct answer as buyer
 "direct_answer_condition" = "What condition is it in?";
 
@@ -942,6 +1335,39 @@
 
 // Chat direct answer as buyer
 "direct_answer_interested" = "I'm interested!";
+
+// Chat direct answer as buyer
+"direct_answer_interested_in_this_item" = "I'm interested in this item";
+
+// Chat direct answer as buyer
+"direct_answer_interested_in_buying_it" = "I'm interested in buying it";
+
+// Chat direct answer as buyer
+"direct_answer_interested_buy_it" = "I'd like to buy it";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_this_available" = "Is this available?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_this_still_available" = "Is this still available?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_it_still_available" = "Is it still available?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_still_have_it" = "Do you still have it?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_is_it_still_for_sale" = "Is it still for sale?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_has_it_sold" = "Has it sold?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_still_selling_it" = "Are you still selling it?";
+
+// Chat direct answer as buyer
+"direct_answer_interested_what_condition" = "What condition is it in?";
 
 // Chat direct answer as buyer
 "direct_answer_is_negotiable" = "Is the price negotiable?";
@@ -1051,6 +1477,12 @@
 // Chat direct not negotiable title
 "direct_answer_not_negotiable_title" = "Not negotiable...";
 
+// Chat direct answer for I like your listing
+"direct_answer_i_like_your_listing" = "I like your listing";
+
+// Chat direct answer for favorited
+"direct_answer_you_favorited_my_listing" = "You favorited my listing";
+
 "direct_answer_lets_meet" = "Let's meet";
 
 // Show user a product is discarded
@@ -1137,6 +1569,21 @@
 // Title for paymentFrequency edit field
 "edit_paymentFrequency_title" = "Frequency";
 
+// Title for when Jobs is selected
+"edit_jobsServices_jobs_option_title" = "Jobs";
+
+// Title for when Services is selected
+"edit_jobsServices_services_option_title" = "Services";
+
+// Title for Job/Service listing type title
+"edit_jobsServices_listingType_title" = "Type of listing";
+
+// Type field title for when Jobs & Services is active
+"edit_jobsServices_serviceType_title" = "Type";
+
+// Subtype field title for when Jobs & Services is active
+"edit_jobsServices_serviceSubtype_title" = "Subtype";
+
 // Bubble title
 "engagement_badging_feed_bubble" = "New items";
 
@@ -1159,7 +1606,7 @@
 "filters_navbar_reset" = "Reset";
 
 // Filters save button
-"filters_save_button" = "Save filters";
+"filters_save_button" = "Apply filters";
 
 // Filters section car info
 "filters_section_car_info" = "Car Info";
@@ -1398,6 +1845,21 @@
 
 // Alert to display to user that the max amount of services have already been selected
 "filters_services_services_list_max_selection_alert" = "Oops! You can't select more than 15 services.";
+
+// Alet to display to the user that the max amount of jobs/services have already been selected
+"filters_jobs_services_list_max_selection_alert" = "Oops! You can’t select more than 15 options.";
+
+// Section header for jobs and services toggle
+"filters_jobs_services_toggle_header" = "Looking for...";
+
+// Section header text for jobs and services filters
+"filters_jobs_services_header" = "Job or Service Info";
+
+// Title for Jobs and Services Type filter
+"filters_jobs_services_type_title" = "Type";
+
+// Title for Jobs and Services Subtype filter
+"filters_jobs_services_subtype_title" = "Subtype";
 
 // Unit suffix for miles (e.g. the mi in "400,000 mi")
 "mile_unit_suffix" = "mi";
@@ -1783,6 +2245,9 @@
 // MoPub and Google Adx advertising indicator "Ad"
 "advertising_text" = "Ad";
 
+// Default copy for CTA button in native advertising
+"advertising_default_cta" = "Read more";
+
 // Subtitle text for empty notifications center
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
 
@@ -2110,8 +2575,293 @@
 // for use as the "year" in "/year"
 "payment_frequency_per_year" = "year";
 
+// Navigation bar title in the create offer screen 
+"payments_create_offer_navbar_title" = "Offer";
+
+// Escrow info in the create offer screen
+"payments_create_offer_escrow_info_label" = "We'll hold the funds in escrow and won't release the payment to the seller until you receive the item";
+
+// Buyer protection title in the create offer screen
+"payments_create_offer_buyer_protection_title_label" = "Buyer Protection";
+
+// Buyer protection description in the create offer screen
+"payments_create_offer_buyer_protection_description_label" = "Pay through letgo and your funds will only be transferred to the seller when you confirm you want to keep the item";
+
+// Label for the amount received by the seller
+"payments_create_offer_seller_price_label" = "Seller receives";
+
+// Label for the payment fee
+"payments_create_offer_fee_label" = "Payment fee";
+
+// Payment fee percentage
+"payments_create_offer_fee_percentage_label" = "Payment fee (%@)";
+
+// Total amount to pay
+"payments_create_offer_total_label" = "You pay";
+
+// Button for change the offer
+"payments_create_offer_change_button" = "Change";
+
+// Info button
+"payments_create_offer_info_button" = "Info";
+
+// Amount label in change offer screen
+"payments_change_offer_amount_label" = "Seller receives";
+
+// Confirmation button in change offer screen 
+"payments_change_offer_confirmation_button" = "Set new offer";
+
+// Alert showed when the offer amount is invalid
+"payments_change_offer_invalid_amount_alert_message" = "Oops! Your offer must be between %@ and %@.";
+
+// The button in the alert
+"payments_change_offer_invalid_amount_alert_button" = "Ok";
+
+// Seller amount label in apple pay screen
+"payments_payment_request_seller_amount_label" = "total for seller";
+
+// Fee amount label in apple pay screen
+"payments_payment_request_fee_label" = "service fee";
+
+// Total amount to pay in apple pay screen
+"payments_payment_request_total_amount_label" = "seller";
+
+// Navigation bar title in the offer status screen
+"payments_offer_status_navbar_title" = "Offer";
+
+// Header title for offer status screen. 1:Name 2:Price 3:Listing
+"payments_offer_status_header_label" = "%1$@ is offering %2$@ for %3$@";
+
+// View payment button in offer status screen 
+"payments_offer_status_action_view_code_button" = "View payment code";
+
+// Chat with seller button in offer status screen 
+"payments_offer_status_action_chat_button" = "Chat with Seller";
+
+// Step one title in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_title" = "You're offering %@";
+
+// Step one description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_description" = "letgo will securely hold your funds in escrow until you confirm you’ve received the item";
+
+// Step one extra status description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_status_pending" = "Offer pending";
+
+// Step one extra status description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_status_withdrawn" = "Offer withdrawn";
+
+// Step one extra status description in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_status_expired" = "Offer expired";
+
+// Withdraw offer button in offer status screen as buyer
+"payments_offer_status_as_buyer_buyer_offer_step_withdraw_button" = "Withdraw offer";
+
+// Step two title in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_title" = "The seller accepts";
+
+// Step two description in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_description" = "You’ll get a notification that the seller has accepted your offer";
+
+// Offer status accepted in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_status_accepted" = "Offer accepted";
+
+// Offer status declined in offer status screen as buyer
+"payments_offer_status_as_buyer_seller_offer_step_status_declined" = "Offer declined";
+
+// Meeting step title in offer status screen as buyer
+"payments_offer_status_as_buyer_meeting_step_title" = "Meet in person and release the payment";
+
+// Meeting step description in offer status screen as buyer
+"payments_offer_status_as_buyer_meeting_step_description" = "When you have the item, release the payment to the seller by sharing your payment code";
+
+// Buyer offer step accepted status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_accepted" = "Offer accepted";
+
+// Buyer offer step declined status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_declined" = "Offer declined";
+
+// Buyer offer step withdrawn status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_withdrawn" = "Offer withdrawn";
+
+// Buyer offer step expired status in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_status_expired" = "Offer expired";
+
+// Buyer offer step title in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_title" = "Accept the offer";
+
+// Buyer offer step description in offer status screen as seller
+"payments_offer_status_as_seller_buyer_offer_description" = "A buyer’s offering to pay you securely through the letgo app. Act fast, their offer expires in 24 hours.";
+
+// Meeting step title in offer status screen as seller
+"payments_offer_status_as_seller_meeting_title" = "Meet in person and get paid";
+
+// Meeting step description in offer status screen as seller
+"payments_offer_status_as_seller_meeting_description" = "Give the item to the buyer, get their payment code and enter it in the app to receive your secure payment";
+
+// Buyer offer label in offer status screen as seller
+"payments_offer_status_as_seller_buyer_amount_label" = "The buyer pays";
+
+// Payment fee in offer status screen as seller
+"payments_offer_status_as_seller_fee_label" = "Payment fee";
+
+// Received amount in offer status screen as seller
+"payments_offer_status_as_seller_received" = "You receive";
+
+// Fee info button in offer status screen as seller
+"payments_offer_status_as_seller_fee_info_button" = "Info";
+
+// Fee percentage in offer status screen as seller
+"payments_offer_status_as_seller_fee_percentage" = "Payment fee (%@)";
+
+// Decline offer button in offer status screen as seller
+"payments_offer_status_as_seller_decline_button" = "Decline";
+
+// Accept offer button in offer status screen as seller
+"payments_offer_status_as_seller_accept_button" = "Accept";
+
+// Enter code button in offer status screen as seller
+"payments_offer_status_as_seller_enter_code_button" = "Enter code";
+
+// First step title label in onboarding screen
+"payments_onboarding_first_step_title" = "Make your offer";
+
+// First step description label in onboarding screen
+"payments_onboarding_first_step_description" = "You'll be charged and letgo will securely hold your funds in escrow until you confirm you've received the item";
+
+// Second step title label in onboarding screen
+"payments_onboarding_second_step_title" = "The seller accepts";
+
+// Second step description label in onboarding screen
+"payments_onboarding_second_step_description" = "You’ll get a notification that the seller has accepted your offer";
+
+// Third step title label in onboarding screen
+"payments_onboarding_third_step_title" = "Meet in person and release the payment";
+
+// Third step description label in onboarding screen
+"payments_onboarding_third_step_description" = "When you have the item, release the payment to the seller";
+
+// Make an offer button in onboarding screen
+"payments_onboarding_make_an_offer_button" = "Make an offer";
+
+// Navigation bar title in onboarding screen
+"payments_onboarding_navbar_title" = "How it works";
+
+// Code explanation in pay code screen
+"payments_get_pay_code_description" = "Sharing this code unlocks the payment, only do it after you receive the item. Never share this code via chat or text message.";
+
+// Code label in pay code screen
+"payments_get_pay_code_code_label" = "Your payment code";
+
+// Disclaimer in pay code screen
+"payments_get_pay_code_disclaimer" = "This code expires in 7 days, so make sure to meet the seller soon";
+
+// Navigation bar title in pay code screen
+"payments_get_pay_code_navbar_title" = "Offer";
+
+"payments_common_faqs_option" = "FAQ";
+
+"payments_common_contact_us_option" = "Contact us";
+
+// Placeholder for the card number textfield
+"payments_card_number_placeholder" = "Card number";
+
+// Code textfield description label in enter code screen
+"payments_enter_pay_code_description_label" = "Enter the 4-digit code that buyer %@ has shared with you";
+
+// Attemps label in enter code screen
+"payments_enter_pay_code_attemps_label" = "3 attemps per minute";
+
+// Navigation bar title in enter code screen
+"payments_enter_pay_code_navbar_title" = "Offer";
+
+"payments_payout_personal_info_title_label" = "Personal information";
+
+"payments_payout_personal_info_first_name_placeholder" = "First name";
+
+"payments_payout_personal_info_last_name_placeholder" = "Last name";
+
+"payments_payout_personal_info_date_of_birth_placeholder" = "Date of birth";
+
+"payments_payout_personal_info_ssn_placeholder" = "Last 4 SSN digits";
+
+"payments_payout_personal_info_address_placeholder" = "Address";
+
+"payments_payout_personal_info_zip_code_placeholder" = "ZIP code";
+
+"payments_payout_personal_info_city_placeholder" = "City";
+
+"payments_payout_personal_info_state_placeholder" = "State";
+
+"payments_payout_personal_info_country_placeholder" = "Country";
+
+"payments_payout_personal_info_error_title" = "Oops! An error occurred.";
+
+"payments_payout_personal_info_error_description" = "Please check your details and try again.";
+
+"payments_payout_personal_info_error_ok_button" = "Ok";
+
+"payments_payout_personal_info_register_button" = "Register your account";
+
+"payments_payout_option_bank_account" = "Bank Account";
+
+"payments_payout_option_bank_debit_card" = "Debit Card";
+
+"payments_payout_bank_account_routing_number_placeholder" = "Routing number (9 digits)";
+
+"payments_payout_bank_account_account_number_placeholder" = "Account number";
+
+"payments_payout_bank_account_payout_button" = "Payout";
+
+"payments_payout_card_number_placeholder" = "Card number";
+
+"payments_payout_card_title_label" = "Enter your debit card so that we can pay out to your account";
+
+"payments_payout_card_name_placeholder" = "Name on card";
+
+"payments_payout_card_payment_type_label" = "Choose one of these options:";
+
+"payments_payout_card_payout_button" = "Payout";
+
+"payment_payout_payment_type_standar" = "Standard payment";
+
+"payment_payout_payment_type_instant" = "Fast payment";
+
+// Standar payout fee
+"payment_payout_payment_standar_title_label" = "FREE";
+
+// Standar payout availability
+"payment_payout_payment_standar_subtitle_label" = "Get the money in 3-7 days";
+
+// Instant payout fee
+"payment_payout_payment_instant_title_label" = "Transaction fee";
+
+// Instant payout availability
+"payment_payout_payment_instant_subtitle_label" = "Get the money in under 1 hour";
+
+// Transaction fee
+"payment_payout_payment_fee" = "Transaction fee (%@)";
+
+// Money availability
+"payment_payout_payment_availability" = "Get the money in %@";
+
+// Navigation bar title in payout screen
+"payment_payout_navbar_title" = "Payout";
+
+"payments_loading_generic_error" = "Oops! An error occurred while loading. Please try again.";
+
+"payments_error_retry" = "Retry";
+
 // Button to initiate chat from the full screen photo viewer
 "photo_viewer_chat_button" = "Chat";
+
+// Title label in the screen after mark a listing as sold
+"post_another_listing_title" = "MAKING MONEY!";
+
+// Description label in the screen after mark a listing as sold
+"post_another_listing_description" = "You're on a roll, keep it going!";
+
+// Button to initiate the posting
+"post_another_listing_button" = "Post another listing";
 
 // Add Details navigation title
 "post_category_details_navigation_title" = "Add Details";
@@ -2233,6 +2983,18 @@
 // Congratulation Page - people near you have posted...
 "post_details_services_congratulation_people_near" = "People around you are looking for these services, have these skills?";
 
+// Congratulation Page - bold text "Improve your listing" in "Improve your listing by adding more details:"
+"post_details_jobs_services_congratulation_improve_listing" = "Improve your listing";
+
+// Congratulation Page - regular text "by adding more details" in "Improve your listing by adding more details:"
+"post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
+
+// Congratulations page - "People near you are also" in "People near you are also looking for:"
+"post_details_jobs_services_congratulation_people_nearby_first" = "People near you are also";
+
+// Congratulations page - "looking for:" in "People near you are also looking for:"
+"post_details_jobs_services_congratulation_people_nearby_second" = "looking for:";
+
 // Add new service button when it's not available
 "post_details_services_add_new" = "Add a new service";
 
@@ -2241,6 +3003,9 @@
 
 // Posting Camera title for services
 "post_details_services_camera_message" = "Post your company’s logo or a photo that shows the service you offer";
+
+// Posting camera title for jobs & services
+"post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
 
 // Title for Jobs/Services posting flow title
 "post_details_jobs_services_step_title" = "I'm...";
@@ -3064,6 +3829,15 @@
 // Button to confirm email and send a verification link
 "profile_verifications_send_button" = "Send";
 
+// !!! -> this text will go at the place of the variable %@ in "profile_verifications_awareness_view_text"
+"profile_verifications_awareness_view_bold_text" = "Here's a pro tip";
+
+// Text shown in an awareness campaign view to remind the users to verify
+"profile_verifications_awareness_view_text" = "%@ - did you know that verified users make better deals?\n\nComplete and verify your profile today!";
+
+// Button to open the verifications view from the awareness view
+"profile_verifications_awareness_view_button" = "Complete profile";
+
 // Title shown in the navigation bar as a screen title in the first screen of the phone verification.
 "phone_verification_number_input_view_title" = "Number verification";
 
@@ -3822,10 +4596,10 @@
 "reporting_user_report_sent_block_user_A_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this seller to let others know about your experience.\n\nYou can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "block user" thank you screen (version B)
-"reporting_user_report_sent_block_user_B_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim, in the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
+"reporting_user_report_sent_block_user_B_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "block user" thank you screen when the user can leave a review (version A)
-"reporting_user_report_sent_block_user_B_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim, in the meantime,  you can always block a user to make sure they can no longer see your items or chat with you.";
+"reporting_user_report_sent_block_user_B_with_review_text" = "Thanks for your anonymous report and for helping us make letgo the best place to buy and sell locally.\n\nBe sure to leave a review of this user to let others know about your experience.\n\nOur team will investigate your claim. In the meantime, you can always block a user to make sure they can no longer see your items or chat with you.";
 
 // Text Shown in the "Law enforcement" thank you screen
 "reporting_user_report_sent_law_enforcement_text" = "We're very sorry about your experience but thankful that you are now safe.\n\nWe strongly encourage you to reach out to local law enforcement and file a police report as soon as possible (if you haven't already done so).\n\nPlease remind the police to contact letgo’s law enforcement team at lawenforcement@letgo.com so we can help with their investigation.\n\nWe can share relevant information about %@ with police but, due to strict privacy protection laws, we need them to send us a valid search warrant or subpoena first.";
@@ -3886,6 +4660,24 @@
 
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
+
+// To be REMOVED - Rewards FAQ screen title
+"rewards_faq_title" = "How it works";
+
+// To be REMOVED - Rewards invite contacts screen title
+"rewards_invite_contacts_title" = "Connect contacts";
+
+// To be REMOVED - Rewards screen invite friends button
+"rewards_invite_friends_button" = "Invite friends";
+
+// To be REMOVED - Rewards invite friends screen contact button
+"rewards_invite_friends_contact_button" = "Invite via text";
+
+// To be REMOVED - Rewards invite friends screen title
+"rewards_invite_friends_title" = "Invite friends";
+
+// To be REMOVED - Rewards screen title
+"rewards_title" = "Rewards";
 
 // Search alerts edit button 
 "search_alerts_edit_button" = "Edit";
@@ -4031,6 +4823,21 @@
 // Filter title for unified "services" filter
 "services_unified_filter_title" = "Select a category";
 
+// Bold text for the services promo cell title (first part of the string)
+"services_promo_cell_title_default_bold" = "Make money";
+
+// Regular weight text for the services promo title (second part of the string)
+"services_promo_cell_title_default_regular" = "in your spare time";
+
+// Auxillary title for services promo cell
+"services_promo_cell_title_b" = "New Services category!";
+
+// Another auxillary title for services promo cell
+"services_promo_cell_title_c" = "Find local customers for your service";
+
+// Call to action for variants 1, 3 and 5
+"services_promo_call_to_action" = "Post a service";
+
 // Settings change location button. Check image @ "settings_change_password_button" segment
 "settings_change_location_button" = "Location";
 
@@ -4127,8 +4934,20 @@
 // Settings notifications loading error message
 "settings_notifications_error_message" = "Oops! An error occurred while loading your notification settings. Please try again.";
 
+// Settings option to access rewards
+"settings_rewards_button" = "Rewards";
+
+// Settings option to access affiliation
+"settings_affililation_button" = "Rewards";
+
 // Search alerts view title
 "search_alerts_list_title" = "Search Alerts";
+
+// Share screenshot view title
+"share_screenshot_title" = "Screenshot saved!";
+
+// Share screenshot view description
+"share_screenshot_description" = "Now it’s ready for you to share:";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";

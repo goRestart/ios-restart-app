@@ -14,9 +14,6 @@ enum TitleDisclaimerStatus {
 protocol EditListingViewModelDelegate : BaseViewModelDelegate {
     func vmShouldUpdateDescriptionWithCount(_ count: Int)
     func vmDidAddOrDeleteImage()
-    func openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel)
-    func openAttributesPicker(viewModel: ListingAttributePickerViewModel)
-    func vmShouldOpenMapWithViewModel(_ locationViewModel: EditLocationViewModel)
     func vmShareOnFbWith(content: FBSDKShareLinkContent)
     func vmHideKeyboard()
 }
@@ -181,7 +178,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     private let timeSinceLastBump: TimeInterval?
     private let maxCountdown: TimeInterval
 
-    private let bumpUpProductData: BumpUpProductData?
+    private let purchases: [BumpUpProductData]
 
     // Rx in-out
     let isFreePosting =  Variable<Bool>(false)
@@ -212,6 +209,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     let serviceSubtypeId = Variable<String?>(nil)
     let serviceSubtypeName = Variable<String?>(nil)
     let servicePaymentFrequency = Variable<PaymentFrequency?>(nil)
+    let serviceListingType = Variable<ServiceListingType?>(nil)
     
     var shouldFeatureItemAfterEdit = Variable<Bool>(true)
     
@@ -270,13 +268,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     convenience init(listing: Listing,
                      pageType: EventParameterTypePage?,
-                     bumpUpProductData: BumpUpProductData?,
+                     purchases: [BumpUpProductData],
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
         self.init(listing: listing,
                   pageType: pageType,
-                  bumpUpProductData: bumpUpProductData,
+                  purchases: purchases,
                   myUserRepository: Core.myUserRepository,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
@@ -294,7 +292,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     init(listing: Listing,
          pageType: EventParameterTypePage?,
-         bumpUpProductData: BumpUpProductData?,
+         purchases: [BumpUpProductData],
          myUserRepository: MyUserRepository,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
@@ -391,13 +389,14 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                     ?? servicesInfoRepository.serviceSubtype(forServiceSubtypeId: serviceSubtypeId)?.name
             }
             self.servicePaymentFrequency.value = services.servicesAttributes.paymentFrequency
+            self.serviceListingType.value = services.servicesAttributes.listingType
         }
 
         self.shouldShareInFB = false
         self.isFreePosting.value = featureFlags.freePostingModeAllowed && listing.price.isFree
         self.pageType = pageType
 
-        let listingHasPaymentInfo = bumpUpProductData?.hasPaymentId ?? false
+        let listingHasPaymentInfo = purchases.hasPaymentIds
 
         self.listingCanBeBoosted = listingCanBeBoosted
         self.timeSinceLastBump = timeSinceLastBump
@@ -413,7 +412,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         self.listingCanBeFeatured = (listingCanBeBumped || listingCanBeBoosted) && listingHasPaymentInfo
 
-        self.bumpUpProductData = bumpUpProductData
+        self.purchases = purchases
         
         super.init()
 
@@ -482,6 +481,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let paymentFrequencyValue: PaymentFrequency? = !(isFreePosting.value) ? servicePaymentFrequency.value : nil
         return ServiceAttributes(typeId: serviceTypeId.value,
                                  subtypeId: serviceSubtypeId.value,
+                                 listingType: serviceListingType.value,
                                  typeTitle: serviceTypeName.value,
                                  subtypeTitle: serviceSubtypeName.value,
                                  paymentFrequency: paymentFrequencyValue)
@@ -515,28 +515,29 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     func carMakeButtonPressed() {
-        // open car makes table
         let carsMakesList = carsInfoRepository.retrieveCarsMakes()
-        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList, selectedMake: carMakeId.value, style: .edit)
-        carsAttributtesChoiceVMWithMakes.carAttributeSelectionDelegate = self
-        delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithMakes)
+        navigator?.openCarMakesSelection(carsMakesList,
+                                         selectedMake: carMakeId.value,
+                                         style: .edit,
+                                         delegate: self)
     }
 
     func carModelButtonPressed() {
         delegate?.vmHideKeyboard()
         guard let makeId = carMakeId.value else { return }
         let carsModelsList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
-        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsList, selectedModel: carModelId.value, style: .edit)
-        carsAttributtesChoiceVMWithModels.carAttributeSelectionDelegate = self
-        delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithModels)
+        navigator?.openCarModelsSelection(carsModelsList,
+                                          selectedModel: carModelId.value,
+                                          style: .edit,
+                                          delegate: self)
     }
 
     func carYearButtonPressed() {
         delegate?.vmHideKeyboard()
         let carsYearsList = carsInfoRepository.retrieveValidYears(withFirstYear: nil, ascending: false)
-        let carsAttributtesChoiceVMWithYears = CarAttributeSelectionViewModel(yearsList: carsYearsList, selectedYear: carYear.value)
-        carsAttributtesChoiceVMWithYears.carAttributeSelectionDelegate = self
-        delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithYears)
+        navigator?.openCarYearSelection(carsYearsList,
+                                        selectedYear: carYear.value,
+                                        delegate: self)
     }
     
     func carBodyButtonPressed() {
@@ -711,11 +712,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                            text: R.Strings.editProductLocationAlertText,
                                            alertType: .iconAlert(icon: alertIcon), actions: [okAction])
         } else {
-            // enabled
             let initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
-            let locationVM = EditLocationViewModel(mode: .editListingLocation, initialPlace: initialPlace, distanceRadius: nil)
-            locationVM.locationDelegate = self
-            delegate?.vmShouldOpenMapWithViewModel(locationVM)
+            navigator?.openEditLocation(mode: .editListingLocation,
+                                        initialPlace: initialPlace,
+                                        locationDelegate: self)
         }
     }
 
@@ -791,6 +791,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                                                  realEstateNumberOfLivingRooms.asObservable().distinctUntilChanged())
         let checkingServicesChanges = Observable.combineLatest(serviceTypeId.asObservable().distinctUntilChanged(),
                                                                serviceTypeName.asObservable().distinctUntilChanged(),
+                                                               serviceListingType.asObservable().distinctUntilChanged(),
                                                                serviceSubtypeId.asObservable().distinctUntilChanged(),
                                                                serviceSubtypeName.asObservable().distinctUntilChanged(),
                                                                servicePaymentFrequency.asObservable().distinctUntilChanged())
@@ -968,7 +969,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                                         fallbackToStore: false,
                                                         myUserId: myUserId,
                                                         myUserName: myUserName)
-        listingSocialMessage.retrieveFBShareContent { [weak self] fbShareContent in
+        listingSocialMessage.retrieveFBShareContent(image: nil) { [weak self] fbShareContent in
             self?.shouldTrack = false
             self?.delegate?.vmShareOnFbWith(content: fbShareContent)
         }
@@ -997,21 +998,16 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private func closeEdit() {
         delegate?.vmHideKeyboard()
-        delegate?.vmDismiss { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let editedListing = strongSelf.savedListing else {
-                strongSelf.navigator?.editingListingDidCancel()
-                return
-            }
-            let showBumpItem = strongSelf.shouldFeatureItemAfterEdit.value && strongSelf.listingCanBeFeatured
-
-            let bumpUpProductData = showBumpItem ? strongSelf.bumpUpProductData : nil
-
-            self?.navigator?.editingListingDidFinish(editedListing,
-                                                     bumpUpProductData: bumpUpProductData,
-                                                     timeSinceLastBump: strongSelf.timeSinceLastBump,
-                                                     maxCountdown: strongSelf.maxCountdown)
+        guard let editedListing = savedListing else {
+            navigator?.editingListingDidCancel()
+            return
         }
+        let showBumpItem = shouldFeatureItemAfterEdit.value && self.listingCanBeFeatured
+        let purchasesWanted = showBumpItem ? purchases : []
+        navigator?.editingListingDidFinish(editedListing,
+                                           purchases: purchasesWanted,
+                                           timeSinceLastBump: timeSinceLastBump,
+                                           maxCountdown: maxCountdown)
     }
 
     private func showError(_ error: ListingCreateValidationError) {
@@ -1038,7 +1034,21 @@ extension EditListingViewModel {
     }
     
     var shouldShowPaymentFrequency: Bool {
-        return featureFlags.servicesPaymentFrequency.isActive && !(isFreePosting.value)
+        return featureFlags.servicesPaymentFrequency.isActive &&
+            !(isFreePosting.value) &&
+            category.value?.isServices ?? false
+    }
+    
+    var shouldShowListingType: Bool {
+        return featureFlags.jobsAndServicesEnabled.isActive
+    }
+    
+    var serviceTypeTitleText: String {
+        return shouldShowListingType ? R.Strings.editJobsServicesServiceTypeTitle : R.Strings.servicesServiceTypeTitle
+    }
+    
+    var serviceSubtypeTitleText: String {
+        return shouldShowListingType ? R.Strings.editJobsServicesServiceSubtypeTitle : R.Strings.servicesServiceSubtypeTitle
     }
     
     func serviceTypeButtonPressed() {
@@ -1096,6 +1106,22 @@ extension EditListingViewModel {
                                     actions: paymentFrequencyActions,
                                     withTitle: R.Strings.editPriceTypeChooseTitle)
     }
+    
+    func serviceListingTypeButtonPressed() {
+        let listingTypes = ServiceListingType.allCases
+        let listingTypeNames = listingTypes.map( { $0.pluralDisplayName } )
+        let selectedListingType = serviceListingType.value?.pluralDisplayName
+        
+        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.editJobsServicesListingTypeTitle,
+                                                             attributes: listingTypeNames,
+                                                             selectedAttribute: selectedListingType,
+                                                             canDeselect: false) { [weak self] selectedIndex in
+                                                                if let selectedIndex = selectedIndex {
+                                                                    self?.updateListingType(withListingType: listingTypes[selectedIndex])
+                                                                }
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
 
     private func updateServiceType(withServiceType serviceType: ServiceType?) {
         clearServiceSubtype()
@@ -1107,6 +1133,10 @@ extension EditListingViewModel {
     private func updateServiceSubtype(withServiceSubtype serviceSubtype: ServiceSubtype?) {
         serviceSubtypeName.value = serviceSubtype?.name
         serviceSubtypeId.value = serviceSubtype?.id
+    }
+    
+    private func updateListingType(withListingType listingType: ServiceListingType?) {
+        serviceListingType.value = listingType
     }
     
     private func clearServiceType() {
@@ -1138,12 +1168,11 @@ extension EditListingViewModel {
     }
 
     fileprivate func setupCategories() {
-        categoryRepository.index(servicesIncluded: false,
-                                 carsIncluded: true,
-                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
-                                    
+        let realEstateActive = featureFlags.realEstateEnabled.isActive
+        let toFilter: [ListingCategory] = realEstateActive ? [.cars, .unassigned] : [.cars, .realEstate, .unassigned]
+        categoryRepository.index { [weak self] result in
             guard let categories = result.value else { return }
-            self?.categories = categories
+            self?.categories = categories.filteringBy(toFilter)
         }
     }
 }

@@ -17,7 +17,6 @@ class ExpressChatViewModel: BaseViewModel {
     }
 
     let selectedListings = Variable<[Listing]>([])
-    let messageText = Variable<String>(R.Strings.chatExpressTextFieldText)
     let sendButtonEnabled = Variable<Bool>(false)
 
     var navigator: ExpressChatNavigator?
@@ -130,37 +129,70 @@ class ExpressChatViewModel: BaseViewModel {
     func sendMessage() {
         let tracker = trackerProxy
         let freePostingModeAllowed = featureFlags.freePostingModeAllowed
-
+ 
         for listing in selectedListings.value {
-            chatWrapper.sendMessageFor(listing: listing, type:.expressChat(messageText.value)) { [weak self] result in
-                guard let strongSelf = self else { return }
+            let messageToSend: String
+            if featureFlags.randomImInterestedMessages.isActive {
+                messageToSend = QuickAnswer.InterestedMessage.makeRandom().string
+            } else {
+                messageToSend = R.Strings.chatExpressTextFieldText
+            }
+            
+            chatWrapper.sendMessageFor(listing: listing, type:.expressChat(messageToSend)) { result in
                 if let value = result.value {
                     ExpressChatViewModel.singleMessageTrackings(tracker,
                                                                 shouldSendAskQuestion: value,
                                                                 listing: listing,
                                                                 freePostingModeAllowed: freePostingModeAllowed,
-                                                                containsEmoji: strongSelf.messageText.value.containsEmoji)
+                                                                containsEmoji: messageToSend.containsEmoji)
                 } else if let error = result.error {
                     ExpressChatViewModel.singleMessageTrackingError(tracker,
                                                                     listing: listing,
                                                                     freePostingModeAllowed: freePostingModeAllowed,
-                                                                    containsEmoji: strongSelf.messageText.value.containsEmoji,
+                                                                    containsEmoji: messageToSend.containsEmoji,
                                                                     error: error)
                 }
             }
         }
 
         trackExpressChatComplete(selectedItemsCount.value)
-        navigator?.sentMessage(sourceProductId, count: selectedItemsCount.value)
+        saveProductAsExpressChatMessageSent(sourceProductId)
+        saveProductAsExpressChatShown(sourceProductId)
+        let message = selectedListings.value.count == 1 ?
+            R.Strings.chatExpressOneMessageSentSuccessAlert :
+            R.Strings.chatExpressSeveralMessagesSentSuccessAlert
+        navigator?.closeExpressChat(autoFadingOutMessage: message)
     }
 
     func closeExpressChat(_ showAgain: Bool) {
         if !showAgain {
             trackExpressChatDontAsk()
         }
-        navigator?.closeExpressChat(showAgain, forProduct: sourceProductId)
+        keyValueStorage.userShouldShowExpressChat = showAgain
+        saveProductAsExpressChatShown(sourceProductId)
+        navigator?.closeExpressChat(autoFadingOutMessage: nil)
     }
 
+    private func saveProductAsExpressChatShown(_ productId: String) {
+        var productsExpressShown = keyValueStorage.userProductsWithExpressChatAlreadyShown
+        
+        for productShownId in productsExpressShown {
+            if productShownId == productId { return }
+        }
+        productsExpressShown.append(productId)
+        keyValueStorage.userProductsWithExpressChatAlreadyShown = productsExpressShown
+    }
+    
+    private func saveProductAsExpressChatMessageSent(_ productId: String) {
+        var productsExpressSent = keyValueStorage.userListingsWithExpressChatMessageSent
+        
+        for productSentId in productsExpressSent {
+            if productSentId == productId { return }
+        }
+        productsExpressSent.append(productId)
+        keyValueStorage.userListingsWithExpressChatMessageSent = productsExpressSent
+    }
+    
     func selectItemAtIndex(_ index: Int) {
         guard index < productListCount else { return }
         let listing = listings[index]
@@ -230,9 +262,11 @@ extension ExpressChatViewModel {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
                                                          listingVisitSource: .unknown,
                                                          feedPosition: .none,
+                                                         sectionPosition: .none,
                                                          userBadge: .noBadge,
                                                          containsVideo: containsVideo,
-                                                         isProfessional: nil))
+                                                         isProfessional: nil,
+                                                         sectionName: nil))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
     }

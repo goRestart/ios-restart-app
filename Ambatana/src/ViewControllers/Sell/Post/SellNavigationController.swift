@@ -8,14 +8,11 @@ final class SellNavigationController: UINavigationController {
     fileprivate let viewModel: SellNavigationViewModel = SellNavigationViewModel()
     fileprivate let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     fileprivate let backgroundImageView = UIImageView()
-    
-    let progressView = ProgressView(backgroundColor: UIColor.white.withAlphaComponent(0.7), progressColor: .white)
-    let stepLabel = UILabel()
-    
+
     var currentStep: CGFloat {
         return viewModel.actualStep
     }
-
+    
     init(root: UIViewController) { // we do this because a leak https://lists.swift.org/pipermail/swift-users/Week-of-Mon-20171211/006747.html
         super.init(nibName: nil, bundle: nil)
         viewControllers.append(root)
@@ -27,9 +24,6 @@ final class SellNavigationController: UINavigationController {
         super.viewDidLoad()
         delegate = self
         isNavigationBarHidden = true
-        setupRx()
-        setupUI()
-        setupConstraints()
     }
     
     func updateBackground(image: UIImage?) {
@@ -62,64 +56,10 @@ final class SellNavigationController: UINavigationController {
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(viewController, animated: animated)
         viewModel.navigationControllerPushed()
-        updateProgress()
     }
-
     override func popViewController(animated: Bool) -> UIViewController? {
         viewModel.navigationControllerPop()
-        updateProgress()
         return super.popViewController(animated: animated)
-    }
-    
-    private func updateProgress() {
-        guard viewModel.numberOfSteps.value > 0 else { return }
-        progressView.updateProgress(to: CGFloat(viewModel.currentStep.value/viewModel.numberOfSteps.value), animated: true)
-    }
-    
-    private func animateStep(isHidden: Bool) {
-        let alpha: CGFloat = isHidden ? 0.0 : 1.0
-        UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.progressView.alpha = alpha
-            self?.stepLabel.alpha = alpha
-        })
-    }
-    
-    func setupRx() {
-        viewModel.hideProgressHeader.bind { [weak self] isHidden in
-                self?.animateStep(isHidden: isHidden)
-            }.disposed(by: disposeBag)
-
-        Observable.combineLatest(viewModel.currentStep.asObservable(),
-                                 viewModel.numberOfSteps.asObservable()) { ($0, $1) }
-            .bind { [weak self] (currentStep, totalSteps) in
-                let current = Int(min(currentStep, totalSteps))
-                let totalStep = Int(totalSteps)
-                self?.stepLabel.text = R.Strings.realEstateCurrentStepOfTotal(current, totalStep)
-            }.disposed(by: disposeBag)
-    }
-    
-    func setupUI() {
-        view.addSubview(progressView)
-        view.addSubview(stepLabel)
-        stepLabel.textColor = UIColor.whiteTextHighAlpha
-        stepLabel.textAlignment = .right
-    }
-    
-    func setupConstraints() {
-        stepLabel.translatesAutoresizingMaskIntoConstraints = false
-        stepLabel.layout(with: view).right(by: -Metrics.margin)
-        stepLabel.layout().width(100)
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.layout(with: view).right().left()
-        progressView.layout().height(5)
-        let topAnchor: NSLayoutYAxisAnchor
-        if #available(iOS 11, *) {
-            topAnchor = view.safeAreaLayoutGuide.topAnchor
-        } else {
-            topAnchor = view.topAnchor
-        }
-        progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        stepLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metrics.margin).isActive = true
     }
 }
 

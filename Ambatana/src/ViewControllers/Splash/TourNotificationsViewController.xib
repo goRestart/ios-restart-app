@@ -15,7 +15,6 @@
             <connections>
                 <outlet property="alertContainer" destination="Blx-QB-ulX" id="u5O-YJ-qPk"/>
                 <outlet property="alertOkLabel" destination="llK-Z7-QNq" id="NDT-sY-tGX"/>
-                <outlet property="closeButton" destination="h4F-Ow-rJi" id="BSj-Z5-dug"/>
                 <outlet property="iPhoneBottomImage" destination="JPn-Bf-tfL" id="wyd-Xj-JN9"/>
                 <outlet property="iPhoneLeftImage" destination="uLV-W2-o43" id="QK8-YP-ywB"/>
                 <outlet property="iPhoneRightImage" destination="bkK-L2-qTL" id="f9i-pe-AVP"/>
@@ -44,24 +43,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h4F-Ow-rJi">
-                                <rect key="frame" x="0.0" y="20" width="56" height="56"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="4Xl-8c-JSQ"/>
-                                    <constraint firstAttribute="width" constant="56" id="Dqy-Vp-3a9"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="xvs-I2-Yst"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message Notifications" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AJ9-Mr-fTy">
-                                <rect key="frame" x="8" y="86" width="359" height="29"/>
+                                <rect key="frame" x="8" y="66" width="359" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Do you want to be notified when another user sends you a message?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbC-cJ-1Dr">
-                                <rect key="frame" x="41.5" y="151" width="292" height="41"/>
+                                <rect key="frame" x="41.5" y="131" width="292" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="292" id="WAC-F2-cpe"/>
                                 </constraints>
@@ -70,7 +59,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="naH-1U-zAK" userLabel="iPhone View Container">
-                                <rect key="frame" x="75.5" y="231" width="224" height="289"/>
+                                <rect key="frame" x="75.5" y="211" width="224" height="289"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bvA-GW-C3e" userLabel="iPhone View">
                                         <rect key="frame" x="6" y="0.0" width="212" height="289"/>
@@ -141,7 +130,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vTT-Ha-41J" userLabel="push_container">
-                                <rect key="frame" x="57.5" y="279" width="260" height="66"/>
+                                <rect key="frame" x="57.5" y="259" width="260" height="66"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rcs-wv-SrL">
                                         <rect key="frame" x="0.0" y="0.0" width="260" height="66"/>
@@ -197,7 +186,7 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Blx-QB-ulX" userLabel="alert_container">
-                                <rect key="frame" x="57.5" y="293" width="260" height="165"/>
+                                <rect key="frame" x="57.5" y="273" width="260" height="165"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aiP-CI-IAH">
                                         <rect key="frame" x="0.0" y="0.0" width="260" height="165"/>
@@ -238,12 +227,11 @@
                         <constraints>
                             <constraint firstItem="u0D-Fq-hAN" firstAttribute="leading" secondItem="Ffu-Kw-Zed" secondAttribute="leading" constant="15" id="0XL-Y1-Vz9"/>
                             <constraint firstItem="vTT-Ha-41J" firstAttribute="centerX" secondItem="Ffu-Kw-Zed" secondAttribute="centerX" id="9eR-1l-cWq"/>
-                            <constraint firstItem="h4F-Ow-rJi" firstAttribute="leading" secondItem="Ffu-Kw-Zed" secondAttribute="leading" id="BWK-Zg-g2y"/>
                             <constraint firstAttribute="trailing" secondItem="AJ9-Mr-fTy" secondAttribute="trailing" constant="8" id="EYX-4f-VAZ"/>
                             <constraint firstItem="Blx-QB-ulX" firstAttribute="centerX" secondItem="Ffu-Kw-Zed" secondAttribute="centerX" id="S8i-FW-Fxm"/>
-                            <constraint firstItem="AJ9-Mr-fTy" firstAttribute="top" secondItem="h4F-Ow-rJi" secondAttribute="bottom" constant="10" id="SWG-kr-NWd"/>
                             <constraint firstAttribute="trailing" secondItem="u0D-Fq-hAN" secondAttribute="trailing" constant="15" id="Z5Y-DQ-Kdf"/>
                             <constraint firstItem="naH-1U-zAK" firstAttribute="top" secondItem="vTT-Ha-41J" secondAttribute="bottom" constant="-114" id="d1L-1A-2vU"/>
+                            <constraint firstItem="AJ9-Mr-fTy" firstAttribute="top" secondItem="Ffu-Kw-Zed" secondAttribute="top" constant="66" id="dS6-Us-Bru"/>
                             <constraint firstItem="zbC-cJ-1Dr" firstAttribute="top" secondItem="AJ9-Mr-fTy" secondAttribute="bottom" constant="36" id="l6s-wU-sxQ"/>
                             <constraint firstItem="Blx-QB-ulX" firstAttribute="centerY" secondItem="naH-1U-zAK" secondAttribute="centerY" id="nRb-Nb-A2r"/>
                             <constraint firstItem="AJ9-Mr-fTy" firstAttribute="leading" secondItem="Ffu-Kw-Zed" secondAttribute="leading" constant="8" id="o9o-ch-8W2"/>
@@ -258,7 +246,6 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="bsM-so-tit" firstAttribute="top" secondItem="h4F-Ow-rJi" secondAttribute="top" id="7Q3-Nk-Btp"/>
                 <constraint firstAttribute="trailing" secondItem="Jtg-Yw-wsg" secondAttribute="trailing" id="7Yd-PG-Jcb"/>
                 <constraint firstItem="Jtg-Yw-wsg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="CrY-rl-A0d"/>
                 <constraint firstItem="Jtg-Yw-wsg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Kce-Bh-KdA"/>
