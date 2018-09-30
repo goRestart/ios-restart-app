@@ -2,16 +2,16 @@ import RxSwift
 import FirebaseAuth
 
 extension Reactive where Base: Auth {
-  func createUser(email: String, password: String) -> Single<AuthDataResult> {
-    return Single.create { event in
-      Auth.auth().createUser(withEmail: email, password: password, completion: { (result, error) in
-        if let result = result {
-          event(.success(result))
+  func signIn(with customToken: String) -> Completable {
+    return Completable.create { event in
+      Auth.auth().signIn(withCustomToken: customToken) { result, error in
+        if let _ = result {
+          event(.completed)
         }
         if let error = error {
           event(.error(error))
         }
-      })
+      }
       return Disposables.create()
     }
   }
