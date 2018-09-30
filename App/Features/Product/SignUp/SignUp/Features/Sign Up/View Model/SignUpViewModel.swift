@@ -14,9 +14,9 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
   var input: SignUpViewModelInput { return self }
   var output: SignUpViewModelOutput { return self }
   
-  private let bag = DisposeBag()
   private let emailValidator: EmailValidator
   private let registerUser: RegisterUserUseCase
+  private let bag = DisposeBag()
   
   init(emailValidator: EmailValidator,
        registerUser: RegisterUserUseCase)

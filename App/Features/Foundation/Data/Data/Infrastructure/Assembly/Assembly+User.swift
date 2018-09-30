@@ -5,24 +5,24 @@ import Core
 extension Assembly {
   public var userRepository: UserRepository {
     return UserRepository(
-      firebaseDataSource: userFirebaseDataSource
+      apiDataSource: apiDataSource
     )
   }
-  private var userFirebaseDataSource: UserDataSource {
-    return UserFirebaseDataSource(
-      registerUserFirebaseAction: registerUserFirebaseAction
+  private var apiDataSource: UserDataSource {
+    return UserApiDataSource(
+      registerUser: registerUserAction
     )
   }
   
   // MARK: - Action
   
-  private var registerUserFirebaseAction: RegisterUserFirebaseAction {
-    return RegisterUserFirebaseAction(
-      errorAdapter: registerUserFirebaseErrorAdapter
-    )
+  private var registerUserAction: RegisterUserAction {
+    return RegisterUserAction(
+      provider: moyaProvider(),
+      errorAdapter: registerUserErrorAdapter)
   }
   
-  private var registerUserFirebaseErrorAdapter: RegisterUserFirebaseErrorAdapter {
-    return RegisterUserFirebaseErrorAdapter()
+  private var registerUserErrorAdapter: RegisterUserErrorAdapter {
+    return RegisterUserErrorAdapter()
   }
 }
