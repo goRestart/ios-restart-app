@@ -3,13 +3,13 @@ import RxSwift
 
 public struct UserRepository {
   
-  private let firebaseDataSource: UserDataSource
+  private let apiDataSource: UserDataSource
   
-  init(firebaseDataSource: UserDataSource) {
-    self.firebaseDataSource = firebaseDataSource
+  init(apiDataSource: UserDataSource) {
+    self.apiDataSource = apiDataSource
   }
   
   public func register(with credentials: UserCredentials) -> Completable {
-    return firebaseDataSource.register(with: credentials)
+    return apiDataSource.register(with: credentials)
   }
 }

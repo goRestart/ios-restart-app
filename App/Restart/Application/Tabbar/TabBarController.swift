@@ -16,13 +16,10 @@ final class TabBarController: UITabBarController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupView()
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
     bindViewModel()
   }
   
+  @available(*, unavailable)
   public required init?(coder aDecoder: NSCoder) { fatalError() }
 
   // MARK: - View
