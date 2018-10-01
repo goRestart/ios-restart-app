@@ -370,6 +370,11 @@ extension UserProfileViewModel {
                                  myUserId: myUserId,
                                  myUserName: myUserName)
     }
+
+    func refreshUserRelation() {
+        guard !isPrivateProfile else { return }
+        retrieveUsersRelation()
+    }
 }
 
 // MARK: - Private Methods

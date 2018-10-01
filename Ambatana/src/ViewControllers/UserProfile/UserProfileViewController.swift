@@ -127,6 +127,11 @@ final class UserProfileViewController: BaseViewController {
         setNavBarBackgroundStyle(.white)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.refreshUserRelation()
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let isHeaderResizing = bioAndTrustView.isAnimatingResize.value

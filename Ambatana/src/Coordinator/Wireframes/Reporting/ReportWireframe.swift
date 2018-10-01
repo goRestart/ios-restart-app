@@ -42,6 +42,10 @@ final class ReportWireframe: ReportNavigator {
     }
 
     func openReviewUser() {
+        guard let rate = type.rateData else { return }
+        let assembly = RateUserBuilder.modal(navigationController)
+        let vc = assembly.buildRateUser(source: .report, data: rate, showSkipButton: false, onRateUserFinishAction: nil)
+        navigationController.present(vc, animated: true, completion: nil)
     }
 
     func closeReporting() {
