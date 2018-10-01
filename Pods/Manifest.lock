@@ -10,9 +10,6 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - Branch (0.22.5):
-    - Branch/Core (= 0.22.5)
-  - Branch/Core (0.22.5)
   - bumper (1.3.1):
     - bumper/Core (= 1.3.1)
   - bumper/Core (1.3.1):
@@ -27,7 +24,7 @@ PODS:
   - Crashlytics (3.9.3):
     - Fabric (~> 1.7.2)
   - DeviceGuru (3.0.1)
-  - Differentiator (3.0.2)
+  - Differentiator (3.1.0)
   - Fabric (1.7.2)
   - FBSDKCoreKit (4.29.0):
     - Bolts (~> 1.7)
@@ -153,7 +150,6 @@ DEPENDENCIES:
   - AlamofireImage (= 3.3.1)
   - Amplitude-iOS (= 4.0.4)
   - AppsFlyerFramework (= 4.8.4)
-  - Branch (= 0.22.5)
   - bumper (= 1.3.1)
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
@@ -202,7 +198,6 @@ SPEC REPOS:
     - Amplitude-iOS
     - AppsFlyerFramework
     - Bolts
-    - Branch
     - CHTCollectionViewWaterfallLayout
     - CocoaLumberjack
     - Crashlytics
@@ -262,13 +257,12 @@ SPEC CHECKSUMS:
   Amplitude-iOS: 2ad4d7270c99186236c1272a3a9425463b1ae1a7
   AppsFlyerFramework: c45bbd289a6f9e9a19976ee270b44edea646aab6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
   bumper: f8d19f02bca78a960374877f07ce4072d5a35f17
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   DeviceGuru: 648c34deb10c6ef59b013ea2922c04c18d8973f0
-  Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
+  Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
   Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   FBSDKCoreKit: 6f139173dc63a1deaff4430a55f2fe5bb222d2af
   FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
@@ -309,6 +303,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 5ef223436efdc6583bbb9867b201aa6e9085adf5
+PODFILE CHECKSUM: 1e64c7d03109251ce244907bf0c2695e45434d74
 
 COCOAPODS: 1.5.3

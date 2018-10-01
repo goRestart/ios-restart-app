@@ -8,8 +8,6 @@
 
 @testable import LetGoGodMode
 import RxSwift
-import Branch
-
 
 class MockDeepLinksRouter: NSObject, DeepLinksRouter {
     var deepLinks: Observable<DeepLink> { return deepLinksSignal.asObservable() }
@@ -41,9 +39,6 @@ class MockDeepLinksRouter: NSObject, DeepLinksRouter {
     }
     func continueUserActivity(_ userActivity: NSUserActivity, restorationHandler: ([Any]?) -> Void) -> Bool {
         return false
-    }
-    func deepLinkFromBranchObject(_ object: BranchUniversalObject?, properties: BranchLinkProperties?) {
-
     }
     @discardableResult
     func didReceiveRemoteNotification(_ userInfo: [AnyHashable: Any], applicationState: UIApplicationState)
