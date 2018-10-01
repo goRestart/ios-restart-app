@@ -331,7 +331,7 @@ extension Reactive where Base: ListingDeckViewController {
             guard let actionable = actionable else { return }
             controller.listingDeckView.rx.actionButton
                 .tap
-                .takeUntil(controller.viewModel.rx.actionButtons)
+                .takeUntil(controller.viewModel.rx.actionButton)
                 .bind {
                 actionable.action()
             }.disposed(by: controller.disposeBag)

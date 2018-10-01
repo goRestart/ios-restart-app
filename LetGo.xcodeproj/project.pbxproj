@@ -224,6 +224,10 @@
 		0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A104695206CFB99003F1577 /* ABTestsSpec.swift */; };
 		0A14D275212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */; };
 		0A14D276212AE47400E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */; };
+		0A1ABB92215D3E5700B96343 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */; };
+		0A1ABB93215D3E5700B96343 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */; };
+		0A1ABB99216227DC00B96343 /* ListingCardViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */; };
+		0A1ABB9A2162282D00B96343 /* ListingCardViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */; };
 		0A2077AE2114C05700BFD3D7 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
 		0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
 		0A25E8132019C88C00E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
@@ -481,8 +485,6 @@
 		0A751486214272570049E135 /* UserRatingListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A75146D214272570049E135 /* UserRatingListViewController.xib */; };
 		0A751487214272570049E135 /* UserRatingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A75146E214272570049E135 /* UserRatingListViewModel.swift */; };
 		0A751488214272570049E135 /* UserRatingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A75146E214272570049E135 /* UserRatingListViewModel.swift */; };
-		0A759E971FB472F60030FDE0 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */; };
-		0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */; };
 		0A760FEE1FA08E0C0055F2B6 /* ListingDeckActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */; };
 		0A760FEF1FA08EFD0055F2B6 /* ListingDeckActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */; };
 		0A760FF11FA0B7480055F2B6 /* ListingDeckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FF01FA0B7480055F2B6 /* ListingDeckViewModel.swift */; };
@@ -2827,6 +2829,8 @@
 		0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		0A104695206CFB99003F1577 /* ABTestsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestsSpec.swift; sourceTree = "<group>"; };
 		0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterCategoryItem+ListingCategory.swift"; sourceTree = "<group>"; };
+		0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewModel.swift; sourceTree = "<group>"; };
+		0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardViewModelBuilder.swift; sourceTree = "<group>"; };
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
 		0A26CF26211C39AC00BCF84C /* ListingListCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingListCache.swift; sourceTree = "<group>"; };
 		0A29CF0620EF6C76007F35F6 /* ListingTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingTracker.swift; sourceTree = "<group>"; };
@@ -2956,7 +2960,6 @@
 		0A75146C214272570049E135 /* UserRatingListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingListViewController.swift; sourceTree = "<group>"; };
 		0A75146D214272570049E135 /* UserRatingListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserRatingListViewController.xib; sourceTree = "<group>"; };
 		0A75146E214272570049E135 /* UserRatingListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingListViewModel.swift; sourceTree = "<group>"; };
-		0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewModel.swift; sourceTree = "<group>"; };
 		0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckActionsView.swift; sourceTree = "<group>"; };
 		0A760FF01FA0B7480055F2B6 /* ListingDeckViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModel.swift; sourceTree = "<group>"; };
 		0A7A05842018A9A20009D74C /* ListingDeckOnBoardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingView.swift; sourceTree = "<group>"; };
@@ -5268,7 +5271,6 @@
 				0A760FF01FA0B7480055F2B6 /* ListingDeckViewModel.swift */,
 				0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */,
 				0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */,
-				0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */,
 				0A045980213D15890082C469 /* ListingStatusView.swift */,
 				0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */,
 				0A3AF6C1213D62BD0034143B /* DeckViewCollectionDelegate.swift */,
@@ -5320,6 +5322,8 @@
 				0A06C3EA20FCCCC300D41982 /* ListingCardModel.swift */,
 				0A06C3ED20FCCFF000D41982 /* ListingCardPageControl.swift */,
 				0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */,
+				0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */,
+				0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */,
 			);
 			path = ListingCardView;
 			sourceTree = "<group>";
@@ -10766,7 +10770,6 @@
 				C24D334C2148A2DE00D9283C /* PostAnotherListingWireframe.swift in Sources */,
 				7224B0312015EBC800DC8B33 /* PostingAddDetailSizeView.swift in Sources */,
 				C73FABBC1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
-				0A759E971FB472F60030FDE0 /* ListingCardViewModel.swift in Sources */,
 				326C72E2208A2935009D21DB /* FeedViewModelType.swift in Sources */,
 				C7B5887D1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				5532C4E9209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */,
@@ -10883,6 +10886,7 @@
 				0AE405B720EDF7F10041E3F1 /* ListingCardView.swift in Sources */,
 				2E4ADEC2200515FC00D07D8A /* BumpUpPayViewController.swift in Sources */,
 				55FABE1620762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift in Sources */,
+				0A1ABB92215D3E5700B96343 /* ListingCardViewModel.swift in Sources */,
 				0A376DBB214FACE100DFFB7F /* AffiliationModalView.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
 				72E8A5861EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
@@ -10892,6 +10896,7 @@
 				0A6FED282130344000B57004 /* ExpressChatWireframe.swift in Sources */,
 				C7B5889A1CE1E025009B3975 /* ConversationCell.swift in Sources */,
 				C7DE8AE01C88A98B005CF37E /* PostListingViewController.swift in Sources */,
+				0A1ABB99216227DC00B96343 /* ListingCardViewModelBuilder.swift in Sources */,
 				C73FABB61DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,
 				A47C4A5C213D309A005AA387 /* TrendingSearchesBuilder.swift in Sources */,
 				0A6FECAC2130343F00B57004 /* PopupLoginModalWireframe.swift in Sources */,
@@ -11676,6 +11681,7 @@
 				6AE143CE204413B000CFAE10 /* UserProfileBioAndTrustView.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ListingListView.swift in Sources */,
 				C7890A861E55B96D0079964C /* MotionDeviceOrientation.swift in Sources */,
+				0A1ABB9A2162282D00B96343 /* ListingCardViewModelBuilder.swift in Sources */,
 				2EBC92131E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				3237C6A9210A071100B7359B /* FeedListingData.swift in Sources */,
 				C7E73E8E1CD20A49000F2591 /* ViewState.swift in Sources */,
@@ -11942,7 +11948,6 @@
 				50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
 				425EE38E211AEE070002DAB8 /* FeedSection+Mapping.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
-				0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */,
 				0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */,
 				0A6FED112130344000B57004 /* QuickLocationFiltersNavigator.swift in Sources */,
 				4273565520A308A300C71D49 /* LGMapDetailView.swift in Sources */,
@@ -11963,6 +11968,7 @@
 				0A6FED172130344000B57004 /* EditLocationStandardWireframe.swift in Sources */,
 				6A38A9AF2077610400F3B292 /* UserVerificationCell.swift in Sources */,
 				0A7A05892018A9AE0009D74C /* ListingDeckOnBoardingViewController.swift in Sources */,
+				0A1ABB93215D3E5700B96343 /* ListingCardViewModel.swift in Sources */,
 				F57D3A311FED01A6006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				5532C4EA209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */,
 				326C72E3208A2935009D21DB /* FeedViewModelType.swift in Sources */,
