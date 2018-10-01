@@ -82,7 +82,6 @@ protocol FeatureFlaggeable: class {
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
-    var emptySearchImprovements: EmptySearchImprovements { get }
     var sectionedFeed: SectionedDiscoveryFeed { get }
     var sectionedFeedABTestIntValue: Int { get }
     var newSearchAPI: NewSearchAPIEndPoint { get }
@@ -1162,11 +1161,6 @@ extension FeatureFlags {
     var personalizedFeedABTestIntValue: Int? {
         return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : PersonalizedFeed.defaultVariantValue
     }
-    
-    var emptySearchImprovements: EmptySearchImprovements {
-        if Bumper.enabled { return Bumper.emptySearchImprovements }
-        return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
-    }
 
     var sectionedFeed: SectionedDiscoveryFeed {
         if Bumper.enabled {
@@ -1186,29 +1180,6 @@ extension FeatureFlags {
     var newSearchAPI: NewSearchAPIEndPoint {
         if Bumper.enabled { return Bumper.newSearchAPIEndPoint }
         return NewSearchAPIEndPoint.fromPosition(abTests.newSearchAPI.value)
-    }
-}
-
-extension EmptySearchImprovements {
-    
-    static let minNumberOfListing = 20
-    
-    func shouldContinueWithSimilarQueries(withCurrentListing numListings: Int) -> Bool {
-        let resultIsInsufficient = numListings < EmptySearchImprovements.minNumberOfListing
-            && self == .similarQueriesWhenFewResults
-        let shouldAlwaysShowSimilar = self == .alwaysSimilar
-        return resultIsInsufficient || shouldAlwaysShowSimilar
-    }
-    
-    var isActive: Bool {
-        return self != .control && self != .baseline
-    }
-    
-    var filterDescription: String? {
-        switch self {
-        case .baseline, .control: return nil
-        case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
-        }
     }
 }
 

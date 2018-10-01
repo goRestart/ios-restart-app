@@ -974,7 +974,6 @@
 		32448E872105CB7100EFF33A /* FeedViewControllerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32448E852105CB7100EFF33A /* FeedViewControllerProtocols.swift */; };
 		3251C3D620B8ABE00014B6BA /* RequesterFactorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251C3D520B8ABE00014B6BA /* RequesterFactorySpec.swift */; };
 		3251C3D820B96B100014B6BA /* ListingListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251C3D720B96B100014B6BA /* ListingListViewModelSpec.swift */; };
-		3251C3DA20B973E20014B6BA /* MockRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251C3D920B973E20014B6BA /* MockRequesterFactory.swift */; };
 		325E70D321277ED100D173A1 /* EmbeddedListingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325E70D221277ED100D173A1 /* EmbeddedListingViewModel.swift */; };
 		325E70D421277ED100D173A1 /* EmbeddedListingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325E70D221277ED100D173A1 /* EmbeddedListingViewModel.swift */; };
 		326C72D22088820F009D21DB /* WaterFallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326C72D12088820E009D21DB /* WaterFallLayout.swift */; };
@@ -989,7 +988,6 @@
 		326C730B20908148009D21DB /* CategoriesFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326C730920908148009D21DB /* CategoriesFeedCell.swift */; };
 		328E8E1920B6EF4300BBF639 /* RequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E1820B6EF4300BBF639 /* RequesterFactory.swift */; };
 		328E8E1A20B6EF4300BBF639 /* RequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E1820B6EF4300BBF639 /* RequesterFactory.swift */; };
-		328E8E2D20C0036D00BBF639 /* ListingRequesterMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E2C20C0036D00BBF639 /* ListingRequesterMatcher.swift */; };
 		328E8E2F20C03A5E00BBF639 /* EmptyViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E2E20C03A5E00BBF639 /* EmptyViewModelBuilder.swift */; };
 		328E8E3020C03A5E00BBF639 /* EmptyViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E2E20C03A5E00BBF639 /* EmptyViewModelBuilder.swift */; };
 		328E8E3220C0467000BBF639 /* MainListingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E3120C0467000BBF639 /* MainListingsHeader.swift */; };
@@ -3219,14 +3217,12 @@
 		32448E852105CB7100EFF33A /* FeedViewControllerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewControllerProtocols.swift; sourceTree = "<group>"; };
 		3251C3D520B8ABE00014B6BA /* RequesterFactorySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesterFactorySpec.swift; sourceTree = "<group>"; };
 		3251C3D720B96B100014B6BA /* ListingListViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingListViewModelSpec.swift; sourceTree = "<group>"; };
-		3251C3D920B973E20014B6BA /* MockRequesterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRequesterFactory.swift; sourceTree = "<group>"; };
 		325E70D221277ED100D173A1 /* EmbeddedListingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbeddedListingViewModel.swift; sourceTree = "<group>"; };
 		326C72D12088820E009D21DB /* WaterFallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayout.swift; sourceTree = "<group>"; };
 		326C72D420888280009D21DB /* UICollectionViewLayoutAttributes+Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayoutAttributes+Builder.swift"; sourceTree = "<group>"; };
 		326C72E1208A2935009D21DB /* FeedViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModelType.swift; sourceTree = "<group>"; };
 		326C730920908148009D21DB /* CategoriesFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesFeedCell.swift; sourceTree = "<group>"; };
 		328E8E1820B6EF4300BBF639 /* RequesterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesterFactory.swift; sourceTree = "<group>"; };
-		328E8E2C20C0036D00BBF639 /* ListingRequesterMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingRequesterMatcher.swift; sourceTree = "<group>"; };
 		328E8E2E20C03A5E00BBF639 /* EmptyViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModelBuilder.swift; sourceTree = "<group>"; };
 		328E8E3120C0467000BBF639 /* MainListingsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListingsHeader.swift; sourceTree = "<group>"; };
 		328E8E3420C046A700BBF639 /* SuggestiveSearchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestiveSearchInfo.swift; sourceTree = "<group>"; };
@@ -6773,7 +6769,6 @@
 				50D08D691E69AF14009CC260 /* Tracking */,
 				2EF0BB121E784468006808B5 /* MockPaymentQueue.swift */,
 				C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */,
-				3251C3D920B973E20014B6BA /* MockRequesterFactory.swift */,
 				426CB12E20C56768009A065F /* MockImageMultiplierRepository.swift */,
 				2E52956D2114B07D0043AF95 /* MockAdsImpressionHelper.swift */,
 				01A153502125C71700035DF6 /* MockFeedBadgingSynchronizer.swift */,
@@ -6875,7 +6870,6 @@
 				50D08D851E69AF14009CC260 /* PurchasesShopperSpec.swift */,
 				504C63B81ECAE0AB00D33BFA /* PushManagerSpec.swift */,
 				3251C3D520B8ABE00014B6BA /* RequesterFactorySpec.swift */,
-				328E8E2C20C0036D00BBF639 /* ListingRequesterMatcher.swift */,
 				50D08D861E69AF14009CC260 /* Tracking */,
 				50D08D891E69AF14009CC260 /* VersionCheckerSpec.swift */,
 				0A104695206CFB99003F1577 /* ABTestsSpec.swift */,
@@ -9902,7 +9896,6 @@
 				C616945320D3CB1600A6692A /* PostingParamsImageAssignerSpec.swift in Sources */,
 				0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */,
 				8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */,
-				328E8E2D20C0036D00BBF639 /* ListingRequesterMatcher.swift in Sources */,
 				504C63B91ECAE0AB00D33BFA /* PushManagerSpec.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
 				50D08DBD1E69AF14009CC260 /* MockPurchaseableProductsRequestFactory.swift in Sources */,
@@ -9923,7 +9916,6 @@
 				C627573920A3494E00B401E7 /* OrderConditionableSpec.swift in Sources */,
 				50D08DB61E69AF14009CC260 /* MockPurchasesShopper.swift in Sources */,
 				50D08DB31E69AF14009CC260 /* MockGodModeManager.swift in Sources */,
-				3251C3DA20B973E20014B6BA /* MockRequesterFactory.swift in Sources */,
 				329476472138058F008EE737 /* Array+LGSpec.swift in Sources */,
 				2EC653B71E71744B00E23DDF /* MockExternalAuthHelper.swift in Sources */,
 				50D08DC31E69AF14009CC260 /* Int+LGSpec.swift in Sources */,

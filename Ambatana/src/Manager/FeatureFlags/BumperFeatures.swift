@@ -37,7 +37,6 @@ extension Bumper  {
         flags.append(EmergencyLocate.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
-        flags.append(EmptySearchImprovements.self)
         flags.append(OffensiveReportAlert.self)
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
         flags.append(VideoPosting.self)
@@ -360,19 +359,6 @@ extension Bumper  {
     static var servicesCategoryOnSalchichasMenuObservable: Observable<ServicesCategoryOnSalchichasMenu> {
         return Bumper.observeValue(for: ServicesCategoryOnSalchichasMenu.key).map {
             ServicesCategoryOnSalchichasMenu(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var emptySearchImprovements: EmptySearchImprovements {
-        guard let value = Bumper.value(for: EmptySearchImprovements.key) else { return .control }
-        return EmptySearchImprovements(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var emptySearchImprovementsObservable: Observable<EmptySearchImprovements> {
-        return Bumper.observeValue(for: EmptySearchImprovements.key).map {
-            EmptySearchImprovements(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1355,25 +1341,6 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
             case 2: return .variantA
             case 3: return .variantB
             case 4: return .variantC
-            default: return .control
-        }
-    }
-}
-
-enum EmptySearchImprovements: String, BumperFeature  {
-    case control, baseline, popularNearYou, similarQueries, similarQueriesWhenFewResults, alwaysSimilar
-    static var defaultValue: String { return EmptySearchImprovements.control.rawValue }
-    static var enumValues: [EmptySearchImprovements] { return [.control, .baseline, .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Improve empty search experience by proposing relavant listings" } 
-    static func fromPosition(_ position: Int) -> EmptySearchImprovements {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .popularNearYou
-            case 3: return .similarQueries
-            case 4: return .similarQueriesWhenFewResults
-            case 5: return .alwaysSimilar
             default: return .control
         }
     }

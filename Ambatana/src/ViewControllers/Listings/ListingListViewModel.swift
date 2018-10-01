@@ -94,33 +94,12 @@ final class ListingListViewModel: BaseViewModel {
     // Requesters
     private var shouldSaveToCache = true
     private let listingCache: ListingListCache
-
-    /// A list of requester to try in sequence in case the previous
-    /// requester returns empty or insufficient results.
-    /// If the view model is initialized with a special requester, the
-    /// requester will be put as the first and only requester inside this array
-    private var requesterSequence: [ListingListRequester] = []
     
-    private var currentRequesterIndex: Int = 0
-    
-    /// *Classic requester*. It is always the first element in
-    /// the emptySearchFallbackRequesters list
-    var listingListRequester: ListingListRequester? {
-        return requesterSequence.first
-    }
-    
-    /// Current fallback requester in use
-    var currentActiveRequester: ListingListRequester?
-    
-    var currentRequesterType: RequesterType? {
-        let tuple = requesterFactory?.buildIndexedRequesterList()[safeAt: currentRequesterIndex]
-        return tuple?.0
-    }
+    private(set) var listingListRequester: ListingListRequester?
     
     private var requesterFactory: RequesterFactory? {
         didSet {
-            requesterSequence = requesterFactory?.buildRequesterList() ?? []
-            currentActiveRequester = requesterSequence.first
+            listingListRequester = requesterFactory?.buildSearchRequester()
         }
     }
 
@@ -140,7 +119,6 @@ final class ListingListViewModel: BaseViewModel {
     private(set) var objects: [ListingCellModel] {
         didSet {
             if refreshing && objects.count < oldValue.count  {
-                currentRequesterIndex = 0
                 delegate?.vmReloadData(self)}
         }
     }
@@ -155,7 +133,7 @@ final class ListingListViewModel: BaseViewModel {
     private(set) var isOnErrorState: Bool = false
     
     var canRetrieveListings: Bool {
-        let requester = featureFlags.emptySearchImprovements.isActive ? currentActiveRequester : listingListRequester
+        let requester = listingListRequester
         let requesterCanRetrieve = requester?.canRetrieve() ?? false
         return requesterCanRetrieve && !isLoading
     }
@@ -223,6 +201,7 @@ final class ListingListViewModel: BaseViewModel {
         self.interestedStateUpdater = interestedStateUpdater
         self.searchType = searchType
         self.listingCache = isPrivateList ? PrivateListCache() : PublicListCache(disk: disk)
+        self.listingListRequester = requesterFactory?.buildSearchRequester() ?? requester
         super.init()
         let cellHeight = cellWidth * cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
@@ -244,8 +223,6 @@ final class ListingListViewModel: BaseViewModel {
                   interestedStateUpdater: LGInterestedStateUpdater.sharedInstance,
                   requesterFactory: nil,
                   searchType: nil)
-        requesterSequence = [requester]
-        setCurrentFallbackRequester()
     }
     
     convenience init(numberOfColumns: Int,
@@ -268,9 +245,6 @@ final class ListingListViewModel: BaseViewModel {
                   interestedStateUpdater: interestedStateUpdater,
                   requesterFactory: requesterFactory,
                   searchType: searchType)
-        self.requesterFactory = requesterFactory
-        requesterSequence = requesterFactory.buildRequesterList()
-        setCurrentFallbackRequester()
     }
     
     convenience init(source: ListingListViewContainer) {
@@ -287,7 +261,6 @@ final class ListingListViewModel: BaseViewModel {
                   interestedStateUpdater: LGInterestedStateUpdater.sharedInstance,
                   requesterFactory: nil,
                   searchType: nil)
-        setCurrentFallbackRequester()
     }
     
     convenience init(requester: ListingListRequester,
@@ -306,12 +279,6 @@ final class ListingListViewModel: BaseViewModel {
                   myUserRepository: Core.myUserRepository,
                   requesterFactory: nil,
                   searchType: nil)
-        requesterSequence = [requester]
-        setCurrentFallbackRequester()
-    }
-    
-    private func setCurrentFallbackRequester() {
-        currentActiveRequester = requesterSequence.first
     }
 
     private func saveToCache(listings: [Listing]) {
@@ -384,13 +351,13 @@ final class ListingListViewModel: BaseViewModel {
     
     @discardableResult func retrieveListings() -> Bool {
         guard canRetrieveListings else { return false }
-        retriveListing(isFirstPage: true, featureFlags: featureFlags)
+        retriveListing(isFirstPage: true)
         return true
     }
     
     func retrieveListingsNextPage() {
-        if canRetrieveListingsNextPage, let activeRequster = currentActiveRequester {
-            retrieveListings(isFirstPage: false, with: [activeRequster])
+        if canRetrieveListingsNextPage, let activeRequster = listingListRequester {
+            retrieveListings(isFirstPage: false, with: activeRequster)
         }
     }
 
@@ -442,15 +409,14 @@ final class ListingListViewModel: BaseViewModel {
         requesterFactory = newFactory
     }
     
-    private func retriveListing(isFirstPage: Bool, featureFlags: FeatureFlaggeable) {
+    private func retriveListing(isFirstPage: Bool) {
         retrieveListings(isFirstPage: isFirstPage,
-                         with: requesterSequence)
+                         with: listingListRequester)
     }
     
-    private func retrieveListings(isFirstPage: Bool, with requesters: [ListingListRequester]) {
-        var requesterList = requesters
-        guard !requesterList.isEmpty, let currentRequester = requesterList.first else { return }
-        currentActiveRequester = currentRequester
+    private func retrieveListings(isFirstPage: Bool, with requester: ListingListRequester?) {
+
+        guard let currentRequester = listingListRequester else { return }
         isLoading = true
         isOnErrorState = false
 
@@ -488,24 +454,7 @@ final class ListingListViewModel: BaseViewModel {
             let numListing = strongSelf.numberOfListings
             let hasListings = numListing > 0
             strongSelf.isLastPage = currentRequester.isLastPage(newListings.count)
-            requesterList.removeFirst()
-            if hasListings {
-                if strongSelf.featureFlags.shouldUseSimilarQuery(numListing: numListing)
-                    && strongSelf.currentRequesterType == .search && strongSelf.searchType != nil {
-                    // should only enter after search,
-                    // set to nil so that we will never enter here when scrolling up and down
-                    strongSelf.searchType = nil
-                    strongSelf.currentRequesterIndex += 1
-                    if !requesterList.isEmpty {
-                        strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
-                        return
-                    }
-                }
-            } else if !requesterList.isEmpty {
-                strongSelf.currentRequesterIndex += 1
-                strongSelf.retrieveListings(isFirstPage: isFirstPage, with: requesterList)
-                return
-            }
+
             strongSelf.state = .data
             strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
             strongSelf.dataDelegate?.listingListVM(strongSelf,
@@ -513,7 +462,6 @@ final class ListingListViewModel: BaseViewModel {
                                                    withResultsCount: newListings.count,
                                                    hasListings: hasListings,
                                                    containsRecentListings: false)
-            strongSelf.currentRequesterIndex = 0
         }
         if isFirstPage {
             currentRequester.retrieveFirstPage(completion)
@@ -794,8 +742,7 @@ final class ListingListViewModel: BaseViewModel {
         - parameter index: The index of the Listing currently visible on screen.
     */
     func setCurrentItemIndex(_ index: Int) {
-        let requester = featureFlags.emptySearchImprovements.isActive ? currentActiveRequester : listingListRequester
-        guard let itemsPerPage = requester?.itemsPerPage, numberOfListings > 0 else { return }
+        guard let itemsPerPage = listingListRequester?.itemsPerPage, numberOfListings > 0 else { return }
         let threshold = numberOfListings - Int(Float(itemsPerPage)*SharedConstants.listingsPagingThresholdPercentage)
         let shouldRetrieveListingsNextPage = index >= threshold && !isOnErrorState
         if shouldRetrieveListingsNextPage {
@@ -975,11 +922,5 @@ extension ListingListViewModel {
                                                  categories: categories,
                                                  feedPosition: feedPosition)
         tracker.trackEvent(trackerEvent)
-    }
-}
-
-private extension FeatureFlaggeable {
-    func shouldUseSimilarQuery(numListing: Int) -> Bool {
-        return emptySearchImprovements.shouldContinueWithSimilarQueries(withCurrentListing: numListing)
     }
 }
