@@ -1652,6 +1652,12 @@
 		6A6D196C2147D74000C4C247 /* UserVerificationAwarenessBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D196A2147D73F00C4C247 /* UserVerificationAwarenessBuilder.swift */; };
 		6A77E4C3215E2F8100F98E33 /* ReportUpdateRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A77E4C2215E2F8000F98E33 /* ReportUpdateRouter.swift */; };
 		6A77E4C4215E2F8100F98E33 /* ReportUpdateRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A77E4C2215E2F8000F98E33 /* ReportUpdateRouter.swift */; };
+		6A77E4C7215E375500F98E33 /* ReportBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A77E4C6215E375500F98E33 /* ReportBuilder.swift */; };
+		6A77E4C8215E375500F98E33 /* ReportBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A77E4C6215E375500F98E33 /* ReportBuilder.swift */; };
+		6A77E4CB215E398F00F98E33 /* ReportWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A77E4CA215E398F00F98E33 /* ReportWireframe.swift */; };
+		6A77E4CC215E398F00F98E33 /* ReportWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A77E4CA215E398F00F98E33 /* ReportWireframe.swift */; };
+		6A77E4CE215E498600F98E33 /* ReportFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A77E4CD215E498600F98E33 /* ReportFlowType.swift */; };
+		6A77E4CF215E498600F98E33 /* ReportFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A77E4CD215E498600F98E33 /* ReportFlowType.swift */; };
 		6A7F9592205928530044D1AC /* UserProfileViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7F9591205928530044D1AC /* UserProfileViewModelSpec.swift */; };
 		6A8335842057CE2C00171A68 /* UserProfileDummyUserDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8335832057CE2C00171A68 /* UserProfileDummyUserDisclaimerView.swift */; };
 		6A8335852057D3D100171A68 /* UserProfileDummyUserDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8335832057CE2C00171A68 /* UserProfileDummyUserDisclaimerView.swift */; };
@@ -1695,10 +1701,6 @@
 		6AE166752108821200D6B6ED /* ReportUpdateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE166732108821200D6B6ED /* ReportUpdateButton.swift */; };
 		6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
 		6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
-		6AF5272920EB799B00810709 /* ReportNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF5272820EB799B00810709 /* ReportNavigator.swift */; };
-		6AF5272A20EB799B00810709 /* ReportNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF5272820EB799B00810709 /* ReportNavigator.swift */; };
-		6AF5272C20EB79A900810709 /* ReportCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF5272B20EB79A900810709 /* ReportCoordinator.swift */; };
-		6AF5272D20EB79A900810709 /* ReportCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF5272B20EB79A900810709 /* ReportCoordinator.swift */; };
 		6AF75CFE1CF35EFB00EACCF0 /* ChatStickerCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75CFD1CF35EFB00EACCF0 /* ChatStickerCellDrawer.swift */; };
 		6AF75CFF1CF35EFB00EACCF0 /* ChatStickerCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75CFD1CF35EFB00EACCF0 /* ChatStickerCellDrawer.swift */; };
 		6AF75D041CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D031CF3600D00EACCF0 /* ChatStickerCell.swift */; };
@@ -3665,6 +3667,9 @@
 		6A6D19662147D53C00C4C247 /* UserVerificationAwarenessWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVerificationAwarenessWireframe.swift; sourceTree = "<group>"; };
 		6A6D196A2147D73F00C4C247 /* UserVerificationAwarenessBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVerificationAwarenessBuilder.swift; sourceTree = "<group>"; };
 		6A77E4C2215E2F8000F98E33 /* ReportUpdateRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportUpdateRouter.swift; path = Router/ReportUpdateRouter.swift; sourceTree = "<group>"; };
+		6A77E4C6215E375500F98E33 /* ReportBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBuilder.swift; sourceTree = "<group>"; };
+		6A77E4CA215E398F00F98E33 /* ReportWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportWireframe.swift; sourceTree = "<group>"; };
+		6A77E4CD215E498600F98E33 /* ReportFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportFlowType.swift; sourceTree = "<group>"; };
 		6A7F9591205928530044D1AC /* UserProfileViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModelSpec.swift; sourceTree = "<group>"; };
 		6A8335832057CE2C00171A68 /* UserProfileDummyUserDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileDummyUserDisclaimerView.swift; sourceTree = "<group>"; };
 		6A879D9E1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPrePermissionsSettingsViewController.swift; sourceTree = "<group>"; };
@@ -3688,8 +3693,6 @@
 		6AE1666D2101F0DA00D6B6ED /* CommunityTabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTabCoordinator.swift; sourceTree = "<group>"; };
 		6AE166732108821200D6B6ED /* ReportUpdateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportUpdateButton.swift; sourceTree = "<group>"; };
 		6AEF66B21C5A155C0025D43C /* Paginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginable.swift; sourceTree = "<group>"; };
-		6AF5272820EB799B00810709 /* ReportNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportNavigator.swift; sourceTree = "<group>"; };
-		6AF5272B20EB79A900810709 /* ReportCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCoordinator.swift; sourceTree = "<group>"; };
 		6AF75CFD1CF35EFB00EACCF0 /* ChatStickerCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickerCellDrawer.swift; sourceTree = "<group>"; };
 		6AF75D031CF3600D00EACCF0 /* ChatStickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickerCell.swift; sourceTree = "<group>"; };
 		6AF75D061CF449AF00EACCF0 /* ChatViewMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewMessage.swift; sourceTree = "<group>"; };
@@ -5209,6 +5212,7 @@
 				0A6FEC952130343E00B57004 /* RateUser */,
 				0A6FEC8A2130343D00B57004 /* Recaptcha */,
 				0A6FEC5B2130343900B57004 /* RememberPassword */,
+				6A77E4C9215E397B00F98E33 /* Reporting */,
 				0A6FEC7F2130343C00B57004 /* SimpleListing */,
 				0A6FECA02130343F00B57004 /* TourLogin */,
 				0A6FEC822130343C00B57004 /* User */,
@@ -5245,7 +5249,6 @@
 				0ADD39AB211304FA0071DF87 /* LGChatBuilder.swift */,
 				0ACA8F442114951300243850 /* LGFiltersBuilder.swift */,
 				0ACA8F36211484A600243850 /* LGLeanplumBuilder.swift */,
-				6A8B9D392125732200919626 /* LGReportUpdateBuilder.swift */,
 				A4E0938F211B199B002235FC /* LGLoginBuilder.swift */,
 				0ADD39BC211306E90071DF87 /* LGUserBuilder.swift */,
 				C6DC013221413A4800661438 /* LGSmokeTestBuilder.swift */,
@@ -5259,6 +5262,7 @@
 				0A890AC02120A8AD0091ED75 /* RateUser */,
 				A41196102122E5DC00EBB210 /* Recaptcha */,
 				A41196092122D47800EBB210 /* RememberPassword */,
+				6A77E4C5215E372F00F98E33 /* Reporting */,
 				A47C4A62213D5574005AA387 /* Search */,
 				0133D9102139478000AD9959 /* Share */,
 				0A8732DB21215C52006DEF11 /* SimpleListing */,
@@ -7218,7 +7222,6 @@
 			isa = PBXGroup;
 			children = (
 				6A351C5820FDF77F00A7E925 /* ReportUpdate */,
-				6A572A7620F3681B000E95AD /* ReportNavigation */,
 				55697DFD20ECD8DB00B2BD3B /* ReportSent */,
 				55697DFC20ECD8C400B2BD3B /* ReportOptions */,
 			);
@@ -7332,15 +7335,6 @@
 				C6977E8B21218B8300B57E54 /* ListingTitleViewModel.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		6A572A7620F3681B000E95AD /* ReportNavigation */ = {
-			isa = PBXGroup;
-			children = (
-				6AF5272820EB799B00810709 /* ReportNavigator.swift */,
-				6AF5272B20EB79A900810709 /* ReportCoordinator.swift */,
-			);
-			path = ReportNavigation;
 			sourceTree = "<group>";
 		};
 		6A5E19B61D548F5400F92692 /* 3rdPartyExtensions */ = {
@@ -7493,6 +7487,24 @@
 			children = (
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		6A77E4C5215E372F00F98E33 /* Reporting */ = {
+			isa = PBXGroup;
+			children = (
+				6A8B9D392125732200919626 /* LGReportUpdateBuilder.swift */,
+				6A77E4C6215E375500F98E33 /* ReportBuilder.swift */,
+				6A77E4CD215E498600F98E33 /* ReportFlowType.swift */,
+			);
+			path = Reporting;
+			sourceTree = "<group>";
+		};
+		6A77E4C9215E397B00F98E33 /* Reporting */ = {
+			isa = PBXGroup;
+			children = (
+				6A77E4CA215E398F00F98E33 /* ReportWireframe.swift */,
+			);
+			path = Reporting;
 			sourceTree = "<group>";
 		};
 		6AA32F381CA29C98003A1677 /* Admin */ = {
@@ -10281,6 +10293,7 @@
 				425EE397211AFCFE0002DAB8 /* AspectRatio+CGSize.swift in Sources */,
 				C72794281D549334009C25AB /* SettingsCell.swift in Sources */,
 				097BC1D32149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift in Sources */,
+				6A77E4CB215E398F00F98E33 /* ReportWireframe.swift in Sources */,
 				0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */,
 				F57D3A2D1FED017A006F2CA4 /* UIRoundedLabelWithPadding.swift in Sources */,
 				50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */,
@@ -10372,6 +10385,7 @@
 				6A5E1A161D548F5400F92692 /* UITextField+LG.swift in Sources */,
 				C6A5CC5D20E3A22500610A3A /* FilterSliderCell.swift in Sources */,
 				5569D9A820848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift in Sources */,
+				6A77E4CE215E498600F98E33 /* ReportFlowType.swift in Sources */,
 				0A2F52C021232AC90034EF85 /* PromoteBumpBuilder.swift in Sources */,
 				0A6FED322130344000B57004 /* TourSkiperWireframe.swift in Sources */,
 				C7126BD91E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
@@ -10681,6 +10695,7 @@
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
 				50EAFB211F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
+				6A77E4C7215E375500F98E33 /* ReportBuilder.swift in Sources */,
 				72FE02D61F95FCE5005BD672 /* PostingDetailStep.swift in Sources */,
 				F5E79A68210E3AE6003101D4 /* ListingErrorCell.swift in Sources */,
 				2E79430B212B008900CBC5CB /* ProcessInfo+Extended.swift in Sources */,
@@ -10714,7 +10729,6 @@
 				0904D89A213F310C00D5D554 /* P2PPaymentsCreateOfferBuyerInfoView.swift in Sources */,
 				4273565120A2E9C200C71D49 /* LGMapAnnotation.swift in Sources */,
 				6A0D7340204D612500892663 /* EditUserBioViewController.swift in Sources */,
-				6AF5272920EB799B00810709 /* ReportNavigator.swift in Sources */,
 				C650DEA220C595A500D47C4A /* MultiListingPostedViewModel.swift in Sources */,
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
 				0ACC84392135837C00803D66 /* TourNotificationsBuilder.swift in Sources */,
@@ -11031,7 +11045,6 @@
 				C63A589A20EE22A1007C0816 /* CarAttributes+LG.swift in Sources */,
 				6A12E04F1C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
 				727463AF1FB0763D00AD8261 /* PostingAddDetailLocation.swift in Sources */,
-				6AF5272C20EB79A900810709 /* ReportCoordinator.swift in Sources */,
 				0A6FECAA2130343F00B57004 /* EditUserBioWireframe.swift in Sources */,
 				C690704A21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */,
 				F5D91E7D2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
@@ -11675,6 +11688,7 @@
 				0AAC7953207F73960096F156 /* FeedViewController.swift in Sources */,
 				8E5320CC2151447900C08618 /* ChatOtherCallToActionCell.swift in Sources */,
 				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
+				6A77E4C8215E375500F98E33 /* ReportBuilder.swift in Sources */,
 				4233E1332146741300708284 /* LGTapToActionView.swift in Sources */,
 				8E031CB32033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */,
 				2E6248D9207E352300F4144C /* Sequence+LG.swift in Sources */,
@@ -11950,7 +11964,6 @@
 				4273565220A2E9C200C71D49 /* LGMapAnnotation.swift in Sources */,
 				0A6FECDD2130344000B57004 /* EditListingModalWireframe.swift in Sources */,
 				F5DC45252088889100D1EC17 /* KenBurnsView.swift in Sources */,
-				6AF5272A20EB799B00810709 /* ReportNavigator.swift in Sources */,
 				0A751478214272570049E135 /* RateBuyersViewController.swift in Sources */,
 				0AF28D87213ECEC2005A6F8C /* ListingsMapBuilder.swift in Sources */,
 				0A6FED0B2130344000B57004 /* ChatInactiveDetailWireframe.swift in Sources */,
@@ -11987,6 +12000,7 @@
 				505B2228214BF89E0053E813 /* AffiliationProgressView.swift in Sources */,
 				C7DB42031C5138B500400945 /* MainSignUpViewController.swift in Sources */,
 				50D934DA1E81283100BDD5FF /* PostListingState.swift in Sources */,
+				6A77E4CC215E398F00F98E33 /* ReportWireframe.swift in Sources */,
 				C7DB42041C5138B500400945 /* ContactSubject.swift in Sources */,
 				C7C61E051D633FDB00F9505D /* SearchType.swift in Sources */,
 				42CA899D2097498900CE7B5B /* LGMapView.swift in Sources */,
@@ -12223,7 +12237,6 @@
 				C7DE8AE11C88A98B005CF37E /* PostListingViewController.swift in Sources */,
 				C690704B21009E2300AF27E4 /* DropdownShowMoreView.swift in Sources */,
 				50146BE31D4F910B00B0F635 /* ProfileTabNavigator.swift in Sources */,
-				6AF5272D20EB79A900810709 /* ReportCoordinator.swift in Sources */,
 				326C72D620888280009D21DB /* UICollectionViewLayoutAttributes+Builder.swift in Sources */,
 				42D3215A21510A3C002B44FC /* LGSmokeTestDetailViewModel.swift in Sources */,
 				F5D91E7E2008C20200DF28E7 /* UserRatingType+RateBack.swift in Sources */,
@@ -12241,6 +12254,7 @@
 				C2E9ACEC207B64C00054B246 /* VPPostListingRedCamFooter.swift in Sources */,
 				42D321482151079B002B44FC /* LGFeaturesView.swift in Sources */,
 				C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,
+				6A77E4CF215E498600F98E33 /* ReportFlowType.swift in Sources */,
 				727463B31FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				C77B7DBB1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
 				6A12E0501C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,

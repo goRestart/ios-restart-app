@@ -281,7 +281,10 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     }
 
     func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String) {
-        // TODO
+        guard let nc = nc else { return }
+        let assembly = ReportBuilder.modal(nc)
+        let vc = assembly.buildReport(type: .product(listing: listing), reportedId: productId, source: source)
+        nc.present(vc, animated: true, completion: nil)
     }
 }
 

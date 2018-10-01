@@ -26,13 +26,13 @@ final class ReportOptionsListViewModel: BaseViewModel {
 
     init(optionGroup: ReportOptionsGroup,
          title: String,
-         tracker: Tracker,
          reportedId: String,
          source: EventParameterTypePage,
-         reportingRepository: ReportingRepository,
-         featureFlags: FeatureFlaggeable,
          superReason: ReportOptionType? = nil,
-         listing: Listing? = nil) {
+         listing: Listing? = nil,
+         tracker: Tracker = TrackerProxy.sharedInstance,
+         reportingRepository: ReportingRepository = Core.reportingRepository,
+         featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
         self.optionGroup = optionGroup
         self.title = title
         self.superReason = superReason
@@ -64,7 +64,7 @@ final class ReportOptionsListViewModel: BaseViewModel {
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
             if let _ = result.value {
                 self?.trackReportSent(withAdditionalNotes: additionalNotes != nil)
-                self?.navigator?.openReportSentScreen(type: type)
+                self?.navigator?.openReportSentScreen(sentType: type)
             } else if let _ = result.error {
                 self?.delegate?.vmShowAlert(R.Strings.commonErrorTitle,
                                             message: R.Strings.commonErrorGenericBody,

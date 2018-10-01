@@ -39,6 +39,7 @@ class TabCoordinator: NSObject, Coordinator {
     private lazy var rateBuyerAssembly = RateBuyerBuilder.modal(navigationController)
     private lazy var expressChatAssembly = ExpressChatBuilder.modal(navigationController)
     private lazy var p2pPaymentsMakeAnOfferAssembly = P2PPaymentsMakeAnOfferBuilder.modal
+    private lazy var reportAssembly = ReportBuilder.modal(navigationController)
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
@@ -251,8 +252,8 @@ extension TabCoordinator: ChatDetailNavigator {
 
     func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData) {
         if featureFlags.reportingFostaSesta.isActive {
-            let child = ReportCoordinator(type: .user(rateData: rateData), reportedId: userReportedId, source: source)
-            openChild(coordinator: child, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
+            let vc = reportAssembly.buildReport(type: .user(rateData: rateData), reportedId: userReportedId, source: source)
+            navigationController.present(vc, animated: true, completion: nil)
         } else {
             let vm = ReportUsersViewModel(origin: source, userReportedId: userReportedId)
             let vc = ReportUsersViewController(viewModel: vm)
@@ -261,8 +262,8 @@ extension TabCoordinator: ChatDetailNavigator {
     }
 
     func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String) {
-        let child = ReportCoordinator(type: .product(listing: listing), reportedId: productId, source: source)
-        openChild(coordinator: child, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
+        let vc = reportAssembly.buildReport(type: .product(listing: listing), reportedId: productId, source: source)
+        navigationController.present(vc, animated: true, completion: nil)
     }
     
     func closeChatDetail() {
