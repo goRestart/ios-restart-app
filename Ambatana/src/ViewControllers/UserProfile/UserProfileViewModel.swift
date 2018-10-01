@@ -93,7 +93,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userBadge: Driver<UserHeaderViewBadge> { return makeUserBadge() }
     let userRelationIsBlocked = Variable<Bool>(false)
     let userRelationIsBlockedBy = Variable<Bool>(false)
-    let askVerificationProfileIsSent = Variable<Bool>(false) // TODO: link this with backend
+    let askVerificationProfileIsSent = Variable<Bool>(false)
     var userRelationText: Driver<String?> { return makeUserRelationText() }
     var listingListViewModel: Driver<ListingListViewModel?> { return makeListingListViewModelDriver() }
     let ratingListViewModel: UserRatingListViewModel
@@ -264,8 +264,27 @@ final class UserProfileViewModel: BaseViewModel {
             retrieveUserData()
         }
 
+        checkIfVerificationHasBeenRequested()
         loadListingContent()
         trackVisit()
+    }
+
+    private func checkIfVerificationHasBeenRequested() {
+        guard let user = user.value, let userId = user.objectId,
+            !user.isDummy && !user.isProfessional && !isMyUser.value && !user.hasBadge
+                && featureFlags.advancedReputationSystem13.isActive else { return }
+
+        userRepository.retriveVerificationRequests(userId) { [weak self] result in
+            guard let userRequests = result.value else { return }
+            self?.askVerificationProfileIsSent.value = userRequests.count > 0
+        }
+    }
+
+    func requestUserVerifiaction() {
+        guard let userId = user.value?.objectId else { return }
+        userRepository.requestVerification(userId) { [weak self] result in
+            self?.askVerificationProfileIsSent.value = true
+        }
     }
 
     deinit {
@@ -288,10 +307,7 @@ extension UserProfileViewModel {
     }
 
     func didTapAskVerification() {
-        // TODO: replace this by real backend logic
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.askVerificationProfileIsSent.value = true
-        }
+        requestUserVerifiaction()
     }
 
     func didTapAvatar() {
