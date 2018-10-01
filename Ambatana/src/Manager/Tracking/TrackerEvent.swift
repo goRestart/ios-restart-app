@@ -677,9 +677,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .predictedPosting, params: params)
     }
     
-    static func listingSellComplete24h(_ listing: Listing) -> TrackerEvent {
+    static func listingSellComplete24h(listingId: String?) -> TrackerEvent {
         var params = EventParameters()
-        params[.listingId] = listing.objectId ?? ""
+        params[.listingId] = listingId ?? ""
         return TrackerEvent(name: .listingSellComplete24h, params: params)
     }
 

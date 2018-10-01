@@ -16,13 +16,13 @@ final class AnalyticsSell24hMiddleware: AnalyticsMiddleware {
 
     func process(event: TrackerEvent,
                  trackNewEvent: (TrackerEvent) -> ()) {
-        guard event.name == .listingSellComplete else { return }
+        guard event.name == .listingSellComplete, let listingId = event.params?[.listingId] as? String else { return }
         guard let firstOpenDate = keyValueStorage[.firstRunDate],
             Date().timeIntervalSince(firstOpenDate) <= AnalyticsSell24hMiddleware.threshold &&
             !keyValueStorage.userTrackingProductSellComplete24hTracked else { return }
+        keyValueStorage.userTrackingProductSellComplete24hTracked = true
 
-        let listing = Listing.makeMock()
-        let event = TrackerEvent.listingSellComplete24h(listing)
+        let event = TrackerEvent.listingSellComplete24h(listingId: listingId)
         trackNewEvent(event)
     }
 }
