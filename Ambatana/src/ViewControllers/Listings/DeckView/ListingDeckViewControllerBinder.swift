@@ -21,7 +21,7 @@ final class ListingDeckViewControllerBinder {
         bindChat(withViewController: viewController, viewModel: viewModel,
                  listingDeckView: listingDeckView, disposeBag: currentDB)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
-        bindActionButtonTap(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindActionButtonTap(withViewModel: viewModel, controller: viewController, disposeBag: currentDB)
         bindBumpUps(withViewModel: viewModel, viewController: viewController, listingDeckView: listingDeckView, disposeBag: currentDB)
     }
 
@@ -41,9 +41,9 @@ final class ListingDeckViewControllerBinder {
     }
 
     private func bindActionButtonTap(withViewModel viewModel: ListingDeckViewModel,
-                                     listingDeckView: ListingDeckView?,
+                                     controller: ListingDeckViewController,
                                      disposeBag: DisposeBag) {
-        listingDeckView?.rx.actionButton
+        controller.rx.actionButton
             .tap
             .bind { [weak viewModel] in
             viewModel?.didTapActionButton()
@@ -121,7 +121,7 @@ final class ListingDeckViewControllerBinder {
                           viewModel: ListingDeckViewModel,
                           listingDeckView: ListingDeckView,
                           disposeBag: DisposeBag) {
-        let offset: Observable<CGPoint> = viewController.rx.contentOffset.share()
+        let offset: Observable<CGPoint> = viewController.rx.contentOffset
 
         offset.skip(1)
             .bind { [weak viewModel] _ in

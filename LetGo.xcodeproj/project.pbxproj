@@ -224,6 +224,8 @@
 		0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A104695206CFB99003F1577 /* ABTestsSpec.swift */; };
 		0A14D275212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */; };
 		0A14D276212AE47400E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */; };
+		0A1ABB96215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */; };
+		0A1ABB97215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */; };
 		0A1ABB92215D3E5700B96343 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */; };
 		0A1ABB93215D3E5700B96343 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */; };
 		0A1ABB99216227DC00B96343 /* ListingCardViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */; };
@@ -2827,6 +2829,7 @@
 		0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		0A104695206CFB99003F1577 /* ABTestsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestsSpec.swift; sourceTree = "<group>"; };
 		0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterCategoryItem+ListingCategory.swift"; sourceTree = "<group>"; };
+		0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BumpUpContainerViewController.swift; sourceTree = "<group>"; };
 		0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewModel.swift; sourceTree = "<group>"; };
 		0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardViewModelBuilder.swift; sourceTree = "<group>"; };
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
@@ -4544,6 +4547,14 @@
 			path = ListingDeck;
 			sourceTree = "<group>";
 		};
+		0A1ABB94215E7E2500B96343 /* BumpUps */ = {
+			isa = PBXGroup;
+			children = (
+				0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */,
+			);
+			path = BumpUps;
+			sourceTree = "<group>";
+		};
 		0A29CF0520EF6C6B007F35F6 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
@@ -5254,6 +5265,7 @@
 		0AB6E1D21F9DD15D0048AFFD /* DeckView */ = {
 			isa = PBXGroup;
 			children = (
+				0A1ABB94215E7E2500B96343 /* BumpUps */,
 				0A29CF0520EF6C6B007F35F6 /* Tracking */,
 				0AE405C120EE4F8F0041E3F1 /* ListingDetailView */,
 				0AE405B420EDF7A10041E3F1 /* ListingCardView */,
@@ -10312,6 +10324,7 @@
 				3212AE5221257A7700945110 /* Lens+LG.swift in Sources */,
 				7204593A1F5008ED008D5A97 /* ListingCell.swift in Sources */,
 				0A9B3723215A6293008AC0E9 /* PhotoMediaViewerDelegate.swift in Sources */,
+				0A1ABB96215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */,
 				0A6FED2C2130344000B57004 /* UINavigationController+Transition.swift in Sources */,
 				C75B5DD51D59E0C500112368 /* ListingCarouselImageCell.swift in Sources */,
 				0AD5A4382146C2550053E86C /* DeckMoreInfoView.swift in Sources */,
@@ -12140,6 +12153,7 @@
 				C611B06B20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */,
 				0183BB19203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
 				50D153FF214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift in Sources */,
+				0A1ABB97215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */,
 				0A6FED0F2130344000B57004 /* QuickLocationFiltersModalWireframe.swift in Sources */,
 				0AB4F827214677CB009151E6 /* UserDefailts+LG.swift in Sources */,
 				326C730B20908148009D21DB /* CategoriesFeedCell.swift in Sources */,

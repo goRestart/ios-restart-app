@@ -14,10 +14,20 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             static let chat: CGFloat = 75
             static let bump: CGFloat = 80
         }
+        static let buttonHeight: CGFloat = 50
     }
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
-    fileprivate let quickChatVC: QuickChatViewController
+    fileprivate lazy var quickChatVC = QuickChatViewController(listingViewModel: viewModel.currentListingViewModel)
+    fileprivate lazy var bumpUpVC = BumpUpContainerViewController()
+
+    fileprivate let actionButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .terciary)
+        button.setTitle(R.Strings.productMarkAsSoldButton, for: .normal)
+        button.alpha = 0
+        return button
+    }()
+
     fileprivate let listingDeckView = ListingDeckView()
     private let collectionDataSource: DeckCollectionDataSource
     private let collectionDelegate: DeckViewCollectionDelegate
@@ -73,8 +83,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.collectionDataSource =  DeckCollectionDataSource(withViewModel: viewModel,
                                                               imageDownloader: viewModel.imageDownloader)
         self.collectionDelegate = DeckViewCollectionDelegate(viewModel: viewModel, listingDeckView: listingDeckView)
-
-        self.quickChatVC = QuickChatViewController(listingViewModel: viewModel.currentListingViewModel)
         super.init(viewModel: viewModel, nibName: nil)
         self.hidesBottomBarWhenPushed = true
         self.collectionDataSource.delegate = collectionDelegate
@@ -98,6 +106,22 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             quickChatVC.view.leadingAnchor.constraint(equalTo: listingDeckView.leadingAnchor),
             quickChatVC.view.trailingAnchor.constraint(equalTo: listingDeckView.trailingAnchor),
             quickChatVC.view.bottomAnchor.constraint(equalTo: safeBottomAnchor)
+        ])
+    }
+
+    private func addBumpUp() {
+        addChildViewController(bumpUpVC)
+        listingDeckView.addSubviewsForAutoLayout([bumpUpVC.view, actionButton])
+
+        NSLayoutConstraint.activate([
+            actionButton.bottomAnchor.constraint(equalTo: bumpUpVC.view.topAnchor, constant: -Metrics.shortMargin),
+            actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.margin),
+            actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metrics.margin),
+            actionButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
+
+            bumpUpVC.view.leadingAnchor.constraint(equalTo: listingDeckView.leadingAnchor),
+            bumpUpVC.view.trailingAnchor.constraint(equalTo: listingDeckView.trailingAnchor),
+            bumpUpVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
@@ -142,7 +166,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        addQuickChat()
 
         view.backgroundColor = listingDeckView.backgroundColor
         
@@ -152,12 +175,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         setupInterstitial()
 
         setNavigationBarRightButtons([favoriteButton, shareButton, moreButton], animated: false)
-
-        let bindings = [
-            viewModel.rx.listingStatus.drive(rx.status),
-            viewModel.rx.listingAction.drive(rx.listingAction)
-        ]
-        bindings.forEach { $0.disposed(by: disposeBag) }
+        if viewModel.currentListingViewModel.isMine {
+            addBumpUp()
+        } else {
+            addQuickChat()
+        }
     }
 
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
@@ -193,6 +215,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private func setupRx() {
         binder.listingDeckViewController = self
         binder.bind(withViewModel: viewModel, listingDeckView: listingDeckView)
+        let bindings = [
+            viewModel.rx.listingStatus.drive(rx.status),
+            viewModel.rx.listingAction.drive(rx.listingAction)
+        ]
+        bindings.forEach { $0.disposed(by: disposeBag) }
     }
 
     // MARK: CollectionView
@@ -242,25 +269,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     @objc private func didTapClose() {
-        closeBumpUpBanner(animated: false)
         viewModel.close()
     }
-
-    private func closeBumpUpBanner(animated: Bool) {
-        guard listingDeckView.isBumpUpVisible else { return }
-        listingDeckView.hideBumpUp()
-        if animated {
-            UIView.animate(withDuration: 0.2,
-                           delay: 0,
-                           options: .curveEaseIn,
-                           animations: { [weak self] in
-                            self?.listingDeckView.itemActionsView.layoutIfNeeded()
-                }, completion: nil)
-        } else {
-            listingDeckView.itemActionsView.layoutIfNeeded()
-        }
-    }
-
 }
 
 extension ListingDeckViewController {
@@ -271,7 +281,6 @@ extension ListingDeckViewController {
 
     func willBeginDragging() {
         collectionDelegate.lastPageBeforeDragging = listingDeckView.currentPage
-        listingDeckView.bumpUpBanner.animateTo(alpha: 0)
     }
 
     func didMoveToItemAtIndex(_ index: Int) {
@@ -300,7 +309,6 @@ extension ListingDeckViewController {
 }
 
 extension ListingDeckViewController {
-
     private func currentPageCell() -> ListingCardView? {
         return listingDeckView.cardAtIndex(viewModel.currentIndex)
     }
@@ -313,7 +321,7 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
     }
 
     func vmResetBumpUpBannerCountdown() {
-        listingDeckView.resetBumpUpCountdown()
+        bumpUpVC.resetBumpUpCountdown()
     }
 }
 
@@ -324,12 +332,18 @@ extension Reactive where Base: ListingDeckViewController {
         return base.listingDeckView.rx.collectionView.contentOffset.asObservable()
     }
 
+    var actionButton: Reactive<LetgoButton> { return base.actionButton.rx }
+
+    var bumpUp: Binder<BumpUpInfo?> { return base.bumpUpVC.rx.bumpInfo }
+    
     var action: Binder<UIAction?> {
         return Binder(self.base) { controller, actionable in
-            controller.listingDeckView.configureActionWith(actionable)
+            if let actionable = actionable {
+                controller.actionButton.configureWith(uiAction: actionable)
+            }
 
             guard let actionable = actionable else { return }
-            controller.listingDeckView.rx.actionButton
+            controller.actionButton.rx
                 .tap
                 .takeUntil(controller.viewModel.rx.actionButton)
                 .bind {
@@ -342,7 +356,7 @@ extension Reactive where Base: ListingDeckViewController {
         return Binder(self.base) { controller, alpha in
             let clippedAlpha = min(1.0, alpha)
             controller.listingDeckView.statusView.alpha = clippedAlpha
-            controller.listingDeckView.updatePrivateActionsWith(actionsAlpha: clippedAlpha)
+            controller.actionButton.alpha = clippedAlpha
         }
     }
 
@@ -386,40 +400,11 @@ extension Reactive where Base: ListingDeckViewController {
             controller.listingDeckView.statusView.setFeaturedStatus(status.status, featured: status.isFeatured)
         }
     }
-
-    var bumpUp: Binder<BumpUpInfo?> {
-        return Binder(self.base) { controller, bumpUpData in
-            controller.updateWithBumpUpInfo(bumpUpData)
-        }
-    }
-}
-
-extension ListingDeckViewController {
-    func updateWithBumpUpInfo(_ bumpInfo: BumpUpInfo?) {
-        guard let bumpUp = bumpInfo else {
-            closeBumpUpBanner(animated: true)
-            return
-        }
-
-        listingDeckView.updateBumpUp(withInfo: bumpUp)
-
-        guard !listingDeckView.isBumpUpVisible else { return }
-        viewModel.bumpUpBannerShown(bumpInfo: bumpUp)
-
-        listingDeckView.showBumpUp()
-        UIView.animate(withDuration: 0.3,
-                       delay: 0,
-                       options: .curveEaseIn,
-                       animations: { [weak self] in
-                        self?.listingDeckView.itemActionsView.layoutIfNeeded()
-            }, completion: nil)
-    }
 }
 
 // MARK: - GADIntertitialDelegate
 
 extension ListingDeckViewController: GADInterstitialDelegate {
-    
     /// Tells the delegate the interstitial had been animated off the screen.
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {
         setupInterstitial()
