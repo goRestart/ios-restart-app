@@ -55,7 +55,7 @@ final class ProductionEnvironment: AppEnvironment {
     let sectionedFeedAdUnitForUS = "/21666124832/us/iOS/feed/300x250_var_a"
 
     // Stripe
-    let stripeAPIKey = "pk_live_reeoNOBIaAAXXS2qQgwvaAKE"
+    let stripeAPIKey = "pk_live_t2XkxF05GAxpGgMaxiW45vSs"
 
     private let _godmode: Bool
     

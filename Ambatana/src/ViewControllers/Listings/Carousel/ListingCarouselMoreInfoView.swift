@@ -654,9 +654,8 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 private extension ListingCarouselMoreInfoView {
 
     func setupAttributeGridView(withTitle title: String?,
-                                items: [ListingAttributeGridItem]?,
-                                showExtraCardFields: Bool = false) {
-        guard let items = items, items.count > 0, showExtraCardFields else {
+                                items: [ListingAttributeGridItem]?) {
+        guard let items = items, items.count > 0 else {
                 attributeGridViewHeightConstraint?.constant = 0.0
                 return
         }
@@ -695,7 +694,6 @@ private extension ListingCarouselMoreInfoView {
                                                          bottom: status.scrollBottomInset(chatEnabled: chatEnabled), right: 0)
         }.disposed(by: disposeBag)
         
-        let showCarExtraFields = viewModel.extraFieldsGridEnabled
         let showPaymentFrequency = viewModel.shouldShowPaymentFrequency
         
         viewModel.productInfo.asObservable().unwrap().bind { [weak self] info in
@@ -709,8 +707,7 @@ private extension ListingCarouselMoreInfoView {
             self?.descriptionLabel.setNeedsLayout()
             self?.updateTags(tags: info.attributeTags)
             self?.setupAttributeGridView(withTitle: info.attributeGridTitle,
-                                         items: info.attributeGridItems,
-                                         showExtraCardFields: showCarExtraFields)
+                                         items: info.attributeGridItems)
         }.disposed(by: disposeBag)
     }
     
@@ -917,9 +914,7 @@ extension ListingCarouselMoreInfoView: UITextViewDelegate {
 // MARK: - SocialShareViewDelegate
 
 extension ListingCarouselMoreInfoView: SocialShareViewDelegate {
-    func viewController() -> UIViewController? {
-        return delegate?.viewControllerToShowShareOptions()
-    }
+    var viewControllerToShareOver: UIViewController? { return delegate?.viewControllerToShowShareOptions() }
 }
 
 

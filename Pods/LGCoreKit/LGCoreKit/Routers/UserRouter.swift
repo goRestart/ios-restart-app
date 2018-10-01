@@ -1,17 +1,10 @@
-//
-//  UserRouter.swift
-//  LGCoreKit
-//
-//  Created by Isaac Roldan on 4/12/15.
-//  Copyright © 2015 Ambatana Inc. All rights reserved.
-//
-
 import Foundation
 
 enum UserRouter: URLRequestAuthenticable {
 
     static let userBaseUrl = "/api/users"
     static let bouncerUserBaseUrl = "/users"
+    static let verificationRequestBaseUrl = "/api/verification-requests"
 
     case show(userId: String)
     case userRelation(userId: String, params: [String : Any])
@@ -19,6 +12,8 @@ enum UserRouter: URLRequestAuthenticable {
     case unblockUser(userId: String, userToId: String, params: [String : Any])
     case indexBlocked(userId: String, params: [String : Any])
     case saveReport(userId: String, reportedUserId: String, params: [String : Any])
+    case createVerificationRequest(params: [String: Any])
+    case verificationRequests(params: [String: Any])
 
     var endpoint: String {
         switch self {
@@ -34,6 +29,10 @@ enum UserRouter: URLRequestAuthenticable {
             return UserRouter.bouncerUserBaseUrl + "/\(userId)/links/"
         case let .saveReport(userId, _, _):
             return UserRouter.userBaseUrl + "/\(userId)/reports/users/"
+        case .createVerificationRequest:
+            return UserRouter.verificationRequestBaseUrl
+        case .verificationRequests:
+            return UserRouter.verificationRequestBaseUrl
         }
     }
 
@@ -41,7 +40,8 @@ enum UserRouter: URLRequestAuthenticable {
         switch self {
         case .show:
             return .installation
-        case .indexBlocked, .blockUser, .unblockUser, .userRelation, .saveReport:
+        case .indexBlocked, .blockUser, .unblockUser, .userRelation, .saveReport,
+             .createVerificationRequest, .verificationRequests:
             return .user
         }
     }
@@ -78,6 +78,10 @@ enum UserRouter: URLRequestAuthenticable {
         case let .saveReport(_, reportedUserId, params):
             return try Router<APIBaseURL>.update(endpoint: endpoint, objectId: reportedUserId, params: params,
                 encoding: nil).asURLRequest()
+        case let .createVerificationRequest(params):
+            return try Router<ReputationBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
+        case let .verificationRequests(params):
+            return try Router<ReputationBaseURL>.read(endpoint: endpoint, params: params).asURLRequest()
         }
     }
 }

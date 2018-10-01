@@ -1,5 +1,5 @@
 final class AffiliationStoreWireframe: AffiliationStoreNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
     private let editEmailAssembly: EditEmailAssembly
     private let vouchersAssembly: AffiliationVouchersAssembly
     
@@ -18,16 +18,16 @@ final class AffiliationStoreWireframe: AffiliationStoreNavigator {
     }
 
     func closeAffiliationStore() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 
     func openHistory() {
         let vc = vouchersAssembly.buildAffiliationVouchers()
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
     
     func openEditEmail() {
         let vc = editEmailAssembly.buildEditEmail()
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 }

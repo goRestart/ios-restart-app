@@ -19,6 +19,7 @@ struct AffiliationPurchase {
     let points: Int
     
     let state: State
+    let background: UIImage
 }
 
 final class AffiliationStoreViewModel: BaseViewModel {
@@ -106,7 +107,8 @@ final class AffiliationStoreViewModel: BaseViewModel {
                     title: $0.type.cardTitle,
                     partnerIcon: AffiliationPartner.amazon.image,
                     points: $0.points,
-                    state: points >= $0.points ? .enabled : .disabled
+                    state: points >= $0.points ? .enabled : .disabled,
+                    background: $0.type.cardBackground
                 )
         }
     }
@@ -244,6 +246,14 @@ extension RewardType {
         case .amazon50: return R.Strings.affiliationStoreRewardsAmazon50
         }
     }
+
+    var cardBackground: UIImage {
+        switch self {
+        case .amazon5: return R.Asset.Affiliation.Vouchers.amazon5.image
+        case .amazon10: return R.Asset.Affiliation.Vouchers.amazon10.image
+        case .amazon50: return R.Asset.Affiliation.Vouchers.amazon50.image
+        }
+    }
 }
 
 extension AffiliationStoreViewModel: ReactiveCompatible {}
@@ -251,23 +261,16 @@ extension Reactive where Base: AffiliationStoreViewModel {
     var state: Driver<ViewState> {
         return base.viewState.asDriver(onErrorJustReturn: ViewState.error(base.genericErrorModel()))
     }
-    
-    private var userEmail: Observable<String?> {
-        return base.myUserRepository.rx_myUser.asObservable().map { return $0?.email }
-    }
-    
+
     var redeemTapped: Driver<RedeemCellModel?> {
-        return Observable.combineLatest(base.cellRedeemTapped.asObservable(),
-                                        base.rx.userEmail) { RedeemCellModel(index: $0, email: $1) }
+        return base.cellRedeemTapped
+            .map { [unowned base] in RedeemCellModel(index: $0, email: base.myUserRepository.myUser?.email) }
             .asDriver(onErrorJustReturn: nil)
+            .debounce(0.1)
     }
     
     var points: Driver<Int> {
         return base.pointsRelay.asDriver()
-    }
-    
-    var pointsVisible: Driver<Bool> {
-        return points.map { $0 >= 0 ? true : false }
     }
 }
 

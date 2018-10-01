@@ -9,15 +9,19 @@ final class PhotoMediaViewerView: UIView {
     override init(frame: CGRect) {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
-        flowLayout.itemSize = frame.size
         let collection = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
 
         collection.isPagingEnabled = true
+        collection.contentInset = .zero
+        collection.contentOffset = .zero
         collection.isScrollEnabled = false
         collection.showsVerticalScrollIndicator = false
         collection.showsHorizontalScrollIndicator = false
         collection.allowsSelection = false
         collection.delegate = delegate
+        if #available(iOS 11.0, *) {
+            collection.contentInsetAdjustmentBehavior = .never
+        }
         collectionView = collection
 
         super.init(frame: frame)

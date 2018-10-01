@@ -93,7 +93,11 @@ class FilteredListingListRequester: ListingListRequester {
         } else if isEmptyQueryAndDefaultFilters {
             listingRepository.indexCustomFeed(retrieveCustomFeedParams, completion: completion)
         } else {
-            listingRepository.index(retrieveListingsParams, completion: completion)
+            if featureFlags.newSearchAPI.isActive {
+                listingRepository.indexNewSearchAPI(retrieveListingsParams, completion: completion)
+            } else {
+                listingRepository.index(retrieveListingsParams, completion: completion)
+            }
         }
     }
 

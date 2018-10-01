@@ -1,5 +1,5 @@
 final class RateUserStandardWireframe: RateUserNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
     private let deepLinkMailBox: DeepLinkMailBox
     private let onRateUserFinishAction: OnRateUserFinishActionable?
 
@@ -13,20 +13,20 @@ final class RateUserStandardWireframe: RateUserNavigator {
         self.onRateUserFinishAction = onRateUserFinishAction
     }
     func rateUserCancel() {
-        nc.dismiss(animated: true, completion: { [weak self] in
+        nc?.dismiss(animated: true, completion: { [weak self] in
             self?.onRateUserFinishAction?.onFinish()
         })
     }
 
     func rateUserSkip() {
-        nc.dismiss(animated: true, completion: { [weak self] in
+        nc?.dismiss(animated: true, completion: { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.onRateUserFinishAction?.onFinish()
         })
     }
 
     func rateUserFinish(withRating rating: UserRatingValue) {
-        nc.dismiss(animated: true, completion: { [weak self] in
+        nc?.dismiss(animated: true, completion: { [weak self] in
             if rating.shouldShowAppRating {
                 self?.openAppRating(.chat)
             } else {

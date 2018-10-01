@@ -51,7 +51,7 @@ final class MoreInfoLabel: MoreInfoViewType {
 
     private func setupUI() {
         addSubviewForAutoLayout(stackView)
-        stackView.constraintsToEdges(in: self).activate()
+        stackView.constraintToEdges(in: self)
     }
 
     func setupWith(title: String, price: String) {

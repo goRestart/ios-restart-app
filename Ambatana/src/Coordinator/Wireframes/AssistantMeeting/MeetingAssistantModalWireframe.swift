@@ -2,7 +2,7 @@ import LGCoreKit
 
 final class MeetingAssistantModalWireframe: MeetingAssistantNavigator, MeetingSafetyTipsNavigator {
     private let root: UIViewController
-    private var nc: UINavigationController?
+    private weak var nc: UINavigationController?
     private let assitantMeetingAssembly: AssistantMeetingAssembly
 
     init(root: UIViewController, nc: UINavigationController?) {

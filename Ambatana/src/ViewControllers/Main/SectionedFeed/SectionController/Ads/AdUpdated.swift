@@ -1,3 +1,3 @@
 protocol AdUpdated: class {
-    func updatedAd()
+    func updatedAd(isBannerSection: Bool)
 }

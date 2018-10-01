@@ -184,9 +184,14 @@ final class FeedViewController: BaseViewController {
         let spacing = makeSpacingButton(withFixedWidth: Metrics.navBarDefaultSpacing)
         navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
     }
+    
+    private func removeLeftNavBarButton() {
+        navigationItem.leftBarButtonItems = []
+    }
 
     private func setLeftNavBarButtons(withAvatar avatar: UIImage? = nil) {
         guard isRootViewController() else { return }
+        removeLeftNavBarButton()
         if viewModel.shouldShowCommunityButton {
             setCommunityButton()
         } else if viewModel.shouldShowUserProfileButton {
@@ -363,7 +368,8 @@ extension FeedViewController: FeedRenderable {
         return collectionView.convert(originalFrame, to: collectionView.superview)
     }
     
-    func updateFeed() {
+    func updateFeed(forceLayoutCalculation: Bool) {
+        waterFallLayout.forceLayoutCalculation = forceLayoutCalculation
         adapter.performUpdates(animated: true, completion: nil)
     }
     

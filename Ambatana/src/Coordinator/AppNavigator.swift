@@ -31,4 +31,5 @@ protocol AppNavigator: class {
     func openCommunityTab()
     func shouldShowVerificationAwareness() -> Bool
     func openVerificationAwarenessView()
+    func openP2PPaymentOfferStatus(offerId: String)
 }

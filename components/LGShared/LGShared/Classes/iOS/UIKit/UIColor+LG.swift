@@ -350,6 +350,13 @@ public extension UIColor {
     fileprivate static let existentialDoubtRed = UIColor(rgb: 0xfc7d91) // (252, 125, 145)
 }
 
+// MARK: > P2P Payments Colors
+
+public extension UIColor {
+    static let p2pPaymentsPositive = UIColor(rgb: 0x00A8A8) // (0, 168, 168)
+    static let p2pPaymentsWarning = UIColor(rgb: 0xffd200) // (255, 210, 0)
+}
+
 // MARK: - SmokeTest Colors
 
 public extension UIColor {

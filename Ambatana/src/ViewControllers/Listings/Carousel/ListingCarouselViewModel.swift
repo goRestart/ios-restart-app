@@ -232,10 +232,6 @@ final class ListingCarouselViewModel: BaseViewModel {
         return featureFlags.chatNorris.isActive
     }
     
-    var extraFieldsGridEnabled: Bool {
-        return featureFlags.carExtraFieldsEnabled.isActive
-    }
-    
     var shouldShowScrollingPageControl: Bool {
         return featureFlags.proUsersExtraImages.isActive
     }

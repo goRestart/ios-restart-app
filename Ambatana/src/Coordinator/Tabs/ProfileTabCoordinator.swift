@@ -71,7 +71,8 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
                                            listingCanBeBoosted: false,
                                            timeSinceLastBump: nil,
                                            maxCountdown: 0,
-                                           onEditAction: nil)
+                                           onEditAction: nil,
+                                           onCancelEditAction: nil)
         navigationController.present(vc, animated: true)
     }
 
@@ -111,7 +112,7 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         let wireframe = LGSmokeTestWireframe(feature: feature,
                                              assembly: smokeTestAssembly,
                                              userAvatarInfo: userAvatarInfo)
-        wireframe.navigator = navigationController
+        wireframe.navigationController = navigationController
         wireframe.openOnBoarding()
     }
 
