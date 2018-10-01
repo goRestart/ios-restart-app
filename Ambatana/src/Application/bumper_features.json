@@ -353,5 +353,10 @@
         "name": "ImageSizesNotificationCenter",
         "values": ["control", "baseline", "nineSix", "oneTwoEight"],
         "description": "[RETENTION] Notification center with different thumbnails sizes"
+    },
+    {
+        "name": "BoostSmokeTest",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
+        "description": "[VERTICALS] Show Boost and Super Boost Smoke Test"
     }
 ]

@@ -77,6 +77,7 @@ protocol FeatureFlaggeable: class {
     var realEstatePromoCells: RealEstatePromoCells { get }
     var clickToTalk: ClickToTalk { get }
     var proUsersExtraImages: ProUsersExtraImages { get }
+    var boostSmokeTest: BoostSmokeTest { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
@@ -191,6 +192,10 @@ extension ProUsersExtraImages {
 }
 
 extension ClickToTalk {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension BoostSmokeTest {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
@@ -1117,6 +1122,13 @@ extension FeatureFlags {
             return Bumper.clickToTalk
         }
         return ClickToTalk.fromPosition(abTests.clickToTalk.value)
+    }
+    
+    var boostSmokeTest: BoostSmokeTest {
+        if Bumper.enabled {
+            return Bumper.boostSmokeTest
+        }
+        return .control //BoostSmokeTest.fromPosition(abTests.boostSmokeTest.value)
     }
 }
 

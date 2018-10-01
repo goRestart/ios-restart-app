@@ -81,6 +81,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var realEstatePromoCells: RealEstatePromoCells = .control
     var proUsersExtraImages: ProUsersExtraImages = .control
     var clickToTalk: ClickToTalk = .control
+    var boostSmokeTest: BoostSmokeTest = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control

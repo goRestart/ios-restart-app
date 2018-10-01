@@ -87,6 +87,7 @@ extension Bumper  {
         flags.append(MakeAnOfferButton.self)
         flags.append(NewSearchAPIEndPoint.self)
         flags.append(ImageSizesNotificationCenter.self)
+        flags.append(BoostSmokeTest.self)
         Bumper.initialize(flags)
     } 
 
@@ -1009,6 +1010,19 @@ extension Bumper  {
     static var imageSizesNotificationCenterObservable: Observable<ImageSizesNotificationCenter> {
         return Bumper.observeValue(for: ImageSizesNotificationCenter.key).map {
             ImageSizesNotificationCenter(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var boostSmokeTest: BoostSmokeTest {
+        guard let value = Bumper.value(for: BoostSmokeTest.key) else { return .control }
+        return BoostSmokeTest(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var boostSmokeTestObservable: Observable<BoostSmokeTest> {
+        return Bumper.observeValue(for: BoostSmokeTest.key).map {
+            BoostSmokeTest(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2155,6 +2169,27 @@ enum ImageSizesNotificationCenter: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .nineSix
             case 3: return .oneTwoEight
+            default: return .control
+        }
+    }
+}
+
+enum BoostSmokeTest: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC, variantD, variantE, variantF
+    static var defaultValue: String { return BoostSmokeTest.control.rawValue }
+    static var enumValues: [BoostSmokeTest] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD, .variantE, .variantF]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[VERTICALS] Show Boost and Super Boost Smoke Test" } 
+    static func fromPosition(_ position: Int) -> BoostSmokeTest {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
+            case 5: return .variantD
+            case 6: return .variantE
+            case 7: return .variantF
             default: return .control
         }
     }
