@@ -1,11 +1,11 @@
 final class EditLocationStandardWireframe: EditLocationNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     init(nc: UINavigationController) {
         self.nc = nc
     }
 
     func closeEditLocation() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 }

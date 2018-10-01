@@ -1,13 +1,13 @@
 import Foundation
 
 final class MediaViewerStandardWireframe: MediaViewerNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     init(nc: UINavigationController) {
         self.nc = nc
     }
 
     func closeMediaViewer() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 }

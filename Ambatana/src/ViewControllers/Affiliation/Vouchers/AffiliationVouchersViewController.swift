@@ -138,9 +138,14 @@ final class AffiliationVouchersViewController: BaseViewController {
 
     private func update(with error: LGEmptyViewModel) {
         dismissLoadingMessageAlert()
-        let action = UIAction(interface: .button(R.Strings.commonErrorListRetryButton,
+        let action: UIAction?
+        if let errorAction = error.action {
+            action = UIAction(interface: .button(R.Strings.commonErrorListRetryButton,
                                                  .primary(fontSize: .medium)),
-                              action: error.action ?? {} )
+                              action: errorAction)
+        } else {
+            action = nil
+        }
         errorView.populate(message: error.title ?? R.Strings.affiliationStoreUnknownErrorMessage,
                            image: error.icon ?? R.Asset.Affiliation.Error.errorOops.image,
                            action: action)

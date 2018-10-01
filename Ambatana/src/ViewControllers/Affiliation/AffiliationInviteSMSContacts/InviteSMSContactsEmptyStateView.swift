@@ -65,7 +65,10 @@ final class InviteSMSContactsEmptyStateView: UIView {
         if let action = action {
             retryButton.configureWith(uiAction: action)
             self.cta = action
+            retryButton.isHidden = false
             retryButton.addTarget(self, action: #selector(didTapRetry), for: .touchUpInside)
+        } else {
+            retryButton.isHidden = true
         }
     }
     

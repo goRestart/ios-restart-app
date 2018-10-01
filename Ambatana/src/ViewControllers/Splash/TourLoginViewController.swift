@@ -18,7 +18,8 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet var orDividerViews: [UIView]!
     @IBOutlet weak var orUseEmailLabel: UILabel!
     @IBOutlet weak var orUseEmailLabelTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var emailButtonJustText: UIButton!
+    @IBOutlet weak var emailButton: LetgoButton!
+    @IBOutlet weak var emailButtonImage: UIImageView!
     @IBOutlet weak var emailButtonTopContraint: NSLayoutConstraint!
     @IBOutlet weak var mainViewBottomConstraint: NSLayoutConstraint!
 
@@ -130,8 +131,10 @@ fileprivate extension TourLoginViewController {
         googleIcon.image = R.Asset.IconsButtons.icGoogleRounded.image
         orUseEmailLabel.text = R.Strings.tourOrLabel
         orUseEmailLabel.font = UIFont.smallBodyFont
-        
-        emailButtonJustText.isHidden = false
+
+        emailButton.setStyle(.transparent(fontSize: .medium, sidePadding: 0))
+        emailButton.isHidden = false
+        emailButtonImage.image = R.Asset.IconsButtons.icPasswordlessEmailWhite.image
 
         footerTextView.textAlignment = .center
         footerTextView.delegate = self
@@ -140,7 +143,7 @@ fileprivate extension TourLoginViewController {
         claimLabel.text = R.Strings.tourClaimLabel
         facebookButton.setTitle(R.Strings.tourFacebookButton, for: .normal)
         googleButton.setTitle(R.Strings.tourGoogleButton, for: .normal)
-        emailButtonJustText.setTitle(R.Strings.tourContinueWEmail, for: .normal)
+        emailButton.setTitle(R.Strings.tourContinueWEmail, for: .normal)
         footerTextView.attributedText = viewModel.attributedLegalText
     }
 
@@ -155,14 +158,14 @@ fileprivate extension TourLoginViewController {
     func setupAccessibilityIds() {
         facebookButton.set(accessibilityId: .tourFacebookButton)
         googleButton.set(accessibilityId: .tourGoogleButton)
-        emailButtonJustText.set(accessibilityId: .tourEmailButton)
+        emailButton.set(accessibilityId: .tourEmailButton)
     }
 
     func setupLines() {
         // Redraw the lines
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
-        orDividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: UIColor.white)) }
+        orDividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: .white)) }
     }
 
     @objc private func openAdminPanel() {

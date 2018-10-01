@@ -18,6 +18,7 @@ struct ProductsABGroup: ABGroupType {
         static let deckItemPage = "20180704DeckItemPage"
         static let frictionlessShare = "20180716FrictionlessShare"
         static let freePostingTurkey = "20180817FreePostingTurkey"
+        static let makeAnOfferButton = "20180904MakeAnOfferButton"
     }
     
     let servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>
@@ -27,6 +28,7 @@ struct ProductsABGroup: ABGroupType {
     let deckItemPage: LeanplumABVariable<Int>
     let frictionlessShare: LeanplumABVariable<Int>
     let turkeyFreePosting: LeanplumABVariable<Int>
+    let makeAnOfferButton: LeanplumABVariable<Int>
 
     let group: ABGroup = .products
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -40,7 +42,8 @@ struct ProductsABGroup: ABGroupType {
          simplifiedChatButton: LeanplumABVariable<Int>,
          deckItemPage: LeanplumABVariable<Int>,
          frictionlessShare: LeanplumABVariable<Int>,
-         turkeyFreePosting: LeanplumABVariable<Int>) {
+         turkeyFreePosting: LeanplumABVariable<Int>,
+         makeAnOfferButton: LeanplumABVariable<Int>) {
         self.servicesCategoryOnSalchichasMenu = servicesCategoryOnSalchichasMenu
         self.predictivePosting = predictivePosting
         self.videoPosting = videoPosting
@@ -48,13 +51,15 @@ struct ProductsABGroup: ABGroupType {
         self.deckItemPage = deckItemPage
         self.frictionlessShare = frictionlessShare
         self.turkeyFreePosting = turkeyFreePosting
+        self.makeAnOfferButton = makeAnOfferButton
         intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu,
                                          predictivePosting,
                                          videoPosting,
                                          simplifiedChatButton,
                                          deckItemPage,
                                          frictionlessShare,
-                                         turkeyFreePosting])
+                                         turkeyFreePosting,
+                                         makeAnOfferButton])
     }
 
     static func make() -> ProductsABGroup {
@@ -78,7 +83,9 @@ struct ProductsABGroup: ABGroupType {
                                                            groupType: .products),
                                turkeyFreePosting: .makeInt(key: Keys.freePostingTurkey,
                                                            defaultValue: 0,
+                                                           groupType: .products),
+                               makeAnOfferButton: .makeInt(key: Keys.makeAnOfferButton,
+                                                           defaultValue: 0,
                                                            groupType: .products))
     }
 }
-

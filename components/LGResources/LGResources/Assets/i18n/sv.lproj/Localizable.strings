@@ -1,6 +1,6 @@
 "account_pending_moderation" = "Konto väntar på att modereras";
 "account_pending_moderation_w_name" = "%@s konto väntar på att modereras";
-"advertising_default_cta" = "Read more";
+"advertising_default_cta" = "Läs mer";
 "advertising_text" = "Reklam";
 "affiliation_challenges_invite_friends_button" = "Bjud in vänner";
 "affiliation_challenges_invite_friends_description" = "Bjud in %1$@ vänner för att tjäna %2$@ poäng. Bjud in ytterligare %3$@ vänner för att tjäna %4$@ extra poäng!";
@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Belöningsbutik";
 "affiliation_store_unknown_error_message" = "Hoppsan! Ett fel inträffade när belöningarna skulle laddas.";
 "affiliation_store_view_history" = "Historik";
+"affiliation_store_view_history_empty" = "Inga belöningar i din historik än.";
 "affiliation_wallet_open_store_button" = "Se belöningar";
 "affiliation_wallet_points_label" = "P.";
 "affiliation_wallet_title" = "DIN PLÅNBOK";
@@ -834,9 +835,9 @@
 "payment_frequency_per_year" = "år";
 "payment_payout_navbar_title" = "Betalning";
 "payment_payout_payment_availability" = "Få pengarna inom %@";
-"payment_payout_payment_fee" = "Transaktionsavgift (%@)";
+"payment_payout_payment_fee" = "Transaction fee (%@)";
 "payment_payout_payment_instant_subtitle_label" = "Få pengarna inom 1 timme";
-"payment_payout_payment_instant_title_label" = "Transaktionsavgift";
+"payment_payout_payment_instant_title_label" = "Transaktionsavgift (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Få pengarna inom 3-7 dagar";
 "payment_payout_payment_standar_title_label" = "GRATIS";
 "payment_payout_payment_type_instant" = "Snarast";
@@ -846,8 +847,8 @@
 "payments_change_offer_confirmation_button" = "Lägg ett nytt bud";
 "payments_change_offer_invalid_amount_alert_button" = "Ok";
 "payments_change_offer_invalid_amount_alert_message" = "Hoppsan! Ditt bud måste ligga mellan %@ och %@.";
-"payments_common_contact_us_option" = "Contact us";
-"payments_common_faqs_option" = "FAQ";
+"payments_common_contact_us_option" = "Kontakta oss";
+"payments_common_faqs_option" = "Frågor & Svar";
 "payments_create_offer_buyer_protection_description_label" = "Betala via letgo så slutförs din betalning endast efter att du har bekräftat att du vill behålla varan";
 "payments_create_offer_buyer_protection_title_label" = "Köparskydd";
 "payments_create_offer_change_button" = "Ändra";
@@ -1237,6 +1238,9 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Ange telefonnummer";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Tack för att du kontaktat oss! Vänligen ring oss eller lägg till ditt nummer så vi kan ringa upp dig.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Tack för att du lämnat ditt telefonnummer! Det är alltid bättre att slå oss en signal med hjälp av ringknappen ovan.";
+"profile_ask_verification_button_disabled" = "Verifikation begärt!";
+"profile_ask_verification_button_enabled" = "Be %@ att verifiera sin profil";
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 "profile_bio_add_button" = "Lägg till din bio";
 "profile_bio_show_more_button" = "MER OM MIG";
 "profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";

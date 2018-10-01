@@ -54,20 +54,12 @@ final class BannerSectionController: ListSectionController {
             adData = diffWrapper.value
         }
     }
-    
-    private func updateAdView(bannerView: GADBannerView, size: CGSize) {
-        self.bannerView = bannerView
-        self.bannerView.delegate = self
-        self.bannerView.adSizeDelegate = self
-        updatedAdData(withView: bannerView, size: size)
-    }
-    
-    private func updatedAdData(withView adView: UIView, size:CGSize) {
+
+    private func updatedAdData(withSize size: CGSize) {
         guard let adData = adData else { return }
         self.adData = AdData.Lenses.height.set(size.height, adData)
-        delegate?.updatedAd()
+        delegate?.updatedAd(isBannerSection: true)
     }
-    
 }
 
 // MARK: - GADAdSizeDelegate, GADBannerViewDelegate
@@ -79,8 +71,10 @@ extension BannerSectionController: GADAdSizeDelegate, GADBannerViewDelegate {
     
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
         logMessage(.info, type: .monetization, message: "Banner Section banner received: \(bannerView)")
-        updateAdView(bannerView: bannerView, size: CGSizeFromGADAdSize(bannerView.adSize))
         let bannerSize = bannerView.adSize.size
+
+        updatedAdData(withSize: bannerSize)
+
         let adType = AdRequestType.dfp.trackingParamValueFor(size: bannerSize)
         let trackerEvent = TrackerEvent.adShown(listingId: nil,
                                                 adType: adType,
@@ -111,7 +105,5 @@ extension BannerSectionController: GADAdSizeDelegate, GADBannerViewDelegate {
                                                  typePage: .feed,
                                                  categories: nil, feedPosition: .none)
         tracker.trackEvent(trackerEvent)
-        
     }
-    
 }

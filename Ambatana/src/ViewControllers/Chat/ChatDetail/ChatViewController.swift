@@ -9,11 +9,13 @@ final class ChatViewController: TextViewController {
     private var cellMapViewer: CellMapViewer = CellMapViewer()
     private let connectionStatusView = ChatConnectionStatusView()
     private var connectionStatusViewTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
-
+    private let chatPaymentBannerView = ChatPaymentBannerView()
+    
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
     let professionalSellerBannerHeight: CGFloat = 44
+    private let quickAnswerBottomHeight: CGFloat = 50
 
     let listingView: ChatListingView
     let chatDetailHeader: ChatDetailNavBarInfoView
@@ -95,6 +97,7 @@ final class ChatViewController: TextViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupRelatedProducts()
@@ -105,13 +108,10 @@ final class ChatViewController: TextViewController {
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
+        
+        setupRxBindings()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-         setupRxBindings()
-    }
-
+ 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
@@ -127,7 +127,12 @@ final class ChatViewController: TextViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableView.contentInset.bottom = tableViewInsetBottom
+        tableView.contentInset.bottom = tableViewInsetBottom
+
+        if featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
+            let topSpace = viewModel.thereAreMessagesSent ? 0: quickAnswerBottomHeight
+            tableView.contentInset.top = topSpace
+        }
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
@@ -265,6 +270,15 @@ final class ChatViewController: TextViewController {
             connectionStatusView.cornerRadius = ChatConnectionStatusView.standardHeight/2
             connectionStatusView.alpha = 0
         }
+
+        view.addSubviewForAutoLayout(chatPaymentBannerView)
+        
+        let chatPaymentBannerConstraints = [
+            chatPaymentBannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            chatPaymentBannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            chatPaymentBannerView.topAnchor.constraint(equalTo: safeTopAnchor)
+        ]
+        chatPaymentBannerConstraints.activate()
     }
 
     fileprivate func setupRelatedProducts() {
@@ -537,7 +551,7 @@ fileprivate extension ChatViewController {
             case .insert, .remove, .composite, .swap, .move:
                 self?.tableView.handleCollectionChange(change)
             }
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.interlocutorProfessionalInfo.asObservable()
             .map { !$0.isProfessional }
@@ -669,6 +683,37 @@ fileprivate extension ChatViewController {
             .skip(1)
             .bind(to: viewModel.chatBoxText)
             .disposed(by: disposeBag)
+        
+
+        viewModel.listingName.asObservable().subscribeNext { [weak viewModel, weak self] _ in
+            guard let viewModel = viewModel else { return }
+            guard let buyerId = viewModel.buyerId, let sellerId = viewModel.sellerId, let listingId = viewModel.listingIdentifier else { return }
+
+            let params = P2PPaymentStateParams(buyerId: buyerId, sellerId: sellerId, listingId: listingId)
+
+            self?.chatPaymentBannerView.configure(with: params)
+        }.disposed(by: disposeBag)
+
+        let actionButtonEvent = chatPaymentBannerView
+            .actionButtonEvent
+            .asObservable()
+        
+        actionButtonEvent.subscribeNext { [weak self] event in
+            switch event {
+            case .makeOffer:
+                self?.viewModel.makeAnOfferButtonPressed()
+            case .viewOffer(offerId: let id):
+                self?.viewModel.viewOfferButtonPressed(offerId: id)
+            case .viewPayCode(offerId: let id):
+                self?.viewModel.viewPayCodeButtonPressed(offerId: id)
+            case .exchangeCode(offerId: let id):
+                self?.viewModel.exchangeCodeButtonPressed(offerId: id)
+            case .payout(offerId: let id):
+                self?.viewModel.payoutButtonPressed(offerId: id)
+            case .none:
+                break // Do nothing
+            }
+        }.disposed(by: disposeBag)
     }
 }
 

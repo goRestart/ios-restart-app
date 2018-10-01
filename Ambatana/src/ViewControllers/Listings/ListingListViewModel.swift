@@ -78,6 +78,8 @@ final class ListingListViewModel: BaseViewModel {
     
     var listingListFixedInset: CGFloat = 10.0
     
+    var pullToRefreshTriggered = false
+    
     // Delegates
     weak var delegate: ListingListViewModelDelegate?
     weak var dataDelegate: ListingListViewModelDataDelegate?
@@ -345,9 +347,10 @@ final class ListingListViewModel: BaseViewModel {
         }
     }
 
-    func refresh(shouldSaveToCache: Bool = false) {
+    func refresh(shouldSaveToCache: Bool = false, pullToRefreshTriggered: Bool = false) {
         refreshing = true
         self.shouldSaveToCache = shouldSaveToCache
+        self.pullToRefreshTriggered = pullToRefreshTriggered
         if !retrieveListings() {
             refreshing = false
             delegate?.vmDidFinishLoading(self, page: 0, indexes: [])
@@ -372,7 +375,7 @@ final class ListingListViewModel: BaseViewModel {
     }
 
     func refreshControlTriggered() {
-        refresh(shouldSaveToCache: shouldSaveToCache)
+        refresh(shouldSaveToCache: shouldSaveToCache, pullToRefreshTriggered: true)
     }
 
     func reloadData() {

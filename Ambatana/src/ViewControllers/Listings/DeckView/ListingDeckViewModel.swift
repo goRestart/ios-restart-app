@@ -84,8 +84,6 @@ final class ListingDeckViewModel: BaseViewModel {
     fileprivate let isFavorite: BehaviorRelay<Bool> = .init(value: false)
     private var favoriteCache: [String: Bool] = [:]
 
-    fileprivate let isMine: BehaviorRelay<Bool> = .init(value: false)
-
     let imageDownloader: ImageDownloaderType
     private var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo? {
         guard let id = trackingIdentifier, let position = trackingIndex else {
@@ -262,7 +260,6 @@ final class ListingDeckViewModel: BaseViewModel {
             forceCurrentUpdate(listing: listing)
             currentListingViewModel.active = true
             currentListingViewModel.delegate = self
-            isMine.accept(currentListingViewModel.isMine)
             quickChatViewModel.sectionFeedChatTrackingInfo = sectionFeedChatTrackingInfo
 
             currentIndex = index
@@ -422,9 +419,8 @@ final class ListingDeckViewModel: BaseViewModel {
         keyValueStorage[.didShowCardGesturesOnBoarding] = true
     }
 
-    func showListingDetail(at index: Int) {
-        guard let listing = objects.value[safeAt: index]?.listing else { return }
-        navigator?.openListingDetail(listing, source: source)
+    func showListingDetail() {
+        navigator?.openListingDetail(withVM: currentListingViewModel, source: source)
     }
 
     func showBumpUpView(_ action: DeckActionOnFirstAppear) {

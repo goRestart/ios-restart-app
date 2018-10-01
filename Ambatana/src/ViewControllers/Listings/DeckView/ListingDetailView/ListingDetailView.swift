@@ -11,6 +11,7 @@ private enum Map {
 private enum Layout {
     static let mapHeight: CGFloat = 115
     static let scrollBottomInset: CGFloat = 3*Metrics.bigMargin
+    static let galleryHeight: CGFloat = 220
 }
 
 final class ListingDetailView: UIView {
@@ -26,14 +27,9 @@ final class ListingDetailView: UIView {
     var pageControlTop: NSLayoutConstraint?
     private let pageControl = ListingCardPageControl()
 
-    private let mainImageView: UIImageView = {
-        let img = UIImageView()
-        img.clipsToBounds = true
-        img.image = R.Asset.BackgroundsAndImages.bg1New.image
-        img.contentMode = .scaleAspectFill
-        return img
-    }()
-    private var carousel: ListingCardMediaCarousel?
+    private let mediaView: PhotoMediaViewerView
+    private var mediaViewModel: PhotoMediaViewerViewModel?
+    private var carousel = ListingCardMediaCarousel(media: [], currentIndex: 0)
 
     private lazy var headerStackView: UIStackView = {
         let stackView = UIStackView.vertical([titleLabel, priceLabel])
@@ -114,6 +110,7 @@ final class ListingDetailView: UIView {
         label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
+
     private let socialShareView: SocialShareView = {
         let view = SocialShareView()
         view.style = .grid
@@ -134,15 +131,26 @@ final class ListingDetailView: UIView {
     }
 
     override init(frame: CGRect) {
+        self.mediaView = PhotoMediaViewerView(frame: CGRect(origin: frame.origin,
+                                                            size: CGSize(width: frame.width, height: Layout.galleryHeight)))
         super.init(frame: frame)
         setupUI()
     }
 
+    func set(socialSharer: SocialSharer?, socialMessage: SocialMessage?, socialDelegate: SocialShareViewDelegate) {
+        socialShareView.delegate = socialDelegate
+        socialShareView.socialMessage = socialMessage
+        socialShareView.socialSharer = socialSharer
+    }
+
     private func setupUI() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapGallery))
+        mediaView.addGestureRecognizer(tap)
+
         detailMapView.addGestureRecognizer(mapTap)
 
         addSubviewsForAutoLayout([scrollView])
-        scrollView.addSubviewsForAutoLayout([mainImageView, pageControl, headerStackView, detailLabel,
+        scrollView.addSubviewsForAutoLayout([mediaView, pageControl, headerStackView, detailLabel,
                                              statsView, userView, detailMapView, bannerContainer,
                                              socialMediaHeader, socialShareView, whiteBackground])
 
@@ -161,13 +169,13 @@ final class ListingDetailView: UIView {
             pageControl.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
             pageControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
 
-            mainImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3),
-            mainImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            mainImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            mainImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            mainImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            mediaView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3),
+            mediaView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mediaView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            mediaView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            mediaView.centerXAnchor.constraint(equalTo: centerXAnchor),
 
-            headerStackView.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: Metrics.bigMargin),
+            headerStackView.topAnchor.constraint(equalTo: mediaView.bottomAnchor, constant: Metrics.bigMargin),
             headerStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Metrics.bigMargin),
             headerStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Metrics.bigMargin),
 
@@ -275,6 +283,16 @@ final class ListingDetailView: UIView {
         bannerContainerToSocialView?.isActive = enabled
         setNeedsLayout()
     }
+
+    @objc private func didTapGallery(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: self)
+        let isLeft = location.x / self.width < 0.5
+        if isLeft {
+            updateWith(carousel: carousel.makePrevious())
+        } else {
+            updateWith(carousel: carousel.makeNext())
+        }
+    }
 }
 
 extension Reactive where Base: ListingDetailView {
@@ -282,19 +300,28 @@ extension Reactive where Base: ListingDetailView {
 }
 
 extension ListingDetailView {
-    func populateWith(media: [Media]) {
-        updateWith(carousel: ListingCardMediaCarousel(media: media, current: 0))
+    func populateWith(media: [Media], currentIndex: Int) {
+        let carousel = ListingCardMediaCarousel(media: media, currentIndex: currentIndex)
+        let vm = PhotoMediaViewerViewModel(tag: 0,
+                                           media: carousel.media,
+                                           backgroundColor: .white,
+                                           placeholderImage: nil,
+                                           imageDownloader: ImageDownloader.sharedInstance)
+        mediaViewModel = vm
+        mediaView.set(viewModel: vm)
+        mediaView.reloadData()
+
+        updateWith(carousel: carousel)
     }
 
     private func updateWith(carousel: ListingCardMediaCarousel) {
         pageControl.isHidden = carousel.media.count <= 1
 
         pageControl.setPages(carousel.media.count)
-        pageControl.turnOnAt(carousel.current)
+        pageControl.turnOnAt(carousel.currentIndex)
         self.carousel = carousel
 
-        guard let url = carousel.media[safeAt: carousel.current]?.outputs.image else { return }
-        mainImageView.lg_setImageWithURL(url)
+        mediaViewModel?.setIndex(carousel.currentIndex)
     }
 
     func populateWith(title: String?) {

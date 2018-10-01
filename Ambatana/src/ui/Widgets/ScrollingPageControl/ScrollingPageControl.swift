@@ -9,24 +9,25 @@ final class ScrollingPageControl: UIView {
         static let interItemSpacing: CGFloat = 3.0
     }
     
-    private enum Direction {
+    enum Direction {
         case up, down
     }
     
-    private(set) var numberOfPages: Int = 0
-    private var currentPage: Int = 0
-    private let adjacentIndexThreshold: Int = 2
+    private(set) var numberOfPages = 0
+    private var currentPage = 0
+    private let adjacentIndexThreshold = 2
     
     private var itemColor: UIColor
     private let deselectedItemColor: UIColor
-    
+
     private var dotViews: [PageItemDotView] = []
     
     var displayCurrentPage: Int {
         return currentPage + 1
     }
     
-    private var previouslySelectedPage: Int = 0
+    private var previouslySelectedPage = 0
+    private var directionChangeSourcePage = 0
     
     private var currentScrollDirection: ScrollingPageControl.Direction {
         if currentPage >= previouslySelectedPage {
@@ -71,8 +72,14 @@ final class ScrollingPageControl: UIView {
     }
     
     func updateCurrentPage(to nextPage: Int, animated: Bool = true) {
+        let previousScrollDirection = currentScrollDirection
         previouslySelectedPage = currentPage
         self.currentPage = nextPage
+        
+        if previousScrollDirection != currentScrollDirection {
+            directionChangeSourcePage = previouslySelectedPage
+        }
+        
         updateItemsState(forSelectedIndex: currentPage, animated: animated)
 
         scrollToItem(atIndex: currentPage)
@@ -132,7 +139,7 @@ final class ScrollingPageControl: UIView {
         dotViews = []
     }
     
-    private func updateItemsState(forSelectedIndex selectedIndex: Int, animated: Bool = true) {
+    private func updateItemsState(forSelectedIndex selectedIndex: Int, animated: Bool) {
         for (index, item) in dotViews.enumerated() {
             let selectionState = calculateState(forItemAtIndex: index,
                                                 selectedIndex: selectedIndex)
@@ -150,7 +157,7 @@ final class ScrollingPageControl: UIView {
                 scrollView.scrollRectToVisible(rect, animated: true)
             }
         case .up:
-            let headingOffset = 2
+            let headingOffset = 1
             let headingIndex = index-headingOffset
             let rect = frameForItem(atIndex: headingIndex)
             scrollView.scrollRectToVisible(rect, animated: true)
@@ -164,35 +171,19 @@ final class ScrollingPageControl: UIView {
             return .selected
         }
         
-        switch currentScrollDirection {
-        case .down:
-            if (index >= selectedIndex-adjacentIndexThreshold && index < selectedIndex) ||
-                (selectedIndex <= adjacentIndexThreshold && index <= adjacentIndexThreshold) {
-                return .adjacent
-            } else if (index == selectedIndex-(adjacentIndexThreshold+1))
-                || (index == selectedIndex+1)
-                || (selectedIndex <= adjacentIndexThreshold && index == (adjacentIndexThreshold+1)) {
-                return .small
-            } else if (index == selectedIndex-(adjacentIndexThreshold+2))
-                || (index == selectedIndex+2)
-                || (selectedIndex <= adjacentIndexThreshold && index == (adjacentIndexThreshold+2)) {
-                return .tiny
-            }
-        case .up:
-            let adjacentEndThreshold = (numberOfPages-1)-(adjacentIndexThreshold)
-            if (index <= selectedIndex+adjacentIndexThreshold && index > selectedIndex) ||
-                (selectedIndex >= adjacentEndThreshold && index >= adjacentEndThreshold) {
-                return .adjacent
-            } else if (index == selectedIndex+(adjacentIndexThreshold+1))
-                || (index == selectedIndex-1)
-                || (selectedIndex >= adjacentEndThreshold && index == (adjacentEndThreshold-1)) {
-                return .small
-            } else if (index == selectedIndex+(adjacentIndexThreshold+2))
-                || (index == selectedIndex-2)
-                || (selectedIndex >= adjacentEndThreshold
-                    && index == (adjacentEndThreshold-2)) {
-                return .tiny
-            }
+        let indexCalculator = ScrollingPageControlIndexCalculator(smallIndexOffset: 1,
+                                                                  tinyIndexOffset: 2,
+                                                                  selectedIndex: selectedIndex,
+                                                                  currentScrollDirection: currentScrollDirection,
+                                                                  directionChangeSourcePage: directionChangeSourcePage,
+                                                                  adjacentIndexThreshold: adjacentIndexThreshold)
+        
+        if indexCalculator.adjacentIndexes.contains(index) {
+            return .adjacent
+        } else if indexCalculator.smallIndexes.contains(index) {
+            return .small
+        } else if indexCalculator.tinyIndexes.contains(index) {
+            return .tiny
         }
 
         return .hidden
@@ -206,9 +197,11 @@ private final class PageItemDotView: UIView {
         case selected, adjacent, small, tiny, hidden
     }
     
-    private struct Layout {
+    private enum Layout {
         static let shadowBlurSize: CGFloat = 2.0
     }
+    
+    private let animationDuration: Double = 0.13
     
     private var selectionState: SelectionState
     private let deselectedColor: UIColor
@@ -217,10 +210,17 @@ private final class PageItemDotView: UIView {
         switch selectionState {
         case .selected:
             return tintColor
-        case .adjacent, .small, .tiny:
+        case .adjacent, .small, .tiny, .hidden:
             return deselectedColor
+        }
+    }
+    
+    private var stateAlpha: CGFloat {
+        switch selectionState {
+        case .adjacent, .selected, .small, .tiny:
+            return 1
         case .hidden:
-            return .clear
+            return 0
         }
     }
     
@@ -233,7 +233,7 @@ private final class PageItemDotView: UIView {
         case .tiny:
             return CATransform3DScale(CATransform3DIdentity, 0.4, 0.4, 1.0)
         case .hidden:
-            return CATransform3DScale(CATransform3DIdentity, 0.0, 0.0, 1.0)
+            return CATransform3DScale(CATransform3DIdentity, 0.4, 0.4, 1.0)
         }
     }
     
@@ -274,14 +274,15 @@ private final class PageItemDotView: UIView {
         ctx.fillPath()
     }
     
-    func updateSelectionState(to state: PageItemDotView.SelectionState, animated: Bool = true) {
+    func updateSelectionState(to state: PageItemDotView.SelectionState,
+                              animated: Bool) {
         selectionState = state
 
-        UIView.animate(withDuration: animated ? 0.13 : 0) {  
+        UIView.animate(withDuration: animated ? animationDuration : 0) {
+            self.alpha = self.stateAlpha
             self.updateTransform()
             self.setNeedsDisplay()
         }
-        
     }
     
     private func updateTransform() {

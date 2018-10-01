@@ -53,7 +53,7 @@ final class DevelopmentEnvironment: AppEnvironment {
     let sectionedFeedAdUnitForUS = "/21666124832/us/iOS/feed/300x250_var_a"
 
     // Stripe
-    let stripeAPIKey = "pk_test_ubL9uioHtnpGqKN5bzIRElxk"
+    let stripeAPIKey = "pk_test_TFRwcAkkYAM13r3Bw8hURnY7"
 
     private let _godmode: Bool
     

@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Tienda de recompensas";
 "affiliation_store_unknown_error_message" = "¡Ups! Se ha producido un error al cargar las recompensas.";
 "affiliation_store_view_history" = "Historial";
+"affiliation_store_view_history_empty" = "Todavía no hay recompensas en tu historial.";
 "affiliation_wallet_open_store_button" = "Ver recompensas";
 "affiliation_wallet_points_label" = "PUNTOS";
 "affiliation_wallet_title" = "TU CARTERA";
@@ -834,9 +835,9 @@
 "payment_frequency_per_year" = "año";
 "payment_payout_navbar_title" = "Cobro";
 "payment_payout_payment_availability" = "Consigue el dinero en %@";
-"payment_payout_payment_fee" = "Tasa por transacción (%@)";
+"payment_payout_payment_fee" = "Transaction fee (%@)";
 "payment_payout_payment_instant_subtitle_label" = "Recibe el dinero en menos de 1 hora";
-"payment_payout_payment_instant_title_label" = "Tasa por transacción";
+"payment_payout_payment_instant_title_label" = "Tasa por transacción (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Recibe el dinero en 3-7 días";
 "payment_payout_payment_standar_title_label" = "GRATIS";
 "payment_payout_payment_type_instant" = "Pago rápido";
@@ -1237,6 +1238,9 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Introducir número de teléfono";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "¡Gracias por contactarnos! Por favor, llámanos o añade tu número para que podamos llamarte.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "¡Gracias por añadir tu número! Siempre es mejor llamarnos usando el botón de llamada que hay más arriba.";
+"profile_ask_verification_button_disabled" = "¡Petición enviada!";
+"profile_ask_verification_button_enabled" = "Pídele a %@ que verifique su perfil";
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 "profile_bio_add_button" = "Añadir una bio";
 "profile_bio_show_more_button" = "MÁS SOBRE MÍ";
 "profile_blocked_by_me_label" = "Has bloqueado a este usuario";
