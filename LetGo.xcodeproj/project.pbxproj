@@ -1466,6 +1466,10 @@
 		50DBEE2D215E09F300E64142 /* AnalyticsSell24hMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE2B215E09F300E64142 /* AnalyticsSell24hMiddleware.swift */; };
 		50DBEE2F215E0B0400E64142 /* MockAnalyticsMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE2E215E0B0400E64142 /* MockAnalyticsMiddleware.swift */; };
 		50DBEE31215E0E0800E64142 /* AnalyticsSell24hMiddlewareSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE30215E0E0800E64142 /* AnalyticsSell24hMiddlewareSpec.swift */; };
+		50DBEE332162075600E64142 /* AnalyticsBuy24hMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE322162075600E64142 /* AnalyticsBuy24hMiddleware.swift */; };
+		50DBEE342162075600E64142 /* AnalyticsBuy24hMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE322162075600E64142 /* AnalyticsBuy24hMiddleware.swift */; };
+		50DBEE362162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE352162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift */; };
+		50DBEE372162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE352162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift */; };
 		50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */; };
 		50EAFB211F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EAFB201F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift */; };
 		50EAFB221F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EAFB201F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift */; };
@@ -3513,6 +3517,8 @@
 		50DBEE2B215E09F300E64142 /* AnalyticsSell24hMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSell24hMiddleware.swift; sourceTree = "<group>"; };
 		50DBEE2E215E0B0400E64142 /* MockAnalyticsMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsMiddleware.swift; sourceTree = "<group>"; };
 		50DBEE30215E0E0800E64142 /* AnalyticsSell24hMiddlewareSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSell24hMiddlewareSpec.swift; sourceTree = "<group>"; };
+		50DBEE322162075600E64142 /* AnalyticsBuy24hMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsBuy24hMiddleware.swift; sourceTree = "<group>"; };
+		50DBEE352162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsBuySell24hMiddleware.swift; sourceTree = "<group>"; };
 		50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactSubject.swift; sourceTree = "<group>"; };
 		50EAFB201F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSuggestiveSearch.swift; sourceTree = "<group>"; };
 		50EAFB231F7A2CE5003B96D5 /* LocalSuggestiveSearchSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSuggestiveSearchSpec.swift; sourceTree = "<group>"; };
@@ -7068,6 +7074,8 @@
 		50DBEE27215E09A400E64142 /* Middleware */ = {
 			isa = PBXGroup;
 			children = (
+				50DBEE322162075600E64142 /* AnalyticsBuy24hMiddleware.swift */,
+				50DBEE352162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift */,
 				50DBEE28215E09C600E64142 /* AnalyticsMiddleware.swift */,
 				50DBEE2B215E09F300E64142 /* AnalyticsSell24hMiddleware.swift */,
 			);
@@ -10053,6 +10061,7 @@
 				D4BFE5B41B640C36006A8CB6 /* MainListingsViewController.swift in Sources */,
 				2E212C6820FCDEE500FB42B3 /* ChatMyCallToActionCellDrawer.swift in Sources */,
 				0A8732DE21215C77006DEF11 /* SimpleListingBuilder.swift in Sources */,
+				50DBEE332162075600E64142 /* AnalyticsBuy24hMiddleware.swift in Sources */,
 				C66105ED2136D3D500BA4EF7 /* AnnotatedScrollingPageControlView.swift in Sources */,
 				C7DE8ADC1C88A8E5005CF37E /* PostListingViewModel.swift in Sources */,
 				50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
@@ -10934,6 +10943,7 @@
 				42A27EC82126DAA300E2ABC5 /* GADNativeAdViewFactory.swift in Sources */,
 				0AF28D86213ECEC2005A6F8C /* ListingsMapBuilder.swift in Sources */,
 				50560B9B1B25D18F0021D8D9 /* TabBarController.swift in Sources */,
+				50DBEE362162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift in Sources */,
 				0AF5EB661FD0112E001DFAE2 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				015E4FDE204FFC090094FF20 /* BlockingPostingLoadingView.swift in Sources */,
 				8E0C9DF41E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */,
@@ -11929,6 +11939,7 @@
 				0A376D9F214C511300DFFB7F /* AffiliationStorePointsView.swift in Sources */,
 				2E6691B01FBDE45700FC2A77 /* PromoteBumpViewModel.swift in Sources */,
 				0ACC843A2135838400803D66 /* TourNotificationsBuilder.swift in Sources */,
+				50DBEE372162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift in Sources */,
 				C25C371720A18DE700B0C9E0 /* ProductsABGroup.swift in Sources */,
 				55F90BA1203C3E1000D9F7D0 /* UserProfileHeaderView.swift in Sources */,
 				42D3214621510796002B44FC /* LGPlansView.swift in Sources */,
@@ -11944,6 +11955,7 @@
 				C2636F6F208B7A9600534D01 /* PreSignedUploadUrlForm+LG.swift in Sources */,
 				2E4C60A61DDF61B300595490 /* ChatBanner.swift in Sources */,
 				C7DE8AC81C888761005CF37E /* EditListingViewController.swift in Sources */,
+				50DBEE342162075600E64142 /* AnalyticsBuy24hMiddleware.swift in Sources */,
 				0A6FECAD2130343F00B57004 /* PopupLoginModalWireframe.swift in Sources */,
 				0A6FECF12130344000B57004 /* MeetingAssistantNavigator.swift in Sources */,
 				0A2F52B921231AC70034EF85 /* CarAttributeSelectionBuilder.swift in Sources */,
