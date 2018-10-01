@@ -12,7 +12,6 @@ final class ABTestsSpec: QuickSpec {
         var sut: ABTests!
 
         var legacy: LegacyABGroup!
-        var realEstate: RealEstateABGroup!
         var verticals: VerticalsABGroup!
         var retention: RetentionABGroup!
         var money: MoneyABGroup!
@@ -30,7 +29,6 @@ final class ABTestsSpec: QuickSpec {
                 sut = ABTests(syncer: syncer)
 
                 legacy = LegacyABGroup.make()
-                realEstate = RealEstateABGroup.make()
                 verticals = VerticalsABGroup.make()
                 core = CoreABGroup.make()
                 chat = ChatABGroup.make()
@@ -46,7 +44,7 @@ final class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 74
+                    expect(syncer.syncedCount) == 73
                 }
             }
             context("registering all the variables") {
@@ -54,7 +52,7 @@ final class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                     uniqueSyncer = LeamplumSyncerCounter()
 
-                    let abGroups: [ABGroupType] = [legacy, realEstate,
+                    let abGroups: [ABGroupType] = [legacy,
                                                    verticals, retention,
                                                    core, chat,
                                                    money, users,
@@ -127,36 +125,6 @@ final class ABTestsSpec: QuickSpec {
                 }
                 it("the variables registered are correct") {
                     expect(syncer.syncedCount) == 4
-                }
-            }
-
-            context("registering all the real estate variables") {
-                it("the realestate int variable registered is correct") {
-                    expect(realEstate.intVariables.count) == 1
-                }
-
-                it("the realestate bool variable registered are correct") {
-                    expect(realEstate.boolVariables.count) == 0
-                }
-
-                it("the realestate string variable registered are correct") {
-                    expect(realEstate.stringVariables.count) == 0
-                }
-
-                it("the realestate float variable registered are correct") {
-                    expect(realEstate.floatVariables.count) == 0
-                }
-            }
-
-            context("manually registering all the real estate variables") {
-                beforeEach {
-                    syncer.sync(variables: realEstate.intVariables)
-                    syncer.sync(variables: realEstate.boolVariables)
-                    syncer.sync(variables: realEstate.stringVariables)
-                    syncer.sync(variables: realEstate.floatVariables)
-                }
-                it("the variables registered is correct") {
-                    expect(syncer.syncedCount) == 1
                 }
             }
 

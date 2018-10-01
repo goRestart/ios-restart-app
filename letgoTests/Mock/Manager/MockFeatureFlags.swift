@@ -22,7 +22,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var deckItemPage: NewItemPageV3 = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
-    var realEstateNewCopy: RealEstateNewCopy = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var mutePushNotifications: MutePushNotifications = .control

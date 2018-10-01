@@ -19,7 +19,6 @@ protocol FeatureFlaggeable: class {
     var deckItemPage: NewItemPageV3 { get }
 
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
-    var realEstateNewCopy: RealEstateNewCopy { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var mutePushNotifications: MutePushNotifications { get }
@@ -149,10 +148,6 @@ extension RealEstateEnabled {
 
 extension ShowAdsInFeedWithRatio {
     var isActive: Bool { return self != .control && self != .baseline }
-}
-
-extension RealEstateNewCopy {
-    var isActive: Bool { return self == .active }
 }
 
 extension DummyUsersInfoProfile {
@@ -543,13 +538,6 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.showAdsInFeedWithRatio
         }
         return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
-    }
-    
-    var realEstateNewCopy: RealEstateNewCopy {
-        if Bumper.enabled {
-            return Bumper.realEstateNewCopy
-        }
-        return RealEstateNewCopy.fromPosition(abTests.realEstateNewCopy.value)
     }
     
     var dummyUsersInfoProfile: DummyUsersInfoProfile {

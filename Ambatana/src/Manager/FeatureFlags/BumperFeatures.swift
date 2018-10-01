@@ -21,7 +21,6 @@ extension Bumper  {
         flags.append(MarkAsSoldQuickAnswerNewFlow.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
-        flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
         flags.append(SearchImprovements.self)
@@ -152,19 +151,6 @@ extension Bumper  {
     static var realEstateFlowTypeObservable: Observable<RealEstateFlowType> {
         return Bumper.observeValue(for: RealEstateFlowType.key).map {
             RealEstateFlowType(rawValue: $0 ?? "") ?? .standard
-        }
-    }
-    #endif
-
-    static var realEstateNewCopy: RealEstateNewCopy {
-        guard let value = Bumper.value(for: RealEstateNewCopy.key) else { return .control }
-        return RealEstateNewCopy(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var realEstateNewCopyObservable: Observable<RealEstateNewCopy> {
-        return Bumper.observeValue(for: RealEstateNewCopy.key).map {
-            RealEstateNewCopy(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1108,22 +1094,6 @@ enum RealEstateFlowType: String, BumperFeature  {
             case 0: return .standard
             case 1: return .turkish
             default: return .standard
-        }
-    }
-}
-
-enum RealEstateNewCopy: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RealEstateNewCopy.control.rawValue }
-    static var enumValues: [RealEstateNewCopy] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Try real estate copy instead of housing" } 
-    static func fromPosition(_ position: Int) -> RealEstateNewCopy {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }

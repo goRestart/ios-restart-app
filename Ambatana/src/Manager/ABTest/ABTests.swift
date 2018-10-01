@@ -30,7 +30,6 @@ class ABTests {
     let trackingData = Variable<[(String, ABGroup)]?>(nil)
 
     let legacy = LegacyABGroup.make()
-    let realEstate = RealEstateABGroup.make()
     let verticals = VerticalsABGroup.make()
     let retention = RetentionABGroup.make()
     let money = MoneyABGroup.make()
@@ -54,7 +53,6 @@ class ABTests {
         result.append(contentsOf: legacy.intVariables)
         result.append(contentsOf: money.intVariables)
         result.append(contentsOf: retention.intVariables)
-        result.append(contentsOf: realEstate.intVariables)
         result.append(contentsOf: verticals.intVariables)
         result.append(contentsOf: chat.intVariables)
         result.append(contentsOf: core.intVariables)
@@ -69,7 +67,6 @@ class ABTests {
         result.append(contentsOf: legacy.boolVariables)
         result.append(contentsOf: money.boolVariables)
         result.append(contentsOf: retention.boolVariables)
-        result.append(contentsOf: realEstate.boolVariables)
         result.append(contentsOf: verticals.boolVariables)
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
@@ -213,13 +210,6 @@ extension ABTests {
     var shareAfterScreenshot: LeanplumABVariable<Int> { return retention.shareAfterScreenshot }
     var affiliationCampaign: LeanplumABVariable<Int> { return retention.affiliationCampaign }
     var imageSizesNotificationCenter: LeanplumABVariable<Int> { return retention.imageSizesNotificationCenter }
-}
-
-//  MARK: RealEstate
-//  Please use Verticals from now on
-
-extension ABTests {
-    var realEstateNewCopy: LeanplumABVariable<Int> { return realEstate.realEstateNewCopy }
 }
 
 //  MARK: Verticals

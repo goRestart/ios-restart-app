@@ -25,11 +25,6 @@
         "description": "Real Estate Flow Type"
     },
     {
-        "name": "RealEstateNewCopy",
-        "values": ["control", "baseline", "active"],
-        "description": "Try real estate copy instead of housing"
-    },
-    {
         "name": "DummyUsersInfoProfile",
         "values": ["control", "baseline", "active"],
         "description": "Add info for dummy users in profile"
