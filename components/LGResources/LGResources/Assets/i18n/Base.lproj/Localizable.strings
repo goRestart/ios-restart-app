@@ -5,10 +5,10 @@
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 
 //  tooltip message on mainfeed
-"affiliation_main_feed_tooltip_text" = "Get up to $60 in Amazon gift cards";
+"affiliation_main_feed_tooltip_text" = "Get up to $30 in Amazon gift cards";
 
 // tooltip text in red
-"affiliation_main_feed_tooltip_text_highlighted" = "$60 in Amazon gift cards";
+"affiliation_main_feed_tooltip_text_highlighted" = "$30 in Amazon gift cards";
 
 // Affiliation challenges screen. Cell points label.
 "affiliation_challenges_points" = "%@ points";
@@ -17,7 +17,7 @@
 "affiliation_challenges_invite_friends_title" = "INVITE YOUR FRIENDS";
 
 // Affiliation challenges screen. Invite friends cell subtitle.
-"affiliation_challenges_invite_friends_subtitle" = "Get a $60 Amazon Gift Card";
+"affiliation_challenges_invite_friends_subtitle" = "Get a $30 Amazon Gift Card";
 
 // Affiliation challenges screen. Invite friends cell description.
 "affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite %3$@ more friends and earn %4$@ more points!";
@@ -95,19 +95,19 @@
 "affiliation_invite_sms_go_settings_button" = "Go to settings";
 
 // Message on onboarding
-"affiliation_invite_onboarding_text" = "Since %@ invited you to use letgo, you could win a $5 Amazon gift card.";
+"affiliation_invite_onboarding_text" = "Since %@ invited you to use letgo, you could win a $2 Amazon gift card.";
 
 // Affiliation Invite message text
-"affiliation_invite_message_text" = "Join a community of local buyers and sellers on letgo! Sign up and get $5 when you get started:";
+"affiliation_invite_message_text" = "Join a community of local buyers and sellers on letgo! Sign up and get $2 when you get started:";
 
 // Affiliation Invite message text (fallback)
-"affiliation_invite_message_text_no_name" = "You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started";
+"affiliation_invite_message_text_no_name" = "You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $2 Amazon gift card when you get started";
 
 // Affiliation invite friends main title label
 "affiliation_invite_friends_title_label" = "Invite your friends";
 
 // Affiliation invite friends subtitle label
-"affiliation_invite_friends_subtitle_label" = "Invite 3 friends to earn $10 when they start using letgo. Invite 10 friends and earn $50! \n\nYour friends will each get a $5 gift card, too.";
+"affiliation_invite_friends_subtitle_label" = "Invite 3 friends to earn $5 when they start using letgo. Invite 10 friends and earn $25! \n\nYour friends will each get a $2 gift card, too.";
 
 // Affilation Invite friends screen. Title.
 "affiliation_invite_friends_title" = "Invite friends";
@@ -175,14 +175,14 @@
 // Affilation Store screen. Redeem button
 "affiliation_store_redeem_gift" = "Get gift card";
 
+// Affiliation Store screen. 2$ reward
+"affiliation_store_rewards_amazon_5" = "$2 Amazon gift card";
+
 // Affiliation Store screen. 5$ reward
-"affiliation_store_rewards_amazon_5" = "$5 Amazon gift card";
+"affiliation_store_rewards_amazon_10" = "$5 Amazon gift card";
 
-// Affiliation Store screen. 10$ reward
-"affiliation_store_rewards_amazon_10" = "$10 Amazon gift card";
-
-// Affiliation Store screen. 50$ reward
-"affiliation_store_rewards_amazon_50" = "$50 Amazon gift card";
+// Affiliation Store screen. 25$ reward
+"affiliation_store_rewards_amazon_50" = "$25 Amazon gift card";
 
 // Affiliation Store. Generic error message
 "affiliation_store_generic_error" = "Oops! An error occurred while loading the rewards store.";
@@ -312,6 +312,9 @@
 
 // Text for the loading bump up banner
 "bump_up_banner_loading_text" = "Loading more info…";
+
+// Text for unable to bump alert
+"bump_up_chat_list_fail_alert" = "This listing can't be featured right now.";
 
 // Free bump up success message
 "bump_up_free_success" = "Bumped Up! Keep Bumping Up your listing and it'll be even more visible.";
@@ -2161,6 +2164,12 @@
 // Main sign up fb connect error generic. Message displayal is like the other error messages
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
 
+// Oops! An error occurred
+"main_sign_up_fb_connect_error_unavailable_title" = "Oops! An error occurred";
+
+// An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.
+"main_sign_up_fb_connect_error_unavailable_message" = "An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.";
+
 // Main sign up error email invalid. Message displayal is like the other error messages
 "main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";
 
@@ -2836,13 +2845,13 @@
 "payment_payout_payment_standar_subtitle_label" = "Get the money in 3-7 days";
 
 // Instant payout fee
-"payment_payout_payment_instant_title_label" = "Transaction fee (%1$@) — %2$@";
+"payment_payout_payment_instant_title_label" = "Transaction fee";
 
 // Instant payout availability
 "payment_payout_payment_instant_subtitle_label" = "Get the money in under 1 hour";
 
 // Transaction fee
-"payment_payout_payment_fee" = "Transaction fee";
+"payment_payout_payment_fee" = "Transaction fee (%@)";
 
 // Money availability
 "payment_payout_payment_availability" = "Get the money in %@";
@@ -3688,6 +3697,9 @@
 // Ask user to verify its profile
 "profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
 
+// Ask user to verify its profile (Short version)
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
+
 // Verification request has already been sent
 "profile_ask_verification_button_disabled" = "Verification request sent!";
 
@@ -3798,6 +3810,9 @@
 
 // Option to verify with Facebook title
 "profile_verifications_view_facebook_title" = "Facebook";
+
+// An error ocurred while verifying with Facebook
+"profile_verifications_view_facebook_unavailable" = "An error ocurred while verifying with Facebook";
 
 // Option to verify with Google title
 "profile_verifications_view_google_title" = "Google";

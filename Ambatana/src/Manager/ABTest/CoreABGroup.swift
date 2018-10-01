@@ -15,12 +15,14 @@ struct CoreABGroup: ABGroupType {
         static let muteNotifications = "20180906MutePushNotifications"
         static let muteNotificationsStartHour = "20180906MutePushNotificationsHourStart"
         static let muteNotificationsEndHour = "20180906MutePushNotificationsHourEnd"
+        static let facebookUnavailable = "20181001FacebookUnavailable"
     }
     let searchImprovements: LeanplumABVariable<Int>
     let relaxedSearch: LeanplumABVariable<Int>
     let mutePushNotifications: LeanplumABVariable<Int>
     let mutePushNotificationsStartHour: LeanplumABVariable<Int>
     let mutePushNotificationsEndHour: LeanplumABVariable<Int>
+    let facebookUnavailable: LeanplumABVariable<Bool>
 
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -32,18 +34,23 @@ struct CoreABGroup: ABGroupType {
          relaxedSearch: LeanplumABVariable<Int>,
          mutePushNotifications: LeanplumABVariable<Int>,
          mutePushNotificationsStartHour: LeanplumABVariable<Int>,
-         mutePushNotificationsEndHour: LeanplumABVariable<Int>) {
+         mutePushNotificationsEndHour: LeanplumABVariable<Int>,
+         facebookUnavailable: LeanplumABVariable<Bool>) {
         self.searchImprovements = searchImprovements
         self.relaxedSearch = relaxedSearch
         self.mutePushNotifications = mutePushNotifications
         self.mutePushNotificationsStartHour = mutePushNotificationsStartHour
         self.mutePushNotificationsEndHour = mutePushNotificationsEndHour
+        self.facebookUnavailable = facebookUnavailable
         intVariables.append(contentsOf: [
             searchImprovements,
             relaxedSearch,
             mutePushNotifications,
             mutePushNotificationsStartHour,
             mutePushNotificationsEndHour
+            ])
+        boolVariables.append(contentsOf:[
+            facebookUnavailable
             ])
     }
     
@@ -62,6 +69,10 @@ struct CoreABGroup: ABGroupType {
                                                                     groupType: .core),
                            mutePushNotificationsEndHour: .makeInt(key: Keys.muteNotificationsEndHour,
                                                                   defaultValue: 6,
-                                                                    groupType: .core))
+                                                                    groupType: .core),
+                           facebookUnavailable: .makeBool(key: Keys.facebookUnavailable,
+                                                                  defaultValue: false,
+                                                                  groupType: .core)
+        )
     }
 }

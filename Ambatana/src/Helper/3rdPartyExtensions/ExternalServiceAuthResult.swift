@@ -13,6 +13,7 @@ enum ExternalServiceAuthResult {
     case badRequest
     case internalError(description: String)
     case loginError(error: LoginError)
+    case unavailable
     
     init(loginError: LoginError) {
         switch loginError {
@@ -68,12 +69,14 @@ enum ExternalServiceAuthResult {
             return error.trackingError
         case let .internalError(description):
             return .internalError(description: description)
+        case .unavailable:
+            return .unavailable
         }
     }
 
     var errorMessage: String? {
         switch self {
-        case .success, .cancelled, .scammer, .deviceNotAllowed:
+        case .success, .cancelled, .scammer, .deviceNotAllowed, .unavailable:
             return nil
         case .conflict(let cause):
             switch cause {
@@ -94,6 +97,7 @@ enum ExternalAuthTokenRetrievalResult {
     case success(serverAuthCode: String)
     case cancelled
     case error(error: Error?)
+    case unavailable
 }
 
 typealias ExternalAuthTokenRetrievalCompletion = (ExternalAuthTokenRetrievalResult) -> ()

@@ -88,6 +88,7 @@ extension Bumper  {
         flags.append(MultiAdRequestInChatSectionForUS.self)
         flags.append(MultiAdRequestInChatSectionForTR.self)
         flags.append(AffiliationEnabled.self)
+        flags.append(FacebookUnavailable.self)
         Bumper.initialize(flags)
     } 
 
@@ -1023,6 +1024,19 @@ extension Bumper  {
     static var affiliationEnabledObservable: Observable<AffiliationEnabled> {
         return Bumper.observeValue(for: AffiliationEnabled.key).map {
             AffiliationEnabled(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var facebookUnavailable: Bool {
+        guard let value = Bumper.value(for: FacebookUnavailable.key) else { return false }
+        return FacebookUnavailable(rawValue: value)?.asBool ?? false
+    } 
+
+    #if (RX_BUMPER)
+    static var facebookUnavailableObservable: Observable<Bool> {
+        return Bumper.observeValue(for: FacebookUnavailable.key).map {
+            FacebookUnavailable(rawValue: $0 ?? "")?.asBool ?? false
         }
     }
     #endif
@@ -2185,5 +2199,14 @@ enum AffiliationEnabled: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum FacebookUnavailable: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return FacebookUnavailable.no.rawValue }
+    static var enumValues: [FacebookUnavailable] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CORE] Show Facebook unavailable message when user tries to authenticate with Facebook." } 
+    var asBool: Bool { return self == .yes }
 }
 

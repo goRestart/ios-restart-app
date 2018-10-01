@@ -358,5 +358,10 @@
         "name": "AffiliationEnabled",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Enables Affiliation / Referral Program"
+    },
+    {
+        "name": "FacebookUnavailable",
+        "values": ["no", "yes"],
+        "description": "[CORE] Show Facebook unavailable message when user tries to authenticate with Facebook."
     }
 ]

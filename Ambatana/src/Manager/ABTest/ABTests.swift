@@ -159,6 +159,7 @@ extension ABTests {
     var mutePushNotifications: LeanplumABVariable<Int> { return core.mutePushNotifications }
     var mutePushNotificationsStartHour: LeanplumABVariable<Int> { return core.mutePushNotificationsStartHour }
     var mutePushNotificationsEndHour: LeanplumABVariable<Int> { return core.mutePushNotificationsEndHour }
+    var facebookUnavailable: LeanplumABVariable<Bool> { return core.facebookUnavailable }
 }
 
 //  MARK: Chat

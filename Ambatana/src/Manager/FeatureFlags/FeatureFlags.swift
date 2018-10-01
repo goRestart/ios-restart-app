@@ -23,6 +23,7 @@ protocol FeatureFlaggeable: class {
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var mutePushNotifications: MutePushNotifications { get }
+    var facebookUnavailable: Bool { get }
     var showProTagUserProfile: Bool { get }
     var showExactLocationForPros: Bool { get }
     var showPasswordlessLogin: ShowPasswordlessLogin { get }
@@ -451,6 +452,7 @@ extension MultiDayBumpUp {
 }
 
 final class FeatureFlags: FeatureFlaggeable {
+    
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     private let locale: Locale
@@ -579,6 +581,13 @@ final class FeatureFlags: FeatureFlaggeable {
     
     var mutePushNotificationsEndHour: Int {
         return abTests.mutePushNotificationsEndHour.value
+    }
+    
+    var facebookUnavailable: Bool {
+        if Bumper.enabled {
+            return Bumper.facebookUnavailable
+        }
+        return abTests.facebookUnavailable.value
     }
     
     var showProTagUserProfile: Bool {
