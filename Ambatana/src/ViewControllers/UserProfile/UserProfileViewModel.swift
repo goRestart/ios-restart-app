@@ -308,6 +308,7 @@ extension UserProfileViewModel {
 
     func didTapAskVerification() {
         requestUserVerifiaction()
+        trackAskVerification()
     }
 
     func didTapAvatar() {
@@ -842,6 +843,11 @@ extension UserProfileViewModel {
     
     func trackSmokeTestShown(testType: EventParameterSmokeTestType) {
         let event = TrackerEvent.smokeTestCtaShown(testType: testType, source: .profile)
+        tracker.trackEvent(event)
+    }
+
+    func trackAskVerification() {
+        let event = TrackerEvent.profileAskVerificationTapped()
         tracker.trackEvent(event)
     }
 }
