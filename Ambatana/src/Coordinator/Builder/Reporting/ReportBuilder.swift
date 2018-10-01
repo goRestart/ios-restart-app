@@ -13,7 +13,6 @@ extension ReportBuilder: ReportAssembly {
         let vc = ReportOptionsListViewController(viewModel: vm)
         let nav = UINavigationController(rootViewController: vc)
 
-
         switch self {
         case .modal(let root):
             vm.navigator = ReportWireframe(root: root, navigationController: nav, type: type, source: source, reportedId: reportedId)

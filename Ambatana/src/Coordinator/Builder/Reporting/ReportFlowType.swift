@@ -29,7 +29,8 @@ enum ReportFlowType {
 
     var rateData: RateUserData? {
         switch self {
-        case .product: return nil
+        case .product(let listing):
+            return RateUserData(user: listing.user, listingId: listing.objectId, ratingType: .report)
         case .user(let data): return data
         }
     }
