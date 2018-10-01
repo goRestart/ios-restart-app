@@ -140,6 +140,11 @@ final class ListingDetailViewController: BaseViewController {
             .subscribe(onNext: { [weak self] _ in
             self?.openMapView()
         }).disposed(by: disposeBag)
+        detailView.rx
+            .userTap
+            .drive(onNext: { [weak self] _ in
+                self?.viewModel.openUser()
+            }).disposed(by: disposeBag)
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {

@@ -82,6 +82,7 @@ final class ListingDetailView: UIView {
         view.showShadow(false)
         return view
     }()
+    fileprivate let userTapRelay = PublishRelay<Void>()
 
     private let detailMapView = ListingCardDetailMapView()
     fileprivate let mapTap = UITapGestureRecognizer()
@@ -144,6 +145,7 @@ final class ListingDetailView: UIView {
     }
 
     private func setupUI() {
+        userView.delegate = self
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapGallery))
         mediaView.addGestureRecognizer(tap)
 
@@ -295,8 +297,18 @@ final class ListingDetailView: UIView {
     }
 }
 
+extension ListingDetailView: UserViewDelegate {
+    func userViewAvatarPressed(_ userView: UserView) {
+        userTapRelay.accept(())
+    }
+    func userViewAvatarLongPressStarted(_ userView: UserView) {}
+    func userViewAvatarLongPressEnded(_ userView: UserView) {}
+    func userViewTextInfoContainerPressed(_ userView: UserView) {}
+}
+
 extension Reactive where Base: ListingDetailView {
     var map: ControlEvent<UITapGestureRecognizer> { return base.mapTap.rx.event }
+    var userTap: Driver<Void> { return base.userTapRelay.asDriver(onErrorJustReturn: ()) }
 }
 
 extension ListingDetailView {

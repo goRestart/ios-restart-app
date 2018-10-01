@@ -86,6 +86,9 @@ final class ListingDetailViewModel: BaseViewModel {
         navigator?.closeDetail()
     }
 
+    func openUser() {
+        listingViewModel.openProductOwnerProfile()
+    }
     @objc func listingAction() {
         if listingViewModel.isMine {
             listingViewModel.editListing()
@@ -108,7 +111,6 @@ extension ListingDetailViewModel {
                       bannerBottomPosition: CGFloat,
                       screenHeight: CGFloat,
                       bannerSize: CGSize) {
-
         let isMine = EventParameterBoolean(bool: listingViewModel.isMine)
         let adShown: EventParameterBoolean = .trueParameter
         let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
