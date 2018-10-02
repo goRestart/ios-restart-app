@@ -174,18 +174,18 @@ extension Date {
     }
 
     func isFromLast24h() -> Bool {
-        return isNewerThan(secondsInADay)
+        return isNewerThan(seconds: secondsInADay)
     }
 
     func isOlderThan(days: Double) -> Bool {
-        return !isNewerThan(secondsInADay * days)
+        return !isNewerThan(seconds: secondsInADay * days)
     }
     
-    func isOlderThan(_ seconds: TimeInterval) -> Bool {
-        return !isNewerThan(seconds)
+    func isOlderThan(seconds: TimeInterval) -> Bool {
+        return !isNewerThan(seconds: seconds)
     }
 
-    func isNewerThan(_ seconds: TimeInterval) -> Bool {
+    func isNewerThan(seconds: TimeInterval) -> Bool {
         let time = self.timeIntervalSince1970
         let now = Date().timeIntervalSince1970
         return (now-time) < seconds

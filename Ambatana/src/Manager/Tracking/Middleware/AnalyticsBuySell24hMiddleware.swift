@@ -1,6 +1,6 @@
 import LGCoreKit
 
-final class AnalyticsBuySell24hMiddleware: AnalyticsMiddleware {
+struct AnalyticsBuySell24hMiddleware: AnalyticsMiddleware {
     private static let threshold = TimeInterval.make(days: 1)
     private let keyValueStorage: KeyValueStorageable
 
@@ -19,7 +19,7 @@ final class AnalyticsBuySell24hMiddleware: AnalyticsMiddleware {
         guard event.name == .listingSellComplete || event.name == .firstMessage else { return }
         guard let newEvent = TrackerEvent.buyerLister24h(event: event),
             let firstOpenDate = keyValueStorage[.firstRunDate],
-            Date().timeIntervalSince(firstOpenDate) <= AnalyticsBuySell24hMiddleware.threshold &&
+            firstOpenDate.isNewerThan(seconds: AnalyticsBuySell24hMiddleware.threshold) &&
                 !keyValueStorage.userTrackingProductBuySellComplete24hTracked else { return }
 
         keyValueStorage.userTrackingProductBuySellComplete24hTracked = true
