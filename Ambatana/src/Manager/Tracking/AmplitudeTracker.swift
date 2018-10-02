@@ -113,6 +113,7 @@ final class AmplitudeTracker: Tracker {
     }
     
     func trackEvent(_ event: TrackerEvent) {
+        guard event.shouldTrack else { return }
         switch event.name {
         case .loginEmail, .loginFB, .loginGoogle, .signupEmail:
             if loggedIn {
@@ -222,5 +223,18 @@ final class AmplitudeTracker: Tracker {
                 Amplitude.instance().identify(identify)
             })
         }.disposed(by: disposeBag)
+    }
+}
+
+fileprivate extension TrackerEvent {
+    var shouldTrack: Bool {
+        get {
+            switch name {
+            case .buyer24h, .buyerLister24h, .lister24h:
+                return false
+            default:
+                return true
+            }
+        }
     }
 }
