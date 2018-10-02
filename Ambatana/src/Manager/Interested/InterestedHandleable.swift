@@ -9,5 +9,8 @@ protocol InterestedHandleable {
                              userListing: LocalUser?,
                              stateCompletion: @escaping (InterestedState) -> Void,
                              actionCompletion: @escaping (InterestedAction) -> Void)
-    func handleCancellableInterestedAction(_ listing: Listing, timer: Observable<Any>, completion: @escaping (InterestedState) -> Void)
+    func handleCancellableInterestedAction(_ listing: Listing,
+                                           timer: Observable<Any>,
+                                           typePage: EventParameterTypePage,
+                                           completion: @escaping (InterestedState) -> Void)
 }

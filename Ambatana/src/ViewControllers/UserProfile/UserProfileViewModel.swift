@@ -840,7 +840,10 @@ extension UserProfileViewModel: ListingCellDelegate {
                                          duration: InterestedHandler.undoTimeout) {
                                             cancellable.cancel()
                     }
-                    interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                    interestedHandler.handleCancellableInterestedAction(listing,
+                                                                        timer: timer,
+                                                                        typePage: .profile,
+                                                                        completion: completion)
                 }
             }
         }

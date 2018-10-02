@@ -2079,7 +2079,10 @@ extension MainListingsViewModel: ListingCellDelegate {
                                          duration: InterestedHandler.undoTimeout) {
                                             cancellable.cancel()
                     }
-                    self?.interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                    self?.interestedHandler.handleCancellableInterestedAction(listing,
+                                                                              timer: timer,
+                                                                              typePage: .feed,
+                                                                              completion: completion)
                 }
             }
         }

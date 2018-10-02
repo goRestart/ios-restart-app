@@ -1822,7 +1822,8 @@ fileprivate extension ChatViewModel {
                                                          isProfessional: isProfessional,
                                                          sectionName: nil))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: isProfessional))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info,
+                                                        isProfessional: isProfessional))
     }
 
     func trackMessageSentError(type: ChatWrapperMessageType, error: RepositoryError) {
@@ -1887,6 +1888,7 @@ fileprivate extension ChatViewModel {
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: type.text.containsEmoji)
             .set(assistantMeeting: type.assistantMeeting, isSuggestedPlace: type.isSuggestedPlace)
+            .set(typePage: .chat)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
         }

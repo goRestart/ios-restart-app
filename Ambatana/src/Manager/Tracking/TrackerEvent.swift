@@ -995,7 +995,8 @@ struct TrackerEvent {
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
-    static func userMessageSent(info: SendMessageTrackingInfo, isProfessional: Bool?) -> TrackerEvent {
+    static func userMessageSent(info: SendMessageTrackingInfo,
+                                isProfessional: Bool?) -> TrackerEvent {
         info.set(isProfessional: isProfessional)
         return TrackerEvent(name: .userMessageSent, params: info.params)
     }

@@ -82,11 +82,14 @@ final class InterestedHandler: InterestedHandleable {
         actionCompletion(interestedAction)
     }
     
-    func handleCancellableInterestedAction(_ listing: Listing, timer: Observable<Any>, completion: @escaping (InterestedState) -> Void) {
+    func handleCancellableInterestedAction(_ listing: Listing,
+                                           timer: Observable<Any>,
+                                           typePage: EventParameterTypePage,
+                                           completion: @escaping (InterestedState) -> Void) {
         timer.subscribe { [weak self] (event) in
             guard event.error == nil else {
                 completion(.seeConversation)
-                self?.sendMessage(forListing: listing)
+                self?.sendMessage(forListing: listing, typePage: typePage)
                 return
             }
             completion(.send(enabled: true))
@@ -94,7 +97,7 @@ final class InterestedHandler: InterestedHandleable {
         }.disposed(by: disposeBag)
     }
     
-    private func sendMessage(forListing listing: Listing) {
+    private func sendMessage(forListing listing: Listing, typePage: EventParameterTypePage) {
         interestedStateUpdater.addInterestedState(forListing: listing, completion: nil)
         let type: ChatWrapperMessageType
         if featureFlags.randomImInterestedMessages.isActive {
@@ -103,7 +106,7 @@ final class InterestedHandler: InterestedHandleable {
         } else {
             type = ChatWrapperMessageType.interested(QuickAnswer.interested.textToReply)
         }
-        let trackingInfo = makeSendMessageTrackingInfo(type: type, listing: listing)
+        let trackingInfo = makeSendMessageTrackingInfo(type: type, listing: listing, typePage: typePage)
         trackUserMessageSent(trackingInfo: trackingInfo)
         chatWrapper.sendMessageFor(listing: listing, type: type) { [weak self] isFirstMessage in
             guard let isFirstMessage = isFirstMessage.value, isFirstMessage else { return }
@@ -125,12 +128,15 @@ final class InterestedHandler: InterestedHandleable {
         tracker.trackEvent(TrackerEvent.undoSentMessage())
     }
     
-    private func makeSendMessageTrackingInfo(type: ChatWrapperMessageType, listing: Listing) -> SendMessageTrackingInfo {
+    private func makeSendMessageTrackingInfo(type: ChatWrapperMessageType,
+                                             listing: Listing,
+                                             typePage: EventParameterTypePage) -> SendMessageTrackingInfo {
         let trackingInfo = SendMessageTrackingInfo
             .makeWith(type: type, listing: listing, freePostingAllowed: featureFlags.freePostingModeAllowed)
             .set(typePage: .listingList)
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: false)
+            .set(typePage: typePage)
         return trackingInfo
     }
     
