@@ -11,6 +11,7 @@ class TrackerProxySpec: QuickSpec {
         var tracker3: MockTracker!
         var trackers: [Tracker]!
         var analyticsSessionManager: MockAnalyticsSessionManager!
+        var analyticsMiddlewares: [MockAnalyticsMiddleware]!
 
         beforeEach {
             tracker1 = MockTracker()
@@ -18,6 +19,7 @@ class TrackerProxySpec: QuickSpec {
             tracker3 = MockTracker()
             trackers = [tracker1, tracker2, tracker3]
             analyticsSessionManager = MockAnalyticsSessionManager()
+            analyticsMiddlewares = [MockAnalyticsMiddleware()]
 
             sut = TrackerProxy(trackers: trackers,
                                sessionManager: MockSessionManager(),
@@ -25,7 +27,8 @@ class TrackerProxySpec: QuickSpec {
                                locationManager: MockLocationManager(),
                                installationRepository: MockInstallationRepository(),
                                notificationsManager: MockNotificationsManager(),
-                               analyticsSessionManager: analyticsSessionManager)
+                               analyticsSessionManager: analyticsSessionManager,
+                               analyticsMiddlewares: analyticsMiddlewares)
         }
 
         describe("Tracker protocol proxying") {
@@ -96,17 +99,26 @@ class TrackerProxySpec: QuickSpec {
                     expect(flag).to(beTrue())
                 }
             }
-            it("redirects to each tracker trackEvent:") {
-                var flags = [false, false, false]
-                tracker1.trackEventBlock = { (tracker: Tracker) in flags[0] = true }
-                tracker2.trackEventBlock = { (tracker: Tracker) in flags[1] = true }
-                tracker3.trackEventBlock = { (tracker: Tracker) in flags[2] = true }
-                
-                sut.trackEvent(TrackerEvent.logout())
-                for flag in flags {
-                    expect(flag).to(beTrue())
+
+            describe("track event") {
+                let event = TrackerEvent.logout()
+                var flags: [Bool]!
+                beforeEach {
+                    flags = [false, false, false]
+                    tracker1.trackEventBlock = { (tracker: Tracker) in flags[0] = true }
+                    tracker2.trackEventBlock = { (tracker: Tracker) in flags[1] = true }
+                    tracker3.trackEventBlock = { (tracker: Tracker) in flags[2] = true }
+                    sut.trackEvent(event)
+                }
+                it("redirects to each tracker trackEvent:") {
+                    expect(flags) == [true, true, true]
+                }
+                it("redirects to each middleware to process the event") {
+                    expect(analyticsMiddlewares.compactMap { $0.lastProcessedEvent?.name }) == [event.name]
                 }
             }
+
+
             it("redirects to each tracker updateCoords:") {
                 var flags = [false, false, false]
                 tracker1.updateCoordsBlock = { (tracker: Tracker) in flags[0] = true }
