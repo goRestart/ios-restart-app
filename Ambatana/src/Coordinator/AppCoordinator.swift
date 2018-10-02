@@ -82,6 +82,7 @@ final class AppCoordinator: NSObject, Coordinator {
     private let promoteAssembly: PromoteBumpAssembly
     private let tourAssembly: TourLoginAssembly
     private let passwordlessUsernameAssembly: PasswordlessUsernameAssembly
+    private let p2pPaymentsOfferStatusAssembly: P2PPaymentsOfferStatusAssembly
 
     private var tourSkipper: TourSkiperNavigator?
 
@@ -182,6 +183,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.tourAssembly = TourLoginBuilder.modal
         self.verificationAwarenessAssembly = UserVerificationAwarenessBuilder.modal(tabBarCtl)
         self.passwordlessUsernameAssembly = PasswordlessUsernameBuilder.modal(tabBarCtl)
+        self.p2pPaymentsOfferStatusAssembly = P2PPaymentsOfferStatusBuilder.modal
         super.init()
         self.tourSkipper = TourSkiperWireframe(appCoordinator: self, deepLinksRouter: deepLinksRouter)
 
@@ -221,8 +223,16 @@ extension AppCoordinator: AppNavigator {
     }
 
     private func openOnboarding() -> Bool {
-        guard !keyValueStorage[.didShowOnboarding] else { return false }
-        keyValueStorage[.didShowOnboarding] = true
+        let shouldShowBlockingSignUp = featureFlags.blockingSignUp.isActive &&
+            !keyValueStorage[.didShowBlockingSignUp]
+            && !sessionManager.loggedIn
+        let shouldShowOnboarding = !keyValueStorage[.didShowOnboarding]
+        if !shouldShowBlockingSignUp && !shouldShowOnboarding {
+            return false
+        }
+
+            keyValueStorage[.didShowOnboarding] = true
+        
         // If I have to show the onboarding, then I assume it is the first time the user opens the app:
         if keyValueStorage[.firstRunDate] == nil {
             keyValueStorage[.firstRunDate] = Date()
@@ -320,6 +330,25 @@ extension AppCoordinator: AppNavigator {
         } else {
             trackUserRateStart(source)
             tabBarCtl.showAppRatingView(source)
+        }
+    }
+
+
+    private func executePostSellNavigationWith(listingId: String,
+                                               purchases: [BumpUpProductData],
+                                               maxCountdown: TimeInterval,
+                                               typePage: EventParameterTypePage?) {
+        switch featureFlags.bumpPromoAfterSellNoLimit {
+        case .control, .baseline, .alwaysShow:
+            openPromoteBumpForListingId(listingId: listingId,
+                           purchases: purchases,
+                           maxCountdown: maxCountdown,
+                           typePage: typePage)
+        case .straightToBump:
+            openSellFaster(listingId: listingId,
+                           purchases: purchases,
+                           maxCountdown: maxCountdown,
+                           typePage: typePage)
         }
     }
 
@@ -550,7 +579,8 @@ extension AppCoordinator: AppNavigator {
                                             listingCanBeBoosted: false,
                                             timeSinceLastBump: nil,
                                             maxCountdown: maxCountdown,
-                                            onEditAction: self)
+                                            onEditAction: self,
+                                            onCancelEditAction: self)
         tabBarCtl.present(vc, animated: true)
     }
 
@@ -569,6 +599,11 @@ extension AppCoordinator: AppNavigator {
     func openCommunityTab() {
         openTab(.community, completion: nil)
     }
+
+    func openP2PPaymentOfferStatus(offerId: String) {
+        let vc = p2pPaymentsOfferStatusAssembly.buildOfferStatus(offerId: offerId)
+        tabBarCtl.present(vc, animated: true, completion: nil)
+    }
 }
 
 // MARK - OnEditActionable
@@ -580,10 +615,10 @@ extension AppCoordinator: OnEditActionable {
                 maxCountdown: TimeInterval) {
         refreshSelectedListingsRefreshable()
         guard let listingId = listing.objectId, purchases.hasPaymentIds else { return }
-        openPromoteBumpForListingId(listingId: listingId,
-                                    purchases: purchases,
-                                    maxCountdown: maxCountdown,
-                                    typePage: .sellEdit)
+        executePostSellNavigationWith(listingId: listingId,
+                                      purchases: purchases,
+                                      maxCountdown: maxCountdown,
+                                      typePage: .sellEdit)
     }
 }
 
@@ -623,7 +658,7 @@ fileprivate extension AppCoordinator {
         case .edit, .deepLink, .sellEdit, .profile:
             return true
         case .promoted:
-            return !promoteBumpShownInLastDay
+            return featureFlags.bumpPromoAfterSellNoLimit.isActive || !promoteBumpShownInLastDay
         }
     }
 
@@ -1074,6 +1109,11 @@ fileprivate extension AppCoordinator {
                                                           source: .external,
                                                           actionOnFirstAppear: .edit)
             }
+        case let .p2pPaymentsOffer(offerId):
+            tabBarCtl.clearAllPresented(nil)
+            afterDelayClosure = { [weak self] in
+                self?.openP2PPaymentOfferStatus(offerId: offerId)
+            }
         case let .user(userId):
             if userId == myUserRepository.myUser?.objectId {
                 openUserProfile()
@@ -1186,7 +1226,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .listingEdit, .user,
              .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .notificationCenter, .appStore, .passwordlessLogin, .passwordlessSignup, .webView, .appRating, .invite, .userVerification, .affiliation:
+             .notificationCenter, .appStore, .passwordlessLogin, .passwordlessSignup, .webView, .appRating, .invite, .userVerification, .affiliation, .p2pPaymentsOffer:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -1337,10 +1377,10 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
-            openPromoteBumpForListingId(listingId: requestListingId,
-                                        purchases: purchases,
-                                        maxCountdown: maxCountdown,
-                                        typePage: typePage)
+            executePostSellNavigationWith(listingId: requestListingId,
+                                          purchases: purchases,
+                                          maxCountdown: maxCountdown,
+                                          typePage: typePage)
         case .edit(let listing):
             openEditForListing(listing: listing,
                                purchases: purchases,

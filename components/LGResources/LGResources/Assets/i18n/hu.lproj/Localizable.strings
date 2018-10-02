@@ -1288,6 +1288,7 @@
 "profile_verifications_view_email_title" = "EMAIL";
 "profile_verifications_view_extra_section_title" = "KERESKEDJ";
 "profile_verifications_view_facebook_title" = "Facebook";
+"profile_verifications_view_facebook_unavailable" = "An error occurred while verifying with Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "Hirdetésenként +2 pont (legfeljebb 10)";
 "profile_verifications_view_mark_as_sold_title" = "Megjelölés eladottként";

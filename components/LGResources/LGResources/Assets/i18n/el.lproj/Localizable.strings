@@ -98,7 +98,7 @@
 "bump_up_banner_pay_text_improvement_turkish_d" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_banner_wait_text" = "για να προωθήσετε ξανά";
 "bump_up_boost_success_alert_text" = "Η καταχώρησή σας προωθήθηκε! Θα προωθείται για τις επόμενες 24 ώρες.";
-"bump_up_chat_list_fail_alert" = "This listing can't be featured right now.";
+"bump_up_chat_list_fail_alert" = "Η καταχώρηση δεν μπορεί να προωθηθεί αυτή τη στιγμή.";
 "bump_up_error_bump_generic" = "Παρουσιάστηκε σφάλμα κατά την προώθηση της καταχώρησής σας. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά η καταχώρησή σας δεν έχει προωθηθεί.";
 "bump_up_error_payment_failed" = "Η σύνδεση στο App Store απέτυχε. Η πληρωμή σας δεν έχει προχωρήσει. Παρακαλώ δοκιμάστε ξανά.";
@@ -1243,7 +1243,7 @@
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Ευχαριστούμε για την προσθήκη του τηλεφώνου σας! Είναι πάντα καλύτερο να μας καλέσετε εσείς, χρησιμοποιώντας το παραπάνω κουμπί κλήσης.";
 "profile_ask_verification_button_disabled" = "Το αίτημα επιβεβαίωσης εστάλη!";
 "profile_ask_verification_button_enabled" = "Ρωτήστε τον/την %@ να επιβεβαιώσει το προφίλ του/της";
-"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
+"profile_ask_verification_button_enabled_short" = "Ρωτήστε για επιβεβαίωση προφίλ";
 "profile_bio_add_button" = "Προσθήκη βιογραφικού";
 "profile_bio_show_more_button" = "ΠΕΡΙΣΣΟΤΕΡΑ ΣΧΕΤΙΚΑ ΜΕ ΕΜΕΝΑ";
 "profile_blocked_by_me_label" = "Έχετε μπλοκάρει αυτό το χρήστη";
@@ -1288,6 +1288,7 @@
 "profile_verifications_view_email_title" = "Email";
 "profile_verifications_view_extra_section_title" = "ΑΓΟΡΆ & ΠΏΛΗΣΗ";
 "profile_verifications_view_facebook_title" = "Facebook";
+"profile_verifications_view_facebook_unavailable" = "Παρουσιάστηκε σφάλμα κατά την επιβεβαίωση με το Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 πόντους για κάθε καταχώρηση (μέχρι 10 πόντους)";
 "profile_verifications_view_mark_as_sold_title" = "Μάρκαρε ότι πωλήθηκε";

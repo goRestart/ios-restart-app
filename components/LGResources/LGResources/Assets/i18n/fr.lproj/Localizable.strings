@@ -690,7 +690,7 @@
 "main_sign_up_facebook_connect_button_w_name" = "Se connecter en tant que %@";
 "main_sign_up_fb_connect_error_email_taken" = "Votre adresse email est déjà enregistrée. Utilisez-la pour vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Erreur de connexion. Veuillez réessayer.";
-"main_sign_up_fb_connect_error_unavailable_message" = "An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.";
+"main_sign_up_fb_connect_error_unavailable_message" = "Une erreur est survenue lors de la connexion à Facebook. Pour ouvrir une session, réinitialisez votre mot de passe en entrant l'adresse courriel que vous utilisez sur Facebook.";
 "main_sign_up_fb_connect_error_unavailable_title" = "Oups ! Une erreur est survenue.";
 "main_sign_up_google_connect_button" = "Continuer avec Google";
 "main_sign_up_google_connect_button_w_name" = "Se connecter en tant que %@";
@@ -1288,6 +1288,7 @@
 "profile_verifications_view_email_title" = "Email";
 "profile_verifications_view_extra_section_title" = "ACHETER & VENDRE";
 "profile_verifications_view_facebook_title" = "Facebook";
+"profile_verifications_view_facebook_unavailable" = "An error occurred while verifying with Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 pts par annonce (jusqu'à 10 pts)";
 "profile_verifications_view_mark_as_sold_title" = "Marquer \"Vendu\"";

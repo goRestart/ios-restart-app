@@ -26,6 +26,7 @@ struct MoneyABGroup: ABGroupType {
         static let multiDayBumpUp = "20180827MultiDayBumpUp"
         static let multiAdRequestInChatSectionForUS = "20180802MultiAdRequestInChatSectionForUS"
         static let multiAdRequestInChatSectionForTR = "20180802MultiAdRequestInChatSectionForTR"
+        static let bumpPromoAfterSellNoLimit = "20180925BumpPromoAfterSellNoLimit"
     }
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
     let showProTagUserProfile: LeanplumABVariable<Bool>
@@ -43,6 +44,7 @@ struct MoneyABGroup: ABGroupType {
     let multiDayBumpUp: LeanplumABVariable<Int>
     let multiAdRequestInChatSectionForUS: LeanplumABVariable<Int>
     let multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>
+    let bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -65,7 +67,8 @@ struct MoneyABGroup: ABGroupType {
          multiAdRequestMoreInfo: LeanplumABVariable<Int>,
          multiDayBumpUp: LeanplumABVariable<Int>,
          multiAdRequestInChatSectionForUS: LeanplumABVariable<Int>,
-         multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>){
+         multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>,
+         bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>){
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
         self.copyForChatNowInEnglish = copyForChatNowInEnglish
@@ -82,6 +85,7 @@ struct MoneyABGroup: ABGroupType {
         self.multiDayBumpUp = multiDayBumpUp
         self.multiAdRequestInChatSectionForUS = multiAdRequestInChatSectionForUS
         self.multiAdRequestInChatSectionForTR = multiAdRequestInChatSectionForTR
+        self.bumpPromoAfterSellNoLimit = bumpPromoAfterSellNoLimit
 
         intVariables.append(contentsOf: [copyForChatNowInTurkey,
                                          copyForChatNowInEnglish,
@@ -96,7 +100,8 @@ struct MoneyABGroup: ABGroupType {
                                          multiAdRequestMoreInfo,
                                          multiDayBumpUp,
                                          multiAdRequestInChatSectionForUS,
-                                         multiAdRequestInChatSectionForTR])
+                                         multiAdRequestInChatSectionForTR,
+                                         bumpPromoAfterSellNoLimit])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -149,7 +154,10 @@ struct MoneyABGroup: ABGroupType {
                                                                       groupType: .money),
                             multiAdRequestInChatSectionForTR: .makeInt(key: Keys.multiAdRequestInChatSectionForTR,
                                                                       defaultValue: 0,
-                                                                      groupType: .money)
+                                                                      groupType: .money),
+                            bumpPromoAfterSellNoLimit: .makeInt(key: Keys.bumpPromoAfterSellNoLimit,
+                                                                defaultValue: 0,
+                                                                groupType: .money)
         )
     }
 }

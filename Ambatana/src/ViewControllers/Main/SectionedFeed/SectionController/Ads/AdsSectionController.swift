@@ -71,7 +71,7 @@ final class AdsSectionController: ListSectionController {
         let adHeight = adView.viewHeightFittingIn(CGSize(width: adWidth,
                                                          height: LGUIKitConstants.advertisementCellDefaultHeight))
         self.adData = AdData.Lenses.height.set(adHeight, adData)
-        delegate?.updatedAd()
+        delegate?.updatedAd(isBannerSection: false)
     }
     
 }

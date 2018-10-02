@@ -10,6 +10,11 @@
          "description": "API requests timeout"
     },
     {
+         "name": "MarkAsSoldQuickAnswerNewFlow",
+         "values": ["control", "baseline", "markAsSoldNewFlowQuickAnswer"],
+         "description": "New flow when marking an item as sold on chat using quick answers"
+    },
+    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "[MONEY] show ads in feed every X cells"
@@ -145,16 +150,6 @@
         "description": "[CHAT] Show a toast in the chat with the websocket and network connection status"
     },
     {
-        "name": "NotificationSettings",
-        "values": ["control", "baseline", "differentLists", "sameList"],
-        "description": "[RETENTION] Settings to enable or disable each type of notification"
-    },
-    {
-         "name": "CarExtraFieldsEnabled",
-         "values": ["control", "baseline", "active"],
-         "description": "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)"
-    },
-    {
         "name": "ReportingFostaSesta",
         "values": ["control", "baseline", "withIcons", "withoutIcons"],
         "description": "Show new user/product reporting flow (FOSTA-SESTA compliance)"
@@ -169,11 +164,6 @@
         "values": ["control", "baseline", "infoWithLaterals", "infoWithoutLaterals", "buttonWithLaterals", "buttonWithoutLaterals"],
         "description": "[Products] New item page V3 -- all in"
 	},
-    {
-     	"name": "RealEstateMapTooltip",
-    	"values": ["control", "baseline", "active"],
-     	"description": "Show tooltip for Real Estate Map"
-    },
 	 {
      	"name": "AppInstallAdsInFeed",
         "values": ["control", "baseline", "active"],
@@ -198,11 +188,6 @@
         "name": "EngagementBadging",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Show recent items bubble in feed basic approach"
-    },
-    {
-        "name": "ServicesUnifiedFilterScreen",
-        "values": ["control", "baseline", "active"],
-        "description": "Show new services filter screen"
     },
     {
         "name": "FrictionlessShare",
@@ -263,11 +248,6 @@
         "name": "CopyForSellFasterNowInTurkish",
         "values": ["control", "baseline", "variantB", "variantC", "variantD"],
         "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
-    },
-    {
-        "name": "NotificationCenterRedesign",
-        "values": ["control", "baseline", "active"],
-        "description": "[RETENTION] Notification center redesign with sections and modern UI design"
     },
     {
         "name": "TurkeyFreePosting",
@@ -331,7 +311,7 @@
     },
     {
         "name": "ClickToTalk",
-        "values": ["control", "baseline", "active"],
+        "values": ["control", "baseline", "variantA", "variantB", "variantC"],
         "description": "[VERTICALS] Show Click to talk"
     },
     {
@@ -358,6 +338,31 @@
         "name": "AffiliationEnabled",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Enables Affiliation / Referral Program"
+    },
+    {
+        "name": "BumpPromoAfterSellNoLimit",
+        "values": ["control", "baseline", "AlwaysShow", "StraightToBump"],
+        "description": "[MONEY] Remove the 24h limit in bump after sell promo"
+    },
+    {
+        "name": "MakeAnOfferButton",
+        "values": ["control", "baseline", "active"],
+        "description": "[P2P PAYMENTS] Show make an offer button"
+    },
+    {
+        "name": "NewSearchAPIEndPoint",
+        "values": ["control", "baseline", "active"],
+        "description": "[DISCOVERY] Use New Search API Endpoint"
+    },
+    {
+        "name": "ImageSizesNotificationCenter",
+        "values": ["control", "baseline", "nineSix", "oneTwoEight"],
+        "description": "[RETENTION] Notification center with different thumbnails sizes"
+    },
+    {
+        "name": "BlockingSignUp",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] User needs to sign up/sign in even after killing the app in log in screen"
     },
     {
         "name": "FacebookUnavailable",

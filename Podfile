@@ -40,13 +40,12 @@ def shared_pods
 
     # letgo components
     pod "LGComponents",            :path => "components"
-
-
+ 
     # letgo Core
 
-    pod "LGCoreKit",             "4.84.0", :inhibit_warnings => false
-#    pod "LGCoreKit",            :path => "../lgcorekit", :inhibit_warnings => false
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'challengesStateHasChanged', :inhibit_warnings => false
+   pod "LGCoreKit",             "4.89.0", :inhibit_warnings => false
+#    pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit", :inhibit_warnings => false
+#   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-5204-NewSearchAPI', :inhibit_warnings => false
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"

@@ -3,12 +3,12 @@ import LGCoreKit
 protocol ListingDeckNavigator: class {
     func openFeaturedInfo()
     func openOnboarding()
-    func openListingDetail(_ listing: Listing, source: EventParameterListingVisitSource)
+    func openListingDetail(withVM listingViewModel: ListingViewModel, source: EventParameterListingVisitSource)
     func close()
 }
 
 final class ListingDeckWireframe: ListingDeckNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
     private let listingAssembly: ListingAssembly
     private let featuredAssembly: FeaturedInfoAssembly
     private let onboardingAssembly: DeckOnboardingAssembly
@@ -32,21 +32,21 @@ final class ListingDeckWireframe: ListingDeckNavigator {
 
     func openFeaturedInfo() {
         let vc = featuredAssembly.buildFeaturedInfo()
-        nc.present(vc, animated: true, completion: nil)
+        nc?.present(vc, animated: true, completion: nil)
     }
 
     func openOnboarding() {
         let vc = onboardingAssembly.buildDeckOnboarding()
         vc.modalPresentationStyle = .custom
-        nc.present(vc, animated: true)
+        nc?.present(vc, animated: true)
     }
 
-    func openListingDetail(_ listing: Listing, source: EventParameterListingVisitSource) {
-        let vc = listingAssembly.buildListingDetail(for: listing, source: source)
-        nc.pushViewController(vc, animated: true)
+    func openListingDetail(withVM listingViewModel: ListingViewModel, source: EventParameterListingVisitSource) {
+        let vc = listingAssembly.buildListingDetail(withVM: listingViewModel, source: source)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func close() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 }

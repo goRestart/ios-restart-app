@@ -138,8 +138,8 @@ class FeedListingCell: UICollectionViewCell {
 
         if model.isFree  {
             let ribbonConfiguration = LGRibbonConfiguration(title: R.Strings.productFreePrice,
-                                                            icon: R.Asset.IconsButtons.icHeart.image,
-                                                            titleColor: .primaryColor)
+                                                            icon: nil,
+                                                            titleColor: .orangeFree)
             ribbonView.setupRibbon(configuration: ribbonConfiguration)
         } else if model.isFeatured {
             let ribbonConfiguration = LGRibbonConfiguration(title: R.Strings.bumpUpProductCellFeaturedStripe,
@@ -191,13 +191,6 @@ extension FeedListingCell {
             return interestActionFor(listing: listing, userListing: nil, touchPoint: touchPoint)
         }
         
-        guard feedListingData.user.type == .unknown else {
-            return interestActionFor(listing: listing,
-                                     userListing: LocalUser(userListing: feedListingData.user),
-                                     touchPoint: touchPoint)
-
-        }
-        
         interestedButton.isHidden = true
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
@@ -205,7 +198,7 @@ extension FeedListingCell {
             self?.interestedButton.isHidden = false
             self?.activityIndicator.stopAnimating()
             self?.interestActionFor(listing: listing,
-                                    userListing: LocalUser(userListing: feedListingData.user),
+                                    userListing: LocalUser(user: user),
                                     touchPoint: touchPoint)
         }
     }

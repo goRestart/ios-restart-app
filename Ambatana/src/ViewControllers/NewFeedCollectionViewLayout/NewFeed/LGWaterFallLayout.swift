@@ -76,6 +76,8 @@ final class LGWaterFallLayout: UICollectionViewLayout {
 
     // MARK:- Public Property
 
+    var forceLayoutCalculation: Bool = false
+
     var itemRenderPolicy: WaterfallLayoutItemRenderPolicy {
         didSet {
             guard itemRenderPolicy != oldValue else { return }
@@ -124,7 +126,7 @@ final class LGWaterFallLayout: UICollectionViewLayout {
     override func prepare() {
         super.prepare()
 
-        guard let collectionView = collectionView, shouldInvalidateCache else { return }
+        guard let collectionView = collectionView, shouldInvalidateCache || forceLayoutCalculation else { return }
 
         clearCache()
         oldBounds = collectionView.bounds

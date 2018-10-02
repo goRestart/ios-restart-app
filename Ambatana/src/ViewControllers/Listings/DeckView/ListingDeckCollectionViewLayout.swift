@@ -2,8 +2,6 @@ import LGComponents
 import Foundation
 import UIKit
 
-typealias EasingFunction = (CGFloat) -> CGFloat
-
 struct ListingDeckCellLayout {
     let insets: UIEdgeInsets
     let verticalInsetDelta: CGFloat

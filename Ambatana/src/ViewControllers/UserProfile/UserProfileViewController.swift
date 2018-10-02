@@ -462,6 +462,10 @@ extension UserProfileViewController: UserProfileTabsViewDelegate {
 // MARK: - Header Delegate
 
 extension UserProfileViewController: UserProfileHeaderDelegate {
+    func didTapChatNow() {
+        viewModel.openChatNow()
+    }
+    
     func didTapEditAvatar() {
         guard viewModel.isPrivateProfile else { return }
         MediaPickerManager.showImagePickerIn(self)
@@ -583,6 +587,10 @@ extension UserProfileViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
+        viewModel.chatNowButtonIsHidden
+            .drive(headerView.rx.chatNowButtonIsHidden)
+            .disposed(by: disposeBag)
 
         Observable
             .combineLatest(viewModel.userAvatarURL.asObservable(), viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }
@@ -665,21 +673,21 @@ extension UserProfileViewController {
             .disposed(by: disposeBag)
     }
 
+
     private func didChangePushPermissions() {
         listingView.refreshDataView()
-        tableView.tableHeaderView = buildNotificationBanner()
+        addTableHeaderView()
     }
-
-    private func buildNotificationBanner() -> UIView? {
-        guard viewModel.shouldShowPushPermissionsBanner else { return nil }
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: PushPermissionsHeader.viewHeight))
-        let pushHeader = PushPermissionsHeader()
-        pushHeader.delegate = self
-        pushHeader.cornerRadius = 10
-        container.addSubviewForAutoLayout(pushHeader)
-        pushHeader.layout(with: container).fillHorizontal(by: 10).fillVertical()
-        container.layout().height(PushPermissionsHeader.viewHeight)
-        return container
+    
+    private func addTableHeaderView() {
+        if let notificationBanner = buildNotificationBanner() {
+            tableView.tableHeaderView = notificationBanner
+        } else if let smokeTestBannerView = smokeTestBannerView {
+            viewModel.trackSmokeTestShown(testType: smokeTestFeature.testType)
+            tableView.tableHeaderView = smokeTestBannerView
+        } else {
+            tableView.tableHeaderView = nil
+        }
     }
 
     private func updateUserRelation(with text: String?) {
@@ -744,14 +752,12 @@ extension UserProfileViewController: UserProfileViewModelDelegate {
     }
 }
 
-// MARK: - PushPermissions
+// MARK: - ListingListViewHeaderDelegate
 
-extension UserProfileViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
+extension UserProfileViewController: ListingListViewHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
-        var totalHeight: CGFloat = 0
-        totalHeight += viewModel.shouldShowPushPermissionsBanner ? PushPermissionsHeader.viewHeight : 0
-        return totalHeight
+        return viewModel.bannerHeight
     }
 
     func setupViewsIn(header: ListHeaderContainer) {
@@ -761,10 +767,58 @@ extension UserProfileViewController: ListingListViewHeaderDelegate, PushPermissi
             pushHeader.tag = 0
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight, style: .bubble)
+        } else if viewModel.showClickToTalkBanner,
+            let smokeTestBannerView = smokeTestBannerView {
+            header.addHeader(smokeTestBannerView, height: viewModel.bannerHeight)
         }
     }
 
+}
+
+// MARK: - PushPermissionsHeaderDelegate
+
+extension UserProfileViewController: PushPermissionsHeaderDelegate {
     func pushPermissionHeaderPressed() {
         viewModel.didTapPushPermissionsBanner()
+    }
+    
+    private func buildNotificationBanner() -> UIView? {
+        guard viewModel.shouldShowPushPermissionsBanner else { return nil }
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: PushPermissionsHeader.viewHeight))
+        let pushHeader = PushPermissionsHeader()
+        pushHeader.delegate = self
+        pushHeader.cornerRadius = 10
+        container.addSubviewForAutoLayout(pushHeader)
+        pushHeader.layout(with: container).fillHorizontal(by: 10).fillVertical()
+        container.layout().height(PushPermissionsHeader.viewHeight)
+        return container
+    }
+}
+
+// MARK: - SmokeTestBanner
+
+extension UserProfileViewController {
+    var smokeTestFeature: LGSmokeTestFeature {
+        return .clickToTalk
+    }
+    
+    var smokeTestBannerView: UIView? {
+        guard viewModel.showClickToTalkBanner,
+            let smokeTestBanner = buildSmokeTestBanner(feature: smokeTestFeature) else { return nil }
+        return smokeTestBanner
+    }
+    private func buildSmokeTestBanner(feature: LGSmokeTestFeature) -> UIView? {
+        let container = UIView()
+        let header = LGTapToActionView(viewModel: feature.tapToActionViewModel,
+                                       configuration: feature.tapToActionUIConfiguration)
+        header.addTarget(self, action: #selector(smokeTestBannerTapped), for: .touchUpInside)
+        container.addSubviewForAutoLayout(header)
+        header.layout(with: container).fillHorizontal(by: Metrics.shortMargin).fillVertical()
+        container.layout().height(LGTapToActionView.viewHeight)
+        return container
+    }
+    
+    @objc private func smokeTestBannerTapped() {
+        viewModel.didTapSmokeTestBanner(feature: smokeTestFeature)
     }
 }

@@ -35,8 +35,8 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
         tableView.dataSource = self
         tableView.register(NotificationSettingsAccessorCell.self,
                            forCellReuseIdentifier: NotificationSettingsAccessorCell.reusableID)
-        tableView.register(NotificationSettingSwitchCell.self,
-                           forCellReuseIdentifier: NotificationSettingSwitchCell.reusableID)
+        tableView.register(NotificationSettingsSwitchCell.self,
+                           forCellReuseIdentifier: NotificationSettingsSwitchCell.reusableID)
     }
     
     required init?(coder: NSCoder) {
@@ -86,7 +86,7 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
             title = R.Strings.settingsNotificationsPushNotifications
         case .mail:
             title = R.Strings.settingsNotificationsEmail
-        case .marketing, .searchAlerts:
+        case .searchAlerts:
             break
         }
         
@@ -129,8 +129,8 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
                 cell.setup(withTitle: title)
                 return cell
             case .marketing:
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationSettingSwitchCell.reusableID, for: indexPath)
-                    as? NotificationSettingSwitchCell else { return UITableViewCell() }
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationSettingsSwitchCell.reusableID, for: indexPath)
+                    as? NotificationSettingsSwitchCell else { return UITableViewCell() }
                 cell.setupWithNotificationSettingCell(cellData)
                 return cell
             case .switcher:

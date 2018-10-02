@@ -74,6 +74,14 @@ final class LGListingRepository: ListingRepository {
         retrieveIndex(params.letgoApiParams, completion: updateCompletion(completion))
     }
     
+    func indexNewSearchAPI(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        if let queryString = params.queryString, let relaxParam = params.relaxParam {
+            retrieveIndexWithRelax(queryString, params, relaxParam, completion: completion)
+            return
+        }
+        retrieveIndexNewSearchAPI(params.letgoApiParams, completion: updateCompletion(completion))
+    }
+    
     func indexSimilar(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
         guard let queryString = params.queryString, let similarParam = params.similarParam else {
             return
@@ -614,6 +622,10 @@ final class LGListingRepository: ListingRepository {
     
     private func retrieveIndex(_ params: [String : Any], completion: ListingsDataSourceCompletion?) {
         dataSource.index(params, completion: completion)
+    }
+    
+    private func retrieveIndexNewSearchAPI(_ params: [String : Any], completion: ListingsDataSourceCompletion?) {
+        dataSource.indexNewSearchAPI(params, completion: completion)
     }
 }
 

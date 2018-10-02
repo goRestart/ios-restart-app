@@ -35,7 +35,6 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
         static let thumbnailSize: CGFloat = 68
         static let ctaButtonHeight: CGFloat = 34
         static let thumbnailsCollectionViewTopMargin: CGFloat = 8
-        static let thumbnailsCollectionViewHeight: CGFloat = 72
     }
     
     private let heroImageView: UIImageView = {
@@ -143,6 +142,7 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
                                           forCellWithReuseIdentifier: NotificationCenterThumbnailCell.reusableID)
         setupLayout()
         setupUI()
+        setAccesibilityIds()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -245,9 +245,12 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
             iconImageView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 4),
             iconImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Layout.horizontalMargin),
             
-            thumbnailsCollectionView.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: Layout.thumbnailsCollectionViewTopMargin),
-            thumbnailsCollectionView.leftAnchor.constraint(equalTo: basicImageView.rightAnchor, constant: Layout.horizontalMargin),
-            thumbnailsCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Layout.horizontalMargin),
+            thumbnailsCollectionView.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor,
+                                                          constant: Layout.thumbnailsCollectionViewTopMargin),
+            thumbnailsCollectionView.leftAnchor.constraint(equalTo: basicImageView.rightAnchor,
+                                                           constant: Layout.horizontalMargin),
+            thumbnailsCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor,
+                                                            constant: -Layout.horizontalMargin),
             thumbnailsCollectionViewHeightDefaultConstraint,
             
             separator.heightAnchor.constraint(equalToConstant: 1),
@@ -333,7 +336,7 @@ final class NotificationCenterModularCell: UITableViewCell, ReusableCell, UIColl
         if let thumbnailsModule = modules.thumbnails {
             thumbnails.append(contentsOf: thumbnailsModule.filter { $0.deeplink != nil })
             if thumbnails.count > 0 {
-                thumbnailsCollectionViewHeightConstraint?.constant = Layout.thumbnailsCollectionViewHeight
+                thumbnailsCollectionViewHeightConstraint?.constant = NotificationCenterThumbnailCell.thumbnailSideSize
                 thumbnailsCollectionView.reloadData()
             }
         } else {

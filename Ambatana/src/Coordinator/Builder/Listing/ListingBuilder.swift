@@ -1,7 +1,8 @@
 import LGCoreKit
 
 protocol ListingAssembly {
-    func buildListingDetail(for listing: Listing, source: EventParameterListingVisitSource) -> UIViewController
+    func buildListingDetail(withVM listingViewModel: ListingViewModel,
+                            source: EventParameterListingVisitSource) -> UIViewController
     func buildDeck(with listing: Listing,
                    thumbnailImage: UIImage?,
                    listings: [ListingCellModel]?,
@@ -17,13 +18,11 @@ enum ListingBuilder {
 }
 
 extension ListingBuilder: ListingAssembly {
-    func buildListingDetail(for listing: Listing, source: EventParameterListingVisitSource) -> UIViewController {
+    func buildListingDetail(withVM listingViewModel: ListingViewModel,
+                            source: EventParameterListingVisitSource) -> UIViewController {
         switch self {
         case .standard(let nc):
-            let navigator = ListingDetailWireframe(nc: nc)
-            let vm = ListingDetailViewModel(withListing: listing,
-                                            viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
-                                            visitSource: source)
+            let vm = ListingDetailViewModel(withVM: listingViewModel, visitSource: source)
             let vc = ListingDetailViewController(viewModel: vm)
 
             vm.navigator = ListingFullDetailWireframe(nc: nc)

@@ -25,8 +25,8 @@ final class UserApiDataSource: UserDataSource {
     }
 
     func saveReport(_ reportedUserId: String, userId: String, parameters: [String: Any],
-        completion: UserDataSourceEmptyCompletion?) {
-            let request = UserRouter.saveReport(userId: userId, reportedUserId: reportedUserId, params: parameters)
+                    completion: UserDataSourceEmptyCompletion?) {
+        let request = UserRouter.saveReport(userId: userId, reportedUserId: reportedUserId, params: parameters)
         apiClient.request(request, completion: completion)
     }
 
@@ -56,7 +56,17 @@ final class UserApiDataSource: UserDataSource {
         apiClient.request(request, completion: completion)
     }
 
-    
+    func requestVerification(params: [String: Any], completion: DataSourceCompletion<Void>?) {
+        let request = UserRouter.createVerificationRequest(params: params)
+        apiClient.request(request, completion: completion)
+    }
+
+    func readVerificationRequests(requestedUserId: String, myUserId: String, completion: DataSourceCompletion<[UserVerificationRequest]>?) {
+        let params: [String: Any] = ["filter[requester]": myUserId, "filter[requested]": requestedUserId]
+        let request = UserRouter.verificationRequests(params: params)
+        apiClient.request(request, decoder: UserApiDataSource.decoderVerificationRequests, completion: completion)
+    }
+
     // MARK: - Private methods
 
     private static func decoderArray(_ object: Any) -> [User]? {
@@ -90,12 +100,29 @@ final class UserApiDataSource: UserDataSource {
         } else {
             guard let data = try? JSONSerialization.data(withJSONObject: object,
                                                          options: .prettyPrinted) else {
-                logAndReportParseError(object: object, entity: .userRelation,
-                                       comment: "could not parse LGUserUserRelation")
-                return nil
+                                                            logAndReportParseError(object: object, entity: .userRelation,
+                                                                                   comment: "could not parse LGUserUserRelation")
+                                                            return nil
             }
-           return LGUserUserRelation.decodeFrom(jsonData: data)
+            return LGUserUserRelation.decodeFrom(jsonData: data)
         }
     }
 
+    private static func decoderVerificationRequests(_ object: Any) -> [UserVerificationRequest]? {
+
+        guard let dict = object as? [String : Any] else { return nil }
+        guard let itemsArray = dict["data"] as? [[String : Any]] else { return nil }
+        guard let data = try? JSONSerialization.data(withJSONObject: itemsArray, options: .prettyPrinted) else { return nil }
+
+        do {
+            let verificationRequests = try JSONDecoder().decode(FailableDecodableArray<LGUserVerificationRequest>.self,
+                                                                from: data)
+            return verificationRequests.validElements
+
+        } catch {
+            logAndReportParseError(object: object, entity: .verificationRequests,
+                                   comment: "could not parse [LGUserVerificationRequest]")
+        }
+        return nil
+    }
 }

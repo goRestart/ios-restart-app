@@ -1288,6 +1288,7 @@
 "profile_verifications_view_email_title" = "E-posta";
 "profile_verifications_view_extra_section_title" = "AL & SAT";
 "profile_verifications_view_facebook_title" = "Facebook";
+"profile_verifications_view_facebook_unavailable" = "Facebook doğrulama işlemi esnasında bir hata oluştu.";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "Her ilan için +2 puan (10 puana kadar)";
 "profile_verifications_view_mark_as_sold_title" = "Satıldı olarak işaretle";

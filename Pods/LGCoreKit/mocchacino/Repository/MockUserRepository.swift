@@ -8,6 +8,7 @@ open class MockUserRepository: InternalUserRepository {
     public var userResult: UserResult!
     public var userUserRelationResult: UserUserRelationResult!
     public var emptyResult: UserVoidResult!
+    public var verificationRequestResult: RepositoryResult<[UserVerificationRequest]>!
 
 
     // MARK: - Lifecycle
@@ -45,5 +46,13 @@ open class MockUserRepository: InternalUserRepository {
 
     public func saveReport(_ reportedUserId: String, params: ReportUserParams, completion: UserVoidCompletion?) {
         delay(result: emptyResult, completion: completion)
+    }
+
+    public func requestVerification(_ requestedUserId: String, completion: RepositoryCompletion<Void>?) {
+        delay(result: emptyResult, completion: completion)
+    }
+
+    public func retriveVerificationRequests(_ requestedUserId: String, completion: RepositoryCompletion<[UserVerificationRequest]>?) {
+        delay(result: verificationRequestResult, completion: completion)
     }
 }

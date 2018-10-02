@@ -15,12 +15,15 @@ final class HorizontalSectionController: ListSectionController {
     private var listingHorizontalSectionModel: ListingSectionModel?
     weak var listingActionDelegate: ListingActionDelegate?
     weak var delegate: HorizontalSectionDelegate?
+    
+    private var scrollOffset: CGFloat = -SectionControllerLayout.sectionInset.left
 
     private lazy var adapter: ListAdapter = {
         let adapter = ListAdapter(updater: ListAdapterUpdater(),
                                   viewController: self.viewController)
         adapter.dataSource = self
         adapter.collectionViewDelegate = self
+        adapter.scrollViewDelegate = self
         return adapter
     }()
 
@@ -47,6 +50,13 @@ final class HorizontalSectionController: ListSectionController {
                                  at: index) as? EmbeddedCollectionViewCell
             else { fatalError() }
         adapter.collectionView = cell.collectionView
+
+        cell.collectionView.setContentOffset(
+            CGPoint(x: scrollOffset,
+                    y: cell.collectionView.contentOffset.y),
+            animated: false
+        )
+        
         return cell
     }
 
@@ -104,6 +114,11 @@ extension HorizontalSectionController: UICollectionViewDelegate {
     }
 }
 
+extension HorizontalSectionController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollOffset = scrollView.contentOffset.x
+    }
+}
 
 // MARK:- SupplementaryView Datasource
 

@@ -236,7 +236,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         let moreInfo = R.Strings.productMoreInfoOpenButton.lowercased().capitalizedFirstLetterOnly
         toShowActions.append(UIAction(interface: .text(moreInfo),
                                       action: { [weak viewModel] in
-            viewModel?.showListingDetail(at: viewModel?.currentIndex ?? 0)
+            viewModel?.showListingDetail()
         }))
         showActionSheet(R.Strings.commonCancel, actions: toShowActions, barButtonItem: nil)
     }

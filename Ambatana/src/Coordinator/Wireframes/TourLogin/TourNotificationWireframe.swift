@@ -6,7 +6,7 @@ protocol TourSkiperNavigator: class {
 }
 
 final class TourNotificationWireframe: TourNotificationsNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
     private let action: TourPostingAction
     private let locationManager: LocationManager
     private let assembly: TourAssembly
@@ -39,10 +39,10 @@ final class TourNotificationWireframe: TourNotificationsNavigator {
     }
 
     func showTourLocation() {
-        nc.addFadeTransition()
+        nc?.addFadeTransition()
 
         let vc = assembly.buildTourLocation(action: action, skipper: skipper)
-        nc.setViewControllers([vc], animated: false)
+        nc?.setViewControllers([vc], animated: false)
     }
 
     func closeTour() {
@@ -68,9 +68,9 @@ final class TourNotificationWireframe: TourNotificationsNavigator {
     }
 
     private func openTourPosting() {
-        nc.addFadeTransition()
+        nc?.addFadeTransition()
 
         let vc = assembly.buildTourPosting(action: action)
-        nc.setViewControllers([vc], animated: false)
+        nc?.setViewControllers([vc], animated: false)
     }
 }

@@ -22,6 +22,7 @@ protocol Environment {
     var paymentsBaseURL: String { get }
     var suggestiveSearchBaseURL: String { get }
     var searchProductsBaseURL: String { get }
+    var newSearchProductsBaseURL: String { get }
     var searchRealEstateBaseURL: String { get }
     var searchCarsBaseURL: String { get }
     var searchServicesBaseURL: String { get }
@@ -37,4 +38,5 @@ protocol Environment {
     var rewardBaseURL: String { get }
     var challengerBaseURL: String { get }
     var p2pPaymentsBaseURL: String { get }
+    var reputationBaseURL: String { get }
 }

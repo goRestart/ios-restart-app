@@ -25,6 +25,7 @@ extension DefaultsKeys {
     static let lastRunAppVersion = DefaultsKey<String?>("lastRunAppVersion")
 
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
+    static let didShowBlockingSignUp = DefaultsKey<Bool>("didShowBlockingSignUp")
     static let didShowListingDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
     static let didShowDeckOnBoarding = DefaultsKey<Bool>("didShowDeckOnBoarding")
     static let didShowCardGesturesOnBoarding = DefaultsKey<Bool>("didShowCardGesturesOnBoarding")
@@ -51,6 +52,7 @@ extension DefaultsKeys {
     static let lastShownPromoteBumpDate = DefaultsKey<Date?>("lastShownPromoteBumpDate")
     static let realEstateTooltipSellButtonAlreadyShown = DefaultsKey<Bool>("realEstateTooltipSellButtonAlreadyShown")
     static let realEstateTooltipMapShown = DefaultsKey<Bool>("realEstateTooltipMapShown")
+    static let clickToTalkShown = DefaultsKey<Bool>("clickToTalkShown")
     static let affiliationTooltipShown = DefaultsKey<Bool>("affiliationTooltipShown")
     static let lastShownSecurityWarningDate = DefaultsKey<Date?>("lastShownSecurityWarningDate")
 

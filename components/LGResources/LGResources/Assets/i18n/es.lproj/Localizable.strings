@@ -1288,6 +1288,7 @@
 "profile_verifications_view_email_title" = "Email";
 "profile_verifications_view_extra_section_title" = "COMPRA Y VENDE";
 "profile_verifications_view_facebook_title" = "Facebook";
+"profile_verifications_view_facebook_unavailable" = "Se ha producido un error al verificar con Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 puntos por cada artículo (hasta 10 puntos)";
 "profile_verifications_view_mark_as_sold_title" = "Marcar como vendido";

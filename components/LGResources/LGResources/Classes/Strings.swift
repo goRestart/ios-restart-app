@@ -2838,7 +2838,7 @@ extension R {
     public static let profileVerificationsViewExtraSectionTitle = Strings.tr("Localizable", "profile_verifications_view_extra_section_title")
     /// Facebook
     public static let profileVerificationsViewFacebookTitle = Strings.tr("Localizable", "profile_verifications_view_facebook_title")
-    /// An error ocurred while verifying with Facebook
+    /// An error occurred while verifying with Facebook
     public static let profileVerificationsViewFacebookUnavailable = Strings.tr("Localizable", "profile_verifications_view_facebook_unavailable")
     /// Google
     public static let profileVerificationsViewGoogleTitle = Strings.tr("Localizable", "profile_verifications_view_google_title")

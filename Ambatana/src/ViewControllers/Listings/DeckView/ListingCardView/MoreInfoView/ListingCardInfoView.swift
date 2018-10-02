@@ -39,7 +39,7 @@ final class ListingCardInfoView: MoreInfoViewType {
         let vertical = UIStackView.vertical([top, bottom])
 
         addSubviewForAutoLayout(vertical)
-        vertical.constraintsToEdges(in: self).activate()
+        vertical.constraintToEdges(in: self)
     }
 
     func setupWith(title: String, price: String) {

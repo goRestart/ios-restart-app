@@ -998,12 +998,17 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private func closeEdit() {
         delegate?.vmHideKeyboard()
-        guard let editedListing = savedListing else {
-            navigator?.editingListingDidCancel()
-            return
-        }
         let showBumpItem = shouldFeatureItemAfterEdit.value && self.listingCanBeFeatured
         let purchasesWanted = showBumpItem ? purchases : []
+        
+        guard let editedListing = savedListing else {
+            let purchasesOnCancel = featureFlags.bumpPromoAfterSellNoLimit.isActive ? purchasesWanted : []
+            navigator?.editingListingDidCancel(initialListing,
+                                               purchases: purchasesOnCancel,
+                                               timeSinceLastBump: timeSinceLastBump,
+                                               maxCountdown: maxCountdown)
+            return
+        }
         navigator?.editingListingDidFinish(editedListing,
                                            purchases: purchasesWanted,
                                            timeSinceLastBump: timeSinceLastBump,

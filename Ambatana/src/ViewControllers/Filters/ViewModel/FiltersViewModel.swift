@@ -271,8 +271,7 @@ final class FiltersViewModel: BaseViewModel {
         switch category {
         case .category(let listingCategory):
             if let carSectionIndex = sections.index(of: .carsInfo),
-                listingCategory.isCar,
-                featureFlags.carExtraFieldsEnabled.isActive {
+                listingCategory.isCar {
                 delegate?.scrollToSection(atIndexPath: IndexPath(row: 0, section: carSectionIndex))
             } else if let realEstateSectionIndex = sections.index(of: .realEstateInfo),
                 listingCategory.isRealEstate {
@@ -585,7 +584,7 @@ extension FiltersViewModel {
 extension FiltersViewModel: CarAttributeSelectionDelegate {
     
     var carSections: [FilterCarSection] {
-        return FilterCarSection.all(showCarExtraFilters: featureFlags.carExtraFieldsEnabled.isActive)
+        return FilterCarSection.allCases
     }
     
     var isCarsInfoCellEnabled: Bool {
@@ -892,43 +891,11 @@ extension FiltersViewModel {
     var isServicesInfoCellEnabled: Bool {
         return productFilter.selectedCategories.contains(.services)
     }
-
-    var serviceSubtypeCellEnabled: Bool {
-        return productFilter.verticalFilters.services.type != nil
-    }
-    
-    var serviceSections: [FilterServicesSection] {
-        return FilterServicesSection.allSections(isUnifiedActive: featureFlags.servicesUnifiedFilterScreen.isActive)
-    }
     
     var selectedServiceSubtypesDisplayName: String {
-        if featureFlags.servicesUnifiedFilterScreen.isActive {
-            return createUnifiedSelectedServiceDisplayName() ?? ""
-        } else {
-            return createSelectedServiceSubtypeDisplayName() ?? R.Strings.filtersServiceSubtypeNotSet
-        }
-    }
-    
-    private func createSelectedServiceSubtypeDisplayName() -> String? {
-        
         guard let firstSubtype =
             productFilter.verticalFilters.services.subtypes?.first?.name else {
-            return nil
-        }
-        
-        guard let secondSubtype =
-            productFilter.verticalFilters.services.subtypes?[safeAt: 1]?.name else {
-            return firstSubtype
-        }
-        
-        return "\(firstSubtype), \(secondSubtype)"
-    }
-    
-    private func createUnifiedSelectedServiceDisplayName() -> String? {
-        
-        guard let firstSubtype =
-            productFilter.verticalFilters.services.subtypes?.first?.name else {
-            return nil
+                return ""
         }
         
         if let count =
@@ -938,51 +905,10 @@ extension FiltersViewModel {
         
         return firstSubtype
     }
-
     
     // MARK: Actions
     
-    func servicesTypeTapped() {
-
-        let serviceTypeNames = serviceTypes.map( { $0.name } )
-        let vm = ListingAttributeSingleSelectPickerViewModel(title: R.Strings.servicesServiceTypeListTitle,
-                                                             attributes: serviceTypeNames,
-                                                             selectedAttribute: currentServiceTypeName)
-        { [weak self] selectedIndex in
-            if let selectedIndex = selectedIndex {
-                self?.updateServiceType(withServiceType: self?.serviceTypes[safeAt: selectedIndex])
-            } else {
-                self?.clearServiceType()
-            }
-            
-            self?.delegate?.vmDidUpdate()
-        }
-        navigator?.openListingAttributePicker(viewModel: vm)
-    }
-    
-    func servicesSubtypeTapped() {
-        
-        guard let serviceTypeId = productFilter.verticalFilters.services.type?.id else {
-            return
-        }
-        
-        let serviceSubtypes = servicesInfoRepository.serviceSubtypes(forServiceTypeId: serviceTypeId)
-        let serviceSubtypeNames = serviceSubtypes.map( { $0.name } )
-        let selectedSubtypeNames = (productFilter.verticalFilters.services.subtypes?.map( { $0.name } )) ?? []
-        let vm = ListingAttributeMultiselectPickerViewModel(title: R.Strings.servicesServiceSubtypeListTitle,
-                                                            attributes: serviceSubtypeNames,
-                                                            selectedAttributes: selectedSubtypeNames,
-                                                            canSearchAttributes: true)
-        { [weak self] (selectedIndexes) in
-            let selectedSubtypes = self?.selectedAttributes(forIndexes: selectedIndexes, in: serviceSubtypes)
-            self?.updateServiceSubtypes(withServiceSubtypes: selectedSubtypes)
-            self?.delegate?.vmDidUpdate()
-        }
-        
-        navigator?.openListingAttributePicker(viewModel: vm)
-    }
-    
-    func unifiedServicesFilterTapped() {
+    func servicesFilterTapped() {
         let sectionRepresentables = serviceTypes.sectionRepresentables
             .updatedSectionRepresentables(withServicesFilters: productFilter.verticalFilters.services)
         let vm = DropdownViewModel(screenTitle: R.Strings.filtersServicesServicesListTitle,

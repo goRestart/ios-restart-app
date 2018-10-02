@@ -62,7 +62,7 @@ final class AffiliationStoreCell: UICollectionViewCell, ReusableCell {
         backgroundColor = .clear
         addSubviewsForAutoLayout([background, partnerImageView, pointsView, titleLabel, redeemButton])
 
-        background.constraintsToEdges(in: contentView).activate()
+        background.constraintToEdges(in: contentView)
         [
             partnerImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metrics.margin),
             partnerImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin),

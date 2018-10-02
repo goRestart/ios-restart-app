@@ -3,8 +3,8 @@ import LGCoreKit
 import LGComponents
 
 final class ListingWireframe {
-    private let nc: UINavigationController
-    private lazy var userRouter = UserWireframe(nc: nc)
+    private weak var nc: UINavigationController?
+    private var userRouter: UserWireframe?
 
     private let myUserRepository: MyUserRepository
     private let detailNavigator: ListingDetailNavigator
@@ -84,7 +84,7 @@ final class ListingWireframe {
                                index: Int,
                                identifier: String?,
                                section: UInt? = nil) {
-        
+        guard let nc = nc else { return }
         let cellModels = feedListingDataArray.map { ListingCellModel.init(listing: $0.listing) }
         let requester = FilteredListingListRequester(itemsPerPage: SharedConstants.numListingsPerPageDefault,
                                                      offset: 0)
@@ -107,36 +107,36 @@ final class ListingWireframe {
     private func openListing(listingId: String,
                              source: EventParameterListingVisitSource,
                              actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
-        nc.showLoadingMessageAlert()
+        nc?.showLoadingMessageAlert()
         listingRepository.retrieve(listingId) { [weak self] result in
             if let listing = result.value {
-                self?.nc.dismissLoadingMessageAlert {
+                self?.nc?.dismissLoadingMessageAlert {
                     self?.openListing(listing: listing, source: source, index: 0, discover: false,
                                       actionOnFirstAppear: actionOnFirstAppear)
                 }
             } else if let error = result.error {
                 switch error {
                 case .network:
-                    self?.nc.dismissLoadingMessageAlert {
-                        self?.nc.showAutoFadingOutMessageAlert(message: R.Strings.commonErrorConnectionFailed)
+                    self?.nc?.dismissLoadingMessageAlert {
+                        self?.nc?.showAutoFadingOutMessageAlert(message: R.Strings.commonErrorConnectionFailed)
                     }
                 case .internalError, .unauthorized, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError, .searchAlertError:
-                    self?.nc.dismissLoadingMessageAlert {
-                        self?.nc.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
+                    self?.nc?.dismissLoadingMessageAlert {
+                        self?.nc?.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
                     }
                 case .notFound, .forbidden:
                     let relatedRequester = RelatedListingListRequester(listingId: listingId,
                                                                        itemsPerPage: SharedConstants.numListingsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in
-                        self?.nc.dismissLoadingMessageAlert {
+                        self?.nc?.dismissLoadingMessageAlert {
                             if let relatedListings = result.listingsResult.value, !relatedListings.isEmpty {
                                 self?.openRelatedListingsForNonExistentListing(listingId: listingId,
                                                                                source: source,
                                                                                requester: relatedRequester,
                                                                                relatedListings: relatedListings)
                             }
-                            self?.nc.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
+                            self?.nc?.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
                         }
                     }
                 }
@@ -189,7 +189,7 @@ final class ListingWireframe {
                                    source: source,
                                    actionOnFirstAppear: actionOnFirstAppear,
                                    trackingIndex: nil)
-        } else {
+        } else if let nc = nc {
             let navigator = ListingDetailWireframe(nc: nc)
             let vm = ListingCarouselViewModel(listing: listing,
                                               viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
@@ -225,7 +225,7 @@ final class ListingWireframe {
                                    source: source,
                                    actionOnFirstAppear: .nonexistent,
                                    trackingIndex: index)
-        } else {
+        } else if let nc = nc {
             let navigator = ListingDetailWireframe(nc: nc)
             let vm = ListingCarouselViewModel(productListModels: cellModels,
                                               initialListing: listing,
@@ -273,7 +273,7 @@ final class ListingWireframe {
             openListingNewItemPage(listing: .product(localProduct),
                                    listingListRequester: requester,
                                    source: source)
-        } else {
+        } else if let nc = nc {
             let navigator = ListingDetailWireframe(nc: nc)
             let vm = ListingCarouselViewModel(listing: .product(localProduct),
                                               viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
@@ -292,7 +292,7 @@ final class ListingWireframe {
         let animator = ListingCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
                                                    backgroundColor: color)
         let vc = ListingCarouselViewController(viewModel: viewModel, pushAnimator: animator)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openListingNewItemPage(listing: Listing,
@@ -316,19 +316,24 @@ final class ListingWireframe {
                                 source: EventParameterListingVisitSource,
                                 actionOnFirstAppear: DeckActionOnFirstAppear,
                                 trackingIndex: Int?) {
-        let vc = ListingBuilder.standard(nc).buildDeck(with: listing,
-                                                       thumbnailImage: thumbnailImage,
-                                                       listings: cellModels,
-                                                       requester: requester,
-                                                       source: source,
-                                                       onFirstAppear: actionOnFirstAppear,
-                                                       trackingIndex: trackingIndex,
-                                                       trackingIdentifier: nil)
+        guard let nc = nc else { return }
+        let vc = ListingBuilder.standard(nc)
+            .buildDeck(with: listing,
+                       thumbnailImage: thumbnailImage,
+                       listings: cellModels,
+                       requester: requester,
+                       source: source,
+                       onFirstAppear: actionOnFirstAppear,
+                       trackingIndex: trackingIndex,
+                       trackingIdentifier: nil)
         nc.pushViewController(vc, animated: true)
     }
 
     func openUser(userId: String, source: UserSource) {
-        userRouter.openUser(userId: userId, source: source)
+        guard let nc = nc else { return }
+        let wireframe = UserWireframe(nc: nc)
+        wireframe.openUser(userId: userId, source: source)
+        userRouter = wireframe
     }
 }
 
@@ -341,7 +346,7 @@ private extension ListingWireframe {
                                                                         source: source,
                                                                         requester: requester,
                                                                         relatedListings: relatedListings)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
         trackRelatedListings(listingId: listingId, source: .notFound)
     }
 }

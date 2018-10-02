@@ -98,7 +98,7 @@
 "bump_up_banner_pay_text_improvement_turkish_d" = "Verkoop nu sneller";
 "bump_up_banner_wait_text" = "opnieuw plaatsen";
 "bump_up_boost_success_alert_text" = "Je advertentie werd geboost! Deze zal de komende 24 uur als uitgelicht geplaatst worden.";
-"bump_up_chat_list_fail_alert" = "This listing can't be featured right now.";
+"bump_up_chat_list_fail_alert" = "Deze advertentie kan momenteel niet uitgelicht worden.";
 "bump_up_error_bump_generic" = "Er is een fout opgetreden tijdens het als uitgelicht plaatsen van je advertentie. Probeer het opnieuw.";
 "bump_up_error_bump_token" = "Je betaling is verwerkt, maar je advertentie is niet als uitgelicht geplaatst.";
 "bump_up_error_payment_failed" = "Kan geen verbinding maken met de App Store. Je betaling is niet verwerkt. Probeer het opnieuw.";
@@ -690,7 +690,7 @@
 "main_sign_up_facebook_connect_button_w_name" = "Log in als %@";
 "main_sign_up_fb_connect_error_email_taken" = "Jouw e-mailadres is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
-"main_sign_up_fb_connect_error_unavailable_message" = "An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.";
+"main_sign_up_fb_connect_error_unavailable_message" = "Er is een fout opgetreden tijdens het verbinden met Facebook. Om je aan te melden, reset je je wachtwoord door het e-mailadres in te voeren dat je op Facebook gebruikt.";
 "main_sign_up_fb_connect_error_unavailable_title" = "Oeps! Er is een fout opgetreden.";
 "main_sign_up_google_connect_button" = "Doorgaan met Google";
 "main_sign_up_google_connect_button_w_name" = "Log in als %@";
@@ -1243,7 +1243,7 @@
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Bedankt voor het toevoegen van je telefoonnummer! Het is altijd beter om ons te bellen via de bovenstaande belknop.";
 "profile_ask_verification_button_disabled" = "Verificatie-aanvraag verzonden!";
 "profile_ask_verification_button_enabled" = "Vraag %@ om hun profiel te verifiëren";
-"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
+"profile_ask_verification_button_enabled_short" = "Vraag om profiel te verifiëren";
 "profile_bio_add_button" = "Voeg jouw biografie toe";
 "profile_bio_show_more_button" = "MEER OVER MIJ";
 "profile_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";
@@ -1288,6 +1288,7 @@
 "profile_verifications_view_email_title" = "EMAIL";
 "profile_verifications_view_extra_section_title" = "KOPEN EN VERKOPEN";
 "profile_verifications_view_facebook_title" = "Facebook";
+"profile_verifications_view_facebook_unavailable" = "Er is een fout opgetreden tijdens het verifiëren met Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 ptn voor elke advertentie (maximaal 10 ptn)";
 "profile_verifications_view_mark_as_sold_title" = "Markeer als verkocht";

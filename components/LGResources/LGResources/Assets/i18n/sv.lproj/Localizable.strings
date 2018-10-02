@@ -98,7 +98,7 @@
 "bump_up_banner_pay_text_improvement_turkish_d" = "Sälj snabbare nu";
 "bump_up_banner_wait_text" = "till nästa topplistning";
 "bump_up_boost_success_alert_text" = "Du har boostat din annons! Den kommer att vara topplistad i 24 timmar.";
-"bump_up_chat_list_fail_alert" = "This listing can't be featured right now.";
+"bump_up_chat_list_fail_alert" = "Annonsen kan inte topplistas just nu.";
 "bump_up_error_bump_generic" = "Ett fel uppstod när din annons skulle topplistas. Vänligen försök igen.";
 "bump_up_error_bump_token" = "Din betalning har genomförts men din annons har inte topplistats.";
 "bump_up_error_payment_failed" = "Anslutningen till App Store misslyckades. Din betalning har inte genomförts. Vänligen försök igen.";
@@ -1243,7 +1243,7 @@
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Tack för att du lämnat ditt telefonnummer! Det är alltid bättre att slå oss en signal med hjälp av ringknappen ovan.";
 "profile_ask_verification_button_disabled" = "Verifikation begärt!";
 "profile_ask_verification_button_enabled" = "Be %@ att verifiera sin profil";
-"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
+"profile_ask_verification_button_enabled_short" = "Begär profilverifikation";
 "profile_bio_add_button" = "Lägg till din bio";
 "profile_bio_show_more_button" = "MER OM MIG";
 "profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";
@@ -1288,6 +1288,7 @@
 "profile_verifications_view_email_title" = "E-post";
 "profile_verifications_view_extra_section_title" = "KÖP & SÄLJ";
 "profile_verifications_view_facebook_title" = "Facebook";
+"profile_verifications_view_facebook_unavailable" = "Ett fel inträffade under Facebook-verifikationen";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 poäng för varje annons (upp till 10 p)";
 "profile_verifications_view_mark_as_sold_title" = "Markera som såld";

@@ -31,6 +31,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var listingRepository: MockListingRepository!
         var userRepository: MockUserRepository!
         var stickersRepository: MockStickersRepository!
+        var p2pPaymentsRepository: P2PPaymentsRepository!
         var tracker: MockTracker!
         var configManager: MockConfigManager!
         var sessionManager: MockSessionManager!
@@ -102,6 +103,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 sut = ChatViewModel(conversation: conversation, myUserRepository: myUserRepository,
                                     chatRepository: chatRepository, listingRepository: listingRepository,
                                     userRepository: userRepository, stickersRepository: stickersRepository,
+                                    p2pPaymentsRepository: p2pPaymentsRepository,
                                     tracker: tracker, configManager: configManager, sessionManager: sessionManager,
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
                                     source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager,
@@ -123,6 +125,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 listingRepository = MockListingRepository()
                 userRepository = MockUserRepository()
                 stickersRepository  = MockStickersRepository.makeMock()
+                p2pPaymentsRepository = MockP2PPaymentsRepository()
                 tracker = MockTracker()
                 configManager = MockConfigManager()
                 sessionManager = MockSessionManager()

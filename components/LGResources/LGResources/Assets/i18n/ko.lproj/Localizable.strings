@@ -98,7 +98,7 @@
 "bump_up_banner_pay_text_improvement_turkish_d" = "지금 빨리 판매하기";
 "bump_up_banner_wait_text" = "다시 강조하기";
 "bump_up_boost_success_alert_text" = "상품이 강조되었습니다! 상품은 24시간 동안 강조되어 집니다.";
-"bump_up_chat_list_fail_alert" = "This listing can't be featured right now.";
+"bump_up_chat_list_fail_alert" = "해당 게시글은 지금 강조될 수 없습니다.";
 "bump_up_error_bump_generic" = "상품 목록을 강조하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "bump_up_error_bump_token" = "결제가 진행되었지만, 상품 목록이 강조되지 않았습니다.";
 "bump_up_error_payment_failed" = "앱 스토어에 연결할 수 없습니다. 귀하의 결제가 진행되지 않았습니다. 다시 시도해주세요.";
@@ -690,7 +690,7 @@
 "main_sign_up_facebook_connect_button_w_name" = "%@로 로그인";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";
-"main_sign_up_fb_connect_error_unavailable_message" = "An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.";
+"main_sign_up_fb_connect_error_unavailable_message" = "Facebook에 연결하는 동안 오류가 발생했습니다. 로그인 하시려면, Facebook에서 사용하시는 이메일 주소를 이용하여 비밀번호를 재설정해주세요";
 "main_sign_up_fb_connect_error_unavailable_title" = "이런! 오류가 발생했습니다.";
 "main_sign_up_google_connect_button" = "구글과 연결하기";
 "main_sign_up_google_connect_button_w_name" = "%@로 로그인";
@@ -1288,6 +1288,7 @@
 "profile_verifications_view_email_title" = "이메일";
 "profile_verifications_view_extra_section_title" = "구매 & 판매하기";
 "profile_verifications_view_facebook_title" = "페이스북";
+"profile_verifications_view_facebook_unavailable" = "An error occurred while verifying with Facebook";
 "profile_verifications_view_google_title" = "구글";
 "profile_verifications_view_mark_as_sold_subtitle" = "각 게시글 마다 +2 포인트 추가 (최고 10 포인트)";
 "profile_verifications_view_mark_as_sold_title" = "품절로 표시";
