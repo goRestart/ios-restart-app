@@ -44,7 +44,7 @@ def shared_pods
  
     # letgo Core
 
-   pod "LGCoreKit",             "4.86.0", :inhibit_warnings => false
+   pod "LGCoreKit",             "4.90.0", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit", :inhibit_warnings => false
 #   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-5204-NewSearchAPI', :inhibit_warnings => false
 

@@ -72,16 +72,18 @@ final class ReportOptionsListViewModel: BaseViewModel {
             }
         }
 
+        let comment = additionalNotes == "" ? nil : additionalNotes
+
         self.delegate?.vmShowLoading(nil)
         if type.isForProduct {
             reportingRepository.createListingReport(to: reportedId,
                                                     reason: option.type.rawValue,
-                                                    comment: additionalNotes ?? "",
+                                                    comment: comment,
                                                     completion: completion)
         } else {
             reportingRepository.createUserReport(to: reportedId,
                                                  reason: option.type.rawValue,
-                                                 comment: additionalNotes ?? "",
+                                                 comment: comment,
                                                  completion: completion)
         }
     }

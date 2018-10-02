@@ -22,7 +22,7 @@ struct StagingEnvironment: Environment {
     let paymentsBaseURL = "https://payment.stg.letgo.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.stg.letgo.com"
     let searchProductsBaseURL = "https://search-products.stg.letgo.com"
-    let newSearchProductsBaseURL = "https://search.stg.letgo.com"
+    let newSearchProductsBaseURL = "https://searchproducts.stg.letgo.com"
     let niordBaseURL = "https://niord.stg.letgo.com"
     let spellCorrectorBaseURL = "https://spellcorrector.stg.letgo.com"
     let meetingsBaseURL = "https://meeting.stg.letgo.com"
@@ -35,4 +35,5 @@ struct StagingEnvironment: Environment {
     let rewardBaseURL = "https://reward.stg.letgo.com"
     let challengerBaseURL = "https://challenger.stg.letgo.com"
     let p2pPaymentsBaseURL = "https://p2payments.stg.letgo.com"
+    let reputationBaseURL = "https://reputation.stg.letgo.com"
 }

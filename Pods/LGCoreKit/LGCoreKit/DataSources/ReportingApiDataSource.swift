@@ -32,15 +32,21 @@ final class ReportingApiDataSource: ReportingDataSource {
         apiClient.request(request, decoder: ReportingApiDataSource.decoder, completion: completion)
     }
 
-    func createUserReport(reporterId: String, reportedId: String, reason: String, comment: String, completion: ReportingDataSourceEmptyCompletion?) {
-        let attributes = [Keys.reporterIdentity: reporterId, Keys.reportedIdentity: reportedId, Keys.reason: reason, Keys.comment: comment]
+    func createUserReport(reporterId: String, reportedId: String, reason: String, comment: String?, completion: ReportingDataSourceEmptyCompletion?) {
+        var attributes = [Keys.reporterIdentity: reporterId, Keys.reportedIdentity: reportedId, Keys.reason: reason]
+        if let comment = comment {
+            attributes[Keys.comment] = comment
+        }
         let params: [String: Any] = JsonApi.usersReports.makeCreateRequest(attributes: attributes)
         let request = ReportingRouter.createUserReport(params: params)
         apiClient.request(request, completion: completion)
     }
 
-    func createListingReport(reporterId: String, reportedId: String, reason: String, comment: String, completion: ReportingDataSourceEmptyCompletion?) {
-        let attributes = [Keys.reporterIdentity: reporterId, Keys.reportedIdentity: reportedId, Keys.reason: reason, Keys.comment: comment]
+    func createListingReport(reporterId: String, reportedId: String, reason: String, comment: String?, completion: ReportingDataSourceEmptyCompletion?) {
+        var attributes = [Keys.reporterIdentity: reporterId, Keys.reportedIdentity: reportedId, Keys.reason: reason]
+        if let comment = comment {
+            attributes[Keys.comment] = comment
+        }
         let params: [String: Any] = JsonApi.listingsReports.makeCreateRequest(attributes: attributes)
         let request = ReportingRouter.createListingReport(params: params)
         apiClient.request(request, completion: completion)

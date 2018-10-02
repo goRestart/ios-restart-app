@@ -11,8 +11,8 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         static let labelRightMargin: CGFloat = 38
         static let labelLeftBigMargin: CGFloat = 68
         static let labelLeftSmallMargin: CGFloat = 15
-        static let checkmarkHeight: CGFloat = 15
-        static let checkmarkWidth: CGFloat = 20
+        static let checkmarkHeight: CGFloat = 26
+        static let checkmarkWidth: CGFloat = 26
     }
 
     private let iconImageView: UIImageView = {
@@ -42,6 +42,7 @@ final class ReportOptionCell: UITableViewCell, ReusableCell {
         imageView.contentMode = .scaleAspectFill
         imageView.image = R.Asset.Reporting.icCheck.image
         imageView.isHidden = true
+        imageView.tintColor = UIColor.primaryColor
         return imageView
     }()
 
