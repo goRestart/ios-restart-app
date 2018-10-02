@@ -4,16 +4,14 @@ import LGComponents
 
 fileprivate extension TrackerEvent {
     var shouldTrack: Bool {
-        get {
-            switch name {
-            case .loginFB, .loginEmail, .loginGoogle, .signupEmail, .firstMessage,
-                 .listingMarkAsSold, .listingSellStart, .listingSellComplete, .sessionOneMinuteFirstWeek,
-                 .listingDetailVisit, .searchComplete, .phoneNumberSent, .listingDetailCall,
-                 .buyer24h, .buyerLister24h, .lister24h:
-                return true
-            default:
-                return false
-            }
+        switch name {
+        case .loginFB, .loginEmail, .loginGoogle, .signupEmail, .firstMessage,
+             .listingMarkAsSold, .listingSellStart, .listingSellComplete, .sessionOneMinuteFirstWeek,
+             .listingDetailVisit, .searchComplete, .phoneNumberSent, .listingDetailCall,
+             .buyer24h, .buyerLister24h, .lister24h:
+            return true
+        default:
+            return false
         }
     }
 }

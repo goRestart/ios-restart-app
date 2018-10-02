@@ -228,13 +228,11 @@ final class AmplitudeTracker: Tracker {
 
 fileprivate extension TrackerEvent {
     var shouldTrack: Bool {
-        get {
-            switch name {
-            case .buyer24h, .buyerLister24h, .lister24h:
-                return false
-            default:
-                return true
-            }
+        switch name {
+        case .buyer24h, .buyerLister24h, .lister24h:
+            return false
+        default:
+            return true
         }
     }
 }
