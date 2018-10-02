@@ -25,11 +25,19 @@ final class UserProfileViewController: BaseViewController {
     private let listingView: ListingListView
     private let tableView = UITableView()
 
+    private let ctaButtonsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = Metrics.veryShortMargin
+        return stackView
+    }()
+
     private let chatNowButton: LetgoButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .verySmall))
         button.addTarget(self, action: #selector(didTapChatNow), for: .touchUpInside)
         button.setTitle(R.Strings.chatUserProfileChatNow, for: .normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 18, bottom: 10, right: 18)
         return button
     }()
 
@@ -37,7 +45,7 @@ final class UserProfileViewController: BaseViewController {
         let button = LetgoButton(withStyle: .secondary(fontSize: .verySmall, withBorder: true))
         button.addTarget(self, action: #selector(didTapAskVerification), for: .touchUpInside)
         button.setTitle(R.Strings.profileAskVerificationButtonDisabled, for: .disabled)
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 18, bottom: 10, right: 18)
         return button
     }()
 
@@ -54,8 +62,7 @@ final class UserProfileViewController: BaseViewController {
     private var headerContainerTopConstraint: NSLayoutConstraint?
     private var userRelationViewHeightConstraint: NSLayoutConstraint?
     private var dummyViewHeightConstraint: NSLayoutConstraint?
-    private var bioAndTrustViewTopConstraint: NSLayoutConstraint?
-    private var ctaButtonsConstraints: [NSLayoutConstraint]?
+    private var ctaButtonsStackTopConstraint: NSLayoutConstraint?
     private var updatingUserRelation: Bool = false
     private let emptyReviewsTopMargin: CGFloat = 90
 
@@ -163,7 +170,7 @@ final class UserProfileViewController: BaseViewController {
         automaticallyAdjustsScrollViewInsets = false
 
         headerContainerView.addSubviewsForAutoLayout([headerView, dummyView, userRelationView,
-                                                      bioAndTrustView, tabsView])
+                                                      ctaButtonsStackView, bioAndTrustView, tabsView])
 
         if viewModel.shouldShowKarmaView {
             headerContainerView.addSubviewForAutoLayout(karmaView)
@@ -275,12 +282,15 @@ final class UserProfileViewController: BaseViewController {
             headerView.topAnchor.constraint(equalTo: headerContainerView.topAnchor),
             headerView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             headerView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-            dummyView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Layout.headerBottomMargin),
+            ctaButtonsStackView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
+            ctaButtonsStackView.rightAnchor.constraint(lessThanOrEqualTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
+            dummyView.topAnchor.constraint(equalTo: ctaButtonsStackView.bottomAnchor, constant: Layout.headerBottomMargin),
             dummyView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
             dummyView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Metrics.shortMargin),
-            userRelationView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Layout.headerBottomMargin),
+            userRelationView.topAnchor.constraint(equalTo: ctaButtonsStackView.bottomAnchor, constant: Layout.headerBottomMargin),
             userRelationView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             userRelationView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
+            bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor),
             bioAndTrustView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             bioAndTrustView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
             tabsView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
@@ -324,9 +334,9 @@ final class UserProfileViewController: BaseViewController {
         dummyViewHeightConstraint = dummyViewHeight
         constraints.append(dummyViewHeight)
 
-        let bioAndTrustViewTop = bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor)
-        bioAndTrustViewTopConstraint = bioAndTrustViewTop
-        constraints.append(bioAndTrustViewTop)
+        let ctaButtonStackViewTopConstraint = ctaButtonsStackView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Layout.headerBottomMargin)
+        ctaButtonsStackTopConstraint = ctaButtonStackViewTopConstraint
+        constraints.append(ctaButtonStackViewTopConstraint)
 
         headerView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         bioAndTrustView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
@@ -737,59 +747,19 @@ extension UserProfileViewController {
     }
 
     private func updateCTAButtons(showChatNow: Bool, showAskVerification: Bool) {
-        self.bioAndTrustViewTopConstraint?.isActive = false
-        if let ctaButtonsConstraints = ctaButtonsConstraints {
-            NSLayoutConstraint.deactivate(ctaButtonsConstraints)
-        }
-        chatNowButton.removeFromSuperview()
-        askVerificationButton.removeFromSuperview()
-
-        if !showChatNow && !showAskVerification {
-            bioAndTrustViewTopConstraint = bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor)
-            bioAndTrustViewTopConstraint?.isActive = true
+        if showChatNow {
+            ctaButtonsStackView.addArrangedSubview(chatNowButton)
         } else {
-            var constraints:[NSLayoutConstraint] = []
-
-            if showChatNow {
-                headerContainerView.addSubviewForAutoLayout(chatNowButton)
-                constraints += [
-                    chatNowButton.topAnchor.constraint(equalTo: userRelationView.bottomAnchor),
-                    chatNowButton.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
-                    chatNowButton.heightAnchor.constraint(equalToConstant: Layout.ctaButtonHeight),
-                ]
-            }
-
-            if showAskVerification {
-                headerContainerView.addSubviewForAutoLayout(askVerificationButton)
-                constraints += [
-                    askVerificationButton.topAnchor.constraint(equalTo: userRelationView.bottomAnchor),
-                    askVerificationButton.heightAnchor.constraint(equalToConstant: Layout.ctaButtonHeight)]
-            }
-
-            if showChatNow && showAskVerification {
-                constraints += [
-                    chatNowButton.rightAnchor.constraint(equalTo: headerContainerView.centerXAnchor, constant: -Metrics.veryShortMargin/2),
-                    askVerificationButton.leftAnchor.constraint(equalTo: headerContainerView.centerXAnchor, constant: Metrics.veryShortMargin/2),
-                    askVerificationButton.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-                ]
-            } else if showChatNow && !showAskVerification {
-                constraints += [
-                    chatNowButton.rightAnchor.constraint(lessThanOrEqualTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin)
-                ]
-            } else if !showChatNow && showAskVerification {
-                constraints += [
-                    askVerificationButton.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
-                    askVerificationButton.rightAnchor.constraint(lessThanOrEqualTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-                ]
-            }
-
-            let bioAndTrustViewTopConstraint = bioAndTrustView.topAnchor
-                .constraint(equalTo: (showChatNow ? chatNowButton : askVerificationButton).bottomAnchor, constant: Metrics.margin)
-
-            NSLayoutConstraint.activate(constraints + [bioAndTrustViewTopConstraint])
-            self.bioAndTrustViewTopConstraint = bioAndTrustViewTopConstraint
-            self.ctaButtonsConstraints = constraints
+            chatNowButton.removeFromSuperview()
         }
+
+        if showAskVerification {
+            ctaButtonsStackView.addArrangedSubview(askVerificationButton)
+        } else {
+            askVerificationButton.removeFromSuperview()
+        }
+
+        ctaButtonsStackTopConstraint?.constant = (showChatNow || showAskVerification) ? Layout.headerBottomMargin : 0
 
         headerContainerView.setNeedsLayout()
     }
