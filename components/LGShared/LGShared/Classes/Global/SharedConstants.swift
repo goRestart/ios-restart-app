@@ -26,9 +26,6 @@ public struct SharedConstants {
     
     // DeepLinks
     public static let deepLinkScheme = "letgo://"
-    // Branch
-    public static let branchWebsiteURL = "https://app.letgo.com"
-    public static let branchLinksHost = "app.letgo.com"
     // AppsFlyer
     public static let appsFlyerLinksHost = "letgo.onelink.me"
 

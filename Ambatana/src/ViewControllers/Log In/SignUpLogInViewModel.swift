@@ -560,7 +560,19 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         case .cancelled, .network, .notFound, .conflict, .badRequest, .internalError, .loginError:
             delegate?.vmHideLoading(result.errorMessage, afterMessageCompletion: nil)
+        case .unavailable:
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showServiceUnavailable()
+            }
         }
+    }
+    
+    private func showServiceUnavailable() {
+        router?.showAlert(
+            withTitle: R.Strings.mainSignUpFbConnectErrorUnavailableTitle,
+            andBody: R.Strings.mainSignUpFbConnectErrorUnavailableMessage,
+            andType: .plainAlert,
+            andActions: [UIAction.init(interface: .text(R.Strings.commonOk), action: {})])
     }
 
     private func showScammerAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {

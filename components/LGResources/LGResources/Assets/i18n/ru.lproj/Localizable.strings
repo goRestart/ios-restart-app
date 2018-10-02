@@ -690,7 +690,7 @@
 "main_sign_up_facebook_connect_button_w_name" = "Войти как %@";
 "main_sign_up_fb_connect_error_email_taken" = "Ваш e-mail уже зарегистрирован. Пожалуйста, используйте его для входа.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";
-"main_sign_up_fb_connect_error_unavailable_message" = "An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.";
+"main_sign_up_fb_connect_error_unavailable_message" = "При соединении с  Facebook произошла ошибка. Чтобы войти, сбросьте пароль, введя е-мейл, который вы используете на Facebook.";
 "main_sign_up_fb_connect_error_unavailable_title" = "Упс! Произошла ошибка.";
 "main_sign_up_google_connect_button" = "Вход через Google";
 "main_sign_up_google_connect_button_w_name" = "Войти как %@";

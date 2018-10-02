@@ -28,7 +28,6 @@ def shared_pods
     #Fabric
     pod "Fabric",               "1.7.2"     # Obj-c
     pod "Crashlytics",          "3.9.3"     # Obj-c
-    pod "Branch",               "0.22.5"    # Obj-c
 
     # Tracking
     pod "Amplitude-iOS",        "4.0.4"     # Obj-c

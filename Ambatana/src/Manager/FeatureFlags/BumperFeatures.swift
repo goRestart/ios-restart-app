@@ -89,6 +89,7 @@ extension Bumper  {
         flags.append(NewSearchAPIEndPoint.self)
         flags.append(ImageSizesNotificationCenter.self)
         flags.append(BlockingSignUp.self)
+        flags.append(FacebookUnavailable.self)
         Bumper.initialize(flags)
     } 
 
@@ -1037,6 +1038,19 @@ extension Bumper  {
     static var blockingSignUpObservable: Observable<BlockingSignUp> {
         return Bumper.observeValue(for: BlockingSignUp.key).map {
             BlockingSignUp(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var facebookUnavailable: Bool {
+        guard let value = Bumper.value(for: FacebookUnavailable.key) else { return false }
+        return FacebookUnavailable(rawValue: value)?.asBool ?? false
+    } 
+
+    #if (RX_BUMPER)
+    static var facebookUnavailableObservable: Observable<Bool> {
+        return Bumper.observeValue(for: FacebookUnavailable.key).map {
+            FacebookUnavailable(rawValue: $0 ?? "")?.asBool ?? false
         }
     }
     #endif
@@ -2218,5 +2232,14 @@ enum BlockingSignUp: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum FacebookUnavailable: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return FacebookUnavailable.no.rawValue }
+    static var enumValues: [FacebookUnavailable] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CORE] Show Facebook unavailable message when user tries to authenticate with Facebook." } 
+    var asBool: Bool { return self == .yes }
 }
 

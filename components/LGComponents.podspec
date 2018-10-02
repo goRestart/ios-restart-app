@@ -46,7 +46,6 @@ Pod::Spec.new do |s|
         
         # analyticsSpec.dependency 'Amplitude-iOS',      '4.0.4'
         # analyticsSpec.dependency 'AppsFlyerFramework', '4.8.4'
-        # analyticsSpec.dependency 'Branch',             '0.22.5'
         # analyticsSpec.dependency 'Crashlytics',        '3.9.3'
         # analyticsSpec.dependency 'Fabric',             '1.7.2'
         # analyticsSpec.dependency 'FBSDKCoreKit',       '4.29.0'

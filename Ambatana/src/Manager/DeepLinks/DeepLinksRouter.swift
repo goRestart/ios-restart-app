@@ -2,7 +2,6 @@ import LGComponents
 import AppsFlyerLib
 import Foundation
 import RxSwift
-import Branch
 import LGCoreKit
 
 protocol DeepLinksRouter: class, AppsFlyerTrackerDelegate {
@@ -16,7 +15,6 @@ protocol DeepLinksRouter: class, AppsFlyerTrackerDelegate {
     func performActionForShortcutItem(_ shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void)
     func openUrl(_ url: URL, sourceApplication: String?, annotation: Any?) -> Bool
     func continueUserActivity(_ userActivity: NSUserActivity, restorationHandler: ([Any]?) -> Void) -> Bool
-    func deepLinkFromBranchObject(_ object: BranchUniversalObject?, properties: BranchLinkProperties?)
     @discardableResult
     func didReceiveRemoteNotification(_ userInfo: [AnyHashable: Any], applicationState: UIApplicationState)
         -> PushNotification?
@@ -96,9 +94,6 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
     // MARK: > Uri schemes
 
     func openUrl(_ url: URL, sourceApplication: String?, annotation: Any?) -> Bool {
-        // If branch handles the deeplink we don't need to do anything as we will get the branch object through their callback
-        if Branch.getInstance().handleDeepLink(url) { return true }
-
         guard let uriScheme = UriScheme.buildFromUrl(url) else { return false }
         deepLinksSignal.onNext(uriScheme.deepLink)
         return true
@@ -113,17 +108,12 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
             return true
         }
 
-        if Branch.getInstance().continue(userActivity) { return true }
-        
         if let url = userActivity.webpageURL, appShouldOpenInBrowser(url: url) {
             UIApplication.shared.openURL(url)
             return false
         }
 
-        guard let universalLink = UniversalLink.buildFromUserActivity(userActivity) else {
-            // Branch sometimes fails to return true for their own user activity so we return true for app.letgo.com links
-            return UniversalLink.isBranchDeepLink(userActivity)
-        }
+        guard let universalLink = UniversalLink.buildFromUserActivity(userActivity) else { return false }
         deepLinksSignal.onNext(universalLink.deepLink)
         return true
     }
@@ -134,15 +124,6 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
         guard let host = url.host else { return false }
         let openInBrowserUrls = ["jobs.letgo.com", "we.letgo.com"]
         return openInBrowserUrls.contains(host)
-    }
-
-    // MARK: > Branch.io
-
-    func deepLinkFromBranchObject(_ object: BranchUniversalObject?, properties: BranchLinkProperties?) {
-        logMessage(.verbose, type: .deepLink, message: "received branch Object \(String(describing: object))")
-        guard let branchDeepLink = object?.deepLinkWithProperties(properties) else { return }
-        logMessage(.verbose, type: .deepLink, message: "Resolved branch Object \(branchDeepLink.action)")
-        deepLinksSignal.onNext(branchDeepLink)
     }
 
     // MARK: > Push Notifications

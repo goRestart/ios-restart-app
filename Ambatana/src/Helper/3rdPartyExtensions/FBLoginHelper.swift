@@ -14,7 +14,6 @@ class FBLoginHelper {
 
     fileprivate let sessionManager: SessionManager
 
-
     // MARK: - Lifecycle
 
     convenience init() {
@@ -32,6 +31,10 @@ class FBLoginHelper {
 
 extension FBLoginHelper {
     func connectWithFacebook(_ completion: @escaping ExternalAuthTokenRetrievalCompletion) {
+        guard !FeatureFlags.sharedInstance.facebookUnavailable else {
+            completion(.unavailable)
+            return
+        }
         let loginManager = FBSDKLoginManager()
         loginManager.logOut()
         loginManager.logIn(withReadPermissions: FBLoginHelper.fbPermissions, from: nil) {
@@ -71,6 +74,8 @@ extension FBLoginHelper: ExternalAuthHelper {
                 loginCompletion?(.cancelled)
             case .error:
                 loginCompletion?(.internalError(description: "FB SDK error"))
+            case .unavailable:
+                loginCompletion?(.unavailable)
             }
         }
     }

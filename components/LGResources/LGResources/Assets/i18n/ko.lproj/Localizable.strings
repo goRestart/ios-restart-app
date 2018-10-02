@@ -690,7 +690,7 @@
 "main_sign_up_facebook_connect_button_w_name" = "%@로 로그인";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";
-"main_sign_up_fb_connect_error_unavailable_message" = "An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.";
+"main_sign_up_fb_connect_error_unavailable_message" = "Facebook에 연결하는 동안 오류가 발생했습니다. 로그인 하시려면, Facebook에서 사용하시는 이메일 주소를 이용하여 비밀번호를 재설정해주세요";
 "main_sign_up_fb_connect_error_unavailable_title" = "이런! 오류가 발생했습니다.";
 "main_sign_up_google_connect_button" = "구글과 연결하기";
 "main_sign_up_google_connect_button_w_name" = "%@로 로그인";

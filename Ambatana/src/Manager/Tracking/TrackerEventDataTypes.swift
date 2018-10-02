@@ -898,6 +898,7 @@ enum EventParameterLoginError {
     case scammer
     case blacklistedDomain
     case badRequest
+    case unavailable
 
     var description: String {
         switch self {
@@ -939,6 +940,8 @@ enum EventParameterLoginError {
             return "BlacklistedDomain"
         case .badRequest:
             return "BadRequest"
+        case .unavailable:
+            return "ServiceUnavailable"
         }
     }
 
@@ -948,7 +951,7 @@ enum EventParameterLoginError {
             return description
         case .network, .unauthorized, .notFound, .forbidden, .invalidEmail, .nonExistingEmail, .invalidPassword,
              .invalidUsername, .userNotFoundOrWrongPassword, .emailTaken, .passwordMismatch, .usernameTaken,
-             .termsNotAccepted, .tooManyRequests, .scammer, .blacklistedDomain, .badRequest, .deviceNotAllowed:
+             .termsNotAccepted, .tooManyRequests, .scammer, .blacklistedDomain, .badRequest, .deviceNotAllowed, .unavailable:
             return nil
         }
     }
