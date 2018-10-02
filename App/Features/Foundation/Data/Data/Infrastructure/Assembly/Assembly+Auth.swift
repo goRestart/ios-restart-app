@@ -26,3 +26,16 @@ extension Assembly {
     return SignInUserFirebaseErrorAdapter()
   }
 }
+
+// MARK: - Auth token
+
+import KeychainAccess
+
+extension Assembly {
+  var authTokenStorage: AuthTokenStorage {
+    let keychain = Keychain(service: "com.restart.app")
+    return AuthTokenStorage(
+      keychain: keychain
+    )
+  }
+}

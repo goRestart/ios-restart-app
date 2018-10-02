@@ -11,12 +11,12 @@
 		1C30D7302009717A00E0A501 /* SearchGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D72F2009717A00E0A501 /* SearchGames.swift */; };
 		1C89D71D1FF3D63100B3FA98 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C89D71B1FF3D63100B3FA98 /* Application.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C89D7271FF3D69800B3FA98 /* Authenticate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D7261FF3D69800B3FA98 /* Authenticate.swift */; };
-		1C89D7331FF3D8A000B3FA98 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7341FF3D8A000B3FA98 /* Data.framework */; };
 		1C89D7351FF3D8A300B3FA98 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7361FF3D8A300B3FA98 /* Core.framework */; };
 		1C89D73A1FF3DA7600B3FA98 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D73B1FF3DA7600B3FA98 /* Domain.framework */; };
 		1CB6496A2009CBCC009B7CC1 /* UploadImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649692009CBCC009B7CC1 /* UploadImages.swift */; };
 		2E11C1AD2135D225003F98D4 /* ProductDraftActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C1AC2135D225003F98D4 /* ProductDraftActions.swift */; };
 		2E11C1B12135D6D6003F98D4 /* Assembly+UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C1B02135D6D6003F98D4 /* Assembly+UseCase.swift */; };
+		2E61BD802161439900FB87C0 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E61BD7F2161439900FB87C0 /* Data.framework */; };
 		2E71A8F321315DC2009D24A9 /* GetProductExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8F221315DC2009D24A9 /* GetProductExtras.swift */; };
 		2ED3F603214DA5C200A715E0 /* UploadProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED3F602214DA5C200A715E0 /* UploadProduct.swift */; };
 		2ED3F60B214DA63C00A715E0 /* ImageOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED3F60A214DA63C00A715E0 /* ImageOptimizer.swift */; };
@@ -36,6 +36,7 @@
 		1CB649692009CBCC009B7CC1 /* UploadImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImages.swift; sourceTree = "<group>"; };
 		2E11C1AC2135D225003F98D4 /* ProductDraftActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDraftActions.swift; sourceTree = "<group>"; };
 		2E11C1B02135D6D6003F98D4 /* Assembly+UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+UseCase.swift"; sourceTree = "<group>"; };
+		2E61BD7F2161439900FB87C0 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E71A8F221315DC2009D24A9 /* GetProductExtras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProductExtras.swift; sourceTree = "<group>"; };
 		2ED3F602214DA5C200A715E0 /* UploadProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProduct.swift; sourceTree = "<group>"; };
 		2ED3F60A214DA63C00A715E0 /* ImageOptimizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageOptimizer.swift; sourceTree = "<group>"; };
@@ -46,9 +47,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E61BD802161439900FB87C0 /* Data.framework in Frameworks */,
 				1C89D73A1FF3DA7600B3FA98 /* Domain.framework in Frameworks */,
 				1C89D7351FF3D8A300B3FA98 /* Core.framework in Frameworks */,
-				1C89D7331FF3D8A000B3FA98 /* Data.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +141,7 @@
 		1C89D7281FF3D6BE00B3FA98 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E61BD7F2161439900FB87C0 /* Data.framework */,
 				1C89D73B1FF3DA7600B3FA98 /* Domain.framework */,
 				1C89D7361FF3D8A300B3FA98 /* Core.framework */,
 				1C89D7341FF3D8A000B3FA98 /* Data.framework */,
