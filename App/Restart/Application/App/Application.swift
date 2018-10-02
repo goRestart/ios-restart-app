@@ -1,5 +1,6 @@
 import Data
-import Firebase
+import FirebaseCore
+import FirebaseStorage
 
 final class Application: NSObject, UIApplicationDelegate {
   
@@ -16,7 +17,7 @@ final class Application: NSObject, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-    window?.rootViewController =  tabBarControllerProvider.makeTabBarController()
+    window?.rootViewController = tabBarControllerProvider.makeTabBarController()
     window?.makeKeyAndVisible()
 
     initializeModules()

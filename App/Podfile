@@ -4,10 +4,10 @@ workspace '../Restart.xcworkspace'
 
 use_frameworks!
 
-def firebase 
-  pod 'Firebase/Auth', '~> 5.8.0'
-  pod 'Firebase/Core', '~> 5.8.0'
-  pod 'Firebase/Storage', '~> 5.8.0'
+def firebase
+  pod 'Firebase/Auth', '~> 5.9.0'
+  pod 'Firebase/Core', '~> 5.9.0'
+  pod 'Firebase/Storage', '~> 5.9.0'
 end
 
 target 'Restart' do

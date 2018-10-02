@@ -393,6 +393,7 @@
 				"$(SRCROOT)/../Carthage/Build/iOS/IGListKit.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/InstantSearchClient.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/Kingfisher.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/KeychainAccess.framework",
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (

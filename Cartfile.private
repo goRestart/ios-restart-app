@@ -1,3 +1,2 @@
 github "AliSoftware/OHHTTPStubs" ~> 6.1.0
-github "SnapKit/SnapKit" ~> 4.0.0
 github "skyweb07/Snap.swift" "develop"

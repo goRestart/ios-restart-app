@@ -16,6 +16,10 @@ final class TabBarController: UITabBarController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupView()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     bindViewModel()
   }
   
@@ -28,9 +32,33 @@ final class TabBarController: UITabBarController {
     tabBar.isTranslucent = false
     tabBar.barTintColor = .white
     tabBar.tintColor = .primary
+    delegate = self
   }
   
   private func bindViewModel() {
     viewBinder.bind(view: self, to: viewModel, using: bag)
+  }
+}
+
+// MARK: - UITabBarControllerDelegate
+
+extension TabBarController: UITabBarControllerDelegate {
+  func tabBarController(_ tabBarController: UITabBarController,
+                        shouldSelect viewController: UIViewController) -> Bool
+  {
+    let publishIsAskingForSelection = viewController.tabBarItem.tag == MenuItem.publish.rawValue
+    if publishIsAskingForSelection {
+      return false
+    }
+    return true
+  }
+  
+  override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+    switch item.tag {
+    case MenuItem.publish.rawValue:
+      viewModel.input.didTapAddProduct()
+    default:
+      break
+    }
   }
 }

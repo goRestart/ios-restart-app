@@ -2,6 +2,21 @@ import RxSwift
 import FirebaseAuth
 
 extension Reactive where Base: Auth {
+  public var authenticated: Observable<Bool> {
+    return Observable.create { event in
+      let listener = Auth.auth().addStateDidChangeListener { (_, user) in
+        if let _ = user {
+          event.onNext(true)
+        } else {
+          event.onNext(false)
+        }
+      }
+      return Disposables.create {
+        Auth.auth().removeStateDidChangeListener(listener)
+      }
+    }
+  }
+  
   func signIn(with customToken: String) -> Completable {
     return Completable.create { event in
       Auth.auth().signIn(withCustomToken: customToken) { result, error in

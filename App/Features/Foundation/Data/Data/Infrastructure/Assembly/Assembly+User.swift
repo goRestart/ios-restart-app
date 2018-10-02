@@ -19,7 +19,9 @@ extension Assembly {
   private var registerUserAction: RegisterUserAction {
     return RegisterUserAction(
       provider: moyaProvider(),
-      errorAdapter: registerUserErrorAdapter)
+      errorAdapter: registerUserErrorAdapter,
+      authTokenStorage: authTokenStorage
+    )
   }
   
   private var registerUserErrorAdapter: RegisterUserErrorAdapter {
