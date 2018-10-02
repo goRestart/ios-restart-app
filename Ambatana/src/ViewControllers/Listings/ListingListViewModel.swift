@@ -856,7 +856,8 @@ final class ListingListViewModel: BaseViewModel {
                                     adRequested: true,
                                     categories: data.categories,
                                     adLoader: data.adLoader,
-                                    adxNativeView: adxNativeView)
+                                    adxNativeView: adxNativeView,
+                                    bidder: data.bidder)
     }
 }
 

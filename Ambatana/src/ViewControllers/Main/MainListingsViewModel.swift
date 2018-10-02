@@ -6,6 +6,8 @@ import RxCocoa
 import GoogleMobileAds
 import MoPub
 import LGComponents
+import AdsNativeSDK
+
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
@@ -1455,6 +1457,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             feedAdUnitId = appInstallAdUnit
             adTypes.append(.nativeAppInstall)
         }
+        var bidder: PMBidder? = nil
+        if featureFlags.polymorphFeedAdsUSA.isActive {
+            bidder = PMBidder.init(pmAdUnitID: EnvironmentProxy.sharedInstance.polymorphAdUnit)
+            feedAdUnitId = EnvironmentProxy.sharedInstance.feedAdUnitIdPolymorphUSA
+        }
         let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
                                    rootViewController: adsDelegate.rootViewControllerForAds(),
                                    adTypes: adTypes,
@@ -1466,7 +1473,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                           adRequested: false,
                                           categories: filters.selectedCategories,
                                           adLoader: adLoader,
-                                          adxNativeView: NativeAdBlankStateView())
+                                          adxNativeView: NativeAdBlankStateView(),
+                                          bidder: bidder)
         return ListingCellModel.adxAdvertisement(data: adData)
     }
     

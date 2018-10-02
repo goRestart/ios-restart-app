@@ -132,7 +132,15 @@ public final class EnvironmentProxy: AppEnvironment {
     public var moreInfoMultiAdUnitIdDFPUSA: String {
         return environment.moreInfoMultiAdUnitIdDFPUSA
     }
-
+    
+    public var feedAdUnitIdPolymorphUSA: String {
+        return environment.feedAdUnitIdPolymorphUSA
+    }
+    
+    public var polymorphAdUnit: String {
+        return environment.polymorphAdUnit
+    }
+    
     public var stripeAPIKey: String {
         return environment.stripeAPIKey
     }

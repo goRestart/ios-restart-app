@@ -358,5 +358,10 @@
         "name": "BoostSmokeTest",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
         "description": "[VERTICALS] Show Boost and Super Boost Smoke Test"
+    },
+    {
+        "name": "PolymorphFeedAdsUSA",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Show Polymorph ads in feed for USA"
     }
 ]

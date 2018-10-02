@@ -110,6 +110,7 @@ protocol FeatureFlaggeable: class {
     var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR { get }
     var multiAdRequestInChatSectionAdUnitId: String? { get }
     var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit { get }
+    var polymorphFeedAdsUSA: PolymorphFeedAdsUSA { get }
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
@@ -1247,6 +1248,10 @@ extension FeatureFlags {
 
 // MARK: Money
 
+extension PolymorphFeedAdsUSA {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeatureFlags {
     
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers {
@@ -1291,6 +1296,15 @@ extension FeatureFlags {
         }
         return BumpPromoAfterSellNoLimit.fromPosition(abTests.bumpPromoAfterSellNoLimit.value)
     }
+    
+    var polymorphFeedAdsUSA: PolymorphFeedAdsUSA {
+        if Bumper.enabled {
+            return Bumper.polymorphFeedAdsUSA
+        }
+        return PolymorphFeedAdsUSA.fromPosition(abTests.polymorphFeedAdsUSA.value)
+        
+    }
+    
 }
 
 // MARK: Retention

@@ -1556,6 +1556,7 @@ enum EventParameterAdType {
     case adx
     case interstitial
     case variableSize(size: CGSize)
+    case polymorph
 
     var stringValue: String {
         switch self {
@@ -1569,6 +1570,8 @@ enum EventParameterAdType {
             return "adx"
         case .interstitial:
             return "interstitial"
+        case .polymorph:
+            return "polymorph"
         }
     }
 }

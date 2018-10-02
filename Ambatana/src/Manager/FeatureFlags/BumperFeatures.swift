@@ -88,6 +88,7 @@ extension Bumper  {
         flags.append(NewSearchAPIEndPoint.self)
         flags.append(ImageSizesNotificationCenter.self)
         flags.append(BoostSmokeTest.self)
+        flags.append(PolymorphFeedAdsUSA.self)
         Bumper.initialize(flags)
     } 
 
@@ -1023,6 +1024,19 @@ extension Bumper  {
     static var boostSmokeTestObservable: Observable<BoostSmokeTest> {
         return Bumper.observeValue(for: BoostSmokeTest.key).map {
             BoostSmokeTest(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var polymorphFeedAdsUSA: PolymorphFeedAdsUSA {
+        guard let value = Bumper.value(for: PolymorphFeedAdsUSA.key) else { return .control }
+        return PolymorphFeedAdsUSA(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var polymorphFeedAdsUSAObservable: Observable<PolymorphFeedAdsUSA> {
+        return Bumper.observeValue(for: PolymorphFeedAdsUSA.key).map {
+            PolymorphFeedAdsUSA(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2180,6 +2194,22 @@ enum BoostSmokeTest: String, BumperFeature  {
             case 5: return .variantD
             case 6: return .variantE
             case 7: return .variantF
+            default: return .control
+        }
+    }
+}
+
+enum PolymorphFeedAdsUSA: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return PolymorphFeedAdsUSA.control.rawValue }
+    static var enumValues: [PolymorphFeedAdsUSA] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Show Polymorph ads in feed for USA" } 
+    static func fromPosition(_ position: Int) -> PolymorphFeedAdsUSA {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }
