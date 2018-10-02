@@ -173,6 +173,7 @@ extension ABTests {
     var smartQuickAnswers: LeanplumABVariable<Int> { return chat.smartQuickAnswers }
     var openChatFromUserProfile: LeanplumABVariable<Int> { return chat.openChatFromUserProfile }
     var markAsSoldQuickAnswerNewFlow: LeanplumABVariable<Int> { return chat.markAsSoldQuickAnswerNewFlow }
+    var shouldMoveLetsMeetAction: LeanplumABVariable<Bool> { return chat.shouldMoveLetsMeetAction }
 }
 
 //  MARK: Money

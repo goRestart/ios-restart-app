@@ -357,6 +357,12 @@ public extension UIColor {
     static let p2pPaymentsWarning = UIColor(rgb: 0xffd200) // (255, 210, 0)
 }
 
+// MARK: > Chat
+
+public extension UIColor {
+  static let chatBoxBackground = UIColor(rgb: 0xf2f2f2) // (242, 242, 242)
+}
+
 // MARK: - SmokeTest Colors
 
 public extension UIColor {

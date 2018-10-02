@@ -1992,7 +1992,8 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             let isBuyer = !conversation.value.amISelling
             return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer,
                                                        isFree: isFree,
-                                                       chatNorrisABtestVersion: featureFlags.chatNorris)
+                                                       chatNorrisABtestVersion: featureFlags.chatNorris,
+                                                       letsMeetIsInsideBar: featureFlags.shouldMoveLetsMeetAction)
         }
         return []
     }
@@ -2034,7 +2035,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         }
     }
 
-    private func onMeetingAssistantPressed() {
+    func onMeetingAssistantPressed() {
         guard let listingId = conversation.value.listing?.objectId else { return }
         navigator?.openAssistantFor(listingId: listingId, dataDelegate: self)
     }

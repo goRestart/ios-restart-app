@@ -19,6 +19,7 @@ extension Bumper  {
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
         flags.append(MarkAsSoldQuickAnswerNewFlow.self)
+        flags.append(ShouldMoveLetsMeetAction.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(DummyUsersInfoProfile.self)
@@ -125,6 +126,19 @@ extension Bumper  {
     static var markAsSoldQuickAnswerNewFlowObservable: Observable<MarkAsSoldQuickAnswerNewFlow> {
         return Bumper.observeValue(for: MarkAsSoldQuickAnswerNewFlow.key).map {
             MarkAsSoldQuickAnswerNewFlow(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var shouldMoveLetsMeetAction: Bool {
+        guard let value = Bumper.value(for: ShouldMoveLetsMeetAction.key) else { return false }
+        return ShouldMoveLetsMeetAction(rawValue: value)?.asBool ?? false
+    } 
+
+    #if (RX_BUMPER)
+    static var shouldMoveLetsMeetActionObservable: Observable<Bool> {
+        return Bumper.observeValue(for: ShouldMoveLetsMeetAction.key).map {
+            ShouldMoveLetsMeetAction(rawValue: $0 ?? "")?.asBool ?? false
         }
     }
     #endif
@@ -1063,6 +1077,15 @@ enum MarkAsSoldQuickAnswerNewFlow: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum ShouldMoveLetsMeetAction: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ShouldMoveLetsMeetAction.no.rawValue }
+    static var enumValues: [ShouldMoveLetsMeetAction] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Put the lets meet icon inside the chat bar" } 
+    var asBool: Bool { return self == .yes }
 }
 
 enum ShowAdsInFeedWithRatio: String, BumperFeature  {

@@ -4,6 +4,8 @@ import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
     
+    
+    
     var rx_affiliationEnabled: Observable<AffiliationEnabled> { return .just(.control) }
 
     var trackingData: Observable<[(String, ABGroup)]?> {
@@ -27,6 +29,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var mutePushNotifications: MutePushNotifications = .control
     var showProTagUserProfile: Bool = false
     var showExactLocationForPros: Bool = true
+    var shouldMoveLetsMeetAction = false
     
     // Country dependant features
     var freePostingModeAllowed = false

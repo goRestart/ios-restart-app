@@ -176,6 +176,7 @@ extension R {
       public static let allValues: [AssetType] = allImages
     }
     public enum Chat {
+      public static let icCalendar = ImageAsset(name: "ic_calendar")
       public static let icCornerBuying = ImageAsset(name: "ic_corner_buying")
       public static let icCornerSelling = ImageAsset(name: "ic_corner_selling")
       public static let icDobleRead = ImageAsset(name: "ic_doble_read")
@@ -189,6 +190,7 @@ extension R {
       public static let allColors: [ColorAsset] = [
       ]
       public static let allImages: [ImageAsset] = [
+        icCalendar,
         icCornerBuying,
         icCornerSelling,
         icDobleRead,

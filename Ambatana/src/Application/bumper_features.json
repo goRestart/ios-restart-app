@@ -15,6 +15,11 @@
          "description": "New flow when marking an item as sold on chat using quick answers"
     },
     {
+         "name": "ShouldMoveLetsMeetAction",
+         "values": ["no", "yes"],
+         "description": "Put the lets meet icon inside the chat bar"
+    },
+    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "[MONEY] show ads in feed every X cells"

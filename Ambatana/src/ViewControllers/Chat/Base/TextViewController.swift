@@ -5,8 +5,16 @@ import LGComponents
 
 class TextViewController: KeyboardViewController {
 
+    private enum Layout {
+        static let textViewLeading: CGFloat = 16
+        static let stickersButtonTrailing: CGFloat = -14
+        static let letsMeetButtonSize = CGSize(width: 24, height: 24)
+        static let letsMeetTrailingSpacing: CGFloat = 50
+        static let textInputRightMargin: CGFloat = 28
+    }
+    
     var viewMargins: CGFloat = 10
-    var textViewMargin: CGFloat = 5
+    var textViewMargin: CGFloat = 6
     var tableBottomMargin: CGFloat = 0 {
         didSet {
             tableBottomMarginConstraint.constant = -tableBottomMargin
@@ -37,9 +45,15 @@ class TextViewController: KeyboardViewController {
     let textView = KMPlaceholderTextView()
     let bottomSafeArea = UIView()
     var bottomSafeAreaHeight: NSLayoutConstraint?
-
-    let leftButtonsContainer = UIView()
+    private let featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance
+ 
     let sendButton = UIButton(type: .custom)
+    private let letsMeetButton: UIButton = {
+        let button = UIButton()
+        button.setImage(R.Asset.Chat.icCalendar.image, for: .normal)
+        return button
+    }()
+    
     var leftActions: [UIAction] = [] {
         didSet {
             updateLeftActions()
@@ -144,6 +158,8 @@ class TextViewController: KeyboardViewController {
     // MARK: - Methods to override
 
     func sendButtonPressed() { }
+    
+    func letsMeetButtonPressed() {}
 
     func scrollViewDidTap() { }
 
@@ -219,9 +235,10 @@ extension TextViewController: UITextViewDelegate {
     }
 
     fileprivate func setupTextArea() {
+        textView.textInputView.backgroundColor = .clear
         // Set textview font parameter prior to any calculation as it indicates entire container height
         textView.font = textViewFont
-        textView.textContainerInset = UIEdgeInsets(top: textViewInsets, left: textViewInsets, bottom: textViewInsets, right: textViewInsets)
+        textView.textContainerInset = UIEdgeInsets(top: textViewInsets, left: textViewInsets, bottom: textViewInsets, right: Layout.textInputRightMargin)
 
         let minHeight = textView.minimumHeight + textViewMargin*2
         textViewBar.frame = CGRect(x: 0, y: TextViewController.initialKbOrigin, width: view.width, height: minHeight)
@@ -229,26 +246,33 @@ extension TextViewController: UITextViewDelegate {
         textViewBar.clipsToBounds = true
         view.addSubview(textViewBar)
         textViewBar.layout(with: view).fillHorizontal()
-
-        leftButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
-        textViewBar.addSubview(leftButtonsContainer)
-        leftButtonsContainer.layout(with: textViewBar).left(by: viewMargins)
-        leftButtonsContainer.setContentHuggingPriority(.required, for: .horizontal)
-
+ 
         textView.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(textView)
         textView.layout(with: textViewBar).top(by: textViewMargin)
             .right(by: -viewMargins, constraintBlock: {[weak self] in self?.textViewRightConstraint = $0 })
-        textView.layout(with: leftButtonsContainer).left(to: .right, by: viewMargins)
+        textView.layout(with: textViewBar).leading(by: Layout.textViewLeading)
         textView.layout().height(textView.minimumHeight, constraintBlock: {[weak self] in self?.textViewHeight = $0 })
-
-        leftButtonsContainer.layout(with: textView).centerY()
-
+ 
         sendButton.translatesAutoresizingMaskIntoConstraints = false
+        letsMeetButton.translatesAutoresizingMaskIntoConstraints = false
+        
         textViewBar.addSubview(sendButton)
         sendButton.layout(with: textView).left(to: .right, by: viewMargins).centerY()
         sendButton.layout().height(minHeight)
 
+        if featureFlags.shouldMoveLetsMeetAction {
+            textViewBar.addSubviewForAutoLayout(letsMeetButton)
+            
+            let letsMeetButtonConstraints = [
+                letsMeetButton.widthAnchor.constraint(equalToConstant: Layout.letsMeetButtonSize.width),
+                letsMeetButton.heightAnchor.constraint(equalToConstant: Layout.letsMeetButtonSize.height),
+                letsMeetButton.trailingAnchor.constraint(equalTo: textViewBar.trailingAnchor, constant: -Layout.textViewLeading),
+                letsMeetButton.centerYAnchor.constraint(equalTo: textViewBar.centerYAnchor)
+            ]
+            letsMeetButtonConstraints.activate()
+        }
+   
         bottomSafeArea.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(bottomSafeArea)
         bottomSafeArea.layout(with: textView).below()
@@ -263,15 +287,13 @@ extension TextViewController: UITextViewDelegate {
 
         mainResponder = textView
         textView.delegate = self
-        textView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        textView.layer.borderColor = UIColor.lineGray.cgColor
-        textView.cornerRadius = LGUIKitConstants.smallCornerRadius
-
+        textView.cornerRadius = LGUIKitConstants.mediumCornerRadius
+      
         sendButton.setTitleColor(UIColor.red, for: .normal)
-        sendButton.setTitle("Send", for: .normal)
-
+    
         setupTextAreaRx()
-
+        updateTextInputMargins()
+        
         if let keyTextCache = keyForTextCaching() {
             textView.text = TextViewController.keyTextCache[keyTextCache]
         }
@@ -283,36 +305,55 @@ extension TextViewController: UITextViewDelegate {
         bottomSafeAreaHeight?.constant = view.safeAreaInsets.bottom
     }
 
-    private func setupTextAreaRx() {
-        let emptyText = textView.rx.text.map { ($0 ?? "").trim.isEmpty }
-        emptyText.bind(to: sendButton.rx.isHidden).disposed(by: disposeBag)
-        emptyText.bind { [weak self] empty in
-                guard let strongSelf = self, let margin = self?.viewMargins else { return }
-                let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin
-                guard strongSelf.textRightMargin != rightConstraint else { return }
-                self?.textRightMargin = rightConstraint
-                UIView.animate(withDuration: TextViewController.animationTime, delay: 0, options: [.beginFromCurrentState],
-                               animations: { [weak self] in self?.view.layoutIfNeeded() }, completion: nil)
-                }.disposed(by: disposeBag)
+    private func updateTextInputMargins() {
+        if featureFlags.shouldMoveLetsMeetAction {
+            textRightMargin = Layout.letsMeetTrailingSpacing
+        }
 
+        UIView.animate(withDuration: TextViewController.animationTime, delay: 0, options: [.beginFromCurrentState],
+                       animations: { [weak self] in self?.view.layoutIfNeeded() }
+            , completion: nil)
+    }
+    
+    private func setupTextAreaRx() {
+ 
         textView.rx.text.bind { [weak self] text in
             self?.fitTextView()
         }.disposed(by: disposeBag)
-
+ 
+        sendButton.rx.tap.bind { [weak self] in self?.sendButtonPressed() }.disposed(by: disposeBag)
+        letsMeetButton.rx.tap.bind { [weak self] in self?.letsMeetButtonPressed() }.disposed(by: disposeBag)
+        
+        let emptyText = textView.rx.text.map { ($0 ?? "").trim.isEmpty }
+        emptyText.bind(to: sendButton.rx.isHidden).disposed(by: disposeBag)
+        
         textView.rx.text.skip(1).bind { [weak self] text in
             guard let keyTextCache = self?.keyForTextCaching() else { return }
             TextViewController.keyTextCache[keyTextCache] = text
         }.disposed(by: disposeBag)
-
-        sendButton.rx.tap.bind { [weak self] in self?.sendButtonPressed() }.disposed(by: disposeBag)
+        
+        emptyText.bind { [weak self] empty in
+            self?.configureInputViewMargins(isEmpty: empty)
+        }.disposed(by: disposeBag)
+    }
+    
+    private func configureInputViewMargins(isEmpty: Bool) {
+        let letsMeetButtonMargin = featureFlags.shouldMoveLetsMeetAction ? Layout.letsMeetTrailingSpacing : viewMargins
+        let rightConstraint = isEmpty ? letsMeetButtonMargin : (viewMargins * 2) + sendButton.width
+        
+        guard textRightMargin != rightConstraint else { return }
+        textRightMargin = rightConstraint
+        letsMeetButton.isHidden = !isEmpty || !featureFlags.shouldMoveLetsMeetAction
+        
+        UIView.animate(withDuration: TextViewController.animationTime, delay: 0, options: [.beginFromCurrentState], animations: { [weak self] in self?.view.layoutIfNeeded()
+        }, completion: nil)
     }
 
     fileprivate func updateLeftActions() {
         leftActionsDisposeBag = DisposeBag()
-        leftButtonsContainer.subviews.forEach { $0.removeFromSuperview() }
-
-        let buttonDiameter = textView.minimumHeight
-        var prevButton: UIButton?
+        
+        textView.subviews.forEach { if ($0 is UIButton) { $0.removeFromSuperview() } }
+ 
         for action in leftActions {
             guard let image = action.image else { continue }
             let button = UIButton()
@@ -322,26 +363,23 @@ extension TextViewController: UITextViewDelegate {
             }
             button.rx.tap.subscribeNext(onNext: action.action).disposed(by: leftActionsDisposeBag)
             button.translatesAutoresizingMaskIntoConstraints = false
-            leftButtonsContainer.addSubview(button)
-            button.layout().width(buttonDiameter).widthProportionalToHeight()
-            button.layout(with: leftButtonsContainer).fillVertical()
-            if let prevButton = prevButton {
-                button.layout(with: prevButton).left(to: .right)
-            } else {
-                button.layout(with: leftButtonsContainer).left()
-            }
-            prevButton = button
-        }
-        if let lastButton = prevButton {
-            lastButton.layout(with: leftButtonsContainer).right()
+            
+            textView.addSubview(button)
+            button.widthAnchor.constraint(equalToConstant: Layout.letsMeetButtonSize.width).isActive = true
+            button.heightAnchor.constraint(equalToConstant: Layout.letsMeetButtonSize.height).isActive = true
+            button.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: Layout.stickersButtonTrailing).isActive = true
+            button.centerYAnchor.constraint(equalTo: textViewBar.centerYAnchor).isActive = true
         }
         textViewBar.layoutIfNeeded()
     }
 
     fileprivate func fitTextView() {
         let appropriateHeight = textView.appropriateHeight(textMaxLines)
+        textView.backgroundColor = .chatBoxBackground
+        
         guard textViewHeight.constant != appropriateHeight else { return }
         textViewHeight.constant = appropriateHeight
+        
         if textView.isFirstResponder {
             
             UIView.animate(withDuration: TextViewController.animationTime, delay: 0,
