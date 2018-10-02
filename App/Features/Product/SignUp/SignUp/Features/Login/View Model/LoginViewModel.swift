@@ -34,7 +34,7 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   }
 
   var userInteractionEnabled: Driver<Bool> {
-    return state.asObservable().map { $0 == .idle }
+    return stateRelay.map { $0 == .idle }
       .asDriver(onErrorJustReturn: false)
   }
   
