@@ -7,9 +7,9 @@ fileprivate extension TrackerEvent {
         get {
             switch name {
             case .loginFB, .loginEmail, .loginGoogle, .signupEmail, .firstMessage,
-                 .listingMarkAsSold, .listingSellStart, .listingSellComplete, .listingSellComplete24h,
-                 .sessionOneMinuteFirstWeek, .listingDetailVisit, .searchComplete, .phoneNumberSent,
-                 .listingDetailCall:
+                 .listingMarkAsSold, .listingSellStart, .listingSellComplete, .sessionOneMinuteFirstWeek,
+                 .listingDetailVisit, .searchComplete, .phoneNumberSent, .listingDetailCall,
+                 .buyer24h, .buyerLister24h, .lister24h:
                 return true
             default:
                 return false
@@ -58,10 +58,10 @@ final class AppsflyerTracker: Tracker {
     }
     
     func trackEvent(_ event: TrackerEvent) {
+        guard event.shouldTrack else { return }
         let tracker = AppsFlyerTracker.shared()
-        if event.shouldTrack {
-            tracker?.trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
-        }
+        tracker?.trackEvent(event.actualName,
+                            withValues: event.params?.stringKeyParams)
     }
 
     func setLocation(_ location: LGLocation?, postalAddress: PostalAddress?) { }
