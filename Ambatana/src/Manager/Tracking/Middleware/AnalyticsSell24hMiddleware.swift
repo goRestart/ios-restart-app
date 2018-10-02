@@ -1,7 +1,7 @@
 import LGComponents
 import LGCoreKit
 
-final class AnalyticsSell24hMiddleware: AnalyticsMiddleware {
+struct AnalyticsSell24hMiddleware: AnalyticsMiddleware {
     private static let threshold = TimeInterval.make(days: 1)
     private let keyValueStorage: KeyValueStorageable
 
