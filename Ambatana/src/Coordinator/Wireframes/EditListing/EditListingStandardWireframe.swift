@@ -6,18 +6,30 @@ final class EditListingStandardWireframe: EditListingNavigator {
 
     weak var listingRefreshable: ListingsRefreshable?
     private var onEditActionable: OnEditActionable?
+    private var onCancelEditActionable: OnEditActionable?
     private let editLocationAssembly: QuickLocationFiltersAssembly
     private let carMakesAssembly: CarAttributesSelectionAssembly
 
-    init(nc: UINavigationController, onEditActionable: OnEditActionable?) {
+    init(nc: UINavigationController,
+         onEditActionable: OnEditActionable?,
+         onCancelEditActionable: OnEditActionable?) {
         self.nc = nc
         self.onEditActionable = onEditActionable
+        self.onCancelEditActionable = onCancelEditActionable
         self.editLocationAssembly = QuickLocationFiltersBuilder.standard(nc)
         self.carMakesAssembly = CarAttributesSelectionBuilder.standard(nc)
     }
 
-    func editingListingDidCancel() {
-        nc?.popViewController(animated: true, completion: nil)
+    func editingListingDidCancel(_ originalListing: Listing,
+                                 purchases: [BumpUpProductData],
+                                 timeSinceLastBump: TimeInterval?,
+                                 maxCountdown: TimeInterval) {
+        nc?.popViewController(animated: true, completion: {
+            self.onEditActionable?.onEdit(listing: originalListing,
+                                          purchases: purchases,
+                                          timeSinceLastBump: timeSinceLastBump,
+                                          maxCountdown: maxCountdown)
+        })
     }
 
     func editingListingDidFinish(_ editedListing: Listing,

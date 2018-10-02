@@ -26,7 +26,7 @@ extension ListingCategory {
         case .cars:
             return R.Strings.categoriesCar
         case .realEstate:
-            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.categoriesRealEstateTitle : R.Strings.categoriesRealEstate
+            return R.Strings.categoriesRealEstate
         case .services:
             return FeatureFlags.sharedInstance.jobsAndServicesEnabled.isActive ? R.Strings.categoriesJobsServices : R.Strings.categoriesServices
         }
@@ -55,7 +55,7 @@ extension ListingCategory {
         case .cars:
             return R.Strings.categoriesInFeedCars
         case .realEstate:
-            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.categoriesInFeedRealEstateTitle : R.Strings.categoriesInFeedRealEstate
+            return R.Strings.categoriesInFeedRealEstate
         case .services:
             return R.Strings.categoriesInFeedServices
         }

@@ -12,16 +12,18 @@ struct UserDetail {
 
 final class ListingDetailViewModel: BaseViewModel {
     var navigator: ListingFullDetailNavigator?
-    lazy var listingViewModel: ListingViewModel = maker.build(listing: listing, visitSource: visitSource)
+    let listingViewModel: ListingCardViewModel
 
-    private let maker: ListingViewModelAssembly
-    private let listing: Listing
-    private let visitSource: EventParameterListingVisitSource
+    var navBarButtons: [UIAction] { return listingViewModel.navBarActions }
+
     private let featureFlags: FeatureFlaggeable
-
+    private let visitSource: EventParameterListingVisitSource
+    
     var deckMapData: DeckMapData? {
-        guard let location = listingViewModel.productInfo.value?.location?.coordinates2DfromLocation() else { return nil }
-        let shouldShowExactLocation = listingViewModel.showExactLocationOnMap.value
+        guard let location = listingViewModel.location?.coordinates2DfromLocation() else {
+            return nil
+        }
+        let shouldShowExactLocation = listingViewModel.showExactLocationOnMap
         return DeckMapData(location: location, shouldHighlightCenter: shouldShowExactLocation)
     }
 
@@ -40,7 +42,7 @@ final class ListingDetailViewModel: BaseViewModel {
         return adsImpressionConfigurable.shouldShowAdsForUser
     }
     var dfpContentURL: String? {
-        guard let listingId = listingViewModel.listing.value.objectId else { return nil }
+        guard let listingId = listingViewModel.listing.objectId else { return nil }
         return LetgoURLHelper.buildProductURL(listingId: listingId, isLocalized: true)?.absoluteString
     }
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
@@ -49,26 +51,22 @@ final class ListingDetailViewModel: BaseViewModel {
     }
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
 
-    convenience init(withListing listing: Listing,
-                     viewModelMaker: ListingViewModelAssembly,
+    convenience init(withVM listingViewModel: ListingCardViewModel,
                      visitSource: EventParameterListingVisitSource) {
-        self.init(withListing: listing,
-                  viewModelMaker: viewModelMaker,
+        self.init(withVM: listingViewModel,
                   visitSource: visitSource,
                   featureFlags: FeatureFlags.sharedInstance,
                   adsImpressionConfigurable: LGAdsImpressionConfigurable())
     }
 
-    init(withListing listing: Listing,
-         viewModelMaker: ListingViewModelAssembly,
+    init(withVM listingViewModel: ListingCardViewModel,
          visitSource: EventParameterListingVisitSource,
          featureFlags: FeatureFlaggeable,
          adsImpressionConfigurable: AdsImpressionConfigurable) {
-        self.listing = listing
-        self.visitSource = visitSource
         self.featureFlags = featureFlags
+        self.visitSource = visitSource
         self.adsImpressionConfigurable = adsImpressionConfigurable
-        self.maker = viewModelMaker
+        self.listingViewModel = listingViewModel
         super.init()
     }
 
@@ -87,6 +85,25 @@ final class ListingDetailViewModel: BaseViewModel {
     func closeDetail() {
         navigator?.closeDetail()
     }
+
+    func openUser() {
+        listingViewModel.openProductOwnerProfile()
+    }
+    @objc func listingAction() {
+        if listingViewModel.isMine {
+            listingViewModel.editListing()
+        } else {
+            listingViewModel.switchFavorite()
+        }
+    }
+
+    @objc func switchFavorite() {
+        listingViewModel.switchFavorite()
+    }
+
+    @objc func share() {
+        listingViewModel.shareProduct()
+    }
 }
 
 extension ListingDetailViewModel {
@@ -94,7 +111,6 @@ extension ListingDetailViewModel {
                       bannerBottomPosition: CGFloat,
                       screenHeight: CGFloat,
                       bannerSize: CGSize) {
-
         let isMine = EventParameterBoolean(bool: listingViewModel.isMine)
         let adShown: EventParameterBoolean = .trueParameter
         let adType = currentAdRequestType?.trackingParamValueFor(size: multiAdRequestActive ? bannerSize : nil)
@@ -168,42 +184,52 @@ extension ListingDetailViewModel {
     }
 }
 
-typealias ListingDetailStats = (views: Int?, favs: Int?, posted: Date?)
+typealias ListingDetailStats = (views: Int, favs: Int, posted: Date?)
 typealias ListingDetailLocation = (location: LGLocationCoordinates2D?, address: String?, showExactLocation: Bool)
 
 extension ListingDetailViewModel: ReactiveCompatible { }
 
 extension Reactive where Base: ListingDetailViewModel {
-    var media: Driver<[Media]> { return base.listingViewModel.productMedia.asDriver() }
-    var title: Driver<String?> { return base.listingViewModel.productInfo.asDriver().map { return $0?.title } }
-    var price: Driver<String?> { return base.listingViewModel.productInfo.asDriver().map { return $0?.price } }
-    var detail: Driver<String?> { return base.listingViewModel.listing.asDriver().map { return $0.description }}
-    var stats: Driver<ListingDetailStats?> {
-        let views = base.listingViewModel.listingStats.asObservable().map { $0?.viewsCount }
-        let favs = base.listingViewModel.listingStats.asObservable().map { $0?.favouritesCount }
-        let date = base.listingViewModel.productInfo.asObservable().map { $0?.creationDate }
+    var media: Driver<[Media]> { return base.listingViewModel.rx.media }
+    var title: Driver<String?> { return base.listingViewModel.rx.productInfo.map { return $0?.title } }
+    var price: Driver<String?> { return base.listingViewModel.rx.productInfo.map { return $0?.price } }
+    var detail: Driver<String?> { return base.listingViewModel.rx.listing.map { return $0.description }}
+    var stats: Driver<ListingDetailStats> {
+        let views: Driver<Int>  = base.listingViewModel.rx.listingStats.map { $0?.viewsCount ?? 0 }
+        let favs: Driver<Int> = base.listingViewModel.rx.listingStats.map { $0?.favouritesCount ?? 0 }
+        let date: Driver<Date?> = base.listingViewModel.rx.productInfo.map { $0?.creationDate }
 
-        return Observable.combineLatest(views, favs, date) { ($0, $1, $2) }.asDriver(onErrorJustReturn: nil)
+        return Driver.combineLatest(views, favs, date) { ($0, $1, $2) }
     }
-    var user: Driver<UserDetail?> {
-        let isPro = base.listingViewModel.seller.asObservable().map { $0?.isProfessional ?? false }
-        let userInfo = base.listingViewModel.userInfo.asObservable()
+    var user: Driver<UserDetail> {
+        let isPro = base.listingViewModel.rx.seller.asDriver(onErrorJustReturn: nil).map { $0?.isProfessional ?? false }
+        let userInfo = base.listingViewModel.rx.userInfo
 
-        let userDetail: Observable<UserDetail?> = Observable.combineLatest(isPro, userInfo) { ($0, $1) }
-            .map { (isPro, userInfo) in
-                return UserDetail.init(userInfo: userInfo, isPro: isPro)
+        return Driver.combineLatest(isPro, userInfo) { ($0, $1) }
+            .map { (isPro, userInfo) in return UserDetail(userInfo: userInfo, isPro: isPro) }
+    }
+
+    var location: Driver<ListingDetailLocation> {
+        let productInfoObs = base.listingViewModel.rx.productInfo
+        let location = productInfoObs.map { return $0?.location }
+        let address = productInfoObs.map { $0?.address }
+        let showExactLocation = base.listingViewModel.rx.showExactLocationOnMap
+        return Driver.combineLatest(location, address, showExactLocation) { ($0, $1, $2) }
+
+    }
+
+    var action: Driver<ListingAction> {
+        let isFavorite = base.listingViewModel.rx.isFavorite
+        let isFavoritable = base.listingViewModel.rx.isMine
+        let isEditable = base.listingViewModel.rx.status.map { return $0.isEditable }
+
+        return Driver.combineLatest(isFavorite, isFavoritable, isEditable) { ($0, $1, $2) }
+            .map { return ListingAction(isFavorite: $0, isFavoritable: $1, isEditable: $2) }
+            .distinctUntilChanged()
+    }
+
+    var social: Driver<(SocialSharer, SocialMessage?)> {
+        return Driver.combineLatest(Driver.just(base.listingViewModel.socialSharer),
+                                    base.listingViewModel.rx.socialMessage) { ($0, $1) }
         }
-
-        return userDetail.asDriver(onErrorJustReturn: nil)
-    }
-
-    var location: Driver<ListingDetailLocation?> {
-        let location = base.listingViewModel.productInfo.asObservable().map { return $0?.location }
-        let address = base.listingViewModel.productInfo.asObservable().map { $0?.address }
-        let showExactLocation = base.listingViewModel.showExactLocationOnMap.asObservable()
-        return Observable
-            .combineLatest(location, address, showExactLocation) { ($0, $1, $2) }
-            .asDriver(onErrorJustReturn: nil)
-    }
-
 }

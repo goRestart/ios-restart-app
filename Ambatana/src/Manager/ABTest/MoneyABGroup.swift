@@ -26,6 +26,8 @@ struct MoneyABGroup: ABGroupType {
         static let multiDayBumpUp = "20180827MultiDayBumpUp"
         static let multiAdRequestInChatSectionForUS = "20180802MultiAdRequestInChatSectionForUS"
         static let multiAdRequestInChatSectionForTR = "20180802MultiAdRequestInChatSectionForTR"
+        static let bumpPromoAfterSellNoLimit = "20180925BumpPromoAfterSellNoLimit"
+        static let polymorphFeedAdsUSA = "20180828PolymorphFeedAdsUSA"
     }
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
     let showProTagUserProfile: LeanplumABVariable<Bool>
@@ -43,6 +45,8 @@ struct MoneyABGroup: ABGroupType {
     let multiDayBumpUp: LeanplumABVariable<Int>
     let multiAdRequestInChatSectionForUS: LeanplumABVariable<Int>
     let multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>
+    let bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>
+    let polymorphFeedAdsUSA: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -65,7 +69,9 @@ struct MoneyABGroup: ABGroupType {
          multiAdRequestMoreInfo: LeanplumABVariable<Int>,
          multiDayBumpUp: LeanplumABVariable<Int>,
          multiAdRequestInChatSectionForUS: LeanplumABVariable<Int>,
-         multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>){
+         multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>,
+         bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>,
+         polymorphFeedAdsUSA: LeanplumABVariable<Int>){
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
         self.copyForChatNowInEnglish = copyForChatNowInEnglish
@@ -82,6 +88,8 @@ struct MoneyABGroup: ABGroupType {
         self.multiDayBumpUp = multiDayBumpUp
         self.multiAdRequestInChatSectionForUS = multiAdRequestInChatSectionForUS
         self.multiAdRequestInChatSectionForTR = multiAdRequestInChatSectionForTR
+        self.bumpPromoAfterSellNoLimit = bumpPromoAfterSellNoLimit
+        self.polymorphFeedAdsUSA = polymorphFeedAdsUSA
 
         intVariables.append(contentsOf: [copyForChatNowInTurkey,
                                          copyForChatNowInEnglish,
@@ -96,7 +104,9 @@ struct MoneyABGroup: ABGroupType {
                                          multiAdRequestMoreInfo,
                                          multiDayBumpUp,
                                          multiAdRequestInChatSectionForUS,
-                                         multiAdRequestInChatSectionForTR])
+                                         multiAdRequestInChatSectionForTR,
+                                         bumpPromoAfterSellNoLimit,
+                                         polymorphFeedAdsUSA])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -145,11 +155,17 @@ struct MoneyABGroup: ABGroupType {
                                                      defaultValue: 0,
                                                      groupType: .money),
                             multiAdRequestInChatSectionForUS: .makeInt(key: Keys.multiAdRequestInChatSectionForUS,
-                                                                      defaultValue: 0,
-                                                                      groupType: .money),
+                                                                       defaultValue: 0,
+                                                                       groupType: .money),
                             multiAdRequestInChatSectionForTR: .makeInt(key: Keys.multiAdRequestInChatSectionForTR,
                                                                       defaultValue: 0,
-                                                                      groupType: .money)
+                                                                      groupType: .money),
+                            bumpPromoAfterSellNoLimit: .makeInt(key: Keys.bumpPromoAfterSellNoLimit,
+                                                                defaultValue: 0,
+                                                                groupType: .money),
+                            polymorphFeedAdsUSA: .makeInt(key: Keys.polymorphFeedAdsUSA,
+                                                          defaultValue: 0,
+                                                          groupType: .money)
         )
     }
 }

@@ -392,7 +392,8 @@ extension SellCoordinator: MultiListingPostedNavigator {
                                             listingCanBeBoosted: false,
                                             timeSinceLastBump: nil,
                                             maxCountdown: 0,
-                                            onEditAction: self)
+                                            onEditAction: self,
+                                            onCancelEditAction: self)
         navigationController.present(vc, animated: true, completion: nil)
     }
 }

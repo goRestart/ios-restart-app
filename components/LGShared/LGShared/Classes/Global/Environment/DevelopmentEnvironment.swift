@@ -52,6 +52,10 @@ final class DevelopmentEnvironment: AppEnvironment {
     
     let sectionedFeedAdUnitForUS = "/21666124832/us/iOS/feed/300x250_var_a"
 
+    // Polymorph
+    let feedAdUnitIdPolymorphUSA = "/21666124832/us/iOS/feed/pm_c_render_var_a"
+    let polymorphAdUnit = "hMnlVfr8JfULYnI02eje-Syy_dmyoW8O3opIJrmU"
+
     // Stripe
     let stripeAPIKey = "pk_test_TFRwcAkkYAM13r3Bw8hURnY7"
 

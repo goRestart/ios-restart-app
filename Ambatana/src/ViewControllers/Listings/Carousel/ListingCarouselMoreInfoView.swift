@@ -914,9 +914,7 @@ extension ListingCarouselMoreInfoView: UITextViewDelegate {
 // MARK: - SocialShareViewDelegate
 
 extension ListingCarouselMoreInfoView: SocialShareViewDelegate {
-    func viewController() -> UIViewController? {
-        return delegate?.viewControllerToShowShareOptions()
-    }
+    var viewControllerToShareOver: UIViewController? { return delegate?.viewControllerToShowShareOptions() }
 }
 
 

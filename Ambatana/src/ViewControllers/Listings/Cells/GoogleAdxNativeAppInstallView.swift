@@ -76,7 +76,8 @@ final class GoogleAdxNativeAppInstallView: GADNativeAppInstallAdView {
         if let images = nativeAppInstallAd.images, let mainAdImage = images.first as? GADNativeAdImage {
             adMainImageView.image = mainAdImage.image
         }
-        adCTALabel.text = nativeAppInstallAd.callToAction?.capitalizedFirstLetterOnly
+        let ctaText = nativeAppInstallAd.callToAction?.count == 0 ? R.Strings.advertisingDefaultCta : nativeAppInstallAd.callToAction
+        adCTALabel.text = ctaText?.capitalizedFirstLetterOnly
         nativeAppInstallAd.register(self,
                                     clickableAssetViews: [GADNativeAppInstallAssetID.callToActionAsset: callToActionView],
                                     nonclickableAssetViews: [:])

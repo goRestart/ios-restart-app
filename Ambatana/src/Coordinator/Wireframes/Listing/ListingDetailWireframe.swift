@@ -98,7 +98,8 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                             listingCanBeBoosted: listingCanBeBoosted,
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: maxCountdown,
-                                            onEditAction: self)
+                                            onEditAction: self,
+                                            onCancelEditAction: self)
         nc?.present(vc, animated: true)
     }
 

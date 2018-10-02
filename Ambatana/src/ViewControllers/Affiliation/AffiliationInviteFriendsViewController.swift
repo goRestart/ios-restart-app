@@ -8,14 +8,22 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
     private enum Layout {
         static let labelLeadingMargin: CGFloat = 16
         static let labelTopMargin: CGFloat = 16
-        static let labelTitleTopMargin: CGFloat = 83
+        static let labelTitleTopMargin: CGFloat = 20
         static let labelTrailingMargin: CGFloat = 16
-        static let buttonHeight: CGFloat = 44
+        static let buttonHeight: CGFloat = 50
         static let termsButtonHeight: CGFloat = 22
         static let termsButtonBottomMargin: CGFloat = 12
         static let termsButtonTopMargin: CGFloat = 21
     }
-    
+
+    private let headerImageView: UIImageView = {
+        let header = UIImageView()
+        header.contentMode = .scaleAspectFit
+        header.clipsToBounds = true
+        header.image = R.Asset.Affiliation.inviteHeader.image
+        return header
+    }()
+
     private let inviteContactsButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .big))
         button.setTitle(R.Strings.affiliationInviteFriendsSmsButton, for: .normal)
@@ -103,12 +111,20 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
     }
     
     private func setupConstraints() {
-        view.addSubviewsForAutoLayout([titleLabel, subtitleLabel, inviteContactsButton, inviteOthersButton, termsAndConditionsButton])
+        view.addSubviewsForAutoLayout([headerImageView, titleLabel, subtitleLabel, inviteContactsButton, inviteOthersButton, termsAndConditionsButton])
+
+        let headerConstraints = [
+            headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.shortMargin),
+            headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                                      constant: -Metrics.shortMargin),
+            headerImageView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.labelTitleTopMargin),
+            headerImageView.heightAnchor.constraint(equalTo: headerImageView.widthAnchor, multiplier: 0.6)
+        ]
 
         let titleConstraints = [
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.labelLeadingMargin),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.labelTrailingMargin),
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Layout.labelTitleTopMargin)
+            titleLabel.topAnchor.constraint(equalTo: headerImageView.bottomAnchor, constant: Metrics.margin)
         ]
         
         let subtitleLabelConstraints = [
@@ -120,7 +136,7 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
         let termsAndConditionsButtonConstraints = [
             termsAndConditionsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.labelLeadingMargin),
             termsAndConditionsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.labelTrailingMargin),
-            termsAndConditionsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Layout.termsButtonBottomMargin),
+            termsAndConditionsButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -Layout.termsButtonBottomMargin),
             termsAndConditionsButton.heightAnchor.constraint(equalToConstant: Layout.termsButtonHeight)
         ]
         
@@ -137,7 +153,9 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
             inviteContactsButton.bottomAnchor.constraint(equalTo: inviteOthersButton.topAnchor, constant: -Layout.labelTopMargin),
             inviteContactsButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight)
         ]
-        NSLayoutConstraint.activate([titleConstraints, subtitleLabelConstraints, termsAndConditionsButtonConstraints, inviteOthersButtonConstraints, inviteContactsButtonConstraints].flatMap {$0})
+        NSLayoutConstraint.activate([headerConstraints, titleConstraints,
+                                     subtitleLabelConstraints, termsAndConditionsButtonConstraints,
+                                     inviteOthersButtonConstraints, inviteContactsButtonConstraints].flatMap {$0})
     }
 
     private func setAccessibilityIds() {

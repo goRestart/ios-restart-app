@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Belønningsbutikken";
 "affiliation_store_unknown_error_message" = "Oops! En feil oppstod ved lasting av belønninger.";
 "affiliation_store_view_history" = "Historikk";
+"affiliation_store_view_history_empty" = "Ingen belønninger i din historikk enda.";
 "affiliation_wallet_open_store_button" = "Vis belønninger";
 "affiliation_wallet_points_label" = "POENG";
 "affiliation_wallet_title" = "DIN LOMMEBOK";
@@ -1237,6 +1238,9 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Legg inn telefonnummer";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Takk for at du at du tar kontakt! Vennligst ring oss eller legg igjen ditt nummer slik at vi kan ringe deg.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Takk for at du legger til ditt telefonnummer! Det er alltid bedre å ringe oss ved å bruke ringeknappen over.";
+"profile_ask_verification_button_disabled" = "Verification request sent!";
+"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 "profile_bio_add_button" = "Legg til din info";
 "profile_bio_show_more_button" = "MER OM MEG";
 "profile_blocked_by_me_label" = "Du har blokkert denne brukeren";

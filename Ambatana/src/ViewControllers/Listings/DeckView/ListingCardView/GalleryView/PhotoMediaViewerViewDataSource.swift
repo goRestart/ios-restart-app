@@ -25,6 +25,10 @@ final class PhotoMediaViewerViewDataSource: NSObject, UICollectionViewDataSource
         return mediaAtIndex(index: index)?.outputs.image ?? nil
     }
 
+    private func videoURL(at index: Int) -> URL? {
+        return mediaAtIndex(index: index)?.outputs.video ?? nil
+    }
+
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let media = mediaAtIndex(index: indexPath.row) else { return ListingCarouselImageCell() }
@@ -68,7 +72,7 @@ final class PhotoMediaViewerViewDataSource: NSObject, UICollectionViewDataSource
                                 videoCellForItem indexPath: IndexPath) -> ListingCarouselVideoCell {
         guard let  cell = collectionView.dequeue(type: ListingCarouselVideoCell.self,
                                                  for: indexPath) else { return ListingCarouselVideoCell() }
-        guard let videoURL = imageURL(at: indexPath.row) else { return cell }
+        guard let videoURL = videoURL(at: indexPath.row) else { return cell }
         cell.setVideo(url: videoURL)
         cell.position = indexPath.item
         return cell

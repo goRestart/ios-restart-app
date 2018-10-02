@@ -35,4 +35,5 @@ struct CanaryEnvironment: Environment {
     let rewardBaseURL = "https://reward.canary.letgo.com"
     let challengerBaseURL = "https://challenger.canary.letgo.com"
     let p2pPaymentsBaseURL = "https://p2payments.can.letgo.com"
+    let reputationBaseURL = "https://reputation.canary.letgo.com"
 }

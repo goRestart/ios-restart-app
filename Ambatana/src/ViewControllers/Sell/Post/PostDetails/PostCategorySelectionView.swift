@@ -287,9 +287,9 @@ fileprivate extension PostCategorySelectionView {
                           image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesMotorsInactive.image,
                           postCategoryLink: .motorsAndAccessories)
             case .realEstate:
-                let title = FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
+                
                 addButton(button: realEstateCategoryButton,
-                          title: title,
+                          title: R.Strings.productPostSelectCategoryHousing,
                           image: R.Asset.IconsButtons.FiltersCategoriesIcons.categoriesRealestateInactive.image,
                           postCategoryLink: .realEstate)
             case .services:

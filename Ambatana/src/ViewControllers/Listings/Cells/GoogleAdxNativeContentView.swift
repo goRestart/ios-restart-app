@@ -69,7 +69,8 @@ final class GoogleAdxNativeContentView: GADNativeContentAdView {
             if let images = nativeContentAd.images, let nativeAdImage = images.first as? GADNativeAdImage {
                 adMainImageView.image = nativeAdImage.image
             }
-            adCTALabel.text = nativeContentAd.callToAction?.capitalizedFirstLetterOnly
+            let ctaText = nativeContentAd.callToAction?.count == 0 ? R.Strings.advertisingDefaultCta : nativeContentAd.callToAction
+            adCTALabel.text = ctaText?.capitalizedFirstLetterOnly
             nativeContentAd.register(self,
                                      clickableAssetViews: [GADNativeContentAdAssetID.callToActionAsset: callToActionView],
                                      nonclickableAssetViews: [:])

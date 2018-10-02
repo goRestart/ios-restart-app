@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Магазин Наград";
 "affiliation_store_unknown_error_message" = "Упс! При загрузке наград произошла ошибка.";
 "affiliation_store_view_history" = "История";
+"affiliation_store_view_history_empty" = "В вашей истории пока нет наград.";
 "affiliation_wallet_open_store_button" = "Смотреть награды";
 "affiliation_wallet_points_label" = "ОЧКИ";
 "affiliation_wallet_title" = "ВАШ КОШЕЛЕК";
@@ -1237,6 +1238,9 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Введите номер телефона";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Спасибо за обращение! Пожалуйста, позвоните нам или оставьте свой номер, чтобы мы перезвонили.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Спасибо за номер телефона! Вы всегда можете позвонить нам, нажав на кнопку выше.";
+"profile_ask_verification_button_disabled" = "Verification request sent!";
+"profile_ask_verification_button_enabled" = "Ask %@ to verify their profile";
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 "profile_bio_add_button" = "Добавить информацию о себе";
 "profile_bio_show_more_button" = "ЕЩЕ ОБО МНЕ";
 "profile_blocked_by_me_label" = "Вы заблокировали этого пользователя";
