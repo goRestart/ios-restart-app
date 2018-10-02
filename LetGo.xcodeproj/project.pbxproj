@@ -1470,6 +1470,8 @@
 		50DBEE342162075600E64142 /* AnalyticsBuy24hMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE322162075600E64142 /* AnalyticsBuy24hMiddleware.swift */; };
 		50DBEE362162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE352162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift */; };
 		50DBEE372162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE352162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift */; };
+		50DBEE3A216234F900E64142 /* AnalyticsBuy24hMiddlewareSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE38216234F600E64142 /* AnalyticsBuy24hMiddlewareSpec.swift */; };
+		50DBEE3B216234F900E64142 /* AnalyticsBuySell24hMiddlewareSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEE39216234F700E64142 /* AnalyticsBuySell24hMiddlewareSpec.swift */; };
 		50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */; };
 		50EAFB211F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EAFB201F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift */; };
 		50EAFB221F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EAFB201F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift */; };
@@ -3519,6 +3521,8 @@
 		50DBEE30215E0E0800E64142 /* AnalyticsSell24hMiddlewareSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSell24hMiddlewareSpec.swift; sourceTree = "<group>"; };
 		50DBEE322162075600E64142 /* AnalyticsBuy24hMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsBuy24hMiddleware.swift; sourceTree = "<group>"; };
 		50DBEE352162076C00E64142 /* AnalyticsBuySell24hMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsBuySell24hMiddleware.swift; sourceTree = "<group>"; };
+		50DBEE38216234F600E64142 /* AnalyticsBuy24hMiddlewareSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsBuy24hMiddlewareSpec.swift; sourceTree = "<group>"; };
+		50DBEE39216234F700E64142 /* AnalyticsBuySell24hMiddlewareSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsBuySell24hMiddlewareSpec.swift; sourceTree = "<group>"; };
 		50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactSubject.swift; sourceTree = "<group>"; };
 		50EAFB201F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSuggestiveSearch.swift; sourceTree = "<group>"; };
 		50EAFB231F7A2CE5003B96D5 /* LocalSuggestiveSearchSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSuggestiveSearchSpec.swift; sourceTree = "<group>"; };
@@ -6869,6 +6873,8 @@
 		50D08D861E69AF14009CC260 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
+				50DBEE38216234F600E64142 /* AnalyticsBuy24hMiddlewareSpec.swift */,
+				50DBEE39216234F700E64142 /* AnalyticsBuySell24hMiddlewareSpec.swift */,
 				50DBEE30215E0E0800E64142 /* AnalyticsSell24hMiddlewareSpec.swift */,
 				5011939020C6990C00FA7C20 /* AnalyticsSessionDataSpec.swift */,
 				5011939920CA601000FA7C20 /* AnalyticsSessionUDDAOSpec.swift */,
@@ -9790,6 +9796,7 @@
 				50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */,
 				727463AD1FB0674D00AD8261 /* ListingPrice+LGSpec.swift in Sources */,
 				6ABAB53E20A06E0200B84FC8 /* PasswordlessUsernameViewModelSpec.swift in Sources */,
+				50DBEE3A216234F900E64142 /* AnalyticsBuy24hMiddlewareSpec.swift in Sources */,
 				C6A5CC6020E50FFD00610A3A /* AccessibilityIdSpec.swift in Sources */,
 				502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */,
 				C69070502107130E00AF27E4 /* DropdownViewModelSpec.swift in Sources */,
@@ -9810,6 +9817,7 @@
 				6ABAB53C20A063A800B84FC8 /* PasswordlessEmailViewModelSpec.swift in Sources */,
 				50D08DD21E69AF14009CC260 /* ConfigSpec.swift in Sources */,
 				5011939320C7C3BE00FA7C20 /* LGAnalyticsSessionManagerSpec.swift in Sources */,
+				50DBEE3B216234F900E64142 /* AnalyticsBuySell24hMiddlewareSpec.swift in Sources */,
 				0A890A88212061760091ED75 /* MediaViewerStandardSpec.swift in Sources */,
 				50D08DCA1E69AF14009CC260 /* ConfigFileManagerSpec.swift in Sources */,
 				72D928DE1E83DE360030F4C3 /* MockConfigManager.swift in Sources */,

@@ -49,7 +49,7 @@ final class TrackerProxy: Tracker {
         let dao = AnalyticsSessionUDDAO(keyValueStorage: keyValueStorage)
         let analyticsSessionManager = LGAnalyticsSessionManager(myUserRepository: myUserRepository,
                                                                 dao: dao)
-        let analyticsMiddlewares = [
+        let analyticsMiddlewares: [AnalyticsMiddleware] = [
             AnalyticsBuy24hMiddleware(keyValueStorage: keyValueStorage),
             AnalyticsBuySell24hMiddleware(keyValueStorage: keyValueStorage),
             AnalyticsSell24hMiddleware(keyValueStorage: keyValueStorage),

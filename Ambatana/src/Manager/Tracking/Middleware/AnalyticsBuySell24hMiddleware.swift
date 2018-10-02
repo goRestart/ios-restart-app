@@ -17,12 +17,12 @@ final class AnalyticsBuySell24hMiddleware: AnalyticsMiddleware {
     func process(event: TrackerEvent,
                  trackNewEvent: (TrackerEvent) -> ()) {
         guard event.name == .listingSellComplete || event.name == .firstMessage else { return }
-        guard let firstOpenDate = keyValueStorage[.firstRunDate],
+        guard let newEvent = TrackerEvent.buyerLister24h(event: event),
+            let firstOpenDate = keyValueStorage[.firstRunDate],
             Date().timeIntervalSince(firstOpenDate) <= AnalyticsBuySell24hMiddleware.threshold &&
                 !keyValueStorage.userTrackingProductBuySellComplete24hTracked else { return }
-        keyValueStorage.userTrackingProductBuySellComplete24hTracked = true
 
-//        let event = TrackerEvent.listingSellComplete24h(listingId: listingId)
-//        trackNewEvent(event)
+        keyValueStorage.userTrackingProductBuySellComplete24hTracked = true
+        trackNewEvent(newEvent)
     }
 }
