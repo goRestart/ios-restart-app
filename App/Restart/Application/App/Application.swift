@@ -1,5 +1,6 @@
 import Data
-import Firebase
+import FirebaseCore
+import FirebaseStorage
 
 final class Application: NSObject, UIApplicationDelegate {
   

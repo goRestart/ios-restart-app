@@ -1,4 +1,5 @@
-import Firebase
+import FirebaseStorage
+import FirebaseCore
 
 public final class DataModule {
   public static let shared = DataModule()

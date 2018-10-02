@@ -1,5 +1,5 @@
 import RxSwift
-import Firebase
+import FirebaseStorage
  
 private enum Products {
   static let path = "products/"
