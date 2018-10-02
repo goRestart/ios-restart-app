@@ -71,7 +71,8 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
                                            listingCanBeBoosted: false,
                                            timeSinceLastBump: nil,
                                            maxCountdown: 0,
-                                           onEditAction: nil)
+                                           onEditAction: nil,
+                                           onCancelEditAction: nil)
         navigationController.present(vc, animated: true)
     }
 

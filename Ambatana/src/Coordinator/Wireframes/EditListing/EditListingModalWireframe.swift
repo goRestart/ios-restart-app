@@ -10,29 +10,42 @@ final class EditListingModalWireframe: EditListingNavigator {
 
     weak var listingRefreshable: ListingsRefreshable?
     private weak var onEditActionable: OnEditActionable?
+    private weak var onCancelEditActionable: OnEditActionable?
 
-    init(root: UIViewController, nc: UINavigationController, onEditActionable: OnEditActionable?) {
+    init(root: UIViewController,
+         nc: UINavigationController,
+         onEditActionable: OnEditActionable?,
+         onCancelEditActionable: OnEditActionable?) {
         self.root = root
         self.nc = nc
         self.onEditActionable = onEditActionable
+        self.onCancelEditActionable = onCancelEditActionable
         self.editLocationAssembly = QuickLocationFiltersBuilder.standard(nc)
         self.carMakesAssembly = CarAttributesSelectionBuilder.standard(nc)
     }
 
-    func editingListingDidCancel() {
-        root.dismiss(animated: true, completion: nil)
+    func editingListingDidCancel(_ originalListing: Listing,
+                                 purchases: [BumpUpProductData],
+                                 timeSinceLastBump: TimeInterval?,
+                                 maxCountdown: TimeInterval) {
+        root.dismiss(animated: true, completion: { [weak self] in
+            self?.onCancelEditActionable?.onEdit(listing: originalListing,
+                                                 purchases: purchases,
+                                                 timeSinceLastBump: timeSinceLastBump,
+                                                 maxCountdown: maxCountdown)
+        })
     }
-
+    
     func editingListingDidFinish(_ editedListing: Listing,
                                  purchases: [BumpUpProductData],
                                  timeSinceLastBump: TimeInterval?,
                                  maxCountdown: TimeInterval) {
         listingRefreshable?.listingsRefresh()
-        root.dismiss(animated: true, completion: {
-            self.onEditActionable?.onEdit(listing: editedListing,
-                                          purchases: purchases,
-                                          timeSinceLastBump: timeSinceLastBump,
-                                          maxCountdown: maxCountdown)
+        root.dismiss(animated: true, completion: {[weak self] in
+            self?.onEditActionable?.onEdit(listing: editedListing,
+                                           purchases: purchases,
+                                           timeSinceLastBump: timeSinceLastBump,
+                                           maxCountdown: maxCountdown)
         })
     }
 

@@ -30,7 +30,6 @@ class ABTests {
     let trackingData = Variable<[(String, ABGroup)]?>(nil)
 
     let legacy = LegacyABGroup.make()
-    let realEstate = RealEstateABGroup.make()
     let verticals = VerticalsABGroup.make()
     let retention = RetentionABGroup.make()
     let money = MoneyABGroup.make()
@@ -54,7 +53,6 @@ class ABTests {
         result.append(contentsOf: legacy.intVariables)
         result.append(contentsOf: money.intVariables)
         result.append(contentsOf: retention.intVariables)
-        result.append(contentsOf: realEstate.intVariables)
         result.append(contentsOf: verticals.intVariables)
         result.append(contentsOf: chat.intVariables)
         result.append(contentsOf: core.intVariables)
@@ -69,7 +67,6 @@ class ABTests {
         result.append(contentsOf: legacy.boolVariables)
         result.append(contentsOf: money.boolVariables)
         result.append(contentsOf: retention.boolVariables)
-        result.append(contentsOf: realEstate.boolVariables)
         result.append(contentsOf: verticals.boolVariables)
         result.append(contentsOf: chat.boolVariables)
         result.append(contentsOf: core.boolVariables)
@@ -176,6 +173,7 @@ extension ABTests {
     var smartQuickAnswers: LeanplumABVariable<Int> { return chat.smartQuickAnswers }
     var openChatFromUserProfile: LeanplumABVariable<Int> { return chat.openChatFromUserProfile }
     var markAsSoldQuickAnswerNewFlow: LeanplumABVariable<Int> { return chat.markAsSoldQuickAnswerNewFlow }
+    var shouldMoveLetsMeetAction: LeanplumABVariable<Bool> { return chat.shouldMoveLetsMeetAction }
 }
 
 //  MARK: Money
@@ -197,6 +195,8 @@ extension ABTests {
     var multiDayBumpUp: LeanplumABVariable<Int> { return money.multiDayBumpUp }
     var multiAdRequestInChatSectionForUS: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForUS }
     var multiAdRequestInChatSectionForTR: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForTR }
+    var bumpPromoAfterSellNoLimit: LeanplumABVariable<Int> { return money.bumpPromoAfterSellNoLimit }
+    var polymorphFeedAdsUSA: LeanplumABVariable<Int> { return money.polymorphFeedAdsUSA }
 }
 
 //  MARK: Retention
@@ -207,18 +207,11 @@ extension ABTests {
     var searchAlertsInSearchSuggestions: LeanplumABVariable<Int> { return retention.searchAlertsInSearchSuggestions }
     var engagementBadging: LeanplumABVariable<Int> { return retention.engagementBadging }
     var searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int> { return retention.searchAlertsDisableOldestIfMaximumReached }
-    var notificationCenterRedesign: LeanplumABVariable<Int> { return retention.notificationCenterRedesign }
     var randomImInterestedMessages: LeanplumABVariable<Int> { return retention.randomImInterestedMessages }
     var imInterestedInProfile: LeanplumABVariable<Int> { return retention.imInterestedInProfile }
     var shareAfterScreenshot: LeanplumABVariable<Int> { return retention.shareAfterScreenshot }
     var affiliationCampaign: LeanplumABVariable<Int> { return retention.affiliationCampaign }
-}
-
-//  MARK: RealEstate
-//  Please use Verticals from now on
-
-extension ABTests {
-    var realEstateNewCopy: LeanplumABVariable<Int> { return realEstate.realEstateNewCopy }
+    var imageSizesNotificationCenter: LeanplumABVariable<Int> { return retention.imageSizesNotificationCenter }
 }
 
 //  MARK: Verticals

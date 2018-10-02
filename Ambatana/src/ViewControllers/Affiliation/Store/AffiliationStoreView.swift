@@ -29,6 +29,7 @@ final class AffiliationStoreView: UIView {
         if #available(iOS 11.0, *) {
             collection.contentInsetAdjustmentBehavior = .never
         }
+        collection.delaysContentTouches = false
         collection.contentInset = .zero
         return collection
     }()

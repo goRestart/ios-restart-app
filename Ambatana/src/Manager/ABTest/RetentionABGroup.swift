@@ -15,22 +15,22 @@ struct RetentionABGroup: ABGroupType {
         static let searchAlertsInSearchSuggestions = "20180710SearchAlertsInSearchSuggestions"
         static let engagementBadging = "20180613EngagementBadging"
         static let searchAlertsDisableOldestIfMaximumReached = "201807SearchAlertsDisableOldestIfMaximumReached"
-        static let notificationCenterRedesign = "20180731NotificationCenterRedesign"
         static let randomImInterestedMessages = "20180817RandomImInterestedMessages"
         static let imInterestedInProfile = "20180828ImInterestedInProfile"
         static let shareAfterScreenshot = "20180905ShareAfterScreenshot"
-        static let affiliationCampaign = "20180919AffiliationCampaign"
+        static let affiliationCampaign = "20180927Affiliation"
+        static let imageSizesNotificationCenter = "20180928ImageSizesNotificationCenter"
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>
     let onboardingIncentivizePosting: LeanplumABVariable<Int>
     let searchAlertsInSearchSuggestions: LeanplumABVariable<Int>
     let engagementBadging: LeanplumABVariable<Int>
     let searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int>
-    let notificationCenterRedesign: LeanplumABVariable<Int>
     let randomImInterestedMessages: LeanplumABVariable<Int>
     let imInterestedInProfile: LeanplumABVariable<Int>
     let shareAfterScreenshot: LeanplumABVariable<Int>
     let affiliationCampaign: LeanplumABVariable<Int>
+    let imageSizesNotificationCenter: LeanplumABVariable<Int>
     
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -43,32 +43,32 @@ struct RetentionABGroup: ABGroupType {
          searchAlertsInSearchSuggestions: LeanplumABVariable<Int>,
          engagementBadging: LeanplumABVariable<Int>,
          searchAlertsDisableOldestIfMaximumReached: LeanplumABVariable<Int>,
-         notificationCenterRedesign: LeanplumABVariable<Int>,
          randomImInterestedMessages: LeanplumABVariable<Int>,
          imInterestedInProfile: LeanplumABVariable<Int>,
          shareAfterScreenshot: LeanplumABVariable<Int>,
-         affiliationCampaign: LeanplumABVariable<Int>) {
+         affiliationCampaign: LeanplumABVariable<Int>,
+         imageSizesNotificationCenter: LeanplumABVariable<Int>) {
         self.dummyUsersInfoProfile = dummyUsersInfoProfile
         self.onboardingIncentivizePosting = onboardingIncentivizePosting
         self.searchAlertsInSearchSuggestions = searchAlertsInSearchSuggestions
         self.engagementBadging = engagementBadging
         self.searchAlertsDisableOldestIfMaximumReached = searchAlertsDisableOldestIfMaximumReached
-        self.notificationCenterRedesign = notificationCenterRedesign
         self.randomImInterestedMessages = randomImInterestedMessages
         self.imInterestedInProfile = imInterestedInProfile
         self.shareAfterScreenshot = shareAfterScreenshot
         self.affiliationCampaign = affiliationCampaign
+        self.imageSizesNotificationCenter = imageSizesNotificationCenter
 
         intVariables.append(contentsOf: [dummyUsersInfoProfile,
                                         onboardingIncentivizePosting,
                                         searchAlertsInSearchSuggestions,
                                         engagementBadging,
                                         searchAlertsDisableOldestIfMaximumReached,
-                                        notificationCenterRedesign,
                                         randomImInterestedMessages,
                                         imInterestedInProfile,
                                         shareAfterScreenshot,
-                                        affiliationCampaign])
+                                        affiliationCampaign,
+                                        imageSizesNotificationCenter])
     }
 
     static func make() -> RetentionABGroup {
@@ -87,9 +87,6 @@ struct RetentionABGroup: ABGroupType {
                                 searchAlertsDisableOldestIfMaximumReached: .makeInt(key: Keys.searchAlertsDisableOldestIfMaximumReached,
                                                                                     defaultValue: 0,
                                                                                     groupType: .retention),
-                                notificationCenterRedesign: .makeInt(key: Keys.notificationCenterRedesign,
-                                                                     defaultValue: 0,
-                                                                     groupType: .retention),
                                 randomImInterestedMessages: .makeInt(key: Keys.randomImInterestedMessages,
                                                                      defaultValue: 0,
                                                                      groupType: .retention),
@@ -101,6 +98,9 @@ struct RetentionABGroup: ABGroupType {
                                                                groupType: .retention),
                                 affiliationCampaign: .makeInt(key: Keys.affiliationCampaign,
                                                               defaultValue: 0,
+                                                              groupType: .retention),
+                                imageSizesNotificationCenter: .makeInt(key: Keys.imageSizesNotificationCenter,
+                                                                        defaultValue: 0,
                                                               groupType: .retention))
     }
 }

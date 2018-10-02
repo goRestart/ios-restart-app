@@ -36,6 +36,7 @@ final class AffiliationStoreViewController: BaseViewController {
     }
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = storeView.backgroundColor
         moreThreeDotsButton.tintColor = .grayRegular
 
@@ -58,7 +59,6 @@ final class AffiliationStoreViewController: BaseViewController {
             viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
             viewModel.rx.redeemTapped.drive(rx.redeemCell),
             viewModel.rx.points.drive(rx.points),
-            viewModel.rx.pointsVisible.drive(rx.pointsVisible)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -72,8 +72,6 @@ final class AffiliationStoreViewController: BaseViewController {
         case .error(let errorModel), .empty(let errorModel):
             update(with: errorModel)
         }
-
-        pointsView.alpha = state == .data ? 1 : 0
     }
 
     private func showLoading() {
@@ -101,14 +99,6 @@ final class AffiliationStoreViewController: BaseViewController {
         constraintViewToSafeRootView(errorView)
     }
 
-    fileprivate func updatePoints(with isVisible: Bool) {
-        if isVisible {
-            navigationItem.rightBarButtonItems = [moreThreeDotsButton, pointsItem]
-        } else {
-            navigationItem.rightBarButtonItems = [moreThreeDotsButton]
-        }
-    }
-
     fileprivate func updatePoints(with points: Int) {
         pointsView.populate(with: points)
     }
@@ -122,12 +112,18 @@ final class AffiliationStoreViewController: BaseViewController {
                 self?.showRedeemSuccess()
             })
         case .empty(_), .error(_):
-            showAlert(R.Strings.affiliationStoreGenericError, message: nil, actions: [])
-            delay(2) { [weak self] in
-                self?.dismiss(animated: true, completion: nil)
-            }
+            dismiss(animated: true, completion: { [weak self] in
+                self?.showError()
+            })
         }
         pointsView.alpha = state == .loading ? 0 : 1
+    }
+
+    private func showError() {
+        showAlert(R.Strings.affiliationStoreGenericError, message: nil, actions: [])
+        delay(2) { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
 
     fileprivate func showRedeemSuccess() {
@@ -204,6 +200,7 @@ extension AffiliationStoreViewController {
     private func redeem(for index: Int) {
         viewModel
             .redeem(at: index)
+            .throttle(RxTimeInterval(1))
             .drive(onNext: { [weak self] (state) in
                 self?.updateRedeem(with: state)
             }).disposed(by: disposeBag)
@@ -231,18 +228,12 @@ extension Reactive where Base: AffiliationStoreViewController {
         }
     }
 
-    var pointsVisible: Binder<Bool> {
-        return Binder(self.base) { controller, visibility in
-            controller.updatePoints(with: visibility)
-        }
-    }
-
     var redeemCell: Binder<RedeemCellModel?> {
         return Binder(self.base) { controller, redeemCell in
             guard let redeemCell = redeemCell else { return }
             controller.update(with: redeemCell)
         }
-    }
+   }
 }
 
 extension AffiliationStoreViewController: UICollectionViewDataSource {

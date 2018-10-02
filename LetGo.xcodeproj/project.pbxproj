@@ -196,8 +196,6 @@
 		0A04D5D020760A9D00471B9D /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */; };
 		0A04D5D320760A9D00471B9D /* MoneyABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C720760A9C00471B9D /* MoneyABGroup.swift */; };
 		0A04D5D420760A9D00471B9D /* MoneyABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C720760A9C00471B9D /* MoneyABGroup.swift */; };
-		0A04D5D520760A9D00471B9D /* RealEstateABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C820760A9C00471B9D /* RealEstateABGroup.swift */; };
-		0A04D5D620760A9D00471B9D /* RealEstateABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C820760A9C00471B9D /* RealEstateABGroup.swift */; };
 		0A04D5D720760A9D00471B9D /* RetentionABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */; };
 		0A04D5D820760A9D00471B9D /* RetentionABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */; };
 		0A04D5D920760A9D00471B9D /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CA20760A9C00471B9D /* ABTests.swift */; };
@@ -226,6 +224,12 @@
 		0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A104695206CFB99003F1577 /* ABTestsSpec.swift */; };
 		0A14D275212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */; };
 		0A14D276212AE47400E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */; };
+		0A1ABB96215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */; };
+		0A1ABB97215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */; };
+		0A1ABB92215D3E5700B96343 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */; };
+		0A1ABB93215D3E5700B96343 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */; };
+		0A1ABB99216227DC00B96343 /* ListingCardViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */; };
+		0A1ABB9A2162282D00B96343 /* ListingCardViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */; };
 		0A2077AE2114C05700BFD3D7 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
 		0A25E8122019C87900E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
 		0A25E8132019C88C00E6A72E /* OnBoardingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */; };
@@ -483,8 +487,6 @@
 		0A751486214272570049E135 /* UserRatingListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A75146D214272570049E135 /* UserRatingListViewController.xib */; };
 		0A751487214272570049E135 /* UserRatingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A75146E214272570049E135 /* UserRatingListViewModel.swift */; };
 		0A751488214272570049E135 /* UserRatingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A75146E214272570049E135 /* UserRatingListViewModel.swift */; };
-		0A759E971FB472F60030FDE0 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */; };
-		0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */; };
 		0A760FEE1FA08E0C0055F2B6 /* ListingDeckActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */; };
 		0A760FEF1FA08EFD0055F2B6 /* ListingDeckActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */; };
 		0A760FF11FA0B7480055F2B6 /* ListingDeckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FF01FA0B7480055F2B6 /* ListingDeckViewModel.swift */; };
@@ -504,8 +506,6 @@
 		0A8275151F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */; };
 		0A82A17E213FBFF2005ECA58 /* NotificationCenterThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82A17B213FBFF1005ECA58 /* NotificationCenterThumbnailCell.swift */; };
 		0A82A17F213FBFF2005ECA58 /* NotificationCenterThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82A17B213FBFF1005ECA58 /* NotificationCenterThumbnailCell.swift */; };
-		0A82A180213FBFF2005ECA58 /* ModularNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82A17C213FBFF1005ECA58 /* ModularNotificationCell.swift */; };
-		0A82A181213FBFF2005ECA58 /* ModularNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82A17C213FBFF1005ECA58 /* ModularNotificationCell.swift */; };
 		0A82A182213FBFF2005ECA58 /* NotificationCenterModularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82A17D213FBFF1005ECA58 /* NotificationCenterModularCell.swift */; };
 		0A82A183213FBFF2005ECA58 /* NotificationCenterModularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82A17D213FBFF1005ECA58 /* NotificationCenterModularCell.swift */; };
 		0A82A185213FC031005ECA58 /* RoundedActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82A184213FC031005ECA58 /* RoundedActivityIndicatorView.swift */; };
@@ -976,7 +976,6 @@
 		32448E872105CB7100EFF33A /* FeedViewControllerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32448E852105CB7100EFF33A /* FeedViewControllerProtocols.swift */; };
 		3251C3D620B8ABE00014B6BA /* RequesterFactorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251C3D520B8ABE00014B6BA /* RequesterFactorySpec.swift */; };
 		3251C3D820B96B100014B6BA /* ListingListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251C3D720B96B100014B6BA /* ListingListViewModelSpec.swift */; };
-		3251C3DA20B973E20014B6BA /* MockRequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251C3D920B973E20014B6BA /* MockRequesterFactory.swift */; };
 		325E70D321277ED100D173A1 /* EmbeddedListingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325E70D221277ED100D173A1 /* EmbeddedListingViewModel.swift */; };
 		325E70D421277ED100D173A1 /* EmbeddedListingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325E70D221277ED100D173A1 /* EmbeddedListingViewModel.swift */; };
 		326C72D22088820F009D21DB /* WaterFallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326C72D12088820E009D21DB /* WaterFallLayout.swift */; };
@@ -991,7 +990,6 @@
 		326C730B20908148009D21DB /* CategoriesFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326C730920908148009D21DB /* CategoriesFeedCell.swift */; };
 		328E8E1920B6EF4300BBF639 /* RequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E1820B6EF4300BBF639 /* RequesterFactory.swift */; };
 		328E8E1A20B6EF4300BBF639 /* RequesterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E1820B6EF4300BBF639 /* RequesterFactory.swift */; };
-		328E8E2D20C0036D00BBF639 /* ListingRequesterMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E2C20C0036D00BBF639 /* ListingRequesterMatcher.swift */; };
 		328E8E2F20C03A5E00BBF639 /* EmptyViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E2E20C03A5E00BBF639 /* EmptyViewModelBuilder.swift */; };
 		328E8E3020C03A5E00BBF639 /* EmptyViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E2E20C03A5E00BBF639 /* EmptyViewModelBuilder.swift */; };
 		328E8E3220C0467000BBF639 /* MainListingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E8E3120C0467000BBF639 /* MainListingsHeader.swift */; };
@@ -1110,6 +1108,10 @@
 		42B2CEB2211C79B80020776A /* Feed+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B2CEB0211C79B80020776A /* Feed+Mapping.swift */; };
 		42B7029A20A595840031B9BD /* LGRibbonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B7029920A595840031B9BD /* LGRibbonView.swift */; };
 		42B7029B20A595840031B9BD /* LGRibbonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B7029920A595840031B9BD /* LGRibbonView.swift */; };
+		42BFE2E72162004C002C6E42 /* LGSmokeTestThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BFE2E52162004B002C6E42 /* LGSmokeTestThankYouViewController.swift */; };
+		42BFE2E82162004C002C6E42 /* LGSmokeTestThankYouViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BFE2E62162004B002C6E42 /* LGSmokeTestThankYouViewModel.swift */; };
+		42BFE2E92162056A002C6E42 /* LGSmokeTestThankYouViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BFE2E62162004B002C6E42 /* LGSmokeTestThankYouViewModel.swift */; };
+		42BFE2EA2162056E002C6E42 /* LGSmokeTestThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BFE2E52162004B002C6E42 /* LGSmokeTestThankYouViewController.swift */; };
 		42CA899920973F7300CE7B5B /* ListingsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899820973F7300CE7B5B /* ListingsMapViewController.swift */; };
 		42CA899A20973F7300CE7B5B /* ListingsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899820973F7300CE7B5B /* ListingsMapViewController.swift */; };
 		42CA899C2097498900CE7B5B /* LGMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA899B2097498900CE7B5B /* LGMapView.swift */; };
@@ -1155,12 +1157,6 @@
 		42D3216421514B73002B44FC /* SingleSelectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D3216221514B73002B44FC /* SingleSelectionList.swift */; };
 		42D63A9A212ABEA600F45FD6 /* AdsPaginationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D63A99212ABEA600F45FD6 /* AdsPaginationHelper.swift */; };
 		42D63A9B212ABEA600F45FD6 /* AdsPaginationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D63A99212ABEA600F45FD6 /* AdsPaginationHelper.swift */; };
-		42D9716C2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D9716B2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift */; };
-		42D9716D2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D9716B2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift */; };
-		42D9716F215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D9716E215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift */; };
-		42D97170215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D9716E215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift */; };
-		42D971722153898300B0658B /* LGSmokeTestThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D971712153898300B0658B /* LGSmokeTestThankYouViewController.swift */; };
-		42D971732153898300B0658B /* LGSmokeTestThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D971712153898300B0658B /* LGSmokeTestThankYouViewController.swift */; };
 		42E17F8720FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */; };
 		42E17F8820FCAC8300E565C2 /* MKMapView+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */; };
 		42E1832921230F6200B78DA8 /* AdsSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E1832821230F6200B78DA8 /* AdsSectionController.swift */; };
@@ -1481,7 +1477,6 @@
 		50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
 		50FEFA1E20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */; };
 		50FEFA1F20469AD6003C51B0 /* ChatBubbleCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */; };
-		53D026D5E8B58955510CC0EF /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4B0C121449EB924C3B7E05A /* Pods_letgoTests.framework */; };
 		5532C4E620932542006FD3EA /* PasswordlessEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532C4E520932542006FD3EA /* PasswordlessEmailViewController.swift */; };
 		5532C4E720932542006FD3EA /* PasswordlessEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532C4E520932542006FD3EA /* PasswordlessEmailViewController.swift */; };
 		5532C4E9209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532C4E8209325DA006FD3EA /* PasswordlessEmailViewModel.swift */; };
@@ -1518,7 +1513,7 @@
 		55FABE1D2076344F004B0DBD /* UserPhoneVerificationCountryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE1B2076344F004B0DBD /* UserPhoneVerificationCountryPickerViewController.swift */; };
 		55FABE1F20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE1E20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift */; };
 		55FABE2020763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FABE1E20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift */; };
-		6551016816634A285D4C8D04 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF0370F80E11C172274DE62 /* Pods_LetGo.framework */; };
+		5D836E49E34B0F5A934701DE /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53FB9C50CEB62EB448FC5B83 /* Pods_letgoTests.framework */; };
 		6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */; };
 		66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC61A83612500FAADF0 /* CFNetwork.framework */; };
@@ -1794,8 +1789,6 @@
 		72E8A5871EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E8A5851EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift */; };
 		72E8A58A1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E8A5891EB34D93000524E6 /* CategoriesHeaderCell.swift */; };
 		72E8A58B1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E8A5891EB34D93000524E6 /* CategoriesHeaderCell.swift */; };
-		72EB705C1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */; };
-		72EB705D1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */; };
 		72FE02D61F95FCE5005BD672 /* PostingDetailStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE02D51F95FCE5005BD672 /* PostingDetailStep.swift */; };
 		72FE02D71F95FCE5005BD672 /* PostingDetailStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE02D51F95FCE5005BD672 /* PostingDetailStep.swift */; };
 		72FE02D91F97A155005BD672 /* ListingCreationParams+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE02D81F97A155005BD672 /* ListingCreationParams+LG.swift */; };
@@ -1912,6 +1905,16 @@
 		8EC2051F1EAE52F000E4E5EC /* UIView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */; };
 		8ECB2DD920E2A26A00AE9E5B /* GoogleAdxNativeAppInstallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB2DD820E2A26900AE9E5B /* GoogleAdxNativeAppInstallView.swift */; };
 		8ECB2DDA20E2A26A00AE9E5B /* GoogleAdxNativeAppInstallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB2DD820E2A26900AE9E5B /* GoogleAdxNativeAppInstallView.swift */; };
+		8ECD55BD21594F3100A12678 /* PolymorphDFPBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD55B521594F3100A12678 /* PolymorphDFPBannerCustomEvent.m */; };
+		8ECD55BE21594F3100A12678 /* PolymorphDFPBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD55B521594F3100A12678 /* PolymorphDFPBannerCustomEvent.m */; };
+		8ECD55BF21594F3100A12678 /* PolymorphDFPNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD55B721594F3100A12678 /* PolymorphDFPNativeAdAdapter.m */; };
+		8ECD55C021594F3100A12678 /* PolymorphDFPNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD55B721594F3100A12678 /* PolymorphDFPNativeAdAdapter.m */; };
+		8ECD55C121594F3100A12678 /* PolymorphDFPNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD55B821594F3100A12678 /* PolymorphDFPNativeCustomEvent.m */; };
+		8ECD55C221594F3100A12678 /* PolymorphDFPNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD55B821594F3100A12678 /* PolymorphDFPNativeCustomEvent.m */; };
+		8ECD55C321594F3100A12678 /* PMBidder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD55BA21594F3100A12678 /* PMBidder.m */; };
+		8ECD55C421594F3100A12678 /* PMBidder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECD55BA21594F3100A12678 /* PMBidder.m */; };
+		8ECD55C521594F3100A12678 /* AdsNativeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECD55BC21594F3100A12678 /* AdsNativeSDK.framework */; };
+		8ECD55C621594F3100A12678 /* AdsNativeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECD55BC21594F3100A12678 /* AdsNativeSDK.framework */; };
 		8ED3C523204811E90078BE39 /* LGAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED3C522204811E90078BE39 /* LGAnimation.swift */; };
 		8ED3C524204811E90078BE39 /* LGAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED3C522204811E90078BE39 /* LGAnimation.swift */; };
 		8EEC7F56206AA60B00616858 /* MoPubNativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F54206AA60800616858 /* MoPubNativeView.swift */; };
@@ -1924,12 +1927,12 @@
 		8EEC7F5F206AA63000616858 /* MoPubNativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F54206AA60800616858 /* MoPubNativeView.swift */; };
 		8EEC7F61206AA64000616858 /* MoPubAdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F60206AA64000616858 /* MoPubAdsRequester.swift */; };
 		8EEC7F62206AA64000616858 /* MoPubAdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC7F60206AA64000616858 /* MoPubAdsRequester.swift */; };
+		8EF0329E215A04A900C7B1CF /* AdsNativeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECD55BC21594F3100A12678 /* AdsNativeSDK.framework */; };
 		8EF1CDAF2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */; };
 		8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */; };
 		8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
 		8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
 		8EF71E8E213C76FD00DA1CAE /* ConversationAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0F4CFC21130DA900430E6A /* ConversationAdCell.swift */; };
-		92BB1E40195D8087A1689368 /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8F364F2321036559203B2C /* Pods_LetGoGodMode.framework */; };
 		A41195F821219B9300EBB210 /* HTMLBoldParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41195F621219B9300EBB210 /* HTMLBoldParser.swift */; };
 		A41195FB2121B71600EBB210 /* HTMLBoldParserSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41195FA2121B71600EBB210 /* HTMLBoldParserSpec.swift */; };
 		A411960B2122D49500EBB210 /* RememberPasswordBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A411960A2122D49500EBB210 /* RememberPasswordBuilder.swift */; };
@@ -1960,11 +1963,36 @@
 		A47C4A69213D5B3F005AA387 /* SearchWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47C4A67213D5B3F005AA387 /* SearchWireframe.swift */; };
 		A4B06436212FF82000769B6B /* FeedBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B06435212FF82000769B6B /* FeedBuilder.swift */; };
 		A4B06437212FF82000769B6B /* FeedBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B06435212FF82000769B6B /* FeedBuilder.swift */; };
+		A4CD266E215BDF4100EA61D3 /* yellowShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266B215BDF4000EA61D3 /* yellowShape@3x.png */; };
+		A4CD266F215BDF4100EA61D3 /* yellowShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266B215BDF4000EA61D3 /* yellowShape@3x.png */; };
+		A4CD2670215BDF4100EA61D3 /* yellowShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266C215BDF4000EA61D3 /* yellowShape.png */; };
+		A4CD2671215BDF4100EA61D3 /* yellowShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266C215BDF4000EA61D3 /* yellowShape.png */; };
+		A4CD2672215BDF4100EA61D3 /* yellowShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266D215BDF4100EA61D3 /* yellowShape@2x.png */; };
+		A4CD2673215BDF4100EA61D3 /* yellowShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD266D215BDF4100EA61D3 /* yellowShape@2x.png */; };
+		A4CD2677215BDF6400EA61D3 /* blueShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2674215BDF6300EA61D3 /* blueShape@2x.png */; };
+		A4CD2678215BDF6400EA61D3 /* blueShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2674215BDF6300EA61D3 /* blueShape@2x.png */; };
+		A4CD2679215BDF6400EA61D3 /* blueShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2675215BDF6300EA61D3 /* blueShape.png */; };
+		A4CD267A215BDF6400EA61D3 /* blueShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2675215BDF6300EA61D3 /* blueShape.png */; };
+		A4CD267B215BDF6400EA61D3 /* blueShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2676215BDF6400EA61D3 /* blueShape@3x.png */; };
+		A4CD267C215BDF6400EA61D3 /* blueShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2676215BDF6400EA61D3 /* blueShape@3x.png */; };
+		A4CD2680215BDFB100EA61D3 /* lightBlueShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267D215BDFAF00EA61D3 /* lightBlueShape.png */; };
+		A4CD2681215BDFB100EA61D3 /* lightBlueShape.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267D215BDFAF00EA61D3 /* lightBlueShape.png */; };
+		A4CD2682215BDFB100EA61D3 /* lightBlueShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267E215BDFB000EA61D3 /* lightBlueShape@2x.png */; };
+		A4CD2683215BDFB100EA61D3 /* lightBlueShape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267E215BDFB000EA61D3 /* lightBlueShape@2x.png */; };
+		A4CD2684215BDFB100EA61D3 /* lightBlueShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267F215BDFB100EA61D3 /* lightBlueShape@3x.png */; };
+		A4CD2685215BDFB100EA61D3 /* lightBlueShape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD267F215BDFB100EA61D3 /* lightBlueShape@3x.png */; };
+		A4CD2689215BDFDB00EA61D3 /* letgoLogoWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2686215BDFDA00EA61D3 /* letgoLogoWhite.png */; };
+		A4CD268A215BDFDB00EA61D3 /* letgoLogoWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2686215BDFDA00EA61D3 /* letgoLogoWhite.png */; };
+		A4CD268B215BDFDB00EA61D3 /* letgoLogoWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2687215BDFDA00EA61D3 /* letgoLogoWhite@2x.png */; };
+		A4CD268C215BDFDB00EA61D3 /* letgoLogoWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2687215BDFDA00EA61D3 /* letgoLogoWhite@2x.png */; };
+		A4CD268D215BDFDB00EA61D3 /* letgoLogoWhite@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2688215BDFDB00EA61D3 /* letgoLogoWhite@3x.png */; };
+		A4CD268E215BDFDB00EA61D3 /* letgoLogoWhite@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4CD2688215BDFDB00EA61D3 /* letgoLogoWhite@3x.png */; };
 		A4E093892119E255002235FC /* FiltersModalRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E093882119E255002235FC /* FiltersModalRouterSpec.swift */; };
 		A4E0938B2119E265002235FC /* FiltersStandardRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0938A2119E265002235FC /* FiltersStandardRouterSpec.swift */; };
 		A4E0938E2119E280002235FC /* LGFiltersBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0938D2119E280002235FC /* LGFiltersBuilder.swift */; };
 		A4E09390211B199B002235FC /* LGLoginBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0938F211B199B002235FC /* LGLoginBuilder.swift */; };
 		A4E09391211B199B002235FC /* LGLoginBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E0938F211B199B002235FC /* LGLoginBuilder.swift */; };
+		BB27037B988375BABC10B9AD /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 209CC590BD23A4F0493CD399 /* Pods_LetGo.framework */; };
 		C202E3F921005A2500E1A5E5 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202E3F821005A2500E1A5E5 /* Checkbox.swift */; };
 		C202E3FA21005A2500E1A5E5 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202E3F821005A2500E1A5E5 /* Checkbox.swift */; };
 		C21E6074208A8828008A1956 /* RecordedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21E6073208A8828008A1956 /* RecordedVideo.swift */; };
@@ -2046,6 +2074,11 @@
 		C6687F3720C820BF008C1922 /* MultiListingPostedCongratsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */; };
 		C6687F3A20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */; };
 		C6687F3B20C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */; };
+		C66E5137215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E5136215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift */; };
+		C66E5138215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E5136215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift */; };
+		C66E513A215B9D4000BCFD21 /* ScrollingPageControlIndexCalculatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E5139215B9D4000BCFD21 /* ScrollingPageControlIndexCalculatorSpec.swift */; };
+		C66E514221621CB000BCFD21 /* LGSmokeTestFeature+ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E514121621CAF00BCFD21 /* LGSmokeTestFeature+ThankYou.swift */; };
+		C66E514321621CB000BCFD21 /* LGSmokeTestFeature+ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E514121621CAF00BCFD21 /* LGSmokeTestFeature+ThankYou.swift */; };
 		C674D31A20ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C674D31920ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift */; };
 		C674D31B20ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C674D31920ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift */; };
 		C674D31D20ED1BA20027E3AE /* ListingAttributeGridTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C674D31C20ED1BA20027E3AE /* ListingAttributeGridTheme.swift */; };
@@ -2555,6 +2588,7 @@
 		D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */; };
 		D4BFE5B41B640C36006A8CB6 /* MainListingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5AF1B640C36006A8CB6 /* MainListingsViewController.swift */; };
 		D4BFE5B61B640C36006A8CB6 /* MainListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5B11B640C36006A8CB6 /* MainListingsViewModel.swift */; };
+		E4BA6C377284A4D45C926340 /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD145AEE3DA4F56C0B9D99F9 /* Pods_LetGoGodMode.framework */; };
 		F516C26121496D6A00BA036D /* UserDefailts+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4F825214677CB009151E6 /* UserDefailts+LG.swift */; };
 		F516C26221496D6A00BA036D /* UserDefailts+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4F825214677CB009151E6 /* UserDefailts+LG.swift */; };
 		F51A082B2031B5360008D744 /* AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51A082A2031B5360008D744 /* AspectRatio.swift */; };
@@ -2799,7 +2833,6 @@
 		0A04D5C420760A9C00471B9D /* CoreABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreABGroup.swift; sourceTree = "<group>"; };
 		0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABDynamicVar.swift; sourceTree = "<group>"; };
 		0A04D5C720760A9C00471B9D /* MoneyABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoneyABGroup.swift; sourceTree = "<group>"; };
-		0A04D5C820760A9C00471B9D /* RealEstateABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealEstateABGroup.swift; sourceTree = "<group>"; };
 		0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetentionABGroup.swift; sourceTree = "<group>"; };
 		0A04D5CA20760A9C00471B9D /* ABTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABTests.swift; sourceTree = "<group>"; };
 		0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatABGroup.swift; sourceTree = "<group>"; };
@@ -2813,6 +2846,9 @@
 		0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		0A104695206CFB99003F1577 /* ABTestsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestsSpec.swift; sourceTree = "<group>"; };
 		0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterCategoryItem+ListingCategory.swift"; sourceTree = "<group>"; };
+		0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BumpUpContainerViewController.swift; sourceTree = "<group>"; };
+		0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewModel.swift; sourceTree = "<group>"; };
+		0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardViewModelBuilder.swift; sourceTree = "<group>"; };
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
 		0A26CF26211C39AC00BCF84C /* ListingListCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingListCache.swift; sourceTree = "<group>"; };
 		0A29CF0620EF6C76007F35F6 /* ListingTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingTracker.swift; sourceTree = "<group>"; };
@@ -2942,7 +2978,6 @@
 		0A75146C214272570049E135 /* UserRatingListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingListViewController.swift; sourceTree = "<group>"; };
 		0A75146D214272570049E135 /* UserRatingListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserRatingListViewController.xib; sourceTree = "<group>"; };
 		0A75146E214272570049E135 /* UserRatingListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingListViewModel.swift; sourceTree = "<group>"; };
-		0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewModel.swift; sourceTree = "<group>"; };
 		0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckActionsView.swift; sourceTree = "<group>"; };
 		0A760FF01FA0B7480055F2B6 /* ListingDeckViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModel.swift; sourceTree = "<group>"; };
 		0A7A05842018A9A20009D74C /* ListingDeckOnBoardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingView.swift; sourceTree = "<group>"; };
@@ -2952,7 +2987,6 @@
 		0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetCategory.json; sourceTree = "<group>"; };
 		0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetListing.json; sourceTree = "<group>"; };
 		0A82A17B213FBFF1005ECA58 /* NotificationCenterThumbnailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCenterThumbnailCell.swift; sourceTree = "<group>"; };
-		0A82A17C213FBFF1005ECA58 /* ModularNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModularNotificationCell.swift; sourceTree = "<group>"; };
 		0A82A17D213FBFF1005ECA58 /* NotificationCenterModularCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCenterModularCell.swift; sourceTree = "<group>"; };
 		0A82A184213FC031005ECA58 /* RoundedActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedActivityIndicatorView.swift; sourceTree = "<group>"; };
 		0A82A189213FFF41005ECA58 /* DashedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLine.swift; sourceTree = "<group>"; };
@@ -3037,8 +3071,9 @@
 		0AFC21532063D35300C09B24 /* NSAttributedString+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+LG.swift"; sourceTree = "<group>"; };
 		0AFE311D2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckImagePreviewCell.swift; sourceTree = "<group>"; };
 		0AFE311E2056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckImagePreviewLayout.swift; sourceTree = "<group>"; };
-		1B8F364F2321036559203B2C /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2251293E6EFBB4FC4D591EEB /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
+		209CC590BD23A4F0493CD399 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		223029BAEFC42292EFDE0DBE /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
+		23649BFCB5B58D095A249C7D /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
 		2E0C96441DEDCAFA00068B6D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProductsRequestFactory.swift; path = Monetization/PurchaseableProductsRequestFactory.swift; sourceTree = "<group>"; };
 		2E131C6A1DEDE998004D26DC /* LGPurchasesShopper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGPurchasesShopper.swift; path = Monetization/LGPurchasesShopper.swift; sourceTree = "<group>"; };
@@ -3202,14 +3237,12 @@
 		32448E852105CB7100EFF33A /* FeedViewControllerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewControllerProtocols.swift; sourceTree = "<group>"; };
 		3251C3D520B8ABE00014B6BA /* RequesterFactorySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesterFactorySpec.swift; sourceTree = "<group>"; };
 		3251C3D720B96B100014B6BA /* ListingListViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingListViewModelSpec.swift; sourceTree = "<group>"; };
-		3251C3D920B973E20014B6BA /* MockRequesterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRequesterFactory.swift; sourceTree = "<group>"; };
 		325E70D221277ED100D173A1 /* EmbeddedListingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbeddedListingViewModel.swift; sourceTree = "<group>"; };
 		326C72D12088820E009D21DB /* WaterFallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterFallLayout.swift; sourceTree = "<group>"; };
 		326C72D420888280009D21DB /* UICollectionViewLayoutAttributes+Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayoutAttributes+Builder.swift"; sourceTree = "<group>"; };
 		326C72E1208A2935009D21DB /* FeedViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModelType.swift; sourceTree = "<group>"; };
 		326C730920908148009D21DB /* CategoriesFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesFeedCell.swift; sourceTree = "<group>"; };
 		328E8E1820B6EF4300BBF639 /* RequesterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesterFactory.swift; sourceTree = "<group>"; };
-		328E8E2C20C0036D00BBF639 /* ListingRequesterMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingRequesterMatcher.swift; sourceTree = "<group>"; };
 		328E8E2E20C03A5E00BBF639 /* EmptyViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModelBuilder.swift; sourceTree = "<group>"; };
 		328E8E3120C0467000BBF639 /* MainListingsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListingsHeader.swift; sourceTree = "<group>"; };
 		328E8E3420C046A700BBF639 /* SuggestiveSearchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestiveSearchInfo.swift; sourceTree = "<group>"; };
@@ -3236,8 +3269,6 @@
 		32DFF6C821188EEE00B59600 /* IGListWaterFallSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IGListWaterFallSettings.swift; sourceTree = "<group>"; };
 		32F900BF20EBC48E00D30411 /* ListingSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingSectionModel.swift; sourceTree = "<group>"; };
 		32FB455520CFD5C800F229D0 /* SpyListingListViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyListingListViewModelDelegate.swift; sourceTree = "<group>"; };
-		397D6BA6E737E766AB0F140C /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
-		3AF0370F80E11C172274DE62 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42009A2120765A4F003F946E /* PromoCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellDrawer.swift; sourceTree = "<group>"; };
 		42059D10207E31DF00083438 /* FilterCarSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCarSection.swift; sourceTree = "<group>"; };
 		42109E7A2112F65100AA979E /* Feed+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Feed+LG.swift"; sourceTree = "<group>"; };
@@ -3287,6 +3318,8 @@
 		42A9F55820CE600E00DC4D37 /* ServiceSubtype+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServiceSubtype+LG.swift"; sourceTree = "<group>"; };
 		42B2CEB0211C79B80020776A /* Feed+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Feed+Mapping.swift"; sourceTree = "<group>"; };
 		42B7029920A595840031B9BD /* LGRibbonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGRibbonView.swift; sourceTree = "<group>"; };
+		42BFE2E52162004B002C6E42 /* LGSmokeTestThankYouViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSmokeTestThankYouViewController.swift; sourceTree = "<group>"; };
+		42BFE2E62162004B002C6E42 /* LGSmokeTestThankYouViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSmokeTestThankYouViewModel.swift; sourceTree = "<group>"; };
 		42CA899820973F7300CE7B5B /* ListingsMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingsMapViewController.swift; sourceTree = "<group>"; };
 		42CA899B2097498900CE7B5B /* LGMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGMapView.swift; sourceTree = "<group>"; };
 		42CA899E20975BF400CE7B5B /* ListingsMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingsMapViewModel.swift; sourceTree = "<group>"; };
@@ -3294,9 +3327,7 @@
 		42D3215E21514737002B44FC /* LGSmokeTestFeature+Feedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGSmokeTestFeature+Feedback.swift"; sourceTree = "<group>"; };
 		42D3216221514B73002B44FC /* SingleSelectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSelectionList.swift; sourceTree = "<group>"; };
 		42D63A99212ABEA600F45FD6 /* AdsPaginationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsPaginationHelper.swift; sourceTree = "<group>"; };
-		42D9716B2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestThankYouViewModel.swift; sourceTree = "<group>"; };
 		42D9716E215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGSmokeTestFeature+ThankYou.swift"; sourceTree = "<group>"; };
-		42D971712153898300B0658B /* LGSmokeTestThankYouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGSmokeTestThankYouViewController.swift; sourceTree = "<group>"; };
 		42E17F8620FCAC8300E565C2 /* MKMapView+Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Shared.swift"; sourceTree = "<group>"; };
 		42E1832821230F6200B78DA8 /* AdsSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsSectionController.swift; sourceTree = "<group>"; };
 		42E1832B2123147B00B78DA8 /* AdData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdData.swift; sourceTree = "<group>"; };
@@ -3523,7 +3554,7 @@
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
 		50F681F11C8F4586001F33A3 /* RxPaginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPaginable.swift; sourceTree = "<group>"; };
 		50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleCellType.swift; sourceTree = "<group>"; };
-		511F2F4A95997948081A56B5 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
+		53FB9C50CEB62EB448FC5B83 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5532C4E520932542006FD3EA /* PasswordlessEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailViewController.swift; sourceTree = "<group>"; };
 		5532C4E8209325DA006FD3EA /* PasswordlessEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordlessEmailViewModel.swift; sourceTree = "<group>"; };
 		5569D9A720848CA8004E5468 /* UserPhoneVerificationCodeInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCodeInputTextField.swift; sourceTree = "<group>"; };
@@ -3542,8 +3573,9 @@
 		55FABE1820762E63004B0DBD /* UserPhoneVerificationCodeInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCodeInputViewModel.swift; sourceTree = "<group>"; };
 		55FABE1B2076344F004B0DBD /* UserPhoneVerificationCountryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCountryPickerViewController.swift; sourceTree = "<group>"; };
 		55FABE1E20763460004B0DBD /* UserPhoneVerificationCountryPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhoneVerificationCountryPickerViewModel.swift; sourceTree = "<group>"; };
-		63A6F6397307A291E4F756F0 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
+		5E149CE9EDFCA128B21D654C /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		660F1EBAC43DD365363C6B40 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		6640F03F1AE13EBE00004556 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		6640F0411AE141A800004556 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = "Ambatana/GoogleConversionTrackingSDK-iOS-3.2.0/libGoogleConversionTracking.a"; sourceTree = "<group>"; };
 		66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -3704,16 +3736,12 @@
 		72DBA6BD214F88F9008D6F39 /* InviteSMSContactsEmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteSMSContactsEmptyStateView.swift; sourceTree = "<group>"; };
 		72E8A5851EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoriesHeaderCollectionView.swift; path = ../CategoriesHeader/CategoriesHeaderCollectionView.swift; sourceTree = "<group>"; };
 		72E8A5891EB34D93000524E6 /* CategoriesHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoriesHeaderCell.swift; path = Ambatana/src/ViewControllers/Main/CategoriesHeader/CategoriesHeaderCell.swift; sourceTree = SOURCE_ROOT; };
-		72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModularNotificationCellDrawer.swift; sourceTree = "<group>"; };
 		72FE02D51F95FCE5005BD672 /* PostingDetailStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingDetailStep.swift; sourceTree = "<group>"; };
 		72FE02D81F97A155005BD672 /* ListingCreationParams+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ListingCreationParams+LG.swift"; path = "Ambatana/src/Helper/LetgoExtensions/ListingCreationParams+LG.swift"; sourceTree = SOURCE_ROOT; };
 		72FE02DB1F98CE09005BD672 /* AlphaAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlphaAnimator.swift; sourceTree = "<group>"; };
 		72FE02DE1F98D38F005BD672 /* PostingAddDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingAddDetailPriceView.swift; sourceTree = "<group>"; };
 		72FE02E11F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingAddDetailSummaryTableView.swift; sourceTree = "<group>"; };
 		72FE68B21ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateBuyersViewModelSpec.swift; sourceTree = "<group>"; };
-		7C7845EFBBC4BC560C62C7CC /* Pods-LetGoGodMode.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.adhoc.xcconfig"; sourceTree = "<group>"; };
-		856B171BA60BC9DF7ED477BC /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
-		8DAB3935B283F41F5E923524 /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInterlocutorIsTypingCell.swift; sourceTree = "<group>"; };
 		8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInterlocutorIsTypingCellDrawer.swift; sourceTree = "<group>"; };
 		8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailProgressView.swift; sourceTree = "<group>"; };
@@ -3771,7 +3799,17 @@
 		8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSliderViewModelSpec.swift; sourceTree = "<group>"; };
 		8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+LG.swift"; sourceTree = "<group>"; };
 		8ECB2DD820E2A26900AE9E5B /* GoogleAdxNativeAppInstallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAdxNativeAppInstallView.swift; sourceTree = "<group>"; };
+		8ECD55B421594F3100A12678 /* PolymorphDFPNativeCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolymorphDFPNativeCustomEvent.h; sourceTree = "<group>"; };
+		8ECD55B521594F3100A12678 /* PolymorphDFPBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolymorphDFPBannerCustomEvent.m; sourceTree = "<group>"; };
+		8ECD55B621594F3100A12678 /* PMBidder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMBidder.h; sourceTree = "<group>"; };
+		8ECD55B721594F3100A12678 /* PolymorphDFPNativeAdAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolymorphDFPNativeAdAdapter.m; sourceTree = "<group>"; };
+		8ECD55B821594F3100A12678 /* PolymorphDFPNativeCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolymorphDFPNativeCustomEvent.m; sourceTree = "<group>"; };
+		8ECD55B921594F3100A12678 /* PolymorphDFPBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolymorphDFPBannerCustomEvent.h; sourceTree = "<group>"; };
+		8ECD55BA21594F3100A12678 /* PMBidder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMBidder.m; sourceTree = "<group>"; };
+		8ECD55BB21594F3100A12678 /* PolymorphDFPNativeAdAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolymorphDFPNativeAdAdapter.h; sourceTree = "<group>"; };
+		8ECD55BC21594F3100A12678 /* AdsNativeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdsNativeSDK.framework; sourceTree = "<group>"; };
 		8ED3C522204811E90078BE39 /* LGAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGAnimation.swift; sourceTree = "<group>"; };
+		8EDF8FEFAD9D6B72B2E27DC9 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		8EEC7F54206AA60800616858 /* MoPubNativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoPubNativeView.swift; sourceTree = "<group>"; };
 		8EEC7F55206AA60900616858 /* NativeAdBlankStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeAdBlankStateView.swift; sourceTree = "<group>"; };
 		8EEC7F58206AA62600616858 /* AdvertisementMoPubCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvertisementMoPubCellDrawer.swift; sourceTree = "<group>"; };
@@ -3783,6 +3821,7 @@
 		A41195FA2121B71600EBB210 /* HTMLBoldParserSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLBoldParserSpec.swift; sourceTree = "<group>"; };
 		A411960A2122D49500EBB210 /* RememberPasswordBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RememberPasswordBuilder.swift; sourceTree = "<group>"; };
 		A41196152122E65000EBB210 /* RecaptchaBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaBuilder.swift; sourceTree = "<group>"; };
+		A43007F86539079820D84DEA /* Pods-LetGoGodMode.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.adhoc.xcconfig"; sourceTree = "<group>"; };
 		A460579921256F5300386DFC /* LoginStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStyle.swift; sourceTree = "<group>"; };
 		A46057DF212AC93E00386DFC /* VerifyAccountsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyAccountsViewModel.swift; sourceTree = "<group>"; };
 		A46057EF212AD33E00386DFC /* VerifyAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyAccountsViewController.swift; sourceTree = "<group>"; };
@@ -3794,10 +3833,25 @@
 		A47C4A63213D558B005AA387 /* SearchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBuilder.swift; sourceTree = "<group>"; };
 		A47C4A67213D5B3F005AA387 /* SearchWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWireframe.swift; sourceTree = "<group>"; };
 		A4B06435212FF82000769B6B /* FeedBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBuilder.swift; sourceTree = "<group>"; };
+		A4CD266B215BDF4000EA61D3 /* yellowShape@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellowShape@3x.png"; sourceTree = "<group>"; };
+		A4CD266C215BDF4000EA61D3 /* yellowShape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowShape.png; sourceTree = "<group>"; };
+		A4CD266D215BDF4100EA61D3 /* yellowShape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellowShape@2x.png"; sourceTree = "<group>"; };
+		A4CD2674215BDF6300EA61D3 /* blueShape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueShape@2x.png"; sourceTree = "<group>"; };
+		A4CD2675215BDF6300EA61D3 /* blueShape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueShape.png; sourceTree = "<group>"; };
+		A4CD2676215BDF6400EA61D3 /* blueShape@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueShape@3x.png"; sourceTree = "<group>"; };
+		A4CD267D215BDFAF00EA61D3 /* lightBlueShape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightBlueShape.png; sourceTree = "<group>"; };
+		A4CD267E215BDFB000EA61D3 /* lightBlueShape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lightBlueShape@2x.png"; sourceTree = "<group>"; };
+		A4CD267F215BDFB100EA61D3 /* lightBlueShape@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lightBlueShape@3x.png"; sourceTree = "<group>"; };
+		A4CD2686215BDFDA00EA61D3 /* letgoLogoWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = letgoLogoWhite.png; sourceTree = "<group>"; };
+		A4CD2687215BDFDA00EA61D3 /* letgoLogoWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "letgoLogoWhite@2x.png"; sourceTree = "<group>"; };
+		A4CD2688215BDFDB00EA61D3 /* letgoLogoWhite@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "letgoLogoWhite@3x.png"; sourceTree = "<group>"; };
 		A4E093882119E255002235FC /* FiltersModalRouterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersModalRouterSpec.swift; sourceTree = "<group>"; };
 		A4E0938A2119E265002235FC /* FiltersStandardRouterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersStandardRouterSpec.swift; sourceTree = "<group>"; };
 		A4E0938D2119E280002235FC /* LGFiltersBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFiltersBuilder.swift; sourceTree = "<group>"; };
 		A4E0938F211B199B002235FC /* LGLoginBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGLoginBuilder.swift; sourceTree = "<group>"; };
+		AD145AEE3DA4F56C0B9D99F9 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B12A23C8790CD23B06950F10 /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
+		B4738D7550632F747A6597A7 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
 		C202E3F821005A2500E1A5E5 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		C21E6073208A8828008A1956 /* RecordedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordedVideo.swift; sourceTree = "<group>"; };
 		C21E6077208A89AF008A1956 /* VideoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreview.swift; sourceTree = "<group>"; };
@@ -3817,7 +3871,6 @@
 		C2DC548320A3343E0052EB12 /* AppEventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEventsManager.swift; sourceTree = "<group>"; };
 		C2E7F41F20DB90BC0092A1F9 /* Locale+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+LG.swift"; sourceTree = "<group>"; };
 		C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPPostListingRedCamFooter.swift; sourceTree = "<group>"; };
-		C4B0C121449EB924C3B7E05A /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605853920DBD16A008025FD /* ListingAttributeGridViewItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridViewItemCell.swift; sourceTree = "<group>"; };
 		C605853D20DBD545008025FD /* FilterAttributeGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAttributeGridCell.swift; sourceTree = "<group>"; };
 		C611B06920C92A0700D7DD89 /* MultiListingPostedStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedStatus.swift; sourceTree = "<group>"; };
@@ -3842,6 +3895,9 @@
 		C6687F3220C80D70008C1922 /* MultiListingPostedHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedHeaderCell.swift; sourceTree = "<group>"; };
 		C6687F3520C820BF008C1922 /* MultiListingPostedCongratsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedCongratsCell.swift; sourceTree = "<group>"; };
 		C6687F3920C83A2C008C1922 /* MultiListingPostedIncentivisorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiListingPostedIncentivisorCell.swift; sourceTree = "<group>"; };
+		C66E5136215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollingPageControlIndexCalculator.swift; sourceTree = "<group>"; };
+		C66E5139215B9D4000BCFD21 /* ScrollingPageControlIndexCalculatorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollingPageControlIndexCalculatorSpec.swift; sourceTree = "<group>"; };
+		C66E514121621CAF00BCFD21 /* LGSmokeTestFeature+ThankYou.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGSmokeTestFeature+ThankYou.swift"; sourceTree = "<group>"; };
 		C674D31920ED1AA40027E3AE /* ListingCarouselMoreInfoViewAttributeGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCarouselMoreInfoViewAttributeGridView.swift; sourceTree = "<group>"; };
 		C674D31C20ED1BA20027E3AE /* ListingAttributeGridTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingAttributeGridTheme.swift; sourceTree = "<group>"; };
 		C67F1B20212C429600504C29 /* ExtraInfoTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraInfoTagView.swift; sourceTree = "<group>"; };
@@ -4097,8 +4153,7 @@
 		D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Tint.swift"; sourceTree = "<group>"; };
 		D4BFE5AF1B640C36006A8CB6 /* MainListingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainListingsViewController.swift; sourceTree = "<group>"; };
 		D4BFE5B11B640C36006A8CB6 /* MainListingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainListingsViewModel.swift; sourceTree = "<group>"; };
-		E76BB32629E2F420D91DDE40 /* Pods-letgoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		EFBFC109F2FF1358EAF318F6 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
+		D7DE641281B8EEB6F69D1BE8 /* Pods-letgoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F51A082A2031B5360008D744 /* AspectRatio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AspectRatio.swift; sourceTree = "<group>"; };
 		F51A082D2031B54A0008D744 /* AspectRatioSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AspectRatioSpec.swift; sourceTree = "<group>"; };
 		F51A082F2031B5580008D744 /* LGSize+CGSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGSize+CGSize.swift"; sourceTree = "<group>"; };
@@ -4144,7 +4199,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53D026D5E8B58955510CC0EF /* Pods_letgoTests.framework in Frameworks */,
+				5D836E49E34B0F5A934701DE /* Pods_letgoTests.framework in Frameworks */,
+				8EF0329E215A04A900C7B1CF /* AdsNativeSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4161,6 +4217,7 @@
 				66A0CFD21A83612500FAADF0 /* CoreGraphics.framework in Frameworks */,
 				66A0CFD31A83612500FAADF0 /* CoreLocation.framework in Frameworks */,
 				50C9E4E81B74C03D001E4E92 /* Foundation.framework in Frameworks */,
+				8ECD55C521594F3100A12678 /* AdsNativeSDK.framework in Frameworks */,
 				66A0CFD41A83612500FAADF0 /* libsqlite3.dylib in Frameworks */,
 				66A0CFD51A83612500FAADF0 /* libz.dylib in Frameworks */,
 				66A0CFD61A83612500FAADF0 /* MobileCoreServices.framework in Frameworks */,
@@ -4168,7 +4225,7 @@
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
 				2E0C96451DEDCAFA00068B6D /* StoreKit.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
-				6551016816634A285D4C8D04 /* Pods_LetGo.framework in Frameworks */,
+				BB27037B988375BABC10B9AD /* Pods_LetGo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4198,6 +4255,7 @@
 				C7DB42371C5138B500400945 /* CoreGraphics.framework in Frameworks */,
 				C7DB42381C5138B500400945 /* CoreLocation.framework in Frameworks */,
 				C7DB423B1C5138B500400945 /* Foundation.framework in Frameworks */,
+				8ECD55C621594F3100A12678 /* AdsNativeSDK.framework in Frameworks */,
 				C7DB423D1C5138B500400945 /* libsqlite3.dylib in Frameworks */,
 				C7DB423E1C5138B500400945 /* libz.dylib in Frameworks */,
 				C7DB42411C5138B500400945 /* MobileCoreServices.framework in Frameworks */,
@@ -4205,7 +4263,7 @@
 				C7DB42441C5138B500400945 /* Security.framework in Frameworks */,
 				2E131C671DEDE446004D26DC /* StoreKit.framework in Frameworks */,
 				C7DB42461C5138B500400945 /* SystemConfiguration.framework in Frameworks */,
-				92BB1E40195D8087A1689368 /* Pods_LetGoGodMode.framework in Frameworks */,
+				E4BA6C377284A4D45C926340 /* Pods_LetGoGodMode.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4497,7 +4555,6 @@
 				0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */,
 				0A04D5C720760A9C00471B9D /* MoneyABGroup.swift */,
 				725BD5552077C37D00563926 /* VerticalsABGroup.swift */,
-				0A04D5C820760A9C00471B9D /* RealEstateABGroup.swift */,
 				0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */,
 				0A04D5DF207614F000471B9D /* UsersABGroup.swift */,
 				320843B720A1FDF7009A1DC5 /* DiscoveryABGroup.swift */,
@@ -4521,6 +4578,14 @@
 				0AEB4FF32018C336003365DE /* OnBoarding */,
 			);
 			path = ListingDeck;
+			sourceTree = "<group>";
+		};
+		0A1ABB94215E7E2500B96343 /* BumpUps */ = {
+			isa = PBXGroup;
+			children = (
+				0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */,
+			);
+			path = BumpUps;
 			sourceTree = "<group>";
 		};
 		0A29CF0520EF6C6B007F35F6 /* Tracking */ = {
@@ -5143,7 +5208,7 @@
 				0A6FEC822130343C00B57004 /* User */,
 				0A6FEC7C2130343C00B57004 /* UserPhoneVerification */,
 				0A6FEC8F2130343D00B57004 /* UserVerification */,
-				C6DC0139214142A400661438 /* LGSmokeTest */,
+				C6DC0139214142A400661438 /* SmokeTest */,
 			);
 			path = Wireframes;
 			sourceTree = "<group>";
@@ -5233,6 +5298,7 @@
 		0AB6E1D21F9DD15D0048AFFD /* DeckView */ = {
 			isa = PBXGroup;
 			children = (
+				0A1ABB94215E7E2500B96343 /* BumpUps */,
 				0A29CF0520EF6C6B007F35F6 /* Tracking */,
 				0AE405C120EE4F8F0041E3F1 /* ListingDetailView */,
 				0AE405B420EDF7A10041E3F1 /* ListingCardView */,
@@ -5246,7 +5312,6 @@
 				0A760FF01FA0B7480055F2B6 /* ListingDeckViewModel.swift */,
 				0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */,
 				0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */,
-				0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */,
 				0A045980213D15890082C469 /* ListingStatusView.swift */,
 				0AE405BE20EE4B8D0041E3F1 /* DeckCollectionDataSource.swift */,
 				0A3AF6C1213D62BD0034143B /* DeckViewCollectionDelegate.swift */,
@@ -5298,6 +5363,8 @@
 				0A06C3EA20FCCCC300D41982 /* ListingCardModel.swift */,
 				0A06C3ED20FCCFF000D41982 /* ListingCardPageControl.swift */,
 				0A35E6E920FCDE49002701ED /* ListingCardMediaCarousel.swift */,
+				0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */,
+				0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */,
 			);
 			path = ListingCardView;
 			sourceTree = "<group>";
@@ -5937,9 +6004,9 @@
 				421E4E07214A8A6F002EAB77 /* LGSmokeTestFeature+OnBoarding.swift */,
 				421E4E0A214A8AB4002EAB77 /* LGSmokeTestFeature+Banner.swift */,
 				421E4E0D214A8AED002EAB77 /* LGSmokeTestFeature+Detail.swift */,
+				C66E514121621CAF00BCFD21 /* LGSmokeTestFeature+ThankYou.swift */,
 				42D3215E21514737002B44FC /* LGSmokeTestFeature+Feedback.swift */,
 				4270D714214BA94100054DEA /* Feature+SmokeTestSubscriptionPlan.swift */,
-				42D9716E215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -6056,6 +6123,15 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		42BFE2E42162004B002C6E42 /* ThankYou */ = {
+			isa = PBXGroup;
+			children = (
+				42BFE2E52162004B002C6E42 /* LGSmokeTestThankYouViewController.swift */,
+				42BFE2E62162004B002C6E42 /* LGSmokeTestThankYouViewModel.swift */,
+			);
+			path = ThankYou;
+			sourceTree = "<group>";
+		};
 		42CA899720973F5A00CE7B5B /* ListingsMap */ = {
 			isa = PBXGroup;
 			children = (
@@ -6071,15 +6147,6 @@
 				42D3216221514B73002B44FC /* SingleSelectionList.swift */,
 			);
 			path = SingleSelectionList;
-			sourceTree = "<group>";
-		};
-		42D9716A2153882300B0658B /* ThankYou */ = {
-			isa = PBXGroup;
-			children = (
-				42D9716B2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift */,
-				42D971712153898300B0658B /* LGSmokeTestThankYouViewController.swift */,
-			);
-			path = ThankYou;
 			sourceTree = "<group>";
 		};
 		42E1832721230F3D00B78DA8 /* Ads */ = {
@@ -6392,6 +6459,7 @@
 		508011081D474ED80073F362 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				A4CD265E21553FD900EA61D3 /* Splash */,
 				5080110F1D474ED80073F362 /* Icons-Launchers.xcassets */,
 			);
 			path = img;
@@ -6747,7 +6815,6 @@
 				50D08D691E69AF14009CC260 /* Tracking */,
 				2EF0BB121E784468006808B5 /* MockPaymentQueue.swift */,
 				C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */,
-				3251C3D920B973E20014B6BA /* MockRequesterFactory.swift */,
 				426CB12E20C56768009A065F /* MockImageMultiplierRepository.swift */,
 				2E52956D2114B07D0043AF95 /* MockAdsImpressionHelper.swift */,
 				01A153502125C71700035DF6 /* MockFeedBadgingSynchronizer.swift */,
@@ -6850,7 +6917,6 @@
 				50D08D851E69AF14009CC260 /* PurchasesShopperSpec.swift */,
 				504C63B81ECAE0AB00D33BFA /* PushManagerSpec.swift */,
 				3251C3D520B8ABE00014B6BA /* RequesterFactorySpec.swift */,
-				328E8E2C20C0036D00BBF639 /* ListingRequesterMatcher.swift */,
 				50D08D861E69AF14009CC260 /* Tracking */,
 				50D08D891E69AF14009CC260 /* VersionCheckerSpec.swift */,
 				0A104695206CFB99003F1577 /* ABTestsSpec.swift */,
@@ -6888,6 +6954,7 @@
 				C6FFC47D20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift */,
 				C6FFC47820F4DEFB00B9F53A /* ListingFiltersSpec.swift */,
 				42718E5E21070AA900FF3F8F /* DropdownSectionSpec.swift */,
+				C66E5139215B9D4000BCFD21 /* ScrollingPageControlIndexCalculatorSpec.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -7106,6 +7173,22 @@
 			path = UserProfile;
 			sourceTree = "<group>";
 		};
+		5581926601D17A52459DA450 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B4738D7550632F747A6597A7 /* Pods-LetGo.debug.xcconfig */,
+				223029BAEFC42292EFDE0DBE /* Pods-LetGo.release.xcconfig */,
+				8EDF8FEFAD9D6B72B2E27DC9 /* Pods-LetGo.adhoc.xcconfig */,
+				660F1EBAC43DD365363C6B40 /* Pods-LetGoGodMode.debug.xcconfig */,
+				23649BFCB5B58D095A249C7D /* Pods-LetGoGodMode.release.xcconfig */,
+				A43007F86539079820D84DEA /* Pods-LetGoGodMode.adhoc.xcconfig */,
+				D7DE641281B8EEB6F69D1BE8 /* Pods-letgoTests.debug.xcconfig */,
+				B12A23C8790CD23B06950F10 /* Pods-letgoTests.release.xcconfig */,
+				5E149CE9EDFCA128B21D654C /* Pods-letgoTests.adhoc.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		55D305C92101E53C00E80843 /* Community */ = {
 			isa = PBXGroup;
 			children = (
@@ -7139,7 +7222,8 @@
 				50D08D481E699455009CC260 /* letgoTests */,
 				6608E0371A820FBD005895ED /* Products */,
 				ABA47C14BB52140048297810 /* Frameworks */,
-				C5F227E7C938AE9FDDBCF84F /* Pods */,
+				5581926601D17A52459DA450 /* Pods */,
+				C66E514021621C2F00BCFD21 /* Recovered References */,
 			);
 			indentWidth = 4;
 			sourceTree = "<group>";
@@ -7451,7 +7535,7 @@
 			isa = PBXGroup;
 			children = (
 				421E4E06214A8A57002EAB77 /* Extensions */,
-				42D9716A2153882300B0658B /* ThankYou */,
+				42BFE2E42162004B002C6E42 /* ThankYou */,
 				4233432B21494A9E00F4EDE1 /* Feedback */,
 				4233432421493C7000F4EDE1 /* Detail */,
 				72CD80C5203469FA0042E1E0 /* LGSmokeTestCollectionViewCell.swift */,
@@ -7605,6 +7689,39 @@
 			path = lottie;
 			sourceTree = "<group>";
 		};
+		8ECD55B121594F3100A12678 /* PolymorphSDK */ = {
+			isa = PBXGroup;
+			children = (
+				8ECD55B221594F3100A12678 /* Header Bidding */,
+				8ECD55BC21594F3100A12678 /* AdsNativeSDK.framework */,
+			);
+			name = PolymorphSDK;
+			path = "3rd-Party/PolymorphSDK";
+			sourceTree = "<group>";
+		};
+		8ECD55B221594F3100A12678 /* Header Bidding */ = {
+			isa = PBXGroup;
+			children = (
+				8ECD55B321594F3100A12678 /* DFP */,
+			);
+			path = "Header Bidding";
+			sourceTree = "<group>";
+		};
+		8ECD55B321594F3100A12678 /* DFP */ = {
+			isa = PBXGroup;
+			children = (
+				8ECD55B421594F3100A12678 /* PolymorphDFPNativeCustomEvent.h */,
+				8ECD55B521594F3100A12678 /* PolymorphDFPBannerCustomEvent.m */,
+				8ECD55B621594F3100A12678 /* PMBidder.h */,
+				8ECD55B721594F3100A12678 /* PolymorphDFPNativeAdAdapter.m */,
+				8ECD55B821594F3100A12678 /* PolymorphDFPNativeCustomEvent.m */,
+				8ECD55B921594F3100A12678 /* PolymorphDFPBannerCustomEvent.h */,
+				8ECD55BA21594F3100A12678 /* PMBidder.m */,
+				8ECD55BB21594F3100A12678 /* PolymorphDFPNativeAdAdapter.h */,
+			);
+			path = DFP;
+			sourceTree = "<group>";
+		};
 		8EF1CDAD2010F0F900D324F6 /* Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -7722,6 +7839,41 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		A4CD265E21553FD900EA61D3 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				A4CD266A215BDEFD00EA61D3 /* Shapes */,
+				A4CD2669215BDEF300EA61D3 /* light */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		A4CD2669215BDEF300EA61D3 /* light */ = {
+			isa = PBXGroup;
+			children = (
+				A4CD2686215BDFDA00EA61D3 /* letgoLogoWhite.png */,
+				A4CD2687215BDFDA00EA61D3 /* letgoLogoWhite@2x.png */,
+				A4CD2688215BDFDB00EA61D3 /* letgoLogoWhite@3x.png */,
+			);
+			path = light;
+			sourceTree = "<group>";
+		};
+		A4CD266A215BDEFD00EA61D3 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				A4CD267D215BDFAF00EA61D3 /* lightBlueShape.png */,
+				A4CD267E215BDFB000EA61D3 /* lightBlueShape@2x.png */,
+				A4CD267F215BDFB100EA61D3 /* lightBlueShape@3x.png */,
+				A4CD2675215BDF6300EA61D3 /* blueShape.png */,
+				A4CD2674215BDF6300EA61D3 /* blueShape@2x.png */,
+				A4CD2676215BDF6400EA61D3 /* blueShape@3x.png */,
+				A4CD266C215BDF4000EA61D3 /* yellowShape.png */,
+				A4CD266D215BDF4100EA61D3 /* yellowShape@2x.png */,
+				A4CD266B215BDF4000EA61D3 /* yellowShape@3x.png */,
+			);
+			path = Shapes;
+			sourceTree = "<group>";
+		};
 		A4E093862119E222002235FC /* Router */ = {
 			isa = PBXGroup;
 			children = (
@@ -7770,9 +7922,9 @@
 				66A0CFCC1A83612500FAADF0 /* QuartzCore.framework */,
 				66A0CFCD1A83612500FAADF0 /* Security.framework */,
 				66A0CFCF1A83612500FAADF0 /* SystemConfiguration.framework */,
-				3AF0370F80E11C172274DE62 /* Pods_LetGo.framework */,
-				1B8F364F2321036559203B2C /* Pods_LetGoGodMode.framework */,
-				C4B0C121449EB924C3B7E05A /* Pods_letgoTests.framework */,
+				209CC590BD23A4F0493CD399 /* Pods_LetGo.framework */,
+				AD145AEE3DA4F56C0B9D99F9 /* Pods_LetGoGodMode.framework */,
+				53FB9C50CEB62EB448FC5B83 /* Pods_letgoTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -7832,22 +7984,6 @@
 				C2E9ACEA207B64C00054B246 /* VPPostListingRedCamFooter.swift */,
 			);
 			path = PostProductFooter;
-			sourceTree = "<group>";
-		};
-		C5F227E7C938AE9FDDBCF84F /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2251293E6EFBB4FC4D591EEB /* Pods-LetGo.debug.xcconfig */,
-				EFBFC109F2FF1358EAF318F6 /* Pods-LetGo.release.xcconfig */,
-				856B171BA60BC9DF7ED477BC /* Pods-LetGo.adhoc.xcconfig */,
-				63A6F6397307A291E4F756F0 /* Pods-LetGoGodMode.debug.xcconfig */,
-				397D6BA6E737E766AB0F140C /* Pods-LetGoGodMode.release.xcconfig */,
-				7C7845EFBBC4BC560C62C7CC /* Pods-LetGoGodMode.adhoc.xcconfig */,
-				E76BB32629E2F420D91DDE40 /* Pods-letgoTests.debug.xcconfig */,
-				8DAB3935B283F41F5E923524 /* Pods-letgoTests.release.xcconfig */,
-				511F2F4A95997948081A56B5 /* Pods-letgoTests.adhoc.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		C605853C20DBD2F4008025FD /* ListingAttributeGridView */ = {
@@ -7911,6 +8047,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		C66E514021621C2F00BCFD21 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				42D9716E215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		C67FC0FE210863A8000D9DAA /* View Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -7946,16 +8090,17 @@
 				C66105EC2136D3D500BA4EF7 /* AnnotatedScrollingPageControlView.swift */,
 				C66105E9213585DD00BA4EF7 /* ScrollingPageControl.swift */,
 				C6DC0128213D313D00661438 /* PageControlRepresentable.swift */,
+				C66E5136215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift */,
 			);
 			path = ScrollingPageControl;
 			sourceTree = "<group>";
 		};
-		C6DC0139214142A400661438 /* LGSmokeTest */ = {
+		C6DC0139214142A400661438 /* SmokeTest */ = {
 			isa = PBXGroup;
 			children = (
 				C6DC01352141429700661438 /* LGSmokeTestWireframe.swift */,
 			);
-			path = LGSmokeTest;
+			path = SmokeTest;
 			sourceTree = "<group>";
 		};
 		C6E770982099B12D002CFA99 /* PushPermissions */ = {
@@ -8038,7 +8183,6 @@
 		C711A1A21CDC99E5002D30D9 /* CellDrawers */ = {
 			isa = PBXGroup;
 			children = (
-				72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */,
 			);
 			path = CellDrawers;
 			sourceTree = "<group>";
@@ -8123,7 +8267,6 @@
 		C727FBC81CD10C82002BC643 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				0A82A17C213FBFF1005ECA58 /* ModularNotificationCell.swift */,
 				0A82A17D213FBFF1005ECA58 /* NotificationCenterModularCell.swift */,
 				0A82A17B213FBFF1005ECA58 /* NotificationCenterThumbnailCell.swift */,
 			);
@@ -8667,6 +8810,7 @@
 		D4FE33521AF2166800088532 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				8ECD55B121594F3100A12678 /* PolymorphSDK */,
 				50C9E50A1B74EEED001E4E92 /* DLImageResizing */,
 			);
 			name = "3rd Party";
@@ -8754,12 +8898,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50D08D4E1E699455009CC260 /* Build configuration list for PBXNativeTarget "letgoTests" */;
 			buildPhases = (
-				2AEFF1BA05D7708C32B31619 /* [CP] Check Pods Manifest.lock */,
+				B8F13DF9CBD3E43A9A12D00B /* [CP] Check Pods Manifest.lock */,
 				50D08D431E699455009CC260 /* Sources */,
 				50D08D441E699455009CC260 /* Frameworks */,
 				50D08D451E699455009CC260 /* Resources */,
-				4A891A0F88DCE4D1D0BA4146 /* [CP] Embed Pods Frameworks */,
-				EB961293A41F7AA81BE0B583 /* [CP] Copy Pods Resources */,
+				4C963EA3FC6D60962B1E4948 /* [CP] Embed Pods Frameworks */,
+				5F86F81FA918D9EF675B431F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -8775,7 +8919,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "LetGo" */;
 			buildPhases = (
-				2CF52E1051974AC17A4B2878 /* [CP] Check Pods Manifest.lock */,
+				94513A0452DD001355F8026D /* [CP] Check Pods Manifest.lock */,
 				C7D82AB71C0CC173008F9B8C /* Lint Warnings */,
 				50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */,
 				6608E0321A820FBD005895ED /* Sources */,
@@ -8786,8 +8930,8 @@
 				5026B0A61B05E2F3006858BB /* Fabric Script */,
 				C7E1DE4E1E4C8BA7003818F6 /* New Relic */,
 				72D57CC91E57638B0009FA06 /* Embed App Extensions */,
-				A083EE42896269DD2BA617B5 /* [CP] Embed Pods Frameworks */,
-				E77A7747F2BA2FC3EF4B3D61 /* [CP] Copy Pods Resources */,
+				6078FA87DC32433F55B59249 /* [CP] Embed Pods Frameworks */,
+				12EFF6A46852F115884C5C39 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -8837,7 +8981,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7DB42901C5138B500400945 /* Build configuration list for PBXNativeTarget "LetGoGodMode" */;
 			buildPhases = (
-				BA4C7725171735EF56D0C437 /* [CP] Check Pods Manifest.lock */,
+				40E5B5375155184306576DA0 /* [CP] Check Pods Manifest.lock */,
 				C7DB41841C5138B500400945 /* Lint Warnings */,
 				C7DB428F1C5138B500400945 /* App Version to Settings.bundle Script */,
 				C7DB41861C5138B500400945 /* Sources */,
@@ -8848,8 +8992,8 @@
 				C7DB428A1C5138B500400945 /* Fabric Script */,
 				C7E1DE4F1E4C8BFA003818F6 /* ShellScript */,
 				7206BD521E55BA5B00461CBE /* Embed App Extensions */,
-				BC860535A3A3A7121E981FF5 /* [CP] Embed Pods Frameworks */,
-				DC2762F39D3925608A3ACB23 /* [CP] Copy Pods Resources */,
+				F9CC02CA4CBE064294561B2C /* [CP] Embed Pods Frameworks */,
+				275D1D4C1D680F09F061D8C8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -9012,14 +9156,17 @@
 			files = (
 				C73FABB81DD37968008F4519 /* SettingsLogoutCell.xib in Resources */,
 				C7DE8AD31C888761005CF37E /* SellListingCell.xib in Resources */,
+				A4CD268D215BDFDB00EA61D3 /* letgoLogoWhite@3x.png in Resources */,
 				A46057F3212AD33F00386DFC /* VerifyAccountsViewController.xib in Resources */,
 				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
 				C75B5DC91D59E09500112368 /* ListingDetailOnboardingView.xib in Resources */,
+				A4CD2689215BDFDB00EA61D3 /* letgoLogoWhite.png in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				2E4ADEC3200515FC00D07D8A /* BumpUpPayViewController.xib in Resources */,
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
+				A4CD266E215BDF4100EA61D3 /* yellowShape@3x.png in Resources */,
 				2E7F4A462074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */,
 				2E5350441CF8A181003B06CC /* ListingStatsView.xib in Resources */,
 				5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */,
@@ -9040,9 +9187,12 @@
 				0A82A1A22141A7CD005ECA58 /* RateUserViewController.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
+				A4CD2670215BDF4100EA61D3 /* yellowShape.png in Resources */,
 				508011031D4749030073F362 /* LaunchScreen.xib in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				508011001D4748120073F362 /* SettingsViewController.xib in Resources */,
+				A4CD2684215BDFB100EA61D3 /* lightBlueShape@3x.png in Resources */,
+				A4CD2679215BDF6400EA61D3 /* blueShape.png in Resources */,
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				2E9A899520A048D4009F6BB7 /* ChatOtherMeetingCell.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
@@ -9050,17 +9200,22 @@
 				6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
+				A4CD2680215BDFB100EA61D3 /* lightBlueShape.png in Resources */,
 				C73FABBE1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */,
+				A4CD268B215BDFDB00EA61D3 /* letgoLogoWhite@2x.png in Resources */,
+				A4CD2682215BDFB100EA61D3 /* lightBlueShape@2x.png in Resources */,
 				8E26E9591ED5AF9A0086D3EC /* FilterDistanceSlider.xib in Resources */,
 				C6D5FF1A20B6B0A50045E3D3 /* ServicesInfo.json in Resources */,
 				C7DE8AD91C8892C9005CF37E /* PostListingCameraView.xib in Resources */,
 				8E80179E2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */,
 				50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */,
+				A4CD2672215BDF4100EA61D3 /* yellowShape@2x.png in Resources */,
 				0A751485214272570049E135 /* UserRatingListViewController.xib in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
 				C7B588471CE1DE1C009B3975 /* ChatListingView.xib in Resources */,
 				C7415ED81DE880BD0003D6C1 /* SimpleListingsViewController.xib in Resources */,
 				2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */,
+				A4CD267B215BDF6400EA61D3 /* blueShape@3x.png in Resources */,
 				C74016DC1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */,
@@ -9071,6 +9226,7 @@
 				2E36656C1DE4882E00000F68 /* PostIncentivatorView.xib in Resources */,
 				C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				C7DE8AC91C888761005CF37E /* EditListingViewController.xib in Resources */,
+				A4CD2677215BDF6400EA61D3 /* blueShape@2x.png in Resources */,
 				C7F18A971C89CB4C00D23319 /* PostListingGalleryView.xib in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
 				2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */,
@@ -9099,9 +9255,11 @@
 			files = (
 				0A8275131F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */,
 				0A8275141F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */,
+				A4CD268A215BDFDB00EA61D3 /* letgoLogoWhite.png in Resources */,
 				0A8275151F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */,
 				0A82750C1F7D0DAD00A6A0C5 /* DeferredDeepLinkTargetListing.json in Resources */,
 				0A82750B1F7D0DA400A6A0C5 /* DeferredDeepLinkTargetSearchQuery.json in Resources */,
+				A4CD266F215BDF4100EA61D3 /* yellowShape@3x.png in Resources */,
 				0A6D88C51F7CFECA00819E89 /* DeferredDeepLinkTargetCategory.json in Resources */,
 				C73FABB91DD37968008F4519 /* SettingsLogoutCell.xib in Resources */,
 				C7DE8AD41C888761005CF37E /* SellListingCell.xib in Resources */,
@@ -9109,12 +9267,16 @@
 				C7DB424B1C5138B500400945 /* words_lowercase.json in Resources */,
 				C75B5DCA1D59E09500112368 /* ListingDetailOnboardingView.xib in Resources */,
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
+				A4CD267C215BDF6400EA61D3 /* blueShape@3x.png in Resources */,
 				C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
+				A4CD2678215BDF6400EA61D3 /* blueShape@2x.png in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
 				2E5350451CF8A181003B06CC /* ListingStatsView.xib in Resources */,
 				0A751486214272570049E135 /* UserRatingListViewController.xib in Resources */,
+				A4CD268E215BDFDB00EA61D3 /* letgoLogoWhite@3x.png in Resources */,
 				2E423799205C005B0077B62A /* ChatOtherMeetingCell.xib in Resources */,
 				5015881F1C7396B7006AEFC8 /* UserView.xib in Resources */,
+				A4CD2671215BDF4100EA61D3 /* yellowShape.png in Resources */,
 				C783D97F1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				6A12E04C1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,
 				2E9DF9741E8AA23800969E0F /* CarsInfo.json in Resources */,
@@ -9128,6 +9290,7 @@
 				C7DB425E1C5138B500400945 /* levelup.caf in Resources */,
 				2E9716A91D5A284F009B3A32 /* ExpressChatCell.xib in Resources */,
 				2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */,
+				A4CD2683215BDFB100EA61D3 /* lightBlueShape@2x.png in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostListingViewController.xib in Resources */,
 				A46057F4212AD33F00386DFC /* VerifyAccountsViewController.xib in Resources */,
 				6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
@@ -9136,6 +9299,8 @@
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C75B5DC41D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
+				A4CD268C215BDFDB00EA61D3 /* letgoLogoWhite@2x.png in Resources */,
+				A4CD2685215BDFB100EA61D3 /* lightBlueShape@3x.png in Resources */,
 				2E7F4A472074FB7200A05728 /* lottie_bump_up_boost_success_animation.json in Resources */,
 				6A879DA31C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				8E80179F2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */,
@@ -9143,6 +9308,7 @@
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
 				C73FABBF1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */,
 				8E26E95A1ED5AF9A0086D3EC /* FilterDistanceSlider.xib in Resources */,
+				A4CD2681215BDFB100EA61D3 /* lightBlueShape.png in Resources */,
 				8EB6510F205C1C1500FF50E4 /* MobileNetLetgov7final.json in Resources */,
 				C7DE8ADA1C8892C9005CF37E /* PostListingCameraView.xib in Resources */,
 				2E92CC0620248E2800451B65 /* SuggestedLocationCell.xib in Resources */,
@@ -9154,10 +9320,12 @@
 				C74016DD1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C6D5FF1B20B6B0AC0045E3D3 /* ServicesInfo.json in Resources */,
+				A4CD267A215BDF6400EA61D3 /* blueShape.png in Resources */,
 				2E92CC0320248E2800451B65 /* MeetingAssistantViewController.xib in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				2E423797205C004B0077B62A /* ChatMyMeetingCell.xib in Resources */,
 				C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */,
+				A4CD2673215BDF4100EA61D3 /* yellowShape@2x.png in Resources */,
 				2ECB417020065FB200482EF7 /* BumpUpPayViewController.xib in Resources */,
 				C7DB427F1C5138B500400945 /* ChatSafetyTipsView.xib in Resources */,
 				C7B588521CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
@@ -9175,7 +9343,47 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2AEFF1BA05D7708C32B31619 /* [CP] Check Pods Manifest.lock */ = {
+		12EFF6A46852F115884C5C39 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		275D1D4C1D680F09F061D8C8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		40E5B5375155184306576DA0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -9186,32 +9394,14 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-letgoTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-LetGoGodMode-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2CF52E1051974AC17A4B2878 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LetGo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4A891A0F88DCE4D1D0BA4146 /* [CP] Embed Pods Frameworks */ = {
+		4C963EA3FC6D60962B1E4948 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -9355,7 +9545,27 @@
 			shellPath = /bin/sh;
 			shellScript = "buildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nbundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $buildVersion ($bundleVersion)\" \"${SRCROOT}/Ambatana/res/Settings.bundle/Root.plist\"";
 		};
-		A083EE42896269DD2BA617B5 /* [CP] Embed Pods Frameworks */ = {
+		5F86F81FA918D9EF675B431F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6078FA87DC32433F55B59249 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -9449,7 +9659,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BA4C7725171735EF56D0C437 /* [CP] Check Pods Manifest.lock */ = {
+		94513A0452DD001355F8026D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -9460,105 +9670,29 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LetGoGodMode-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-LetGo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BC860535A3A3A7121E981FF5 /* [CP] Embed Pods Frameworks */ = {
+		B8F13DF9CBD3E43A9A12D00B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
-				"${BUILT_PRODUCTS_DIR}/Amplitude-iOS/Amplitude_iOS.framework",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
-				"${BUILT_PRODUCTS_DIR}/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/DeviceGuru/DeviceGuru.framework",
-				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FLEX/FLEX.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
-				"${BUILT_PRODUCTS_DIR}/JSONWebToken/JWT.framework",
-				"${BUILT_PRODUCTS_DIR}/KMPlaceholderTextView/KMPlaceholderTextView.framework",
-				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/LGCollapsibleLabel/LGCollapsibleLabel.framework",
-				"${BUILT_PRODUCTS_DIR}/LGCoreKit/LGCoreKit.framework",
-				"${PODS_ROOT}/Leanplum-iOS-SDK/Leanplum.framework",
-				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
-				"${BUILT_PRODUCTS_DIR}/RxMKMapView/RxMKMapView.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework",
-				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
-				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
-				"${BUILT_PRODUCTS_DIR}/bumper/bumper.framework",
-				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
-				"${BUILT_PRODUCTS_DIR}/mopub-ios-sdk/MoPub.framework",
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude_iOS.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CHTCollectionViewWaterfallLayout.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceGuru.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLEX.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWT.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPlaceholderTextView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGCollapsibleLabel.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Leanplum.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxMKMapView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bumper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MoPub.framework",
+				"$(DERIVED_FILE_DIR)/Pods-letgoTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C7D82AB71C0CC173008F9B8C /* Lint Warnings */ = {
@@ -9658,64 +9792,98 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n    /bin/bash \"${SCRIPT}\" \"AAfcb13d44209d7454436d2efa9974174d063a8d1d\"\nfi";
 		};
-		DC2762F39D3925608A3ACB23 /* [CP] Copy Pods Resources */ = {
+		F9CC02CA4CBE064294561B2C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
+				"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Amplitude-iOS/Amplitude_iOS.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
+				"${BUILT_PRODUCTS_DIR}/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/DeviceGuru/DeviceGuru.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FLEX/FLEX.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
+				"${BUILT_PRODUCTS_DIR}/JSONWebToken/JWT.framework",
+				"${BUILT_PRODUCTS_DIR}/KMPlaceholderTextView/KMPlaceholderTextView.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/LGCollapsibleLabel/LGCollapsibleLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/LGCoreKit/LGCoreKit.framework",
+				"${PODS_ROOT}/Leanplum-iOS-SDK/Leanplum.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxMKMapView/RxMKMapView.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework",
+				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
+				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
+				"${BUILT_PRODUCTS_DIR}/bumper/bumper.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/mopub-ios-sdk/MoPub.framework",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude_iOS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CHTCollectionViewWaterfallLayout.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceGuru.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLEX.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWT.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPlaceholderTextView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGCollapsibleLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Leanplum.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxMKMapView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bumper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MoPub.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E77A7747F2BA2FC3EF4B3D61 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EB961293A41F7AA81BE0B583 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/LGComponents/LGResourcesBundle.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LGResourcesBundle.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -9821,7 +9989,6 @@
 				C616945320D3CB1600A6692A /* PostingParamsImageAssignerSpec.swift in Sources */,
 				0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */,
 				8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */,
-				328E8E2D20C0036D00BBF639 /* ListingRequesterMatcher.swift in Sources */,
 				504C63B91ECAE0AB00D33BFA /* PushManagerSpec.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
 				50D08DBD1E69AF14009CC260 /* MockPurchaseableProductsRequestFactory.swift in Sources */,
@@ -9842,7 +10009,6 @@
 				C627573920A3494E00B401E7 /* OrderConditionableSpec.swift in Sources */,
 				50D08DB61E69AF14009CC260 /* MockPurchasesShopper.swift in Sources */,
 				50D08DB31E69AF14009CC260 /* MockGodModeManager.swift in Sources */,
-				3251C3DA20B973E20014B6BA /* MockRequesterFactory.swift in Sources */,
 				329476472138058F008EE737 /* Array+LGSpec.swift in Sources */,
 				2EC653B71E71744B00E23DDF /* MockExternalAuthHelper.swift in Sources */,
 				50D08DC31E69AF14009CC260 /* Int+LGSpec.swift in Sources */,
@@ -9879,6 +10045,7 @@
 				727463B81FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift in Sources */,
 				42F64F8220AB1A4100CF97AD /* MockListingFilters.swift in Sources */,
 				50D08DBC1E69AF14009CC260 /* MockPurchaseableProductsRequest.swift in Sources */,
+				C66E513A215B9D4000BCFD21 /* ScrollingPageControlIndexCalculatorSpec.swift in Sources */,
 				C6FFC47E20F4EC3600B9F53A /* FormattedUnitRangeSpec.swift in Sources */,
 				42718E5F21070AA900FF3F8F /* DropdownSectionSpec.swift in Sources */,
 				50D08DC81E69AF14009CC260 /* TestableObserver+LGSpec.swift in Sources */,
@@ -9952,6 +10119,7 @@
 				0133D91621394C7300AD9959 /* ShareScreenshotWireframe.swift in Sources */,
 				3212AE38211AEAC100945110 /* LocationData.swift in Sources */,
 				0A4C69D820C92D5100B89022 /* RecaptchaView.swift in Sources */,
+				8ECD55BF21594F3100A12678 /* PolymorphDFPNativeAdAdapter.m in Sources */,
 				6AFA1722213408C000F16795 /* UserAvatarViewModel.swift in Sources */,
 				50D67B9A1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				42009A2220765A4F003F946E /* PromoCellDrawer.swift in Sources */,
@@ -9991,7 +10159,6 @@
 				0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */,
 				8E814F391F3472C000C88432 /* LGSlider.swift in Sources */,
 				6A38A9AA2077610400F3B292 /* UserVerificationItem.swift in Sources */,
-				42D9716F215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift in Sources */,
 				C71C5D5E1D958974006EB3CE /* BumperFeatures.swift in Sources */,
 				504C63BC1ECAF18F00D33BFA /* Application.swift in Sources */,
 				C78F9DB61DC9ED1300884064 /* LocalProduct.swift in Sources */,
@@ -10023,6 +10190,7 @@
 				0AF5EB681FD0118F001DFAE2 /* MapViewSnapShot.swift in Sources */,
 				8E15D7971E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */,
 				8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
+				42BFE2E72162004C002C6E42 /* LGSmokeTestThankYouViewController.swift in Sources */,
 				509F79AF1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
 				0999EED521465FA800D45333 /* P2PPaymentsOfferStatusStepListView.swift in Sources */,
 				2E423790205BE2930077B62A /* ChatMyMeetingCell.swift in Sources */,
@@ -10059,6 +10227,7 @@
 				2EF4E3B21D3688AB00A09DFD /* LGConfigDAO.swift in Sources */,
 				6AA32F3A1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
 				C6DC0129213D313E00661438 /* PageControlRepresentable.swift in Sources */,
+				42BFE2E82162004C002C6E42 /* LGSmokeTestThankYouViewModel.swift in Sources */,
 				C7E1DE511E4C8D0E003818F6 /* NewRelicTracker.swift in Sources */,
 				6A879DA81C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
 				2E4EBFC31EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */,
@@ -10143,7 +10312,6 @@
 				6A5E1A001D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				2EF4E3B01D3688AB00A09DFD /* ConfigDAO.swift in Sources */,
 				0A6FECCC2130344000B57004 /* RememberPasswordWireframe.swift in Sources */,
-				0A82A180213FBFF2005ECA58 /* ModularNotificationCell.swift in Sources */,
 				C7132A3F1BF246D40000747A /* ListingFilters.swift in Sources */,
 				2E39292820E625530066C636 /* ChatDetailNavBarInfoView.swift in Sources */,
 				A411960B2122D49500EBB210 /* RememberPasswordBuilder.swift in Sources */,
@@ -10179,7 +10347,6 @@
 				F591700321519F3600CFE38E /* ReferrerInfo.swift in Sources */,
 				C7AFFB0D1E7172B20052A9CA /* MyUser+LG.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
-				42D9716C2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift in Sources */,
 				0ACE012D21514C7E002C039C /* EditEmailBuilder.swift in Sources */,
 				42109E7B2112F65100AA979E /* Feed+LG.swift in Sources */,
 				326C72D520888280009D21DB /* UICollectionViewLayoutAttributes+Builder.swift in Sources */,
@@ -10240,6 +10407,7 @@
 				3212AE5221257A7700945110 /* Lens+LG.swift in Sources */,
 				7204593A1F5008ED008D5A97 /* ListingCell.swift in Sources */,
 				0A9B3723215A6293008AC0E9 /* PhotoMediaViewerDelegate.swift in Sources */,
+				0A1ABB96215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */,
 				0A6FED2C2130344000B57004 /* UINavigationController+Transition.swift in Sources */,
 				C75B5DD51D59E0C500112368 /* ListingCarouselImageCell.swift in Sources */,
 				0AD5A4382146C2550053E86C /* DeckMoreInfoView.swift in Sources */,
@@ -10293,6 +10461,7 @@
 				C6FFC49920F748BA00B9F53A /* ServicesFilters.swift in Sources */,
 				8E0F4CFD21130DA900430E6A /* ConversationAdCell.swift in Sources */,
 				0942C7B32148FE0F00779DF1 /* P2PPaymentsGetPayCodeViewController.swift in Sources */,
+				8ECD55C321594F3100A12678 /* PMBidder.m in Sources */,
 				2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */,
 				0941DEFF21478E4700576659 /* P2PPaymentsOfferStatusStepListState+OfferStatus.swift in Sources */,
 				0AE6F4FB20F8CE5500D58BCE /* UIViewController+Childs.swift in Sources */,
@@ -10374,6 +10543,7 @@
 				097523982148B26900F76F54 /* P2PPaymentsOfferStatusSellerView.swift in Sources */,
 				55DFCDD92073790D00AC5E09 /* UserPhoneVerificationNumberInputViewController.swift in Sources */,
 				C7BAC9C31E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
+				8ECD55C121594F3100A12678 /* PolymorphDFPNativeCustomEvent.m in Sources */,
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
 				0A6FED042130344000B57004 /* BumpUpNavigator.swift in Sources */,
 				0AC489461F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */,
@@ -10470,6 +10640,7 @@
 				C707D4581E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
 				C613D0F220BFF3F100344CF2 /* LGPickerSearchBar.swift in Sources */,
 				0A6FED062130344000B57004 /* BumpUpsStandardWireframe.swift in Sources */,
+				C66E5137215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift in Sources */,
 				C6F3CEF220FF457A00AF4D38 /* LGCheckboxView.swift in Sources */,
 				0AEAFC2B2152B19500B8E223 /* AffiliationOnBoardingBuilder.swift in Sources */,
 				A47C4A68213D5B3F005AA387 /* SearchWireframe.swift in Sources */,
@@ -10577,8 +10748,8 @@
 				C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
 				F5DC45242088889100D1EC17 /* KenBurnsView.swift in Sources */,
 				0904D894213F310C00D5D554 /* P2PPaymentsListingHeaderView.swift in Sources */,
+				C66E514221621CB000BCFD21 /* LGSmokeTestFeature+ThankYou.swift in Sources */,
 				6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
-				42D971722153898300B0658B /* LGSmokeTestThankYouViewController.swift in Sources */,
 				C6C8937020C7D4B80069197C /* CardView.swift in Sources */,
 				320162E42110A13E00B7819D /* DiffUtility.swift in Sources */,
 				2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */,
@@ -10689,7 +10860,6 @@
 				C24D334C2148A2DE00D9283C /* PostAnotherListingWireframe.swift in Sources */,
 				7224B0312015EBC800DC8B33 /* PostingAddDetailSizeView.swift in Sources */,
 				C73FABBC1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
-				0A759E971FB472F60030FDE0 /* ListingCardViewModel.swift in Sources */,
 				326C72E2208A2935009D21DB /* FeedViewModelType.swift in Sources */,
 				C7B5887D1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				5532C4E9209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */,
@@ -10728,7 +10898,6 @@
 				0AF28D7F213EC2B6005A6F8C /* ListingDeckOnBoardingWireframe.swift in Sources */,
 				097EDBE8213CFF6D0057D638 /* P2PPaymentsOnboardingViewModel.swift in Sources */,
 				C6977E912121B17200B57E54 /* OverlayDisplayStyle.swift in Sources */,
-				72EB705C1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */,
 				505F55B31E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
 				6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */,
 				C7B5884F1CE1DE1C009B3975 /* DirectAnswerCell.swift in Sources */,
@@ -10785,6 +10954,7 @@
 				42D3215821510A2A002B44FC /* LGSmokeTestLayout.swift in Sources */,
 				C7415ED61DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */,
 				0A4AD7FA203DD9B8002625B7 /* UILayoutPriority.swift in Sources */,
+				8ECD55BD21594F3100A12678 /* PolymorphDFPBannerCustomEvent.m in Sources */,
 				50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				0A890AC32120A8D40091ED75 /* RateUserBuilder.swift in Sources */,
 				C783D9811C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
@@ -10807,6 +10977,7 @@
 				0AE405B720EDF7F10041E3F1 /* ListingCardView.swift in Sources */,
 				2E4ADEC2200515FC00D07D8A /* BumpUpPayViewController.swift in Sources */,
 				55FABE1620762E4B004B0DBD /* UserPhoneVerificationCodeInputViewController.swift in Sources */,
+				0A1ABB92215D3E5700B96343 /* ListingCardViewModel.swift in Sources */,
 				0A376DBB214FACE100DFFB7F /* AffiliationModalView.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
 				72E8A5861EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
@@ -10816,6 +10987,7 @@
 				0A6FED282130344000B57004 /* ExpressChatWireframe.swift in Sources */,
 				C7B5889A1CE1E025009B3975 /* ConversationCell.swift in Sources */,
 				C7DE8AE01C88A98B005CF37E /* PostListingViewController.swift in Sources */,
+				0A1ABB99216227DC00B96343 /* ListingCardViewModelBuilder.swift in Sources */,
 				C73FABB61DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,
 				A47C4A5C213D309A005AA387 /* TrendingSearchesBuilder.swift in Sources */,
 				0A6FECAC2130343F00B57004 /* PopupLoginModalWireframe.swift in Sources */,
@@ -10985,7 +11157,6 @@
 				556E26F9203C3C940098ECF0 /* UserProfileViewModel.swift in Sources */,
 				8EEC7F5C206AA62800616858 /* AdvertisementDFPCellDrawer.swift in Sources */,
 				72B76C831DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */,
-				0A04D5D520760A9D00471B9D /* RealEstateABGroup.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C7BB25CE1E3613D500649396 /* VersionChecker.swift in Sources */,
 				09AA63072140CD7B00702387 /* PaymentRequestListener.swift in Sources */,
@@ -11081,6 +11252,7 @@
 				42F0688220FF3A9A009AC898 /* DropdownCellViewModel.swift in Sources */,
 				C75B5DC81D59E09500112368 /* ListingDetailOnboardingView.swift in Sources */,
 				0A6FECE32130344000B57004 /* LPMessageWireframe.swift in Sources */,
+				C66E514321621CB000BCFD21 /* LGSmokeTestFeature+ThankYou.swift in Sources */,
 				5555531E203D92F900C913D2 /* UserProfileViewModel.swift in Sources */,
 				2ECB417120065FB200482EF7 /* BumpUpPayViewModel.swift in Sources */,
 				C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
@@ -11554,6 +11726,7 @@
 				C627573320A3436900B401E7 /* OrderCondition.swift in Sources */,
 				C7B588861CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift in Sources */,
 				C7DB41DE1C5138B500400945 /* PopupSignUpViewController.swift in Sources */,
+				42BFE2E92162056A002C6E42 /* LGSmokeTestThankYouViewModel.swift in Sources */,
 				C64D26C520ED1EF800EC43A1 /* ListingAttributeGridLayoutBehaviour.swift in Sources */,
 				328E8E1A20B6EF4300BBF639 /* RequesterFactory.swift in Sources */,
 				C2E85E8920736B9A0009F3B0 /* Camera.swift in Sources */,
@@ -11601,6 +11774,7 @@
 				6AE143CE204413B000CFAE10 /* UserProfileBioAndTrustView.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ListingListView.swift in Sources */,
 				C7890A861E55B96D0079964C /* MotionDeviceOrientation.swift in Sources */,
+				0A1ABB9A2162282D00B96343 /* ListingCardViewModelBuilder.swift in Sources */,
 				2EBC92131E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				3237C6A9210A071100B7359B /* FeedListingData.swift in Sources */,
 				C7E73E8E1CD20A49000F2591 /* ViewState.swift in Sources */,
@@ -11612,7 +11786,6 @@
 				2EB9A14F214114930096EB7B /* ChatPaymentBannerViewBinder.swift in Sources */,
 				329ACF5320EA8D4E00A1C6A4 /* EmbeddedListingSectionController.swift in Sources */,
 				094489AB214F721800F6EACB /* P2PPaymentsPayoutBankAccountView.swift in Sources */,
-				42D9716D2153884E00B0658B /* LGSmokeTestThankYouViewModel.swift in Sources */,
 				C6977E922121B17200B57E54 /* OverlayDisplayStyle.swift in Sources */,
 				C6C8936E20C6E8B70069197C /* MultiListingPostedListingCell.swift in Sources */,
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
@@ -11696,7 +11869,6 @@
 				8E69F3F31E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */,
 				2E212C6620FCC55400FB42B3 /* ChatMyCallToActionCell.swift in Sources */,
 				C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
-				42D971732153898300B0658B /* LGSmokeTestThankYouViewController.swift in Sources */,
 				8E838215210F4D8000475568 /* ChatConnectionBarStatus.swift in Sources */,
 				C707D4591E9B8C0B00042C03 /* RepositoryError+LG.swift in Sources */,
 				50CFB2F420A2D94800255EE8 /* UserVerificationViewController.swift in Sources */,
@@ -11840,6 +12012,7 @@
 				0AEB4FF72018C795003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
 				01A824AB203B328D00DF5007 /* BlockingPostingAddPriceViewModel.swift in Sources */,
 				0A45A88A214BFF540045ACFA /* AffiliationStoreWireframe.swift in Sources */,
+				42BFE2EA2162056E002C6E42 /* LGSmokeTestThankYouViewController.swift in Sources */,
 				C730FD121E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
 				2ECB416F20065FB200482EF7 /* BumpUpPayViewController.swift in Sources */,
 				09DC34032154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift in Sources */,
@@ -11868,7 +12041,6 @@
 				50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
 				425EE38E211AEE070002DAB8 /* FeedSection+Mapping.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
-				0A759E981FB473AC0030FDE0 /* ListingCardViewModel.swift in Sources */,
 				0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */,
 				0A6FED112130344000B57004 /* QuickLocationFiltersNavigator.swift in Sources */,
 				4273565520A308A300C71D49 /* LGMapDetailView.swift in Sources */,
@@ -11879,20 +12051,22 @@
 				C2E7F42120DB90BC0092A1F9 /* Locale+LG.swift in Sources */,
 				6AA9E90E203EDCB5004EACC4 /* UserProfileTabsView.swift in Sources */,
 				C627573620A3439C00B401E7 /* OrderConditionable.swift in Sources */,
+				8ECD55C421594F3100A12678 /* PMBidder.m in Sources */,
 				0A890A9B21206AED0091ED75 /* FeaturedInfoBuilder.swift in Sources */,
 				C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */,
 				2EED4D261D23F03E0024328A /* ChatListing+title.swift in Sources */,
 				C73FABBD1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
-				0A82A181213FBFF2005ECA58 /* ModularNotificationCell.swift in Sources */,
 				0A6FED1F2130344000B57004 /* RateUserStandardWireframe.swift in Sources */,
 				6A5E19EB1D548F5400F92692 /* Date+LG.swift in Sources */,
 				0A45A891214C06450045ACFA /* AffiliationStoreErrorView.swift in Sources */,
 				0A6FED172130344000B57004 /* EditLocationStandardWireframe.swift in Sources */,
 				6A38A9AF2077610400F3B292 /* UserVerificationCell.swift in Sources */,
 				0A7A05892018A9AE0009D74C /* ListingDeckOnBoardingViewController.swift in Sources */,
+				0A1ABB93215D3E5700B96343 /* ListingCardViewModel.swift in Sources */,
 				F57D3A311FED01A6006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				5532C4EA209325DA006FD3EA /* PasswordlessEmailViewModel.swift in Sources */,
 				326C72E3208A2935009D21DB /* FeedViewModelType.swift in Sources */,
+				8ECD55C021594F3100A12678 /* PolymorphDFPNativeAdAdapter.m in Sources */,
 				0A6FED1B2130344000B57004 /* RateUserModalWireframe.swift in Sources */,
 				0A6FECFF2130344000B57004 /* SimpleListingsWireframe.swift in Sources */,
 				2E7678DF214C186500F783B9 /* BumpUpMultiDayInfoViewController.swift in Sources */,
@@ -11916,9 +12090,9 @@
 				2E8097F0206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift in Sources */,
 				0AD5A4392146C2550053E86C /* DeckMoreInfoView.swift in Sources */,
 				5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
-				72EB705D1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */,
 				C7F22D811DB7A3A200353803 /* RecaptchaViewController.swift in Sources */,
 				505F55B41E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
+				8ECD55BE21594F3100A12678 /* PolymorphDFPBannerCustomEvent.m in Sources */,
 				0AF5EB701FD069C6001DFAE2 /* QuickChatViewModel.swift in Sources */,
 				32BF6809210F07C800360860 /* FeedDetailView.swift in Sources */,
 				C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */,
@@ -11987,6 +12161,7 @@
 				726E35C11FE13FB200F98776 /* RetrieveListingParams+LG.swift in Sources */,
 				6A0B6A112052BC9F00EAA1F5 /* UserProfileRelationView.swift in Sources */,
 				504CD280214AAF3800A7672C /* AffiliationFAQBuilder.swift in Sources */,
+				8ECD55C221594F3100A12678 /* PolymorphDFPNativeCustomEvent.m in Sources */,
 				0AE405B820EDF7F10041E3F1 /* ListingCardView.swift in Sources */,
 				0178C8E3214AC41000FE23D2 /* ShareScreenshotViewModel.swift in Sources */,
 				72D928DB1E83DD330030F4C3 /* ConfigManager.swift in Sources */,
@@ -12006,6 +12181,7 @@
 				3221E539206061A10006B12B /* DiscardedView.swift in Sources */,
 				0944899E214F213600F6EACB /* P2PPaymentsPayoutViewController.swift in Sources */,
 				0AEB4FF62018C791003365DE /* ListingDeckOnBoardingBinder.swift in Sources */,
+				C66E5138215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift in Sources */,
 				F51A082C2031B5380008D744 /* AspectRatio.swift in Sources */,
 				C7B5889B1CE1E025009B3975 /* ConversationCell.swift in Sources */,
 				A465723B213057BD00B806C2 /* FeedWireframe.swift in Sources */,
@@ -12047,7 +12223,6 @@
 				0AF0A46220EA5D4900E9176F /* LPCenterPopupView.swift in Sources */,
 				A46057F2212AD33F00386DFC /* VerifyAccountsViewController.swift in Sources */,
 				6A5E19E91D548F5400F92692 /* Int+LG.swift in Sources */,
-				42D97170215388C700B0658B /* LGSmokeTestFeature+ThankYou.swift in Sources */,
 				0A14D276212AE47400E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */,
 				C6BEE65220EE65A9008AEA0B /* CarAttributeItem.swift in Sources */,
 				2E423785205A7AA10077B62A /* BumpUpTimerBarView.swift in Sources */,
@@ -12071,6 +12246,7 @@
 				C611B06B20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */,
 				0183BB19203C71D400204383 /* ListingPostedDescriptiveViewModel.swift in Sources */,
 				50D153FF214A5BE600221B06 /* AffiliationInviteSMSContactsViewModel.swift in Sources */,
+				0A1ABB97215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */,
 				0A6FED0F2130344000B57004 /* QuickLocationFiltersModalWireframe.swift in Sources */,
 				0AB4F827214677CB009151E6 /* UserDefailts+LG.swift in Sources */,
 				326C730B20908148009D21DB /* CategoriesFeedCell.swift in Sources */,
@@ -12155,7 +12331,6 @@
 				2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */,
 				C742340D1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				2E4B359D1CC90A9500B8CB64 /* RelatedListingListRequester.swift in Sources */,
-				0A04D5D620760A9D00471B9D /* RealEstateABGroup.swift in Sources */,
 				72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */,
 				C7AB4EC71CD39C67007B573D /* LGNotificationsManager.swift in Sources */,
 				C7BB25D21E3618C700649396 /* VersionChecker.swift in Sources */,
@@ -12310,12 +12485,16 @@
 		};
 		50D08D4F1E699455009CC260 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E76BB32629E2F420D91DDE40 /* Pods-letgoTests.debug.xcconfig */;
+			baseConfigurationReference = D7DE641281B8EEB6F69D1BE8 /* Pods-letgoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/3rd-Party/PolymorphSDK",
+				);
 				INFOPLIST_FILE = letgoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -12331,7 +12510,7 @@
 		};
 		50D08D501E699455009CC260 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8DAB3935B283F41F5E923524 /* Pods-letgoTests.release.xcconfig */;
+			baseConfigurationReference = B12A23C8790CD23B06950F10 /* Pods-letgoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -12339,6 +12518,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/3rd-Party/PolymorphSDK",
+				);
 				INFOPLIST_FILE = letgoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -12352,7 +12535,7 @@
 		};
 		50D08D511E699455009CC260 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 511F2F4A95997948081A56B5 /* Pods-letgoTests.adhoc.xcconfig */;
+			baseConfigurationReference = 5E149CE9EDFCA128B21D654C /* Pods-letgoTests.adhoc.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -12360,6 +12543,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/3rd-Party/PolymorphSDK",
+				);
 				INFOPLIST_FILE = letgoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -12481,7 +12668,7 @@
 		};
 		6608E0561A820FBD005895ED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2251293E6EFBB4FC4D591EEB /* Pods-LetGo.debug.xcconfig */;
+			baseConfigurationReference = B4738D7550632F747A6597A7 /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -12520,7 +12707,7 @@
 		};
 		6608E0571A820FBD005895ED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EFBFC109F2FF1358EAF318F6 /* Pods-LetGo.release.xcconfig */;
+			baseConfigurationReference = 223029BAEFC42292EFDE0DBE /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -12715,7 +12902,7 @@
 		};
 		C7DB42911C5138B500400945 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63A6F6397307A291E4F756F0 /* Pods-LetGoGodMode.debug.xcconfig */;
+			baseConfigurationReference = 660F1EBAC43DD365363C6B40 /* Pods-LetGoGodMode.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -12728,6 +12915,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
+					"$(PROJECT_DIR)/3rd-Party/PolymorphSDK",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -12752,7 +12940,7 @@
 		};
 		C7DB42921C5138B500400945 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 397D6BA6E737E766AB0F140C /* Pods-LetGoGodMode.release.xcconfig */;
+			baseConfigurationReference = 23649BFCB5B58D095A249C7D /* Pods-LetGoGodMode.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -12765,6 +12953,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
+					"$(PROJECT_DIR)/3rd-Party/PolymorphSDK",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -12789,7 +12978,7 @@
 		};
 		C7DB42931C5138B500400945 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C7845EFBBC4BC560C62C7CC /* Pods-LetGoGodMode.adhoc.xcconfig */;
+			baseConfigurationReference = A43007F86539079820D84DEA /* Pods-LetGoGodMode.adhoc.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -12802,6 +12991,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
+					"$(PROJECT_DIR)/3rd-Party/PolymorphSDK",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -12875,7 +13065,7 @@
 		};
 		D44E065E1AE6D27400A7D3CA /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 856B171BA60BC9DF7ED477BC /* Pods-LetGo.adhoc.xcconfig */;
+			baseConfigurationReference = 8EDF8FEFAD9D6B72B2E27DC9 /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

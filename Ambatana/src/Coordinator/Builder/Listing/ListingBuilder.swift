@@ -1,7 +1,8 @@
 import LGCoreKit
 
 protocol ListingAssembly {
-    func buildListingDetail(for listing: Listing, source: EventParameterListingVisitSource) -> UIViewController
+    func buildListingDetail(withVM listingViewModel: ListingCardViewModel,
+                            source: EventParameterListingVisitSource) -> UIViewController
     func buildDeck(with listing: Listing,
                    thumbnailImage: UIImage?,
                    listings: [ListingCellModel]?,
@@ -17,13 +18,11 @@ enum ListingBuilder {
 }
 
 extension ListingBuilder: ListingAssembly {
-    func buildListingDetail(for listing: Listing, source: EventParameterListingVisitSource) -> UIViewController {
+    func buildListingDetail(withVM listingViewModel: ListingCardViewModel,
+                            source: EventParameterListingVisitSource) -> UIViewController {
         switch self {
         case .standard(let nc):
-            let navigator = ListingDetailWireframe(nc: nc)
-            let vm = ListingDetailViewModel(withListing: listing,
-                                            viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
-                                            visitSource: source)
+            let vm = ListingDetailViewModel(withVM: listingViewModel, visitSource: source)
             let vc = ListingDetailViewController(viewModel: vm)
 
             vm.navigator = ListingFullDetailWireframe(nc: nc)
@@ -41,16 +40,16 @@ extension ListingBuilder: ListingAssembly {
                    trackingIdentifier: String?) -> UIViewController {
         switch self {
         case .standard(let nc):
-            let navigator = ListingDetailWireframe(nc: nc)
             let vm = ListingDeckViewModel(listModels: listings ?? [],
                                           listing: listing,
-                                          viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
+                                          viewModelMaker: ListingCardViewModelBuilder(),
                                           listingListRequester: requester,
                                           source: source,
                                           actionOnFirstAppear: onFirstAppear,
                                           trackingIndex: trackingIndex,
                                           trackingIdentifier: trackingIdentifier)
             vm.navigator = ListingDeckWireframe(nc: nc)
+            vm.detailNavigator = ListingDetailWireframe(nc: nc)
             let vc = ListingDeckViewController(viewModel: vm)
             vm.delegate = vc
 

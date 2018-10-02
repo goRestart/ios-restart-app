@@ -11,8 +11,13 @@
     },
     {
          "name": "MarkAsSoldQuickAnswerNewFlow",
-         "values": ["control", "baseline", "mark_as_sold_new_flow_quick_answer"],
+         "values": ["control", "baseline", "markAsSoldNewFlowQuickAnswer"],
          "description": "New flow when marking an item as sold on chat using quick answers"
+    },
+    {
+         "name": "ShouldMoveLetsMeetAction",
+         "values": ["no", "yes"],
+         "description": "Put the lets meet icon inside the chat bar"
     },
     {
         "name": "ShowAdsInFeedWithRatio",
@@ -23,11 +28,6 @@
         "name": "RealEstateFlowType",
         "values": ["standard", "turkish"],
         "description": "Real Estate Flow Type"
-    },
-    {
-        "name": "RealEstateNewCopy",
-        "values": ["control", "baseline", "active"],
-        "description": "Try real estate copy instead of housing"
     },
     {
         "name": "DummyUsersInfoProfile",
@@ -108,11 +108,6 @@
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
         "description": "[PRODUCTS] Show services category on salchichas menu"
-    },
-    {
-         "name": "EmptySearchImprovements",
-         "values": ["control", "baseline", "popularNearYou", "similarQueries", "similarQueriesWhenFewResults", "alwaysSimilar"],
-         "description": "Improve empty search experience by proposing relavant listings"
     },
     {
          "name": "OffensiveReportAlert",
@@ -250,11 +245,6 @@
         "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
     },
     {
-        "name": "NotificationCenterRedesign",
-        "values": ["control", "baseline", "active"],
-        "description": "[RETENTION] Notification center redesign with sections and modern UI design"
-    },
-    {
         "name": "TurkeyFreePosting",
         "values": ["control", "baseline", "active"],
         "description": "[PRODUCTS] Enable Leanplum driven Turkey free posting"
@@ -345,6 +335,11 @@
         "description": "[RETENTION] Enables Affiliation / Referral Program"
     },
     {
+        "name": "BumpPromoAfterSellNoLimit",
+        "values": ["control", "baseline", "AlwaysShow", "StraightToBump"],
+        "description": "[MONEY] Remove the 24h limit in bump after sell promo"
+    },
+    {
         "name": "MakeAnOfferButton",
         "values": ["control", "baseline", "active"],
         "description": "[P2P PAYMENTS] Show make an offer button"
@@ -353,5 +348,20 @@
         "name": "NewSearchAPIEndPoint",
         "values": ["control", "baseline", "active"],
         "description": "[DISCOVERY] Use New Search API Endpoint"
+    },
+    {
+        "name": "ImageSizesNotificationCenter",
+        "values": ["control", "baseline", "nineSix", "oneTwoEight"],
+        "description": "[RETENTION] Notification center with different thumbnails sizes"
+    },
+    {
+        "name": "BoostSmokeTest",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
+        "description": "[VERTICALS] Show Boost and Super Boost Smoke Test"
+    },
+    {
+        "name": "PolymorphFeedAdsUSA",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Show Polymorph ads in feed for USA"
     }
 ]

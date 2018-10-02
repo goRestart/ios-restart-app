@@ -176,6 +176,7 @@ public struct SharedConstants {
     // Ads
     public static let adInFeedCustomTargetingKey = "pos_var"
     public static let newUserTimeThresholdForAds = TimeInterval.make(days: 15)
+    public static let adNetwork = "adNetwork"
 
     // Professional Dealers
     public static let usaPhoneNumberDigitsCount = 10

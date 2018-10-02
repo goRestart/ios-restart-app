@@ -21,7 +21,6 @@ public typealias UserUserRelationCompletion = (UserUserRelationResult) -> Void
 public typealias UserVoidResult = Result<Void, RepositoryError>
 public typealias UserVoidCompletion = (UserVoidResult) -> Void
 
-
 public enum UserRepositoryEvent {
     case block(userId: String)
     case unblock(userId: String)
@@ -90,6 +89,18 @@ public protocol UserRepository: class {
     func saveReport(_ reportedUser: User, params: ReportUserParams, completion: UserCompletion?)
     
     func saveReport(_ reportedUserId: String, params: ReportUserParams, completion: UserVoidCompletion?)
+
+    /**
+     Request a user to verify its profile
+     - parameter requestedUserId: Identifier of the user that should verify its profile
+     */
+    func requestVerification(_ requestedUserId: String, completion: RepositoryCompletion<Void>?)
+
+    /**
+     Retrieve the list of verification request made from the current user to the given requested user
+     - parameter requestedUserId: The user id for which the current user may have been rquested a verification
+     */
+    func retriveVerificationRequests(_ requestedUserId: String, completion: RepositoryCompletion<[UserVerificationRequest]>?)
 }
 
 protocol InternalUserRepository: UserRepository {

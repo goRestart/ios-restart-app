@@ -8,7 +8,8 @@ protocol EditListingAssembly {
                        listingCanBeBoosted: Bool,
                        timeSinceLastBump: TimeInterval?,
                        maxCountdown: TimeInterval,
-                       onEditAction: OnEditActionable?) -> UIViewController
+                       onEditAction: OnEditActionable?,
+                       onCancelEditAction: OnEditActionable?) -> UIViewController
 }
 
 enum EditListingBuilder {
@@ -23,7 +24,8 @@ extension EditListingBuilder: EditListingAssembly {
                        listingCanBeBoosted: Bool,
                        timeSinceLastBump: TimeInterval?,
                        maxCountdown: TimeInterval,
-                       onEditAction: OnEditActionable?) -> UIViewController {
+                       onEditAction: OnEditActionable?,
+                       onCancelEditAction: OnEditActionable?) -> UIViewController {
         let vm = EditListingViewModel(listing: listing,
                                       pageType: pageType,
                                       purchases: purchases,
@@ -34,11 +36,16 @@ extension EditListingBuilder: EditListingAssembly {
 
         switch self {
         case .standard(let nav):
-            vm.navigator = EditListingStandardWireframe(nc: nav, onEditActionable: onEditAction)
+            vm.navigator = EditListingStandardWireframe(nc: nav,
+                                                        onEditActionable: onEditAction,
+                                                        onCancelEditActionable: onCancelEditAction)
             return vc
         case .modal(let root):
             let nav = UINavigationController(rootViewController: vc)
-            vm.navigator = EditListingModalWireframe(root: root, nc: nav, onEditActionable: onEditAction)
+            vm.navigator = EditListingModalWireframe(root: root,
+                                                     nc: nav,
+                                                     onEditActionable: onEditAction,
+                                                     onCancelEditActionable: onCancelEditAction)
             return nav
         }
     }

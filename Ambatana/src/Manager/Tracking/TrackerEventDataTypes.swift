@@ -252,6 +252,7 @@ enum EventName: String {
     case p2pPaymentsBuyerOfferEditCancel    = "p2p-buyer-offer-edit-cancel"
     case p2pPaymentsBuyerPaymentProcess     = "p2p-buyer-payment-confirmation"
     case p2pPaymentsBuyerApplePayStart      = "p2p-buyer-applepay-start"
+    case p2pPaymentsBuyerPaymentAbandon     = "p2p-buyer-payment-abandon"
     case p2pPaymentsBuyerOfferWithdraw      = "p2p-buyer-offer-withdraw"
     case p2pPaymentsBuyerCodeView           = "p2p-buyer-code-view"
     case p2pPaymentsSellerOfferDetail       = "p2p-seller-offer-detail"
@@ -307,7 +308,6 @@ enum EventParameterName: String {
     case userZipCode          = "user-zipcode"
     case searchString         = "search-keyword"
     case searchSuccess        = "search-success"
-    case searchRelatedItems   = "search-related-items"
     case searchSuggestion     = "search-suggestion"
     case searchSuggestionPosition = "search-suggestion-position"
     case trendingSearch       = "trending-search"
@@ -465,6 +465,8 @@ enum EventParameterName: String {
     case offerFee             = "offer-seller-fee"
     case offerSellerChoice    = "choice"
     case step                 = "step"
+    case retries              = "retries"
+    case errorCode            = "error-code"
     
     case marketingNotificationsEnabled  = "marketing-notifications-enabled"
 
@@ -560,6 +562,7 @@ enum EventParameterLoginSourceValue: String {
     case chatProUser = "chat-pro-user"
     case community = "community"
     case feed = "feed"
+    case passwordless = "passwordless"
 }
 
 enum EventParameterProductItemType: String {
@@ -721,6 +724,16 @@ enum EventParameterP2PPaymentsStep: String {
 
     static var allValues: [EventParameterP2PPaymentsStep] {
         return [.codeCorrect, .codeEntry, .userDetails, .bankAccountEdit, .creditCardEdit]
+    }
+}
+
+enum EventParameterP2PPaymentError: String {
+    case systemCanceled = "system-canceled"
+    case stripeTokenCreationFailed = "stripe-token-creation-failed"
+    case p2pPaymentOfferCreationFailed = "p2p-payment-offer-creation-failed"
+
+    static var allValues: [EventParameterP2PPaymentError] {
+        return [.systemCanceled, .stripeTokenCreationFailed, .p2pPaymentOfferCreationFailed]
     }
 }
 
@@ -1543,6 +1556,7 @@ enum EventParameterAdType {
     case adx
     case interstitial
     case variableSize(size: CGSize)
+    case polymorph
 
     var stringValue: String {
         switch self {
@@ -1556,6 +1570,8 @@ enum EventParameterAdType {
             return "adx"
         case .interstitial:
             return "interstitial"
+        case .polymorph:
+            return "polymorph"
         }
     }
 }

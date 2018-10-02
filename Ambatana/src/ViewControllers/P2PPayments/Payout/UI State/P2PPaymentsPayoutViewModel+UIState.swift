@@ -26,6 +26,15 @@ extension P2PPaymentsPayoutViewModel {
 // MARK: - UIState + Outputs
 
 extension P2PPaymentsPayoutViewModel.UIState {
+    private static let percentageFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        formatter.multiplier = 1
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        return formatter
+    }()
+
     var showLoadingIndicator: Bool {
         switch self {
         case .loading: return true
@@ -103,9 +112,11 @@ extension P2PPaymentsPayoutViewModel.UIState {
     }
 
     private static func getFeeText(priceBreakdown: P2PPaymentPayoutPriceBreakdown) -> String {
+        let fee = (priceBreakdown.fee as NSDecimalNumber).doubleValue
+        let percentageText = percentageFormatter.string(from: NSNumber(value: priceBreakdown.feePercentage))
         let feeAmountText = currencyHelper.formattedAmountWithCurrencyCode(priceBreakdown.currency.code,
-                                                                           amount: (priceBreakdown.fee as NSDecimalNumber).doubleValue)
-        return "(— \(feeAmountText)"
+                                                                           amount: fee)
+        return R.Strings.paymentPayoutPaymentInstantTitleLabel + " (\(percentageText ?? "")) — \(feeAmountText)"
     }
 
     private static func getStandardFundsAvailableText(daysOffset: Int) -> String {

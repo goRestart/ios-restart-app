@@ -325,6 +325,25 @@ extension AppCoordinator: AppNavigator {
         }
     }
 
+
+    private func executePostSellNavigationWith(listingId: String,
+                                               purchases: [BumpUpProductData],
+                                               maxCountdown: TimeInterval,
+                                               typePage: EventParameterTypePage?) {
+        switch featureFlags.bumpPromoAfterSellNoLimit {
+        case .control, .baseline, .alwaysShow:
+            openPromoteBumpForListingId(listingId: listingId,
+                           purchases: purchases,
+                           maxCountdown: maxCountdown,
+                           typePage: typePage)
+        case .straightToBump:
+            openSellFaster(listingId: listingId,
+                           purchases: purchases,
+                           maxCountdown: maxCountdown,
+                           typePage: typePage)
+        }
+    }
+
     func openPromoteBumpForListingId(listingId: String,
                                      purchases: [BumpUpProductData],
                                      maxCountdown: TimeInterval,
@@ -552,7 +571,8 @@ extension AppCoordinator: AppNavigator {
                                             listingCanBeBoosted: false,
                                             timeSinceLastBump: nil,
                                             maxCountdown: maxCountdown,
-                                            onEditAction: self)
+                                            onEditAction: self,
+                                            onCancelEditAction: self)
         tabBarCtl.present(vc, animated: true)
     }
 
@@ -587,10 +607,10 @@ extension AppCoordinator: OnEditActionable {
                 maxCountdown: TimeInterval) {
         refreshSelectedListingsRefreshable()
         guard let listingId = listing.objectId, purchases.hasPaymentIds else { return }
-        openPromoteBumpForListingId(listingId: listingId,
-                                    purchases: purchases,
-                                    maxCountdown: maxCountdown,
-                                    typePage: .sellEdit)
+        executePostSellNavigationWith(listingId: listingId,
+                                      purchases: purchases,
+                                      maxCountdown: maxCountdown,
+                                      typePage: .sellEdit)
     }
 }
 
@@ -630,7 +650,7 @@ fileprivate extension AppCoordinator {
         case .edit, .deepLink, .sellEdit, .profile:
             return true
         case .promoted:
-            return !promoteBumpShownInLastDay
+            return featureFlags.bumpPromoAfterSellNoLimit.isActive || !promoteBumpShownInLastDay
         }
     }
 
@@ -1256,10 +1276,12 @@ fileprivate extension AppCoordinator {
         tabBarCtl.dismissAllPresented(nil)
         guard let navCtl = selectedNavigationController else { return }
         navCtl.showLoadingMessageAlert()
-        sessionManager.loginPasswordlessWith(token: token) { result in
+        sessionManager.loginPasswordlessWith(token: token) { [weak self] result in
             switch result {
             case .success:
                 navCtl.dismissLoadingMessageAlert()
+                let event = TrackerEvent.loginEmail(.passwordless, rememberedAccount: false)
+                self?.tracker.trackEvent(event)
             case .failure:
                 let message = R.Strings.commonErrorGenericBody
                 navCtl.dismissLoadingMessageAlert {
@@ -1347,10 +1369,10 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
-            openPromoteBumpForListingId(listingId: requestListingId,
-                                        purchases: purchases,
-                                        maxCountdown: maxCountdown,
-                                        typePage: typePage)
+            executePostSellNavigationWith(listingId: requestListingId,
+                                          purchases: purchases,
+                                          maxCountdown: maxCountdown,
+                                          typePage: typePage)
         case .edit(let listing):
             openEditForListing(listing: listing,
                                purchases: purchases,

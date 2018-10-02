@@ -6,7 +6,10 @@ protocol EditListingNavigator {
                                  timeSinceLastBump: TimeInterval?,
                                  maxCountdown: TimeInterval)
     func openListingAttributePicker(viewModel: ListingAttributeSingleSelectPickerViewModel)
-    func editingListingDidCancel()
+    func editingListingDidCancel(_ originalListing: Listing,
+                                 purchases: [BumpUpProductData],
+                                 timeSinceLastBump: TimeInterval?,
+                                 maxCountdown: TimeInterval)
     func openEditLocation(mode: EditLocationMode,
                           initialPlace: Place?,
                           locationDelegate: EditLocationDelegate)

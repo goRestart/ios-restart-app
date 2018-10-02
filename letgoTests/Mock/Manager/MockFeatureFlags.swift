@@ -4,6 +4,8 @@ import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
     
+    
+    
     var rx_affiliationEnabled: Observable<AffiliationEnabled> { return .just(.control) }
 
     var trackingData: Observable<[(String, ABGroup)]?> {
@@ -22,12 +24,12 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var deckItemPage: NewItemPageV3 = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
-    var realEstateNewCopy: RealEstateNewCopy = .control
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var mutePushNotifications: MutePushNotifications = .control
     var showProTagUserProfile: Bool = false
     var showExactLocationForPros: Bool = true
+    var shouldMoveLetsMeetAction = false
     
     // Country dependant features
     var freePostingModeAllowed = false
@@ -82,11 +84,11 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var realEstatePromoCells: RealEstatePromoCells = .control
     var proUsersExtraImages: ProUsersExtraImages = .control
     var clickToTalk: ClickToTalk = .control
+    var boostSmokeTest: BoostSmokeTest = .control
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed = .control
     var personalizedFeedABTestIntValue: Int? = nil
-    var emptySearchImprovements: EmptySearchImprovements = .control
     var sectionedFeedABTestIntValue: Int = 0
     var sectionedFeed: SectionedDiscoveryFeed = .control
     var newSearchAPI: NewSearchAPIEndPoint = .control
@@ -115,6 +117,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS = .control
     var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR = .control
     var multiAdRequestInChatSectionAdUnitId: String? = ""
+    var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit = .control
+    var polymorphFeedAdsUSA: PolymorphFeedAdsUSA = .control
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
@@ -122,10 +126,10 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var searchAlertsInSearchSuggestions: SearchAlertsInSearchSuggestions = .control
     var engagementBadging: EngagementBadging = .control
     var searchAlertsDisableOldestIfMaximumReached: SearchAlertsDisableOldestIfMaximumReached = .control
-    var notificationCenterRedesign: NotificationCenterRedesign = .control
     var randomImInterestedMessages: RandomImInterestedMessages = .control
     var imInterestedInProfile: ImInterestedInProfile = .control
     var shareAfterScreenshot: ShareAfterScreenshot = .control
     var affiliationEnabled: AffiliationEnabled = .control
+    var imageSizesNotificationCenter: ImageSizesNotificationCenter = .control
 }
 
