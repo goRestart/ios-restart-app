@@ -159,4 +159,5 @@ class PostIncentivatorView: UIView {
 extension Reactive where Base: PostIncentivatorView {
     var viewTapped: ControlEvent<UITapGestureRecognizer> {
         return base.tapGesture.rx.event
-    }}
+    }
+}

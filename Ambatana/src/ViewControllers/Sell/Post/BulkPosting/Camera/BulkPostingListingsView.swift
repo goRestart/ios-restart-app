@@ -1,7 +1,7 @@
 import LGCoreKit
 import LGComponents
 
-final class BulkPostingListingsView: BaseView {
+final class BulkPostingListingsView: UIView {
 
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -18,25 +18,21 @@ final class BulkPostingListingsView: BaseView {
         return label
     }()
 
-    var viewModel: BulkPostingListingsViewModel
+    var images: [URL?]
 
-    init(viewModel: BulkPostingListingsViewModel) {
-        self.viewModel = viewModel
-        super.init(viewModel: viewModel, frame: CGRect(x: 0, y: 0, width: 300, height: 75))
+    init(images: [URL?]) {
+        self.images = images
+        super.init(frame: CGRect(x: 0, y: 0, width: 300, height: 75))
 
         setupUI()
         collectionView.reloadData()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) { fatalError() }
     
     func setupUI() {
-//        NSLayoutConstraint.activate([
-//            heightAnchor.constraint(equalToConstant: 100)
-//        ])
-        listingsLabel.text = "Your items (\(viewModel.listings.count))"
+        listingsLabel.text = "Your items (\(images.count))"
 
         collectionView.register(BulkPostingCell.self, forCellWithReuseIdentifier: BulkPostingCell.reusableID)
         collectionView.backgroundColor = .clear
@@ -60,16 +56,14 @@ final class BulkPostingListingsView: BaseView {
 extension BulkPostingListingsView: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.listings.count
+        return images.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BulkPostingCell.reusableID, for: indexPath) as? BulkPostingCell else {
             return UICollectionViewCell()
         }
-        if let imageURL = viewModel.listings[indexPath.row].thumbnail?.fileURL {
-            cell.setupWith(imageURL: imageURL)
-        }
+        cell.setupWith(imageURL: images[indexPath.row])
         return cell
     }
 }

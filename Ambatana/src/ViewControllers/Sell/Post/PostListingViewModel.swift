@@ -121,6 +121,34 @@ class PostListingViewModel: BaseViewModel {
     private var myUserName: String? {
         return myUserRepository.myUser?.name
     }
+
+    let videoPostingTooltipText: NSAttributedString = {
+        let highlightedText = R.Strings.productPostCameraVideoRecordingTooltipHighlightedWord
+        let hintText = R.Strings.productPostCameraVideoRecordingTooltip(highlightedText)
+        let hintNSString = NSString(string: hintText)
+        let range = hintNSString.range(of: highlightedText)
+        let attributues: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17),
+                                                          NSAttributedStringKey.foregroundColor: UIColor.white]
+        let hint = NSMutableAttributedString(string: hintText, attributes: attributues)
+        if range.location != NSNotFound {
+            hint.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.primaryColor, range: range)
+        }
+        return hint
+    }()
+
+    let bulkPostingTooltipText: NSAttributedString = {
+        let highlightedText = "Post"
+        let hintText = "Post another listing"
+        let hintNSString = NSString(string: hintText)
+        let range = hintNSString.range(of: highlightedText)
+        let attributues: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17),
+                                                          NSAttributedStringKey.foregroundColor: UIColor.white]
+        let hint = NSMutableAttributedString(string: hintText, attributes: attributues)
+        if range.location != NSNotFound {
+            hint.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.primaryColor, range: range)
+        }
+        return hint
+    }()
     
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
     var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
@@ -133,6 +161,11 @@ class PostListingViewModel: BaseViewModel {
     var shouldShowVideoFooter: Bool {
         guard let category = postCategory?.listingCategory else { return false }
         return (category.isProduct && !category.isServices) && featureFlags.videoPosting.isActive
+    }
+
+    var shouldShowBulkProductsTooltip: Bool {
+        guard isBulkProducts, bulkPostedListings?.count ?? 0 > 0 else { return false }
+        return postListingCameraViewModel.cameraMode.value == .photo
     }
     
     fileprivate let disposeBag: DisposeBag

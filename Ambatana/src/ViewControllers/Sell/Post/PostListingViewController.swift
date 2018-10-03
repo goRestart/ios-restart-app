@@ -236,6 +236,11 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         let previousSource = mediaSource
         footer.updateToPhotoMode()
         viewModel.postListingCameraViewModel.cameraMode.value = .photo
+        if viewModel.shouldShowBulkProductsTooltip {
+            footer.showTooltip(tooltipText: viewModel.bulkPostingTooltipText)
+        } else {
+            footer.hideTooltip()
+        }
         cameraView.setCameraModeToPhoto()
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
         viewModel.mediaSourceDidChange(mediaSource: mediaSource)
@@ -245,6 +250,9 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     @objc func videoButtonPressed() {
         let previousSource = mediaSource
         footer.updateToVideoMode()
+        if !viewModel.shouldShowBulkProductsTooltip {
+            footer.showTooltip(tooltipText: viewModel.videoPostingTooltipText)
+        }
         viewModel.postListingCameraViewModel.cameraMode.value = .video
         cameraView.setCameraModeToVideo()
         cameraView.usePhotoButtonText = viewModel.useVideoButtonText
@@ -254,6 +262,12 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
 
     @objc func doneButtonPressed() {
         viewModel.closeButtonPressed()
+    }
+
+    @objc func cameraTooltipPressed() {
+        footer.cameraTooltip.animateTo(alpha: 0, duration: 0.5) { _ in
+            self.footer.hideTooltip()
+        }
     }
 
     @IBAction func onRetryButton(_ sender: AnyObject) {
@@ -467,14 +481,20 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
             self?.doneButtonPressed()
         }).disposed(by: disposeBag)
 
+        footer.cameraTooltip.rx.tooltipTapped.asDriver().drive(onNext: { [weak self] (_) in
+            self?.cameraTooltipPressed()
+        }).disposed(by: disposeBag)
+
+        footer.cameraTooltip.label.attributedText = viewModel.bulkPostingTooltipText
+
         footer.doneButton.isHidden = hiddeDoneButton
         
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
-        cameraView.recordingDuration.asObservable().subscribeNext { [weak self] (duration) in
+        cameraView.recordingDuration.asDriver().drive(onNext: { [weak self] (duration) in
             let progress = CGFloat(duration/SharedConstants.videoMaxRecordingDuration)
             self?.footer.updateVideoRecordingDurationProgress(progress: progress, recordingDuration: duration)
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
 
         cameraView.isRecordingVideo.asDriver().drive(onNext: { [weak self] isRecordingVideo in
             self?.footer.photoButton.isHidden = isRecordingVideo
@@ -487,11 +507,10 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
 
     private func setupBulkPostingView() {
-        if let bulkPostedListings = viewModel.bulkPostedListings {
-            let bulkPostingListingsViewModel = BulkPostingListingsViewModel(listings: bulkPostedListings)
-            let bulkPostingListingsView = BulkPostingListingsView(viewModel: bulkPostingListingsViewModel)
+        if let bulkPostedListings = viewModel.bulkPostedListings, bulkPostedListings.count > 0 {
+            let images: [URL?] = bulkPostedListings.map { $0.thumbnail?.fileURL }
+            let bulkPostingListingsView = BulkPostingListingsView(images: images )
             self.bulkPostingListingsView = bulkPostingListingsView
-
             cameraGalleryContainer.addSubviewForAutoLayout(bulkPostingListingsView)
             cameraGalleryContainer.bringSubview(toFront: footerView)
             NSLayoutConstraint.activate([

@@ -32,7 +32,6 @@ final class VPPostListingRedCamFooter: UIView {
     }()
     private let infoButtonIncluded: Bool
     private var cameraButtonCenterXConstraint: NSLayoutConstraint?
-    private var recordVideoHintLabel = CameraTooltip()
     private var recordingTooltip = RecordingTooltip()
     private var isRecording: Bool = false
 
@@ -56,7 +55,7 @@ final class VPPostListingRedCamFooter: UIView {
     // MARK: - Overrides
 
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return [galleryButton, photoButton, videoButton, cameraButton, infoButton, doneButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
+        return [galleryButton, photoButton, videoButton, cameraButton, cameraTooltip, infoButton, doneButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
             let convertedPoint = view.convert(point, from: self)
             return result || (!view.isHidden && view.point(inside: convertedPoint, with: event))
         }
@@ -74,7 +73,7 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         videoButton.alpha = scroll
         newBadgeLabel.alpha = scroll
         infoButton.alpha = scroll
-        recordVideoHintLabel.alpha = scroll
+        cameraTooltip.alpha = scroll
         cameraTooltip.alpha = scroll
         doneButton.alpha = scroll
 
@@ -88,13 +87,7 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         photoButton.setTitleColor(UIColor.Camera.selectedPhotoVideoButton, for: .normal)
         videoButton.setTitleColor(UIColor.Camera.unselectedPhotoVideoButton, for: .normal)
         cameraButton.mode = .Photo
-        UIView.animate(withDuration: 0.5, animations: { [weak self] in
-            self?.recordVideoHintLabel.alpha = 0
-            self?.recordingTooltip.alpha = 0
-        }) { [weak self] (finished) in
-            self?.recordVideoHintLabel.isHidden = true
-            self?.recordingTooltip.isHidden = true
-        }
+        animate(view: recordingTooltip, toHidden: true, completion: nil)
     }
 
     func updateToVideoMode() {
@@ -102,18 +95,22 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         photoButton.setTitleColor(UIColor.Camera.unselectedPhotoVideoButton, for: .normal)
         videoButton.setTitleColor(UIColor.Camera.selectedPhotoVideoButton, for: .normal)
         cameraButton.mode = .Video
-        recordVideoHintLabel.alpha = 0
-        recordVideoHintLabel.isHidden = false
-        UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseIn, animations: { [weak self] in
-            self?.recordVideoHintLabel.alpha = 1
-        }, completion: nil)
+    }
+
+    func showTooltip(tooltipText: NSAttributedString?) {
+        cameraTooltip.label.attributedText = tooltipText
+        animate(view: cameraTooltip, toHidden: false, completion: nil)
+    }
+
+    func hideTooltip() {
+        animate(view: cameraTooltip, toHidden: true, completion: nil)
     }
 
     func startRecording() {
         guard !isRecording, let cameraButton = cameraButton as? CameraButton else { return }
         isRecording = true
         cameraButton.startRecording()
-        recordVideoHintLabel.isHidden = true
+        cameraTooltip.isHidden = true
     }
 
     func stopRecording() {
@@ -131,14 +128,20 @@ extension VPPostListingRedCamFooter: PostListingFooter {
 
         recordingTooltip.label.text = String(format: "0:%02d", Int(floor(recordingDuration)))
 
-        if recordingTooltip.isHidden {
-            recordingTooltip.isHidden = false
-            UIView.animate(withDuration: 0.5, animations: { [weak self] in
-                self?.recordVideoHintLabel.alpha = 0
-                self?.recordingTooltip.alpha = 1
-            }) { [weak self] (finished) in
-                self?.recordVideoHintLabel.isHidden = true
-            }
+        animate(view: cameraTooltip, toHidden: true, completion: nil)
+        animate(view: recordingTooltip, toHidden: false, completion: nil)
+    }
+
+    private func animate(view: UIView, toHidden hidden: Bool, completion: ((Bool) -> Void)?) {
+        guard hidden != view.isHidden else {
+            completion?(false)
+            return
+        }
+        let alpha: CGFloat = hidden ? 0.0 : 1.0
+        view.isHidden = !hidden
+        view.animateTo(alpha: alpha, duration: 0.3) { finished in
+            view.isHidden = hidden
+            completion?(finished)
         }
     }
 }
@@ -168,27 +171,14 @@ fileprivate extension VPPostListingRedCamFooter {
 
         infoButton.setImage(R.Asset.IconsButtons.info.image, for: .normal)
 
-        let highlightedText = R.Strings.productPostCameraVideoRecordingTooltipHighlightedWord
-        let hintText = R.Strings.productPostCameraVideoRecordingTooltip(highlightedText)
-        let hintNSString = NSString(string: hintText)
-        let range = hintNSString.range(of: highlightedText)
-        let attributues: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17),
-                                                          NSAttributedStringKey.foregroundColor: UIColor.white]
-        let hint = NSMutableAttributedString(string: hintText, attributes: attributues)
-
-        if range.location != NSNotFound {
-            hint.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.primaryColor, range: range)
-        }
-
-        recordVideoHintLabel.label.attributedText = hint
-        recordVideoHintLabel.label.numberOfLines = 0
-        recordVideoHintLabel.label.textAlignment = .center
+        cameraTooltip.label.numberOfLines = 0
+        cameraTooltip.label.textAlignment = .center
 
         recordingTooltip.label.font = UIFont.systemBoldFont(size: 21)
         recordingTooltip.label.textColor = UIColor.white
 
         addSubviewsForAutoLayout([galleryButton, doneButton, photoButton, videoButton, cameraButton, infoButton,
-                                  recordVideoHintLabel, recordingTooltip, newBadgeLabel])
+                                  cameraTooltip, recordingTooltip, newBadgeLabel])
     }
 
     func setupAccessibilityIds() {
@@ -243,9 +233,9 @@ fileprivate extension VPPostListingRedCamFooter {
 
         infoButton.isHidden = !infoButtonIncluded
 
-        recordVideoHintLabel.isHidden = true
-        recordVideoHintLabel.layout(with: cameraButton).above(by: -27).centerX()
-        recordVideoHintLabel.layout(with: self).leading(by: Metrics.margin, relatedBy: .greaterThanOrEqual)
+        cameraTooltip.isHidden = true
+        cameraTooltip.layout(with: cameraButton).above(by: -27).centerX()
+        cameraTooltip.layout(with: self).leading(by: Metrics.margin, relatedBy: .greaterThanOrEqual)
 
         recordingTooltip.isHidden = true
         recordingTooltip.layout(with: cameraButton).above(by: -50).centerX()
@@ -530,228 +520,5 @@ final class CameraButton: UIButton {
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-    }
-}
-
-final class CameraTooltip: UIView {
-
-    let label: UILabel = UILabel()
-    private let bubbleLayer: CAShapeLayer = CAShapeLayer()
-    private let bubbleCornerRadius: CGFloat = 10
-    private let arrowSize = CGSize(width: 24, height: 10)
-
-    init() {
-        super.init(frame: .zero)
-
-        setupUI()
-        setupAccessibilityIds()
-        setupLayout()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        bubbleLayer.path = UIBezierPath.bubblePath(for: bounds.size,
-                                                   arrowSize: arrowSize,
-                                                   cornerRadius: bubbleCornerRadius).cgPath
-    }
-
-    private func setupUI() {
-        bubbleLayer.fillColor = UIColor(white: 44/255, alpha: 0.95).cgColor
-        bubbleLayer.shadowColor = UIColor.black.cgColor
-        bubbleLayer.shadowRadius = 4
-        bubbleLayer.shadowOffset = CGSize(width: 0, height: 2)
-        bubbleLayer.shadowOpacity = 0.5
-        bubbleLayer.path = UIBezierPath.bubblePath(for: bounds.size,
-                                                   arrowSize: arrowSize,
-                                                   cornerRadius: bubbleCornerRadius).cgPath
-
-        layer.addSublayer(bubbleLayer)
-
-        addSubviewForAutoLayout(label)
-    }
-
-    private func setupAccessibilityIds() {
-
-    }
-
-    private func setupLayout() {
-        label.layout(with: self)
-            .top(by: Metrics.margin)
-            .left(by: Metrics.bigMargin)
-            .bottom(by: -(Metrics.margin + arrowSize.height))
-            .right(by: -Metrics.bigMargin)
-    }
-}
-
-final class RecordingTooltip: UIView {
-
-    let label: UILabel = UILabel()
-    let recordingIcon: RecordingIcon = RecordingIcon()
-    private let bubbleLayer: CAShapeLayer = CAShapeLayer()
-    private let bubbleCornerRadius: CGFloat = 10
-    private let arrowSize = CGSize(width: 24, height: 10)
-
-    init() {
-        super.init(frame: .zero)
-
-        setupUI()
-        setupAccessibilityIds()
-        setupLayout()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        bubbleLayer.path = UIBezierPath.bubblePath(for: bounds.size,
-                                                   arrowSize: arrowSize,
-                                                   cornerRadius: bubbleCornerRadius).cgPath
-    }
-
-    override var isHidden: Bool {
-        didSet {
-            if !isHidden {
-                recordingIcon.startAnimating()
-            } else {
-                recordingIcon.stopAnimating()
-            }
-        }
-    }
-
-
-    private func setupUI() {
-
-        layer.addSublayer(bubbleLayer)
-
-        bubbleLayer.fillColor = UIColor(white: 44/255, alpha: 0.95).cgColor
-        bubbleLayer.shadowColor = UIColor.black.cgColor
-        bubbleLayer.shadowRadius = 4
-        bubbleLayer.shadowOffset = CGSize(width: 0, height: 2)
-        bubbleLayer.shadowOpacity = 0.5
-        bubbleLayer.path = UIBezierPath.bubblePath(for: bounds.size,
-                                                   arrowSize: arrowSize,
-                                                   cornerRadius: bubbleCornerRadius).cgPath
-
-        recordingIcon.backgroundColor = UIColor.Camera.cameraButton
-
-        addSubviewsForAutoLayout([label, recordingIcon])
-    }
-
-    private func setupAccessibilityIds() {
-
-    }
-
-    private func setupLayout() {
-
-        recordingIcon.layout(with: self)
-            .leading(by: 9)
-
-        label.layout(with: self)
-            .top(by: 7)
-            .bottom(by: -(7 + arrowSize.height))
-            .trailing(by: -Metrics.shortMargin)
-
-        label.layout(with: recordingIcon)
-            .leading(to: .trailing , by: 6)
-            .centerY()
-    }
-
-    final class RecordingIcon: UIView {
-
-        static let size = CGSize(width: 12, height: 12)
-
-        init() {
-            super.init(frame: CGRect(origin: .zero, size: RecordingIcon.size))
-        }
-
-        required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-
-        override func layoutSubviews() {
-            super.layoutSubviews()
-            layer.cornerRadius = width/2
-        }
-
-        override var intrinsicContentSize: CGSize {
-            return RecordingIcon.size
-        }
-
-        func startAnimating() {
-            alpha = 1
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: [.autoreverse, .repeat], animations: { [weak self] in
-                self?.alpha = 0
-            }, completion: nil)
-        }
-
-        func stopAnimating() {
-            layer.removeAllAnimations()
-            alpha = 1
-        }
-    }
-}
-
-private extension UIBezierPath {
-
-    static func bubblePath(for contentSize: CGSize, arrowSize: CGSize, cornerRadius: CGFloat) -> UIBezierPath {
-
-        let topLeftCorner = CGPoint(x: 0, y: 0)
-        let topRightCorner = CGPoint(x: contentSize.width, y: 0)
-        let bottomRightCorner = CGPoint(x: contentSize.width, y: contentSize.height - arrowSize.height)
-        let bottomLeftCorner = CGPoint(x: 0, y: contentSize.height - arrowSize.height)
-        let rigthArrowCorner = CGPoint(x: contentSize.width / 2 + arrowSize.width / 2, y: bottomRightCorner.y)
-        let bottomArrowCorner = CGPoint(x: contentSize.width / 2, y: contentSize.height)
-        let leftArrowCorner = CGPoint(x: contentSize.width / 2 - arrowSize.width / 2, y: bottomRightCorner.y)
-
-        let arrowBaseCurveControlPointDistance: CGFloat = arrowSize.width / 3
-        let arrowTopCurveControlPointDistance: CGFloat = arrowBaseCurveControlPointDistance / 2
-
-        let bezierPath = UIBezierPath()
-
-        // Top left corner
-        bezierPath.move(to: CGPoint(x: topLeftCorner.x, y: cornerRadius))
-        bezierPath.addQuadCurve(to: CGPoint(x: topLeftCorner.x + cornerRadius, y: topLeftCorner.y),
-                                controlPoint: topLeftCorner)
-        // Top right corner
-        bezierPath.addLine(to: CGPoint(x: topRightCorner.x - cornerRadius, y: topRightCorner.y))
-        bezierPath.addQuadCurve(to: CGPoint(x: topRightCorner.x, y: topRightCorner.y + cornerRadius),
-                                controlPoint: topRightCorner)
-        // Bottom right corner
-        bezierPath.addLine(to: CGPoint(x: bottomRightCorner.x, y: bottomRightCorner.y - cornerRadius))
-        bezierPath.addQuadCurve(to: CGPoint(x: bottomRightCorner.x - cornerRadius, y: bottomRightCorner.y),
-                                controlPoint: bottomRightCorner)
-        // Arrow
-        bezierPath.addCurve(to: rigthArrowCorner,
-                            controlPoint1: bottomRightCorner,
-                            controlPoint2: CGPoint(x: rigthArrowCorner.x + arrowBaseCurveControlPointDistance, y: rigthArrowCorner.y))
-        bezierPath.addCurve(to: bottomArrowCorner,
-                            controlPoint1: CGPoint(x: rigthArrowCorner.x - arrowBaseCurveControlPointDistance, y: rigthArrowCorner.y),
-                            controlPoint2: CGPoint(x: bottomArrowCorner.x + arrowTopCurveControlPointDistance, y: bottomArrowCorner.y))
-        bezierPath.addCurve(to: leftArrowCorner,
-                            controlPoint1: CGPoint(x: bottomArrowCorner.x - arrowTopCurveControlPointDistance, y: bottomArrowCorner.y),
-                            controlPoint2: CGPoint(x: leftArrowCorner.x + arrowBaseCurveControlPointDistance, y: leftArrowCorner.y))
-        bezierPath.addCurve(to: CGPoint(x: bottomLeftCorner.x + cornerRadius, y: bottomLeftCorner.y),
-                            controlPoint1: CGPoint(x: leftArrowCorner.x - arrowBaseCurveControlPointDistance, y: leftArrowCorner.y),
-                            controlPoint2: bottomLeftCorner)
-        // Bottom left corner
-        bezierPath.addQuadCurve(to: CGPoint(x: bottomLeftCorner.x, y: bottomLeftCorner.y - cornerRadius),
-                                controlPoint: bottomLeftCorner)
-        bezierPath.close()
-
-        return bezierPath
-    }
-}
-
-extension CGRect {
-
-    static func centeredFrameWithSize(size: CGSize) -> CGRect {
-        let origin = CGPoint(x: -(size.width / 2), y: -(size.height / 2))
-        return CGRect(origin: origin, size: size)
     }
 }

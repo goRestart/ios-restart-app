@@ -11,7 +11,12 @@ final class PostListingRedCamButtonFooter: UIView {
     let newBadgeLabel = UILabel()
     let cameraButton = UIButton()
     let infoButton = UIButton()
-    let cameraTooltip: CameraTooltip = CameraTooltip()
+    let cameraTooltip: CameraTooltip = {
+        let tooltip = CameraTooltip()
+        tooltip.label.numberOfLines = 0
+        tooltip.label.textAlignment = .center
+        return tooltip
+    }()
     let doneButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .medium))
         button.setTitle("Done", for: .normal)
@@ -41,7 +46,7 @@ final class PostListingRedCamButtonFooter: UIView {
     // MARK: - Overrides
 
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {       
-        return [galleryButton, cameraButton, infoButton, doneButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
+        return [galleryButton, cameraButton, cameraTooltip, infoButton, doneButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
             let convertedPoint = view.convert(point, from: self)
             return result || (!view.isHidden && view.point(inside: convertedPoint, with: event))
         }
@@ -52,7 +57,7 @@ final class PostListingRedCamButtonFooter: UIView {
 // MARK: - PostListingFooter
 
 extension PostListingRedCamButtonFooter: PostListingFooter {
-    
+
     func startRecording() {
         // This view doesn't implement video posting, check VPPostListingRedCamFooter
     }
@@ -69,10 +74,24 @@ extension PostListingRedCamButtonFooter: PostListingFooter {
         // This view doesn't implement video posting, check VPPostListingRedCamFooter
     }
 
+    func showTooltip(tooltipText: NSAttributedString?) {
+        cameraTooltip.label.attributedText = tooltipText
+        cameraTooltip.alpha = 0
+        cameraTooltip.isHidden = false
+        cameraTooltip.animateTo(alpha: 1.0, duration: 0.3, completion: nil)
+    }
+
+    func hideTooltip() {
+        cameraTooltip.animateTo(alpha: 0.0, duration: 0.3) { (finished) in
+            self.cameraTooltip.isHidden = false
+        }
+    }
+
     func update(scroll: CGFloat) {
         galleryButton.alpha = scroll
         infoButton.alpha = scroll
         doneButton.alpha = scroll
+        cameraTooltip.alpha = scroll
         
         let rightOffset = cameraButton.frame.width/2 + Metrics.margin
         let movement = width/2 - rightOffset
@@ -95,7 +114,7 @@ fileprivate extension PostListingRedCamButtonFooter {
         cameraButton.setBackgroundImage(R.Asset.IconsButtons.icPostTakePhoto.image, for: .normal)
         
         infoButton.setImage(R.Asset.IconsButtons.info.image, for: .normal)
-        addSubviewsForAutoLayout([galleryButton, doneButton, cameraButton, infoButton])
+        addSubviewsForAutoLayout([galleryButton, doneButton, cameraButton, cameraTooltip, infoButton])
     }
     
     func setupAccessibilityIds() {
@@ -127,6 +146,9 @@ fileprivate extension PostListingRedCamButtonFooter {
             .top()
             .bottom(by: -Metrics.margin)
         cameraButton.layout().width(PostListingRedCamButtonFooter.cameraIconSide).widthProportionalToHeight()
+
+        cameraTooltip.layout(with: cameraButton).above(by: -Metrics.margin).centerX()
+        cameraTooltip.layout(with: self).leading(by: Metrics.margin, relatedBy: .greaterThanOrEqual)
 
         doneButton.layout(with: self)
             .trailing(by: -Metrics.margin)
