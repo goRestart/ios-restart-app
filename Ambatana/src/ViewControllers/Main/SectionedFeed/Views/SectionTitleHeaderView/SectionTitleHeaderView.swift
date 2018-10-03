@@ -10,10 +10,11 @@ final class SectionTitleHeaderView: UICollectionReusableView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
+        label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
         label.isOpaque = true
         label.textColor = Style.titleTextColor
         label.font = Style.titleFont
-        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -42,7 +43,8 @@ final class SectionTitleHeaderView: UICollectionReusableView {
     
     enum Layout {
         static let sideMargin: CGFloat = 15
-        static let titleWidthMultiplier: CGFloat = 0.6
+        static let titleWidthMultiplier: CGFloat = 0.65
+        static let verticalMargin: CGFloat = Metrics.shortMargin
         
         enum Hitbox {
             static let rightPadding: CGFloat = 14.0
@@ -54,6 +56,13 @@ final class SectionTitleHeaderView: UICollectionReusableView {
             static let leftMargin: CGFloat = 5.0
             static let height: CGFloat = 15.0
             static let width: CGFloat = 15.0
+        }
+        
+        static func headerSize(with title: String, containerWidth: CGFloat, maxLines: Int?) -> CGSize{
+            let height = title.heightForWidth(width: containerWidth,
+                                                     maxLines: maxLines,
+                                                     withFont: SectionTitleHeaderView.Style.titleFont)
+            return CGSize(width: containerWidth, height: height + 2 * Layout.verticalMargin)
         }
     }
 
@@ -73,6 +82,8 @@ final class SectionTitleHeaderView: UICollectionReusableView {
             titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Layout.sideMargin),
             titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: Layout.titleWidthMultiplier),
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Layout.verticalMargin),
+            titleLabel.bottomAnchor.constraint(equalTo: topAnchor, constant: -Layout.verticalMargin),
 
             hitboxArea.rightAnchor.constraint(equalTo: rightAnchor),
             hitboxArea.heightAnchor.constraint(equalToConstant: Layout.Hitbox.height),

@@ -59,7 +59,7 @@ extension LocationSectionController: ListSupplementaryViewSource {
                                                 fatalError()
         }
         view.configure(
-            with: locationObject?.locationString ?? R.Strings.productPopularNearYou,
+            with: locationText,
             buttonText: R.Strings.commonEdit,
             shouldShowSeeAllButton: shouldShowEdit)
         view.sectionHeaderDelegate = self
@@ -68,8 +68,13 @@ extension LocationSectionController: ListSupplementaryViewSource {
     
     func sizeForSupplementaryView(ofKind elementKind: String, at index: Int) -> CGSize {
         guard let context = collectionContext else { return .zero }
-        return CGSize(width: context.containerSize.width,
-                      height: SectionControllerLayout.fixTitleHeaderHeight)
+        return SectionTitleHeaderView.Layout.headerSize(with: locationText,
+                                                        containerWidth: context.containerSize.width,
+                                                        maxLines: SectionControllerLayout.sectionHeaderMaxLine)
+    }
+    
+    private var locationText: String {
+        return locationObject?.locationString ?? R.Strings.productPopularNearYou
     }
 }
 

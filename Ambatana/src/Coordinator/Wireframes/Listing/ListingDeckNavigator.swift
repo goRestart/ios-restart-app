@@ -3,7 +3,7 @@ import LGCoreKit
 protocol ListingDeckNavigator: class {
     func openFeaturedInfo()
     func openOnboarding()
-    func openListingDetail(_ listing: Listing, source: EventParameterListingVisitSource)
+    func openListingDetail(withVM listingViewModel: ListingCardViewModel, source: EventParameterListingVisitSource)
     func close()
 }
 
@@ -41,8 +41,8 @@ final class ListingDeckWireframe: ListingDeckNavigator {
         nc?.present(vc, animated: true)
     }
 
-    func openListingDetail(_ listing: Listing, source: EventParameterListingVisitSource) {
-        let vc = listingAssembly.buildListingDetail(for: listing, source: source)
+    func openListingDetail(withVM listingViewModel: ListingCardViewModel, source: EventParameterListingVisitSource) {
+        let vc = listingAssembly.buildListingDetail(withVM: listingViewModel, source: source)
         nc?.pushViewController(vc, animated: true)
     }
 

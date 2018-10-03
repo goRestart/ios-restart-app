@@ -142,9 +142,11 @@ extension HorizontalSectionController: ListSupplementaryViewSource {
     }
 
     func sizeForSupplementaryView(ofKind elementKind: String, at index: Int) -> CGSize {
-        guard let context = collectionContext else { return .zero }
-        return CGSize(width: context.containerSize.width,
-                      height: SectionControllerLayout.fixTitleHeaderHeight)
+        guard let context = collectionContext,
+            let title = listingHorizontalSectionModel?.title else { return .zero }
+        return SectionTitleHeaderView.Layout.headerSize(with: title,
+                                                        containerWidth: context.containerSize.width,
+                                                        maxLines: SectionControllerLayout.sectionHeaderMaxLine)
     }
 }
 

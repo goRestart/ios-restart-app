@@ -80,7 +80,7 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
              .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
             return category.name
         case .realEstate:
-            return featureFlags.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
+            return R.Strings.productPostSelectCategoryHousing
         case .services:
             if featureFlags.jobsAndServicesEnabled.isActive {
                 return R.Strings.postingFlowJobsAndServicesCategoryButtonText

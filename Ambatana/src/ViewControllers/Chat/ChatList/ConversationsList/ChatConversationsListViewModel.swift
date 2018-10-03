@@ -245,6 +245,14 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
             }
             .disposed(by: bag)
         
+        rx_filter
+            .asObservable()
+            .skip(1)
+            .bind { [weak self] filter in
+                self?.trackFilterChanged(filter)
+            }
+            .disposed(by: bag)
+        
         Observable.combineLatest(rx_wsChatStatus.asObservable(),
                                  rx_isReachable.asObservable())
             .asObservable()
@@ -460,6 +468,10 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
 
     // MARK: - Trackings
 
+    private func trackFilterChanged(_ filter: ChatConversationsListFilter) {
+        tracker.trackEvent(.chatFilterChanged(filter))
+    }
+    
     private func trackEmptyState(emptyViewModel: LGEmptyViewModel) {
         guard let emptyReason = emptyViewModel.emptyReason else { return }
         tracker.trackEvent(TrackerEvent.emptyStateVisit(typePage: .chatList,

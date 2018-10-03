@@ -142,6 +142,7 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
                 stateRelay.accept(.loading)
                 return
             }
+            trackBuyerOfferDetail()
             stateRelay.accept(.buyerInfoLoaded(offer: offer, listing: listing))
         case .seller:
             guard let listing = listing, let buyer = buyer else {
@@ -219,6 +220,12 @@ final class P2PPaymentsOfferStatusViewModel: BaseViewModel {
     private func trackCodeView() {
         guard let offer = offer, let listing = listing else { return }
         let trackerEvent = TrackerEvent.p2pPaymentsOfferStatusViewCode(offer: offer, listing: listing)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackBuyerOfferDetail() {
+        guard let offer = offer, let listing = listing else { return }
+        let trackerEvent = TrackerEvent.p2pPaymentsBuyerOfferReview(offer: offer, listing: listing)
         tracker.trackEvent(trackerEvent)
     }
 

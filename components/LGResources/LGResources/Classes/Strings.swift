@@ -28,7 +28,7 @@ extension R {
     public static func affiliationChallengesInviteFriendsMilestone(_ p1: String) -> String {
       return Strings.tr("Localizable", "affiliation_challenges_invite_friends_milestone", p1)
     }
-    /// Get a $60 Amazon Gift Card
+    /// Get a $30 Amazon Gift Card
     public static let affiliationChallengesInviteFriendsSubtitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_subtitle")
     /// INVITE YOUR FRIENDS
     public static let affiliationChallengesInviteFriendsTitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_title")
@@ -68,7 +68,7 @@ extension R {
     public static let affiliationInviteFriendsOthersButton = Strings.tr("Localizable", "affiliation_invite_friends_others_button")
     /// Invite via text
     public static let affiliationInviteFriendsSmsButton = Strings.tr("Localizable", "affiliation_invite_friends_sms_button")
-    /// Invite 3 friends to earn $10 when they start using letgo. Invite 10 friends and earn $50! \n\nYour friends will each get a $5 gift card, too.
+    /// Invite 3 friends to earn $5 when they start using letgo. Invite 10 friends and earn $25! \n\nYour friends will each get a $2 gift card, too.
     public static let affiliationInviteFriendsSubtitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_subtitle_label")
     /// Learn more
     public static let affiliationInviteFriendsTermsButton = Strings.tr("Localizable", "affiliation_invite_friends_terms_button")
@@ -76,11 +76,11 @@ extension R {
     public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
     /// Invite your friends
     public static let affiliationInviteFriendsTitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_title_label")
-    /// Join a community of local buyers and sellers on letgo! Sign up and get $5 when you get started:
+    /// Join a community of local buyers and sellers on letgo! Sign up and get $2 when you get started:
     public static let affiliationInviteMessageText = Strings.tr("Localizable", "affiliation_invite_message_text")
-    /// You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
+    /// You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $2 Amazon gift card when you get started
     public static let affiliationInviteMessageTextNoName = Strings.tr("Localizable", "affiliation_invite_message_text_no_name")
-    /// Since %@ invited you to use letgo, you could win a $5 Amazon gift card.
+    /// Since %@ invited you to use letgo, you could win a $2 Amazon gift card.
     public static func affiliationInviteOnboardingText(_ p1: String) -> String {
       return Strings.tr("Localizable", "affiliation_invite_onboarding_text", p1)
     }
@@ -102,9 +102,9 @@ extension R {
     public static let affiliationInviteSmsMessageError = Strings.tr("Localizable", "affiliation_invite_sms_message_error")
     /// Message sent!
     public static let affiliationInviteSmsMessageSent = Strings.tr("Localizable", "affiliation_invite_sms_message_sent")
-    /// Get up to $60 in Amazon gift cards
+    /// Get up to $30 in Amazon gift cards
     public static let affiliationMainFeedTooltipText = Strings.tr("Localizable", "affiliation_main_feed_tooltip_text")
-    /// $60 in Amazon gift cards
+    /// $30 in Amazon gift cards
     public static let affiliationMainFeedTooltipTextHighlighted = Strings.tr("Localizable", "affiliation_main_feed_tooltip_text_highlighted")
     /// Sell your stuff
     public static let affiliationOnboardingCountryErrorMainButton = Strings.tr("Localizable", "affiliation_onboarding_country_error_main_button")
@@ -144,11 +144,11 @@ extension R {
     public static let affiliationStoreRedeemGiftSuccessSubheadlineWithoutEmail = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_subheadline_without_email")
     /// Resend
     public static let affiliationStoreResendVoucher = Strings.tr("Localizable", "affiliation_store_resend_voucher")
-    /// $10 Amazon gift card
-    public static let affiliationStoreRewardsAmazon10 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_10")
     /// $5 Amazon gift card
+    public static let affiliationStoreRewardsAmazon10 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_10")
+    /// $2 Amazon gift card
     public static let affiliationStoreRewardsAmazon5 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_5")
-    /// $50 Amazon gift card
+    /// $25 Amazon gift card
     public static let affiliationStoreRewardsAmazon50 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_50")
     /// Rewards store
     public static let affiliationStoreTitle = Strings.tr("Localizable", "affiliation_store_title")
@@ -156,6 +156,8 @@ extension R {
     public static let affiliationStoreUnknownErrorMessage = Strings.tr("Localizable", "affiliation_store_unknown_error_message")
     /// History
     public static let affiliationStoreViewHistory = Strings.tr("Localizable", "affiliation_store_view_history")
+    /// No rewards in your history yet.
+    public static let affiliationStoreViewHistoryEmpty = Strings.tr("Localizable", "affiliation_store_view_history_empty")
     /// View rewards
     public static let affiliationWalletOpenStoreButton = Strings.tr("Localizable", "affiliation_wallet_open_store_button")
     /// PTS
@@ -2720,6 +2722,14 @@ extension R {
     public static let professionalDealerAskPhoneThanksOtherCellMessage = Strings.tr("Localizable", "professional_dealer_ask_phone_thanks_other_cell_message")
     /// Thanks for adding your phone number! It's always better to give us a call using the call button above.
     public static let professionalDealerAskPhoneThanksPhoneCellMessage = Strings.tr("Localizable", "professional_dealer_ask_phone_thanks_phone_cell_message")
+    /// Verification request sent!
+    public static let profileAskVerificationButtonDisabled = Strings.tr("Localizable", "profile_ask_verification_button_disabled")
+    /// Ask %@ to verify their profile
+    public static func profileAskVerificationButtonEnabled(_ p1: String) -> String {
+      return Strings.tr("Localizable", "profile_ask_verification_button_enabled", p1)
+    }
+    /// Ask to verify profile
+    public static let profileAskVerificationButtonEnabledShort = Strings.tr("Localizable", "profile_ask_verification_button_enabled_short")
     /// Add your bio
     public static let profileBioAddButton = Strings.tr("Localizable", "profile_bio_add_button")
     /// MORE ABOUT ME

@@ -941,7 +941,7 @@ class TrackerEventSpec: QuickSpec {
                 context("isLastSearch") {
                     context("success") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil, searchRelatedItems: false)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
                         }
                         it("has its event name") {
                             expect(sut.name.rawValue).to(equal("search-complete"))
@@ -972,7 +972,7 @@ class TrackerEventSpec: QuickSpec {
                     }
                     context("failure") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil, searchRelatedItems: false)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
                         }
                         it("search with no success") {
                             let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
@@ -983,7 +983,7 @@ class TrackerEventSpec: QuickSpec {
                 context("isSuggestiveSearch") {
                     context("success") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0, searchRelatedItems: false)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
                         }
                         it("has its event name") {
                             expect(sut.name.rawValue).to(equal("search-complete"))
@@ -1015,7 +1015,7 @@ class TrackerEventSpec: QuickSpec {
                     }
                     context("failure") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0, searchRelatedItems: false)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
                         }
                         it("search with no success") {
                             let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
@@ -1027,7 +1027,7 @@ class TrackerEventSpec: QuickSpec {
                 context("Shows SearchRelatedItems when search") {
                     context("Original search shows no result (unsuccessful) and show related items") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: false, suggestiveSearchIndex: 0, searchRelatedItems: true)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: false, suggestiveSearchIndex: 0)
                         }
                         it("has its event name") {
                             expect(sut.name.rawValue).to(equal("search-complete"))
@@ -1056,19 +1056,10 @@ class TrackerEventSpec: QuickSpec {
                             let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
                             expect(searchSuccess) == "no"
                         }
-                        
-                        it("searches for related items") {
-                            let searchRelated = sut.params!.stringKeyParams["search-related-items"] as? Bool
-                            expect(searchRelated) == true
-                        }
                     }
                     context("Original search shows no result (unsuccessful) and not showing related items") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0, searchRelatedItems: false)
-                        }
-                        it("doesnot search for related items") {
-                            let searchRelated = sut.params!.stringKeyParams["search-related-items"] as? Bool
-                            expect(searchRelated) == false
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
                         }
                     }
                 }
@@ -5204,14 +5195,14 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("chat-tab-open") {
                 beforeEach {
-                    sut = TrackerEvent.chatTabOpen(tabName: .selling)
+                    sut = TrackerEvent.chatFilterChanged(.all)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("chat-tab-open"))
                 }
                 it("contains tabName parameter") {
                     let param = sut.params!.stringKeyParams["tab-name"] as? String
-                    expect(param) == "selling"
+                    expect(param) == "all"
                 }
             }
             describe("app rating start") {
@@ -5880,6 +5871,1187 @@ class TrackerEventSpec: QuickSpec {
                 
                 it("has number-of-items") {
                     expect(sut.params!.stringKeyParams["number-of-items"] as? Int).to(be(numberOfDuplicates))
+                }
+            }
+
+            describe("P2P Payments") {
+                var chatConversation = MockChatConversation.makeMock()
+                chatConversation.objectId = "ABC123"
+                var user = MockUser.makeMock()
+                var offerFees = MockP2PPaymentOfferFees.makeMock()
+                offerFees.objectId = "ABC456"
+                var offer = MockP2PPaymentOffer.makeMock()
+                offer.objectId = "ABC789"
+                var listing = Listing.makeMock()
+
+                describe("Buyer make an offer start") {
+                    beforeEach {
+                        chatConversation.amISelling = false
+                        sut = TrackerEvent.p2pPaymentsMakeAnOfferStart(userId: user.objectId!,
+                                                                       chatConversation: chatConversation)
+                    }
+                    it("event name is p2p-buyer-offer-start") {
+                        expect(sut.name.rawValue) == "p2p-buyer-offer-start"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == chatConversation.listing?.objectId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == chatConversation.interlocutor?.objectId
+                    }
+                    it("has conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String) == chatConversation.objectId
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == chatConversation.listing?.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == chatConversation.listing?.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String).to(beNil())
+                    }
+                }
+
+                describe("Buyer make an offer onboarding") {
+                    beforeEach {
+                        chatConversation.amISelling = false
+                        sut = TrackerEvent.p2pPaymentsMakeAnOfferOnboardingStart(userId: user.objectId!,
+                                                                                 chatConversation: chatConversation)
+                    }
+                    it("event name is p2p-buyer-offer-onboard-start") {
+                        expect(sut.name.rawValue) == "p2p-buyer-offer-onboard-start"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == chatConversation.listing?.objectId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == chatConversation.interlocutor?.objectId
+                    }
+                    it("has conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String) == chatConversation.objectId
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == chatConversation.listing?.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == chatConversation.listing?.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String).to(beNil())
+                    }
+                }
+
+                describe("Buyer make an offer abandon") {
+                    beforeEach {
+                        chatConversation.amISelling = false
+                        sut = TrackerEvent.p2pPaymentsMakeAnOfferAbandon(userId: user.objectId!,
+                                                                         chatConversation: chatConversation,
+                                                                         offerFees: offerFees)
+                    }
+                    it("event name is p2p-buyer-offer-abandon") {
+                        expect(sut.name.rawValue) == "p2p-buyer-offer-abandon"
+                    }
+                    it("has abandon-step") {
+                        expect(sut.params!.stringKeyParams["abandon-step"] as? String) == "offer-edit"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == chatConversation.listing?.objectId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == chatConversation.interlocutor?.objectId
+                    }
+                    it("has conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String) == chatConversation.objectId
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == chatConversation.listing?.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == chatConversation.listing?.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String).to(beNil())
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offerFees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offerFees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offerFees.currency.code
+                    }
+                }
+
+                describe("Buyer make an offer onboarding abandon") {
+                    beforeEach {
+                        chatConversation.amISelling = false
+                        sut = TrackerEvent.p2pPaymentsMakeAnOfferOnboardingAbandon(userId: user.objectId!,
+                                                                                   chatConversation: chatConversation)
+                    }
+                    it("event name is p2p-buyer-offer-abandon") {
+                        expect(sut.name.rawValue) == "p2p-buyer-offer-abandon"
+                    }
+                    it("has abandon-step") {
+                        expect(sut.params!.stringKeyParams["abandon-step"] as? String) == "onboarding"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == chatConversation.listing?.objectId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == chatConversation.interlocutor?.objectId
+                    }
+                    it("has conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String) == chatConversation.objectId
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == chatConversation.listing?.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == chatConversation.listing?.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double).to(beNil())
+                    }
+                    it("does not contain offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String).to(beNil())
+                    }
+                }
+
+                describe("Buyer offer review") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsBuyerOfferReview(offer: offer, listing: listing)
+                    }
+                    it("event name is p2p-buyer-offer-review") {
+                        expect(sut.name.rawValue) == "p2p-buyer-offer-review"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == listing.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == listing.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Make an offer edit start") {
+                    beforeEach {
+                        chatConversation.amISelling = false
+                        sut = TrackerEvent.p2pPaymentsMakeAnOfferEditPriceStart(userId: user.objectId!,
+                                                                                chatConversation: chatConversation)
+                    }
+                    it("event name is p2p-buyer-offer-edit-start") {
+                        expect(sut.name.rawValue) == "p2p-buyer-offer-edit-start"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == chatConversation.listing?.objectId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == chatConversation.interlocutor?.objectId
+                    }
+                    it("has conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String) == chatConversation.objectId
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == chatConversation.listing?.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == chatConversation.listing?.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double).to(beNil())
+                    }
+                    it("does not contain offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String).to(beNil())
+                    }
+                }
+
+                describe("Make an offer edit cancel") {
+                    beforeEach {
+                        chatConversation.amISelling = false
+                        sut = TrackerEvent.p2pPaymentsMakeAnOfferEditPriceCancel(userId: user.objectId!,
+                                                                                 chatConversation: chatConversation)
+                    }
+                    it("event name is p2p-buyer-offer-edit-cancel") {
+                        expect(sut.name.rawValue) == "p2p-buyer-offer-edit-cancel"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == chatConversation.listing?.objectId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == chatConversation.interlocutor?.objectId
+                    }
+                    it("has conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String) == chatConversation.objectId
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == chatConversation.listing?.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == chatConversation.listing?.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double).to(beNil())
+                    }
+                    it("does not contain offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String).to(beNil())
+                    }
+                }
+
+                describe("Make an offer edit price complete") {
+                    beforeEach {
+                        chatConversation.amISelling = false
+                        sut = TrackerEvent.p2pPaymentsMakeAnOfferEditPriceComplete(userId: user.objectId!,
+                                                                                   chatConversation: chatConversation)
+                    }
+                    it("event name is p2p-buyer-offer-edit-complete") {
+                        expect(sut.name.rawValue) == "p2p-buyer-offer-edit-complete"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == chatConversation.listing?.objectId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == chatConversation.interlocutor?.objectId
+                    }
+                    it("has conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String) == chatConversation.objectId
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == chatConversation.listing?.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == chatConversation.listing?.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double).to(beNil())
+                    }
+                    it("does not contain offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String).to(beNil())
+                    }
+                }
+
+                describe("Make an offert payment start") {
+                    beforeEach {
+                        chatConversation.amISelling = false
+                        sut = TrackerEvent.p2pPaymentsMakeAnOfferPaymentStart(userId: user.objectId!,
+                                                                              chatConversation: chatConversation,
+                                                                              offerFees: offerFees)
+                    }
+                    it("event name is p2p-buyer-applepay-start") {
+                        expect(sut.name.rawValue) == "p2p-buyer-applepay-start"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == chatConversation.listing?.objectId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == chatConversation.interlocutor?.objectId
+                    }
+                    it("has conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String) == chatConversation.objectId
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == chatConversation.listing?.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == chatConversation.listing?.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String).to(beNil())
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offerFees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offerFees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offerFees.currency.code
+                    }
+                }
+
+                describe("Make an offert payment error") {
+                    var error: PaymentRequestError!
+                    beforeEach {
+                        error = PaymentRequestError.systemCanceled
+                        chatConversation.amISelling = false
+                        sut = TrackerEvent.p2pPaymentsMakeAnOfferPaymentError(userId: user.objectId!,
+                                                                              chatConversation: chatConversation,
+                                                                              offerFees: offerFees,
+                                                                              error: error)
+                    }
+                    it("event name is p2p-buyer-payment-abandon") {
+                        expect(sut.name.rawValue) == "p2p-buyer-payment-abandon"
+                    }
+                    it("has error-code") {
+                        expect(sut.params!.stringKeyParams["error-code"] as? String) == "system-canceled"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == chatConversation.listing?.objectId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == chatConversation.interlocutor?.objectId
+                    }
+                    it("has conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String) == chatConversation.objectId
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == chatConversation.listing?.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == chatConversation.listing?.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String).to(beNil())
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offerFees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offerFees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offerFees.currency.code
+                    }
+                }
+
+                describe("Make an offert payment complete") {
+                    beforeEach {
+                        chatConversation.amISelling = false
+                        sut = TrackerEvent.p2pPaymentsMakeAnOfferPaymentComplete(userId: user.objectId!,
+                                                                                 chatConversation: chatConversation,
+                                                                                 offerFees: offerFees)
+                    }
+                    it("event name is p2p-buyer-payment-confirmation") {
+                        expect(sut.name.rawValue) == "p2p-buyer-payment-confirmation"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == user.objectId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == chatConversation.listing?.objectId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == chatConversation.interlocutor?.objectId
+                    }
+                    it("has conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String) == chatConversation.objectId
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == chatConversation.listing?.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == chatConversation.listing?.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String).to(beNil())
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offerFees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offerFees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offerFees.currency.code
+                    }
+                }
+
+                describe("Buyer offer withdraw") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsOfferStatusWithdraw(offer: offer, listing: listing)
+                    }
+                    it("event name is p2p-buyer-offer-withdraw") {
+                        expect(sut.name.rawValue) == "p2p-buyer-offer-withdraw"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == listing.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == listing.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("does not contain offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Buyer offer view code") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsOfferStatusViewCode(offer: offer, listing: listing)
+                    }
+                    it("event name is p2p-buyer-code-view") {
+                        expect(sut.name.rawValue) == "p2p-buyer-code-view"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == listing.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == listing.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller offer detail") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsOfferStatusSeller(offer: offer, listing: listing)
+                    }
+                    it("event name is p2p-seller-offer-detail") {
+                        expect(sut.name.rawValue) == "p2p-seller-offer-detail"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == listing.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == listing.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller offer accept") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsOfferStatusSellerAccept(offer: offer, listing: listing)
+                    }
+                    it("event name is p2p-seller-offer-decide") {
+                        expect(sut.name.rawValue) == "p2p-seller-offer-decide"
+                    }
+                    it("has choice") {
+                        expect(sut.params!.stringKeyParams["choice"] as? String) == "accept"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == listing.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == listing.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller offer decline") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsOfferStatusSellerDecline(offer: offer, listing: listing)
+                    }
+                    it("event name is p2p-seller-offer-decide") {
+                        expect(sut.name.rawValue) == "p2p-seller-offer-decide"
+                    }
+                    it("has choice") {
+                        expect(sut.params!.stringKeyParams["choice"] as? String) == "decline"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == listing.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == listing.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller offer enter code") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsOfferStatusSellerEnterCode(offer: offer, listing: listing)
+                    }
+                    it("event name is p2p-seller-payout-start") {
+                        expect(sut.name.rawValue) == "p2p-seller-payout-start"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("has listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double) == listing.price.value
+                    }
+                    it("has listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String) == listing.currency.code
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller offer entered code") {
+                    let retries = 2
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsOfferSellerCodeEntered(offer: offer, retries: retries)
+                    }
+                    it("event name is p2p-seller-payout") {
+                        expect(sut.name.rawValue) == "p2p-seller-payout"
+                    }
+                    it("has step") {
+                        expect(sut.params!.stringKeyParams["step"] as? String) == "code-entry"
+                    }
+                    it("has retries") {
+                        expect(sut.params!.stringKeyParams["retries"] as? Int) == retries
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("does not contain listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String).to(beNil())
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller offer code correct") {
+                    let retries = 2
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsOfferSellerCodeCorrect(offer: offer, retries: retries)
+                    }
+                    it("event name is p2p-seller-payout") {
+                        expect(sut.name.rawValue) == "p2p-seller-payout"
+                    }
+                    it("has step") {
+                        expect(sut.params!.stringKeyParams["step"] as? String) == "code-correct"
+                    }
+                    it("has retries") {
+                        expect(sut.params!.stringKeyParams["retries"] as? Int) == retries
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("does not contain listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String).to(beNil())
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller offer code incorrect") {
+                    let retries = 2
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsOfferSellerCodeIncorrect(offer: offer, retries: retries)
+                    }
+                    it("event name is p2p-seller-payout-error") {
+                        expect(sut.name.rawValue) == "p2p-seller-payout-error"
+                    }
+                    it("has retries") {
+                        expect(sut.params!.stringKeyParams["retries"] as? Int) == retries
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("does not contain listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String).to(beNil())
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller payout info entered") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsPayoutUserInfoEntered(offer: offer)
+                    }
+                    it("event name is p2p-seller-payout-signup") {
+                        expect(sut.name.rawValue) == "p2p-seller-payout-signup"
+                    }
+                    it("has step") {
+                        expect(sut.params!.stringKeyParams["step"] as? String) == "user-details"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("does not contain listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String).to(beNil())
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller payout info error") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsPayoutUserInfoError(offer: offer)
+                    }
+                    it("event name is p2p-seller-payout-signup-error") {
+                        expect(sut.name.rawValue) == "p2p-seller-payout-signup-error"
+                    }
+                    it("has step") {
+                        expect(sut.params!.stringKeyParams["step"] as? String) == "user-details"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("does not contain listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String).to(beNil())
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller payout bank account entered") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsPayoutBankAccountEntered(offer: offer)
+                    }
+                    it("event name is p2p-seller-payout-signup") {
+                        expect(sut.name.rawValue) == "p2p-seller-payout-signup"
+                    }
+                    it("has step") {
+                        expect(sut.params!.stringKeyParams["step"] as? String) == "bank-account-edit"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("does not contain listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String).to(beNil())
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller payout bank account error") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsPayoutBankAccountError(offer: offer)
+                    }
+                    it("event name is p2p-seller-payout-signup-error") {
+                        expect(sut.name.rawValue) == "p2p-seller-payout-signup-error"
+                    }
+                    it("has step") {
+                        expect(sut.params!.stringKeyParams["step"] as? String) == "bank-account-edit"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("does not contain listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String).to(beNil())
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller payout credit card entered") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsPayoutDebitCardEntered(offer: offer)
+                    }
+                    it("event name is p2p-seller-payout-signup") {
+                        expect(sut.name.rawValue) == "p2p-seller-payout-signup"
+                    }
+                    it("has step") {
+                        expect(sut.params!.stringKeyParams["step"] as? String) == "credit-card-edit"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("does not contain listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String).to(beNil())
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
+                }
+
+                describe("Seller payout credit card error") {
+                    beforeEach {
+                        sut = TrackerEvent.p2pPaymentsPayoutDebitCardError(offer: offer)
+                    }
+                    it("event name is p2p-seller-payout-signup-error") {
+                        expect(sut.name.rawValue) == "p2p-seller-payout-signup-error"
+                    }
+                    it("has step") {
+                        expect(sut.params!.stringKeyParams["step"] as? String) == "credit-card-edit"
+                    }
+                    it("has buyer-id") {
+                        expect(sut.params!.stringKeyParams["buyer-id"] as? String) == offer.buyerId
+                    }
+                    it("has listing-id") {
+                        expect(sut.params!.stringKeyParams["product-id"] as? String) == offer.listingId
+                    }
+                    it("has seller-id") {
+                        expect(sut.params!.stringKeyParams["seller-id"] as? String) == offer.sellerId
+                    }
+                    it("does not contain conversation-id") {
+                        expect(sut.params!.stringKeyParams["conversation-id"] as? String).to(beNil())
+                    }
+                    it("does not contain listing-price") {
+                        expect(sut.params!.stringKeyParams["product-price"] as? Double).to(beNil())
+                    }
+                    it("does not contain listing-currency") {
+                        expect(sut.params!.stringKeyParams["product-currency"] as? String).to(beNil())
+                    }
+                    it("does not contain category-id") {
+                        expect(sut.params!.stringKeyParams["category-id"] as? String).to(beNil())
+                    }
+                    it("has offer-id") {
+                        expect(sut.params!.stringKeyParams["offer-id"] as? String) == offer.objectId
+                    }
+                    it("has offer-price") {
+                        expect(sut.params!.stringKeyParams["offer-price"] as? Double) == (offer.fees.amount as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-seller-fee") {
+                        expect(sut.params!.stringKeyParams["offer-seller-fee"] as? Double) == (offer.fees.serviceFee as NSDecimalNumber).doubleValue
+                    }
+                    it("has offer-currency") {
+                        expect(sut.params!.stringKeyParams["offer-currency"] as? String) == offer.fees.currency.code
+                    }
                 }
             }
             

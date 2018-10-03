@@ -814,7 +814,9 @@ extension FeedViewModel: ListingActionDelegate {
                 strSelf.openChat(withData: chatDetailData)
                 return
             }
-            strSelf.handleCancellableInterestedAction(listing, sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo, completion: completion)
+            strSelf.handleCancellableInterestedAction(listing,
+                                                      sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo,
+                                                      completion: completion)
         }
     }
     
@@ -853,6 +855,7 @@ extension FeedViewModel: ListingActionDelegate {
             .set(typePage: .listingList)
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: false)
+            .set(typePage: .feed)
         tracker.trackEvent(.userMessageSent(info: trackingInfo, isProfessional: nil))
         chatWrapper.sendMessageFor(listing: listing, type: type) { [weak self] isFirstMessage in
             let isFirstMessage = isFirstMessage.value ?? false

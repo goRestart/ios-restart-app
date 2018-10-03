@@ -21,7 +21,7 @@ final class ListingDeckViewControllerBinder {
         bindChat(withViewController: viewController, viewModel: viewModel,
                  listingDeckView: listingDeckView, disposeBag: currentDB)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
-        bindActionButtonTap(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindActionButtonTap(withViewModel: viewModel, controller: viewController, disposeBag: currentDB)
         bindBumpUps(withViewModel: viewModel, viewController: viewController, listingDeckView: listingDeckView, disposeBag: currentDB)
     }
 
@@ -29,7 +29,7 @@ final class ListingDeckViewControllerBinder {
                              listingDeckView: ListingDeckView,
                              disposeBag: DisposeBag) {
         guard let deckVC = listingDeckViewController else { return }
-        viewModel.rx.actionButtons.map { return $0.first }
+        viewModel.rx.actionButton
             .bind(to: deckVC.rx.action)
             .disposed(by: disposeBag)
 
@@ -41,9 +41,9 @@ final class ListingDeckViewControllerBinder {
     }
 
     private func bindActionButtonTap(withViewModel viewModel: ListingDeckViewModel,
-                                     listingDeckView: ListingDeckView?,
+                                     controller: ListingDeckViewController,
                                      disposeBag: DisposeBag) {
-        listingDeckView?.rx.actionButton
+        controller.rx.actionButton
             .tap
             .bind { [weak viewModel] in
             viewModel?.didTapActionButton()
@@ -55,7 +55,7 @@ final class ListingDeckViewControllerBinder {
                              listingDeckView: ListingDeckView,
                              disposeBag: DisposeBag) {
         let didEndDecelerating = listingDeckView.rx.collectionView.didEndDecelerating
-        let bumpUp = viewModel.bumpUpBannerInfo.asObservable().share()
+        let bumpUp = viewModel.rx.bumpUpBannerInfo.share()
         let willBeginDragging = listingDeckView.rx.collectionView.willBeginDragging
 
         bumpUp
@@ -103,21 +103,25 @@ final class ListingDeckViewControllerBinder {
         let pageSignal: Observable<Int> = viewController.rx.contentOffset.map { [weak listingDeckView] _ in
             return listingDeckView?.currentPage ?? 0
         }
-        pageSignal.skip(1).distinctUntilChanged().bind { [weak viewModel, weak viewController] page in
-            viewController?.didMoveToItemAtIndex(page)
-            if let currentIndex = viewModel?.currentIndex, currentIndex < page {
-                viewModel?.moveToListingAtIndex(page, movement: .swipeRight)
-                viewController?.presentInterstitialAtIndex(page)
-            } else if let currentIndex = viewModel?.currentIndex, currentIndex > page {
-                viewModel?.moveToListingAtIndex(page, movement: .swipeLeft)
-            }
+        pageSignal
+            .skip(1)
+            .distinctUntilChanged()
+            .bind { [weak viewModel, weak viewController] page in
+                if let currentIndex = viewModel?.currentIndex, currentIndex < page {
+                    viewModel?.moveToListingAtIndex(page, movement: .swipeRight)
+                    viewController?.presentInterstitialAtIndex(page)
+                } else if let currentIndex = viewModel?.currentIndex, currentIndex > page {
+                    viewModel?.moveToListingAtIndex(page, movement: .swipeLeft)
+                }
+                viewController?.didMoveToItemAtIndex(page)
         }.disposed(by: disposeBag)
     }
 
     private func bindChat(withViewController viewController: ListingDeckViewController,
-                          viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView,
+                          viewModel: ListingDeckViewModel,
+                          listingDeckView: ListingDeckView,
                           disposeBag: DisposeBag) {
-        let offset: Observable<CGPoint> = viewController.rx.contentOffset.share()
+        let offset: Observable<CGPoint> = viewController.rx.contentOffset
 
         offset.skip(1)
             .bind { [weak viewModel] _ in
@@ -134,11 +138,15 @@ final class ListingDeckViewControllerBinder {
 
         normalized.bind(to: viewController.rx.navBarAlpha).disposed(by: disposeBag)
 
-        Observable.combineLatest(normalized, viewModel.rx.isMine) { ($0, $1) }.map { (alpha, isMine) in
+        Observable
+            .combineLatest(normalized, viewModel.rx.isMine)
+            .map { (alpha, isMine) in
             return isMine ? 0 : alpha
         }.bind(to: viewController.rx.chatAlpha).disposed(by: disposeBag)
 
-        Observable.combineLatest(normalized, viewModel.rx.isMine) { ($0, $1) }.map { (alpha, isMine) in
+        Observable
+            .combineLatest(normalized, viewModel.rx.isMine)
+            .map { (alpha, isMine) in
             return isMine ? alpha : 0
         }.bind(to: viewController.rx.actionsAlpha).disposed(by: disposeBag)
     }

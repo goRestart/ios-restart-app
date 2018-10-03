@@ -63,10 +63,15 @@ final class AffiliationStoreErrorView: UIView {
         ].activate()
     }
 
-    func populate(message: String, image: UIImage, action: UIAction) {
+    func populate(message: String, image: UIImage, action: UIAction?) {
         messageLabel.text = message
         imageView.image = image
-        retryButton.configureWith(uiAction: action)
+        if let action = action {
+            retryButton.configureWith(uiAction: action)
+            retryButton.isHidden = false
+        } else {
+            retryButton.isHidden = true
+        }
         self.cta = action
         retryButton.addTarget(self, action: #selector(didTapRetry), for: .touchUpInside)
     }

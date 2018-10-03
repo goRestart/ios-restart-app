@@ -154,6 +154,10 @@ final class ChatViewController: TextViewController {
         guard let message = textView.text else { return }
         viewModel.send(text: message)
     }
+    
+    override func letsMeetButtonPressed() {
+        viewModel.onMeetingAssistantPressed()
+    }
 
     /**
      TextViewController Caches the text in the textView if you close the view before sending

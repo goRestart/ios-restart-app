@@ -1,6 +1,6 @@
 "account_pending_moderation" = "Conta pendente de moderação";
 "account_pending_moderation_w_name" = "A conta de %@ está pendente de moderação";
-"advertising_default_cta" = "Read more";
+"advertising_default_cta" = "Ler mais";
 "advertising_text" = "Anúncio";
 "affiliation_challenges_invite_friends_button" = "Convidar Amigos";
 "affiliation_challenges_invite_friends_description" = "Invite %1$@ friends to earn %2$@ points. Invite %3$@ more friends and earn %4$@ more points!";
@@ -62,6 +62,7 @@
 "affiliation_store_title" = "Loja de recompensas";
 "affiliation_store_unknown_error_message" = "Ups! Surgiu um erro ao carregar as recompensas.";
 "affiliation_store_view_history" = "Histórico";
+"affiliation_store_view_history_empty" = "Ainda não tem recompensas no seu histórico.";
 "affiliation_wallet_open_store_button" = "Ver recompensas";
 "affiliation_wallet_points_label" = "PTS";
 "affiliation_wallet_title" = "A SUA CARTEIRA";
@@ -834,9 +835,9 @@
 "payment_frequency_per_year" = "ano";
 "payment_payout_navbar_title" = "Pagamento";
 "payment_payout_payment_availability" = "Receba o dinheiro em %@";
-"payment_payout_payment_fee" = "Taxa de transação (%@)";
+"payment_payout_payment_fee" = "Transaction fee (%@)";
 "payment_payout_payment_instant_subtitle_label" = "Receba o dinheiro em menos de 1 hora";
-"payment_payout_payment_instant_title_label" = "Taxa de transação";
+"payment_payout_payment_instant_title_label" = "Taxa de transação (%1$@) — %2$@";
 "payment_payout_payment_standar_subtitle_label" = "Receba o dinheiro em 3-7 dias";
 "payment_payout_payment_standar_title_label" = "GRÁTIS";
 "payment_payout_payment_type_instant" = "Pagamento rápido";
@@ -846,7 +847,7 @@
 "payments_change_offer_confirmation_button" = "Defina uma nova oferta";
 "payments_change_offer_invalid_amount_alert_button" = "Ok";
 "payments_change_offer_invalid_amount_alert_message" = "Ups! a sua oferta deve ser entre %@ e %@.";
-"payments_common_contact_us_option" = "Contact us";
+"payments_common_contact_us_option" = "Contacte-nos";
 "payments_common_faqs_option" = "FAQ";
 "payments_create_offer_buyer_protection_description_label" = "Page através do letgo e os seus fundos só serão transferidos para o vendedor quando confirmar de que pretende ficar com o artigo";
 "payments_create_offer_buyer_protection_title_label" = "Proteção do Comprador";
@@ -1237,6 +1238,9 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Inserir número de telefone";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Obrigado por nos contactar! Ligue-nos ou deixe o seu número de telefone para podermos nós entrar em contacto.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Obrigado por adicionar o seu número de telefone! É sempre preferível ligar-nos através do botão de chamada acima indicado.";
+"profile_ask_verification_button_disabled" = "Pedido de verificação enviado!";
+"profile_ask_verification_button_enabled" = "Peça a %@ que verifique o seu perfil";
+"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
 "profile_bio_add_button" = "Adicione a sua biografia";
 "profile_bio_show_more_button" = "MAIS SOBRE MIM";
 "profile_blocked_by_me_label" = "Bloqueou este utilizador";
