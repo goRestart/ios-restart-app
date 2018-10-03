@@ -25,7 +25,7 @@ final class LGReportingRepository: ReportingRepository {
         }
     }
 
-    func createUserReport(to userId: String, reason: String, comment: String, completion: ReportingEmptyCompletion?) {
+    func createUserReport(to userId: String, reason: String, comment: String?, completion: ReportingEmptyCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
             completion?(Result<Void, RepositoryError>(error: .internalError(message: "Missing MyUser objectId")))
             return
@@ -35,7 +35,7 @@ final class LGReportingRepository: ReportingRepository {
         }
     }
 
-    func createListingReport(to listingId: String, reason: String, comment: String, completion: ReportingEmptyCompletion?) {
+    func createListingReport(to listingId: String, reason: String, comment: String?, completion: ReportingEmptyCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
             completion?(Result<Void, RepositoryError>(error: .internalError(message: "Missing MyUser objectId")))
             return

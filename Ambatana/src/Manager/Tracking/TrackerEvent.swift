@@ -1014,6 +1014,19 @@ struct TrackerEvent {
         params[.shownReason] = shownReason.rawValue
         return TrackerEvent(name: .chatRelatedItemsStart, params: params)
     }
+    
+    static func chatFilterChanged(_ filter: ChatConversationsListFilter) -> TrackerEvent {
+        var params = EventParameters()
+        switch filter {
+        case .all:
+            params[.chatTabName] = EventParameterChatTabName.all.rawValue
+        case .buying:
+            params[.chatTabName] = EventParameterChatTabName.buying.rawValue
+        case .selling:
+            params[.chatTabName] = EventParameterChatTabName.selling.rawValue
+        }
+        return TrackerEvent(name: .chatTabOpen, params: params)
+    }
 
     static func chatRelatedItemsComplete(_ itemPosition: Int, shownReason: EventParameterRelatedShownReason) -> TrackerEvent {
         var params = EventParameters()
@@ -1550,12 +1563,7 @@ struct TrackerEvent {
         params[.chatEnabled] = chatEnabled
         return TrackerEvent(name: .chatWindowVisit, params: params)
     }
-
-    static func chatTabOpen(tabName: EventParameterChatTabName) -> TrackerEvent {
-        var params = EventParameters()
-        params[.chatTabName] = tabName.rawValue
-        return TrackerEvent(name: .chatTabOpen, params: params)
-    }
+ 
     
     static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterEmptyReason,
                                 errorCode:Int?, errorDescription: String?) -> TrackerEvent {

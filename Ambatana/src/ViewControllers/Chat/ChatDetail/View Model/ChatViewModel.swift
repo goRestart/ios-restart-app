@@ -2,50 +2,7 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 import RxCocoa
-
-protocol ChatViewModelDelegate: BaseViewModelDelegate {
-
-    func vmDidFailRetrievingChatMessages()
-    
-    func vmDidPressReportUser(_ reportUserViewModel: ReportUsersViewModel)
-
-    func vmDidRequestSafetyTips()
-
-    func vmDidSendMessage()
-    func vmDidEndEditing(animated: Bool)
-    func vmDidBeginEditing()
-    
-    func vmDidRequestShowPrePermissions(_ type: PrePermissionType)
-    func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
-
-    func vmAskPhoneNumber()
-}
-
-struct EmptyConversation: ChatConversation {
-    var objectId: String?
-    var unreadMessageCount: Int = 0
-    var lastMessageSentAt: Date? = nil
-    var listing: ChatListing? = nil
-    var interlocutor: ChatInterlocutor? = nil
-    var amISelling: Bool
-    var interlocutorIsTyping = Variable<Bool>(false)
-    
-    init(objectId: String?,
-         unreadMessageCount: Int,
-         lastMessageSentAt: Date?,
-         amISelling: Bool,
-         listing: ChatListing?,
-         interlocutor: ChatInterlocutor?) {
-        
-        self.objectId = objectId
-        self.unreadMessageCount = unreadMessageCount
-        self.lastMessageSentAt = lastMessageSentAt
-        self.listing = listing
-        self.interlocutor = interlocutor
-        self.amISelling = amISelling
-    }
-}
-
+ 
 struct InterlocutorProfessionalInfo {
     var isProfessional: Bool
     var phoneNumber: String?
@@ -592,8 +549,7 @@ class ChatViewModel: ChatBaseViewModel {
             .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
         
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
-                                        relatedListingsState.asObservable(),
-                                        resultSelector: { chatEnabled, relatedState in
+                                        relatedListingsState.asObservable(), Observable.just(isUserDummy)) { chatEnabled, relatedState, isUserDummy in
  
                                             let shouldEnableCustomQuestionsForOpenChatFromProfile = self.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers
                                                 && (self.conversation.value.listing?.isFakeListing ?? false)
@@ -604,15 +560,15 @@ class ChatViewModel: ChatBaseViewModel {
                                                 }
                                                 return .visible
                                             }
-                                            
+           
                                             switch relatedState {
                                             case .loading, .visible:
                                                 return .notAvailable
                                             case .hidden:
-                                                guard chatEnabled else { return .notAvailable }
-                                                return .visible
+                                                if chatEnabled || isUserDummy { return .visible }
+                                                return .notAvailable
                                             }
-                                        }).distinctUntilChanged()
+                                        }.distinctUntilChanged()
         directAnswers.bind(to: directAnswersState).disposed(by: disposeBag)
 
         interlocutorId.asObservable().bind { [weak self] interlocutorId in
@@ -1962,7 +1918,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         return !messages.value.filter {
             if case .userInfo(_) = $0.type { return false }
             return true
-        }.isEmpty
+        }.isEmpty && !isUserDummy
     }
     /*
      Quick answers priorities:
@@ -1984,12 +1940,16 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
 
         if let lastMessage = messages.value.first,
             let userId = myUserRepository.myUser?.objectId,
-            lastMessage.talkerId != userId,
-            let quickAnswers = QuickAnswer.quickAnswersForChatMessage(chatViewMessage: lastMessage) {
+            let quickAnswers = QuickAnswer.quickAnswersForChatMessage(chatViewMessage: lastMessage),
+            lastMessage.talkerId != userId {
             return quickAnswers
-        } else if let sqa = smartQuickAnswers {
-            return QuickAnswer.quickAnswers(for: sqa)
-        } else if !isUserDummy {
+        }
+        
+        if let smartQuickAnswers = smartQuickAnswers {
+            return QuickAnswer.quickAnswers(for: smartQuickAnswers)
+        }
+        
+        if !isUserDummy {
             let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
             let isBuyer = !conversation.value.amISelling
             return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer,
@@ -1997,6 +1957,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
                                                        chatNorrisABtestVersion: featureFlags.chatNorris,
                                                        letsMeetIsInsideBar: featureFlags.shouldMoveLetsMeetAction)
         }
+    
         return []
     }
 

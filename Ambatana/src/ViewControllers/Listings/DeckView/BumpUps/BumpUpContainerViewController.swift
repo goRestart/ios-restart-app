@@ -2,9 +2,16 @@ import RxSwift
 import RxCocoa
 
 final class BumpUpContainerViewController: UIViewController {
+    private enum Layout {
+        static let bannerHeight: CGFloat = 64
+    }
     private let bumpUpBanner = BumpUpBanner()
+    private var bannerHeight: NSLayoutConstraint?
+
     private var isOpen: Bool = false
     private var topConstraint: NSLayoutConstraint?
+
+    weak var bumpDelegate: BumpUpBannerBoostDelegate?
 
     private let disposeBag = DisposeBag()
     fileprivate let bumpHeightRelay = BehaviorRelay<CGFloat>(value: 0)
@@ -28,14 +35,20 @@ final class BumpUpContainerViewController: UIViewController {
 
     private func setupBumpUpBanner() {
         view.addSubviewForAutoLayout(bumpUpBanner)
+        let height = bumpUpBanner.heightAnchor.constraint(equalToConstant: Layout.bannerHeight)
         let top = bumpUpBanner.topAnchor.constraint(equalTo: view.bottomAnchor)
         [
+            height,
+            top,
             bumpUpBanner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bumpUpBanner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            top,
-            bumpUpBanner.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor)
+            bumpUpBanner.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor),
+            view.heightAnchor.constraint(equalTo: bumpUpBanner.heightAnchor)
         ].activate()
+        self.bannerHeight = height
         self.topConstraint = top
+
+        bumpUpBanner.delegate = self
     }
 
     func closeBumpUpBanner(animated: Bool) {
@@ -46,17 +59,19 @@ final class BumpUpContainerViewController: UIViewController {
             topConstraint?.constant = 0
         }
         bumpHeightRelay.accept(0)
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: animated ? 0.3 : 0) {
             self.bumpUpBanner.alpha = 0
             self.view.layoutIfNeeded()
         }
     }
 
     private func showBumpUp(animated: Bool) {
+        let height = bumpUpBanner.type.height
+        defer { bumpHeightRelay.accept(height) }
+        guard !isOpen else { return }
         isOpen = true
-        topConstraint?.constant = -bumpUpBanner.intrinsicContentSize.height
-        bumpHeightRelay.accept(-bumpUpBanner.intrinsicContentSize.height)
-        UIView.animate(withDuration: 0.3) {
+        topConstraint?.constant = -height
+        UIView.animate(withDuration: animated ? 0.3 : 0) {
             self.bumpUpBanner.alpha = 1
             self.view.layoutIfNeeded()
         }
@@ -64,15 +79,35 @@ final class BumpUpContainerViewController: UIViewController {
 
     fileprivate func update(with bumpInfo: BumpUpInfo?) {
         guard let bumpUp = bumpInfo else {
-            closeBumpUpBanner(animated: true)
+            closeBumpUpBanner(animated: false)
             return
         }
-
+        if bumpUpBanner.type != bumpUp.type {
+            updateBannerHeightFor(type: bumpUp.type)
+        }
         bumpUpBanner.updateInfo(info: bumpUp)
         // TODO: Check the best way to track this 🤔
 //        listingViewModel.bumpUpBannerShown(bumpInfo: bumpUp)
-        guard !isOpen else { return }
         showBumpUp(animated: true)
+    }
+
+    private func updateBannerHeightFor(type: BumpUpType) {
+        bannerHeight?.constant = type.height
+        UIView.animate(withDuration: 0.3,
+                       animations: {
+                        self.view.layoutIfNeeded()
+        })
+    }
+}
+
+extension BumpUpContainerViewController: BumpUpBannerBoostDelegate {
+    func bumpUpTimerReachedZero() {
+        closeBumpUpBanner(animated: true)
+        bumpDelegate?.bumpUpTimerReachedZero()
+    }
+
+    func updateBoostBannerFor(type: BumpUpType) {
+        updateBannerHeightFor(type: type)
     }
 }
 
@@ -84,6 +119,6 @@ extension Reactive where Base: BumpUpContainerViewController {
     }
 
     var bumpBannerHeight: Driver<CGFloat> {
-        return base.bumpHeightRelay.asDriver().skip(1)
+        return base.bumpHeightRelay.asDriver()
     }
 }

@@ -1,7 +1,7 @@
 enum ReportingRouter: URLRequestAuthenticable {
 
-    private static let userReportURL = "/users-reports"
-    private static let listingReportURL = "/listings-reports"
+    private static let userReportURL = "/api/users-reports"
+    private static let listingReportURL = "/api/listings-reports"
 
     case showUserReport(id: String)
     case showListingReport(id: String)
