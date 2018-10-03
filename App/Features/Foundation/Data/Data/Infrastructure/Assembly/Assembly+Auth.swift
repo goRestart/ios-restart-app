@@ -5,25 +5,27 @@ import Core
 extension Assembly {
   public var authRepository: AuthRepository {
     return AuthRepository(
-      firebaseDataSource: authFirebaseDataSource
+      firebaseDataSource: authApiDataSource
     )
   }
-  private var authFirebaseDataSource: AuthDataSource {
-    return AuthFirebaseDataSource(
-      signInUserFirebaseAction: signInUserFirebaseAction
+  private var authApiDataSource: AuthDataSource {
+    return AuthApiDataSource(
+      signInUserAction: signInUserAction
     )
   }
   
   // MARK: - Action
   
-  private var signInUserFirebaseAction: SignInUserFirebaseAction {
-    return SignInUserFirebaseAction(
-      errorAdapter: signInUserFirebaseErrorAdapter
+  private var signInUserAction: SignInUserAction {
+    return SignInUserAction(
+      provider: moyaProvider(),
+      errorAdapter: signInUserErrorAdapter,
+      authTokenStorage: authTokenStorage
     )
   }
   
-  private var signInUserFirebaseErrorAdapter: SignInUserFirebaseErrorAdapter {
-    return SignInUserFirebaseErrorAdapter()
+  private var signInUserErrorAdapter: SignInUserErrorAdapter {
+    return SignInUserErrorAdapter()
   }
 }
 
