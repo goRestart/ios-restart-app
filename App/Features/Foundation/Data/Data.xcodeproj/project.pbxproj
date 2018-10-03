@@ -45,6 +45,9 @@
 		2E71A8EB213157D6009D24A9 /* ProductExtraMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8EA213157D6009D24A9 /* ProductExtraMapper.swift */; };
 		2E71A8ED21315C2D009D24A9 /* ProductRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8EC21315C2D009D24A9 /* ProductRepository.swift */; };
 		2E7CD0AA2163EC7C00148C89 /* AuthTokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7CD0A92163EC7C00148C89 /* AuthTokenStorage.swift */; };
+		2E859AB62165314200DB8920 /* AuthTokenPluginSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E859AB52165314200DB8920 /* AuthTokenPluginSpec.swift */; };
+		2E859ABA216531B800DB8920 /* Keychaneable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E859AB9216531B800DB8920 /* Keychaneable.swift */; };
+		2E859ABC2165323200DB8920 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E859ABB2165323200DB8920 /* Keychain.swift */; };
 		2E9D41CE214E97AB00AFDB4C /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41CD214E97AB00AFDB4C /* ProductService.swift */; };
 		2E9D41D1214E982900AFDB4C /* PublishProductEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41D0214E982900AFDB4C /* PublishProductEndpoint.swift */; };
 		2E9D41D4214EB82E00AFDB4C /* ProductApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41D3214EB82E00AFDB4C /* ProductApiDataSource.swift */; };
@@ -113,6 +116,9 @@
 		2E71A8EA213157D6009D24A9 /* ProductExtraMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExtraMapper.swift; sourceTree = "<group>"; };
 		2E71A8EC21315C2D009D24A9 /* ProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRepository.swift; sourceTree = "<group>"; };
 		2E7CD0A92163EC7C00148C89 /* AuthTokenStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTokenStorage.swift; sourceTree = "<group>"; };
+		2E859AB52165314200DB8920 /* AuthTokenPluginSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenPluginSpec.swift; sourceTree = "<group>"; };
+		2E859AB9216531B800DB8920 /* Keychaneable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychaneable.swift; sourceTree = "<group>"; };
+		2E859ABB2165323200DB8920 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		2E9D41CD214E97AB00AFDB4C /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
 		2E9D41D0214E982900AFDB4C /* PublishProductEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishProductEndpoint.swift; sourceTree = "<group>"; };
 		2E9D41D3214EB82E00AFDB4C /* ProductApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductApiDataSource.swift; sourceTree = "<group>"; };
@@ -266,6 +272,7 @@
 		1C913A021FF0607600646884 /* DataTests */ = {
 			isa = PBXGroup;
 			children = (
+				2E859AB02165310600DB8920 /* Infrastructure */,
 				1CE92E9C1FF31E4900F762E5 /* Utils */,
 				1C913A051FF0607600646884 /* Info.plist */,
 			);
@@ -319,6 +326,7 @@
 				1C913A241FF0666100646884 /* Repository */,
 				1C913A161FF064EB00646884 /* Service */,
 				1C913A381FF2BA7700646884 /* Extension */,
+				2E859AB72165319F00DB8920 /* Utils */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -571,6 +579,63 @@
 				2E71A8EA213157D6009D24A9 /* ProductExtraMapper.swift */,
 			);
 			path = Mapper;
+			sourceTree = "<group>";
+		};
+		2E859AB02165310600DB8920 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				2E859AB12165311700DB8920 /* Service */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		2E859AB12165311700DB8920 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				2E859AB22165312200DB8920 /* Network */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		2E859AB22165312200DB8920 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				2E859AB32165312A00DB8920 /* Plugin */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		2E859AB32165312A00DB8920 /* Plugin */ = {
+			isa = PBXGroup;
+			children = (
+				2E859AB42165313400DB8920 /* Auth */,
+			);
+			path = Plugin;
+			sourceTree = "<group>";
+		};
+		2E859AB42165313400DB8920 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				2E859AB52165314200DB8920 /* AuthTokenPluginSpec.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		2E859AB72165319F00DB8920 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				2E859AB8216531AC00DB8920 /* Keychain */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		2E859AB8216531AC00DB8920 /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				2E859AB9216531B800DB8920 /* Keychaneable.swift */,
+				2E859ABB2165323200DB8920 /* Keychain.swift */,
+			);
+			path = Keychain;
 			sourceTree = "<group>";
 		};
 		2E9D41CC214E979D00AFDB4C /* Product */ = {
@@ -827,6 +892,8 @@
 				2EE4A3BE212CABEE00380467 /* GameSuggestionMapper.swift in Sources */,
 				2ED3F5FF214DA12000A715E0 /* Assembly+Service.swift in Sources */,
 				2E67DEDB21652B75006D705E /* AuthService.swift in Sources */,
+				2E859ABC2165323200DB8920 /* Keychain.swift in Sources */,
+				2E859ABA216531B800DB8920 /* Keychaneable.swift in Sources */,
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
 				2E71A8E82131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift in Sources */,
 				2EE4A3BB212CA63C00380467 /* Algolia+Rx.swift in Sources */,
@@ -864,6 +931,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */,
+				2E859AB62165314200DB8920 /* AuthTokenPluginSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

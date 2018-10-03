@@ -7,9 +7,9 @@ private enum Keys {
 
 struct AuthTokenStorage {
   
-  private let keychain: Keychain
+  private let keychain: Keychaneable
   
-  init(keychain: Keychain) {
+  init(keychain: Keychaneable) {
     self.keychain = keychain
   }
   
