@@ -45,17 +45,19 @@ extension ListingCarouselMoreInfoViewAttributeGridView {
     
     func setup(withTitle title: String?,
                items: [ListingAttributeGridItem],
-               tapAction: (() -> Void)?) {
+               tapAction: (() -> Void)?,
+               theme: ListingAttributeGridTheme = .dark) {
         titleLabel.text = title
         self.tapAction = tapAction
-        setupCollectionView(withItems: items)
+        setupCollectionView(withItems: items, theme: theme)
     }
 
-    private func setupCollectionView(withItems items: [ListingAttributeGridItem]) {
+    private func setupCollectionView(withItems items: [ListingAttributeGridItem],
+                                     theme: ListingAttributeGridTheme = .dark) {
         resetCollectionView()
         gridCollectionView = ListingAttributeGridView(frame: CGRect.zero,
                                                       layoutBehaviour: ListingAttributeGridLayoutBehaviour.horizontalScroll,
-                                                      theme: ListingAttributeGridTheme.dark,
+                                                      theme: theme,
                                                       items: items,
                                                       selectionEnabled: false)
         setupCollectionViewLayout()

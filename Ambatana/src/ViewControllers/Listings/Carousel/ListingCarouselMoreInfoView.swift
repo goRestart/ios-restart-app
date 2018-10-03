@@ -750,22 +750,10 @@ private extension ListingCarouselMoreInfoView {
         tagCollectionViewModel.tags = tags ?? []
         tagCollectionView.reloadData()
  
-        if (isIOSBuggyVersion()) {
+        if (UICollectionView.isIOSBuggyVersion()) {
             tagCollectionView.collectionViewLayout.invalidateLayout()
             tagCollectionView.layoutIfNeeded()
         }
-    }
- 
-    private func isIOSBuggyVersion() -> Bool {
-        /* This referece https://stackoverflow.com/questions/39867325/ios-10-bug-uicollectionview-received-layout-attributes-for-a-cell-with-an-index says that it's a iOS 10 UIKit related bug, we are having this issue from version 10.0.0 to 10.3.3 so this is a check for only those versions
-         
-            Fabric link: https://www.fabric.io/ambatana/ios/apps/com.letgo.ios/issues/5b3519386007d59fcd17c8c4
-        */
-        
-        return ProcessInfo().isIOSVersionInRange(
-            from: OperatingSystemVersion(majorVersion: 10, minorVersion: 0, patchVersion: 0),
-            to: OperatingSystemVersion(majorVersion: 10, minorVersion: 3, patchVersion: 4)
-        )
     }
  
     func setupStatsRx(viewModel: ListingCarouselViewModel) {
@@ -973,33 +961,33 @@ fileprivate extension ListingViewModelStatus {
     }
 }
 
-private struct Layout {
-    struct VisualEffect {
+private enum Layout {
+    enum VisualEffect {
         static let top: CGFloat = -500
     }
-    struct ScrollView {
+    enum ScrollView {
         static let bottom: CGFloat = 88
         static let top: CGFloat = 64
     }
-    struct AttributeGrid {
+    enum AttributeGrid {
         static let height: CGFloat = 150
     }
-    struct Map {
+    enum Map {
         static let height: CGFloat = 150
     }
-    struct BigMap {
+    enum BigMap {
         static let margin: CGFloat = 85
         static let bottom: CGFloat = 85
     }
-    struct DragView {
+    enum DragView {
         static let height: CGFloat = 30
         static let bottom: CGFloat = 7
         static let imageSize: CGFloat = 24
     }
-    struct Stats {
+    enum Stats {
         static let height: CGFloat = 24
     }
-    struct SocialShare {
+    enum SocialShare {
         static let height: CGFloat = 135
         static let bottom: CGFloat = 30
         static let top: CGFloat = 30

@@ -104,6 +104,10 @@ final class ListingDetailViewModel: BaseViewModel {
     @objc func share() {
         listingViewModel.shareProduct()
     }
+
+    func listingAttributeGridTapped() {
+        navigator?.openAttributesTable(for: listingViewModel.attributes)
+    }
 }
 
 extension ListingDetailViewModel {
@@ -186,6 +190,7 @@ extension ListingDetailViewModel {
 
 typealias ListingDetailStats = (views: Int, favs: Int, posted: Date?)
 typealias ListingDetailLocation = (location: LGLocationCoordinates2D?, address: String?, showExactLocation: Bool)
+typealias AttributeGrid = (String?, [ListingAttributeGridItem]?)
 
 extension ListingDetailViewModel: ReactiveCompatible { }
 
@@ -226,6 +231,14 @@ extension Reactive where Base: ListingDetailViewModel {
         return Driver.combineLatest(isFavorite, isFavoritable, isEditable) { ($0, $1, $2) }
             .map { return ListingAction(isFavorite: $0, isFavoritable: $1, isEditable: $2) }
             .distinctUntilChanged()
+    }
+
+    var tags: Driver<[String]?> {
+        return base.listingViewModel.rx.productInfo.map { $0?.attributeTags }
+    }
+
+    var attributeGrid: Driver<AttributeGrid> {
+        return base.listingViewModel.rx.productInfo.map { ($0?.attributeGridTitle, $0?.attributeGridItems) }
     }
 
     var social: Driver<(SocialSharer, SocialMessage?)> {

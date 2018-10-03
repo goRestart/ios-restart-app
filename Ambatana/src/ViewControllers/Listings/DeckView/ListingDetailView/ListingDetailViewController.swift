@@ -130,7 +130,12 @@ final class ListingDetailViewController: BaseViewController {
             viewModel.rx.user.drive(rx.userDetail),
             viewModel.rx.location.drive(rx.location),
             viewModel.rx.action.drive(rx.action),
-            viewModel.rx.social.drive(rx.social)
+            viewModel.rx.social.drive(rx.social),
+            viewModel.rx.tags.drive(rx.tags),
+            viewModel.rx.attributeGrid.drive(rx.attributeGrid),
+            detailView.rx.attributesTap.drive(onNext: { [weak self] _ in
+                self?.viewModel.listingAttributeGridTapped()
+            })
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
 
@@ -276,6 +281,18 @@ private extension Reactive where Base: ListingDetailViewController {
     var social: Binder<(SocialSharer, SocialMessage?)> {
         return Binder(self.base) { controller, social in
             controller.detailView.set(socialSharer: social.0, socialMessage: social.1, socialDelegate: controller)
+        }
+    }
+
+    var tags: Binder<[String]?> {
+        return Binder(self.base) { controller, tags in
+            controller.detailView.populateWith(tags: tags)
+        }
+    }
+
+    var attributeGrid: Binder<AttributeGrid> {
+        return Binder(self.base) { controller, grid in
+            controller.detailView.setupAttributeGridView(withTitle: grid.0, items: grid.1)
         }
     }
 }

@@ -20,7 +20,7 @@ final class ListingCardViewModel: BaseViewModel {
     }
     var location: LGLocationCoordinates2D? { return productInfoRelay.value?.location }
     var showExactLocationOnMap: Bool { return showExactLocationOnMapRelay.value }
-
+    var attributes: [ListingAttributeGridItem] { return productInfoRelay.value?.attributeGridItems ?? [] }
     private var myUserId: String? { return myUserRepository.myUser?.objectId }
     private var myUserName: String? { return myUserRepository.myUser?.name }
     let socialSharer: SocialSharer

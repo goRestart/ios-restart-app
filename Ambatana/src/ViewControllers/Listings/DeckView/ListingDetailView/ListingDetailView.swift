@@ -12,6 +12,9 @@ private enum Layout {
     static let mapHeight: CGFloat = 115
     static let scrollBottomInset: CGFloat = 3*Metrics.bigMargin
     static let galleryHeight: CGFloat = 220
+    enum AttributeGrid {
+        static let height: CGFloat = 150
+    }
 }
 
 final class ListingDetailView: UIView {
@@ -67,6 +70,17 @@ final class ListingDetailView: UIView {
         return lbl
     }()
 
+    private let attributeGridView = ListingCarouselMoreInfoViewAttributeGridView(frame: .zero)
+    private var attributeGridHeight: NSLayoutConstraint?
+
+    private var tagCollectionViewModel = TagCollectionViewModel(cellStyle: .grayBorder)
+    private lazy var tagCollectionView: TagCollectionView = {
+        let tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel, flowLayout: .leftAligned)
+        tagCollectionView.register(type: TagCollectionViewCell.self)
+        tagCollectionView.defaultSetup()
+        return tagCollectionView
+    }()
+
     private let statsView: ListingStatsView = {
         let view = ListingStatsView.make(withStyle: .light)!
         view.timePostedView.layer.borderColor = UIColor.grayLight.cgColor
@@ -83,6 +97,7 @@ final class ListingDetailView: UIView {
         return view
     }()
     fileprivate let userTapRelay = PublishRelay<Void>()
+    fileprivate let attributesRelay = PublishRelay<Void>()
 
     private let detailMapView = ListingCardDetailMapView()
     fileprivate let mapTap = UITapGestureRecognizer()
@@ -125,6 +140,7 @@ final class ListingDetailView: UIView {
         return view
     }()
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
     convenience init() {
@@ -153,6 +169,7 @@ final class ListingDetailView: UIView {
 
         addSubviewsForAutoLayout([scrollView])
         scrollView.addSubviewsForAutoLayout([mediaView, pageControl, headerStackView, detailLabel,
+                                             attributeGridView, tagCollectionView,
                                              statsView, userView, detailMapView, bannerContainer,
                                              socialMediaHeader, socialShareView, whiteBackground])
 
@@ -160,6 +177,8 @@ final class ListingDetailView: UIView {
 
         let bannerLeft = bannerContainer.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: Metrics.shortMargin)
         let bannerRight = bannerContainer.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Metrics.shortMargin)
+
+        let attributeGridHeight = attributeGridView.heightAnchor.constraint(equalToConstant: Layout.AttributeGrid.height)
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: topAnchor),
@@ -185,7 +204,16 @@ final class ListingDetailView: UIView {
             detailLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Metrics.bigMargin),
             detailLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Metrics.bigMargin),
 
-            statsView.topAnchor.constraint(equalTo: detailLabel.bottomAnchor, constant: 2*Metrics.margin),
+            attributeGridView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Metrics.bigMargin),
+            attributeGridView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Metrics.bigMargin),
+            attributeGridHeight,
+            attributeGridView.topAnchor.constraint(equalTo: detailLabel.bottomAnchor, constant: Metrics.margin),
+
+            tagCollectionView.topAnchor.constraint(equalTo: attributeGridView.bottomAnchor, constant: Metrics.margin),
+            tagCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Metrics.bigMargin),
+            tagCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Metrics.bigMargin),
+
+            statsView.topAnchor.constraint(equalTo: tagCollectionView.bottomAnchor, constant: 2*Metrics.margin),
             statsView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Metrics.bigMargin),
             statsView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Metrics.bigMargin),
 
@@ -219,6 +247,32 @@ final class ListingDetailView: UIView {
         bannerContainerViewLeftConstraint = bannerLeft
         bannerContainerViewRightConstraint = bannerRight
         self.pageControlTop = pageControlTop
+        self.attributeGridHeight = attributeGridHeight
+    }
+
+    func setupAttributeGridView(withTitle title: String?,
+                                items: [ListingAttributeGridItem]?) {
+        guard let items = items, items.count > 0 else {
+            attributeGridHeight?.constant = 0.0
+            return
+        }
+
+        attributeGridHeight?.constant = Layout.AttributeGrid.height
+        attributeGridView.setup(withTitle: title,
+                                items: items,
+                                tapAction: { [weak self] in
+                                   self?.attributesRelay.accept(())
+        }, theme: .light)
+    }
+
+    func populateWith(tags: [String]?) {
+        tagCollectionViewModel.tags = tags ?? []
+        tagCollectionView.reloadData()
+
+        if (UICollectionView.isIOSBuggyVersion()) {
+            tagCollectionView.collectionViewLayout.invalidateLayout()
+            tagCollectionView.layoutIfNeeded()
+        }
     }
 
     func populateWith(productInfo: ListingVMProductInfo?, showExactLocationOnMap: Bool) {
@@ -309,6 +363,7 @@ extension ListingDetailView: UserViewDelegate {
 extension Reactive where Base: ListingDetailView {
     var map: ControlEvent<UITapGestureRecognizer> { return base.mapTap.rx.event }
     var userTap: Driver<Void> { return base.userTapRelay.asDriver(onErrorJustReturn: ()) }
+    var attributesTap: Driver<Void> { return base.attributesRelay.asDriver(onErrorJustReturn: ()) }
 }
 
 extension ListingDetailView {
