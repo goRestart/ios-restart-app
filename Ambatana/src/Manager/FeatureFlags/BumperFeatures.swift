@@ -911,17 +911,6 @@ extension Bumper  {
         }
     }
     #endif
-}
-
-
-enum UserReviewsReportEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
-    static var enumValues: [UserReviewsReportEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User reviews report enabled" } 
-    var asBool: Bool { return self == .yes }
-}
 
     static var shareAfterScreenshot: ShareAfterScreenshot {
         guard let value = Bumper.value(for: ShareAfterScreenshot.key) else { return .control }
@@ -2057,6 +2046,25 @@ enum ClickToTalk: String, BumperFeature  {
     }
 }
 
+enum BulkProducts: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return BulkProducts.control.rawValue }
+    static var enumValues: [BulkProducts] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[PRODUCTS] Bulk products" } 
+    static func fromPosition(_ position: Int) -> BulkProducts {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
+            case 5: return .variantD
+            default: return .control
+        }
+    }
+}
+
 enum ShareAfterScreenshot: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return ShareAfterScreenshot.control.rawValue }
@@ -2235,25 +2243,6 @@ enum PolymorphFeedAdsUSA: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum BulkProducts: String, BumperFeature  {
-    case control, baseline, variantA, variantB, variantC, variantD
-    static var defaultValue: String { return BulkProducts.control.rawValue }
-    static var enumValues: [BulkProducts] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Bulk products" } 
-    static func fromPosition(_ position: Int) -> BulkProducts {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .variantA
-            case 3: return .variantB
-            case 4: return .variantC
-            case 5: return .variantD
             default: return .control
         }
     }
