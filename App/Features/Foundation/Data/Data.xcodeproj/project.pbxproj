@@ -52,6 +52,7 @@
 		2E859AC12165341A00DB8920 /* AuthTokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E859AC02165341A00DB8920 /* AuthTokenStorage.swift */; };
 		2E859AC42165348000DB8920 /* AuthTokenStorageMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E859AC32165348000DB8920 /* AuthTokenStorageMock.swift */; };
 		2E859AC8216536FF00DB8920 /* DummyTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E859AC6216536A400DB8920 /* DummyTargetType.swift */; };
+		2E859ACB21653A2600DB8920 /* AuthTokenKeychainStorageSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E859ACA21653A2600DB8920 /* AuthTokenKeychainStorageSpec.swift */; };
 		2E9D41CE214E97AB00AFDB4C /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41CD214E97AB00AFDB4C /* ProductService.swift */; };
 		2E9D41D1214E982900AFDB4C /* PublishProductEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41D0214E982900AFDB4C /* PublishProductEndpoint.swift */; };
 		2E9D41D4214EB82E00AFDB4C /* ProductApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41D3214EB82E00AFDB4C /* ProductApiDataSource.swift */; };
@@ -129,6 +130,7 @@
 		2E859AC02165341A00DB8920 /* AuthTokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenStorage.swift; sourceTree = "<group>"; };
 		2E859AC32165348000DB8920 /* AuthTokenStorageMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenStorageMock.swift; sourceTree = "<group>"; };
 		2E859AC6216536A400DB8920 /* DummyTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTargetType.swift; sourceTree = "<group>"; };
+		2E859ACA21653A2600DB8920 /* AuthTokenKeychainStorageSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenKeychainStorageSpec.swift; sourceTree = "<group>"; };
 		2E9D41CD214E97AB00AFDB4C /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
 		2E9D41D0214E982900AFDB4C /* PublishProductEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishProductEndpoint.swift; sourceTree = "<group>"; };
 		2E9D41D3214EB82E00AFDB4C /* ProductApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductApiDataSource.swift; sourceTree = "<group>"; };
@@ -633,6 +635,7 @@
 			isa = PBXGroup;
 			children = (
 				2E859AB52165314200DB8920 /* AuthTokenPluginSpec.swift */,
+				2E859ACA21653A2600DB8920 /* AuthTokenKeychainStorageSpec.swift */,
 				2E859AC22165347100DB8920 /* Test Doubles */,
 			);
 			path = Auth;
@@ -1052,6 +1055,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E859AC8216536FF00DB8920 /* DummyTargetType.swift in Sources */,
+				2E859ACB21653A2600DB8920 /* AuthTokenKeychainStorageSpec.swift in Sources */,
 				1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */,
 				2E859AB62165314200DB8920 /* AuthTokenPluginSpec.swift in Sources */,
 				2E859ABF2165332400DB8920 /* KeychainMock.swift in Sources */,

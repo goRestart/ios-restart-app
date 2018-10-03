@@ -5,7 +5,7 @@ private enum Keys {
   static let authToken = "auth_token"
 }
 
-struct AuthTokenStorage {
+struct AuthTokenKeychainStorage: AuthTokenStorage {
   
   private let keychain: Keychaneable
   
