@@ -550,8 +550,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             let adLoader = data.adLoader
             adLoader.delegate = self
             adLoader.position = data.adPosition
-            adLoader.load(GADRequest())
-            break
+            if let bidder = data.bidder {
+                bidder.start(with: adLoader, viewController: data.rootViewController)
+            } else {
+                adLoader.load(GADRequest())
+            }
+           break
         case .collectionCell, .emptyCell, .listingCell, .promo:
             break
         }
@@ -658,7 +662,15 @@ extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate
     public func nativeAdWillLeaveApplication(_ nativeAd: GADNativeAd) {
         guard let position = nativeAd.position else { return }
         let feedPosition: EventParameterFeedPosition = .position(index: position)
-        viewModel.bannerWasTapped(adType: .adx,
+        
+        var adType = EventParameterAdType.adx
+        if let extraAssets = nativeAd.extraAssets,
+            let network = extraAssets[SharedConstants.adNetwork] as? String,
+            network == EventParameterAdType.polymorph.stringValue {
+            adType = .polymorph
+        }
+        
+        viewModel.bannerWasTapped(adType: adType,
                                   willLeaveApp: .trueParameter,
                                   categories: viewModel.categoriesForBannerIn(position: position),
                                   feedPosition: feedPosition)

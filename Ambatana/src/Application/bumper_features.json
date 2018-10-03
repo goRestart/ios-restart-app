@@ -1,10 +1,5 @@
 [
     {
-        "name": "UserReviewsReportEnabled",
-        "values": ["no", "yes"],
-        "description": "User reviews report enabled"
-    },
-    {
         "name": "RealEstateEnabled",
         "values": ["control", "baseline", "active"],
         "description": "Allow to see Real Estate category"
@@ -15,9 +10,14 @@
          "description": "API requests timeout"
     },
     {
-        "name": "DeckItemPage",
-        "values": ["control", "baseline", "active"],
-        "description": "Deck item page with card appearance and different navigation"
+         "name": "MarkAsSoldQuickAnswerNewFlow",
+         "values": ["control", "baseline", "markAsSoldNewFlowQuickAnswer"],
+         "description": "New flow when marking an item as sold on chat using quick answers"
+    },
+    {
+         "name": "ShouldMoveLetsMeetAction",
+         "values": ["no", "yes"],
+         "description": "Put the lets meet icon inside the chat bar"
     },
     {
         "name": "ShowAdsInFeedWithRatio",
@@ -28,11 +28,6 @@
         "name": "RealEstateFlowType",
         "values": ["standard", "turkish"],
         "description": "Real Estate Flow Type"
-    },
-    {
-        "name": "RealEstateNewCopy",
-        "values": ["control", "baseline", "active"],
-        "description": "Try real estate copy instead of housing"
     },
     {
         "name": "DummyUsersInfoProfile",
@@ -115,11 +110,6 @@
         "description": "[PRODUCTS] Show services category on salchichas menu"
     },
     {
-         "name": "EmptySearchImprovements",
-         "values": ["control", "baseline", "popularNearYou", "similarQueries", "similarQueriesWhenFewResults", "alwaysSimilar"],
-         "description": "Improve empty search experience by proposing relavant listings"
-    },
-    {
          "name": "OffensiveReportAlert",
          "values": ["control", "baseline", "active"],
          "description": "Offensive Report alert active"
@@ -155,16 +145,6 @@
         "description": "[CHAT] Show a toast in the chat with the websocket and network connection status"
     },
     {
-        "name": "NotificationSettings",
-        "values": ["control", "baseline", "differentLists", "sameList"],
-        "description": "[RETENTION] Settings to enable or disable each type of notification"
-    },
-    {
-         "name": "CarExtraFieldsEnabled",
-         "values": ["control", "baseline", "active"],
-         "description": "allows user to see extra car fields (bodyType, fuelType, drivetrain, transmission, seats, mileage)"
-    },
-    {
         "name": "ReportingFostaSesta",
         "values": ["control", "baseline", "withIcons", "withoutIcons"],
         "description": "Show new user/product reporting flow (FOSTA-SESTA compliance)"
@@ -175,12 +155,12 @@
         "description": "[CHAT] Use the new header WITHOUT USER in chat detail"
     },
     {
-        "name": "RealEstateMapTooltip",
-        "values": ["control", "baseline", "active"],
-        "description": "Show tooltip for Real Estate Map"
-    },
-    {
-        "name": "AppInstallAdsInFeed",
+        "name": "NewItemPageV3",
+        "values": ["control", "baseline", "infoWithLaterals", "infoWithoutLaterals", "buttonWithLaterals", "buttonWithoutLaterals"],
+        "description": "[Products] New item page V3 -- all in"
+	},
+	 {
+     	"name": "AppInstallAdsInFeed",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Show App Install Ads from Google Adx in feed"
     },
@@ -203,11 +183,6 @@
         "name": "EngagementBadging",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Show recent items bubble in feed basic approach"
-    },
-    {
-        "name": "ServicesUnifiedFilterScreen",
-        "values": ["control", "baseline", "active"],
-        "description": "Show new services filter screen"
     },
     {
         "name": "FrictionlessShare",
@@ -270,11 +245,6 @@
         "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
     },
     {
-        "name": "NotificationCenterRedesign",
-        "values": ["control", "baseline", "active"],
-        "description": "[RETENTION] Notification center redesign with sections and modern UI design"
-    },
-    {
         "name": "TurkeyFreePosting",
         "values": ["control", "baseline", "active"],
         "description": "[PRODUCTS] Enable Leanplum driven Turkey free posting"
@@ -284,15 +254,30 @@
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Random Im Interested messages from listing list"
     },
-     {
+    {
         "name": "CarPromoCells",
         "values": ["control", "baseline", "variantA", "variantB"],
         "description": "[CARS] Show promo cells for cars"
-     },
+    },
      {
         "name": "RealEstatePromoCells",
         "values": ["control", "baseline", "variantA"],
         "description": "[REAL ESTATE] Show NEW promo cells for real Estate"
+     },
+     {
+         "name": "AdvancedReputationSystem11",
+         "values": ["control", "baseline", "active"],
+         "description": "[USERS] ARS v1.1"
+     },
+     {
+         "name": "AdvancedReputationSystem12",
+         "values": ["control", "baseline", "active"],
+         "description": "[USERS] ARS v1.2"
+     },
+     {
+         "name": "AdvancedReputationSystem13",
+         "values": ["control", "baseline", "active"],
+         "description": "[USERS] ARS v1.3"
      },
      {
          "name": "ProUsersExtraImages",
@@ -303,11 +288,16 @@
         "name": "SectionedDiscoveryFeed",
         "values": ["control", "baseline", "active"],
         "description": "[Discovery] Show SectionedFeed"
-    },
-    {
+     },
+     {
         "name": "ServicesPromoCells",
         "values": ["control", "baseline", "activeWithCallToAction", "activeWithoutCallToAction"],
         "description": "[SERVICES] Show promo cells for Services"
+    },
+    {
+        "name": "MultiDayBumpUp",
+        "values": ["control", "baseline", "Show1Day", "Show3Days", "Show7Days"],
+        "description": "[MONEY] Add options to bump a listing for several days"
     },
     {
         "name": "ImInterestedInProfile",
@@ -316,12 +306,67 @@
     },
     {
         "name": "ClickToTalk",
-        "values": ["control", "baseline", "active"],
+        "values": ["control", "baseline", "variantA", "variantB", "variantC"],
         "description": "[VERTICALS] Show Click to talk"
     },
     {
         "name": "BulkProducts",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
         "description": "[PRODUCTS] Bulk products"
+    },
+    {
+        "name": "ShareAfterScreenshot",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Show a share view after the user takes a screenshot"
+    },
+    {
+        "name": "MutePushNotifications",
+        "values": ["control", "baseline", "active"],
+        "description": "[CORE] Push notifications won't make a sound during some night hours."
+    },
+    {
+        "name": "MultiAdRequestInChatSectionForUS",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Muti ad request in Chat section. For US"
+    },
+    {
+        "name": "MultiAdRequestInChatSectionForTR",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Muti ad request in Chat section. For Turkey"
+    },
+    {
+        "name": "AffiliationEnabled",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] Enables Affiliation / Referral Program"
+    },
+    {
+        "name": "BumpPromoAfterSellNoLimit",
+        "values": ["control", "baseline", "AlwaysShow", "StraightToBump"],
+        "description": "[MONEY] Remove the 24h limit in bump after sell promo"
+    },
+    {
+        "name": "MakeAnOfferButton",
+        "values": ["control", "baseline", "active"],
+        "description": "[P2P PAYMENTS] Show make an offer button"
+    },
+    {
+        "name": "NewSearchAPIEndPoint",
+        "values": ["control", "baseline", "active"],
+        "description": "[DISCOVERY] Use New Search API Endpoint"
+    },
+    {
+        "name": "ImageSizesNotificationCenter",
+        "values": ["control", "baseline", "nineSix", "oneTwoEight"],
+        "description": "[RETENTION] Notification center with different thumbnails sizes"
+    },
+    {
+        "name": "BoostSmokeTest",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
+        "description": "[VERTICALS] Show Boost and Super Boost Smoke Test"
+    },
+    {
+        "name": "PolymorphFeedAdsUSA",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Show Polymorph ads in feed for USA"
     }
- ]
+]

@@ -4,6 +4,9 @@ import LGComponents
 protocol FeedNavigator: class {
     func openFilters(withListingFilters listingFilters: ListingFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?)
+    func openAffiliationChallenges()
+    func openLoginIfNeededFromFeed(from: EventParameterLoginSourceValue,
+                                   loggedInAction: @escaping (() -> Void))
     func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate)
     func showPushPermissionsAlert(
         pushPermissionsManager: PushPermissionsManager,
@@ -15,11 +18,16 @@ protocol FeedNavigator: class {
                  listingFilters: ListingFilters,
                  locationManager: LocationManager)
     func openSearches(withSearchType searchType: SearchType?,
-                      onUserSearchCallback onUserSearchCallback: ((SearchType) -> ())?)
+                      onUserSearchCallback: ((SearchType) -> ())?)
     func openAppInvite(myUserId: String?, myUserName: String?)
     func openProFeed(navigator: MainTabNavigator?,
                      withSearchType: SearchType,
                      andFilters filters: ListingFilters)
+    func openProFeed(navigator: MainTabNavigator?,
+                     withSearchType: SearchType,
+                     andFilters filters: ListingFilters,
+                     andComingSectionPosition: UInt?,
+                     andComingSectionIdentifier: String?)
     func openClassicFeed(navigator: MainTabNavigator,
                          withSearchType searchType: SearchType?,
                          listingFilters: ListingFilters)
@@ -37,11 +45,30 @@ protocol FeedNavigator: class {
 final class FeedWireframe: FeedNavigator {
     private let nc: UINavigationController
     private let deepLinkMailBox: DeepLinkMailBox
-    
+    private let listingsMapAssembly: ListingsMapAssembly
+    private let sessionManager: SessionManager
+    private let loginAssembly: LoginAssembly
+    private lazy var affiliationChallengesAssembly = AffiliationChallengesBuilder.standard(nc)
+
+
+    convenience init(nc: UINavigationController) {
+        self.init(nc: nc,
+                  deepLinkMailBox: LGDeepLinkMailBox.sharedInstance,
+                  listingsMapAssembly: ListingsMapBuilder.standard(nc),
+                  loginAssembly: LoginBuilder.standard(context: nc),
+                  sessionManager: Core.sessionManager)
+    }
+
     init(nc: UINavigationController,
-         deepLinkMailBox: DeepLinkMailBox = LGDeepLinkMailBox.sharedInstance) {
+         deepLinkMailBox: DeepLinkMailBox,
+         listingsMapAssembly: ListingsMapAssembly,
+         loginAssembly: LoginAssembly,
+         sessionManager: SessionManager) {
         self.nc = nc
+        self.listingsMapAssembly = listingsMapAssembly
         self.deepLinkMailBox = deepLinkMailBox
+        self.loginAssembly = loginAssembly
+        self.sessionManager = sessionManager
     }
     
     func openFilters(withListingFilters listingFilters: ListingFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
@@ -55,6 +82,26 @@ final class FeedWireframe: FeedNavigator {
         )
     }
     
+    func openAffiliationChallenges() {
+        let vc = affiliationChallengesAssembly.buildAffiliationChallenges(source: .feed(.icon))
+        nc.pushViewController(vc, animated: true)
+    }
+    
+    func openLoginIfNeededFromFeed(from: EventParameterLoginSourceValue,
+                                   loggedInAction: @escaping (() -> Void)) {
+        guard !sessionManager.loggedIn else {
+            loggedInAction()
+            return
+        }
+        
+        let vc = LoginBuilder.modal.buildMainSignIn(
+            withSource: from,
+            loginAction: loggedInAction,
+            cancelAction: nil)
+        let nav = UINavigationController(rootViewController: vc)
+        nc.present(nav, animated: true, completion: nil)
+    }
+
     func openLocationSelection(initialPlace: Place?, distanceRadius: Int?, locationDelegate: EditLocationDelegate) {
         let assembly = QuickLocationFiltersBuilder.modal(nc)
         let vc = assembly.buildQuickLocationFilters(mode: .quickFilterLocation,
@@ -64,11 +111,12 @@ final class FeedWireframe: FeedNavigator {
         nc.present(vc, animated: true, completion: nil)
     }
     
-    func openMap(navigator: ListingsMapNavigator, requester: ListingListMultiRequester, listingFilters: ListingFilters, locationManager: LocationManager) {
-        let viewModel = ListingsMapViewModel(navigator: navigator,
-                                             currentFilters: listingFilters)
-        let viewController = ListingsMapViewController(viewModel: viewModel)
-        nc.pushViewController(viewController, animated: true)
+    func openMap(navigator: ListingsMapNavigator,
+                 requester: ListingListMultiRequester,
+                 listingFilters: ListingFilters,
+                 locationManager: LocationManager) {
+        let vc = listingsMapAssembly.buildListingsMap(filters: listingFilters)
+        nc.pushViewController(vc, animated: true)
     }
     
     func showPushPermissionsAlert(pushPermissionsManager: PushPermissionsManager,
@@ -96,7 +144,7 @@ final class FeedWireframe: FeedNavigator {
     }
     
     func openSearches(withSearchType searchType: SearchType?,
-                      onUserSearchCallback onUserSearchCallback: ((SearchType) -> ())?) {
+                      onUserSearchCallback: ((SearchType) -> ())?) {
         nc.present(
             UINavigationController(rootViewController:
                 SearchBuilder.modal(root: nc).buildSearch(
@@ -116,12 +164,26 @@ final class FeedWireframe: FeedNavigator {
     func openProFeed(navigator: MainTabNavigator?,
                      withSearchType searchType: SearchType,
                      andFilters filters: ListingFilters) {
+       openProFeed(navigator: navigator,
+                   withSearchType: searchType,
+                   andFilters: filters,
+                   andComingSectionPosition: nil,
+                   andComingSectionIdentifier: nil)
+    }
+    
+    func openProFeed(navigator: MainTabNavigator?,
+                     withSearchType searchType: SearchType,
+                     andFilters filters: ListingFilters,
+                     andComingSectionPosition position: UInt?,
+                     andComingSectionIdentifier identifier: String?) {
         let (vc, vm) = FeedBuilder.standard(nc: nc).makePro(
             withSearchType: searchType,
             filters: filters,
             hideSearchBox: true,
-            showFilters: false,
-            showLocationEditButton: false
+            showRightNavBarButtons: false,
+            showLocationEditButton: false,
+            comingSectionPosition: position,
+            comingSectionIdentifier: identifier
         )
         vm.navigator = navigator
         nc.pushViewController(vc, animated: true)

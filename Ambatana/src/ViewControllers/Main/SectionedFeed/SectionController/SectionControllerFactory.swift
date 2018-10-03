@@ -1,4 +1,5 @@
 import IGListKit
+import LGComponents
 
 typealias FeedDelegate = PushPermissionsPresenterDelegate &
     ListingActionDelegate &
@@ -72,15 +73,23 @@ final class SectionControllerFactory {
     private func makeAdController(withAdData adData: AdData) -> ListSectionController {
         switch adData.type {
         case .banner:
-            let bannerSectionController = BannerSectionController(tracker: tracker)
+            let bannerSectionController = BannerSectionController(tracker: tracker,
+                                                                  adUnitId: EnvironmentProxy.sharedInstance.sectionedFeedAdUnitForUS,
+                                                                  rootViewController: rootViewController ?? UIViewController())
             bannerSectionController.delegate = delegate
             return bannerSectionController
         case .native:
-            let appAdUnit = featureFlags.appInstallAdsInFeedAdUnit
+            var appAdUnit = featureFlags.appInstallAdsInFeedAdUnit
+            var bidder: PMBidder? = nil
+            if featureFlags.polymorphFeedAdsUSA.isActive {
+                appAdUnit = EnvironmentProxy.sharedInstance.feedAdUnitIdPolymorphUSA
+                bidder = PMBidder.init(pmAdUnitID: EnvironmentProxy.sharedInstance.polymorphAdUnit)
+            }
             let adsSectionController = AdsSectionController(adWidth: ListingCellSizeMetrics(numberOfColumns: waterfallColumnCount).cellWidth,
                                                             adUnitId: appAdUnit ?? "",
                                                             rootViewController: rootViewController ?? UIViewController(),
-                                                            adTypes: [.nativeContent, .nativeAppInstall])
+                                                            adTypes: [.nativeContent, .nativeAppInstall],
+                                                            bidder: bidder)
             adsSectionController.delegate = delegate
             return adsSectionController
         }

@@ -1,14 +1,14 @@
 import LGCoreKit
 
 final class FiltersStandardWireframe: FiltersNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
     
     init(nc: UINavigationController) {
         self.nc = nc
     }
     
     func openServicesDropdown(viewModel: DropdownViewModel) {
-        nc.pushViewController(
+        nc?.pushViewController(
             DropdownViewController(withViewModel: viewModel),
             animated: true
         )
@@ -18,6 +18,7 @@ final class FiltersStandardWireframe: FiltersNavigator {
                           initialPlace: Place?,
                           distanceRadius: Int?,
                           locationDelegate: EditLocationDelegate) {
+        guard let nc = nc else { return }
         let assembly = QuickLocationFiltersBuilder.standard(nc)
         let vc = assembly.buildQuickLocationFilters(mode: mode,
                                                     initialPlace: initialPlace,
@@ -27,7 +28,7 @@ final class FiltersStandardWireframe: FiltersNavigator {
     }
     
     func openCarAttributeSelection(withViewModel viewModel: CarAttributeSelectionViewModel) {
-        nc.pushViewController(
+        nc?.pushViewController(
             CarAttributeSelectionViewController(viewModel: viewModel),
             animated: true
         )
@@ -36,10 +37,10 @@ final class FiltersStandardWireframe: FiltersNavigator {
     func openListingAttributePicker(viewModel: ListingAttributePickerViewModel) {
         let vc = ListingAttributePickerViewController(viewModel: viewModel)
         viewModel.delegate = vc
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
     
     func closeFilters() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 }

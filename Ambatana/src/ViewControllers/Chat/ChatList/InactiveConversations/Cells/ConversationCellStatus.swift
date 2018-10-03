@@ -18,11 +18,11 @@ enum ConversationCellStatus {
             return R.Asset.IconsButtons.icPendingModeration.image
         case .listingSold, .listingGivenAway:
             return R.Asset.BackgroundsAndImages.icDollarSold.image
-        case .listingDeleted, .userPendingDelete, .userDeleted:
+        case .userPendingDelete, .userDeleted:
             return R.Asset.BackgroundsAndImages.icAlertYellowWhiteInside.image
         case .userBlocked, .blockedByUser:
             return R.Asset.BackgroundsAndImages.icBlocked.image
-        case .available:
+        case .available, .listingDeleted:
             return nil
         }
     }
@@ -35,8 +35,6 @@ enum ConversationCellStatus {
             return R.Strings.commonProductSold
         case .listingGivenAway:
             return R.Strings.commonProductGivenAway
-        case .listingDeleted:
-            return R.Strings.commonProductNotAvailable
         case .userPendingDelete:
             return R.Strings.chatListAccountDeleted
         case .userDeleted:
@@ -45,7 +43,7 @@ enum ConversationCellStatus {
             return R.Strings.chatListBlockedUserLabel
         case .blockedByUser:
             return R.Strings.chatBlockedByOtherLabel
-        case .available:
+        case .available, .listingDeleted:
             return nil
         }
     }

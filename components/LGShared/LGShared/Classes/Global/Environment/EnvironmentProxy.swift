@@ -132,7 +132,15 @@ public final class EnvironmentProxy: AppEnvironment {
     public var moreInfoMultiAdUnitIdDFPUSA: String {
         return environment.moreInfoMultiAdUnitIdDFPUSA
     }
-
+    
+    public var feedAdUnitIdPolymorphUSA: String {
+        return environment.feedAdUnitIdPolymorphUSA
+    }
+    
+    public var polymorphAdUnit: String {
+        return environment.polymorphAdUnit
+    }
+    
     public var stripeAPIKey: String {
         return environment.stripeAPIKey
     }
@@ -152,5 +160,18 @@ public final class EnvironmentProxy: AppEnvironment {
     public var feedAdUnitIdAdxInstallAppTR: String {
         return environment.feedAdUnitIdAdxInstallAppTR
     }
+    
+    public var chatSectionAdUnitForOldUsersUS: String {
+        return environment.chatSectionAdUnitForOldUsersUS
+    }
+    
+    public var chatSectionAdUnitForOldUsersTR: String {
+        return environment.chatSectionAdUnitForOldUsersTR
+    }
+    
+    public var sectionedFeedAdUnitForUS: String {
+        return environment.sectionedFeedAdUnitForUS
+    }
+    
     
 }

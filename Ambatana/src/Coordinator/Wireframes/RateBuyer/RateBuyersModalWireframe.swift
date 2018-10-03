@@ -2,32 +2,39 @@ import LGCoreKit
 
 final class RateBuyersModalWireframe: RateBuyersNavigator {
     private let root: UIViewController
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     private let rateUserAssembly: RateUserAssembly
     private let rateUser: RateUserSource
+    private let onRateUserFinishAction: OnRateUserFinishActionable?
 
     convenience init(root: UIViewController,
                      nc: UINavigationController,
-                     source: RateUserSource) {
+                     source: RateUserSource,
+                     onRateUserFinishAction: OnRateUserFinishActionable?) {
         self.init(root: root,
                   nc: nc,
                   rateUserAssembly: RateUserBuilder.standard(nc),
-                  rateUser: source)
+                  rateUser: source,
+                  onRateUserFinishAction: onRateUserFinishAction)
     }
 
     init(root: UIViewController,
          nc: UINavigationController,
          rateUserAssembly: RateUserAssembly,
-         rateUser: RateUserSource) {
+         rateUser: RateUserSource,
+         onRateUserFinishAction: OnRateUserFinishActionable?) {
         self.root = root
         self.nc = nc
         self.rateUserAssembly = rateUserAssembly
         self.rateUser = rateUser
+        self.onRateUserFinishAction = onRateUserFinishAction
     }
 
     func rateBuyersCancel() {
-        root.dismiss(animated: true, completion: nil)
+        root.dismiss(animated: true) { [weak self] in
+            self?.onRateUserFinishAction?.onFinish()
+        }
     }
 
     func rateBuyersFinish(withUser user: UserListing, listingId: String?) {
@@ -38,11 +45,14 @@ final class RateBuyersModalWireframe: RateBuyersNavigator {
             return
         }
 
-        let vc = rateUserAssembly.buildRateUser(source: rateUser, data: data, showSkipButton: true)
-        nc.pushViewController(vc, animated: true)
+        let vc = rateUserAssembly.buildRateUser(source: rateUser, data: data, showSkipButton: true,
+                                                onRateUserFinishAction: onRateUserFinishAction)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func rateBuyersFinishNotOnLetgo() {
-        root.dismiss(animated: true, completion: nil)
+        root.dismiss(animated: true) { [weak self] in
+            self?.onRateUserFinishAction?.onFinish()
+        }
     }
 }

@@ -9,7 +9,8 @@ final class AdsSectionController: ListSectionController {
     private var adData: AdData?
     private var adLoader: GADAdLoader
     private var adxNativeView: UIView = NativeAdBlankStateView()
-    
+    private let rootViewController: UIViewController
+    private let bidder: PMBidder?
     private let tracker: Tracker
     private let adWidth: CGFloat
     
@@ -17,10 +18,13 @@ final class AdsSectionController: ListSectionController {
          adWidth: CGFloat,
          adUnitId: String,
          rootViewController: UIViewController,
-         adTypes: [GADAdLoaderAdType]) {
+         adTypes: [GADAdLoaderAdType],
+         bidder: PMBidder?) {
         
         self.adWidth = adWidth
         self.tracker = tracker
+        self.rootViewController = rootViewController
+        self.bidder = bidder
         self.adLoader = GADAdLoader(adUnitID: adUnitId,
                                     rootViewController: rootViewController,
                                     adTypes: adTypes,
@@ -31,7 +35,11 @@ final class AdsSectionController: ListSectionController {
     
     private func setupAdLoader() {
         adLoader.delegate = self
-        adLoader.load(GADRequest())
+        if let bidder = self.bidder {
+            bidder.start(with: adLoader, viewController: rootViewController)
+        } else {
+            adLoader.load(GADRequest())
+        }
     }
     
     override func sizeForItem(at index: Int) -> CGSize {
@@ -71,7 +79,7 @@ final class AdsSectionController: ListSectionController {
         let adHeight = adView.viewHeightFittingIn(CGSize(width: adWidth,
                                                          height: LGUIKitConstants.advertisementCellDefaultHeight))
         self.adData = AdData.Lenses.height.set(adHeight, adData)
-        delegate?.updatedAd()
+        delegate?.updatedAd(isBannerSection: false)
     }
     
 }
@@ -100,9 +108,15 @@ extension AdsSectionController: GADAdLoaderDelegate {
 extension AdsSectionController: GADNativeAdDelegate {
     public func nativeAdWillLeaveApplication(_ nativeAd: GADNativeAd) {
         guard let position = nativeAd.position else { return }
+        var adType = EventParameterAdType.adx
+        if let extraAssets = nativeAd.extraAssets,
+            let network = extraAssets[SharedConstants.adNetwork] as? String,
+            network == EventParameterAdType.polymorph.stringValue {
+            adType = .polymorph
+        }
         
         let trackerEvent = TrackerEvent.adTapped(listingId: nil,
-                                                 adType: .adx,
+                                                 adType: adType,
                                                  isMine: .notAvailable,
                                                  queryType: nil,
                                                  query: nil,

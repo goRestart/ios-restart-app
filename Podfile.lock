@@ -27,7 +27,7 @@ PODS:
   - Crashlytics (3.9.3):
     - Fabric (~> 1.7.2)
   - DeviceGuru (3.0.1)
-  - Differentiator (3.0.2)
+  - Differentiator (3.1.0)
   - Fabric (1.7.2)
   - FBSDKCoreKit (4.29.0):
     - Bolts (~> 1.7)
@@ -77,9 +77,9 @@ PODS:
   - LGComponents/LGShared (1.0.0):
     - AlamofireImage (= 3.3.1)
     - CocoaLumberjack/Swift (= 3.3.0)
-    - LGCoreKit (= 4.73.0)
+    - LGCoreKit
     - RxCocoa (= 4.0.0)
-  - LGCoreKit (4.73.0):
+  - LGCoreKit (4.88.0):
     - Alamofire (~> 4.7.3)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -173,7 +173,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - LGCoreKit (= 4.73.0)
+  - LGCoreKit (= 4.88.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -268,7 +268,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   DeviceGuru: 648c34deb10c6ef59b013ea2922c04c18d8973f0
-  Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
+  Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
   Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   FBSDKCoreKit: 6f139173dc63a1deaff4430a55f2fe5bb222d2af
   FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
@@ -286,8 +286,8 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: e7b7ff93db85abe9aee41e6400f29eb6dbffb0a6
-  LGCoreKit: 49c815f2a3d769076674188d1e1d36acff56a36b
+  LGComponents: ef36425677175584b2f80e3e2091d22ed9a0667b
+  LGCoreKit: d909620747a8d90174f0157f8777b34133ad9093
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -309,6 +309,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: f215790dca579d09e14061468828834dbb87d6bb
+PODFILE CHECKSUM: 428712e0bbc753d79ebd280d6e67c0ae0bc4ce80
 
 COCOAPODS: 1.5.3

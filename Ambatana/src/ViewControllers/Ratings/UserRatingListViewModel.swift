@@ -27,7 +27,6 @@ class UserRatingListViewModel: BaseViewModel {
     var userRatingListRequester: UserRatingListRequester
     var myUserRepository: MyUserRepository
     let tracker: Tracker
-    let isReportActionEnabled: Bool
 
     weak var delegate: UserRatingListViewModelDelegate?
     weak var tabNavigator: TabNavigator?
@@ -45,24 +44,21 @@ class UserRatingListViewModel: BaseViewModel {
                   userRatingListRequester: requester,
                   myUserRepository: myUserRepository,
                   tabNavigator: tabNavigator,
-                  tracker: tracker,
-                  isReportActionEnabled: featureFlags.userReviewsReportEnabled)
+                  tracker: tracker)
     }
 
     required init(userIdRated: String,
                   userRatingListRequester: UserRatingListRequester,
                   myUserRepository: MyUserRepository,
                   tabNavigator: TabNavigator?,
-                  tracker: Tracker,
-                  isReportActionEnabled: Bool) {
+                  tracker: Tracker) {
         self.userRatingListRequester = userRatingListRequester
         self.myUserRepository = myUserRepository
         self.tabNavigator = tabNavigator
         self.userIdRated = userIdRated
         self.ratings = []
         self.tracker = tracker
-        self.isReportActionEnabled = isReportActionEnabled
-        
+
         super.init()
     }
     
@@ -135,24 +131,22 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         }, accessibility: AccessibilityId.ratingListCellReview)
         actions.append(reviewAction)
 
-        if isReportActionEnabled {
-            let reportAction = UIAction(interface: .text(R.Strings.ratingListActionReportReview), action: { [weak self] in
-                self?.delegate?.vmShowLoading(nil)
-                self?.userRatingListRequester.reportRating(rating, completion: { result in
-                    if let ratingUpdated = result.value {
-                        self?.replaceRating(ratingUpdated)
-                        self?.delegate?.vmRefresh()
-                        self?.delegate?.vmHideLoading(R.Strings.ratingListActionReportReviewSuccessMessage,
-                                                      afterMessageCompletion: nil)
-                        self?.trackReviewReported(userFromId: rating.userFrom.objectId , ratingStars: rating.value)
-                    } else if let _ = result.error {
-                        self?.delegate?.vmHideLoading(R.Strings.ratingListActionReportReviewErrorMessage,
-                                                      afterMessageCompletion: nil)
-                    }
-                })
-                }, accessibility: AccessibilityId.ratingListCellReport)
-            actions.append(reportAction)
-        }
+        let reportAction = UIAction(interface: .text(R.Strings.ratingListActionReportReview), action: { [weak self] in
+            self?.delegate?.vmShowLoading(nil)
+            self?.userRatingListRequester.reportRating(rating, completion: { result in
+                if let ratingUpdated = result.value {
+                    self?.replaceRating(ratingUpdated)
+                    self?.delegate?.vmRefresh()
+                    self?.delegate?.vmHideLoading(R.Strings.ratingListActionReportReviewSuccessMessage,
+                                                  afterMessageCompletion: nil)
+                    self?.trackReviewReported(userFromId: rating.userFrom.objectId , ratingStars: rating.value)
+                } else if let _ = result.error {
+                    self?.delegate?.vmHideLoading(R.Strings.ratingListActionReportReviewErrorMessage,
+                                                  afterMessageCompletion: nil)
+                }
+            })
+        }, accessibility: AccessibilityId.ratingListCellReport)
+        actions.append(reportAction)
 
         let cancelAction = UIAction(interface: .text(R.Strings.commonCancel), action: {})
         delegate?.vmShowActionSheet(cancelAction, actions: actions)

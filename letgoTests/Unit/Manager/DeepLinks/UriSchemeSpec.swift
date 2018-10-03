@@ -9,6 +9,7 @@ class UriSchemeSpec: QuickSpec {
         var listingId: String!
         var message: String!
         var conversationId: String!
+        var offerId: String!
         
         describe("build from letgo scheme URL") {
             context("with a notification center URL") {
@@ -77,6 +78,33 @@ class UriSchemeSpec: QuickSpec {
                 }
                 it("has a deep link with product share action") {
                     expect(sut.deepLink.action) == DeepLinkAction.listingEdit(listingId: listingId)
+                }
+            }
+
+            context("with a p2p payment status URL") {
+                beforeEach {
+                    offerId = String.makeRandom()
+                    url = URL(string: "letgo://p2payments_offer/" + offerId)
+                    sut = UriScheme.buildFromUrl(url)
+                }
+                it("is not nil") {
+                    expect(sut).toNot(beNil())
+                }
+                it("has a deep link with p2p payment offer action") {
+                    expect(sut.deepLink.action) == DeepLinkAction.p2pPaymentsOffer(offerId: offerId)
+                }
+            }
+            
+            context("with open affiliation") {
+                beforeEach {
+                    url = URL(string: "letgo://rewards/")
+                    sut = UriScheme.buildFromUrl(url)
+                }
+                it("is not nil") {
+                    expect(sut).toNot(beNil())
+                }
+                it("has a deep link with affiliation challenges action") {
+                    expect(sut.deepLink.action) == DeepLinkAction.affiliation
                 }
             }
             

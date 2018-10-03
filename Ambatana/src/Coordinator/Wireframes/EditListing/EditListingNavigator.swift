@@ -2,11 +2,14 @@ import LGCoreKit
 
 protocol EditListingNavigator {
     func editingListingDidFinish(_ editedListing: Listing,
-                                 bumpUpProductData: BumpUpProductData?,
+                                 purchases: [BumpUpProductData],
                                  timeSinceLastBump: TimeInterval?,
                                  maxCountdown: TimeInterval)
     func openListingAttributePicker(viewModel: ListingAttributeSingleSelectPickerViewModel)
-    func editingListingDidCancel()
+    func editingListingDidCancel(_ originalListing: Listing,
+                                 purchases: [BumpUpProductData],
+                                 timeSinceLastBump: TimeInterval?,
+                                 maxCountdown: TimeInterval)
     func openEditLocation(mode: EditLocationMode,
                           initialPlace: Place?,
                           locationDelegate: EditLocationDelegate)
@@ -25,7 +28,7 @@ protocol EditListingNavigator {
 
 protocol OnEditActionable: class {
     func onEdit(listing: Listing,
-                bumpData: BumpUpProductData?,
+                purchases: [BumpUpProductData],
                 timeSinceLastBump: TimeInterval?,
                 maxCountdown: TimeInterval)
 }

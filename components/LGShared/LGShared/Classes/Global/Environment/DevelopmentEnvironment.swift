@@ -47,9 +47,17 @@ final class DevelopmentEnvironment: AppEnvironment {
     
     let moreInfoMultiAdUnitIdDFP = "/21636273254/turkey/iOS/moreinfo/300x250_var_a"
     let moreInfoMultiAdUnitIdDFPUSA = "/21666124832/us/iOS/moreinfo/300x250_var_a"
+    let chatSectionAdUnitForOldUsersUS = "/21666124832/us/iOS/chat/300x250_var_b"
+    let chatSectionAdUnitForOldUsersTR = "/21636273254/turkey/iOS/chat/300x250_var_b"
+    
+    let sectionedFeedAdUnitForUS = "/21666124832/us/iOS/feed/300x250_var_a"
+
+    // Polymorph
+    let feedAdUnitIdPolymorphUSA = "/21666124832/us/iOS/feed/pm_c_render_var_a"
+    let polymorphAdUnit = "hMnlVfr8JfULYnI02eje-Syy_dmyoW8O3opIJrmU"
 
     // Stripe
-    let stripeAPIKey = "pk_test_ubL9uioHtnpGqKN5bzIRElxk"
+    let stripeAPIKey = "pk_test_TFRwcAkkYAM13r3Bw8hURnY7"
 
     private let _godmode: Bool
     

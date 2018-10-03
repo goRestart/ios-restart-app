@@ -106,6 +106,10 @@ final class UserVerificationViewModel: BaseViewModel {
         return [firstSection, secondSection, thirdSection]
     }
 
+    private func smsVerificationIsCompleted() -> Bool {
+        return actionsHistory.value?.contains(.sms) ?? false
+    }
+
     // MARK: - Puclic methods
 
     func didSelect(item: UserVerificationItem) {
@@ -192,7 +196,7 @@ final class UserVerificationViewModel: BaseViewModel {
     }
 
     private func verifyPhoneNumber() {
-        navigator?.openPhoneNumberVerification()
+        navigator?.openPhoneNumberVerification(editing: smsVerificationIsCompleted())
     }
 
     private func verifyExistingEmail(email: String) {
@@ -241,6 +245,9 @@ final class UserVerificationViewModel: BaseViewModel {
             event = .verifyAccountSelectNetwork(.userVerifications, network: .email)
         case .phoneNumber:
             event = .verifyAccountSelectNetwork(.userVerifications, network: .sms)
+            if smsVerificationIsCompleted() {
+                trackerPhoneNumberEditStart()
+            }
         case .profilePicture:
             event = .verifyAccountSelectNetwork(.userVerifications, network: .profilePhoto)
         default:
@@ -269,6 +276,10 @@ fileprivate extension UserVerificationViewModel {
     func trackUpdateAvatarComplete() {
         let trackerEvent = TrackerEvent.profileEditEditPicture()
         tracker.trackEvent(trackerEvent)
+    }
+
+    func trackerPhoneNumberEditStart() {
+        tracker.trackEvent(.phoneNumberEditComplete())
     }
 }
 

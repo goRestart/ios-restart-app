@@ -60,6 +60,7 @@ class EnvironmentProxy: Environment {
     var paymentsBaseURL: String { return environment.paymentsBaseURL }
     var suggestiveSearchBaseURL: String { return environment.suggestiveSearchBaseURL }
     var searchProductsBaseURL: String { return environment.searchProductsBaseURL }
+    var newSearchProductsBaseURL: String { return environment.newSearchProductsBaseURL }
     var searchRealEstateBaseURL: String { return environment.searchRealEstateBaseURL }
     var searchCarsBaseURL: String { return environment.searchCarsBaseURL }
     var niordBaseURL: String { return environment.niordBaseURL }
@@ -71,4 +72,8 @@ class EnvironmentProxy: Environment {
     var notificationSettingsMailerBaseURL: String { return environment.notificationSettingsMailerBaseURL }
     var reportingBaseURL: String { return environment.reportingBaseURL }
     var communityBaseURL: String { return environment.communityBaseURL }
+    var rewardBaseURL: String { return environment.rewardBaseURL }
+    var challengerBaseURL: String { return environment.challengerBaseURL }
+    var p2pPaymentsBaseURL: String { return environment.p2pPaymentsBaseURL }
+    var reputationBaseURL: String { return environment.reputationBaseURL }
 }

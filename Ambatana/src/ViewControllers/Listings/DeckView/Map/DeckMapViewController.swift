@@ -3,20 +3,23 @@ import MapKit
 import LGComponents
 
 protocol DeckMapViewDelegate: class {
-    func deckMapViewDidTapOnView(_ vc: DeckMapViewController)
+    func close(_ vc: DeckMapViewController)
 }
 
 struct DeckMapData {
-    let size: CGSize
     let location: CLLocationCoordinate2D
     let shouldHighlightCenter: Bool
 }
 
 final class DeckMapViewController: UIViewController {
-    private struct Constants {
+    private enum Constants {
         static let pinID = "mapPin"
         static let circleRadius: CLLocationDistance = 1000.0
         static let regionSpan = MKCoordinateSpanMake(0.1, 0.1)
+    }
+
+    private enum Layout {
+        static let buttonSize = CGSize(width: 40, height: 40)
     }
 
     private let annotation = MKPointAnnotation()
@@ -24,13 +27,12 @@ final class DeckMapViewController: UIViewController {
     private let overlay: MKCircle
 
     private var mapView: MKMapView { return deckMapView.mapView }
-    private var blurView: UIVisualEffectView { return deckMapView.visualEffect }
 
     let deckMapView: DeckMapView
     weak var delegate: DeckMapViewDelegate?
 
     init(with deckMapData: DeckMapData) {
-        self.deckMapView = DeckMapView(withSize: deckMapData.size)
+        self.deckMapView = DeckMapView()
         self.overlay = MKCircle(center: deckMapData.location, radius: Constants.circleRadius)
         self.annotation.coordinate = deckMapData.location
         self.shouldShowAnnotation = deckMapData.shouldHighlightCenter
@@ -43,37 +45,42 @@ final class DeckMapViewController: UIViewController {
 
     override func loadView() { self.view = deckMapView }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        blurView.alpha = 0
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        UIView.animate(withDuration: 0.3) {
-            self.blurView.alpha = 0.9
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         purgeLocationDataForMapSingleton()
         mapView.delegate = self
 
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(informDelegate)))
         mapView.add(overlay)
 
         guard shouldShowAnnotation else { return }
         mapView.addAnnotation(annotation)
     }
 
-    @objc private func informDelegate() {
-        delegate?.deckMapViewDidTapOnView(self)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setLeftCloseButton()
     }
 
     private func purgeLocationDataForMapSingleton() {
         mapView.removeOverlays(mapView.overlays)
         mapView.removeAnnotations(mapView.annotations)
+    }
+
+    private func setLeftCloseButton() {
+        let button = UIButton(type: .custom)
+        deckMapView.addSubviewForAutoLayout(button)
+        NSLayoutConstraint.activate([
+            button.topAnchor.constraint(equalTo: deckMapView.topAnchor, constant: statusBarHeight + Metrics.shortMargin),
+            button.leadingAnchor.constraint(equalTo: deckMapView.leadingAnchor, constant: Metrics.veryShortMargin),
+            button.heightAnchor.constraint(equalToConstant: Layout.buttonSize.height),
+            button.widthAnchor.constraint(equalToConstant: Layout.buttonSize.width)
+        ])
+        button.addTarget(self, action: #selector(closeView), for: .touchUpInside)
+        button.setImage(R.Asset.IconsButtons.icCloseCarousel.image, for: .normal)
+    }
+
+    @objc private func closeView() {
+        delegate?.close(self)
     }
 }
 

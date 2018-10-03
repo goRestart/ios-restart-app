@@ -3,7 +3,7 @@ import LGCoreKit
 import LGComponents
 
 final class ListingDetailWireframe: ListingDetailNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
 
     private let sessionManager: SessionManager
     private let featureFlags: FeatureFlaggeable
@@ -15,6 +15,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
     private let rateBuyerAssembly: RateBuyerAssembly
 
     private let chatNavigator: ChatNavigator
+    private var userRouter: UserWireframe?
 
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
@@ -72,31 +73,34 @@ final class ListingDetailWireframe: ListingDetailNavigator {
 
     func openUserVerificationView() {
         let vc = verificationAssembly.buildUserVerification()
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func closeProductDetail() {
-        nc.popViewController(animated: true)
+        nc?.popViewController(animated: true)
     }
 
     func openUser(_ data: UserDetailData) {
-        let userCoordinator = UserWireframe(nc: nc)
-        userCoordinator.openUser(data)
+        guard let nc = nc else { return }
+        let wireframe = UserWireframe(nc: nc)
+        wireframe.openUser(data)
+        userRouter = wireframe
     }
 
     func editListing(_ listing: Listing,
-                     bumpUpProductData: BumpUpProductData?,
+                     purchases: [BumpUpProductData],
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
         let vc = editAssembly.buildEditView(listing: listing,
                                             pageType: nil,
-                                            bumpUpProductData: bumpUpProductData,
+                                            purchases: purchases,
                                             listingCanBeBoosted: listingCanBeBoosted,
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: maxCountdown,
-                                            onEditAction: self)
-                                            nc.present(vc, animated: true)
+                                            onEditAction: self,
+                                            onCancelEditAction: self)
+        nc?.present(vc, animated: true)
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
@@ -113,56 +117,62 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                                                                        title: nil) else { return }
                                                         self?.deeplinkMailBox.push(convertible: url)
                 }, accessibility: AccessibilityId.postDeleteAlertButton)
-            nc.showAlertWithTitle(R.Strings.productDeletePostTitle,
+            nc?.showAlertWithTitle(R.Strings.productDeletePostTitle,
                                                      text: R.Strings.productDeletePostSubtitle,
                                                      alertType: .plainAlertOld, actions: [action])
         }
     }
 
-    func openFreeBumpUp(forListing listing: Listing,
-                        bumpUpProductData: BumpUpProductData,
-                        typePage: EventParameterTypePage?,
-                        maxCountdown: TimeInterval) {
-        if case .socialMessage(let socialMessage) = bumpUpProductData.bumpUpPurchaseableData {
-            let vc = bumpAssembly.buildFreeBumpUp(forListing: listing,
-                                                  socialMessage: socialMessage,
-                                                  letgoItemId: bumpUpProductData.letgoItemId,
-                                                  storeProductId: bumpUpProductData.storeProductId,
-                                                  typePage: typePage,
-                                                  maxCountdown: maxCountdown)
-            nc.present(vc, animated: true, completion: nil)
-        }
-    }
     func openPayBumpUp(forListing listing: Listing,
-                       bumpUpProductData: BumpUpProductData,
+                       purchases: [BumpUpProductData],
                        typePage: EventParameterTypePage?,
                        maxCountdown: TimeInterval) {
-        if case .purchaseableProduct(let purchaseableProduct) = bumpUpProductData.bumpUpPurchaseableData {
-            let vc = bumpAssembly.buildPayBumpUp(forListing: listing,
-                                                 purchaseableProduct: purchaseableProduct,
-                                                 letgoItemId: bumpUpProductData.letgoItemId,
-                                                 storeProductId: bumpUpProductData.storeProductId,
-                                                 typePage: typePage,
-                                                 maxCountdown: maxCountdown)
-            nc.present(vc, animated: true, completion: nil)
-        }
+        let vc = bumpAssembly.buildPayBumpUp(forListing: listing,
+                                             purchases: purchases,
+                                             typePage: typePage,
+                                             maxCountdown: maxCountdown)
+        nc?.present(vc, animated: true, completion: nil)
     }
+
     func openBumpUpBoost(forListing listing: Listing,
-                         bumpUpProductData: BumpUpProductData,
+                         purchases: [BumpUpProductData],
                          typePage: EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
                          maxCountdown: TimeInterval) {
-        if case .purchaseableProduct(let purchaseableProduct) = bumpUpProductData.bumpUpPurchaseableData,
-            timeSinceLastBump > 0 {
-            let vc = bumpAssembly.buildBumpUpBoost(forListing: listing, purchaseableProduct: purchaseableProduct,
-                                                   letgoItemId: bumpUpProductData.letgoItemId,
-                                                   storeProductId: bumpUpProductData.storeProductId,
+        if timeSinceLastBump > 0 {
+            let vc = bumpAssembly.buildBumpUpBoost(forListing: listing,
+                                                   purchases: purchases,
                                                    typePage: typePage,
                                                    timeSinceLastBump: timeSinceLastBump,
                                                    maxCountdown: maxCountdown)
-            nc.present(vc, animated: true, completion: nil)
+            nc?.present(vc, animated: true, completion: nil)
         }
     }
+
+    func openMultiDayBumpUp(forListing listing: Listing,
+                            purchases: [BumpUpProductData],
+                            typePage: EventParameterTypePage?,
+                            maxCountdown: TimeInterval) {
+        let vc = bumpAssembly.buildMultiDayBumpUp(forListing: listing,
+                                                  purchases: purchases,
+                                                  typePage: typePage,
+                                                  maxCountdown: maxCountdown)
+        nc?.present(vc, animated: true, completion: nil)
+    }
+
+    func openMultiDayInfoBumpUp(forListing listing: Listing,
+                                featurePurchaseType: FeaturePurchaseType,
+                                typePage: EventParameterTypePage?,
+                                timeSinceLastBump: TimeInterval,
+                                maxCountdown: TimeInterval) {
+        let vc = bumpAssembly.buildMultiDayInfoBumpUp(forListing: listing,
+                                                  featurePurchaseType: featurePurchaseType,
+                                                  typePage: typePage,
+                                                  timeSinceLastBump: timeSinceLastBump,
+                                                  maxCountdown: maxCountdown)
+        nc?.present(vc, animated: true, completion: nil)
+    }
+
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
@@ -172,10 +182,12 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                                    buyers: buyers,
                                                    listingId: listingId,
                                                    sourceRateBuyers: sourceRateBuyers,
-                                                   trackingInfo: trackingInfo)
-        nc.present(vc, animated: true, completion: nil)
+                                                   trackingInfo: trackingInfo,
+                                                   onRateUserFinishAction: self)
+        nc?.present(vc, animated: true, completion: nil)
     }
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
+        guard let nc = nc else { return }
         bubbleManager.showBubble(data: data,
                                  duration: SharedConstants.bubbleFavoriteDuration,
                                  view: nc.view,
@@ -198,7 +210,7 @@ final class ListingDetailWireframe: ListingDetailNavigator {
             cancelAction: nil
         )
         vc.modalTransitionStyle = .crossDissolve
-        nc.present(vc, animated: true)
+        nc?.present(vc, animated: true)
     }
 
     func showBumpUpNotAvailableAlertWithTitle(title: String,
@@ -206,13 +218,14 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                               alertType: AlertType,
                                               buttonsLayout: AlertButtonsLayout,
                                               actions: [UIAction]) {
-        nc.showAlertWithTitle(title,
+        nc?.showAlertWithTitle(title,
                                                  text: text,
                                                  alertType: alertType,
                                                  buttonsLayout: buttonsLayout,
                                                  actions: actions)
     }
     func showBumpUpBoostSucceededAlert() {
+        guard let nc = nc else { return }
         let boostSuccessAlert = BoostSuccessAlertView()
         // the alert view has a thin blur that has to cover the nav bar too
         nc.view.addSubviewForAutoLayout(boostSuccessAlert)
@@ -233,16 +246,18 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                                                               type: contactUstype) else {
                 return
         }
-        nc.openInAppWebViewWith(url: contactURL)
+        nc?.openInAppWebViewWith(url: contactURL)
     }
 
     func openFeaturedInfo() {
+        guard let nc = nc else { return }
         let assembly = FeaturedInfoBuilder.modal(nc)
         let vc = assembly.buildFeaturedInfo()
         nc.present(vc, animated: true, completion: nil)
     }
 
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        guard let nc = nc else { return }
         let assembly = ProfessionalDealerAskPhoneBuilder.modal(nc)
         let vc = assembly.buildProfessionalDealerAskPhone(listing: listing,
                                                           interlocutor: interlocutor,
@@ -250,39 +265,53 @@ final class ListingDetailWireframe: ListingDetailNavigator {
         nc.present(vc, animated: true)
     }
 
-    func openVideoPlayer(atIndex index: Int, listingVM: ListingViewModel, source: EventParameterListingVisitSource) {
-        let assembly = MediaViewerBuilder.modal(nc)
-        guard let vc = assembly.buildVideoPlayer(atIndex: index, listingVM: listingVM, source: source) else { return }
-        nc.present(vc, animated: true, completion: nil)
-    }
-
     func openListingAttributeTable(withViewModel viewModel: ListingAttributeTableViewModel) {
         let viewController = ListingAttributeTableViewController(withViewModel: viewModel)
-        nc.present(viewController, animated: true, completion: nil)
+        nc?.present(viewController, animated: true, completion: nil)
     }
 
     func closeListingAttributeTable() {
-        nc.dismiss(animated: true, completion: nil)
+        nc?.dismiss(animated: true, completion: nil)
+    }
+
+    func openPostAnotherListing() {
+        guard let nc = nc else { return }
+        let assembly = PostAnotherListingBuilder.modal(nc)
+        let vc = assembly.buildPostAnotherListing()
+        nc.present(vc, animated: true, completion: nil)
     }
 }
 
 extension ListingDetailWireframe: OnEditActionable {
     func onEdit(listing: Listing,
-                bumpData: BumpUpProductData?,
+                purchases: [BumpUpProductData],
                 timeSinceLastBump: TimeInterval?,
                 maxCountdown: TimeInterval) {
-        guard let bumpData = bumpData, bumpData.hasPaymentId else { return }
-        if let timeSinceLastBump = timeSinceLastBump, timeSinceLastBump > 0 {
+        guard !purchases.isEmpty else { return }
+        let allPurchasesHavePaymentId = !(purchases.filter { $0.hasPaymentId }.isEmpty)
+        guard allPurchasesHavePaymentId else { return }
+        if featureFlags.multiDayBumpUp.isActive {
+            openMultiDayBumpUp(forListing: listing,
+                               purchases: purchases,
+                               typePage: .edit,
+                               maxCountdown: maxCountdown)
+        } else if let timeSinceLastBump = timeSinceLastBump, timeSinceLastBump > 0 {
             openBumpUpBoost(forListing: listing,
-                            bumpUpProductData: bumpData,
+                            purchases: purchases,
                             typePage: .edit,
                             timeSinceLastBump: timeSinceLastBump,
                             maxCountdown: maxCountdown)
         } else {
             openPayBumpUp(forListing: listing,
-                          bumpUpProductData: bumpData,
+                          purchases: purchases,
                           typePage: .edit,
                           maxCountdown: maxCountdown)
         }
+    }
+}
+
+extension ListingDetailWireframe: OnRateUserFinishActionable {
+    func onFinish() {
+        openPostAnotherListing()
     }
 }

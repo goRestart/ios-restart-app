@@ -48,4 +48,9 @@ extension Array where Element: Equatable {
             append(element)
         }
     }
+    
+    mutating func removeIfContains(_ element: Element) {
+        guard let index = index(where: { $0 == element }) else { return }
+        remove(at: index)
+    }
 }

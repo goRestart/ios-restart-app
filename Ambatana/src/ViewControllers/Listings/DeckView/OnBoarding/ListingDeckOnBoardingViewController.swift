@@ -9,7 +9,7 @@ protocol ListingDeckOnBoardingViewControllerType: class {
     func close()
 }
 
-final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeckOnBoardingViewControllerType, UIViewControllerTransitioningDelegate {
+final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeckOnBoardingViewControllerType {
 
     private let onboardingView = ListingDeckOnBoardingView()
     private let viewModel: ListingDeckOnBoardingViewModelType
@@ -25,7 +25,6 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
         self.viewModel = viewModel
         self.animator = animator
         super.init(viewModel: viewModel, nibName: nil)
-        self.transitioningDelegate = self
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }

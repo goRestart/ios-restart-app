@@ -21,6 +21,9 @@ enum PostingSource: String {
     case chatList
     case listingList
     case profile
+    case markAsSold
+    case rewardCenter
+    case referralNotAvailable
 }
 
 class PostListingViewModel: BaseViewModel {
@@ -817,14 +820,20 @@ extension PostingSource {
             return .listingList
         case .profile:
             return .profile
+        case .markAsSold:
+            return .listingSold
+        case .rewardCenter:
+            return .rewardCenter
+        case .referralNotAvailable:
+            return .referralNotAvailable
         }
     }
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .tabBar, .deepLink, .notifications, .deleteListing, .onboardingBlockingPosting, .chatList:
+        case .tabBar, .deepLink, .notifications, .deleteListing, .onboardingBlockingPosting, .chatList, .markAsSold, .rewardCenter:
             return nil
-        case .onboardingButton, .listingList, .profile:
+        case .onboardingButton, .listingList, .profile, .referralNotAvailable:
             return .sellYourStuff
         case .onboardingCamera:
             return .startMakingCash
@@ -844,7 +853,7 @@ extension PostingSource {
         case .listingList, .profile:
             return .floatingButton
         case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting, .deepLink, .notifications,
-             .deleteListing, .chatList:
+             .deleteListing, .chatList, .markAsSold, .rewardCenter:
             return .none
         case .realEstatePromo:
             return .realEstatePromo
@@ -852,6 +861,8 @@ extension PostingSource {
             return .carPromo
         case .servicesPromo:
             return .servicesPromo
+        case .referralNotAvailable:
+            return .referralNotAvailable
         }
     }
 }

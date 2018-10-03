@@ -38,7 +38,9 @@ public struct SharedConstants {
     public static let websiteContactUsEndpoint = "/contact_app"
     public static let websitePrivacyEndpoint = "/privacy_app"
     public static let websiteTermsEndpoint = "/terms_app"
+    public static let websiteAffiliationHowItWorks = "/rewards-how-it-works"
     public static let websiteCommunityGuideline = "/community-guidelines"
+    public static let websitePaymentsFaqs = "/paymentsfaqs"
     public static func websiteListingEndpoint(_ listingId: String) -> String {
         return String(format: "/product/%@", arguments: [listingId])
     }
@@ -174,6 +176,7 @@ public struct SharedConstants {
     // Ads
     public static let adInFeedCustomTargetingKey = "pos_var"
     public static let newUserTimeThresholdForAds = TimeInterval.make(days: 15)
+    public static let adNetwork = "adNetwork"
 
     // Professional Dealers
     public static let usaPhoneNumberDigitsCount = 10
@@ -192,6 +195,8 @@ public struct SharedConstants {
     public enum Feed {
         public static let adInFeedInitialPosition = 3
         public static let adsInFeedRatio = 20
+        public static let firstAdBannerIndex = 1
+        public static let adBannerRatio = 6
     }
     
 }

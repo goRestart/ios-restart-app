@@ -132,15 +132,20 @@ final class ChatCarouselCollectionCardCell: UICollectionViewCell, ReusableCell {
     
     // MARK: Setup
     
+    private func shouldHideFreeBanner(for card: ChatCarouselCard) -> Bool {
+        guard let isFree = card.product?.price.isFree else { return true }
+        return !isFree
+    }
+    
     func set(card: ChatCarouselCard) {
         self.card = card
         if let imageURL = card.imageURL {
             imageView.af_setImage(withURL: imageURL)
         }
-        ribbonView.isHidden = card.price?.isFree ?? true
+        ribbonView.isHidden = !shouldHideFreeBanner(for: card)
         titleLabel.text = card.title
-        if let price = card.price, !price.isFree,
-            let currency = card.currency {
+        if let price = card.product?.price, !price.isFree,
+            let currency = card.product?.currency {
             priceLabel.text = price.stringValue(currency: currency, isFreeEnabled: true)
         }
         textLabel.text = card.text

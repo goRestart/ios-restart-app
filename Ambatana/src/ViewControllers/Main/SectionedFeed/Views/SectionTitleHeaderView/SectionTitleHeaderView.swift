@@ -10,25 +10,28 @@ final class SectionTitleHeaderView: UICollectionReusableView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
+        label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
         label.isOpaque = true
         label.textColor = Style.titleTextColor
         label.font = Style.titleFont
-        label.adjustsFontSizeToFitWidth = true
         return label
     }()
-
-    private let seeAllButton: UIButton = {
-        let bn = UIButton(type: .custom)
-        bn.titleLabel?.font = Style.buttonFont
-        let disclosureImage = R.Asset.IconsButtons.icDisclosure.image.withRenderingMode(.alwaysTemplate)
-        bn.imageView?.tintColor = Style.buttonTintColor
-        bn.setImage(disclosureImage, for: .normal)
-        bn.setTitleColor(Style.buttonTintColor, for: .normal)
-        bn.contentHorizontalAlignment = .right
-        bn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        bn.semanticContentAttribute = .forceRightToLeft
-        bn.imageEdgeInsets = UIEdgeInsets(top: Layout.buttonVerticalInset, left: 0, bottom: Layout.buttonVerticalInset, right: Layout.buttonRightInset)
-        return bn
+    
+    private let hitboxArea: UIView = UIView()
+    
+    private let arrowIcon: UIImageView = {
+        let arrowIcon = UIImageView()
+        arrowIcon.image = R.Asset.IconsButtons.icDisclosure.image.withRenderingMode(.alwaysTemplate)
+        arrowIcon.tintColor = Style.buttonTintColor
+        return arrowIcon
+    }()
+    
+    private let buttonTitle: UILabel = {
+        let text = UILabel()
+        text.font = Style.buttonFont
+        text.textColor = Style.buttonTintColor
+        return text
     }()
 
     enum Style {
@@ -40,11 +43,27 @@ final class SectionTitleHeaderView: UICollectionReusableView {
     
     enum Layout {
         static let sideMargin: CGFloat = 15
-        static let titleHeightMultiplier: CGFloat = 0.9
-        static let titleWidthMultiplier: CGFloat = 0.6
-        static let buttonWidthMultiplier: CGFloat = 0.25
-        static let buttonRightInset: CGFloat = -6
-        static let buttonVerticalInset: CGFloat = 2
+        static let titleWidthMultiplier: CGFloat = 0.65
+        static let verticalMargin: CGFloat = Metrics.shortMargin
+        
+        enum Hitbox {
+            static let rightPadding: CGFloat = 14.0
+            static let height: CGFloat = 45.0
+            static let width: CGFloat = 145.0
+        }
+        
+        enum ArrowIcon {
+            static let leftMargin: CGFloat = 5.0
+            static let height: CGFloat = 15.0
+            static let width: CGFloat = 15.0
+        }
+        
+        static func headerSize(with title: String, containerWidth: CGFloat, maxLines: Int?) -> CGSize{
+            let height = title.heightForWidth(width: containerWidth,
+                                                     maxLines: maxLines,
+                                                     withFont: SectionTitleHeaderView.Style.titleFont)
+            return CGSize(width: containerWidth, height: height + 2 * Layout.verticalMargin)
+        }
     }
 
     weak var sectionHeaderDelegate: SectionTitleHeaderViewDelegate?
@@ -53,9 +72,9 @@ final class SectionTitleHeaderView: UICollectionReusableView {
         super.init(frame: frame)
         backgroundColor = .grayBackground
         isOpaque = true
-        addSubviewsForAutoLayout([titleLabel, seeAllButton])
+        addSubviewsForAutoLayout([titleLabel, hitboxArea])
+        setupHitbox()
         setupConstraints()
-        setupButtonAction()
     }
 
     private func setupConstraints() {
@@ -63,32 +82,41 @@ final class SectionTitleHeaderView: UICollectionReusableView {
             titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Layout.sideMargin),
             titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: Layout.titleWidthMultiplier),
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Layout.verticalMargin),
+            titleLabel.bottomAnchor.constraint(equalTo: topAnchor, constant: -Layout.verticalMargin),
 
-            seeAllButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -Layout.sideMargin + Layout.buttonRightInset),
-            seeAllButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            seeAllButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: Layout.buttonWidthMultiplier),
-            ])
+            hitboxArea.rightAnchor.constraint(equalTo: rightAnchor),
+            hitboxArea.heightAnchor.constraint(equalToConstant: Layout.Hitbox.height),
+            hitboxArea.widthAnchor.constraint(equalToConstant: Layout.Hitbox.width),
+            
+            arrowIcon.rightAnchor.constraint(equalTo: hitboxArea.rightAnchor, constant: -Layout.sideMargin),
+            arrowIcon.centerYAnchor.constraint(equalTo: hitboxArea.centerYAnchor),
+            
+            arrowIcon.leftAnchor.constraint(
+                equalTo: buttonTitle.rightAnchor, constant: Layout.ArrowIcon.leftMargin),
+            buttonTitle.centerYAnchor.constraint(equalTo: arrowIcon.centerYAnchor)
+        ])
     }
 
-    private func setupButtonAction() {
-        seeAllButton.addTarget(self, action: #selector(handleButtonClick), for: .touchUpInside)
+    private func setupHitbox() {
+        hitboxArea.addSubviewsForAutoLayout([arrowIcon, buttonTitle])
+        hitboxArea.addGestureRecognizer(
+            UITapGestureRecognizer(
+                target: self,
+                action: #selector(handleTap)))
     }
-
-    @objc private func handleButtonClick() {
-        sectionHeaderDelegate?.didTapViewAll()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    
+    @objc private func handleTap() { sectionHeaderDelegate?.didTapViewAll() }
+    
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) { fatalError() }
 
     func configure(with titleText: String?,
                    buttonText: String?,
                    shouldShowSeeAllButton: Bool = true) {
         titleLabel.text = titleText
-        guard let buttonTextString = buttonText else { return }
-        seeAllButton.setTitle(buttonTextString, for: .normal)
-        seeAllButton.isHidden = !shouldShowSeeAllButton
+        buttonTitle.text = buttonText
+        hitboxArea.isHidden = !shouldShowSeeAllButton
     }
 }
 

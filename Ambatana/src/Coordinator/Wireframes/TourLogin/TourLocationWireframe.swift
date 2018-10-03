@@ -1,7 +1,7 @@
 import LGCoreKit
 
 final class TourLocationWireframe: TourLocationNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
     private let action: TourPostingAction
     private let assembly: TourAssembly
 
@@ -35,6 +35,10 @@ final class TourLocationWireframe: TourLocationNavigator {
     }
 
     private func openNextTour() {
+        guard false else {
+            action(TourPosting(posting: false, source: .onboardingBlockingPosting))
+            return
+        }
         if let tourSkipper = skipper, tourSkipper.shouldSkipTour {
             tourSkipper.skipTour()
         } else if shouldShowBlockingPosting {
@@ -45,10 +49,10 @@ final class TourLocationWireframe: TourLocationNavigator {
     }
 
     private func openTourPosting() {
-        nc.addFadeTransition()
+        nc?.addFadeTransition()
 
         let vc = assembly.buildTourPosting(action: action)
-        nc.setViewControllers([vc], animated: false)
+        nc?.setViewControllers([vc], animated: false)
     }
 
 }

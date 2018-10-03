@@ -14,8 +14,10 @@ protocol FeedAssembly {
     func makePro(withSearchType: SearchType?,
                  filters: ListingFilters,
                  hideSearchBox: Bool,
-                 showFilters: Bool,
-                 showLocationEditButton: Bool) -> (BaseViewController, FeedNavigatorOwnership)
+                 showRightNavBarButtons: Bool,
+                 showLocationEditButton: Bool,
+                 comingSectionPosition: UInt?,
+                 comingSectionIdentifier: String?) -> (BaseViewController, FeedNavigatorOwnership)
     func makeClassic(withSearchType: SearchType?,
                      filters: ListingFilters,
                      shouldCloseOnRemoveAllFilters: Bool,
@@ -31,17 +33,21 @@ enum FeedBuilder: FeedAssembly {
         withSearchType searchType: SearchType? = nil,
         filters: ListingFilters,
         hideSearchBox: Bool = false,
-        showFilters: Bool = true,
-        showLocationEditButton: Bool = true
+        showRightNavBarButtons: Bool = true,
+        showLocationEditButton: Bool = true,
+        comingSectionPosition position: UInt? = nil,
+        comingSectionIdentifier identifier: String? = nil
     ) -> (BaseViewController, FeedNavigatorOwnership) {
         let vm = FeedViewModel(
             searchType: searchType,
             filters: filters,
-            shouldShowEditOnLocationHeader: showLocationEditButton)
+            shouldShowEditOnLocationHeader: showLocationEditButton,
+            comingSectionPosition: position,
+            comingSectionIdentifier: identifier)
         let vc: FeedViewController = FeedViewController(
             withViewModel: vm,
             hideSearchBox: hideSearchBox,
-            showFilters: showFilters
+            showRightNavBarButtons: showRightNavBarButtons
         )
         
         switch self {

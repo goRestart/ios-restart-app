@@ -48,9 +48,15 @@ struct ChatCellDrawerFactory {
                 }
             }
         case .cta:
-            return ChatCallToActionCellDrawer(autoHide: autoHide)
+            if isMine {
+                return ChatMyCallToActionCellDrawer(autoHide: autoHide)
+            } else {
+                return ChatOtherCallToActionCellDrawer(autoHide: autoHide)
+            }
         case .carousel:
             return ChatCarouselDrawer(autoHide: autoHide)
+        case .system:
+            return ChatSystemCellDrawer(autoHide: autoHide)
         case .interlocutorIsTyping:
             return ChatInterlocutorIsTypingCellDrawer(autoHide: autoHide)
         }
@@ -64,8 +70,10 @@ struct ChatCellDrawerFactory {
         ChatOtherInfoCellDrawer.registerClassCell(tableView)
         ChatAskPhoneNumberCellDrawer.registerClassCell(tableView)
         ChatInterlocutorIsTypingCellDrawer.registerClassCell(tableView)
-        ChatCallToActionCellDrawer.registerClassCell(tableView)
+        ChatMyCallToActionCellDrawer.registerClassCell(tableView)
+        ChatOtherCallToActionCellDrawer.registerClassCell(tableView)
         ChatCarouselDrawer.registerClassCell(tableView)
+        ChatSystemCellDrawer.registerClassCell(tableView)
         ChatOtherMeetingCellDrawer.registerCell(tableView)
         ChatMyMeetingCellDrawer.registerCell(tableView)
     }

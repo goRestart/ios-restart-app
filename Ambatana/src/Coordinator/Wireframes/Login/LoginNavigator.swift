@@ -13,4 +13,6 @@ protocol LoginNavigator {
     func showAlert(withTitle: String?, andBody: String, andType: AlertType, andActions: [UIAction])
     func open(url: URL)
     func showRecaptcha(action: LoginActionType, delegate: RecaptchaTokenDelegate)
+    func showPasswordlessEmail()
+    func showPasswordlessEmailSent(email: String)
 }

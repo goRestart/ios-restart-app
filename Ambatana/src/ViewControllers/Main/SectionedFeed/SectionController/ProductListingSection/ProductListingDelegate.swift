@@ -1,8 +1,9 @@
 import LGCoreKit
+import IGListKit
 
 protocol FeedListingSelectable: class {
-    func didSelectListing(_ listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?)
-    func didSelectListing(_ listing: Listing, from feedDataArray: [FeedListingData], thumbnailImage: UIImage?, originFrame: CGRect?, index: Int, sectionIdentifier: String)
+    func didSelectListing(_ listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?, index: Int?, sectionIdentifier: String?, sectionIndex: UInt?, itemIdentifier: ListDiffable)
+    func didSelectListing(_ listing: Listing, from feedDataArray: [FeedListingData], thumbnailImage: UIImage?, originFrame: CGRect?, index: Int, sectionIdentifier: String, sectionIndex: UInt?)
 }
 
 protocol ProductListingDelegate: class {

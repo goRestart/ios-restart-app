@@ -184,7 +184,7 @@ class ListingPostedViewModel: BaseViewModel {
             return ListingSocialMessage(listing: listing,
                                         fallbackToStore: false,
                                         myUserId: myUserId,
-                                        myUserName: myUserName)
+                                        myUserName: myUserName, campaign: .posted)
         }
     }
     

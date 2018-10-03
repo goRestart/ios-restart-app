@@ -2,20 +2,28 @@ import IGListKit
 import LGCoreKit
 
 protocol HorizontalSectionDelegate: class {
-    func didTapSeeAll(page: SearchType)
+    func didTapSeeAll(page: SearchType, section: UInt, identifier: String)
 }
 
 final class HorizontalSectionController: ListSectionController {
 
+    enum Constants {
+        static let bigCellVariation: CGFloat = 2.4
+        static let smallCellVariation: CGFloat = 3.6
+    }
+    
     private var listingHorizontalSectionModel: ListingSectionModel?
     weak var listingActionDelegate: ListingActionDelegate?
     weak var delegate: HorizontalSectionDelegate?
+    
+    private var scrollOffset: CGFloat = -SectionControllerLayout.sectionInset.left
 
     private lazy var adapter: ListAdapter = {
         let adapter = ListAdapter(updater: ListAdapterUpdater(),
                                   viewController: self.viewController)
         adapter.dataSource = self
         adapter.collectionViewDelegate = self
+        adapter.scrollViewDelegate = self
         return adapter
     }()
 
@@ -42,6 +50,13 @@ final class HorizontalSectionController: ListSectionController {
                                  at: index) as? EmbeddedCollectionViewCell
             else { fatalError() }
         adapter.collectionView = cell.collectionView
+
+        cell.collectionView.setContentOffset(
+            CGPoint(x: scrollOffset,
+                    y: cell.collectionView.contentOffset.y),
+            animated: false
+        )
+        
         return cell
     }
 
@@ -51,7 +66,7 @@ final class HorizontalSectionController: ListSectionController {
     
     private func horizontalSectionHeight(forScreenWidth width: CGFloat) -> CGFloat {
         let variant = featureFlags.sectionedFeedABTestIntValue
-        return variant%2 == 0 ? width / 2.2 : width / 3.4
+        return variant%2 == 0 ? width / Constants.bigCellVariation : width / Constants.smallCellVariation
     }
 }
 
@@ -90,14 +105,20 @@ extension HorizontalSectionController: UICollectionViewDelegate {
         let embeddedCollectionViewCell = collectionContext?.cellForItem(at: 0, sectionController: self)
         let originalFrame = embeddedCollectionViewCell?.convert(cell.frame, to: nil) ?? .zero
         listingActionDelegate?.didSelectListing(model.items[indexPath.section].listing,
-                                                from: model.items,
                                                 thumbnailImage: cell.thumbnailImage,
                                                 originFrame: originalFrame,
                                                 index: indexPath.section,
-                                                sectionIdentifier: model.id)
+                                                sectionIdentifier: model.id,
+                                                sectionIndex: model.sectionPosition.index,
+                                                itemIdentifier: model.listDiffable())
     }
 }
 
+extension HorizontalSectionController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollOffset = scrollView.contentOffset.x
+    }
+}
 
 // MARK:- SupplementaryView Datasource
 
@@ -121,9 +142,11 @@ extension HorizontalSectionController: ListSupplementaryViewSource {
     }
 
     func sizeForSupplementaryView(ofKind elementKind: String, at index: Int) -> CGSize {
-        guard let context = collectionContext else { return .zero }
-        return CGSize(width: context.containerSize.width,
-                      height: SectionControllerLayout.fixTitleHeaderHeight)
+        guard let context = collectionContext,
+            let title = listingHorizontalSectionModel?.title else { return .zero }
+        return SectionTitleHeaderView.Layout.headerSize(with: title,
+                                                        containerWidth: context.containerSize.width,
+                                                        maxLines: SectionControllerLayout.sectionHeaderMaxLine)
     }
 }
 
@@ -151,6 +174,11 @@ extension HorizontalSectionController: SectionTitleHeaderViewDelegate {
         guard let nextPage = listingHorizontalSectionModel?.links.first?.value ,
             let nextPageURL = URL(string: nextPage),
             let title = listingHorizontalSectionModel?.title else { return }
-        delegate?.didTapSeeAll(page: .feed(page: nextPageURL, title: title))
+        guard let model = listingHorizontalSectionModel else { return }
+        delegate?.didTapSeeAll(
+            page: .feed(page: nextPageURL, title: title),
+            section: model.sectionPosition.index,
+            identifier: model.id
+        )
     }
 }

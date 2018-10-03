@@ -2,6 +2,7 @@ import RxSwift
 import RxDataSources
 import LGCoreKit
 import LGComponents
+import GoogleMobileAds
 
 final class ChatConversationsListViewController: ChatBaseViewController, ScrollableToTop {
     
@@ -9,6 +10,12 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
     private let contentView = ChatConversationsListView()
 
     private let featureFlags: FeatureFlaggeable
+    
+    struct Ads {
+        static let position: Int = 5
+        static let customAdWidth: CGFloat = 336
+        static let customAdSize = GADAdSizeFromCGSize(CGSize(width: 336, height: 280))
+    }
     
     private lazy var optionsButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -22,6 +29,20 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         button.addTarget(self, action: #selector(navigationBarFiltersButtonPressed), for: .touchUpInside)
         button.set(accessibilityId: .chatConversationsListFiltersNavBarButton)
         return button
+    }()
+    
+    var bannerView: GADBannerView =  {
+        let banner = DFPBannerView(adSize: kGADAdSizeBanner)
+        var adSizes = [NSValue]()
+        if UIScreen.main.bounds.size.width >= Ads.customAdWidth {
+            adSizes.append(NSValueFromGADAdSize(Ads.customAdSize))
+        }
+        adSizes.append(NSValueFromGADAdSize(kGADAdSizeBanner))
+        adSizes.append(NSValueFromGADAdSize(kGADAdSizeMediumRectangle))
+        adSizes.append(NSValueFromGADAdSize(kGADAdSizeLargeBanner))
+        banner.validAdSizes = adSizes
+        
+        return banner
     }()
     
     // MARK: Lifecycle
@@ -63,6 +84,9 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         if featureFlags.showChatConnectionStatusBar.isActive {
             setupStatusBarRx()
         }
+        if viewModel.shouldShowAds() {
+            setupAdsRx()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,6 +112,9 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         contentView.refreshControlBlock = { [weak self] in
             self?.viewModel.retrieveFirstPage(completion: { [weak self] in
                 self?.contentView.endRefresh()
+                if let viewModel = self?.viewModel, viewModel.shouldShowAds() {
+                    self?.bannerView.load(DFPRequest())
+                }
             })
         }
     }
@@ -137,30 +164,64 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
             .disposed(by: bag)
     }
     
-    private func setupTableViewRx() {
-        let dataSource = RxTableViewSectionedAnimatedDataSource<ChatConversationsListSectionModel>(
-            configureCell: { (_, tableView, indexPath, item) in
+    private static func dataSource() -> RxTableViewSectionedAnimatedDataSource<ChatConversationsListSectionModel> {
+        let configureCell = { (
+            dataSource: TableViewSectionedDataSource<ChatConversationsListSectionModel>,
+            tableView: UITableView,
+            indexPath: IndexPath,
+            item: ChatConversationsListSectionModel.Item) -> UITableViewCell in
+            switch dataSource[indexPath] {
 
-                if let userType = item.conversationCellData.userType,
-                    userType == .dummy,
-                    item.conversationCellData.listingId == nil {
+            case .conversationCellData(let conversationCellData):
+                if conversationCellData.isFakeListing {
                     guard let cell = tableView.dequeue(type: ChatAssistantConversationCell.self, for: indexPath) else {
                         return UITableViewCell()
                     }
-                    cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
+                    cell.setupCellWith(data: conversationCellData, indexPath: indexPath)
+                    return cell
+                }
+                if let userType = conversationCellData.userType,
+                    userType == .dummy,
+                    conversationCellData.listingId == nil {
+                    guard let cell = tableView.dequeue(type: ChatAssistantConversationCell.self, for: indexPath) else {
+                        return UITableViewCell()
+                    }
+                    cell.setupCellWith(data: conversationCellData, indexPath: indexPath)
                     return cell
                 } else {
                     guard let cell = tableView.dequeue(type: ChatUserConversationCell.self, for: indexPath) else {
                         return UITableViewCell()
                     }
-                    cell.setupCellWith(data: item.conversationCellData, indexPath: indexPath)
+                    cell.setupCellWith(data: conversationCellData, indexPath: indexPath)
                     return cell
                 }
-        },
-            canEditRowAtIndexPath: { (_, _) in
-            return true
+                
+            case .adCellData( let adCellData):
+                guard let cell = tableView.dequeue(type: ConversationAdCell.self, for: indexPath) else {
+                    return UITableViewCell()
+                }
+                cell.setupWith(dfpData: adCellData)
+                return cell
+            }
         }
+        
+        let canEditRowAtIndexPath = { (dataSource: TableViewSectionedDataSource<ChatConversationsListSectionModel>, indexPath: IndexPath) -> Bool in
+            switch dataSource[indexPath] {
+            case .conversationCellData:
+                return true
+            case.adCellData:
+                return false
+            }
+        }
+        
+        return RxTableViewSectionedAnimatedDataSource<ChatConversationsListSectionModel>(
+            configureCell: configureCell,
+            canEditRowAtIndexPath: canEditRowAtIndexPath
         )
+    }
+    
+    private func setupTableViewRx() {
+        let dataSource = ChatConversationsListViewController.dataSource()
         dataSource.decideViewTransition = { (_, _, changeSet) in
             return RxDataSources.ViewTransition.reload
         }
@@ -192,6 +253,7 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
                 self?.viewModel.setCurrentIndex(index.row)
             }
             .disposed(by: bag)
+
     }
 
     private func setupStatusBarRx() {
@@ -201,7 +263,14 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
             .disposed(by: bag)
     }
 
-
+    private func setupAdsRx() {
+        bannerView.adUnitID = featureFlags.multiAdRequestInChatSectionAdUnitId
+        bannerView.adSizeDelegate = self
+        bannerView.delegate = self
+        bannerView.rootViewController = self
+        bannerView.load(DFPRequest())
+    }
+    
     // MARK: Navigation Bar Actions
     
     @objc private func navigationBarOptionsButtonPressed() {
@@ -221,4 +290,65 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
     func scrollToTop() {
         contentView.scrollToTop()
     }
+    
+    private func selectedPositionFor(adSize: CGSize) -> Int {
+        let tableHeight = contentView.bounds.size.height
+        let minBannerHeight = adSize.height/2
+        let position = Int(((tableHeight - minBannerHeight) / ChatConversationsListView.Layout.rowHeight).rounded())
+        return min(position, Ads.position)
+    }
+    
+    private func updateWithAd(bannerView: GADBannerView) {
+        self.bannerView = bannerView
+        let sizeAd = bannerView.adSize.size
+        contentView.resetDataSource()
+        let dataSource = ChatConversationsListViewController.dataSource()
+        dataSource.decideViewTransition = { (_, _, changeSet) in
+            return RxDataSources.ViewTransition.reload
+        }
+        guard let adUnitID = bannerView.adUnitID else { return }
+        let selectedPosition = selectedPositionFor(adSize: sizeAd)
+        let adData = ConversationAdCellData(adUnitId: adUnitID,
+                                            bannerHeight: sizeAd.height,
+                                            bannerView: bannerView,
+                                            position: selectedPosition)
+        viewModel.adData = adData
+        viewModel.rx_conversations
+            .asObservable()
+            .map { [ChatConversationsListSectionModel(conversations: $0, header: "conversations", adData: adData)] }
+            .bind(to: contentView.rx_tableView.items(dataSource: dataSource))
+            .disposed(by: bag)
+    }
+}
+
+extension ChatConversationsListViewController: GADAdSizeDelegate {
+    
+    /// Called before the ad view changes to the new size.
+    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
+        logMessage(.info,
+                   type: [.monetization],
+                   message: "Make your app layout changes here, if necessary. New banner ad size will be \(size).")
+        updateWithAd(bannerView: bannerView)
+    }
+    
+}
+
+extension ChatConversationsListViewController: GADBannerViewDelegate {
+    
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        logMessage(.info, type: [.monetization], message: "bannerView received: \(bannerView)")
+        updateWithAd(bannerView: bannerView)
+        viewModel.adShown(bannerSize: bannerView.adSize.size)
+    }
+    
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        logMessage(.error, type: [.monetization], message: "Fail to receive bannerView: \(error)")
+        let errorCode = GADErrorCode(rawValue: error.code) ?? .internalError
+        viewModel.adError(bannerSize: bannerView.adSize.size, errorCode: errorCode)
+    }
+    
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        viewModel.adTapped(willLeaveApp: true, bannerSize: bannerView.adSize.size)
+    }
+    
 }

@@ -19,6 +19,7 @@ enum MyUserRouter: URLRequestAuthenticable {
     case showReputationActions(myUserId: String)
     case requestSMSCode(myUserId: String, params: [String : Any])
     case validateSMSCode(myUserId: String, params: [String : Any])
+    case notifyReferral(myUserId: String, params: [String : Any])
 
     private var endpoint: String {
         switch (self) {
@@ -34,6 +35,8 @@ enum MyUserRouter: URLRequestAuthenticable {
             return "/users/\(myUserId)/validations/sms/issue"
         case let .validateSMSCode(myUserId, _):
             return "/users/\(myUserId)/validations/sms"
+        case let .notifyReferral(myUserId, _):
+            return "users/\(myUserId)/referrals"
         }
     }
 
@@ -42,7 +45,7 @@ enum MyUserRouter: URLRequestAuthenticable {
         case .create:
             return .installation
         case .show, .update, .updateAvatar, .linkAccount,
-             .showReputationActions, .requestSMSCode, .validateSMSCode:
+             .showReputationActions, .requestSMSCode, .validateSMSCode, .notifyReferral:
             return .user
         case .resetPassword:
             return .nonexistent
@@ -84,6 +87,10 @@ enum MyUserRouter: URLRequestAuthenticable {
                                                      params: params,
                                                      encoding: nil).asURLRequest()
         case let .validateSMSCode(_, params):
+            return try Router<BouncerBaseURL>.create(endpoint: endpoint,
+                                                     params: params,
+                                                     encoding: nil).asURLRequest()
+        case let .notifyReferral(_, params):
             return try Router<BouncerBaseURL>.create(endpoint: endpoint,
                                                      params: params,
                                                      encoding: nil).asURLRequest()

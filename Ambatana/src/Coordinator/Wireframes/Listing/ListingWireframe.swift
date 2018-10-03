@@ -3,8 +3,8 @@ import LGCoreKit
 import LGComponents
 
 final class ListingWireframe {
-    private let nc: UINavigationController
-    private lazy var userRouter = UserWireframe(nc: nc)
+    private weak var nc: UINavigationController?
+    private var userRouter: UserWireframe?
 
     private let myUserRepository: MyUserRepository
     private let detailNavigator: ListingDetailNavigator
@@ -14,7 +14,6 @@ final class ListingWireframe {
 
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
-    var deckAnimator: DeckAnimator?
 
     convenience init(nc: UINavigationController) {
         self.init(nc: nc,
@@ -57,20 +56,23 @@ final class ListingWireframe {
                         index: index)
         case let .listingChat(chatConversation):
             openListing(chatConversation: chatConversation, source: source)
-        case let .sectionedRelatedListing(listing, thumbnailImage, originFrame):
+        case let .sectionedRelatedListing(listing, thumbnailImage, originFrame, index, identifier, section):
             openListingRelated(listing,
                                thumbnailImage: thumbnailImage,
                                originFrame: originFrame,
                                source: source,
-                               index: 0)
-        case let .sectionedNonRelatedListing(listing, feedListingDatas, thumbnailImage, originFrame, index, identifier):
+                               index: index,
+                               identifier: identifier,
+                               section: section)
+        case let .sectionedNonRelatedListing(listing, feedListingDatas, thumbnailImage, originFrame, index, identifier, section):
             openListingNonRelated(listing,
                                   feedListingDataArray: feedListingDatas,
                                   thumbnailImage: thumbnailImage,
                                   originFrame: originFrame,
                                   source: source,
                                   index: index,
-                                  identifier: identifier)
+                                  identifier: identifier,
+                                  section: section)
         }
     }
     
@@ -80,18 +82,22 @@ final class ListingWireframe {
                                originFrame: CGRect?,
                                source: EventParameterListingVisitSource,
                                index: Int,
-                               identifier: String?) {
-        
+                               identifier: String?,
+                               section: UInt? = nil) {
+        guard let nc = nc else { return }
         let cellModels = feedListingDataArray.map { ListingCellModel.init(listing: $0.listing) }
         let requester = FilteredListingListRequester(itemsPerPage: SharedConstants.numListingsPerPageDefault,
                                                      offset: 0)
+        let navigator = ListingDetailWireframe(nc: nc)
         let vm = ListingCarouselViewModel(productListModels: cellModels,
                                           initialListing: listing,
+                                          viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
                                           thumbnailImage: thumbnailImage,
                                           listingListRequester: requester,
                                           source: source,
                                           actionOnFirstAppear: .nonexistent,
                                           trackingIndex: index,
+                                          sectionIndex: section,
                                           trackingIdentifier: identifier,
                                           firstProductSyncRequired: false)
         vm.navigator = detailNavigator
@@ -101,36 +107,36 @@ final class ListingWireframe {
     private func openListing(listingId: String,
                              source: EventParameterListingVisitSource,
                              actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
-        nc.showLoadingMessageAlert()
+        nc?.showLoadingMessageAlert()
         listingRepository.retrieve(listingId) { [weak self] result in
             if let listing = result.value {
-                self?.nc.dismissLoadingMessageAlert {
+                self?.nc?.dismissLoadingMessageAlert {
                     self?.openListing(listing: listing, source: source, index: 0, discover: false,
                                       actionOnFirstAppear: actionOnFirstAppear)
                 }
             } else if let error = result.error {
                 switch error {
                 case .network:
-                    self?.nc.dismissLoadingMessageAlert {
-                        self?.nc.showAutoFadingOutMessageAlert(message: R.Strings.commonErrorConnectionFailed)
+                    self?.nc?.dismissLoadingMessageAlert {
+                        self?.nc?.showAutoFadingOutMessageAlert(message: R.Strings.commonErrorConnectionFailed)
                     }
                 case .internalError, .unauthorized, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError, .searchAlertError:
-                    self?.nc.dismissLoadingMessageAlert {
-                        self?.nc.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
+                    self?.nc?.dismissLoadingMessageAlert {
+                        self?.nc?.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
                     }
                 case .notFound, .forbidden:
                     let relatedRequester = RelatedListingListRequester(listingId: listingId,
                                                                        itemsPerPage: SharedConstants.numListingsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in
-                        self?.nc.dismissLoadingMessageAlert {
+                        self?.nc?.dismissLoadingMessageAlert {
                             if let relatedListings = result.listingsResult.value, !relatedListings.isEmpty {
                                 self?.openRelatedListingsForNonExistentListing(listingId: listingId,
                                                                                source: source,
                                                                                requester: relatedRequester,
                                                                                relatedListings: relatedListings)
                             }
-                            self?.nc.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
+                            self?.nc?.showAutoFadingOutMessageAlert(message: R.Strings.commonProductNotAvailable)
                         }
                     }
                 }
@@ -146,7 +152,9 @@ final class ListingWireframe {
                      requester: ListingListRequester? = nil,
                      index: Int,
                      discover: Bool,
-                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
+                     identifier: String? = nil,
+                     section: UInt? = nil) {
         guard let listingId = listing.objectId else { return }
         var requestersArray: [ListingListRequester] = []
         let listingListRequester: ListingListRequester?
@@ -181,13 +189,17 @@ final class ListingWireframe {
                                    source: source,
                                    actionOnFirstAppear: actionOnFirstAppear,
                                    trackingIndex: nil)
-        } else {
+        } else if let nc = nc {
+            let navigator = ListingDetailWireframe(nc: nc)
             let vm = ListingCarouselViewModel(listing: listing,
+                                              viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
                                               thumbnailImage: thumbnailImage,
                                               listingListRequester: requester,
                                               source: source,
                                               actionOnFirstAppear: actionOnFirstAppear,
-                                              trackingIndex: index)
+                                              trackingIndex: index,
+                                              sectionIndex: section,
+                                              trackingIdentifier: identifier)
             vm.navigator = detailNavigator
             openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
         }
@@ -201,7 +213,9 @@ final class ListingWireframe {
                                thumbnailImage: thumbnailImage,
                                originFrame: originFrame,
                                source: source,
-                               index: index)
+                               index: index,
+                               identifier: nil,
+                               section: nil)
         } else if featureFlags.deckItemPage.isActive {
             openListingNewItemPage(listing,
                                    thumbnailImage: thumbnailImage,
@@ -211,14 +225,17 @@ final class ListingWireframe {
                                    source: source,
                                    actionOnFirstAppear: .nonexistent,
                                    trackingIndex: index)
-        } else {
+        } else if let nc = nc {
+            let navigator = ListingDetailWireframe(nc: nc)
             let vm = ListingCarouselViewModel(productListModels: cellModels,
                                               initialListing: listing,
+                                              viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
                                               thumbnailImage: thumbnailImage,
                                               listingListRequester: requester,
                                               source: source,
                                               actionOnFirstAppear: .nonexistent,
                                               trackingIndex: index,
+                                              sectionIndex: nil,
                                               trackingIdentifier: nil,
                                               firstProductSyncRequired: false)
             vm.navigator = detailNavigator
@@ -230,14 +247,18 @@ final class ListingWireframe {
                             thumbnailImage: UIImage?,
                             originFrame: CGRect?,
                             source: EventParameterListingVisitSource,
-                            index: Int) {
+                            index: Int,
+                            identifier: String?,
+                            section: UInt? = nil) {
         openListing(listing: listing,
                     thumbnailImage: thumbnailImage,
                     originFrame: originFrame,
                     source: source,
                     index: index,
                     discover: false,
-                    actionOnFirstAppear: .nonexistent)
+                    actionOnFirstAppear: .nonexistent,
+                    identifier: identifier,
+                    section: section)
     }
 
     func openListing(chatConversation: ChatConversation, source: EventParameterListingVisitSource) {
@@ -252,12 +273,15 @@ final class ListingWireframe {
             openListingNewItemPage(listing: .product(localProduct),
                                    listingListRequester: requester,
                                    source: source)
-        } else {
+        } else if let nc = nc {
+            let navigator = ListingDetailWireframe(nc: nc)
             let vm = ListingCarouselViewModel(listing: .product(localProduct),
+                                              viewModelMaker: ListingViewModel.ConvenienceMaker(detailNavigator: navigator),
                                               listingListRequester: requester,
                                               source: source,
                                               actionOnFirstAppear: .nonexistent,
-                                              trackingIndex: nil)
+                                              trackingIndex: nil,
+                                              sectionIndex: nil)
             vm.navigator = detailNavigator
             openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: listingId)
         }
@@ -268,7 +292,7 @@ final class ListingWireframe {
         let animator = ListingCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
                                                    backgroundColor: color)
         let vc = ListingCarouselViewController(viewModel: viewModel, pushAnimator: animator)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openListingNewItemPage(listing: Listing,
@@ -292,29 +316,24 @@ final class ListingWireframe {
                                 source: EventParameterListingVisitSource,
                                 actionOnFirstAppear: DeckActionOnFirstAppear,
                                 trackingIndex: Int?) {
-        if deckAnimator == nil {
-            let coordinator = DeckCoordinator(withNavigationController: nc)
-            deckAnimator = coordinator
-        }
-
-        let viewModel = ListingDeckViewModel(listModels: cellModels ?? [],
-                                             listing: listing,
-                                             listingListRequester: requester,
-                                             source: source,
-                                             detailNavigator: detailNavigator,
-                                             actionOnFirstAppear: actionOnFirstAppear,
-                                             trackingIndex: trackingIndex,
-                                             trackingIdentifier: nil)
-
-        let deckViewController = ListingDeckViewController(viewModel: viewModel)
-        viewModel.delegate = deckViewController
-
-        deckAnimator?.setupWith(viewModel: viewModel)
-        nc.pushViewController(deckViewController, animated: true)
+        guard let nc = nc else { return }
+        let vc = ListingBuilder.standard(nc)
+            .buildDeck(with: listing,
+                       thumbnailImage: thumbnailImage,
+                       listings: cellModels,
+                       requester: requester,
+                       source: source,
+                       onFirstAppear: actionOnFirstAppear,
+                       trackingIndex: trackingIndex,
+                       trackingIdentifier: nil)
+        nc.pushViewController(vc, animated: true)
     }
 
     func openUser(userId: String, source: UserSource) {
-        userRouter.openUser(userId: userId, source: source)
+        guard let nc = nc else { return }
+        let wireframe = UserWireframe(nc: nc)
+        wireframe.openUser(userId: userId, source: source)
+        userRouter = wireframe
     }
 }
 
@@ -327,7 +346,7 @@ private extension ListingWireframe {
                                                                         source: source,
                                                                         requester: requester,
                                                                         relatedListings: relatedListings)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
         trackRelatedListings(listingId: listingId, source: .notFound)
     }
 }

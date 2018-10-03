@@ -4,11 +4,12 @@ import LGCoreKit
 protocol EditListingAssembly {
     func buildEditView(listing: Listing,
                        pageType: EventParameterTypePage?,
-                       bumpUpProductData: BumpUpProductData?,
+                       purchases: [BumpUpProductData],
                        listingCanBeBoosted: Bool,
                        timeSinceLastBump: TimeInterval?,
                        maxCountdown: TimeInterval,
-                       onEditAction: OnEditActionable?) -> UIViewController
+                       onEditAction: OnEditActionable?,
+                       onCancelEditAction: OnEditActionable?) -> UIViewController
 }
 
 enum EditListingBuilder {
@@ -19,14 +20,15 @@ enum EditListingBuilder {
 extension EditListingBuilder: EditListingAssembly {
     func buildEditView(listing: Listing,
                        pageType: EventParameterTypePage?,
-                       bumpUpProductData: BumpUpProductData?,
+                       purchases: [BumpUpProductData],
                        listingCanBeBoosted: Bool,
                        timeSinceLastBump: TimeInterval?,
                        maxCountdown: TimeInterval,
-                       onEditAction: OnEditActionable?) -> UIViewController {
+                       onEditAction: OnEditActionable?,
+                       onCancelEditAction: OnEditActionable?) -> UIViewController {
         let vm = EditListingViewModel(listing: listing,
                                       pageType: pageType,
-                                      bumpUpProductData: bumpUpProductData,
+                                      purchases: purchases,
                                       listingCanBeBoosted: listingCanBeBoosted,
                                       timeSinceLastBump: timeSinceLastBump,
                                       maxCountdown: maxCountdown)
@@ -34,11 +36,16 @@ extension EditListingBuilder: EditListingAssembly {
 
         switch self {
         case .standard(let nav):
-            vm.navigator = EditListingStandardWireframe(nc: nav, onEditActionable: onEditAction)
+            vm.navigator = EditListingStandardWireframe(nc: nav,
+                                                        onEditActionable: onEditAction,
+                                                        onCancelEditActionable: onCancelEditAction)
             return vc
         case .modal(let root):
             let nav = UINavigationController(rootViewController: vc)
-            vm.navigator = EditListingModalWireframe(root: root, nc: nav, onEditActionable: onEditAction)
+            vm.navigator = EditListingModalWireframe(root: root,
+                                                     nc: nav,
+                                                     onEditActionable: onEditAction,
+                                                     onCancelEditActionable: onCancelEditAction)
             return nav
         }
     }

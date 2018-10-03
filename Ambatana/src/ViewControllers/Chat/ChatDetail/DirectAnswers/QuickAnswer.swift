@@ -75,6 +75,8 @@ enum QuickAnswer: Equatable {
     case freeYours
     case freeAvailable
     case freeNotAvailable
+    case favoritedMyListing
+    case iLikeYourListing
 
     case meetingAssistant(chatNorrisABtestVersion: ChatNorris)
     case dynamic(chatAnswer: ChatAnswer)
@@ -116,6 +118,10 @@ enum QuickAnswer: Equatable {
             if case .freeAvailable = rhs { return true }
         case .freeNotAvailable:
             if case .freeNotAvailable = rhs { return true }
+        case .favoritedMyListing:
+            if case .favoritedMyListing = rhs { return true }
+        case .iLikeYourListing:
+            if case .iLikeYourListing = rhs { return true }
         case .meetingAssistant(let lhsABTest):
             if case .meetingAssistant(let rhsABTest) = rhs {
                 return lhsABTest == rhsABTest
@@ -179,6 +185,10 @@ enum QuickAnswer: Equatable {
             return R.Strings.directAnswerFreeNoAvailable
         case .meetingAssistant:
             return R.Strings.directAnswerLetsMeet
+        case .favoritedMyListing:
+            return R.Strings.directAnswerYouFavoritedMyListing
+        case .iLikeYourListing:
+            return R.Strings.directAnswerILikeYourListing
         case .dynamic(let chatAnswer):
             switch chatAnswer.type {
             case .replyText(let textToShow, _):
@@ -195,7 +205,7 @@ enum QuickAnswer: Equatable {
         switch self {
         case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
              .listingStillForSale, .listingSold, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave,
-             .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant, .dynamicInterested:
+             .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant, .dynamicInterested, .favoritedMyListing, .iLikeYourListing:
             return textToShow
         case .dynamic(let chatAnswer):
             switch chatAnswer.type {
@@ -211,7 +221,7 @@ enum QuickAnswer: Equatable {
         switch self {
         case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
             .listingStillForSale, .listingSold, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave,
-            .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant, .dynamicInterested:
+            .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant, .dynamicInterested, .favoritedMyListing, .iLikeYourListing:
             return nil
         case .dynamic(let chatAnswer):
             return chatAnswer.id
@@ -224,6 +234,10 @@ enum QuickAnswer: Equatable {
              .listingStillForSale, .listingSold, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave,
              .freeYours, .freeAvailable, .freeNotAvailable, .meetingAssistant, .dynamicInterested:
             return nil
+        case .favoritedMyListing:
+            return EventParameterQuickAnswerType.favoritedMyListing.rawValue
+        case .iLikeYourListing:
+            return EventParameterQuickAnswerType.iLikeYourListing.rawValue
         case .dynamic(let chatAnswer):
             return chatAnswer.key
         }
@@ -265,6 +279,10 @@ enum QuickAnswer: Equatable {
             return EventParameterQuickAnswerType.freeNotAvailable.rawValue
         case .meetingAssistant:
             return nil
+        case .favoritedMyListing:
+            return EventParameterQuickAnswerType.favoritedMyListing.rawValue
+        case .iLikeYourListing:
+            return EventParameterQuickAnswerType.iLikeYourListing.rawValue
         case .dynamic(let chatAnswer):
             return chatAnswer.key
         }
@@ -361,9 +379,9 @@ enum QuickAnswer: Equatable {
         return nil
     }
 
-    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, chatNorrisABtestVersion: ChatNorris) -> [QuickAnswer] {
+    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, chatNorrisABtestVersion: ChatNorris, letsMeetIsInsideBar: Bool) -> [QuickAnswer] {
         var result = [QuickAnswer]()
-        if chatNorrisABtestVersion.isActive {
+        if chatNorrisABtestVersion.isActive && !letsMeetIsInsideBar {
             result.append(.meetingAssistant(chatNorrisABtestVersion: chatNorrisABtestVersion))
         }
         if isFree {
@@ -410,4 +428,12 @@ enum QuickAnswer: Equatable {
         }
         return result
     }
+    
+    static func quickAnswersForOpenChatFromProfile() -> [QuickAnswer] {
+        return [
+            .favoritedMyListing,
+            .iLikeYourListing
+        ]
+    }
+    
 }

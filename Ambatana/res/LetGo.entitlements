@@ -39,5 +39,13 @@
 		<string>applinks:theletgonews.com</string>
 		<string>applinks:www.theletgonews.com</string>
 	</array>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.letgo</string>
+	</array>
+	<key>com.apple.developer.in-app-payments</key>
+	<array>
+		<string>merchant.com.letgo.ios.payments</string>
+	</array>
 </dict>
 </plist>

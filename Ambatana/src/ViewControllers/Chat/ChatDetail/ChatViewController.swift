@@ -9,11 +9,13 @@ final class ChatViewController: TextViewController {
     private var cellMapViewer: CellMapViewer = CellMapViewer()
     private let connectionStatusView = ChatConnectionStatusView()
     private var connectionStatusViewTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
-
+    private let chatPaymentBannerView = ChatPaymentBannerView()
+    
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
     let professionalSellerBannerHeight: CGFloat = 44
+    private let quickAnswerBottomHeight: CGFloat = 50
 
     let listingView: ChatListingView
     let chatDetailHeader: ChatDetailNavBarInfoView
@@ -95,18 +97,21 @@ final class ChatViewController: TextViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupRelatedProducts()
-        setupRxBindings()
+       
         setupStickersView()
         initStickersView()
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
+        
+        setupRxBindings()
     }
-
+ 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
@@ -122,7 +127,12 @@ final class ChatViewController: TextViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableView.contentInset.bottom = tableViewInsetBottom
+        tableView.contentInset.bottom = tableViewInsetBottom
+
+        if featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
+            let topSpace = viewModel.thereAreMessagesSent ? 0: quickAnswerBottomHeight
+            tableView.contentInset.top = topSpace
+        }
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
@@ -143,6 +153,10 @@ final class ChatViewController: TextViewController {
     override func sendButtonPressed() {
         guard let message = textView.text else { return }
         viewModel.send(text: message)
+    }
+    
+    override func letsMeetButtonPressed() {
+        viewModel.onMeetingAssistantPressed()
     }
 
     /**
@@ -260,6 +274,15 @@ final class ChatViewController: TextViewController {
             connectionStatusView.cornerRadius = ChatConnectionStatusView.standardHeight/2
             connectionStatusView.alpha = 0
         }
+
+        view.addSubviewForAutoLayout(chatPaymentBannerView)
+        
+        let chatPaymentBannerConstraints = [
+            chatPaymentBannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            chatPaymentBannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            chatPaymentBannerView.topAnchor.constraint(equalTo: safeTopAnchor)
+        ]
+        chatPaymentBannerConstraints.activate()
     }
 
     fileprivate func setupRelatedProducts() {
@@ -505,7 +528,7 @@ fileprivate extension ChatViewController {
         viewModel.chatEnabled.asObservable().bind { [weak self] enabled in
             self?.setTextViewBarHidden(!enabled, animated: false)
             self?.textView.isUserInteractionEnabled = enabled
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
         
         viewModel.textBoxVisible.asDriver().drive(onNext: { [weak self] enabled in
             self?.setTextViewBarHidden(!enabled, animated: false)
@@ -532,7 +555,7 @@ fileprivate extension ChatViewController {
             case .insert, .remove, .composite, .swap, .move:
                 self?.tableView.handleCollectionChange(change)
             }
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.interlocutorProfessionalInfo.asObservable()
             .map { !$0.isProfessional }
@@ -554,6 +577,8 @@ fileprivate extension ChatViewController {
                 self?.setupDirectAnswers(quickAnswers)
             }
             .disposed(by: disposeBag)
+        
+        viewModel.listingIsHidden.drive(listingView.rx.listingIsHidden).disposed(by: disposeBag)
         
         let placeHolder = Observable.combineLatest(viewModel.interlocutorId.asObservable(),
                                                    viewModel.interlocutorName.asObservable()) {
@@ -578,6 +603,16 @@ fileprivate extension ChatViewController {
                 }
                 self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
             }.disposed(by: disposeBag)
+        
+        Observable.combineLatest(viewModel.interlocutorAvatarURL.asObservable(),
+                                 viewModel.interlocutorName.asObservable())
+            .bind { [weak self] (avatarUrl, name) in
+                guard let vm = self?.viewModel, vm.isFakeListing else { return }
+                self?.chatDetailHeader.setupWith(info: .user(name: name, imageUrl: avatarUrl)) { [weak self] in
+                    self?.viewModel.userInfoPressed()
+                }
+                self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
+            }.disposed(by: disposeBag)
 
         Observable.combineLatest(viewModel.listingName.asObservable(),
                                  viewModel.listingPrice.asObservable(),
@@ -586,15 +621,18 @@ fileprivate extension ChatViewController {
                 guard let strongSelf = self else { return }
                 let isAssistantWithNoProduct = strongSelf.viewModel.isUserDummy
                     && listingName.isEmpty
-                guard !isAssistantWithNoProduct else { return }
+                guard !isAssistantWithNoProduct, !strongSelf.viewModel.isFakeListing else { return }
                 guard let showNoUserHeader = self?.featureFlags.showChatHeaderWithoutUser,
                     showNoUserHeader else { return }
+ 
                 let chatNavBarInfo = ChatDetailNavBarInfo.listing(name: listingName,
                                                                   price: listingPrice,
                                                                   imageUrl: listingImageUrl)
                 self?.chatDetailHeader.setupWith(info: chatNavBarInfo) { [weak self] in
                     self?.viewModel.listingInfoPressed()
                 }
+                
+                
                 self?.updateNavigationBarHeaderWith(view: self?.chatDetailHeader)
             }.disposed(by: disposeBag)
 
@@ -611,7 +649,8 @@ fileprivate extension ChatViewController {
             let visible = state == .visible
             strongSelf.directAnswersPresenter.hidden = !visible
             strongSelf.configureBottomMargin(animated: true)
-            }.disposed(by: disposeBag)
+ 
+        }.disposed(by: disposeBag)
 
         keyboardChanges.bind { [weak self] change in
             if !change.visible {
@@ -648,6 +687,37 @@ fileprivate extension ChatViewController {
             .skip(1)
             .bind(to: viewModel.chatBoxText)
             .disposed(by: disposeBag)
+        
+
+        viewModel.listingName.asObservable().subscribeNext { [weak viewModel, weak self] _ in
+            guard let viewModel = viewModel else { return }
+            guard let buyerId = viewModel.buyerId, let sellerId = viewModel.sellerId, let listingId = viewModel.listingIdentifier else { return }
+
+            let params = P2PPaymentStateParams(buyerId: buyerId, sellerId: sellerId, listingId: listingId)
+
+            self?.chatPaymentBannerView.configure(with: params)
+        }.disposed(by: disposeBag)
+
+        let actionButtonEvent = chatPaymentBannerView
+            .actionButtonEvent
+            .asObservable()
+        
+        actionButtonEvent.subscribeNext { [weak self] event in
+            switch event {
+            case .makeOffer:
+                self?.viewModel.makeAnOfferButtonPressed()
+            case .viewOffer(offerId: let id):
+                self?.viewModel.viewOfferButtonPressed(offerId: id)
+            case .viewPayCode(offerId: let id):
+                self?.viewModel.viewPayCodeButtonPressed(offerId: id)
+            case .exchangeCode(offerId: let id):
+                self?.viewModel.exchangeCodeButtonPressed(offerId: id)
+            case .payout(offerId: let id):
+                self?.viewModel.payoutButtonPressed(offerId: id)
+            case .none:
+                break // Do nothing
+            }
+        }.disposed(by: disposeBag)
     }
 }
 
@@ -681,9 +751,14 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         } else if let myMeetingCell = cell as? ChatMyMeetingCell {
             myMeetingCell.locationDelegate = self
             return myMeetingCell
-        } else if let ctaCell = cell as? ChatCallToActionCell {
+        } else if let ctaCell = cell as? ChatMyCallToActionCell {
             ctaCell.delegate = self
+            ctaCell.reloadDelegate = self
             return ctaCell
+        } else if let ctaCell = cell as? ChatOtherCallToActionCell {
+                ctaCell.delegate = self
+                ctaCell.reloadDelegate = self
+                return ctaCell
         } else if let carouselCell = cell as? ChatCarouselCollectionCell {
             carouselCell.delegate = self
             return carouselCell
@@ -946,8 +1021,15 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
 }
 
 extension ChatViewController: ChatDeeplinkCellDelegate {
-
     func openDeeplink(url: URL, trackingKey: String?) {
         viewModel.openDeeplink(url: url, trackingKey: trackingKey)
+    }
+}
+
+extension ChatViewController: ChatReloadCellDelegate {
+    func reload(cell: UITableViewCell) {
+        if let indexPath = tableView.indexPath(for: cell) {
+            tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+        }
     }
 }

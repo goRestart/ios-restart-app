@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import LGComponents
 
 final class ChatConversationsListView: UIView {
     
@@ -40,7 +41,6 @@ final class ChatConversationsListView: UIView {
     private let featureFlags: FeatureFlaggeable
 
     private let bag = DisposeBag()
-
     
     // MARK: Lifecycle
 
@@ -73,12 +73,13 @@ final class ChatConversationsListView: UIView {
     private func setupTableView() {
         tableView.register(ChatUserConversationCell.self, forCellReuseIdentifier: ChatUserConversationCell.reusableID)
         tableView.register(type: ChatAssistantConversationCell.self)
+        tableView.register(type: ConversationAdCell.self)
 
         tableView.alpha = 0
-        tableView.rowHeight = Layout.rowHeight
         tableView.separatorStyle = .singleLine
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
+        tableView.estimatedRowHeight = Layout.rowHeight
     }
 
     private func setupStatusBarRx() {
@@ -153,6 +154,10 @@ final class ChatConversationsListView: UIView {
     
     func switchEditMode(isEditing: Bool) {
         tableView.isEditing = isEditing
+    }
+    
+     func resetDataSource() {
+        tableView.dataSource = nil
     }
     
     // MARK: View states

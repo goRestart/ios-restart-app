@@ -15,6 +15,7 @@ enum LetGoSetting {
     case logOut
     case versionInfo
     case notifications
+    case affiliation
 }
 
 struct SettingsSection {
@@ -40,6 +41,7 @@ class SettingsViewModel: BaseViewModel {
     private let tracker: Tracker
     private let pushPermissionManager: PushPermissionsManager
     private let featureFlags: FeatureFlags
+
     private let kLetGoUserImageSquareSize: CGFloat = 1024
 
     private let disposeBag = DisposeBag()
@@ -73,6 +75,7 @@ class SettingsViewModel: BaseViewModel {
         self.tracker = tracker
         self.pushPermissionManager = pushPermissionManager
         self.featureFlags = featureFlags
+
         super.init()
 
         setupRx()
@@ -191,6 +194,10 @@ class SettingsViewModel: BaseViewModel {
         
         profileSettings.append(.notifications)
 
+        if featureFlags.affiliationEnabled.isActive {
+            profileSettings.append(.affiliation)
+        }
+
         settingSections.append(SettingsSection(title: R.Strings.settingsSectionProfile, settings: profileSettings))
 
         var supportSettings = [LetGoSetting]()
@@ -242,6 +249,8 @@ class SettingsViewModel: BaseViewModel {
             break
         case .notifications:
             navigator?.openNotificationSettings()
+        case .affiliation:
+            navigator?.openAffiliationChallenges(source: .settings)
         }
     }
 

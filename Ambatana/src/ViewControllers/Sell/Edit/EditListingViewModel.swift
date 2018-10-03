@@ -178,7 +178,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     private let timeSinceLastBump: TimeInterval?
     private let maxCountdown: TimeInterval
 
-    private let bumpUpProductData: BumpUpProductData?
+    private let purchases: [BumpUpProductData]
 
     // Rx in-out
     let isFreePosting =  Variable<Bool>(false)
@@ -268,13 +268,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     convenience init(listing: Listing,
                      pageType: EventParameterTypePage?,
-                     bumpUpProductData: BumpUpProductData?,
+                     purchases: [BumpUpProductData],
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
         self.init(listing: listing,
                   pageType: pageType,
-                  bumpUpProductData: bumpUpProductData,
+                  purchases: purchases,
                   myUserRepository: Core.myUserRepository,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
@@ -292,7 +292,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     init(listing: Listing,
          pageType: EventParameterTypePage?,
-         bumpUpProductData: BumpUpProductData?,
+         purchases: [BumpUpProductData],
          myUserRepository: MyUserRepository,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
@@ -396,7 +396,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         self.isFreePosting.value = featureFlags.freePostingModeAllowed && listing.price.isFree
         self.pageType = pageType
 
-        let listingHasPaymentInfo = bumpUpProductData?.hasPaymentId ?? false
+        let listingHasPaymentInfo = purchases.hasPaymentIds
 
         self.listingCanBeBoosted = listingCanBeBoosted
         self.timeSinceLastBump = timeSinceLastBump
@@ -412,7 +412,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         self.listingCanBeFeatured = (listingCanBeBumped || listingCanBeBoosted) && listingHasPaymentInfo
 
-        self.bumpUpProductData = bumpUpProductData
+        self.purchases = purchases
         
         super.init()
 
@@ -969,7 +969,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                                                         fallbackToStore: false,
                                                         myUserId: myUserId,
                                                         myUserName: myUserName)
-        listingSocialMessage.retrieveFBShareContent { [weak self] fbShareContent in
+        listingSocialMessage.retrieveFBShareContent(image: nil) { [weak self] fbShareContent in
             self?.shouldTrack = false
             self?.delegate?.vmShareOnFbWith(content: fbShareContent)
         }
@@ -998,14 +998,19 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private func closeEdit() {
         delegate?.vmHideKeyboard()
+        let showBumpItem = shouldFeatureItemAfterEdit.value && self.listingCanBeFeatured
+        let purchasesWanted = showBumpItem ? purchases : []
+        
         guard let editedListing = savedListing else {
-            navigator?.editingListingDidCancel()
+            let purchasesOnCancel = featureFlags.bumpPromoAfterSellNoLimit.isActive ? purchasesWanted : []
+            navigator?.editingListingDidCancel(initialListing,
+                                               purchases: purchasesOnCancel,
+                                               timeSinceLastBump: timeSinceLastBump,
+                                               maxCountdown: maxCountdown)
             return
         }
-        let showBumpItem = shouldFeatureItemAfterEdit.value && self.listingCanBeFeatured
-        let bumpData = showBumpItem ? bumpUpProductData : nil
         navigator?.editingListingDidFinish(editedListing,
-                                           bumpUpProductData: bumpData,
+                                           purchases: purchasesWanted,
                                            timeSinceLastBump: timeSinceLastBump,
                                            maxCountdown: maxCountdown)
     }
@@ -1034,7 +1039,9 @@ extension EditListingViewModel {
     }
     
     var shouldShowPaymentFrequency: Bool {
-        return featureFlags.servicesPaymentFrequency.isActive && !(isFreePosting.value)
+        return featureFlags.servicesPaymentFrequency.isActive &&
+            !(isFreePosting.value) &&
+            category.value?.isServices ?? false
     }
     
     var shouldShowListingType: Bool {

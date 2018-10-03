@@ -1,4 +1,5 @@
 "NSCameraUsageDescription" = "A sua câmara será utilizada para tirar fotos ao que pretende vender.";
+"NSContactsUsageDescription" = "O letgo precisa de aceder aos seus contactos para convidar os seus amigos";
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "o letgo utilizará a sua localização para lhe mostrar negócios nas proximidades e sugerir locais para encontros";
 "NSLocationAlwaysUsageDescription" = "o letgo utilizará a sua localização para lhe mostrar negócios nas proximidades e sugerir locais para encontros";
 "NSLocationWhenInUseUsageDescription" = "O letgo precisa de aceder à sua localização para lhe poder mostrar artigos situados nas proximidades";

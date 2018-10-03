@@ -85,6 +85,19 @@ enum UserVerificationItem {
     }
 
     var canBeSelected: Bool {
-        return !completed && showsAccessoryView
+        return isActive && showsAccessoryView
+    }
+
+    var isActive: Bool {
+        if FeatureFlags.sharedInstance.advancedReputationSystem11.isActive {
+            switch self {
+            case .facebook, .google, .email, .markAsSold, .photoID, .profilePicture, .bio:
+                return !completed
+            case .phoneNumber:
+                return true
+            }
+        } else {
+            return !completed
+        }
     }
 }

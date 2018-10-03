@@ -1,7 +1,7 @@
 import LGCoreKit
 
 final class TourLoginWireframe: TourLoginNavigator {
-    private let nc: UINavigationController
+    private weak var nc: UINavigationController?
     private let action: TourPostingAction
     private let tourAssembly: TourAssembly
     private let notificationAssembly: TourNotificationsAssembly
@@ -43,6 +43,7 @@ final class TourLoginWireframe: TourLoginNavigator {
     }
 
     private func openTourNotifications() {
+        guard let nc = nc else { return }
         nc.addFadeTransition()
         let wireframe = TourNotificationWireframe(nc: nc, action: action, skipper: tourSkipper)
         let vc = notificationAssembly.buildTourNotification(type: .onboarding, navigator: wireframe)
@@ -50,14 +51,14 @@ final class TourLoginWireframe: TourLoginNavigator {
     }
 
     private func openTourLocation() {
-        nc.addFadeTransition()
+        nc?.addFadeTransition()
         let vc = tourAssembly.buildTourLocation(action: action, skipper: tourSkipper)
-        nc.setViewControllers([vc], animated: false)
+        nc?.setViewControllers([vc], animated: false)
     }
 
     private func openTourPosting() {
-        nc.addFadeTransition()
+        nc?.addFadeTransition()
         let vc = tourAssembly.buildTourPosting(action: action)
-        nc.setViewControllers([vc], animated: false)
+        nc?.setViewControllers([vc], animated: false)
     }
 }

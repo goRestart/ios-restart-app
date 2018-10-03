@@ -1,18 +1,18 @@
 import UIKit
 
 extension UIView {
-  public func constraintToEdges(in view: UIView) {
+  public func constraintToEdges(in view: UIView, insets: UIEdgeInsets = .zero) {
     NSLayoutConstraint.activate(
-      constraintsToEdges(in: view)
+      constraintsToEdges(in: view, insets: insets)
     )
   }
   
-  public func constraintsToEdges(in view: UIView) -> [NSLayoutConstraint] {
+  public func constraintsToEdges(in view: UIView, insets: UIEdgeInsets) -> [NSLayoutConstraint] {
     let constraints = [
-      leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      topAnchor.constraint(equalTo: view.topAnchor),
-      bottomAnchor.constraint(equalTo: view.bottomAnchor)
+      leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets.left),
+      trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: insets.right),
+      topAnchor.constraint(equalTo: view.topAnchor, constant: insets.top),
+      bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: insets.bottom)
     ]
     return constraints
   }
@@ -45,7 +45,11 @@ extension UIView {
 }
 
 extension Array where Element: NSLayoutConstraint {
-  public func activate() {
-    NSLayoutConstraint.activate(self)
-  }
+    public func activate() {
+        NSLayoutConstraint.activate(self)
+    }
+
+    public func deactivate() {
+        NSLayoutConstraint.deactivate(self)
+    }
 }

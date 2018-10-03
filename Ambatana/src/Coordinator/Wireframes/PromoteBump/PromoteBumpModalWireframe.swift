@@ -1,4 +1,4 @@
-typealias SellAction = (String, BumpUpProductData, EventParameterTypePage?) -> ()
+typealias SellAction = (String, [BumpUpProductData], TimeInterval, EventParameterTypePage?) -> ()
 
 final class PromoteBumpModalWireframe: PromoteBumpNavigator {
     private let root: UIViewController
@@ -14,10 +14,11 @@ final class PromoteBumpModalWireframe: PromoteBumpNavigator {
     }
     
     func openSellFaster(listingId: String,
-                        bumpUpProductData: BumpUpProductData,
+                        purchases: [BumpUpProductData],
+                        maxCountdown: TimeInterval,
                         typePage: EventParameterTypePage?) {
         // This callback is just temporary, it should be deleted when the
         // App coordinator disappear 🤞.
-        sellAction?(listingId, bumpUpProductData, typePage);
+        sellAction?(listingId, purchases, maxCountdown, typePage);
     }
 }

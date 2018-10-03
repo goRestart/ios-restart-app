@@ -188,6 +188,25 @@ struct UriScheme {
                                                   medium: medium,
                                                   source: source,
                                                   cardActionParameter: cardActionParameter))
+      case .userVerification:
+         return UriScheme(deepLink: DeepLink.link(.userVerification,
+                                                  campaign: campaign,
+                                                  medium: medium,
+                                                  source: source,
+                                                  cardActionParameter: cardActionParameter))
+      case .affiliation:
+         return UriScheme(deepLink: DeepLink.link(.affiliation,
+                                                  campaign: campaign,
+                                                  medium: medium,
+                                                  source: source,
+                                                  cardActionParameter: cardActionParameter))
+      case .p2pPaymentsOffer:
+         guard let offerId = components.first else { return nil }
+         return UriScheme(deepLink: DeepLink.link(.p2pPaymentsOffer(offerId: offerId),
+                                                  campaign: campaign,
+                                                  medium: medium,
+                                                  source: source,
+                                                  cardActionParameter: cardActionParameter))
       }
    }
 }
@@ -202,6 +221,7 @@ enum UriSchemeHost: String {
    case listingBumpUp = "products_bump_up"
    case listingMarkAsSold = "products_mark_as_sold"
    case listingEdit = "products_edit"
+   case p2pPaymentsOffer = "p2payments_offer"
    case user = "users"
    case chat = "chat"
    case chats = "chats"
@@ -213,4 +233,6 @@ enum UriSchemeHost: String {
    case updateApp = "update_app"
    case webView = "webview"
    case invite = "app_invite"
+   case userVerification = "user_verification"
+   case affiliation = "rewards"
 }

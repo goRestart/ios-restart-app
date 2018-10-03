@@ -11,21 +11,37 @@ import UIKit
 
 final class LGWaterFallLayout: UICollectionViewLayout {
 
-    private typealias ElementCache = [Element: [IndexPath: UICollectionViewLayoutAttributes]]
     private typealias SectionIndex = Int
     private typealias Boundary = (minimum: CGFloat, maximum: CGFloat)
 
-    private enum Element: String {
+    private enum Element: String, CustomStringConvertible {
+        var description: String {
+            switch self {
+            case .sectionHeader: return UICollectionElementKindSectionHeader
+            case .sectionFooter: return UICollectionElementKindSectionFooter
+            case .cell: return "cell"
+            }
+        }
+        
         case sectionHeader, sectionFooter, cell
     }
 
 
     // MARK:- Private Properties
 
-    private var cache = ElementCache()
-    private var visibleLayoutAttributes: [UICollectionViewLayoutAttributes]
+    /// How many items to be union into a single rectangle
+    private let unionSize = 20
+    
     private var cachedSectionsIndexSet = Set<SectionIndex>()
+    
+    private var sectionItemAttributes: [[UICollectionViewLayoutAttributes]] = []
+    private var headerAttributes: [SectionIndex: UICollectionViewLayoutAttributes] = [:]
+    private var footerAttributes: [SectionIndex: UICollectionViewLayoutAttributes] = [:]
+    private var allItemAttributes: [UICollectionViewLayoutAttributes] = []
 
+    /// Array to store union rectangles
+    private var unionRects: [CGRect] = []
+    
     private var oldBounds: CGRect
     private var columnHeights: [[CGFloat]]
     private var numberOfSectionsInCurrentBlock: Int = 0
@@ -46,7 +62,7 @@ final class LGWaterFallLayout: UICollectionViewLayout {
 
     private var shouldInvalidateCache: Bool {
         guard cachedSectionsIndexSet.count == numberOfSections else { return true }
-        return cache[.cell]?.count != totalItemsCount
+        return sectionItemAttributes.map{ $0.count }.reduce(0, +) != totalItemsCount
     }
 
     private var currentBlockColumnHeights: [CGFloat]? {
@@ -59,6 +75,8 @@ final class LGWaterFallLayout: UICollectionViewLayout {
 
 
     // MARK:- Public Property
+
+    var forceLayoutCalculation: Bool = false
 
     var itemRenderPolicy: WaterfallLayoutItemRenderPolicy {
         didSet {
@@ -84,7 +102,6 @@ final class LGWaterFallLayout: UICollectionViewLayout {
     override init() {
         self.oldBounds = .zero
         self.columnHeights = []
-        self.visibleLayoutAttributes = []
         self.pinnedHeaderHeights = [:]
         self.stickyHeaderHeights = [:]
         self.sectionBoundaries = [:]
@@ -95,7 +112,7 @@ final class LGWaterFallLayout: UICollectionViewLayout {
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-
+ 
     // MARK: - UICollectionViewLayout Required Setups
 
     override var collectionViewContentSize: CGSize {
@@ -109,7 +126,7 @@ final class LGWaterFallLayout: UICollectionViewLayout {
     override func prepare() {
         super.prepare()
 
-        guard let collectionView = collectionView, shouldInvalidateCache else { return }
+        guard let collectionView = collectionView, shouldInvalidateCache || forceLayoutCalculation else { return }
 
         clearCache()
         oldBounds = collectionView.bounds
@@ -156,10 +173,11 @@ final class LGWaterFallLayout: UICollectionViewLayout {
             updateColumnHeights(columnIndex: columnIndex,
                                 contentHeight: sectionBottom)
         }
+        prepareUnionRects()
     }
 
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        return cache[.cell]?[indexPath]
+        return sectionItemAttributes[safeAt: indexPath.section]?[safeAt: indexPath.item]
     }
 
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String,
@@ -167,26 +185,72 @@ final class LGWaterFallLayout: UICollectionViewLayout {
         var attributes: UICollectionViewLayoutAttributes?
         switch elementKind {
         case UICollectionElementKindSectionHeader:
-            attributes = cache[.sectionHeader]?[indexPath]
+            attributes = headerAttributes[indexPath.section]
         case UICollectionElementKindSectionFooter:
-            attributes = cache[.sectionFooter]?[indexPath]
+            attributes = footerAttributes[indexPath.section]
         default: break
         }
         return attributes ?? UICollectionViewLayoutAttributes()
     }
 
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        visibleLayoutAttributes.removeAll(keepingCapacity: true)
-        visibleLayoutAttributes.append(contentsOf: updatedHeadersAttributes())
-        visibleLayoutAttributes.append(contentsOf: updatedNonHeaderAttributes(in: rect))
-        return visibleLayoutAttributes
+        
+        var cellAttrDict: [IndexPath: UICollectionViewLayoutAttributes] = [:]
+        var supplHeaderAttrDict: [IndexPath: UICollectionViewLayoutAttributes] = [:]
+        var supplFooterAttrDict: [IndexPath: UICollectionViewLayoutAttributes] = [:]
+
+        // Saerch the specific place of the current union.
+        var begin = 0
+        var end = unionRects.count
+        // Sreach the beggining of the union checking by unions.
+        for i in 0..<unionRects.count {
+            if rect.intersects(unionRects[i]) {
+                begin = i * unionSize
+                break
+            }
+        }
+        
+        // Seach the end of the union, it will set the last index
+        // of the section into the "end" valiable.
+        for i in stride(from: unionRects.count - 1, through: 0, by: -1) {
+            if rect.intersects(unionRects[i]) {
+                end = min((i + 1) * unionSize, allItemAttributes.count)
+                break
+            }
+        }
+
+        // Iterate over the speific items attributes and save it into the
+        // cell attribute dictionary.
+        for i in begin..<end {
+            let attr = allItemAttributes[i]
+            if rect.intersects(attr.frame) {
+                switch attr.representedElementCategory {
+                case UICollectionElementCategory.supplementaryView:
+                    if attr.representedElementKind == Element.sectionFooter.description {
+                        supplFooterAttrDict[attr.indexPath] = attr
+                    } else if attr.representedElementKind == Element.sectionHeader.description {
+                        supplHeaderAttrDict[attr.indexPath] = attr
+                    }
+                case UICollectionElementCategory.cell:
+                    cellAttrDict[attr.indexPath] = attr
+                case UICollectionElementCategory.decorationView:
+                    break
+                }
+            }
+        }
+        
+        // Generates and returns all the attributes, cells + headers + footers
+        return Array(cellAttrDict.values)
+            + Array(supplHeaderAttrDict.values)
+            + Array(supplFooterAttrDict.values)
     }
 
     override public func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        if oldBounds.size != newBounds.size {
-            cache.removeAll(keepingCapacity: true)
+        if oldBounds.size.width != newBounds.width {
+            clearCache()
+            return true
         }
-        return true
+        return false
     }
 }
 
@@ -240,7 +304,7 @@ extension LGWaterFallLayout {
 
         let upperSectionBoundary = sectionBottom
         sectionBottom += sectionInsets.top
-
+        
         for idx in 0 ..< itemCount {
             let indexPath = IndexPath(item: idx, section: section)
             let attributes = UICollectionViewLayoutAttributes.buildForCell(atIndexPath: indexPath)
@@ -279,7 +343,20 @@ extension LGWaterFallLayout {
                                 attributes: UICollectionViewLayoutAttributes) {
         guard size.height > 0 else { return }
         attributes.frame = CGRect(origin: origin, size: size)
-        cache[type]?[attributes.indexPath] = attributes
+        let sectionIdx = attributes.indexPath.section
+        switch type {
+        case .sectionHeader:
+            headerAttributes[sectionIdx] = attributes
+        case .sectionFooter:
+            footerAttributes[sectionIdx] = attributes
+        case .cell:
+            if sectionIdx < sectionItemAttributes.count {
+                sectionItemAttributes[attributes.indexPath.section].append(attributes)
+            } else {
+                sectionItemAttributes.append([attributes])
+            }
+        }
+        allItemAttributes.append(attributes)
     }
 }
 
@@ -289,12 +366,13 @@ extension LGWaterFallLayout {
 extension LGWaterFallLayout {
 
     private func clearCache() {
-        cache.removeAll(keepingCapacity: true)
-        cache[.sectionHeader] = [:]
-        cache[.sectionFooter] = [:]
-        cache[.cell] = [:]
         columnHeights = []
         pinnedHeaderHeights = [:]
+        sectionItemAttributes.removeAll()
+        headerAttributes.removeAll()
+        footerAttributes.removeAll()
+        unionRects.removeAll()
+        allItemAttributes.removeAll()
     }
 
     private func cacheSectionIndex(_ section: Int) {
@@ -317,7 +395,7 @@ extension LGWaterFallLayout {
         guard let collectionView = collectionView else { return headerAttributes }
         for section in cachedSectionsIndexSet {
             let indexPath = IndexPath(item: 0, section: section)
-            if let sectionHeaderAttributes = cache[.sectionHeader]?[indexPath],
+            if let sectionHeaderAttributes = self.headerAttributes[indexPath.section],
                 isFullScreenWidth(section: section) {
                 let headerType = headerTypeForSection(section)
                 let headerHeight = sectionHeaderAttributes.frame.height
@@ -339,16 +417,19 @@ extension LGWaterFallLayout {
         }
         return headerAttributes
     }
-
-    private func updatedNonHeaderAttributes(in rect: CGRect) -> [UICollectionViewLayoutAttributes] {
-        var nonHeaderAttributes = [UICollectionViewLayoutAttributes]()
-        let nonHeaderCache = cache.filter { $0.key != .sectionHeader }
-        for (_, elementInfos) in nonHeaderCache {
-            for (_, attributes) in elementInfos where attributes.frame.intersects(rect) {
-                nonHeaderAttributes.append(attributes)
+    
+    private func prepareUnionRects() {
+        var idx = 0
+        let itemCounts = allItemAttributes.count
+        while idx < itemCounts {
+            var uinionRect = allItemAttributes[idx].frame
+            let rectEndIndex = min(idx + unionSize, itemCounts)
+            for i in idx+1..<rectEndIndex {
+                uinionRect = uinionRect.union(allItemAttributes[i].frame)
             }
+            idx = rectEndIndex
+            unionRects.append(uinionRect)
         }
-        return nonHeaderAttributes
     }
 }
 

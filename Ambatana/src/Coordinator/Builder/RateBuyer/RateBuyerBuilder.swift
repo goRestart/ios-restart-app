@@ -6,7 +6,8 @@ protocol RateBuyerAssembly {
                          buyers: [UserListing],
                          listingId: String,
                          sourceRateBuyers: SourceRateBuyers?,
-                         trackingInfo: MarkAsSoldTrackingInfo) -> UIViewController
+                         trackingInfo: MarkAsSoldTrackingInfo,
+                         onRateUserFinishAction: OnRateUserFinishActionable?) -> UIViewController
 }
 
 enum RateBuyerBuilder {
@@ -18,7 +19,8 @@ extension RateBuyerBuilder: RateBuyerAssembly {
                          buyers: [UserListing],
                          listingId: String,
                          sourceRateBuyers: SourceRateBuyers?,
-                         trackingInfo: MarkAsSoldTrackingInfo) -> UIViewController {
+                         trackingInfo: MarkAsSoldTrackingInfo,
+                         onRateUserFinishAction: OnRateUserFinishActionable?) -> UIViewController {
         let vm = RateBuyersViewModel(buyers: buyers,
                                      listingId: listingId,
                                      source: sourceRateBuyers,
@@ -27,7 +29,7 @@ extension RateBuyerBuilder: RateBuyerAssembly {
         switch self {
         case .modal(let root):
             let navCtl = UINavigationController(rootViewController: vc)
-            vm.navigator = RateBuyersModalWireframe(root: root, nc: navCtl, source: source)
+            vm.navigator = RateBuyersModalWireframe(root: root, nc: navCtl, source: source, onRateUserFinishAction: onRateUserFinishAction)
             return navCtl
         }
     }

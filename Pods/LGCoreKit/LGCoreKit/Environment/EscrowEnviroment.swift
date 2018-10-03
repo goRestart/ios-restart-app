@@ -22,6 +22,7 @@ struct EscrowEnvironment: Environment {
     let paymentsBaseURL = "https://payment.escrowverification.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.escrowverification.com"
     let searchProductsBaseURL = "https://search-products.escrowverification.com"
+    let newSearchProductsBaseURL = "https://search.escrowverification.com"
     let niordBaseURL = "https://niord.escrowverification.com"
     let spellCorrectorBaseURL = "https://spellcorrector.escrowverification.com"
     let meetingsBaseURL = "https://meeting.escrowverification.com"
@@ -31,4 +32,8 @@ struct EscrowEnvironment: Environment {
     let notificationSettingsMailerBaseURL = "https://mailer.escrowverification.letgo.com"
     let reportingBaseURL = "https://reporting.stg.letgo.com"
     let communityBaseURL = "https://community-sso.escrowverification.letgo.com"
+    let rewardBaseURL = "https://reward.escrowverification.letgo.com"
+    let challengerBaseURL = "https://challenger.escrowverification.letgo.com"
+    let p2pPaymentsBaseURL = "https://p2payments.escrow.letgo.com"
+    let reputationBaseURL = "https://reputation.escrow.letgo.com"
 }

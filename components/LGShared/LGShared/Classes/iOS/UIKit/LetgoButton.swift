@@ -22,6 +22,7 @@ public enum ButtonStyle {
     case postingFlow
     case pinkish(fontSize: ButtonFontSize, withBorder: Bool)
     case transparent(fontSize: ButtonFontSize, sidePadding: CGFloat)
+    case link(fontSize: ButtonFontSize)
     
     public var titleColor: UIColor {
         switch self {
@@ -35,21 +36,23 @@ public enum ButtonStyle {
             return UIColor.lgBlack
         case .pinkish:
             return UIColor.pinkText
+        case .link:
+            return UIColor.grayRegular
         }
     }
     
     public var backgroundColor: UIColor {
         switch self {
         case .primary:
-            return UIColor.primaryColor
+            return .primaryColor
         case .secondary:
-            return UIColor.secondaryColor
+            return .secondaryColor
         case .terciary:
-            return UIColor.terciaryColor
+            return .terciaryColor
         case .facebook:
-            return UIColor.facebookColor
+            return .facebookColor
         case .google:
-            return UIColor.googleColor
+            return .googleColor
         case .dark, .postingFlow, .transparent:
             return UIColor.lgBlack.withAlphaComponent(0.3)
         case .logout:
@@ -59,7 +62,9 @@ public enum ButtonStyle {
         case .lightField:
             return UIColor.grayLighter
         case .pinkish:
-            return UIColor.clear
+            return .clear
+        case .link:
+            return .clear
         }
     }
     
@@ -81,6 +86,8 @@ public enum ButtonStyle {
             return UIColor.lgBlack.withAlphaComponent(0.05)
         case .darkField, .lightField:
             return backgroundColor.withAlphaComponent(0.3)
+        case .link:
+            return .grayLighter
         }
     }
     
@@ -101,6 +108,8 @@ public enum ButtonStyle {
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.05)
         case .darkField, .lightField:
+            return backgroundColor.withAlphaComponent(0.3)
+        case .link:
             return backgroundColor.withAlphaComponent(0.3)
         }
     }
@@ -125,7 +134,7 @@ public enum ButtonStyle {
     private var fontSize: ButtonFontSize {
         var fontSize = ButtonFontSize.big
         switch self {
-        case let .primary(size), let .transparent(size, _):
+        case let .primary(size), let .transparent(size, _), let .link(size):
             fontSize = size
         case .logout, .postingFlow:
             fontSize = .medium
@@ -141,7 +150,7 @@ public enum ButtonStyle {
     
     public var withBorder: Bool {
         switch self {
-        case .primary, .terciary, .google, .facebook, .darkField, .lightField, .logout:
+        case .primary, .terciary, .google, .facebook, .darkField, .lightField, .logout, .link:
             return false
         case .postingFlow, .transparent:
             return true
@@ -153,7 +162,7 @@ public enum ButtonStyle {
     
     public var borderColor: UIColor {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField, .transparent:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField, .transparent, .link:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColor
@@ -170,7 +179,7 @@ public enum ButtonStyle {
         switch self {
         case .postingFlow, .pinkish, .transparent:
             return UIColor.gray
-        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField, .link:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColorDisabled
@@ -187,7 +196,7 @@ public enum ButtonStyle {
             return UIColor.primaryColorDisabled
         case .lightField:
             return UIColor.lgBlack
-        case .transparent:
+        case .transparent, .link:
             return UIColor.gray
         }
     }
@@ -196,7 +205,7 @@ public enum ButtonStyle {
         switch self {
         case .postingFlow:
             return 15
-        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary, .pinkish:
+        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary, .pinkish, .link:
             switch fontSize {
             case .big:
                 return 15
@@ -212,7 +221,7 @@ public enum ButtonStyle {
         switch self {
         case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout, .postingFlow, .pinkish, .transparent:
             return true
-        case .darkField, .lightField:
+        case .darkField, .lightField, .link:
             return false
         }
     }

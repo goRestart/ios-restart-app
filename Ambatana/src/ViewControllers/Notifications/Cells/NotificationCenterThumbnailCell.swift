@@ -8,8 +8,9 @@ protocol NotificationCenterThumbnailCellDelegate: class {
 final class NotificationCenterThumbnailCell: UICollectionViewCell, ReusableCell {
     private struct Layout {
         static let titleTrailing: CGFloat = 8
-        static let cellSide: CGFloat = 76
     }
+    
+    static let thumbnailSideSize = FeatureFlags.sharedInstance.imageSizesNotificationCenter.thumbnailSize
     
     let thumbnailImageView: UIImageView = {
         let thumbnailImageView = UIImageView()
@@ -21,7 +22,7 @@ final class NotificationCenterThumbnailCell: UICollectionViewCell, ReusableCell 
     
     
     static func cellSize() -> CGSize {
-        return CGSize(width: Layout.cellSide, height: Layout.cellSide)
+        return CGSize(width: thumbnailSideSize, height: thumbnailSideSize)
     }
     
     // MARK: - Lifecycle
@@ -83,5 +84,18 @@ final class NotificationCenterThumbnailCell: UICollectionViewCell, ReusableCell 
     private func setAccessibilityIds() {
         set(accessibilityId: .notificationsModularThumbnailCollectionViewCell)
         thumbnailImageView.set(accessibilityId: .notificationsModularThumbnailView)
+    }
+}
+
+fileprivate extension ImageSizesNotificationCenter {
+    var thumbnailSize: CGFloat {
+        switch self {
+        case .control, .baseline:
+            return 76
+        case .nineSix:
+            return 96
+        case .oneTwoEight:
+            return 128
+        }
     }
 }

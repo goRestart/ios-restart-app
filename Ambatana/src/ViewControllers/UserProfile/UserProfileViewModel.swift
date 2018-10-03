@@ -45,21 +45,38 @@ final class UserProfileViewModel: BaseViewModel {
 
     // Flag to define if the user presented in the profile is 'my' user
     let isMyUser = Variable<Bool>(false)
+    
+    var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
 
     // Flag to define if there is a logged in user that allows special actions
     var isLoggedInUser: Bool { return sessionManager.loggedIn }
 
-    var showCloseButtonInNavBar: Bool { return source == .mainListing }
+    var shouldShowCloseButtonInNavBar: Bool { return source == .mainListing }
 
     let arePushNotificationsEnabled = Variable<Bool?>(nil)
-    var showPushPermissionsBanner: Bool {
+    var shouldShowPushPermissionsBanner: Bool {
         guard let areEnabled = arePushNotificationsEnabled.value else { return false }
         return !areEnabled && isPrivateProfile
     }
-
-    var showKarmaView: Bool {
-        return isPrivateProfile
+    
+    var showClickToTalkBanner: Bool {
+        return isLoggedInUser && featureFlags.clickToTalk.isActive && !keyValueStorage[.clickToTalkShown]
     }
+    
+    var bannerHeight: CGFloat {
+        if shouldShowPushPermissionsBanner { return PushPermissionsHeader.viewHeight }
+        if showClickToTalkBanner { return LGTapToActionView.viewHeight }
+        return 0
+    }
+
+    var shouldShowKarmaView: Bool { return isPrivateProfile }
+    var shouldShowRatingCount: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
+    var isTapOnRatingStarsEnabled: Bool { return self.featureFlags.advancedReputationSystem11.isActive }
 
     var userName: Driver<String?> { return user.asDriver().map {$0?.name} }
     var userAvatarURL: Driver<URL?> { return user.asDriver().map {$0?.avatar?.fileURL} }
@@ -72,7 +89,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userBio: Driver<String?> { return user.asDriver().map { $0?.biography } }
     var userScore: Driver<Int> { return user.asDriver().map { $0?.reputationPoints ?? 0} }
     var userMemberSinceText: Driver<String?> { return .just(nil) } // Not available in User Model yet
-    var userAvatarPlaceholder: Driver<UIImage?> { return makeUserAvatar() }
+    var userAvatarPlaceholder: Driver<UIImage?> { return user.asDriver().map { $0?.makeAvatarPlaceholder(isPrivateProfile: self.isPrivateProfile) } }
     var userBadge: Driver<UserHeaderViewBadge> { return makeUserBadge() }
     let userRelationIsBlocked = Variable<Bool>(false)
     let userRelationIsBlockedBy = Variable<Bool>(false)
@@ -80,7 +97,14 @@ final class UserProfileViewModel: BaseViewModel {
     var listingListViewModel: Driver<ListingListViewModel?> { return makeListingListViewModelDriver() }
     let ratingListViewModel: UserRatingListViewModel
     let showBubbleNotification = PublishSubject<BubbleNotificationData>()
-
+    
+    var chatNowButtonIsHidden: Driver<Bool> {
+        return Observable.combineLatest(user.asObservable(), isMyUser.asObservable()) { user, isMyUser in
+            guard let user = user else { return false }
+            return user.isDummy || user.isProfessional || isMyUser || !self.featureFlags.openChatFromUserProfile.isActive
+        }.asDriver(onErrorJustReturn: false)
+    }
+    
     weak var delegate: UserProfileViewModelDelegate?
 
     // MARK: - Private
@@ -107,7 +131,8 @@ final class UserProfileViewModel: BaseViewModel {
     private let sellingListingListViewModel: ListingListViewModel
     private let soldListingListViewModel: ListingListViewModel
     private let favoritesListingListViewModel: ListingListViewModel
-
+    private let keyValueStorage: KeyValueStorage
+    
     init (sessionManager: SessionManager,
           myUserRepository: MyUserRepository,
           userRepository: UserRepository,
@@ -119,7 +144,8 @@ final class UserProfileViewModel: BaseViewModel {
           bubbleNotificationManager: BubbleNotificationManager?,
           user: User?,
           source: UserSource,
-          isPrivateProfile: Bool) {
+          isPrivateProfile: Bool,
+          keyValueStorage: KeyValueStorage = KeyValueStorage.sharedInstance) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
@@ -132,7 +158,7 @@ final class UserProfileViewModel: BaseViewModel {
         self.user = Variable<User?>(user)
         self.source = source
         self.isPrivateProfile = isPrivateProfile
-
+        self.keyValueStorage = keyValueStorage
         let status = UserProfileViewModel.sellingListingStatusCode()
         self.sellingListingListRequester = UserStatusesListingListRequester(statuses: status,
                                                                             itemsPerPage: SharedConstants.numListingsPerPageDefault)
@@ -142,7 +168,6 @@ final class UserProfileViewModel: BaseViewModel {
 
         let sellingSource: ListingListViewModel.ListingListViewContainer = isPrivateProfile ? .privateProfileSelling : .publicProfileSelling
         let soldSource: ListingListViewModel.ListingListViewContainer = isPrivateProfile ? .privateProfileSold : .publicProfileSold
-        let favoritesSource: ListingListViewModel.ListingListViewContainer = .privateProfileFavorites // Other profiles favorites can not be seen
         self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester,
                                                                 isPrivateList: true,
                                                                 source: sellingSource)
@@ -251,6 +276,12 @@ extension UserProfileViewModel {
         trackVerifyAccountStart()
     }
 
+    func didTapAvatar() {
+        guard let user = user.value, featureFlags.advancedReputationSystem11.isActive else { return }
+        navigator?.openAvatarDetail(isPrivate: isPrivateProfile, user: user)
+        trackOpenAvatarDetail()
+    }
+
     func updateAvatar(with image: UIImage) {
         guard let imageData = image.dataForAvatar() else { return }
         myUserRepository.updateAvatar(imageData,
@@ -279,13 +310,7 @@ extension UserProfileViewModel {
     }
 
     func didTapShareButton() {
-        guard let user = user.value else { return }
-        let myUserId = myUserRepository.myUser?.objectId
-        let myUserName = myUserRepository.myUser?.name
-        let socialMessage = UserSocialMessage(user: user,
-                                              itsMe: isMyUser.value,
-                                              myUserId: myUserId,
-                                              myUserName: myUserName)
+        guard let socialMessage = makeSocialMessage() else { return }
         delegate?.vmShowNativeShare(socialMessage)
         trackShareStart()
     }
@@ -336,6 +361,14 @@ extension UserProfileViewModel {
         guard let userReportedId = user.value?.objectId else { return }
         navigator?.openUserReport(source: .profile, userReportedId: userReportedId)
     }
+    
+    func makeSocialMessage() -> SocialMessage? {
+        guard let user = user.value else { return nil }
+        return UserSocialMessage(user: user,
+                                 itsMe: isMyUser.value,
+                                 myUserId: myUserId,
+                                 myUserName: myUserName)
+    }
 }
 
 // MARK: - Private Methods
@@ -369,14 +402,6 @@ extension UserProfileViewModel {
                                             return R.Strings.profileBlockedByOtherLabel
                                         }
                                         return nil
-        }
-    }
-
-    private func makeUserAvatar() -> Driver<UIImage?> {
-        if isPrivateProfile {
-            return user.asDriver().map { LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: $0?.name) }
-        } else {
-            return user.asDriver().map { LetgoAvatar.avatarWithID($0?.objectId, name: $0?.name) }
         }
     }
 
@@ -549,6 +574,14 @@ extension UserProfileViewModel {
                                        alertType: .iconAlert(icon: R.Asset.IconsButtons.customPermissionProfile.image),
                                        actions: [negative, positive])
     }
+    
+    func didTapSmokeTestBanner(feature: LGSmokeTestFeature) {
+        guard let user = user.value else { return }
+        let userAvatarInfo = UserAvatarInfo(avatarURL: user.avatar?.fileURL,
+                                            placeholder: user.makeAvatarPlaceholder(isPrivateProfile: isPrivateProfile))
+        trackSmokeTestOpened(testType: feature.testType)
+        profileNavigator?.openSmokeTest(feature: feature, userAvatarInfo: userAvatarInfo)
+    }
 }
 
 // MARK: - ListingList Data Delegate
@@ -602,9 +635,8 @@ extension UserProfileViewModel: ListingListViewModelDataDelegate {
 extension UserProfileViewModel {
     private func makeErrorState(for viewModel: ListingListViewModel, with error: RepositoryError) -> LGEmptyViewModel? {
         let action: (() -> ())? = { [weak viewModel] in viewModel?.refresh() }
-        var errorState = LGEmptyViewModel.map(from: error, action: action)
-        errorState?.icon = nil
-        return errorState
+        guard let errorState = LGEmptyViewModel.map(from: error, action: action) else { return nil }
+        return LGEmptyViewModel.Lenses.icon.set(nil, errorState)
     }
 
     private func makeEmptyState(for viewModel: ListingListViewModel)  -> LGEmptyViewModel? {
@@ -763,6 +795,21 @@ extension UserProfileViewModel {
         let event = TrackerEvent.verifyAccountStart(.profile)
         tracker.trackEvent(event)
     }
+
+    func trackOpenAvatarDetail() {
+        let event = TrackerEvent.profileOpenPictureDetail()
+        tracker.trackEvent(event)
+    }
+    
+    func trackSmokeTestOpened(testType: EventParameterSmokeTestType) {
+        let event = TrackerEvent.smokeTestCtaTapped(testType: testType, source: .profile)
+        tracker.trackEvent(event)
+    }
+    
+    func trackSmokeTestShown(testType: EventParameterSmokeTestType) {
+        let event = TrackerEvent.smokeTestCtaShown(testType: testType, source: .profile)
+        tracker.trackEvent(event)
+    }
 }
 
 extension UserProfileViewModel: ListingCellDelegate {
@@ -793,7 +840,10 @@ extension UserProfileViewModel: ListingCellDelegate {
                                          duration: InterestedHandler.undoTimeout) {
                                             cancellable.cancel()
                     }
-                    interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                    interestedHandler.handleCancellableInterestedAction(listing,
+                                                                        timer: timer,
+                                                                        typePage: .profile,
+                                                                        completion: completion)
                 }
             }
         }
@@ -837,6 +887,23 @@ extension UserProfileViewModel: ListingCellDelegate {
     }
 
     func chatButtonPressedFor(listing: Listing) {}
+    
+    func openChatNow() {
+        guard let user = user.value else { return }
+        let listing = Listing.makeFakeListing(with: user)
+        let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+        
+        switch featureFlags.openChatFromUserProfile {
+        case .baseline, .control:
+            break
+        case .vatiant1NoQuickAnswers, .variant2WithOneTimeQuickAnswers:
+            let event = TrackerEvent.profileChatNowButtonTapped(user: user)
+            tracker.trackEvent(event)
+            navigator?.openListingChat(data: chatDetailData,
+                                             source: .profile,
+                                             predefinedMessage: nil)
+        }
+    }
 
     func editPressedForDiscarded(listing: Listing) {
         profileNavigator?.editListing(listing, pageType: .profile)
@@ -861,7 +928,8 @@ extension UserProfileViewModel: ListingCellDelegate {
     func bumpUpPressedFor(listing: Listing) {
         guard let id = listing.objectId else { return }
         let data = ListingDetailData.id(listingId: id)
-        let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: nil,
+        let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchases: [],
+                                                                                   maxCountdown: 0,
                                                                                    bumpUpType: nil,
                                                                                    triggerBumpUpSource: .profile,
                                                                                    typePage: .profile)

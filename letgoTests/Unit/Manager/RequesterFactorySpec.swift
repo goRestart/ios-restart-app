@@ -9,128 +9,45 @@ class RequesterFactorySpec: QuickSpec {
         var sut: RequesterFactory!
         
         var dependency: RequesterDependencyContainer!
-        var listRequesterArray: [ListingListRequester]!
+        var listingRequester: ListingListRequester?
         
         beforeEach {
-            listRequesterArray = []
+            listingRequester = nil
         }
         
-        describe("requester array generation") {
+        describe("Search Requester generation") {
 
-            context("set emptySearchImprovements featureFlags to .baseline") {
+            context("build product search requester") {
                 beforeEach {
-                    dependency = buildDependency(for: .baseline)
-                    sut = buildSut(for: .baseline)
-                    listRequesterArray = sut.buildRequesterList()
-                }
-                
-                it("factory builds only 1 requester") {
-                    expect(listRequesterArray.count).to(be(1))
+                    dependency = buildDependency()
+                    sut = buildSut()
+                    listingRequester = sut.buildSearchRequester()
                 }
 
-                it ("the requester built by factory is a search requester") {
+                it ("is a search requester") {
                     let searchRequester = buildSearchRequester(with: dependency)
-                    expect(listRequesterArray).to(equal(expectedRequesters: [searchRequester]))
-                }
-            }
-
-            context("set emptySearchImprovements featureFlags to .popularNearYou") {
-                beforeEach {
-                    dependency = buildDependency(for: .popularNearYou)
-                    sut = buildSut(for: .popularNearYou)
-                    listRequesterArray = sut.buildRequesterList()
-                }
-
-                it ("requesters are [search, feed]") {
-                    let searchRequester = buildSearchRequester(with: dependency)
-                    let feedRequester = buildFeedRequester(with: dependency)
-                    expect(listRequesterArray).to(equal(expectedRequesters: [searchRequester, feedRequester]))
-                }
-            }
-
-            context("set emptySearchImprovements featureFlags to .similarQueries") {
-                beforeEach {
-                    dependency = buildDependency(for: .similarQueries)
-                    sut = buildSut(for: .similarQueries)
-                    listRequesterArray = sut.buildRequesterList()
-                }
-
-                it ("requesters are [search, similar, feed]") {
-                    let searchRequester = buildSearchRequester(with: dependency)
-                    let feedRequester = buildFeedRequester(with: dependency)
-                    let similarRequester = buildSimilarRequester(with: dependency)
-                    
-                    expect(listRequesterArray).to(equal(expectedRequesters: [searchRequester, similarRequester, feedRequester]))
-                }
-            }
-            
-            context("set emptySearchImprovements featureFlags to .similarQueriesWhenFewResults") {
-                beforeEach {
-                    dependency = buildDependency(for: .similarQueriesWhenFewResults)
-                    sut = buildSut(for: .similarQueriesWhenFewResults)
-                    listRequesterArray = sut.buildRequesterList()
-                }
-                
-                it ("requesters are [search, similar, feed]") {
-                    let searchRequester = buildSearchRequester(with: dependency)
-                    let feedRequester = buildFeedRequester(with: dependency)
-                    let similarRequester = buildSimilarRequester(with: dependency)
-                    
-                    expect(listRequesterArray).to(equal(expectedRequesters: [searchRequester, similarRequester, feedRequester]))
-                }
-            }
-            
-            context("set emptySearchImprovements featureFlags to .alwaysSimilar") {
-                beforeEach {
-                    dependency = buildDependency(for: .alwaysSimilar)
-                    sut = buildSut(for: .alwaysSimilar)
-                    listRequesterArray = sut.buildRequesterList()
-                }
-                
-                it ("requesters are [search, similar, feed]") {
-                    let searchRequester = buildSearchRequester(with: dependency)
-                    let feedRequester = buildFeedRequester(with: dependency)
-                    let similarRequester = buildSimilarRequester(with: dependency)
-                    
-                    expect(listRequesterArray).to(equal(expectedRequesters: [searchRequester, similarRequester, feedRequester]))
+                    expect(listingRequester?.isEqual(toRequester: searchRequester)).to(beTrue())
                 }
             }
         }
         
-        func buildSut(for flag: EmptySearchImprovements) -> SearchRequesterFactory {
-            let dependency = buildDependency(for: flag)
-            let featureFlags = MockFeatureFlags()
-            featureFlags.emptySearchImprovements = flag
-            return SearchRequesterFactory(dependencyContainer: dependency,
-                                                 featureFlags: featureFlags)
+        func buildSut() -> SearchRequesterFactory {
+            let dependency = buildDependency()
+            return SearchRequesterFactory(dependencyContainer: dependency)
         }
         
-        func buildDependency(for flag: EmptySearchImprovements) -> RequesterDependencyContainer {
-            let similarSearchActive = flag == .similarQueries ? true : false
+        func buildDependency() -> RequesterDependencyContainer {
             return RequesterDependencyContainer(itemsPerPage: 50,
-                                                          filters: ListingFilters(),
-                                                          queryString: "abc",
-                                                          similarSearchActive: similarSearchActive)
+                                                filters: ListingFilters(),
+                                                queryString: "abc")
         }
         
+
         func buildSearchRequester(with dependency: RequesterDependencyContainer) -> ListingListMultiRequester {
             return FilterListingListRequesterFactory
                 .generateRequester(withFilters: dependency.filters,
                                    queryString:dependency.queryString,
                                    itemsPerPage: dependency.itemsPerPage)
-        }
-        
-        func buildFeedRequester(with dependency: RequesterDependencyContainer) -> ListingListMultiRequester {
-            return FilterListingListRequesterFactory
-                .generateDefaultFeedRequester(itemsPerPage: dependency.itemsPerPage)
-        }
-        
-        func buildSimilarRequester(with dependency: RequesterDependencyContainer) -> ListingListMultiRequester {
-            return FilterListingListRequesterFactory
-                .generateRequester(withFilters: dependency.filters,
-                                   queryString: dependency.queryString,
-                                   itemsPerPage: dependency.itemsPerPage,
-                                   similarSearchActive: dependency.similarSearchActive)
         }
     }
 }

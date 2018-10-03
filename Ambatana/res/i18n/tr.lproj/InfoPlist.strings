@@ -1,4 +1,5 @@
 "NSCameraUsageDescription" = "Satmak istediğin şeyin fotoğrafını çekmek için kameran kullanılacaktır.";
+"NSContactsUsageDescription" = "arkadaşlarını davet etmek için letgo'nun kişilerine erişmesi gerekiyor";
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "letgo yakınındaki fırsatları sana göstermek ve buluşma noktaları önermek için konumunu kullanacaktır";
 "NSLocationAlwaysUsageDescription" = "letgo yakınındaki fırsatları sana göstermek ve buluşma noktaları önermek için konumunu kullanacaktır";
 "NSLocationWhenInUseUsageDescription" = "letgo'nun yakınındaki ürünleri gösterebilmesi için, bulunduğun konum bilgisine ulaşması gerekir";

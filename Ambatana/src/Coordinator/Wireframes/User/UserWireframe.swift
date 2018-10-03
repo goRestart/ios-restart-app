@@ -3,8 +3,8 @@ import LGCoreKit
 import LGComponents
 
 final class UserWireframe {
-    private let nc: UINavigationController
-    private lazy var listingRouter = ListingWireframe(nc: nc)
+    private weak var nc: UINavigationController?
+    private var listingRouter: ListingWireframe?
 
     private let userAssembly: UserAssembly
     private let verificationAssembly: UserVerificationAssembly
@@ -13,6 +13,8 @@ final class UserWireframe {
 
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
+    
+    var hidesBottomBarWhenPushed: Bool { return nc?.viewControllers.count == 1 }
     
     convenience init(nc: UINavigationController){
         self.init(nc: nc,
@@ -41,23 +43,23 @@ final class UserWireframe {
     }
 
     func openUser(_ data: UserDetailData) {
-        let hidesBottomBarWhenPushed = nc.viewControllers.count == 1
         switch data {
         case let .id(userId, source):
             openUser(userId: userId, source: source)
         case let .userAPI(user, source):
-            openUser(user: user, source: source)
+            openUser(user: user, source: source, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         case let .userChat(user):
             openUser(user, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         }
     }
 
     func openUser(userId: String, source: UserSource) {
-        nc.showLoadingMessageAlert()
+        nc?.showLoadingMessageAlert()
         userRepository.show(userId) { [weak self] result in
             if let user = result.value {
-                self?.nc.dismissLoadingMessageAlert {
-                    self?.openUser(user: user, source: source)
+                self?.nc?.dismissLoadingMessageAlert {
+                    self?.openUser(user: user, source: source,
+                                   hidesBottomBarWhenPushed: self?.hidesBottomBarWhenPushed ?? false)
                 }
             } else if let error = result.error {
                 let message: String
@@ -68,40 +70,34 @@ final class UserWireframe {
                      .wsChatError, .searchAlertError:
                     message = R.Strings.commonUserNotAvailable
                 }
-                self?.nc.dismissLoadingMessageAlert {
-                    self?.nc.showAutoFadingOutMessageAlert(message: message)
+                self?.nc?.dismissLoadingMessageAlert {
+                    self?.nc?.showAutoFadingOutMessageAlert(message: message)
                 }
             }
         }
     }
 
     private func openUser(_ interlocutor: ChatInterlocutor) {
-        let hidesBottomBarWhenPushed = nc.viewControllers.count == 1
         openUser(interlocutor, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
     }
 
-    func openUser(user: User, source: UserSource) {
+    func openUser(user: User, source: UserSource, hidesBottomBarWhenPushed: Bool) {
         // If it's me do not then open the user profile
         guard myUserRepository.myUser?.objectId != user.objectId else { return }
-        let vc = userAssembly.buildUser(user: user, source: source)
-        nc.pushViewController(vc, animated: true)
+        let vc = userAssembly.buildUser(user: user, source: source, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+        nc?.pushViewController(vc, animated: true)
     }
 
     func openUser(_ interlocutor: ChatInterlocutor, hidesBottomBarWhenPushed: Bool) {
         let vc = userAssembly.buildUser(interlocutor: interlocutor, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-        nc.pushViewController(vc, animated: true)
-    }
-
-    func openUserVerification() {
-        let vc = verificationAssembly.buildUserVerification()
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
 }
 
 extension UserWireframe: PublicProfileNavigator {
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {
         let vc = userAssembly.buildUserReport(source: source, userReportedId: userReportedId)
-        nc.pushViewController(vc, animated: true)
+        nc?.pushViewController(vc, animated: true)
     }
     
     func openListingChat(_ listing: Listing,
@@ -117,7 +113,15 @@ extension UserWireframe: PublicProfileNavigator {
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
-        listingRouter.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
+        guard let nc = nc else { return }
+        let wireframe = ListingWireframe(nc: nc)
+        wireframe.openListing(data, source: source, actionOnFirstAppear: actionOnFirstAppear)
+        listingRouter = wireframe
+    }
+
+    func openAvatarDetail(isPrivate: Bool, user: User) {
+        let vc = userAssembly.buildUserAvatar(isPrivate: isPrivate, user: user)
+        nc?.pushViewController(vc, animated: true)
     }
     
     func openLogin(infoMessage: String, then loggedInAction: @escaping (() -> Void)) {
@@ -129,10 +133,11 @@ extension UserWireframe: PublicProfileNavigator {
             cancelAction: nil
         )
         vc.modalTransitionStyle = .crossDissolve
-        nc.present(vc, animated: true)
+        nc?.present(vc, animated: true)
     }
     
     func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        guard let nc = nc else { return }
         let assembly = ProfessionalDealerAskPhoneBuilder.modal(nc)
         let vc = assembly.buildProfessionalDealerAskPhone(listing: listing,
                                                           interlocutor: interlocutor,
@@ -142,5 +147,9 @@ extension UserWireframe: PublicProfileNavigator {
     
     func openListingChat(data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
         chatRouter.openChat(data, source: source, predefinedMessage: predefinedMessage)
+    }
+
+    func closeAvatarDetail() {
+        nc?.popViewController(animated: true)
     }
 }

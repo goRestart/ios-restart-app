@@ -2,16 +2,21 @@ import CoreLocation
 import LGCoreKit
 import Result
 import RxSwift
+import RxCocoa
 import GoogleMobileAds
 import MoPub
 import LGComponents
+import AdsNativeSDK
+
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(tags: [FilterTag])
     func vmFiltersChanged()
-    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmShowAffiliationToolTip(with configuration: TooltipConfiguration)
     func vmHideMapToolTip(hideForever: Bool)
+    func vmShowMapToolTip(with configuration: TooltipConfiguration)
+    func vmHideAffiliationToolTip(hideForever: Bool)
 }
 
 protocol MainListingsAdsDelegate: class {
@@ -62,10 +67,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var filters: ListingFilters
     var queryString: String?
     var shouldHideCategoryAfterSearch = false
-    var activeRequesterType: RequesterType?
     
     private var isMapTooltipAdded = false
-    
+    private var isAffiliationTooltipAdded = false
     private var shouldCloseOnRemoveAllFilters: Bool = false
     
     var hasFilters: Bool {
@@ -83,7 +87,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var isEngagementBadgingEnabled: Bool {
         return featureFlags.engagementBadging.isActive
     }
-    
+
+    lazy var rightBBItemsRelay = BehaviorRelay<[(image: UIImage, selector: Selector)]>(value: rightBarButtonsItems)
+
     var rightBarButtonsItems: [(image: UIImage, selector: Selector)] {
         var rightButtonItems: [(image: UIImage, selector: Selector)] = []
         if isRealEstateSelected {
@@ -95,7 +101,15 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             isMapTooltipAdded = false
             delegate?.vmHideMapToolTip(hideForever: false)
         }
+        
         rightButtonItems.append((image: hasFilters ? R.Asset.IconsButtons.icFiltersActive.image : R.Asset.IconsButtons.icFilters.image, selector: #selector(MainListingsViewController.openFilters)))
+        
+        if shouldShowAffiliateButton {
+            rightButtonItems.append((image: R.Asset.Affiliation.affiliationIcon.image.tint(color: .primaryColor), selector: #selector(MainListingsViewController.openAffiliationChallenges)))
+        } else {
+            isAffiliationTooltipAdded = false
+            delegate?.vmHideAffiliationToolTip(hideForever: false)
+        }
         return rightButtonItems
     }
     
@@ -114,7 +128,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     let errorMessage = Variable<String?>(nil)
     let containsListings = Variable<Bool>(false)
     let isShowingCategoriesHeader = Variable<Bool>(false)
-    
+
+    var userAvatar = BehaviorRelay<UIImage?>(value: nil)
+
     var categoryHeaderElements: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
     var categoryHighlighted: FilterCategoryItem { return FilterCategoryItem(category: .services) }
     
@@ -206,28 +222,17 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             let servicesFilters = filters.verticalFilters.services
             servicesFilters.listingTypes.forEach({ resultTags.append(.serviceListingType($0)) })
 
-            if featureFlags.servicesUnifiedFilterScreen.isActive {
-                if let serviceType = servicesFilters.type {
-                    
-                    if let serviceSubtypes = servicesFilters.subtypes {
-                        if serviceType.subTypes.count == serviceSubtypes.count ||
-                            serviceSubtypes.count == 0 {
-                            resultTags.append(.serviceType(serviceType))
-                        } else {
-                            resultTags.append(.unifiedServiceType(type: serviceType,
-                                                                  selectedSubtypes: serviceSubtypes))
-                        }
-                    } else {
+            if let serviceType = servicesFilters.type {
+                if let serviceSubtypes = servicesFilters.subtypes {
+                    if serviceType.subTypes.count == serviceSubtypes.count ||
+                        serviceSubtypes.count == 0 {
                         resultTags.append(.serviceType(serviceType))
+                    } else {
+                        resultTags.append(.unifiedServiceType(type: serviceType,
+                                                              selectedSubtypes: serviceSubtypes))
                     }
-                }
-            } else {
-                if let serviceType = servicesFilters.type {
+                } else {
                     resultTags.append(.serviceType(serviceType))
-                }
-                
-                if let tags = servicesFilters.subtypes?.map({ FilterTag.serviceSubtype($0) }) {
-                    resultTags.append(contentsOf: tags)
                 }
             }
         }
@@ -236,7 +241,12 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     var shouldShowInviteButton: Bool {
+        guard !shouldShowAffiliateButton else { return false }
         return navigator?.canOpenAppInvite() ?? false
+    }
+    
+    var shouldShowAffiliateButton: Bool {
+        return featureFlags.affiliationEnabled.isActive
     }
 
     var shouldShowCommunityButton: Bool {
@@ -245,10 +255,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
 
     var shouldShowUserProfileButton: Bool {
         return featureFlags.community.shouldShowOnTab
-    }
-
-    var shouldShowCommunityBanner: Bool {
-        return featureFlags.community.isActive && !listViewModel.isListingListEmpty.value
     }
     
     private var carSelectedWithFilters: Bool {
@@ -276,7 +282,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private var shouldShowRealEstateMapTooltip: Bool {
-        return keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded
+        return !keyValueStorage[.realEstateTooltipMapShown] && !isMapTooltipAdded && !isAffiliationTooltipAdded
+    }
+    
+    private var shouldShowAffiliationTooltip: Bool {
+        return !keyValueStorage[.affiliationTooltipShown] && !isAffiliationTooltipAdded
     }
     
     private func showTooltipMap() {
@@ -303,6 +313,42 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     func tooltipDidHide() {
         keyValueStorage[.realEstateTooltipMapShown] = true
     }
+    
+    private func showTooltipAffiliation() {
+        guard
+            featureFlags.affiliationEnabled.isActive,
+            !keyValueStorage[.affiliationTooltipShown],
+            !isAffiliationTooltipAdded
+            else {
+                return
+        }
+        isAffiliationTooltipAdded = true
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 3
+        let title = R.Strings.affiliationMainFeedTooltipText
+        let titleHighlighted = R.Strings.affiliationMainFeedTooltipTextHighlighted
+        let attributedText = title.bicolorAttributedText(mainColor: .white,
+                                                         colouredText: titleHighlighted,
+                                                         otherColor: .primaryColor,
+                                                         font: UIFont.systemSemiBoldFont(size: 15),
+                                                         paragraphStyle: paragraphStyle)
+        let action: () -> () = {  [weak self] in
+            self?.tooltipAffiliationDidHide()
+            self?.openAffiliationChallenges(sourceButton: .banner)
+        }
+        let tooltipConfiguration = TooltipConfiguration(title: attributedText,
+                                                        style: .black(closeEnabled: false),
+                                                        peakOnTop: true,
+                                                        actionBlock:action,
+                                                        closeBlock: nil)
+        
+        
+        delegate?.vmShowAffiliationToolTip(with: tooltipConfiguration)
+    }
+    
+    func tooltipAffiliationDidHide() {
+       keyValueStorage[.affiliationTooltipShown] = true
+    }
 
     
     let mainListingsHeader = Variable<MainListingsHeader>([])
@@ -323,6 +369,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private let searchAlertsRepository: SearchAlertsRepository
     fileprivate let userRepository: UserRepository
     private let feedBadgingSynchronizer: FeedBadgingSynchronizer
+    private let appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver
     
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -444,7 +491,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
          chatWrapper: ChatWrapper,
          adsImpressionConfigurable: AdsImpressionConfigurable,
          interestedHandler: InterestedHandleable,
-         feedBadgingSynchronizer: FeedBadgingSynchronizer) {
+         feedBadgingSynchronizer: FeedBadgingSynchronizer,
+         appsFlyerAffiliationResolver: AppsFlyerAffiliationResolver) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.searchRepository = searchRepository
@@ -467,15 +515,14 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         self.adsImpressionConfigurable = adsImpressionConfigurable
         self.interestedHandler = interestedHandler
         self.feedBadgingSynchronizer = feedBadgingSynchronizer
+        self.appsFlyerAffiliationResolver = appsFlyerAffiliationResolver
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? SharedConstants.numListingsPerPageBig : SharedConstants.numListingsPerPageDefault
         self.requesterDependencyContainer = RequesterDependencyContainer(itemsPerPage: itemsPerPage,
                                                                          filters: filters,
-                                                                         queryString: searchType?.query,
-                                                                         similarSearchActive: featureFlags.emptySearchImprovements.isActive)
-        let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer,
-                                                      featureFlags: featureFlags)
+                                                                         queryString: searchType?.query)
+        let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer)
         self.requesterFactory = requesterFactory
         self.listViewModel = ListingListViewModel(numberOfColumns: columns,
                                                   tracker: tracker,
@@ -484,7 +531,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                                   searchType: searchType,
                                                   source: .feed,
                                                   interestedStateUpdater: interestedHandler.interestedStateUpdater)
-        let multiRequester = self.listViewModel.currentActiveRequester as? ListingListMultiRequester
+        let multiRequester = self.listViewModel.listingListRequester as? ListingListMultiRequester
         self.listingListRequester = multiRequester ?? ListingListMultiRequester()
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
         
@@ -520,6 +567,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let adsImpressionConfigurable = LGAdsImpressionConfigurable()
         let interestedHandler = InterestedHandler()
         let feedBadgingSynchronizer = LGFeedBadgingSynchronizer()
+        let appsFlyerAffiliationResolver = AppsFlyerAffiliationResolver.shared
         self.init(sessionManager: sessionManager,
                   myUserRepository: myUserRepository,
                   searchRepository: searchRepository,
@@ -540,7 +588,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                   chatWrapper: chatWrapper,
                   adsImpressionConfigurable: adsImpressionConfigurable,
                   interestedHandler: interestedHandler,
-                  feedBadgingSynchronizer: feedBadgingSynchronizer)
+                  feedBadgingSynchronizer: feedBadgingSynchronizer,
+                  appsFlyerAffiliationResolver: appsFlyerAffiliationResolver)
         self.shouldCloseOnRemoveAllFilters = shouldCloseOnRemoveAllFilters
     }
     
@@ -608,11 +657,17 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         wireframe?.openFilters(withFilters: filters, dataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
     }
+
+    func openAffiliationChallenges(sourceButton: AffiliationChallengesSource.FeedButtonName) {
+        delegate?.vmHideAffiliationToolTip(hideForever: true)
+        wireframe?.openLoginIfNeededFromFeed(from: .feed, loggedInAction: { [weak self] in
+            self?.wireframe?.openAffiliationChallenges(sourceButton: sourceButton)
+        })
+    }
     
     func showMap() {
         wireframe?.openMap(requester: listingListRequester,
-                        listingFilters: filters,
-                        searchNavigator: searchNavigator as! ListingsMapNavigator)
+                        listingFilters: filters)
     }
     
     /**
@@ -836,17 +891,77 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     }
     
     private func setupRx() {
+        featureFlags.rx_affiliationEnabled
+            .asDriver(onErrorJustReturn: .control)
+            .filter { $0 == .active }
+            .distinctUntilChanged()
+            .map { [weak self] enabled in
+                self?.rightBarButtonsItems ?? []
+            }.drive(rightBBItemsRelay)
+            .disposed(by: disposeBag)
+        
+    
+
         listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
         }.disposed(by: disposeBag)
         
+        appsFlyerAffiliationResolver
+            .rx.affiliationCampaign
+            .bind { [weak self] status in
+            switch status {
+            case .campaignNotAvailableForUser:
+                self?.delegate?.vmHideAffiliationToolTip(hideForever: true)
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openWrongCountryModal()
+                })
+            case.referral( let referrer):
+                self?.delegate?.vmHideAffiliationToolTip(hideForever: true)
+                guard !(self?.keyValueStorage[.didShowAffiliationOnBoarding] ?? true) else { return }
+                delay(2.5, completion: { [weak self] in
+                    self?.navigator?.openAffiliationOnboarding(data: referrer)
+                })
+            case .unknown:
+                self?.showTooltipAffiliation()
+            }
+        }.disposed(by: disposeBag)
         Observable.combineLatest(notificationsManager.engagementBadgingNotifications.asObservable(),
                                  containsListings.asObservable(),
                                  isShowingCategoriesHeader.asObservable()) { $0 && $1 && $2 }
             .bind(to: recentItemsBubbleVisible)
             .disposed(by: disposeBag)
+
+        myUserRepository
+            .rx_myUser
+            .distinctUntilChanged { $0?.objectId == $1?.objectId }
+            .subscribe(onNext: { [weak self] myUser in
+                self?.loadAvatar(for: myUser)
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func loadAvatar(for user: User?) {
+        guard featureFlags.advancedReputationSystem11.isActive else { return }
+
+        guard let avatarUrl = user?.avatar?.fileURL else {
+            self.userAvatar.accept(nil)
+            return
+        }
+
+        if let cachedImage = ImageDownloader.sharedInstance.cachedImageForUrl(avatarUrl) {
+            self.userAvatar.accept(cachedImage)
+            return
+        }
+
+        ImageDownloader
+            .sharedInstance
+            .downloadImageWithURL(avatarUrl) { [weak self] (result, _) in
+                guard case .success((let image, _)) = result else { return }
+                self?.userAvatar.accept(image)
+        }
     }
     
+
     /**
      Returns a view model for search.
      
@@ -866,12 +981,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let currentItemsPerPage = listingListRequester.itemsPerPage
         requesterDependencyContainer.updateContainer(itemsPerPage: currentItemsPerPage,
                                                      filters: filters,
-                                                     queryString: queryString,
-                                                     similarSearchActive: featureFlags.emptySearchImprovements.isActive)
-        let requesterFactory = SearchRequesterFactory(dependencyContainer: requesterDependencyContainer,
-                                                      featureFlags: featureFlags)
+                                                     queryString: queryString)
+        let requesterFactory = SearchRequesterFactory(dependencyContainer: requesterDependencyContainer)
         listViewModel.updateFactory(requesterFactory)
-        listingListRequester = (listViewModel.currentActiveRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
+        listingListRequester = (listViewModel.listingListRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
         infoBubbleVisible.value = false
         recentItemsBubbleVisible.value = false
         errorMessage.value = nil
@@ -1114,9 +1227,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
         
         // set title for cell at index if necessary
-        if !featureFlags.emptySearchImprovements.isActive {
-            filterTitle.value = listViewModel.titleForIndex(index: index)
-        }
+        filterTitle.value = listViewModel.titleForIndex(index: index)
         
         guard let sortCriteria = filters.selectedOrdering else { return }
         
@@ -1154,7 +1265,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                        hasListings: Bool,
                        containsRecentListings: Bool) {
         isCurrentFeedACachedFeed = false
-
+        let pullToRefreshTriggered = viewModel.pullToRefreshTriggered
+        
         // Only save the string when there is products and we are not searching a collection
         if let search = searchType, hasListings {
             updateLastSearchStored(lastSearch: search)
@@ -1166,8 +1278,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             return
         }
         
-        let requester = listViewModel.currentActiveRequester as? ListingListMultiRequester
-        activeRequesterType = viewModel.currentRequesterType
+        let requester = listViewModel.listingListRequester as? ListingListMultiRequester
         
         if let isFirstPage = requester?.multiIsFirstPage, isFirstPage {
             filterDescription.value = !hasListings && shouldShowNoExactMatchesDisclaimer ? R.Strings.filterResultsCarsNoMatches : nil
@@ -1185,41 +1296,19 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 trackRequestSuccess(page: page,
                                     resultsCount: resultsCount,
                                     hasListings: hasListings,
-                                    searchRelatedItems: featureFlags.emptySearchImprovements.isActive,
-                                    recentItems: containsRecentListings)
+                                    recentItems: containsRecentListings,
+                                    pullToRefreshTriggered: pullToRefreshTriggered)
 
             } else {
                 listViewModel.retrieveListingsNextPage()
             }
             
-        } else if let requesterType = activeRequesterType,
-            featureFlags.emptySearchImprovements.isActive {
-            
-            let isFirstRequesterInAlwaysSimilarCase = featureFlags.emptySearchImprovements == .alwaysSimilar && requesterType == .nonFilteredFeed
-            let isFirstRequesterInOtherCases = featureFlags.emptySearchImprovements != .alwaysSimilar && requesterType != .search
-            if isFirstRequesterInAlwaysSimilarCase || isFirstRequesterInOtherCases {
-                trackRequestSuccess(page: page,
-                                    resultsCount: resultsCount,
-                                    hasListings: hasListings,
-                                    searchRelatedItems: true,
-                                    recentItems: containsRecentListings)
-                shouldHideCategoryAfterSearch = true
-                filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
-                filterTitle.value = filterTitleString(forRequesterType: requesterType)
-                updateCategoriesHeader()
-            } else {
-                trackRequestSuccess(page: page,
-                                    resultsCount: resultsCount,
-                                    hasListings: hasListings,
-                                    searchRelatedItems: false,
-                                    recentItems: containsRecentListings)
-            }
         } else {
             trackRequestSuccess(page: page,
                                 resultsCount: resultsCount,
                                 hasListings: hasListings,
-                                searchRelatedItems: false,
-                                recentItems: containsRecentListings)
+                                recentItems: containsRecentListings,
+                                pullToRefreshTriggered: pullToRefreshTriggered)
         }
         
         errorMessage.value = nil
@@ -1368,6 +1457,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             feedAdUnitId = appInstallAdUnit
             adTypes.append(.nativeAppInstall)
         }
+        var bidder: PMBidder? = nil
+        if featureFlags.polymorphFeedAdsUSA.isActive {
+            bidder = PMBidder.init(pmAdUnitID: EnvironmentProxy.sharedInstance.polymorphAdUnit)
+            feedAdUnitId = EnvironmentProxy.sharedInstance.feedAdUnitIdPolymorphUSA
+        }
         let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
                                    rootViewController: adsDelegate.rootViewControllerForAds(),
                                    adTypes: adTypes,
@@ -1379,7 +1473,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                           adRequested: false,
                                           categories: filters.selectedCategories,
                                           adLoader: adLoader,
-                                          adxNativeView: NativeAdBlankStateView())
+                                          adxNativeView: NativeAdBlankStateView(),
+                                          bidder: bidder)
         return ListingCellModel.adxAdvertisement(data: adData)
     }
     
@@ -1472,16 +1567,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             return adRelativePosition
         }
         return nil
-    }
-    
-    private func filterTitleString(forRequesterType type: RequesterType) -> String? {
-        switch type {
-        case .nonFilteredFeed:
-            return R.Strings.productPopularNearYou
-        case .similarProducts:
-            return R.Strings.listingShowSimilarResults
-        case .search: return nil
-        }
     }
 }
 
@@ -1877,31 +1962,32 @@ fileprivate extension MainListingsViewModel {
     private func trackRequestSuccess(page: UInt,
                                      resultsCount: Int,
                                      hasListings: Bool,
-                                     searchRelatedItems: Bool,
-                                     recentItems: Bool) {
+                                     recentItems: Bool,
+                                     pullToRefreshTriggered: Bool) {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasListings ? .trueParameter : .falseParameter
         let recentItemsParameter: EventParameterBoolean = recentItems ? .trueParameter : .falseParameter
+        let reloadParameter: EventParameterBoolean = pullToRefreshTriggered ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
                                                     searchQuery: queryString,
                                                     resultsCount: resultsCount,
                                                     feedSource: feedSource,
                                                     success: successParameter,
-                                                    recentItems: recentItemsParameter)
+                                                    recentItems: recentItemsParameter,
+                                                    pullToRefreshTriggered: reloadParameter)
 
         tracker.trackEvent(trackerEvent)
         
         if let searchType = searchType, let searchQuery = searchType.query, shouldTrackSearch {
             shouldTrackSearch = false
-            let successValue = searchRelatedItems || !hasListings ? EventParameterSearchCompleteSuccess.fail : EventParameterSearchCompleteSuccess.success
+            let successValue = !hasListings ? EventParameterSearchCompleteSuccess.fail : EventParameterSearchCompleteSuccess.success
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchQuery,
                                                            isTrending: searchType.isTrending,
                                                            success: successValue,
                                                            isLastSearch: searchType.isLastSearch,
                                                            isSuggestiveSearch: searchType.isSuggestive,
-                                                           suggestiveSearchIndex: searchType.indexSelected,
-                                                           searchRelatedItems: searchRelatedItems))
+                                                           suggestiveSearchIndex: searchType.indexSelected))
         }
     }
     
@@ -1993,7 +2079,10 @@ extension MainListingsViewModel: ListingCellDelegate {
                                          duration: InterestedHandler.undoTimeout) {
                                             cancellable.cancel()
                     }
-                    self?.interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                    self?.interestedHandler.handleCancellableInterestedAction(listing,
+                                                                              timer: timer,
+                                                                              typePage: .feed,
+                                                                              completion: completion)
                 }
             }
         }

@@ -41,6 +41,10 @@ class SignUpViewModel: BaseViewModel {
         return attributtedLegalText
     }
 
+    var showpasswordlessLogin: Bool {
+        return self.featureFlags.showPasswordlessLogin.isActive
+    }
+
     private var termsAndConditionsURL: URL? {
         return LetgoURLHelper.buildTermsAndConditionsURL()
     }
@@ -147,6 +151,11 @@ class SignUpViewModel: BaseViewModel {
                                         self?.router?.close(onFinish: self?.onLoginCallback)
                                    },
                                    cancelAction: onCancelCallback)
+    }
+
+    func continueWithEmailButtonPressed() {
+        router?.showPasswordlessEmail()
+        tracker.trackEvent(.loginEmailStart())
     }
 
     func helpButtonPressed() {

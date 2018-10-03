@@ -41,10 +41,8 @@ final class NotificationsView: UIView {
         ])
  
         tableView.register(type: NotificationCenterModularCell.self)
-        ModularNotificationCellDrawer.registerClassCell(tableView)
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = ModularNotificationCellDrawer.estimatedRowHeight
         tableView.separatorStyle = .none
         tableView.contentInset = .zero
         
@@ -72,12 +70,8 @@ final class NotificationsView: UIView {
         tableViewController = NotificationsTableViewController(
             viewModel: viewModel
         )
-        
-        if viewModel.isNotificationCenterRedesign {
-            tableView.backgroundColor = .white
-        } else {
-            tableView.backgroundColor = .listBackgroundColor
-        }
+
+        tableView.backgroundColor = .white
         
         tableView.delegate = tableViewController
         tableView.dataSource = tableViewController

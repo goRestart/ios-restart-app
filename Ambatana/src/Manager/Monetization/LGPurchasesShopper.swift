@@ -5,6 +5,42 @@ import AdSupport
 import AppsFlyerLib
 import CommonCrypto
 
+extension PurchaseableProduct {
+    func toBumpUpProductData(storeToLetgoIdsMapper: [String:String]?,
+                             currentAvailablePurchases: [FeaturePurchase]?) -> BumpUpProductData? {
+        guard let letgoItemId = storeToLetgoIdsMapper?[productIdentifier] else { return nil }
+        let featurePurchase = currentAvailablePurchases?
+            .filter { $0.providerItemId == productIdentifier }.first
+        return BumpUpProductData(purchaseableProduct: self,
+                                 letgoItemId: letgoItemId,
+                                 storeProductId: productIdentifier,
+                                 featurePurchase: featurePurchase)
+
+    }
+}
+
+extension FeaturePurchaseType {
+    var isBoost: Bool {
+        switch self {
+        case .bump, .threeDays, .sevenDays:
+            return false
+        case .boost:
+            return true
+        }
+    }
+
+    var correspondingBumpUpType: BumpUpType {
+        switch self {
+        case .boost:
+            return .boost(boostBannerVisible: false)
+        case .bump:
+            return .priced
+        case .threeDays, .sevenDays:
+            return .ongoingBump(featurePurchaseType: self)
+        }
+    }
+}
+
 enum BumpFailedErrorCode {
     case receiptInvalid
     case paymentAlreadyProcessed
@@ -36,23 +72,25 @@ enum PurchasesShopperState {
     case purchasing
 }
 
+struct RecentBumpInfo {
+    let timeDifference: TimeInterval
+    let maxCountdown: TimeInterval
+    let bumpUpType: BumpUpType
+}
+
+typealias BumpCacheInfo = (savedDate: Date, maxCountdown: TimeInterval, bumpUpType: BumpUpType)
+
 protocol BumpInfoRequesterDelegate: class {
     func shopperFinishedProductsRequestForListingId(_ listingId: String?,
-                                                    withProducts products: [PurchaseableProduct],
-                                                    letgoItemId: String?,
-                                                    storeProductId: String?,
+                                                    withPurchases purchases: [BumpUpProductData],
                                                     maxCountdown: TimeInterval,
                                                     typePage: EventParameterTypePage?)
 }
 
 protocol PurchasesShopperDelegate: class {
-    func freeBumpDidStart(typePage: EventParameterTypePage?)
-    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork,
-                            typePage: EventParameterTypePage?,
-                            paymentId: String)
-    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?)
-
-    func pricedBumpDidStart(typePage: EventParameterTypePage?, isBoost: Bool)
+    func pricedBumpDidStartWith(storeProduct: PurchaseableProduct,
+                                typePage: EventParameterTypePage?,
+                                featurePurchaseType: FeaturePurchaseType)
     func paymentDidSucceed(paymentId: String, transactionStatus: EventParameterTransactionStatus)
     func pricedBumpDidSucceed(type: BumpUpType,
                               restoreRetriesCount: Int,
@@ -70,10 +108,14 @@ protocol PurchasesShopperDelegate: class {
     func restoreBumpDidStart()
 }
 
-class LGPurchasesShopper: NSObject, PurchasesShopper {
+final class LGPurchasesShopper: NSObject, PurchasesShopper {
+
+    var storeToLetgoIdsMapper: [String:String] = [:]
+    var currentAvailablePurchases: [FeaturePurchase] = []
+
     static let sharedInstance: PurchasesShopper = LGPurchasesShopper()
 
-    fileprivate var receiptString: String? {
+    private var receiptString: String? {
         guard let receiptUrl = receiptURLProvider.appStoreReceiptURL,
             let receiptData = try? Data(contentsOf: receiptUrl)
             else { return nil }
@@ -89,14 +131,14 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     private(set) var currentListingId: String?
     private var productsRequest: PurchaseableProductsRequest
 
-    private var requestFactory: PurchaseableProductsRequestFactory
-    private var monetizationRepository: MonetizationRepository
-    private var myUserRepository: MyUserRepository
-    private var installationRepository: InstallationRepository
-    fileprivate let keyValueStorage: KeyValueStorageable
-    private var receiptURLProvider: ReceiptURLProvider
-    fileprivate var paymentQueue: PaymentEnqueuable
-    fileprivate var appstoreProductsCache: [String : SKProduct] = [:]
+    private let requestFactory: PurchaseableProductsRequestFactory
+    private let monetizationRepository: MonetizationRepository
+    private let myUserRepository: MyUserRepository
+    private let installationRepository: InstallationRepository
+    private let keyValueStorage: KeyValueStorageable
+    private let receiptURLProvider: ReceiptURLProvider
+    private var paymentQueue: PaymentEnqueuable
+    private var appstoreProductsCache: [String : SKProduct] = [:]
 
     weak var delegate: PurchasesShopperDelegate?
     weak var bumpInfoRequesterDelegate: BumpInfoRequesterDelegate?
@@ -109,14 +151,17 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     var letgoProductsDict: [String : [SKProduct]] = [:]
     var paymentProcessingListingId: String?
     var paymentProcessingLetgoItemId: String?
-    var paymentProcessingIsBoost: Bool = false
+    var paymentProcessingFeaturePurchaseType: FeaturePurchaseType = .bump
     var paymentProcessingMaxCountdown: TimeInterval = 0
 
-    private var currentBumpLetgoItemId: String?
-    private var currentBumpStoreProductId: String?
-    private var currentBumpTypePage: EventParameterTypePage?
+    private var paymentProcessingIsBoost: Bool {
+        return paymentProcessingFeaturePurchaseType.isBoost
+    }
 
-    private var recentBumpsCache: [String: (Date, TimeInterval)] = [:]
+    private var currentBumpTypePage: EventParameterTypePage?
+    private var currentBumpMaxCountdown: TimeInterval = 0
+
+    private var recentBumpsCache: [String: BumpCacheInfo] = [:]
     static private let timeThresholdBetweenBumps: TimeInterval = 60
 
 
@@ -208,33 +253,50 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      */
     func productsRequestStartForListingId(_ listingId: String,
                                           letgoItemId: String,
-                                          withIds ids: [String],
+                                          providerItemId: String,
                                           maxCountdown: TimeInterval,
+                                          timeSinceLastBump: TimeInterval,
                                           typePage: EventParameterTypePage?) {
         guard listingId != currentListingId else { return }
         guard canMakePayments else { return }
 
-        currentBumpLetgoItemId = letgoItemId
-        currentBumpStoreProductId = ids.first
+        currentListingId = listingId
         currentBumpTypePage = typePage
+        currentBumpMaxCountdown = maxCountdown
+        storeToLetgoIdsMapper[providerItemId] = letgoItemId
+
+        let featurePurchase = LGFeaturePurchase(purchaseType: (timeSinceLastBump > 0 ? .boost : .bump),
+                                                featureDuration: maxCountdown,
+                                                provider: .apple,
+                                                letgoItemId: letgoItemId,
+                                                providerItemId: providerItemId)
+
+        currentAvailablePurchases = [featurePurchase]
 
         // check cached products
-        let alreadyChosenProducts = appstoreProductsCache.filter(keys: ids).map { $0.value }
+        let alreadyChosenProducts = appstoreProductsCache.filter(keys: [providerItemId]).map { $0.value }
         guard alreadyChosenProducts.isEmpty else {
             // if product has been previously requested, we don't repeat the request, so the banner loads faster
             letgoProductsDict[listingId] = alreadyChosenProducts
-            bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId,
-                                                                                  withProducts: alreadyChosenProducts,
-                                                                                  letgoItemId: letgoItemId,
-                                                                                  storeProductId: ids.first,
-                                                                                  maxCountdown: maxCountdown,
-                                                                                  typePage: typePage)
+
+            if let purchaseableProduct = alreadyChosenProducts.filter({ $0.productIdentifier == providerItemId }).first {
+
+                let purchaseInfo = BumpUpProductData(purchaseableProduct: purchaseableProduct,
+                                                     letgoItemId: letgoItemId,
+                                                     storeProductId: providerItemId,
+                                                     featurePurchase: featurePurchase)
+
+                bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId,
+                                                                                      withPurchases: [purchaseInfo],
+                                                                                      maxCountdown: maxCountdown,
+                                                                                      typePage: typePage)
+                resetCurrentListingProductsRequestInfo()
+            }
             return
         }
 
         productsRequest.cancel()
-        currentListingId = listingId
-        productsRequest = requestFactory.generatePurchaseableProductsRequest(ids)
+        productsRequest = requestFactory.generatePurchaseableProductsRequest([providerItemId])
         productsRequest.delegate = self
         productsRequest.start()
     }
@@ -263,13 +325,16 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      Checks if the listing was bumped recently, and if was bumped but a while ago, it removes it form the
      recent bumps cache
      */
-    func timeSinceRecentBumpFor(listingId: String) -> (timeDifference: TimeInterval, maxCountdown: TimeInterval)? {
+    func timeSinceRecentBumpFor(listingId: String) -> RecentBumpInfo? {
         guard let recentBumpInfo = recentBumpsCache[listingId] else { return nil }
-        let recentBumpDate = recentBumpInfo.0
-        let recentBumpMaxCountdown = recentBumpInfo.1
+        let recentBumpDate = recentBumpInfo.savedDate
+        let recentBumpMaxCountdown = recentBumpInfo.maxCountdown
+        let recentBumpType = recentBumpInfo.bumpUpType
         let timeDifference = Date().timeIntervalSince1970 - recentBumpDate.timeIntervalSince1970
         guard LGPurchasesShopper.timeThresholdBetweenBumps < timeDifference else {
-            return (timeDifference, recentBumpMaxCountdown)
+            return RecentBumpInfo(timeDifference: timeDifference,
+                                  maxCountdown: recentBumpMaxCountdown,
+                                  bumpUpType: recentBumpType)
         }
         recentBumpsCache[listingId] = nil
         return nil
@@ -281,9 +346,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     func requestPayment(forListingId listingId: String,
                         appstoreProduct: PurchaseableProduct,
                         letgoItemId: String,
-                        isBoost: Bool,
                         maxCountdown: TimeInterval,
-                        typePage: EventParameterTypePage?) {
+                        typePage: EventParameterTypePage?,
+                        featurePurchaseType: FeaturePurchaseType) {
         guard canMakePayments else { return }
         guard let appstoreProducts = letgoProductsDict[listingId],
             let appstoreChosenProduct = appstoreProduct as? SKProduct,
@@ -293,11 +358,12 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         purchasesShopperState = .purchasing
         currentBumpTypePage = typePage
 
-        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage, isBoost: isBoost)
+        delegate?.pricedBumpDidStartWith(storeProduct: appstoreProduct, typePage: currentBumpTypePage,
+                                         featurePurchaseType: featurePurchaseType)
 
         paymentProcessingListingId = listingId
         paymentProcessingLetgoItemId = letgoItemId
-        paymentProcessingIsBoost = isBoost
+        paymentProcessingFeaturePurchaseType = featurePurchaseType
         paymentProcessingMaxCountdown = maxCountdown
         
         // request payment to appstore with "appstoreChosenProduct"
@@ -310,19 +376,6 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
         paymentQueue.add(payment)
     }
-
-    func requestFreeBumpUp(forListingId listingId: String, letgoItemId: String, shareNetwork: EventParameterShareNetwork) {
-        delegate?.freeBumpDidStart(typePage: currentBumpTypePage)
-        monetizationRepository.freeBump(forListingId: listingId, itemId: letgoItemId) { [weak self] result in
-            if let _ = result.value {
-                let paymentId = UUID().uuidString.lowercased()
-                self?.delegate?.freeBumpDidSucceed(withNetwork: shareNetwork, typePage: self?.currentBumpTypePage, paymentId: paymentId)
-            } else if let _ = result.error {
-                self?.delegate?.freeBumpDidFail(withNetwork: shareNetwork, typePage: self?.currentBumpTypePage)
-            }
-        }
-    }
-    
 
     /**
      Method to request bumps already paid.  Transaction info is saved at keyValueStorage and in the payments queue
@@ -372,14 +425,14 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter transaction: the app store transaction info
      - parameter type: the type of bump
      */
-    fileprivate func requestPricedBumpUp(forListingId listingId: String,
-                                         receiptData: String,
-                                         transaction: SKPaymentTransaction,
-                                         type: BumpUpType,
-                                         transactionStatus: EventParameterTransactionStatus,
-                                         isBoost: Bool,
-                                         letgoItemId: String?,
-                                         maxCountdown: TimeInterval) {
+    private func requestPricedBumpUp(forListingId listingId: String,
+                                     receiptData: String,
+                                     transaction: SKPaymentTransaction,
+                                     type: BumpUpType,
+                                     transactionStatus: EventParameterTransactionStatus,
+                                     isBoost: Bool,
+                                     letgoItemId: String?,
+                                     maxCountdown: TimeInterval) {
 
         var price: String?
         var currency: String?
@@ -448,7 +501,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         var bump = currentBump
         let retryCount: Int
         switch type {
-        case .priced, .boost:
+        case .priced, .boost, .ongoingBump:
             retryCount = SharedConstants.maxRetriesForFirstTimeBumpUp
         case .restore:
             retryCount = 1
@@ -606,7 +659,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                        typePage: typePage,
                                        isBoost: isBoost,
                                        paymentId: paymentId)
-        recentBumpsCache[listingId] = (Date(), maxCountdown)
+        let cacheInfo = BumpCacheInfo(Date(), maxCountdown, type)
+        recentBumpsCache[listingId] = cacheInfo
     }
 }
 
@@ -633,18 +687,26 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
             appstoreProductsCache[product.productIdentifier] = product
         }
         letgoProductsDict[currentRequestListingId] = appstoreProducts
+        let purchases: [BumpUpProductData] = response.purchaseableProducts.compactMap { [weak self] purchaseableProduct in
+            return purchaseableProduct.toBumpUpProductData(storeToLetgoIdsMapper: self?.storeToLetgoIdsMapper,
+                                                           currentAvailablePurchases: self?.currentAvailablePurchases)
+        }
+
         bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(currentListingId,
-                                                                              withProducts: response.purchaseableProducts,
-                                                                              letgoItemId: currentBumpLetgoItemId,
-                                                                              storeProductId: currentBumpStoreProductId,
-                                                                              maxCountdown: paymentProcessingMaxCountdown,
+                                                                              withPurchases: purchases,
+                                                                              maxCountdown: currentBumpMaxCountdown,
                                                                               typePage: currentBumpTypePage)
-        currentListingId = nil
+        resetCurrentListingProductsRequestInfo()
     }
 
     func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: Error) {
-        currentListingId = nil
+        resetCurrentListingProductsRequestInfo()
         logMessage(.info, type: [.monetization], message: "Products request failed with error: \(error)")
+    }
+
+    private func resetCurrentListingProductsRequestInfo() {
+        currentListingId = nil
+        currentAvailablePurchases = []
     }
 }
 
@@ -688,7 +750,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                     continue
                 }
 
-                let bumpType: BumpUpType = paymentProcessingIsBoost ? .boost(boostBannerVisible: false) : .priced
+                let bumpType: BumpUpType = paymentProcessingFeaturePurchaseType.correspondingBumpUpType
                 requestPricedBumpUp(forListingId: paymentProcessingListingId, receiptData: receiptString,
                                     transaction: transaction, type: bumpType, transactionStatus: transactionStatus,
                                     isBoost: paymentProcessingIsBoost, letgoItemId: paymentProcessingLetgoItemId,
@@ -723,7 +785,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                                                 isBoost: paymentProcessingIsBoost)
                     continue
                 }
-                let bumpType: BumpUpType = paymentProcessingIsBoost ? .boost(boostBannerVisible: false) : .priced
+                let bumpType: BumpUpType = paymentProcessingFeaturePurchaseType.correspondingBumpUpType
                 requestPricedBumpUp(forListingId: listingId, receiptData: receiptString,
                                               transaction: transaction, type: bumpType,
                                               transactionStatus: transactionStatus,
@@ -739,7 +801,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         }
     }
 
-    fileprivate func saveToUserDefaults(transaction: SKPaymentTransaction, forListing listingId: String?) {
+    private func saveToUserDefaults(transaction: SKPaymentTransaction, forListing listingId: String?) {
         guard let transactionId = transaction.transactionIdentifier, let listingId = listingId else { return }
 
         var transactionsDict = keyValueStorage.userPendingTransactionsListingIds
@@ -751,12 +813,12 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         }
     }
 
-    fileprivate func listingIdFor(transaction: SKPaymentTransaction) -> String? {
+    private func listingIdFor(transaction: SKPaymentTransaction) -> String? {
         guard let transactionId = transaction.transactionIdentifier else { return nil }
         return keyValueStorage.userPendingTransactionsListingIds[transactionId]
     }
 
-    fileprivate func removeFromUserDefaults(transactionId: String?) {
+    private func removeFromUserDefaults(transactionId: String?) {
         // remove transaction ids (apple's restore)
         guard let transactionId = transactionId else { return }
         var transactionsDict = keyValueStorage.userPendingTransactionsListingIds
@@ -764,7 +826,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         keyValueStorage.userPendingTransactionsListingIds = transactionsDict
     }
 
-    fileprivate func saveToUserDefaults(bumpUp bumpInfo: FailedBumpInfo?) {
+    private func saveToUserDefaults(bumpUp bumpInfo: FailedBumpInfo?) {
         guard let bumpInfo = bumpInfo else { return }
 
         var failedBumpsDict = keyValueStorage.userFailedBumpsInfo
@@ -772,19 +834,19 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         keyValueStorage.userFailedBumpsInfo = failedBumpsDict
     }
 
-    fileprivate func failedBumpInfoFor(listingId: String) -> FailedBumpInfo? {
+    private func failedBumpInfoFor(listingId: String) -> FailedBumpInfo? {
         guard let dictionary = keyValueStorage.userFailedBumpsInfo[listingId] else { return nil }
         return FailedBumpInfo(dictionary: dictionary)
     }
 
-    fileprivate func removeFromUserDefaultsBumpUpWithListingId(listingId: String) {
+    private func removeFromUserDefaultsBumpUpWithListingId(listingId: String) {
         // remove failed bump ups info (letgo's restore)
         var userFailedBumpsDict = keyValueStorage.userFailedBumpsInfo
         userFailedBumpsDict.removeValue(forKey: listingId)
         keyValueStorage.userFailedBumpsInfo = userFailedBumpsDict
     }
 
-    fileprivate func finishTransaction(transaction: SKPaymentTransaction?,
+    private func finishTransaction(transaction: SKPaymentTransaction?,
                                        forListingId listingId: String,
                                        withBumpUpInfo bump: FailedBumpInfo) {
         removeFromUserDefaults(transactionId: transaction?.transactionIdentifier ?? bump.transactionId)
@@ -829,6 +891,45 @@ extension EventParameterTransactionStatus {
             case .failed:
                 self = .restoringFailed
             }
+        }
+    }
+}
+
+
+extension LGPurchasesShopper {
+    func requestProviderForPurchases(purchases: [FeaturePurchase], listingId: String, typePage: EventParameterTypePage?) {
+        guard listingId != currentListingId else { return }
+        guard canMakePayments else { return }
+
+        currentListingId = listingId
+        currentBumpTypePage = typePage
+        currentAvailablePurchases = purchases
+
+        purchases.forEach { [weak self] purchase in
+            self?.storeToLetgoIdsMapper[purchase.providerItemId] = purchase.letgoItemId
+        }
+
+        // check cached products
+        let providerItemIds = purchases.map { $0.providerItemId }
+        let alreadyChosenProducts = appstoreProductsCache.filter(keys: providerItemIds).map { $0.value }
+
+        if alreadyChosenProducts.count < providerItemIds.count {
+            productsRequest.cancel()
+            productsRequest = requestFactory.generatePurchaseableProductsRequest(providerItemIds)
+            productsRequest.delegate = self
+            productsRequest.start()
+        } else {
+            // if products have been previously requested, we don't repeat the request, so the banner loads faster
+            letgoProductsDict[listingId] = alreadyChosenProducts
+            let purchases: [BumpUpProductData] = alreadyChosenProducts.compactMap { [weak self] purchaseableProduct in
+                return purchaseableProduct.toBumpUpProductData(storeToLetgoIdsMapper: self?.storeToLetgoIdsMapper,
+                                                               currentAvailablePurchases: self?.currentAvailablePurchases)
+            }
+            bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId,
+                                                                                  withPurchases: purchases,
+                                                                                  maxCountdown: 0,
+                                                                                  typePage: typePage)
+            resetCurrentListingProductsRequestInfo()
         }
     }
 }

@@ -227,6 +227,7 @@ public extension UIColor {
 
     static var listBackgroundColor: UIColor { return grayBackground }
 
+    static var chatSystemBubbleBgColor: UIColor { return UIColor(rgb: 0xDFE9F7) } // (223, 233, 247)
     static var chatMyBubbleBgColor: UIColor { return primaryColorAlpha16 }
     static var chatMyBubbleBgColorSelected: UIColor { return primaryColorAlpha30 }
 
@@ -347,4 +348,23 @@ public extension UIColor {
 public extension UIColor {
     static var serviceTypeRed: UIColor { return existentialDoubtRed }
     fileprivate static let existentialDoubtRed = UIColor(rgb: 0xfc7d91) // (252, 125, 145)
+}
+
+// MARK: > P2P Payments Colors
+
+public extension UIColor {
+    static let p2pPaymentsPositive = UIColor(rgb: 0x00A8A8) // (0, 168, 168)
+    static let p2pPaymentsWarning = UIColor(rgb: 0xffd200) // (255, 210, 0)
+}
+
+// MARK: > Chat
+
+public extension UIColor {
+  static let chatBoxBackground = UIColor(rgb: 0xf2f2f2) // (242, 242, 242)
+}
+
+// MARK: - SmokeTest Colors
+
+public extension UIColor {
+    static var clickToTalk: UIColor { return UIColor(rgb: 0x48bba5) } //  72, 187, 113
 }
