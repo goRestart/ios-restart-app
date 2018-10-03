@@ -36,6 +36,7 @@ public extension UIFont {
     static var veryBigButtonFont: UIFont { return systemSemiBoldFont(size: 21) }
     static var bigButtonFont: UIFont { return systemSemiBoldFont(size: 19) }
     static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
+    static var mediumBoldButtonFont: UIFont { return systemBoldFont(size: 17) }
     static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
     static var verySmallButtonFont: UIFont { return systemMediumFont(size: 14) }
     static var verySmallBoldButtonFont: UIFont { return systemSemiBoldFont(size: 14) }

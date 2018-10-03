@@ -6,6 +6,7 @@ protocol SellCoordinatorDelegate: class {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator)
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing)
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing)
+    func sellCoordinator(coordinator: SellCoordinator, didFinishWithBulkPostingListings listings: [Listing])
 }
 
 final class SellCoordinator: Coordinator {
@@ -76,11 +77,14 @@ final class SellCoordinator: Coordinator {
             let language = Locale.systemLanguage()
             let machineLearningSupported = featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
                                                                                          language: language)
+            let isBulkProducts = featureFlags.bulkProducts.isActive && featureFlags.bulkProducts.supportsCategory(category: postCategory)
             let postListingVM = PostListingViewModel(source: source,
                                                      postCategory: postCategory,
                                                      listingTitle: listingTitle,
                                                      isBlockingPosting: false,
-                                                     machineLearningSupported: machineLearningSupported)
+                                                     machineLearningSupported: machineLearningSupported,
+                                                     isBulkProducts: isBulkProducts,
+                                                     bulkPostedListings: nil)
             let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: forcedInitialTab)
             navigationController = SellNavigationController(root: postListingVC)
@@ -140,6 +144,26 @@ extension SellCoordinator: PostListingNavigator {
     func closePostServicesAndPostInBackground(completion: @escaping (() -> Void)) {
         dismissViewController(animated: true,
                               completion: completion)
+    }
+
+    func closePostProductAndPostAnotherOne(listings: [Listing], source: PostingSource, listingTitle: String?) {
+        let language = Locale.systemLanguage()
+        let machineLearningSupported = featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
+                                                                                     language: language)
+        let isBulkProducts = featureFlags.bulkProducts.isActive && featureFlags.bulkProducts.supportsCategory(category: postCategory)
+        let postListingVM = PostListingViewModel(source: source,
+                                                 postCategory: postCategory,
+                                                 listingTitle: listingTitle,
+                                                 isBlockingPosting: false,
+                                                 machineLearningSupported: machineLearningSupported,
+                                                 isBulkProducts: isBulkProducts,
+                                                 bulkPostedListings: listings)
+        let postListingVC = PostListingViewController(viewModel: postListingVM,
+                                                      forcedInitialTab: .camera)
+
+        postListingVM.navigator = self
+        navigationController.pushViewController(postListingVC, animated: false)
+        navigationController.viewControllers = [postListingVC]
     }
     
     func startDetails(firstStep: PostingDetailStep,
@@ -239,6 +263,41 @@ extension SellCoordinator: PostListingNavigator {
                                                     trackingInfo: trackingInfo)
         let multiPostedVC = MultiListingPostedViewController(viewModel: viewModel)
         showCongrats(multiPostedVC, modalStyle, parentVC)
+    }
+
+    func showBulkListingPostConfirmation(listings: [Listing], modalStyle: Bool) {
+        guard let controller = navigationController.presentingViewController else { return }
+        let bulkListingPostedAssembly = BulkListingPostedBuilder.modal(root: controller)
+        let vc = bulkListingPostedAssembly.buildListingPosted(listings: listings, postAgainAction: { [weak self] in
+            guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
+            let postCategory: PostCategory? = nil
+            let language = Locale.systemLanguage()
+            let machineLearningSupported = strongSelf.featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
+                                                                                                    language: language)
+            let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
+                                                     postCategory: .otherItems(listingCategory: nil),
+                                                     listingTitle: nil,
+                                                     isBlockingPosting: false,
+                                                     machineLearningSupported: machineLearningSupported,
+                                                     isBulkProducts: true,
+                                                     bulkPostedListings: nil)
+            let postListingVC = PostListingViewController(viewModel: postListingVM,
+                                                          forcedInitialTab: nil)
+            strongSelf.viewController = postListingVC
+            postListingVM.navigator = self
+            strongSelf.navigationController = SellNavigationController(root: postListingVC)
+            strongSelf.navigationController.setupInitialCategory(postCategory: nil)
+            strongSelf.viewController = strongSelf.navigationController
+            strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
+            
+            }, closeAction: { [weak self] listings in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.sellCoordinator(coordinator: strongSelf, didFinishWithBulkPostingListings: listings)
+        })
+
+        dismissViewController(animated: true) {
+            controller.present(vc, animated: true, completion: nil)
+        }
     }
     
     private func showCongrats(_ listingPostedVC: UIViewController,
@@ -356,11 +415,15 @@ extension SellCoordinator: ListingPostedNavigator {
             let language = Locale.systemLanguage()
             let machineLearningSupported = strongSelf.featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
                                                                                          language: language)
+            let isBulkProducts = strongSelf.featureFlags.bulkProducts.isActive &&
+                strongSelf.featureFlags.bulkProducts.supportsCategory(category: postCategory)
             let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
                                                      postCategory: postCategory,
                                                      listingTitle: nil,
                                                      isBlockingPosting: false,
-                                                     machineLearningSupported: machineLearningSupported)
+                                                     machineLearningSupported: machineLearningSupported,
+                                                     isBulkProducts: isBulkProducts,
+                                                     bulkPostedListings: nil)
             let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: nil)
             strongSelf.viewController = postListingVC
@@ -372,7 +435,6 @@ extension SellCoordinator: ListingPostedNavigator {
         }
     }
 }
-
 
 // MARK: - MultiListingPostedNavigtor
 
@@ -418,7 +480,9 @@ extension SellCoordinator: BlockingPostingNavigator  {
                                                  postCategory: nil,
                                                  listingTitle: nil,
                                                  isBlockingPosting: true,
-                                                 machineLearningSupported: false)
+                                                 machineLearningSupported: false,
+                                                 isBulkProducts: false,
+                                                 bulkPostedListings: nil)
         postListingVM.navigator = self
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: nil)

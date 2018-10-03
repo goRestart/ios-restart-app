@@ -90,6 +90,7 @@ protocol FeatureFlaggeable: class {
     var simplifiedChatButton: SimplifiedChatButton { get }
     var frictionlessShare: FrictionlessShare { get }
     var turkeyFreePosting: TurkeyFreePosting { get }
+    var bulkProducts: BulkProducts{ get }
 
     // MARK: Users
     var emergencyLocate: EmergencyLocate { get }
@@ -329,6 +330,40 @@ extension TurkeyFreePosting {
     var isActive: Bool { return self == .active }
 }
 
+extension BulkProducts {
+    var isActive: Bool { return self != .control && self != .baseline }
+
+    var productsLimit: Int {
+        switch self {
+        case .control, .baseline:
+            return 0
+        case .variantA, .variantD:
+            return 5
+        case .variantB:
+            return 10
+        case .variantC:
+            return 25
+        }
+    }
+
+    var showDoneButtomInCameraScreen: Bool {
+        switch self {
+        case .control, .baseline, .variantD:
+            return false
+        case .variantA, .variantB, .variantC:
+            return true
+        }
+    }
+
+    func supportsCategory(category: PostCategory?) -> Bool {
+        switch category {
+        case .otherItems?:
+            return true
+        default:
+            return false
+        }
+    }
+}
 
 extension FullScreenAdsWhenBrowsingForUS {
     private var shouldShowFullScreenAdsForNewUsers: Bool {
@@ -1141,6 +1176,13 @@ extension FeatureFlags {
             return Bumper.turkeyFreePosting
         }
         return TurkeyFreePosting.fromPosition(abTests.turkeyFreePosting.value)
+    }
+
+    var bulkProducts: BulkProducts {
+        if Bumper.enabled {
+            return Bumper.bulkProducts
+        }
+        return BulkProducts.fromPosition(abTests.bulkProducts.value)
     }
 }
 

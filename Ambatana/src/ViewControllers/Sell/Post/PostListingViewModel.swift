@@ -2,7 +2,10 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 
-protocol PostListingViewModelDelegate: BaseViewModelDelegate {}
+protocol PostListingViewModelDelegate: BaseViewModelDelegate {
+    func shareOnFacebook(socialMessage: SocialMessage)
+    func showCameraTab()
+}
 
 enum PostingSource: String {
     case tabBar
@@ -19,7 +22,6 @@ enum PostingSource: String {
     case listingList
     case profile
 }
-
 
 class PostListingViewModel: BaseViewModel {
     
@@ -86,12 +88,15 @@ class PostListingViewModel: BaseViewModel {
     let postCategory: PostCategory?
     let isBlockingPosting: Bool
     let machineLearningSupported: Bool
+    let isBulkProducts: Bool
+    var bulkPostedListings: [Listing]?
     
     fileprivate let listingRepository: ListingRepository
     fileprivate let categoryRepository: CategoryRepository
     fileprivate let fileRepository: FileRepository
     fileprivate let preSignedUploadUrlRepository: PreSignedUploadUrlRepository
     fileprivate let carsInfoRepository: CarsInfoRepository
+    private let myUserRepository: MyUserRepository
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let tracker: Tracker
     fileprivate let sessionManager: SessionManager
@@ -105,6 +110,14 @@ class PostListingViewModel: BaseViewModel {
     fileprivate var recordedVideo: RecordedVideo?
     fileprivate var uploadingVideo: VideoUpload?
     fileprivate var predictionData: MLPredictionDetailsViewData?
+
+    private var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+
+    private var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
     
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
     var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
@@ -131,17 +144,22 @@ class PostListingViewModel: BaseViewModel {
                      postCategory: PostCategory?,
                      listingTitle: String?,
                      isBlockingPosting: Bool,
-                     machineLearningSupported: Bool) {
+                     machineLearningSupported: Bool,
+                     isBulkProducts: Bool,
+                     bulkPostedListings: [Listing]?) {
         self.init(source: source,
                   postCategory: postCategory,
                   listingTitle: listingTitle,
                   isBlockingPosting: isBlockingPosting,
                   machineLearningSupported: machineLearningSupported,
+                  isBulkProducts: isBulkProducts,
+                  bulkPostedListings: bulkPostedListings,
                   listingRepository: Core.listingRepository,
                   categoryRepository: Core.categoryRepository,
                   fileRepository: Core.fileRepository,
                   preSignedUploadUrlRepository: Core.preSignedUploadUrlRepository,
                   carsInfoRepository: Core.carsInfoRepository,
+                  myUserRepository: Core.myUserRepository,
                   tracker: TrackerProxy.sharedInstance,
                   sessionManager: Core.sessionManager,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -155,11 +173,14 @@ class PostListingViewModel: BaseViewModel {
          listingTitle: String?,
          isBlockingPosting: Bool,
          machineLearningSupported: Bool,
+         isBulkProducts: Bool,
+         bulkPostedListings: [Listing]?,
          listingRepository: ListingRepository,
          categoryRepository: CategoryRepository,
          fileRepository: FileRepository,
          preSignedUploadUrlRepository: PreSignedUploadUrlRepository,
          carsInfoRepository: CarsInfoRepository,
+         myUserRepository: MyUserRepository,
          tracker: Tracker,
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
@@ -173,11 +194,14 @@ class PostListingViewModel: BaseViewModel {
         self.postCategory = postCategory
         self.isBlockingPosting = isBlockingPosting
         self.machineLearningSupported = machineLearningSupported
+        self.isBulkProducts = isBulkProducts
+        self.bulkPostedListings = bulkPostedListings
         self.listingRepository = listingRepository
         self.categoryRepository = categoryRepository
         self.fileRepository = fileRepository
         self.preSignedUploadUrlRepository = preSignedUploadUrlRepository
         self.carsInfoRepository = carsInfoRepository
+        self.myUserRepository = myUserRepository
         self.postDetailViewModel = PostListingBasicDetailViewModel()
         self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source,
                                                                      postCategory: postCategory,
@@ -355,7 +379,11 @@ class PostListingViewModel: BaseViewModel {
         } else {
             if state.value.lastImagesUploadResult?.value == nil && state.value.uploadedVideo == nil {
                 trackPostSellAbandon()
-                navigator?.cancelPostListing()
+                if isBulkProducts, let listings = bulkPostedListings, listings.count > 0 {
+                    navigator?.showBulkListingPostConfirmation(listings: listings, modalStyle: true)
+                } else {
+                    navigator?.cancelPostListing()
+                }
             } else if let listingParams = makeListingParams() {
                 let machineLearningTrackingInfo = MachineLearningTrackingInfo(data: state.value.predictionData,
                                                                               predictiveFlow: machineLearningSupported,
@@ -379,6 +407,10 @@ class PostListingViewModel: BaseViewModel {
 
     func mediaSourceDidChange(mediaSource: EventParameterMediaSource) {
         self.mediaSource = mediaSource
+    }
+
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
+        continueBulkPosting()
     }
 }
 
@@ -505,26 +537,29 @@ extension PostListingViewModel: PostListingBasicDetailViewModelDelegate {
 
 fileprivate extension PostListingViewModel {
     func setupRx() {
+
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
             strongSelf.state.value = strongSelf.state.value.updating(category: category)
             }.disposed(by: disposeBag)
-        
-        state.asObservable().filter { $0.step == .finished }.bind { [weak self] _ in
+
+        let state = self.state.asDriver()
+
+        state.filter { $0.step == .finished }.drive(onNext: { [weak self] _ in
             self?.postListing()
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
-        state.asObservable().filter { $0.step == .addingDetails }.bind { [weak self] _ in
+        state.filter { $0.step == .addingDetails }.drive(onNext: { [weak self] _ in
             self?.openPostingDetails()
-            }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
-        state.asObservable().filter { $0.step == .uploadSuccess }.bind { [weak self] _ in
+        state.filter { $0.step == .uploadSuccess }.drive(onNext: { [weak self] _ in
             // Keep one second delay in order to give time to read the product posted message.
             delay(1) { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess(predictionData: strongSelf.predictionData)
             }
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
     }
     
     func openPostAbandonAlertNotLoggedIn() {
@@ -554,9 +589,14 @@ fileprivate extension PostListingViewModel {
         if sessionManager.loggedIn {
             guard state.value.lastImagesUploadResult?.value != nil || state.value.uploadedVideo != nil,
                 let listingCreationParams = makeListingParams() else { return }
-            navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
-                                                           trackingInfo: trackingInfo,
-                                                           shareAfterPost: state.value.shareAfterPost)
+
+            if isBulkProducts {
+                postBulkPosting(params: listingCreationParams, trackingInfo: trackingInfo)
+            } else {
+                navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
+                                                               trackingInfo: trackingInfo,
+                                                               shareAfterPost: state.value.shareAfterPost)
+            }
         } else if state.value.pendingToUploadMedia {
             let loggedInAction = { [weak self] in
                 guard let listingParams = self?.makeListingParams() else { return }
@@ -578,6 +618,51 @@ fileprivate extension PostListingViewModel {
             )
         } else {
             navigator?.cancelPostListing()
+        }
+    }
+
+    private func postBulkPosting(params: ListingCreationParams,
+                                 trackingInfo: PostListingTrackingInfo) {
+        state.value = state.value.updatingToPosting()
+        listingRepository.create(listingParams: params) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let listing = result.value {
+                strongSelf.trackPost(withListing: listing, trackingInfo: trackingInfo)
+                strongSelf.keyValueStorage.userPostProductPostedPreviously = true
+
+                let shareAfterPost = strongSelf.state.value.shareAfterPost ?? false
+                var bulkPostedListings = strongSelf.bulkPostedListings ?? []
+                bulkPostedListings.append(listing)
+                strongSelf.bulkPostedListings = bulkPostedListings
+
+                if shareAfterPost,
+                    let myUserId = strongSelf.myUserId,
+                    let myUserName = strongSelf.myUserName {
+                    let socialMessage = ListingSocialMessage(listing: listing,
+                                                             fallbackToStore: false,
+                                                             myUserId: myUserId,
+                                                             myUserName: myUserName)
+                    strongSelf.delegate?.shareOnFacebook(socialMessage: socialMessage)
+                } else {
+                    strongSelf.continueBulkPosting()
+                }
+
+            } else if let error = result.error {
+                strongSelf.state.value = strongSelf.state.value.updatingToPostingError(error: error)
+                strongSelf.trackListingPostingError(withError: error)
+            }
+        }
+    }
+
+    func continueBulkPosting() {
+        guard let bulkPostedListings = self.bulkPostedListings else { return }
+        if bulkPostedListings.count >= featureFlags.bulkProducts.productsLimit {
+            navigator?.showBulkListingPostConfirmation(listings: bulkPostedListings,
+                                                                  modalStyle: true)
+        } else {
+            navigator?.closePostProductAndPostAnotherOne(listings: bulkPostedListings,
+                                                         source: postingSource,
+                                                         listingTitle: state.value.title)
         }
     }
     
@@ -662,7 +747,7 @@ fileprivate extension PostListingViewModel {
             step = .uploadingImage
         case .uploadingVideo:
             step = .uploadingVideo
-        case .uploadSuccess, .finished:
+        case .uploadSuccess, .finished, .postingListing, .postingError: //TODO: Ver que hacemos con los nuevos
             step = .none
         }
 
@@ -675,6 +760,35 @@ fileprivate extension PostListingViewModel {
 
     private func trackPublish(source: EventParameterMediaSource, size: Int?) {
         tracker.trackEvent(TrackerEvent.listingSellMediaPublish(source: source, size: size))
+    }
+
+    private func trackPost(withListing listing: Listing, trackingInfo: PostListingTrackingInfo) {
+        let event = TrackerEvent.listingSellComplete(listing,
+                                                     buttonName: trackingInfo.buttonName,
+                                                     sellButtonPosition: trackingInfo.sellButtonPosition,
+                                                     negotiable: trackingInfo.negotiablePrice,
+                                                     pictureSource: trackingInfo.imageSource,
+                                                     videoLength: trackingInfo.videoLength,
+                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                     typePage: trackingInfo.typePage,
+                                                     machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
+
+        tracker.trackEvent(event)
+
+        // Track product was sold in the first 24h (and not tracked before)
+        if let firstOpenDate = keyValueStorage[.firstRunDate], Date().timeIntervalSince(firstOpenDate) <= 86400 &&
+            !keyValueStorage.userTrackingProductSellComplete24hTracked {
+            keyValueStorage.userTrackingProductSellComplete24hTracked = true
+
+            let event = TrackerEvent.listingSellComplete24h(listing)
+            tracker.trackEvent(event)
+        }
+    }
+
+    private func trackListingPostingError(withError error: RepositoryError) {
+        let sellError = EventParameterPostListingError(error: error)
+        let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
+        TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
     }
 }
 

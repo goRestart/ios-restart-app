@@ -15,6 +15,8 @@ protocol PostListingFooter {
     var photoButton: UIButton { get }
     var videoButton: UIButton { get }
     var newBadgeLabel: UILabel { get }
+    var cameraTooltip: CameraTooltip { get }
+    var doneButton: UIButton { get }
     var isHidden: Bool { get set }
     func update(scroll: CGFloat)
     func updateToPhotoMode()

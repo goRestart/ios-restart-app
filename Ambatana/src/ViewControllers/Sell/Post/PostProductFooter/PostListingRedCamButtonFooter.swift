@@ -11,6 +11,13 @@ final class PostListingRedCamButtonFooter: UIView {
     let newBadgeLabel = UILabel()
     let cameraButton = UIButton()
     let infoButton = UIButton()
+    let cameraTooltip: CameraTooltip = CameraTooltip()
+    let doneButton: UIButton = {
+        let button = LetgoButton(withStyle: .primary(fontSize: .medium))
+        button.setTitle("Done", for: .normal)
+        button.contentEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 30)
+        return button
+    }()
     private let infoButtonIncluded: Bool
     fileprivate var cameraButtonCenterXConstraint: NSLayoutConstraint?
     
@@ -34,7 +41,7 @@ final class PostListingRedCamButtonFooter: UIView {
     // MARK: - Overrides
 
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {       
-        return [galleryButton, cameraButton, infoButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
+        return [galleryButton, cameraButton, infoButton, doneButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
             let convertedPoint = view.convert(point, from: self)
             return result || (!view.isHidden && view.point(inside: convertedPoint, with: event))
         }
@@ -65,6 +72,7 @@ extension PostListingRedCamButtonFooter: PostListingFooter {
     func update(scroll: CGFloat) {
         galleryButton.alpha = scroll
         infoButton.alpha = scroll
+        doneButton.alpha = scroll
         
         let rightOffset = cameraButton.frame.width/2 + Metrics.margin
         let movement = width/2 - rightOffset
@@ -87,13 +95,14 @@ fileprivate extension PostListingRedCamButtonFooter {
         cameraButton.setBackgroundImage(R.Asset.IconsButtons.icPostTakePhoto.image, for: .normal)
         
         infoButton.setImage(R.Asset.IconsButtons.info.image, for: .normal)
-        addSubviewsForAutoLayout([galleryButton, cameraButton, infoButton])
+        addSubviewsForAutoLayout([galleryButton, doneButton, cameraButton, infoButton])
     }
     
     func setupAccessibilityIds() {
         galleryButton.set(accessibilityId: .postingGalleryButton)
         cameraButton.set(accessibilityId: .postingPhotoButton)
         infoButton.set(accessibilityId: .postingInfoButton)
+        doneButton.set(accessibilityId: .postingDoneButton)
     }
     
     func setupLayout() {
@@ -115,9 +124,15 @@ fileprivate extension PostListingRedCamButtonFooter {
         
         cameraButton.layout(with: self)
             .centerX(constraintBlock: { [weak self] constraint in self?.cameraButtonCenterXConstraint = constraint })
-            .top(relatedBy: .greaterThanOrEqual)
+            .top()
             .bottom(by: -Metrics.margin)
         cameraButton.layout().width(PostListingRedCamButtonFooter.cameraIconSide).widthProportionalToHeight()
+
+        doneButton.layout(with: self)
+            .trailing(by: -Metrics.margin)
+            .bottom(by: -28)
+        doneButton.layout()
+            .height(44)
         
         infoButton.isHidden = !infoButtonIncluded
     }

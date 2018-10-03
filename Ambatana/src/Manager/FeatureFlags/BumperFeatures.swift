@@ -80,6 +80,7 @@ extension Bumper  {
         flags.append(ServicesPromoCells.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(BulkProducts.self)
         Bumper.initialize(flags)
     } 
 
@@ -911,6 +912,19 @@ extension Bumper  {
     static var clickToTalkObservable: Observable<ClickToTalk> {
         return Bumper.observeValue(for: ClickToTalk.key).map {
             ClickToTalk(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var bulkProducts: BulkProducts {
+        guard let value = Bumper.value(for: BulkProducts.key) else { return .control }
+        return BulkProducts(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var bulkProductsObservable: Observable<BulkProducts> {
+        return Bumper.observeValue(for: BulkProducts.key).map {
+            BulkProducts(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1930,6 +1944,25 @@ enum ClickToTalk: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum BulkProducts: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return BulkProducts.control.rawValue }
+    static var enumValues: [BulkProducts] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[PRODUCTS] Bulk products" } 
+    static func fromPosition(_ position: Int) -> BulkProducts {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
+            case 5: return .variantD
             default: return .control
         }
     }

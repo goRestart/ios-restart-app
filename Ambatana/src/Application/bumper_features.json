@@ -318,5 +318,10 @@
         "name": "ClickToTalk",
         "values": ["control", "baseline", "active"],
         "description": "[VERTICALS] Show Click to talk"
+    },
+    {
+        "name": "BulkProducts",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
+        "description": "[PRODUCTS] Bulk products"
     }
  ]

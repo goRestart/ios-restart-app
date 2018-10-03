@@ -23,6 +23,13 @@ final class VPPostListingRedCamFooter: UIView {
     }()
     let cameraButton: UIButton = CameraButton()
     let infoButton: UIButton = UIButton()
+    let cameraTooltip: CameraTooltip = CameraTooltip()
+    let doneButton: UIButton = {
+        let button = LetgoButton(withStyle: .primary(fontSize: .medium))
+        button.setTitle("Done", for: .normal)
+        button.contentEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 30)
+        return button
+    }()
     private let infoButtonIncluded: Bool
     private var cameraButtonCenterXConstraint: NSLayoutConstraint?
     private var recordVideoHintLabel = CameraTooltip()
@@ -49,7 +56,7 @@ final class VPPostListingRedCamFooter: UIView {
     // MARK: - Overrides
 
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return [galleryButton, photoButton, videoButton, cameraButton, infoButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
+        return [galleryButton, photoButton, videoButton, cameraButton, infoButton, doneButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
             let convertedPoint = view.convert(point, from: self)
             return result || (!view.isHidden && view.point(inside: convertedPoint, with: event))
         }
@@ -68,6 +75,8 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         newBadgeLabel.alpha = scroll
         infoButton.alpha = scroll
         recordVideoHintLabel.alpha = scroll
+        cameraTooltip.alpha = scroll
+        doneButton.alpha = scroll
 
         let rightOffset = cameraButton.frame.width/2 + Metrics.margin
         let movement = width/2 - rightOffset
@@ -178,7 +187,7 @@ fileprivate extension VPPostListingRedCamFooter {
         recordingTooltip.label.font = UIFont.systemBoldFont(size: 21)
         recordingTooltip.label.textColor = UIColor.white
 
-        addSubviewsForAutoLayout([galleryButton, photoButton, videoButton, cameraButton, infoButton,
+        addSubviewsForAutoLayout([galleryButton, doneButton, photoButton, videoButton, cameraButton, infoButton,
                                   recordVideoHintLabel, recordingTooltip, newBadgeLabel])
     }
 
@@ -188,6 +197,7 @@ fileprivate extension VPPostListingRedCamFooter {
         infoButton.set(accessibilityId: .postingInfoButton)
         photoButton.set(accessibilityId: .postingPhotoButton)
         videoButton.set(accessibilityId: .postingVideoButton)
+        doneButton.set(accessibilityId: .postingDoneButton)
     }
 
     func setupLayout() {
@@ -220,9 +230,16 @@ fileprivate extension VPPostListingRedCamFooter {
 
         cameraButton.layout(with: self)
             .centerX(constraintBlock: { [weak self] constraint in self?.cameraButtonCenterXConstraint = constraint })
-            .top(relatedBy: .greaterThanOrEqual)
+            .top()
             .bottom(by: -(Metrics.margin + 60))
         cameraButton.layout().width(FooterMetrics.cameraIconSide).widthProportionalToHeight()
+
+        doneButton.layout(with: self)
+            .trailing(by: -Metrics.margin)
+        doneButton.layout(with: cameraButton)
+            .centerY()
+        doneButton.layout()
+            .height(44.0)
 
         infoButton.isHidden = !infoButtonIncluded
 

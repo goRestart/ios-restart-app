@@ -28,6 +28,7 @@ protocol PostListingNavigator: class {
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo,
                                              shareAfterPost: Bool?)
+    func closePostProductAndPostAnotherOne(listings: [Listing], source: PostingSource, listingTitle: String?)
     func closePostServicesAndPostInBackground(completion: @escaping (() -> Void))
     func closePostProductAndPostLater(params: ListingCreationParams,
                                       images: [UIImage]?,
@@ -41,6 +42,7 @@ protocol PostListingNavigator: class {
                                             loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, shareAfterPost: Bool?, modalStyle: Bool)
     func showMultiListingPostConfirmation(listingResult: ListingsResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
+    func showBulkListingPostConfirmation(listings: [Listing], modalStyle: Bool)
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
     func openListingsCreation(uploadedImageId: String,
                               multipostingSubtypes: [ServiceSubtype],

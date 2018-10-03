@@ -17,6 +17,7 @@ struct ProductsABGroup: ABGroupType {
         static let simplifiedChatButton = "20180611SimplifiedChatButton"
         static let frictionlessShare = "20180716FrictionlessShare"
         static let freePostingTurkey = "20180817FreePostingTurkey"
+        static let bulkProducts = "20180726BulkProducts"
     }
     
     let servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>
@@ -25,6 +26,7 @@ struct ProductsABGroup: ABGroupType {
     let simplifiedChatButton: LeanplumABVariable<Int>
     let frictionlessShare: LeanplumABVariable<Int>
     let turkeyFreePosting: LeanplumABVariable<Int>
+    let bulkProducts: LeanplumABVariable<Int>
 
     let group: ABGroup = .products
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -37,15 +39,17 @@ struct ProductsABGroup: ABGroupType {
          videoPosting: LeanplumABVariable<Int>,
          simplifiedChatButton: LeanplumABVariable<Int>,
          frictionlessShare: LeanplumABVariable<Int>,
-         turkeyFreePosting: LeanplumABVariable<Int>) {
+         turkeyFreePosting: LeanplumABVariable<Int>,
+         bulkProducts:  LeanplumABVariable<Int>) {
         self.servicesCategoryOnSalchichasMenu = servicesCategoryOnSalchichasMenu
         self.predictivePosting = predictivePosting
         self.videoPosting = videoPosting
         self.simplifiedChatButton = simplifiedChatButton
         self.frictionlessShare = frictionlessShare
         self.turkeyFreePosting = turkeyFreePosting
+        self.bulkProducts = bulkProducts
         intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu, predictivePosting, videoPosting,
-                                         simplifiedChatButton, frictionlessShare, turkeyFreePosting])
+                                         simplifiedChatButton, frictionlessShare, turkeyFreePosting, bulkProducts])
     }
 
     static func make() -> ProductsABGroup {
@@ -66,7 +70,10 @@ struct ProductsABGroup: ABGroupType {
                                                            groupType: .products),
                                turkeyFreePosting: .makeInt(key: Keys.freePostingTurkey,
                                                            defaultValue: 0,
-                                                           groupType: .products))
+                                                           groupType: .products),
+                               bulkProducts: .makeInt(key: Keys.bulkProducts,
+                                                      defaultValue: 0,
+                                                      groupType: .products))
     }
 }
 
