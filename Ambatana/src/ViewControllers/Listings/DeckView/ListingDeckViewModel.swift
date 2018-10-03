@@ -53,7 +53,9 @@ final class ListingDeckViewModel: BaseViewModel {
 
     var currentListingViewModel: ListingCardViewModel
     var navigator: ListingDeckNavigator?
-    var detailNavigator: ListingDetailNavigator?
+    var detailNavigator: ListingDetailNavigator? {
+        didSet { currentListingViewModel.navigator = detailNavigator }
+    }
     
     weak var delegate: ListingDeckViewModelDelegate?
 
@@ -97,10 +99,6 @@ final class ListingDeckViewModel: BaseViewModel {
         let feedIndex = EventParameterFeedPosition.position(index: position)
         return SectionedFeedChatTrackingInfo(sectionId: sectionName,
                                              itemIndexInSection: feedIndex)
-    }
-    
-    override var active: Bool {
-        didSet { currentListingViewModel.active = active }
     }
 
     var userHasScrolled: Bool = false
@@ -638,18 +636,17 @@ extension Reactive where Base: ListingDeckViewModel {
     var isMine: Observable<Bool> { return base.isMine.asObservable() }
 
     var listingAction: Driver<ListingAction> {
-        let isFavorite = base.isFavorite.asObservable()
-        let isEditable = base.status.asObservable().map { return $0.isEditable }
-
-        return Observable.combineLatest(isFavorite, isEditable) { ($0, $1) }
-            .map { [unowned base] in
+        let isFavorite = base.isFavorite.asDriver()
+        let isEditable = base.status.asDriver().map { return $0.isEditable }
+        let isMine = base.isMine.asDriver()
+        return Driver.combineLatest(isFavorite, isEditable, isMine) { ($0, $1, $2) }
+            .map {
                 return ListingAction(
                     isFavorite: $0.0,
-                    isFavoritable: !base.currentListingViewModel.isMine,
+                    isFavoritable: !$0.2,
                     isEditable: $0.1
             ) }
             .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: ListingAction(isFavorite: false, isFavoritable: false, isEditable: false))
     }
 
     var objectChanges: Observable<CollectionChange<ListingCellModel>> { return base.objects.changesObservable }

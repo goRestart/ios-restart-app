@@ -315,7 +315,7 @@ final class ListingDetailView: UIView {
             banner.leadingAnchor.constraint(greaterThanOrEqualTo: bannerContainer.leadingAnchor),
             banner.trailingAnchor.constraint(lessThanOrEqualTo: bannerContainer.trailingAnchor),
             banner.centerXAnchor.constraint(equalTo: bannerContainer.centerXAnchor)
-            ])
+        ])
     }
 
     func updateBannerContainerWith(height: CGFloat, leftMargin: CGFloat, rightMargin: CGFloat) {
@@ -330,6 +330,11 @@ final class ListingDetailView: UIView {
 
     func bannerAbsolutePosition() -> CGPoint {
         return scrollView.convert(bannerContainer.frame.origin, to: nil)
+    }
+
+    func updateBottomInset(_ inset: CGFloat) {
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inset, right: 0)
+        scrollView.setNeedsLayout()
     }
 
     private func enableSocialView(_ enabled: Bool) {

@@ -250,7 +250,7 @@ final class ListingCardViewModel: BaseViewModel {
         let statusObs = statusRelay.asObservable().share()
         let sellerObs = sellerRelay.asObservable()
         let listingActionsObs = Observable.combineLatest(statusObs,
-                                                         sellerObs.map { $0?.isProfessional ?? false }) { ($0, $1) }.share()
+                                                         sellerObs.map { $0?.isProfessional ?? false }) { ($0, $1) }
 
         listingActionsObs
             .asDriver(onErrorJustReturn: (.pending, false))
@@ -297,6 +297,7 @@ final class ListingCardViewModel: BaseViewModel {
                                                        freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
                                                        postingFlowType: strongSelf.featureFlags.postingFlowType)
                 strongSelf.productInfoRelay.accept(productInfo)
+                strongSelf.isMineRelay.accept(listing.isMine(myUserRepository: strongSelf.myUserRepository))
             }.disposed(by: disposeBag)
 
         myUserRepository.rx_myUser

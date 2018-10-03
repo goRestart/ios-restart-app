@@ -15,7 +15,8 @@ final class ListingDetailViewModel: BaseViewModel {
     let listingViewModel: ListingCardViewModel
 
     var navBarButtons: [UIAction] { return listingViewModel.navBarActions }
-
+    var isMine: Bool { return listingViewModel.isMine }
+    
     private let featureFlags: FeatureFlaggeable
     private let visitSource: EventParameterListingVisitSource
     
@@ -68,18 +69,6 @@ final class ListingDetailViewModel: BaseViewModel {
         self.adsImpressionConfigurable = adsImpressionConfigurable
         self.listingViewModel = listingViewModel
         super.init()
-    }
-
-    override func didBecomeActive(_ firstTime: Bool) {
-        super.didBecomeActive(firstTime)
-        if firstTime {
-            listingViewModel.active = true
-        }
-    }
-
-    override func didBecomeInactive() {
-        super.didBecomeInactive()
-        listingViewModel.active = false
     }
 
     func closeDetail() {
@@ -188,6 +177,16 @@ extension ListingDetailViewModel {
     }
 }
 
+extension ListingDetailViewModel: BumpUpBannerBoostDelegate {
+    func updateBoostBannerFor(type: BumpUpType) {
+        // Not needed since the container is handling it
+    }
+
+    func bumpUpTimerReachedZero() {
+        listingViewModel.refreshBumpeableBanner()
+    }
+}
+
 typealias ListingDetailStats = (views: Int, favs: Int, posted: Date?)
 typealias ListingDetailLocation = (location: LGLocationCoordinates2D?, address: String?, showExactLocation: Bool)
 typealias AttributeGrid = (String?, [ListingAttributeGridItem]?)
@@ -223,7 +222,7 @@ extension Reactive where Base: ListingDetailViewModel {
 
     }
 
-    var action: Driver<ListingAction> {
+    var navAction: Driver<ListingAction> {
         let isFavorite = base.listingViewModel.rx.isFavorite
         let isFavoritable = base.listingViewModel.rx.isMine
         let isEditable = base.listingViewModel.rx.status.map { return $0.isEditable }
@@ -232,6 +231,8 @@ extension Reactive where Base: ListingDetailViewModel {
             .map { return ListingAction(isFavorite: $0, isFavoritable: $1, isEditable: $2) }
             .distinctUntilChanged()
     }
+
+    var action: Driver<UIAction?> { return base.listingViewModel.rx.actionButton }
 
     var tags: Driver<[String]?> {
         return base.listingViewModel.rx.productInfo.map { $0?.attributeTags }
@@ -245,4 +246,8 @@ extension Reactive where Base: ListingDetailViewModel {
         return Driver.combineLatest(Driver.just(base.listingViewModel.socialSharer),
                                     base.listingViewModel.rx.socialMessage) { ($0, $1) }
         }
+
+    var bumpUpBannerInfo: Driver<BumpUpInfo?> {
+        return base.listingViewModel.rx.bumpUpBannerInfo.asDriver(onErrorJustReturn: nil)
+    }
 }

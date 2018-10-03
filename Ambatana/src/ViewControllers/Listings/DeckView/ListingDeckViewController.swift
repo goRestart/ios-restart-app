@@ -339,13 +339,16 @@ extension Reactive where Base: ListingDeckViewController {
     var action: Binder<UIAction?> {
         return Binder(self.base) { controller, actionable in
             if let actionable = actionable {
+                controller.actionButton.isHidden = false
                 controller.actionButton.configureWith(uiAction: actionable)
+            } else {
+                controller.actionButton.isHidden = true
             }
 
             guard let actionable = actionable else { return }
             controller.actionButton.rx
                 .tap
-                .takeUntil(controller.viewModel.rx.actionButton)
+                .takeUntil(controller.viewModel.rx.actionButton.skip(1))
                 .bind {
                 actionable.action()
             }.disposed(by: controller.disposeBag)
@@ -382,7 +385,7 @@ extension Reactive where Base: ListingDeckViewController {
             } else {
                 buttons = [controller.shareButton, controller.moreButton]
             }
-            controller.setNavigationBarRightButtons(buttons, animated: false)
+            controller.setNavigationBarRightButtons(buttons, animated: true)
         }
     }
 

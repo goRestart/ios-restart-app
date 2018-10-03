@@ -701,3 +701,10 @@ class BumpUpBanner: UIView {
         timeLabel.set(accessibilityId: .bumpUpBannerLabel)
     }
 }
+
+extension BumpUpType {
+    var height: CGFloat {
+        guard case .boost(let boostBannerVisible) = self else { return CarouselUI.bannerHeight }
+        return boostBannerVisible ? CarouselUI.bannerHeight*2 : CarouselUI.bannerHeight
+    }
+}
