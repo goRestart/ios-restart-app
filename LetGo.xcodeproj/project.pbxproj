@@ -224,10 +224,10 @@
 		0A104696206CFB99003F1577 /* ABTestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A104695206CFB99003F1577 /* ABTestsSpec.swift */; };
 		0A14D275212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */; };
 		0A14D276212AE47400E42146 /* FilterCategoryItem+ListingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */; };
-		0A1ABB96215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */; };
-		0A1ABB97215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */; };
 		0A1ABB92215D3E5700B96343 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */; };
 		0A1ABB93215D3E5700B96343 /* ListingCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */; };
+		0A1ABB96215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */; };
+		0A1ABB97215E7E4200B96343 /* BumpUpContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */; };
 		0A1ABB99216227DC00B96343 /* ListingCardViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */; };
 		0A1ABB9A2162282D00B96343 /* ListingCardViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */; };
 		0A2077AE2114C05700BFD3D7 /* GoogleAdxNativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E28A829207B85C70070A7A6 /* GoogleAdxNativeContentView.swift */; };
@@ -811,6 +811,10 @@
 		2E8097F0206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8097EE206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift */; };
 		2E8097F22066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8097F12066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift */; };
 		2E8097F32066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8097F12066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift */; };
+		2E84856E2163A5970033CF0A /* ChatViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E84856D2163A5970033CF0A /* ChatViewModelDelegate.swift */; };
+		2E84856F2163A59B0033CF0A /* ChatViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E84856D2163A5970033CF0A /* ChatViewModelDelegate.swift */; };
+		2E8485712163A60E0033CF0A /* EmptyConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8485702163A60E0033CF0A /* EmptyConversation.swift */; };
+		2E8485722163A60E0033CF0A /* EmptyConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8485702163A60E0033CF0A /* EmptyConversation.swift */; };
 		2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */; };
 		2E92CBFB20248DC600451B65 /* MeetingAssistantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF420248DC500451B65 /* MeetingAssistantViewController.swift */; };
 		2E92CBFC20248DC600451B65 /* MeetingAssistantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E92CBF520248DC500451B65 /* MeetingAssistantViewController.xib */; };
@@ -2840,8 +2844,8 @@
 		0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		0A104695206CFB99003F1577 /* ABTestsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestsSpec.swift; sourceTree = "<group>"; };
 		0A14D274212AE3EF00E42146 /* FilterCategoryItem+ListingCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterCategoryItem+ListingCategory.swift"; sourceTree = "<group>"; };
-		0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BumpUpContainerViewController.swift; sourceTree = "<group>"; };
 		0A1ABB91215D3E5600B96343 /* ListingCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewModel.swift; sourceTree = "<group>"; };
+		0A1ABB95215E7E4200B96343 /* BumpUpContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BumpUpContainerViewController.swift; sourceTree = "<group>"; };
 		0A1ABB98216227DC00B96343 /* ListingCardViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCardViewModelBuilder.swift; sourceTree = "<group>"; };
 		0A25E8112019C87900E6A72E /* OnBoardingAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingAnimator.swift; sourceTree = "<group>"; };
 		0A26CF26211C39AC00BCF84C /* ListingListCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingListCache.swift; sourceTree = "<group>"; };
@@ -3140,6 +3144,8 @@
 		2E7F4A452074FB7100A05728 /* lottie_bump_up_boost_success_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie_bump_up_boost_success_animation.json; sourceTree = "<group>"; };
 		2E8097EE206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSafetyTipsViewController.swift; sourceTree = "<group>"; };
 		2E8097F12066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSafetyTipsViewModel.swift; sourceTree = "<group>"; };
+		2E84856D2163A5970033CF0A /* ChatViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModelDelegate.swift; sourceTree = "<group>"; };
+		2E8485702163A60E0033CF0A /* EmptyConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyConversation.swift; sourceTree = "<group>"; };
 		2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterTagsVC+RemoveRelatedTagsSpec.swift"; sourceTree = "<group>"; };
 		2E92CBF420248DC500451B65 /* MeetingAssistantViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingAssistantViewController.swift; sourceTree = "<group>"; };
 		2E92CBF520248DC500451B65 /* MeetingAssistantViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeetingAssistantViewController.xib; sourceTree = "<group>"; };
@@ -5606,6 +5612,16 @@
 				42D63A99212ABEA600F45FD6 /* AdsPaginationHelper.swift */,
 			);
 			name = Ads;
+			sourceTree = "<group>";
+		};
+		2E84856C2163A5840033CF0A /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				C7B588111CE1DE1C009B3975 /* ChatViewModel.swift */,
+				2E84856D2163A5970033CF0A /* ChatViewModelDelegate.swift */,
+				2E8485702163A60E0033CF0A /* EmptyConversation.swift */,
+			);
+			path = "View Model";
 			sourceTree = "<group>";
 		};
 		2E92CBF120248DC500451B65 /* MeetingAssistant */ = {
@@ -8454,7 +8470,7 @@
 				C7B5880E1CE1DE1C009B3975 /* ChatListingView.swift */,
 				C7B5880F1CE1DE1C009B3975 /* ChatListingView.xib */,
 				C7B588101CE1DE1C009B3975 /* ChatViewController.swift */,
-				C7B588111CE1DE1C009B3975 /* ChatViewModel.swift */,
+				2E84856C2163A5840033CF0A /* View Model */,
 				7226F0FA1E962CA200B54D01 /* ChatRelatedItemsState.swift */,
 				6AF75D061CF449AF00EACCF0 /* ChatViewMessage.swift */,
 				C7F3F1E01DE5A95F00652447 /* ChatRelatedListingsView.swift */,
@@ -10268,6 +10284,7 @@
 				2ED296C8213EC2A0003E26A3 /* ChatPaymentBannerView.swift in Sources */,
 				72854D201F8E261C00E54530 /* NumberOfBathrooms.swift in Sources */,
 				6A0D7343204D613500892663 /* EditUserBioViewModel.swift in Sources */,
+				2E8485712163A60E0033CF0A /* EmptyConversation.swift in Sources */,
 				0A75147F214272570049E135 /* RateBuyersHeader.swift in Sources */,
 				C7126BDE1E6596A300038CC4 /* ListingVMUserInfo.swift in Sources */,
 				427FCCCF20C946D300E652ED /* UITableView+ReusableCell.swift in Sources */,
@@ -10721,6 +10738,7 @@
 				3212AE1F2119D65200945110 /* ProductListingSectionController.swift in Sources */,
 				0AE6F4EA20F88B0100D58BCE /* TrendingSearchesViewController.swift in Sources */,
 				C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
+				2E84856E2163A5970033CF0A /* ChatViewModelDelegate.swift in Sources */,
 				F5DC45242088889100D1EC17 /* KenBurnsView.swift in Sources */,
 				0904D894213F310C00D5D554 /* P2PPaymentsListingHeaderView.swift in Sources */,
 				C66E514221621CB000BCFD21 /* LGSmokeTestFeature+ThankYou.swift in Sources */,
@@ -11478,6 +11496,7 @@
 				A4E09391211B199B002235FC /* LGLoginBuilder.swift in Sources */,
 				0A45A88E214C01BA0045ACFA /* AffiliationStoreBuilder.swift in Sources */,
 				72854D141F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */,
+				2E84856F2163A59B0033CF0A /* ChatViewModelDelegate.swift in Sources */,
 				0A06C3EF20FCD01400D41982 /* ListingCardPageControl.swift in Sources */,
 				2E92CC0420248E2800451B65 /* MeetingAssistantViewModel.swift in Sources */,
 				3212AE4C2121CE3200945110 /* ProductListingDelegate.swift in Sources */,
@@ -12157,6 +12176,7 @@
 				C66E5138215B9A3300BCFD21 /* ScrollingPageControlIndexCalculator.swift in Sources */,
 				F51A082C2031B5380008D744 /* AspectRatio.swift in Sources */,
 				C7B5889B1CE1E025009B3975 /* ConversationCell.swift in Sources */,
+				2E8485722163A60E0033CF0A /* EmptyConversation.swift in Sources */,
 				A465723B213057BD00B806C2 /* FeedWireframe.swift in Sources */,
 				C6977E7E2118441200B57E54 /* ServiceAttributes+LG.swift in Sources */,
 				C73FABB71DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,

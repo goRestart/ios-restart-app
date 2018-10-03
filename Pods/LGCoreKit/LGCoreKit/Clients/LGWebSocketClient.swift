@@ -161,6 +161,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Application] applicationWillEnterForeground")
         invalidateBackgroundTimeoutTimer()
+        openWebSocketIfClosed()
     }
     
     // MARK: - Timers

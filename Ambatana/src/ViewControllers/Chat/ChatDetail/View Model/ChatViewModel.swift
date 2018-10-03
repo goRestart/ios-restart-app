@@ -2,50 +2,7 @@ import LGCoreKit
 import RxSwift
 import LGComponents
 import RxCocoa
-
-protocol ChatViewModelDelegate: BaseViewModelDelegate {
-
-    func vmDidFailRetrievingChatMessages()
-    
-    func vmDidPressReportUser(_ reportUserViewModel: ReportUsersViewModel)
-
-    func vmDidRequestSafetyTips()
-
-    func vmDidSendMessage()
-    func vmDidEndEditing(animated: Bool)
-    func vmDidBeginEditing()
-    
-    func vmDidRequestShowPrePermissions(_ type: PrePermissionType)
-    func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
-
-    func vmAskPhoneNumber()
-}
-
-struct EmptyConversation: ChatConversation {
-    var objectId: String?
-    var unreadMessageCount: Int = 0
-    var lastMessageSentAt: Date? = nil
-    var listing: ChatListing? = nil
-    var interlocutor: ChatInterlocutor? = nil
-    var amISelling: Bool
-    var interlocutorIsTyping = Variable<Bool>(false)
-    
-    init(objectId: String?,
-         unreadMessageCount: Int,
-         lastMessageSentAt: Date?,
-         amISelling: Bool,
-         listing: ChatListing?,
-         interlocutor: ChatInterlocutor?) {
-        
-        self.objectId = objectId
-        self.unreadMessageCount = unreadMessageCount
-        self.lastMessageSentAt = lastMessageSentAt
-        self.listing = listing
-        self.interlocutor = interlocutor
-        self.amISelling = amISelling
-    }
-}
-
+ 
 struct InterlocutorProfessionalInfo {
     var isProfessional: Bool
     var phoneNumber: String?
