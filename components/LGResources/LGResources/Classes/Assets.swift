@@ -1075,6 +1075,17 @@ extension R {
       @available(*, deprecated, renamed: "allImages")
       public static let allValues: [AssetType] = allImages
     }
+    public enum Reporting {
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
     public enum Verticals {
       public enum CarPromos {
         public enum Backgrounds {

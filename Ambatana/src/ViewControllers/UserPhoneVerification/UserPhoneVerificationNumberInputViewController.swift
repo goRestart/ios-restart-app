@@ -9,6 +9,9 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     private let keyboardHelper = KeyboardHelper()
     private let disposeBag = DisposeBag()
 
+    private let scrollView = UIScrollView()
+    private let containerView = UIView()
+
     private let descriptionLabel = UILabel()
     private let countryButton = UIButton()
     private let countryButtonArrowImage = UIImageView(image: R.Asset.IconsButtons.icDisclosure.image)
@@ -62,7 +65,9 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
         title = R.Strings.phoneVerificationNumberInputViewTitle
 
         view.backgroundColor = .white
-        view.addSubviewsForAutoLayout([descriptionLabel, countryButton, countryButtonArrowImage,
+        view.addSubviewForAutoLayout(scrollView)
+        scrollView.addSubviewForAutoLayout(containerView)
+        containerView.addSubviewsForAutoLayout([descriptionLabel, countryButton, countryButtonArrowImage,
                                        countryCodeLabel, phoneNumberTextField, continueButton,
                                        horizontalSeparatorView, verticalSeparatorView])
         setupDescriptionLabelUI()
@@ -120,19 +125,31 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
 
     private func setupConstraints() {
         var constraints = [
-            descriptionLabel.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.descriptionTopMargin),
-            descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.viewSidesMargin),
-            descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.viewSidesMargin),
+
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            containerView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
+            containerView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+
+            descriptionLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.descriptionTopMargin),
+            descriptionLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Layout.viewSidesMargin),
+            descriptionLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Layout.viewSidesMargin),
             countryButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: Layout.countryButtonTopMargin),
-            countryButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.viewSidesMargin),
-            countryButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.viewSidesMargin),
+            countryButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Layout.viewSidesMargin),
+            countryButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Layout.viewSidesMargin),
             countryButtonArrowImage.centerYAnchor.constraint(equalTo: countryButton.centerYAnchor),
             countryButtonArrowImage.rightAnchor.constraint(equalTo: countryButton.rightAnchor),
             countryCodeLabel.topAnchor.constraint(equalTo: horizontalSeparatorView.bottomAnchor, constant: Layout.horizontalLineMargin),
-            countryCodeLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.viewSidesMargin),
+            countryCodeLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Layout.viewSidesMargin),
             phoneNumberTextField.topAnchor.constraint(equalTo: countryCodeLabel.topAnchor),
             phoneNumberTextField.leftAnchor.constraint(equalTo: countryCodeLabel.rightAnchor, constant: Layout.phoneNumberLeftMargin),
-            phoneNumberTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.viewSidesMargin),
+            phoneNumberTextField.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Layout.viewSidesMargin),
             horizontalSeparatorView.topAnchor.constraint(equalTo: countryButton.bottomAnchor, constant: Layout.horizontalLineMargin),
             horizontalSeparatorView.centerXAnchor.constraint(equalTo: countryButton.centerXAnchor),
             horizontalSeparatorView.widthAnchor.constraint(equalTo: countryButton.widthAnchor, multiplier: 1),
@@ -141,12 +158,13 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
             verticalSeparatorView.leftAnchor.constraint(equalTo: countryCodeLabel.rightAnchor, constant: 10),
             verticalSeparatorView.widthAnchor.constraint(equalToConstant: Layout.lineThickness),
             verticalSeparatorView.heightAnchor.constraint(equalToConstant: Layout.verticalLineHeight),
+            continueButton.topAnchor.constraint(greaterThanOrEqualTo: phoneNumberTextField.bottomAnchor, constant: Metrics.veryBigMargin),
             continueButton.heightAnchor.constraint(equalToConstant: Layout.continueButtonHeight),
-            continueButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Layout.viewSidesMargin),
-            continueButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Layout.viewSidesMargin)
+            continueButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Layout.viewSidesMargin),
+            continueButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Layout.viewSidesMargin)
         ]
 
-        let continueButtonConstraint = continueButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+        let continueButtonConstraint = continueButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,
                                                                               constant: -Layout.continueButtonBottomMargin)
         constraints.append(continueButtonConstraint)
         NSLayoutConstraint.activate(constraints)
