@@ -123,7 +123,9 @@ class BulkListingsPostedViewModel: BaseViewModel, BulkListingsPostedViewModelTyp
 
 extension BulkListingsPostedViewModel: OnEditActionable {
 
-    func onEdit(listing: Listing, bumpData: BumpUpProductData?, timeSinceLastBump: TimeInterval?,
+    func onEdit(listing: Listing,
+                purchases: [BumpUpProductData],
+                timeSinceLastBump: TimeInterval?,
                 maxCountdown: TimeInterval) {
 
         guard let index = listingsRelay.value.index(where: { $0.objectId == listing.objectId }) else { return }

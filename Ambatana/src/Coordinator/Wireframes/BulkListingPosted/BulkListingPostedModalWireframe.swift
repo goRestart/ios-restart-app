@@ -24,11 +24,12 @@ final class BulkListingPostedModalWireframe: BulkListingPostedNavigator {
         let editListingAssembly = EditListingBuilder.modal(viewController)
         let vc = editListingAssembly.buildEditView(listing: listing,
                                                    pageType: nil,
-                                                   bumpUpProductData: nil,
+                                                   purchases: [],
                                                    listingCanBeBoosted: false,
                                                    timeSinceLastBump: nil,
                                                    maxCountdown: 0,
-                                                   onEditAction: onEditAction)
+                                                   onEditAction: onEditAction,
+                                                   onCancelEditAction: nil)
         viewController.present(vc, animated: true, completion: nil)
     }
 

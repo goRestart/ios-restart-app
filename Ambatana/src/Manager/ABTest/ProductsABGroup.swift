@@ -45,7 +45,7 @@ struct ProductsABGroup: ABGroupType {
          deckItemPage: LeanplumABVariable<Int>,
          frictionlessShare: LeanplumABVariable<Int>,
          turkeyFreePosting: LeanplumABVariable<Int>,
-         bulkProducts:  LeanplumABVariable<Int>),
+         bulkProducts:  LeanplumABVariable<Int>,
          makeAnOfferButton: LeanplumABVariable<Int>) {
         self.servicesCategoryOnSalchichasMenu = servicesCategoryOnSalchichasMenu
         self.predictivePosting = predictivePosting
