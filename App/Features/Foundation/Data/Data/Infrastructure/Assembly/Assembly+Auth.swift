@@ -35,7 +35,7 @@ import KeychainAccess
 
 extension Assembly {
   var authTokenStorage: AuthTokenStorage {
-    return AuthTokenStorage(
+    return AuthTokenKeychainStorage(
       keychain: keychain
     )
   }

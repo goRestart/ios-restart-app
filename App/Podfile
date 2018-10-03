@@ -19,6 +19,11 @@ target 'Data' do
   firebase
 end
 
+target 'DataTests' do
+  project 'Features/Foundation/Data/Data.xcodeproj'
+  firebase
+end
+
 target 'SignUpTests' do
   project 'Features/Product/SignUp/SignUp.xcodeproj'
   firebase
