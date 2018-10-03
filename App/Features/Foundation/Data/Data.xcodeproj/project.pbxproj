@@ -48,9 +48,9 @@
 		2E9D41CE214E97AB00AFDB4C /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41CD214E97AB00AFDB4C /* ProductService.swift */; };
 		2E9D41D1214E982900AFDB4C /* PublishProductEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41D0214E982900AFDB4C /* PublishProductEndpoint.swift */; };
 		2E9D41D4214EB82E00AFDB4C /* ProductApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D41D3214EB82E00AFDB4C /* ProductApiDataSource.swift */; };
-		2EB2B144212B2EF500705ACA /* AuthFirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B143212B2EF500705ACA /* AuthFirebaseDataSource.swift */; };
-		2EB2B147212B2F5700705ACA /* SignInUserFirebaseAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B146212B2F5700705ACA /* SignInUserFirebaseAction.swift */; };
-		2EB2B14A212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */; };
+		2EB2B144212B2EF500705ACA /* AuthApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B143212B2EF500705ACA /* AuthApiDataSource.swift */; };
+		2EB2B147212B2F5700705ACA /* SignInUserAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B146212B2F5700705ACA /* SignInUserAction.swift */; };
+		2EB2B14A212B2F8900705ACA /* SignInUserErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B149212B2F8900705ACA /* SignInUserErrorAdapter.swift */; };
 		2EB2B14C212B305000705ACA /* Assembly+Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2B14B212B305000705ACA /* Assembly+Auth.swift */; };
 		2ECA1F1A21285542001A3167 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ECA1F1921285542001A3167 /* Domain.framework */; };
 		2ED3F5FB214C534500A715E0 /* ImageUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED3F5FA214C534500A715E0 /* ImageUploadService.swift */; };
@@ -116,9 +116,9 @@
 		2E9D41CD214E97AB00AFDB4C /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
 		2E9D41D0214E982900AFDB4C /* PublishProductEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishProductEndpoint.swift; sourceTree = "<group>"; };
 		2E9D41D3214EB82E00AFDB4C /* ProductApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductApiDataSource.swift; sourceTree = "<group>"; };
-		2EB2B143212B2EF500705ACA /* AuthFirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFirebaseDataSource.swift; sourceTree = "<group>"; };
-		2EB2B146212B2F5700705ACA /* SignInUserFirebaseAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserFirebaseAction.swift; sourceTree = "<group>"; };
-		2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserFirebaseErrorAdapter.swift; sourceTree = "<group>"; };
+		2EB2B143212B2EF500705ACA /* AuthApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApiDataSource.swift; sourceTree = "<group>"; };
+		2EB2B146212B2F5700705ACA /* SignInUserAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserAction.swift; sourceTree = "<group>"; };
+		2EB2B149212B2F8900705ACA /* SignInUserErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserErrorAdapter.swift; sourceTree = "<group>"; };
 		2EB2B14B212B305000705ACA /* Assembly+Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Auth.swift"; sourceTree = "<group>"; };
 		2ECA1F1921285542001A3167 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ED3F5FA214C534500A715E0 /* ImageUploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadService.swift; sourceTree = "<group>"; };
@@ -339,7 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				1C913A2E1FF2B2D400646884 /* AuthDataSource.swift */,
-				2EB2B142212B2EE500705ACA /* Firebase */,
+				2EB2B142212B2EE500705ACA /* Api */,
 			);
 			path = "Data Source";
 			sourceTree = "<group>";
@@ -598,20 +598,20 @@
 			path = Api;
 			sourceTree = "<group>";
 		};
-		2EB2B142212B2EE500705ACA /* Firebase */ = {
+		2EB2B142212B2EE500705ACA /* Api */ = {
 			isa = PBXGroup;
 			children = (
-				2EB2B143212B2EF500705ACA /* AuthFirebaseDataSource.swift */,
+				2EB2B143212B2EF500705ACA /* AuthApiDataSource.swift */,
 				2EB2B145212B2F4000705ACA /* Action */,
 				2EB2B148212B2F7300705ACA /* Error */,
 			);
-			path = Firebase;
+			path = Api;
 			sourceTree = "<group>";
 		};
 		2EB2B145212B2F4000705ACA /* Action */ = {
 			isa = PBXGroup;
 			children = (
-				2EB2B146212B2F5700705ACA /* SignInUserFirebaseAction.swift */,
+				2EB2B146212B2F5700705ACA /* SignInUserAction.swift */,
 			);
 			path = Action;
 			sourceTree = "<group>";
@@ -619,7 +619,7 @@
 		2EB2B148212B2F7300705ACA /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				2EB2B149212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift */,
+				2EB2B149212B2F8900705ACA /* SignInUserErrorAdapter.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -819,7 +819,7 @@
 				2E71A8ED21315C2D009D24A9 /* ProductRepository.swift in Sources */,
 				1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */,
 				2E71A8EB213157D6009D24A9 /* ProductExtraMapper.swift in Sources */,
-				2EB2B14A212B2F8900705ACA /* SignInUserFirebaseErrorAdapter.swift in Sources */,
+				2EB2B14A212B2F8900705ACA /* SignInUserErrorAdapter.swift in Sources */,
 				1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */,
 				2E61BD682160CB3C00FB87C0 /* UserService.swift in Sources */,
 				2E61BD7A21611CAA00FB87C0 /* AuthTokenPlugin.swift in Sources */,
@@ -840,7 +840,7 @@
 				1C913A291FF0670300646884 /* AuthRepository.swift in Sources */,
 				2ED3F5FD214C555300A715E0 /* Storage+Rx.swift in Sources */,
 				2EE4A3B5212C9D0F00380467 /* Algolia.swift in Sources */,
-				2EB2B144212B2EF500705ACA /* AuthFirebaseDataSource.swift in Sources */,
+				2EB2B144212B2EF500705ACA /* AuthApiDataSource.swift in Sources */,
 				1C913A3B1FF2BA8B00646884 /* TargetType+Default.swift in Sources */,
 				2E2F7AC12129FA1B00CDED0F /* Assembly+User.swift in Sources */,
 				1C40D8BC1FFD3940006D5BE4 /* UserRepository.swift in Sources */,
@@ -852,7 +852,7 @@
 				2E61BD732160DA6400FB87C0 /* Moya+CustomError.swift in Sources */,
 				2E61BD712160D86700FB87C0 /* RegisterUserErrorAdapter.swift in Sources */,
 				1CACCE7A1FF2D6320001B321 /* ErrorAdapter.swift in Sources */,
-				2EB2B147212B2F5700705ACA /* SignInUserFirebaseAction.swift in Sources */,
+				2EB2B147212B2F5700705ACA /* SignInUserAction.swift in Sources */,
 				2E61BD762160DB4800FB87C0 /* RegisterUserAction.swift in Sources */,
 				2EB2B14C212B305000705ACA /* Assembly+Auth.swift in Sources */,
 				2E7CD0AA2163EC7C00148C89 /* AuthTokenStorage.swift in Sources */,
