@@ -5195,14 +5195,14 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("chat-tab-open") {
                 beforeEach {
-                    sut = TrackerEvent.chatTabOpen(tabName: .selling)
+                    sut = TrackerEvent.chatFilterChanged(.all)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("chat-tab-open"))
                 }
                 it("contains tabName parameter") {
                     let param = sut.params!.stringKeyParams["tab-name"] as? String
-                    expect(param) == "selling"
+                    expect(param) == "all"
                 }
             }
             describe("app rating start") {
