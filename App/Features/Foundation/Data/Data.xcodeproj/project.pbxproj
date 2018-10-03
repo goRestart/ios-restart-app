@@ -37,6 +37,8 @@
 		2E61BD732160DA6400FB87C0 /* Moya+CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E61BD722160DA6400FB87C0 /* Moya+CustomError.swift */; };
 		2E61BD762160DB4800FB87C0 /* RegisterUserAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E61BD752160DB4800FB87C0 /* RegisterUserAction.swift */; };
 		2E61BD7A21611CAA00FB87C0 /* AuthTokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E61BD7921611CAA00FB87C0 /* AuthTokenPlugin.swift */; };
+		2E67DEDB21652B75006D705E /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E67DEDA21652B75006D705E /* AuthService.swift */; };
+		2E67DEDE21652BB9006D705E /* SignInEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E67DEDD21652BB9006D705E /* SignInEndpoint.swift */; };
 		2E71A8E22131523F009D24A9 /* ProductDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8E12131523F009D24A9 /* ProductDataSource.swift */; };
 		2E71A8E5213156A6009D24A9 /* ProductAlgoliaDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8E4213156A6009D24A9 /* ProductAlgoliaDataSource.swift */; };
 		2E71A8E82131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71A8E72131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift */; };
@@ -103,6 +105,8 @@
 		2E61BD722160DA6400FB87C0 /* Moya+CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moya+CustomError.swift"; sourceTree = "<group>"; };
 		2E61BD752160DB4800FB87C0 /* RegisterUserAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserAction.swift; sourceTree = "<group>"; };
 		2E61BD7921611CAA00FB87C0 /* AuthTokenPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenPlugin.swift; sourceTree = "<group>"; };
+		2E67DEDA21652B75006D705E /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		2E67DEDD21652BB9006D705E /* SignInEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInEndpoint.swift; sourceTree = "<group>"; };
 		2E71A8E12131523F009D24A9 /* ProductDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDataSource.swift; sourceTree = "<group>"; };
 		2E71A8E4213156A6009D24A9 /* ProductAlgoliaDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductAlgoliaDataSource.swift; sourceTree = "<group>"; };
 		2E71A8E72131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProductExtrasAlgoliaAction.swift; sourceTree = "<group>"; };
@@ -299,6 +303,7 @@
 		1C913A171FF0650600646884 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				2E67DED921652B6D006D705E /* Auth */,
 				2E61BD662160CB2C00FB87C0 /* User */,
 				2E9D41CC214E979D00AFDB4C /* Product */,
 				2E61BD7721611C8E00FB87C0 /* Plugin */,
@@ -504,6 +509,23 @@
 				2E61BD7921611CAA00FB87C0 /* AuthTokenPlugin.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		2E67DED921652B6D006D705E /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				2E67DEDA21652B75006D705E /* AuthService.swift */,
+				2E67DEDC21652BB1006D705E /* Endpoint */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		2E67DEDC21652BB1006D705E /* Endpoint */ = {
+			isa = PBXGroup;
+			children = (
+				2E67DEDD21652BB9006D705E /* SignInEndpoint.swift */,
+			);
+			path = Endpoint;
 			sourceTree = "<group>";
 		};
 		2E71A8DF213151EC009D24A9 /* Product */ = {
@@ -804,11 +826,13 @@
 				1C30D7182009658D00E0A501 /* GameDataSource.swift in Sources */,
 				2EE4A3BE212CABEE00380467 /* GameSuggestionMapper.swift in Sources */,
 				2ED3F5FF214DA12000A715E0 /* Assembly+Service.swift in Sources */,
+				2E67DEDB21652B75006D705E /* AuthService.swift in Sources */,
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
 				2E71A8E82131572E009D24A9 /* GetProductExtrasAlgoliaAction.swift in Sources */,
 				2EE4A3BB212CA63C00380467 /* Algolia+Rx.swift in Sources */,
 				2E9D41CE214E97AB00AFDB4C /* ProductService.swift in Sources */,
 				1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */,
+				2E67DEDE21652BB9006D705E /* SignInEndpoint.swift in Sources */,
 				2E61BD6B2160D76800FB87C0 /* RegisterUserEndpoint.swift in Sources */,
 				2E9D41D4214EB82E00AFDB4C /* ProductApiDataSource.swift in Sources */,
 				1C40D8BA1FFD38CA006D5BE4 /* Assembly+Moya.swift in Sources */,
