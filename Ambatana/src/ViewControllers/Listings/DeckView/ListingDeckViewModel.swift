@@ -267,6 +267,7 @@ final class ListingDeckViewModel: BaseViewModel {
             currentListingViewModel.active = false
             currentListingViewModel = modelForListing(listing, withID: listingID)
             drive(with: currentListingViewModel)
+            quickChatViewModel.listingViewModel = currentListingViewModel
             currentListingViewModel.active = true
             currentListingViewModel.delegate = self
             quickChatViewModel.sectionFeedChatTrackingInfo = sectionFeedChatTrackingInfo
