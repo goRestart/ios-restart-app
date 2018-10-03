@@ -35,8 +35,14 @@ import KeychainAccess
 
 extension Assembly {
   var authTokenStorage: AuthTokenStorage {
-    let keychain = Keychain(service: "com.restart.app")
-    return AuthTokenStorage(
+    return AuthTokenKeychainStorage(
+      keychain: keychain
+    )
+  }
+  
+  private var keychain: Keychaneable {
+    let keychain = KeychainAccess.Keychain(service: "com.restart.app")
+    return Keychain(
       keychain: keychain
     )
   }
