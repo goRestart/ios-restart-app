@@ -37,7 +37,6 @@ final class ListingDetailView: UIView {
     private lazy var headerStackView: UIStackView = {
         let stackView = UIStackView.vertical([titleLabel, priceLabel])
         stackView.distribution = .fillProportionally
-        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = .zero
         stackView.spacing = 0
         return stackView
