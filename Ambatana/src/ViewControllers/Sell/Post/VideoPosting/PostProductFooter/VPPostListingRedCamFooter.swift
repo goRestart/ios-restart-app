@@ -76,7 +76,6 @@ extension VPPostListingRedCamFooter: PostListingFooter {
         newBadgeLabel.alpha = scroll
         infoButton.alpha = scroll
         cameraTooltip.alpha = scroll
-        cameraTooltip.alpha = scroll
         doneButton.alpha = scroll
 
         let rightOffset = cameraButton.frame.width/2 + Metrics.margin

@@ -8,7 +8,7 @@ final class BulkPostingsPostedViewController: BaseViewController {
 
     private enum Layout {
         static let titleFontSize: Int = 27
-        static let cellSize: CGSize = CGSize(width: 86, height: 114)
+        static let cellSize: CGSize = CGSize(width: 86, height: 140)
         static let cellsSpace: CGFloat = 16
         static let closeButtonSize: CGSize = CGSize(width: 44, height: 44)
         static let titleTopMargin: CGFloat = 45
