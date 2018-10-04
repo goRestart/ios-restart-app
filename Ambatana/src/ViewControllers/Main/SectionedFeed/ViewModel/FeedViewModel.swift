@@ -255,6 +255,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
                                                   place: currentPlace)
     }
     
+    var location: String { return locationText }
+    
     //  MARK: - Load Feed Items
     
     func loadFeedItems() {
@@ -524,8 +526,6 @@ extension FeedViewModel {
     }
 }
 
-
-
 extension FeedViewModel {
     private func loadAvatar(for user: User?) {
         guard let avatarUrl = user?.avatar?.fileURL else {
@@ -692,6 +692,7 @@ extension FeedViewModel: EditLocationDelegate, LocationEditable {
     
     private func refreshFeedUponLocationChange() {
         updateLocationTextInFeedItems(newLocationString: locationText)
+        feedRenderingDelegate?.updateHeaderLocation(withTitle: locationText)
         resetFeed()
         updateFeedRequester()
         refreshFiltersVar()
@@ -752,6 +753,12 @@ extension FeedViewModel: HorizontalSectionDelegate {
             andComingSectionIdentifier: identifier
         )
     }
+}
+
+// MARK: - Section title header delegate
+
+extension FeedViewModel: SectionTitleHeaderViewDelegate {
+    func didTapViewAll() { openEditLocation() }
 }
 
 

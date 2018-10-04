@@ -755,7 +755,6 @@ extension UserProfileViewController: UserProfileViewModelDelegate {
 // MARK: - ListingListViewHeaderDelegate
 
 extension UserProfileViewController: ListingListViewHeaderDelegate {
-
     func totalHeaderHeight() -> CGFloat {
         return viewModel.bannerHeight
     }
@@ -773,6 +772,7 @@ extension UserProfileViewController: ListingListViewHeaderDelegate {
         }
     }
 
+    func showingNoResultError() {  }
 }
 
 // MARK: - PushPermissionsHeaderDelegate
