@@ -8,7 +8,11 @@ final class PostListingRedCamButtonFooter: UIView {
         static let cameraIconSide: CGFloat = 84
         static let doneButtonInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 30)
         static let doneButtonBottomMargin: CGFloat = 28
-        static let doneButtonBottomHeight: CGFloat = 44
+        static let doneButtonHeight: CGFloat = 44
+    }
+
+    static var cameraIconSide: CGFloat {
+        return Layout.cameraIconSide
     }
     
     let galleryButton = UIButton()
@@ -160,7 +164,7 @@ fileprivate extension PostListingRedCamButtonFooter {
             .trailing(by: -Metrics.margin)
             .bottom(by: -Layout.doneButtonBottomMargin)
         doneButton.layout()
-            .height(Layout.doneButtonBottomHeight)
+            .height(Layout.doneButtonHeight)
         
         infoButton.isHidden = !infoButtonIncluded
     }

@@ -3,10 +3,12 @@ import LGComponents
 
 final class VPPostListingRedCamFooter: UIView {
 
-    private struct FooterMetrics {
+    fileprivate enum Layout {
         static let galleryIconSide: CGFloat = 70
         static let cameraIconSide: CGFloat = 80
         static let newBadgeInsets: UIEdgeInsets = UIEdgeInsetsMake(4, 6, 4, 6)
+        static let doneButtonInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 30)
+        static let doneButtonHeight: CGFloat = 44
     }
 
     let galleryButton: UIButton = UIButton()
@@ -18,7 +20,7 @@ final class VPPostListingRedCamFooter: UIView {
         label.backgroundColor = UIColor.Camera.cameraButton
         label.font = UIFont.systemBoldFont(size: 11)
         label.textColor = UIColor.white
-        label.padding = FooterMetrics.newBadgeInsets
+        label.padding = Layout.newBadgeInsets
         return label
     }()
     let cameraButton: UIButton = CameraButton()
@@ -27,7 +29,7 @@ final class VPPostListingRedCamFooter: UIView {
     let doneButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .medium))
         button.setTitle(R.Strings.commonDone, for: .normal)
-        button.contentEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 30)
+        button.contentEdgeInsets = Layout.doneButtonInsets
         return button
     }()
     private let infoButtonIncluded: Bool
@@ -196,7 +198,7 @@ fileprivate extension VPPostListingRedCamFooter {
             .top(relatedBy: .greaterThanOrEqual)
             .bottom()
         infoButton.layout()
-            .width(FooterMetrics.galleryIconSide)
+            .width(Layout.galleryIconSide)
             .widthProportionalToHeight()
 
         galleryButton.layout(with: self)
@@ -222,14 +224,14 @@ fileprivate extension VPPostListingRedCamFooter {
             .centerX(constraintBlock: { [weak self] constraint in self?.cameraButtonCenterXConstraint = constraint })
             .top()
             .bottom(by: -(Metrics.margin + 60))
-        cameraButton.layout().width(FooterMetrics.cameraIconSide).widthProportionalToHeight()
+        cameraButton.layout().width(Layout.cameraIconSide).widthProportionalToHeight()
 
         doneButton.layout(with: self)
             .trailing(by: -Metrics.margin)
         doneButton.layout(with: cameraButton)
             .centerY()
         doneButton.layout()
-            .height(44.0)
+            .height(Layout.doneButtonHeight)
 
         infoButton.isHidden = !infoButtonIncluded
 
