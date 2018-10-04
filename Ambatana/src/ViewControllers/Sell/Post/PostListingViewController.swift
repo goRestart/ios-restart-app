@@ -524,9 +524,9 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
 
     private func setupRx() {
-        viewModel.state.asDriver().drive(onNext: { [weak self] state in
+        viewModel.state.asObservable().bind { [weak self] state in
             self?.update(state: state)
-        }).disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
 
         categorySelectionView.selectedCategory.asObservable().bind { [weak self] category in
             guard let strongSelf = self else { return }
@@ -1102,9 +1102,7 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 }
 
 extension PostListingViewController: SocialSharerDelegate {
-    func shareStartedIn(_ shareType: ShareType) {
-        
-    }
+    func shareStartedIn(_ shareType: ShareType) {}
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         viewModel.shareFinishedIn(shareType, withState: state)
