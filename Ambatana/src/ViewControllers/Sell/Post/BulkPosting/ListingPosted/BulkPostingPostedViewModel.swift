@@ -27,7 +27,7 @@ protocol BulkPostingsPostedViewModelType {
 
 // MARK: - BulkPostingsPostedViewModel
 
-class BulkPostingsPostedViewModel: BaseViewModel, BulkPostingsPostedViewModelTypeInput, BulkPostingsPostedViewModelTypeOutput, BulkPostingsPostedViewModelType {
+final class BulkPostingsPostedViewModel: BaseViewModel, BulkPostingsPostedViewModelTypeInput, BulkPostingsPostedViewModelTypeOutput, BulkPostingsPostedViewModelType {
 
     var input: BulkPostingsPostedViewModelTypeInput {  return self }
     var output: BulkPostingsPostedViewModelTypeOutput { return self }

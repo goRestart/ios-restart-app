@@ -1,6 +1,7 @@
 import Foundation
 
-class LGAutoIntrinsicContentSizeCollectionView: UICollectionView {
+// This class does not reuse cells, use it with wisdom, carefully and responsibly
+final class AutoIntrinsicContentSizeCollectionView: UICollectionView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -19,9 +20,7 @@ class LGAutoIntrinsicContentSizeCollectionView: UICollectionView {
     }
 
     override var intrinsicContentSize: CGSize {
-        get {
-            return contentSize
-        }
+        return contentSize
     }
 
     private func setup() {

@@ -3,7 +3,7 @@ import LGComponents
 import RxSwift
 import RxCocoa
 
-class BulkPostedListingCell: UICollectionViewCell, ReusableCell {
+final class BulkPostedListingCell: UICollectionViewCell, ReusableCell {
 
     private enum Layout {
         static let cornerRadius: CGFloat = 10

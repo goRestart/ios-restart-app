@@ -1,7 +1,7 @@
 import LGCoreKit
 import LGComponents
 
-class BulkPostingCell: UICollectionViewCell, ReusableCell {
+final class BulkPostingCell: UICollectionViewCell, ReusableCell {
 
     private enum Layout {
         static let cornerRadius: CGFloat = 10
@@ -13,10 +13,7 @@ class BulkPostingCell: UICollectionViewCell, ReusableCell {
         return imageView
     }()
 
-    private let postedCheckImageView: UIImageView = {
-        let imageView = UIImageView(image: R.Asset.IconsButtons.icBulkPostingTick.image)
-        return imageView
-    }()
+    private let postedCheckImageView: UIImageView = UIImageView(image: R.Asset.IconsButtons.icBulkPostingTick.image)
 
     private let imageMaskView: UIView = {
         let view = UIView()

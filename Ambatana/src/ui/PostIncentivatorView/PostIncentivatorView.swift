@@ -56,7 +56,7 @@ class PostIncentivatorView: UIView {
         super.init(coder: aDecoder)
     }
 
-    override init(frame: CGRect) {
+    private override init(frame: CGRect) {
         super.init(frame: frame)
     }
 
@@ -99,7 +99,7 @@ class PostIncentivatorView: UIView {
 
         incentiveLabel.attributedText = incentiveText
 
-        self.addGestureRecognizer(tapGesture)
+        addGestureRecognizer(tapGesture)
     }
     
     private func getIncentiviserPack() -> [PostIncentiviserItem] {

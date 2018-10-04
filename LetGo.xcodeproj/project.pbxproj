@@ -2031,8 +2031,8 @@
 		C279D3E32164BBFC00A2E8E9 /* CameraTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3E12164BBFC00A2E8E9 /* CameraTooltip.swift */; };
 		C279D3E52164BCBB00A2E8E9 /* VideoRecordingTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3E42164BCBB00A2E8E9 /* VideoRecordingTooltip.swift */; };
 		C279D3E62164BCBB00A2E8E9 /* VideoRecordingTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3E42164BCBB00A2E8E9 /* VideoRecordingTooltip.swift */; };
-		C279D3E92165E03B00A2E8E9 /* LGAutoIntrinsicContentSizeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3E82165E03B00A2E8E9 /* LGAutoIntrinsicContentSizeCollectionView.swift */; };
-		C279D3EA2165E03B00A2E8E9 /* LGAutoIntrinsicContentSizeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3E82165E03B00A2E8E9 /* LGAutoIntrinsicContentSizeCollectionView.swift */; };
+		C279D3E92165E03B00A2E8E9 /* AutoIntrinsicContentSizeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3E82165E03B00A2E8E9 /* AutoIntrinsicContentSizeCollectionView.swift */; };
+		C279D3EA2165E03B00A2E8E9 /* AutoIntrinsicContentSizeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3E82165E03B00A2E8E9 /* AutoIntrinsicContentSizeCollectionView.swift */; };
 		C29F01832067A03E00A43E2F /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F01812067A03E00A43E2F /* Camera.swift */; };
 		C29F712B209076F800362F76 /* LGFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F712A209076F800362F76 /* LGFileManager.swift */; };
 		C29F712C209076F800362F76 /* LGFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F712A209076F800362F76 /* LGFileManager.swift */; };
@@ -3894,7 +3894,7 @@
 		C279D3D721633C3900A2E8E9 /* BulkPostingPostedNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkPostingPostedNavigator.swift; sourceTree = "<group>"; };
 		C279D3E12164BBFC00A2E8E9 /* CameraTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTooltip.swift; sourceTree = "<group>"; };
 		C279D3E42164BCBB00A2E8E9 /* VideoRecordingTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecordingTooltip.swift; sourceTree = "<group>"; };
-		C279D3E82165E03B00A2E8E9 /* LGAutoIntrinsicContentSizeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGAutoIntrinsicContentSizeCollectionView.swift; sourceTree = "<group>"; };
+		C279D3E82165E03B00A2E8E9 /* AutoIntrinsicContentSizeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoIntrinsicContentSizeCollectionView.swift; sourceTree = "<group>"; };
 		C29F01812067A03E00A43E2F /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		C29F712A209076F800362F76 /* LGFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFileManager.swift; sourceTree = "<group>"; };
 		C2A2F75C2142694300320F47 /* SocialMessageSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMessageSpec.swift; sourceTree = "<group>"; };
@@ -8072,7 +8072,7 @@
 		C279D3E72165DFF700A2E8E9 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				C279D3E82165E03B00A2E8E9 /* LGAutoIntrinsicContentSizeCollectionView.swift */,
+				C279D3E82165E03B00A2E8E9 /* AutoIntrinsicContentSizeCollectionView.swift */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -10719,7 +10719,7 @@
 				0AD5A4352146C2320053E86C /* ListingCardInfoView.swift in Sources */,
 				0904D8A2213F310C00D5D554 /* P2PPaymentsCreateOfferViewModel.swift in Sources */,
 				421CB34B207BBE5E006BF8A4 /* Collection+Safe.swift in Sources */,
-				C279D3E92165E03B00A2E8E9 /* LGAutoIntrinsicContentSizeCollectionView.swift in Sources */,
+				C279D3E92165E03B00A2E8E9 /* AutoIntrinsicContentSizeCollectionView.swift in Sources */,
 				8E0EEFBC2056E2AA000C07C9 /* MLPostingOnboardingView.swift in Sources */,
 				F520D23420F8BA3E006D55B1 /* SettingsTableViewHeader.swift in Sources */,
 				6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
@@ -11806,7 +11806,7 @@
 				2EE47D2A20177653004B04EE /* ChatAskPhoneNumberCell.swift in Sources */,
 				01BDE97B2050B1820081B670 /* BlockingPostingHeaderStep.swift in Sources */,
 				720A8FAA1F1F94E700DCBAD8 /* FilterTextFieldIntCell.swift in Sources */,
-				C279D3EA2165E03B00A2E8E9 /* LGAutoIntrinsicContentSizeCollectionView.swift in Sources */,
+				C279D3EA2165E03B00A2E8E9 /* AutoIntrinsicContentSizeCollectionView.swift in Sources */,
 				C7415EEC1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
 				3212AE40211B00AD00945110 /* ListingRetrievalState.swift in Sources */,
 				72D928F11E83F0BD0030F4C3 /* PushPermissionsManager.swift in Sources */,

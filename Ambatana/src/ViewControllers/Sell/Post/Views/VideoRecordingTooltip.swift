@@ -3,11 +3,17 @@ import LGComponents
 
 final class RecordingTooltip: UIView {
 
+    private enum Layout {
+        static let bubleInsets: UIEdgeInsets = UIEdgeInsets(top: 7, left: 9, bottom: 7, right: 10)
+        static let recordingIconRigtMargin: CGFloat = 6
+        static let recordingIconSize: CGSize = CGSize(width: 12, height: 12)
+        static let arrowSize: CGSize = CGSize(width: 24, height: 10)
+        static let bubbleCornerRadius: CGFloat = 10
+    }
+
     let label: UILabel = UILabel()
     let recordingIcon: RecordingIcon = RecordingIcon()
     private let bubbleLayer: CAShapeLayer = CAShapeLayer()
-    private let bubbleCornerRadius: CGFloat = 10
-    private let arrowSize = CGSize(width: 24, height: 10)
 
     init() {
         super.init(frame: .zero)
@@ -23,8 +29,8 @@ final class RecordingTooltip: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         bubbleLayer.path = UIBezierPath.bubblePath(for: bounds.size,
-                                                   arrowSize: arrowSize,
-                                                   cornerRadius: bubbleCornerRadius).cgPath
+                                                   arrowSize: Layout.arrowSize,
+                                                   cornerRadius: Layout.bubbleCornerRadius).cgPath
     }
 
     override var isHidden: Bool {
@@ -40,14 +46,14 @@ final class RecordingTooltip: UIView {
 
     private func setupUI() {
         layer.addSublayer(bubbleLayer)
-        bubbleLayer.fillColor = UIColor(white: 44/255, alpha: 0.95).cgColor
+        bubbleLayer.fillColor = UIColor.Camera.tooltipBubble.cgColor
         bubbleLayer.shadowColor = UIColor.black.cgColor
         bubbleLayer.shadowRadius = 4
         bubbleLayer.shadowOffset = CGSize(width: 0, height: 2)
         bubbleLayer.shadowOpacity = 0.5
         bubbleLayer.path = UIBezierPath.bubblePath(for: bounds.size,
-                                                   arrowSize: arrowSize,
-                                                   cornerRadius: bubbleCornerRadius).cgPath
+                                                   arrowSize: Layout.arrowSize,
+                                                   cornerRadius: Layout.bubbleCornerRadius).cgPath
 
         recordingIcon.backgroundColor = UIColor.Camera.cameraButton
 
@@ -60,21 +66,20 @@ final class RecordingTooltip: UIView {
 
     private func setupLayout() {
         recordingIcon.layout(with: self)
-            .leading(by: 9)
+            .leading(by: Layout.bubleInsets.left)
         label.layout(with: self)
-            .top(by: 7)
-            .bottom(by: -(7 + arrowSize.height))
-            .trailing(by: -Metrics.shortMargin)
+            .top(by: Layout.bubleInsets.top)
+            .bottom(by: -(Layout.bubleInsets.bottom + Layout.arrowSize.height))
+            .trailing(by: -Layout.bubleInsets.right)
         label.layout(with: recordingIcon)
-            .leading(to: .trailing , by: 6)
+            .leading(to: .trailing , by: Layout.recordingIconRigtMargin)
             .centerY()
     }
 
     final class RecordingIcon: UIView {
-        static let size = CGSize(width: 12, height: 12)
 
         init() {
-            super.init(frame: CGRect(origin: .zero, size: RecordingIcon.size))
+            super.init(frame: CGRect(origin: .zero, size: Layout.recordingIconSize))
         }
 
         @available(*, unavailable)
@@ -86,7 +91,7 @@ final class RecordingTooltip: UIView {
         }
 
         override var intrinsicContentSize: CGSize {
-            return RecordingIcon.size
+            return Layout.recordingIconSize
         }
 
         func startAnimating() {

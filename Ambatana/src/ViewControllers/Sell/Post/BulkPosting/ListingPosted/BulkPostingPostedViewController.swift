@@ -61,7 +61,7 @@ final class BulkPostingsPostedViewController: BaseViewController {
         let layout = CollectionViewCenteredFlowLayout()
         layout.itemSize = Layout.cellSize
         layout.minimumInteritemSpacing = Layout.cellsSpace
-        let collectionView = LGAutoIntrinsicContentSizeCollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = AutoIntrinsicContentSizeCollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         return collectionView
     }()
@@ -175,7 +175,9 @@ final class BulkPostingsPostedViewController: BaseViewController {
         viewModel.cells.asObservable()
             .bind(to: listingsCollectionView.rx.items) { (collectionView, row, element) in
                 let indexPath = IndexPath(row: row, section: 0)
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BulkPostedListingCell.reusableID, for: indexPath) as! BulkPostedListingCell
+                guard let cell = collectionView.dequeue(type: BulkPostedListingCell.self, for: indexPath) else {
+                    return BulkPostedListingCell()
+                }
                 cell.setupWith(price: element.price, imageURL: element.image)
                 cell.rx.editButtonTapped.subscribe { _ in
                     self.viewModel.input.didTapEditAtIndex(index: row)

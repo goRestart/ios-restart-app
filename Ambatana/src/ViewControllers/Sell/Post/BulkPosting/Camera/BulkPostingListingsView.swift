@@ -23,7 +23,7 @@ final class BulkPostingListingsView: UIView {
         return label
     }()
 
-    var images: [URL?]
+    private let images: [URL?]
 
     init(images: [URL?]) {
         self.images = images
