@@ -10,7 +10,7 @@ final class TourLocationWireframe: TourLocationNavigator {
     private var shouldShowBlockingPosting: Bool { return featureFlags.onboardingIncentivizePosting.isActive }
 
     private var shouldSkipForAffiliation: Bool {
-        return AppsFlyerAffiliationResolver.shared.isReferral
+        return AppsFlyerAffiliationResolver.shared.isProbablyReferral
     }
 
     convenience init(nc: UINavigationController,
