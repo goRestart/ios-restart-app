@@ -1193,7 +1193,7 @@ extension ChatViewModel {
                                                                isFreePostingModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
                                                                typePage: .chat)
                 
-                strongSelf.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers, listingId: listingId, sourceRateBuyers: .markAsSold, trackingInfo: trackingInfo)
+                strongSelf.navigator?.selectBuyerToRate(source: .chat, buyers: buyers, listingId: listingId, sourceRateBuyers: .markAsSold, trackingInfo: trackingInfo)
             }
         }
     }
