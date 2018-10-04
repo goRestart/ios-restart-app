@@ -78,7 +78,7 @@ extension Bumper  {
         flags.append(MultiDayBumpUp.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
-        flags.append(BulkProducts.self)
+        flags.append(BulkPosting.self)
         flags.append(ShareAfterScreenshot.self)
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
@@ -899,15 +899,15 @@ extension Bumper  {
     }
     #endif
 
-    static var bulkProducts: BulkProducts {
-        guard let value = Bumper.value(for: BulkProducts.key) else { return .control }
-        return BulkProducts(rawValue: value) ?? .control 
+    static var bulkPosting: BulkPosting {
+        guard let value = Bumper.value(for: BulkPosting.key) else { return .control }
+        return BulkPosting(rawValue: value) ?? .control 
     } 
 
     #if (RX_BUMPER)
-    static var bulkProductsObservable: Observable<BulkProducts> {
-        return Bumper.observeValue(for: BulkProducts.key).map {
-            BulkProducts(rawValue: $0 ?? "") ?? .control
+    static var bulkPostingObservable: Observable<BulkPosting> {
+        return Bumper.observeValue(for: BulkPosting.key).map {
+            BulkPosting(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2046,13 +2046,13 @@ enum ClickToTalk: String, BumperFeature  {
     }
 }
 
-enum BulkProducts: String, BumperFeature  {
+enum BulkPosting: String, BumperFeature  {
     case control, baseline, variantA, variantB, variantC, variantD
-    static var defaultValue: String { return BulkProducts.control.rawValue }
-    static var enumValues: [BulkProducts] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
+    static var defaultValue: String { return BulkPosting.control.rawValue }
+    static var enumValues: [BulkPosting] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[PRODUCTS] Bulk products" } 
-    static func fromPosition(_ position: Int) -> BulkProducts {
+    static func fromPosition(_ position: Int) -> BulkPosting {
         switch position { 
             case 0: return .control
             case 1: return .baseline

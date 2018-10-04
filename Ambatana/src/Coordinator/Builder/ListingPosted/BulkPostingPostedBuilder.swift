@@ -1,25 +1,25 @@
 import LGCoreKit
 import LGComponents
 
-protocol BulkListingPostedAssembly {
+protocol BulkPostingPostedAssembly {
     func buildListingPosted(listings: [Listing],
                             postAgainAction: (() -> Void)?,
-                            closeAction: (([Listing]) -> Void)?) -> BulkListingsPostedViewController
+                            closeAction: (([Listing]) -> Void)?) -> BulkPostingsPostedViewController
 }
 
-enum BulkListingPostedBuilder {
+enum BulkPostingPostedBuilder {
     case modal(root: UIViewController)
 }
 
-extension BulkListingPostedBuilder: BulkListingPostedAssembly {
+extension BulkPostingPostedBuilder: BulkPostingPostedAssembly {
     func buildListingPosted(listings: [Listing],
                             postAgainAction: (() -> Void)?,
-                            closeAction: (([Listing]) -> Void)?) -> BulkListingsPostedViewController {
-        let vm = BulkListingsPostedViewModel(listings: listings)
-        let vc = BulkListingsPostedViewController(viewModel: vm)
+                            closeAction: (([Listing]) -> Void)?) -> BulkPostingsPostedViewController {
+        let vm = BulkPostingsPostedViewModel(listings: listings)
+        let vc = BulkPostingsPostedViewController(viewModel: vm)
         switch self {
         case .modal(let root):
-            vm.navigator = BulkListingPostedModalWireframe(root: root,
+            vm.navigator = BulkPostingPostedModalWireframe(root: root,
                                                            postAgainAction: postAgainAction,
                                                            closeAction: closeAction)
         }

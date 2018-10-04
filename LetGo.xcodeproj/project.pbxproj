@@ -1315,8 +1315,8 @@
 		5095988E1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509598861C8733B70026AE2D /* CrashlyticsReporter.swift */; };
 		509CFF351DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509CFF341DCCE8DF0068E518 /* CGPoint+LG.swift */; };
 		509CFF361DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509CFF341DCCE8DF0068E518 /* CGPoint+LG.swift */; };
-		509F79AF1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F79AE1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift */; };
-		509F79B01ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F79AE1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift */; };
+		509F79AF1ED6E54D00AF2F70 /* CollectionViewCenteredFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F79AE1ED6E54D00AF2F70 /* CollectionViewCenteredFlowLayout.swift */; };
+		509F79B01ED6E54D00AF2F70 /* CollectionViewCenteredFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F79AE1ED6E54D00AF2F70 /* CollectionViewCenteredFlowLayout.swift */; };
 		509F79B21EDC01E400AF2F70 /* RateUserViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F79B11EDC01E400AF2F70 /* RateUserViewModelSpec.swift */; };
 		50A61C221DCA1B5A0057436A /* NSLocale+Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A61C211DCA1B5A0057436A /* NSLocale+Country.swift */; };
 		50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A61C211DCA1B5A0057436A /* NSLocale+Country.swift */; };
@@ -2021,12 +2021,12 @@
 		C271D021206B7C8B00D898F1 /* LGCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = C271D01F206B7C8B00D898F1 /* LGCamera.swift */; };
 		C271E13A20CEB3B8008868C6 /* ListingCarouselChatContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C271E13920CEB3B8008868C6 /* ListingCarouselChatContainerView.swift */; };
 		C271E13B20CEB3B8008868C6 /* ListingCarouselChatContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C271E13920CEB3B8008868C6 /* ListingCarouselChatContainerView.swift */; };
-		C279D3D12163393700A2E8E9 /* BulkListingPostedBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D02163393700A2E8E9 /* BulkListingPostedBuilder.swift */; };
-		C279D3D22163393700A2E8E9 /* BulkListingPostedBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D02163393700A2E8E9 /* BulkListingPostedBuilder.swift */; };
-		C279D3D521633BBB00A2E8E9 /* BulkListingPostedModalWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D421633BBB00A2E8E9 /* BulkListingPostedModalWireframe.swift */; };
-		C279D3D621633BBB00A2E8E9 /* BulkListingPostedModalWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D421633BBB00A2E8E9 /* BulkListingPostedModalWireframe.swift */; };
-		C279D3D821633C3900A2E8E9 /* BulkListingPostedNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D721633C3900A2E8E9 /* BulkListingPostedNavigator.swift */; };
-		C279D3D921633C3900A2E8E9 /* BulkListingPostedNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D721633C3900A2E8E9 /* BulkListingPostedNavigator.swift */; };
+		C279D3D12163393700A2E8E9 /* BulkPostingPostedBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D02163393700A2E8E9 /* BulkPostingPostedBuilder.swift */; };
+		C279D3D22163393700A2E8E9 /* BulkPostingPostedBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D02163393700A2E8E9 /* BulkPostingPostedBuilder.swift */; };
+		C279D3D521633BBB00A2E8E9 /* BulkPostingPostedModalWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D421633BBB00A2E8E9 /* BulkPostingPostedModalWireframe.swift */; };
+		C279D3D621633BBB00A2E8E9 /* BulkPostingPostedModalWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D421633BBB00A2E8E9 /* BulkPostingPostedModalWireframe.swift */; };
+		C279D3D821633C3900A2E8E9 /* BulkPostingPostedNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D721633C3900A2E8E9 /* BulkPostingPostedNavigator.swift */; };
+		C279D3D921633C3900A2E8E9 /* BulkPostingPostedNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3D721633C3900A2E8E9 /* BulkPostingPostedNavigator.swift */; };
 		C279D3E22164BBFC00A2E8E9 /* CameraTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3E12164BBFC00A2E8E9 /* CameraTooltip.swift */; };
 		C279D3E32164BBFC00A2E8E9 /* CameraTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3E12164BBFC00A2E8E9 /* CameraTooltip.swift */; };
 		C279D3E52164BCBB00A2E8E9 /* VideoRecordingTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279D3E42164BCBB00A2E8E9 /* VideoRecordingTooltip.swift */; };
@@ -2035,10 +2035,10 @@
 		C29F712B209076F800362F76 /* LGFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F712A209076F800362F76 /* LGFileManager.swift */; };
 		C29F712C209076F800362F76 /* LGFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29F712A209076F800362F76 /* LGFileManager.swift */; };
 		C2A2F75D2142694300320F47 /* SocialMessageSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A2F75C2142694300320F47 /* SocialMessageSpec.swift */; };
-		C2BBFBD4214F5AD400D34EA9 /* BulkListingsPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFBD3214F5AD400D34EA9 /* BulkListingsPostedViewController.swift */; };
-		C2BBFBD5214F5AD400D34EA9 /* BulkListingsPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFBD3214F5AD400D34EA9 /* BulkListingsPostedViewController.swift */; };
-		C2BBFBD7214F5AF400D34EA9 /* BulkListingsPostedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFBD6214F5AF400D34EA9 /* BulkListingsPostedViewModel.swift */; };
-		C2BBFBD8214F5AF400D34EA9 /* BulkListingsPostedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFBD6214F5AF400D34EA9 /* BulkListingsPostedViewModel.swift */; };
+		C2BBFBD4214F5AD400D34EA9 /* BulkPostingPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFBD3214F5AD400D34EA9 /* BulkPostingPostedViewController.swift */; };
+		C2BBFBD5214F5AD400D34EA9 /* BulkPostingPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFBD3214F5AD400D34EA9 /* BulkPostingPostedViewController.swift */; };
+		C2BBFBD7214F5AF400D34EA9 /* BulkPostingPostedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFBD6214F5AF400D34EA9 /* BulkPostingPostedViewModel.swift */; };
+		C2BBFBD8214F5AF400D34EA9 /* BulkPostingPostedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFBD6214F5AF400D34EA9 /* BulkPostingPostedViewModel.swift */; };
 		C2C2F30520F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C2F30420F2DFBA00EAF42A /* ListingCarouselVideoCell.swift */; };
 		C2C2F30620F2DFBA00EAF42A /* ListingCarouselVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C2F30420F2DFBA00EAF42A /* ListingCarouselVideoCell.swift */; };
 		C2DC548420A3343E0052EB12 /* AppEventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC548320A3343E0052EB12 /* AppEventsManager.swift */; };
@@ -3448,7 +3448,7 @@
 		509598821C8733B70026AE2D /* CrashlyticsLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashlyticsLogger.swift; sourceTree = "<group>"; };
 		509598861C8733B70026AE2D /* CrashlyticsReporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashlyticsReporter.swift; sourceTree = "<group>"; };
 		509CFF341DCCE8DF0068E518 /* CGPoint+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+LG.swift"; sourceTree = "<group>"; };
-		509F79AE1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		509F79AE1ED6E54D00AF2F70 /* CollectionViewCenteredFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCenteredFlowLayout.swift; sourceTree = "<group>"; };
 		509F79B11EDC01E400AF2F70 /* RateUserViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUserViewModelSpec.swift; sourceTree = "<group>"; };
 		50A61C211DCA1B5A0057436A /* NSLocale+Country.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSLocale+Country.swift"; sourceTree = "<group>"; };
 		50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatSafetyTipsView.xib; sourceTree = "<group>"; };
@@ -3887,16 +3887,16 @@
 		C26D224C208B47E500C66EC0 /* UploadingVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadingVideo.swift; sourceTree = "<group>"; };
 		C271D01F206B7C8B00D898F1 /* LGCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGCamera.swift; sourceTree = "<group>"; };
 		C271E13920CEB3B8008868C6 /* ListingCarouselChatContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCarouselChatContainerView.swift; sourceTree = "<group>"; };
-		C279D3D02163393700A2E8E9 /* BulkListingPostedBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkListingPostedBuilder.swift; sourceTree = "<group>"; };
-		C279D3D421633BBB00A2E8E9 /* BulkListingPostedModalWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkListingPostedModalWireframe.swift; sourceTree = "<group>"; };
-		C279D3D721633C3900A2E8E9 /* BulkListingPostedNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkListingPostedNavigator.swift; sourceTree = "<group>"; };
+		C279D3D02163393700A2E8E9 /* BulkPostingPostedBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkPostingPostedBuilder.swift; sourceTree = "<group>"; };
+		C279D3D421633BBB00A2E8E9 /* BulkPostingPostedModalWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkPostingPostedModalWireframe.swift; sourceTree = "<group>"; };
+		C279D3D721633C3900A2E8E9 /* BulkPostingPostedNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkPostingPostedNavigator.swift; sourceTree = "<group>"; };
 		C279D3E12164BBFC00A2E8E9 /* CameraTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTooltip.swift; sourceTree = "<group>"; };
 		C279D3E42164BCBB00A2E8E9 /* VideoRecordingTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecordingTooltip.swift; sourceTree = "<group>"; };
 		C29F01812067A03E00A43E2F /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		C29F712A209076F800362F76 /* LGFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGFileManager.swift; sourceTree = "<group>"; };
 		C2A2F75C2142694300320F47 /* SocialMessageSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMessageSpec.swift; sourceTree = "<group>"; };
-		C2BBFBD3214F5AD400D34EA9 /* BulkListingsPostedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkListingsPostedViewController.swift; sourceTree = "<group>"; };
-		C2BBFBD6214F5AF400D34EA9 /* BulkListingsPostedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkListingsPostedViewModel.swift; sourceTree = "<group>"; };
+		C2BBFBD3214F5AD400D34EA9 /* BulkPostingPostedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkPostingPostedViewController.swift; sourceTree = "<group>"; };
+		C2BBFBD6214F5AF400D34EA9 /* BulkPostingPostedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkPostingPostedViewModel.swift; sourceTree = "<group>"; };
 		C2C2F30420F2DFBA00EAF42A /* ListingCarouselVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingCarouselVideoCell.swift; sourceTree = "<group>"; };
 		C2DC548320A3343E0052EB12 /* AppEventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEventsManager.swift; sourceTree = "<group>"; };
 		C2E7F41F20DB90BC0092A1F9 /* Locale+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+LG.swift"; sourceTree = "<group>"; };
@@ -5230,7 +5230,7 @@
 				0A6FEC4D2130343800B57004 /* FeaturedInfo */,
 				0A6FEC512130343800B57004 /* Filters */,
 				0A6FEC792130343B00B57004 /* Listing */,
-				C279D3D321633B9200A2E8E9 /* BulkListingPosted */,
+				C279D3D321633B9200A2E8E9 /* BulkPostingPosted */,
 				0A6FEC452130343800B57004 /* Login */,
 				0A6FEC6B2130343A00B57004 /* LPMessage */,
 				0A6FEC552130343900B57004 /* MainListing */,
@@ -6456,7 +6456,7 @@
 				425B40A920A99E32000968CF /* Map */,
 				2EB32D611DF184CB00E01E93 /* BumpUp */,
 				F57D3A231FECFCFC006F2CA4 /* TagCollectionView */,
-				509F79AE1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift */,
+				509F79AE1ED6E54D00AF2F70 /* CollectionViewCenteredFlowLayout.swift */,
 				C7126BC61E6052E300038CC4 /* CustomTouchesTableView.swift */,
 				50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */,
 				C78F9DBB1DCA525F00884064 /* ChatTextView.swift */,
@@ -7983,8 +7983,8 @@
 			isa = PBXGroup;
 			children = (
 				C279D3DA2163AA4700A2E8E9 /* Cells */,
-				C2BBFBD3214F5AD400D34EA9 /* BulkListingsPostedViewController.swift */,
-				C2BBFBD6214F5AF400D34EA9 /* BulkListingsPostedViewModel.swift */,
+				C2BBFBD3214F5AD400D34EA9 /* BulkPostingPostedViewController.swift */,
+				C2BBFBD6214F5AF400D34EA9 /* BulkPostingPostedViewModel.swift */,
 			);
 			path = ListingPosted;
 			sourceTree = "<group>";
@@ -8017,18 +8017,18 @@
 		C279D3CF216338FA00A2E8E9 /* ListingPosted */ = {
 			isa = PBXGroup;
 			children = (
-				C279D3D02163393700A2E8E9 /* BulkListingPostedBuilder.swift */,
+				C279D3D02163393700A2E8E9 /* BulkPostingPostedBuilder.swift */,
 			);
 			path = ListingPosted;
 			sourceTree = "<group>";
 		};
-		C279D3D321633B9200A2E8E9 /* BulkListingPosted */ = {
+		C279D3D321633B9200A2E8E9 /* BulkPostingPosted */ = {
 			isa = PBXGroup;
 			children = (
-				C279D3D421633BBB00A2E8E9 /* BulkListingPostedModalWireframe.swift */,
-				C279D3D721633C3900A2E8E9 /* BulkListingPostedNavigator.swift */,
+				C279D3D421633BBB00A2E8E9 /* BulkPostingPostedModalWireframe.swift */,
+				C279D3D721633C3900A2E8E9 /* BulkPostingPostedNavigator.swift */,
 			);
-			path = BulkListingPosted;
+			path = BulkPostingPosted;
 			sourceTree = "<group>";
 		};
 		C279D3DA2163AA4700A2E8E9 /* Cells */ = {
@@ -10187,7 +10187,7 @@
 				6A5E19E61D548F5400F92692 /* Float+Rounding.swift in Sources */,
 				6A5E1A141D548F5400F92692 /* UIScrollView+LG.swift in Sources */,
 				C7B5884D1CE1DE1C009B3975 /* QuickAnswer.swift in Sources */,
-				C279D3D12163393700A2E8E9 /* BulkListingPostedBuilder.swift in Sources */,
+				C279D3D12163393700A2E8E9 /* BulkPostingPostedBuilder.swift in Sources */,
 				2EBC92181E0ABCDF007F0F82 /* PurchaseableProductsRequest.swift in Sources */,
 				C74234061D59EC680082D1CD /* LocalMessage.swift in Sources */,
 				0A3AF6C2213D62BD0034143B /* DeckViewCollectionDelegate.swift in Sources */,
@@ -10304,7 +10304,7 @@
 				8E15D7971E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */,
 				8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
 				42BFE2E72162004C002C6E42 /* LGSmokeTestThankYouViewController.swift in Sources */,
-				509F79AF1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
+				509F79AF1ED6E54D00AF2F70 /* CollectionViewCenteredFlowLayout.swift in Sources */,
 				0999EED521465FA800D45333 /* P2PPaymentsOfferStatusStepListView.swift in Sources */,
 				2E423790205BE2930077B62A /* ChatMyMeetingCell.swift in Sources */,
 				0A2077AE2114C05700BFD3D7 /* GoogleAdxNativeContentView.swift in Sources */,
@@ -10379,7 +10379,7 @@
 				7285C95B1F83C75F00BD16E9 /* SellNavigationController.swift in Sources */,
 				2E19DD0D213EB62800A4A538 /* BumpUpMultiDayView.swift in Sources */,
 				425EE397211AFCFE0002DAB8 /* AspectRatio+CGSize.swift in Sources */,
-				C279D3D521633BBB00A2E8E9 /* BulkListingPostedModalWireframe.swift in Sources */,
+				C279D3D521633BBB00A2E8E9 /* BulkPostingPostedModalWireframe.swift in Sources */,
 				C72794281D549334009C25AB /* SettingsCell.swift in Sources */,
 				097BC1D32149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift in Sources */,
 				0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */,
@@ -10501,7 +10501,7 @@
 				2E4BDE721EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift in Sources */,
 				6A8335842057CE2C00171A68 /* UserProfileDummyUserDisclaimerView.swift in Sources */,
 				0A04D5D920760A9D00471B9D /* ABTests.swift in Sources */,
-				C2BBFBD4214F5AD400D34EA9 /* BulkListingsPostedViewController.swift in Sources */,
+				C2BBFBD4214F5AD400D34EA9 /* BulkPostingPostedViewController.swift in Sources */,
 				729912F5200FABD9000541CF /* NumberOfRooms.swift in Sources */,
 				55F1FB36204942B8005D1BD4 /* UserProfileNavBarUserView.swift in Sources */,
 				72DBA6C0214F88FA008D6F39 /* AffiliationInviteSMSContactsCell.swift in Sources */,
@@ -11188,7 +11188,7 @@
 				2EE47D2E2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,
 				C611B06A20C92A0700D7DD89 /* MultiListingPostedStatus.swift in Sources */,
 				326C730A20908148009D21DB /* CategoriesFeedCell.swift in Sources */,
-				C279D3D821633C3900A2E8E9 /* BulkListingPostedNavigator.swift in Sources */,
+				C279D3D821633C3900A2E8E9 /* BulkPostingPostedNavigator.swift in Sources */,
 				F57D3A271FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				72854D101F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
 				01A171C3208DE5B800C98D4C /* SearchAlertSwitchCell.swift in Sources */,
@@ -11291,7 +11291,7 @@
 				0AE405CF20EE4FE00041E3F1 /* ListingDetailViewController.swift in Sources */,
 				3221E5352060612D0006B12B /* ProductPriceAndTitleView.swift in Sources */,
 				C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */,
-				C2BBFBD7214F5AF400D34EA9 /* BulkListingsPostedViewModel.swift in Sources */,
+				C2BBFBD7214F5AF400D34EA9 /* BulkPostingPostedViewModel.swift in Sources */,
 				094489B0214F728900F6EACB /* P2PPaymentsPayoutPaymentSelectorView.swift in Sources */,
 				C7B6FA8A1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				3237C6A221088F8600B7359B /* ProductListingViewModel.swift in Sources */,
@@ -11401,13 +11401,13 @@
 				0A4766C91FC58DFF005B176F /* ListingCardViewCellModel.swift in Sources */,
 				0ADD39BF21130A030071DF87 /* LGUserBuilder.swift in Sources */,
 				C7B588461CE1DE1C009B3975 /* ChatListingView.swift in Sources */,
-				C279D3D921633C3900A2E8E9 /* BulkListingPostedNavigator.swift in Sources */,
+				C279D3D921633C3900A2E8E9 /* BulkPostingPostedNavigator.swift in Sources */,
 				50D67B9B1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				C227BE9C214FAB320080CDFE /* BulkPostedListingCell.swift in Sources */,
 				6A6D19682147D53C00C4C247 /* UserVerificationAwarenessWireframe.swift in Sources */,
 				C7C61E011D631F3400F9505D /* ListingCollectionCellDrawer.swift in Sources */,
 				2E36656A1DE4880A00000F68 /* PostIncentivatorView.swift in Sources */,
-				C279D3D621633BBB00A2E8E9 /* BulkListingPostedModalWireframe.swift in Sources */,
+				C279D3D621633BBB00A2E8E9 /* BulkPostingPostedModalWireframe.swift in Sources */,
 				0915FB9C214102F70003D5B0 /* P2PPaymentsOfferStatusStepView.swift in Sources */,
 				F57D3A2E1FED01A6006F2CA4 /* TagCollectionView.swift in Sources */,
 				C6FFC47C20F4E8E400B9F53A /* FormattedUnitRange.swift in Sources */,
@@ -11502,7 +11502,7 @@
 				C72794371D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
 				0ACA8F502114B5C000243850 /* GoogleAdxNativeContentView.swift in Sources */,
 				8E2600741E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
-				509F79B01ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
+				509F79B01ED6E54D00AF2F70 /* CollectionViewCenteredFlowLayout.swift in Sources */,
 				2E423796205C00460077B62A /* ChatMyMeetingCell.swift in Sources */,
 				6A5E19DF1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
 				42F0688920FF442B009AC898 /* DropdownViewController.swift in Sources */,
@@ -11749,7 +11749,7 @@
 				A460579B21256F5300386DFC /* LoginStyle.swift in Sources */,
 				72FE02DA1F97A155005BD672 /* ListingCreationParams+LG.swift in Sources */,
 				C2DC548520A3343E0052EB12 /* AppEventsManager.swift in Sources */,
-				C279D3D22163393700A2E8E9 /* BulkListingPostedBuilder.swift in Sources */,
+				C279D3D22163393700A2E8E9 /* BulkPostingPostedBuilder.swift in Sources */,
 				32448E702100E64F00EFF33A /* ListingTimeFilter.swift in Sources */,
 				8E0EEF8A204EF827000C07C9 /* LGVision.swift in Sources */,
 				3201487220FF6F38003445DA /* PushPermissionCollectionCell.swift in Sources */,
@@ -12084,7 +12084,7 @@
 				0A686D9D2164DFF1000A23DE /* UICollectionView+Bug.swift in Sources */,
 				505B2228214BF89E0053E813 /* AffiliationProgressView.swift in Sources */,
 				C7DB42031C5138B500400945 /* MainSignUpViewController.swift in Sources */,
-				C2BBFBD8214F5AF400D34EA9 /* BulkListingsPostedViewModel.swift in Sources */,
+				C2BBFBD8214F5AF400D34EA9 /* BulkPostingPostedViewModel.swift in Sources */,
 				50D934DA1E81283100BDD5FF /* PostListingState.swift in Sources */,
 				C7DB42041C5138B500400945 /* ContactSubject.swift in Sources */,
 				C7C61E051D633FDB00F9505D /* SearchType.swift in Sources */,
@@ -12176,7 +12176,7 @@
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
 				0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */,
 				0A6FED112130344000B57004 /* QuickLocationFiltersNavigator.swift in Sources */,
-				C2BBFBD5214F5AD400D34EA9 /* BulkListingsPostedViewController.swift in Sources */,
+				C2BBFBD5214F5AD400D34EA9 /* BulkPostingPostedViewController.swift in Sources */,
 				4273565520A308A300C71D49 /* LGMapDetailView.swift in Sources */,
 				097523902148A8D000F76F54 /* P2PPaymentsOfferStatusBuyerView.swift in Sources */,
 				0ACA8F46211495FF00243850 /* LGFiltersBuilder.swift in Sources */,

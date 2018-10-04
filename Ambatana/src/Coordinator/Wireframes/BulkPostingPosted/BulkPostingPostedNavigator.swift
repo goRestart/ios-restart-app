@@ -1,6 +1,6 @@
 import LGCoreKit
 
-protocol BulkListingPostedNavigator: class {
+protocol BulkPostingPostedNavigator: class {
     func close(listings: [Listing])
     func openEditListing(listing: Listing, onEditAction: OnEditActionable)
     func postAnotherListing()

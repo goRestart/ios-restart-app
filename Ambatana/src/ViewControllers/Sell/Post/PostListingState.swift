@@ -737,12 +737,16 @@ func ==(lhs: PostListingStep, rhs: PostListingStep) -> Bool {
     switch (lhs, rhs) {
     case (.imageSelection, .imageSelection), (.uploadingImage, .uploadingImage), (.detailsSelection, .detailsSelection),
          (.categorySelection, .categorySelection), (.finished, .finished), (.uploadSuccess, .uploadSuccess),
-         (.carDetailsSelection, .carDetailsSelection), (.addingDetails, .addingDetails):
+         (.carDetailsSelection, .carDetailsSelection), (.addingDetails, .addingDetails), (.postingListing, .postingListing):
         return true
     case (let .errorUpload(lMessage), let .errorUpload(rMessage)):
         return lMessage == rMessage
     case (let .uploadingVideo(lState), let .uploadingVideo(rState)):
         return lState == rState
+    case (let .errorVideoUpload(lMessage), let .errorVideoUpload(rMessage)):
+        return lMessage == rMessage
+    case (let .postingError(lMessage), let .postingError(rMessage)):
+        return lMessage == rMessage
     default:
         return false
     }

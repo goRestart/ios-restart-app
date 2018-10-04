@@ -94,7 +94,7 @@ protocol FeatureFlaggeable: class {
     var simplifiedChatButton: SimplifiedChatButton { get }
     var frictionlessShare: FrictionlessShare { get }
     var turkeyFreePosting: TurkeyFreePosting { get }
-    var bulkProducts: BulkProducts{ get }
+    var bulkPosting: BulkPosting{ get }
     var makeAnOfferButton: MakeAnOfferButton { get }
 
     // MARK: Users
@@ -345,7 +345,7 @@ extension TurkeyFreePosting {
     var isActive: Bool { return self == .active }
 }
 
-extension BulkProducts {
+extension BulkPosting {
     var isActive: Bool { return self != .control && self != .baseline }
 
     var productsLimit: Int {
@@ -361,7 +361,7 @@ extension BulkProducts {
         }
     }
 
-    var showDoneButtomInCameraScreen: Bool {
+    var showDoneButtonInCameraScreen: Bool {
         switch self {
         case .control, .baseline, .variantD:
             return false
@@ -1273,11 +1273,11 @@ extension FeatureFlags {
         return TurkeyFreePosting.fromPosition(abTests.turkeyFreePosting.value)
     }
 
-    var bulkProducts: BulkProducts {
+    var bulkPosting: BulkPosting {
         if Bumper.enabled {
-            return Bumper.bulkProducts
+            return Bumper.bulkPosting
         }
-        return BulkProducts.fromPosition(abTests.bulkProducts.value)
+        return BulkPosting.fromPosition(abTests.bulkPosting.value)
     }
 
     var makeAnOfferButton: MakeAnOfferButton {

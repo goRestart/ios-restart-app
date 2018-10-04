@@ -1,7 +1,7 @@
 import LGComponents
 import LGCoreKit
 
-final class BulkListingPostedModalWireframe: BulkListingPostedNavigator {
+final class BulkPostingPostedModalWireframe: BulkPostingPostedNavigator {
 
     let root: UIViewController
     let postAgainAction: (() -> Void)?

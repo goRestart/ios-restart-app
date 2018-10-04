@@ -431,7 +431,7 @@ extension R {
       public static let icBuildTrust = ImageAsset(name: "ic_build_trust")
       public static let icBuildTrustBig = ImageAsset(name: "ic_build_trust_big")
       public static let icBuildTrustSmall = ImageAsset(name: "ic_build_trust_small")
-      public static let icBulkProductsTick = ImageAsset(name: "ic_bulk_products_tick")
+      public static let icBulkPostingTick = ImageAsset(name: "ic_bulk_posting_tick")
       public static let icCameraBlockingTour = ImageAsset(name: "ic_camera_blocking_tour")
       public static let icCameraTour = ImageAsset(name: "ic_camera_tour")
       public static let icChatFilter = ImageAsset(name: "ic_chat_filter")
@@ -747,7 +747,7 @@ extension R {
         icBuildTrust,
         icBuildTrustBig,
         icBuildTrustSmall,
-        icBulkProductsTick,
+        icBulkPostingTick,
         icCameraBlockingTour,
         icCameraTour,
         icChatFilter,

@@ -44,7 +44,8 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
                                                                       alphas: [0, 0.6],
                                                                       locations: [0, 1])
     private var hiddeDoneButton: Bool {
-        return !(viewModel.isBulkProducts && viewModel.bulkPostedListings?.count ?? 0 > 0)
+        return !(featureFlags.bulkPosting.showDoneButtonInCameraScreen
+            && viewModel.isBulkPosting && viewModel.bulkPostedListings?.count ?? 0 > 0)
     }
     fileprivate let keyboardHelper: KeyboardHelper
     fileprivate var isLoading: Bool = false
@@ -233,12 +234,11 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
 
     @objc func photoButtonPressed() {
+        guard viewModel.postListingCameraViewModel.cameraMode.value != .photo else { return }
         let previousSource = mediaSource
         footer.updateToPhotoMode()
         viewModel.postListingCameraViewModel.cameraMode.value = .photo
-        if viewModel.shouldShowBulkProductsTooltip {
-            footer.showTooltip(tooltipText: viewModel.bulkPostingTooltipText)
-        } else {
+        if !viewModel.shouldShowBulkPostingTooltip {
             footer.hideTooltip()
         }
         cameraView.setCameraModeToPhoto()
@@ -248,12 +248,13 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
 
     @objc func videoButtonPressed() {
+        guard viewModel.postListingCameraViewModel.cameraMode.value != .video else { return }
         let previousSource = mediaSource
         footer.updateToVideoMode()
-        if !viewModel.shouldShowBulkProductsTooltip {
+        viewModel.postListingCameraViewModel.cameraMode.value = .video
+        if !viewModel.shouldShowBulkPostingTooltip {
             footer.showTooltip(tooltipText: viewModel.videoPostingTooltipText)
         }
-        viewModel.postListingCameraViewModel.cameraMode.value = .video
         cameraView.setCameraModeToVideo()
         cameraView.usePhotoButtonText = viewModel.useVideoButtonText
         viewModel.mediaSourceDidChange(mediaSource: mediaSource)
@@ -486,6 +487,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         }).disposed(by: disposeBag)
 
         footer.cameraTooltip.label.attributedText = viewModel.bulkPostingTooltipText
+        footer.cameraTooltip.isHidden = !viewModel.shouldShowBulkPostingTooltip
 
         footer.doneButton.isHidden = hiddeDoneButton
         
@@ -523,7 +525,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
 
     private func setupRx() {
         viewModel.state.asDriver().drive(onNext: { [weak self] state in
-            print("🙈 State: \(state.step)")
             self?.update(state: state)
         }).disposed(by: disposeBag)
 
@@ -664,8 +665,7 @@ private extension PostListingState {
         case .carDetailsSelection, .postingListing:
             return 0
         case .imageSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection,
-             .categorySelection, .finished, .uploadSuccess, .addingDetails,
-             .postingError:
+             .categorySelection, .finished, .uploadSuccess, .addingDetails, .postingError:
             return 1
         }
     }

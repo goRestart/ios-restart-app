@@ -310,9 +310,9 @@
         "description": "[VERTICALS] Show Click to talk"
     },
     {
-        "name": "BulkProducts",
+        "name": "BulkPosting",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
-        "description": "[PRODUCTS] Bulk products"
+        "description": "[PRODUCTS] Bulk posting"
     },
     {
         "name": "ShareAfterScreenshot",

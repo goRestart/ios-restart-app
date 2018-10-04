@@ -3,36 +3,36 @@ import RxSwift
 import RxCocoa
 import LGComponents
 
-struct BulkListingsPostedCellViewModel {
+struct BulkPostingsPostedCellViewModel {
     let imageURL: URL?
     let price: String
 }
 
-protocol BulkListingsPostedViewModelTypeInput {
+protocol BulkPostingsPostedViewModelTypeInput {
     func didTapEditAtIndex(index: Int)
     func didTapClose()
     func didTapMainAction()
     func didTapIncentivate()
 }
 
-protocol BulkListingsPostedViewModelTypeOutput {
+protocol BulkPostingsPostedViewModelTypeOutput {
     var cells: Driver<[(image: URL?, price: String)]> { get }
 }
 
-protocol BulkListingsPostedViewModelType {
-    var input: BulkListingsPostedViewModelTypeInput { get }
-    var output: BulkListingsPostedViewModelTypeOutput { get }
+protocol BulkPostingsPostedViewModelType {
+    var input: BulkPostingsPostedViewModelTypeInput { get }
+    var output: BulkPostingsPostedViewModelTypeOutput { get }
 }
 
 
-// MARK: - BulkListingsPostedViewModel
+// MARK: - BulkPostingsPostedViewModel
 
-class BulkListingsPostedViewModel: BaseViewModel, BulkListingsPostedViewModelTypeInput, BulkListingsPostedViewModelTypeOutput, BulkListingsPostedViewModelType {
+class BulkPostingsPostedViewModel: BaseViewModel, BulkPostingsPostedViewModelTypeInput, BulkPostingsPostedViewModelTypeOutput, BulkPostingsPostedViewModelType {
 
-    var input: BulkListingsPostedViewModelTypeInput {  return self }
-    var output: BulkListingsPostedViewModelTypeOutput { return self }
+    var input: BulkPostingsPostedViewModelTypeInput {  return self }
+    var output: BulkPostingsPostedViewModelTypeOutput { return self }
 
-    var navigator: BulkListingPostedNavigator?
+    var navigator: BulkPostingPostedNavigator?
 
     private let featureFlags: FeatureFlaggeable
     private let keyValueStorage: KeyValueStorage
@@ -121,7 +121,7 @@ class BulkListingsPostedViewModel: BaseViewModel, BulkListingsPostedViewModelTyp
 
 // MARK: - OnEditActionable
 
-extension BulkListingsPostedViewModel: OnEditActionable {
+extension BulkPostingsPostedViewModel: OnEditActionable {
 
     func onEdit(listing: Listing,
                 purchases: [BumpUpProductData],

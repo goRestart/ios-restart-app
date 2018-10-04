@@ -132,7 +132,9 @@ final class RateUserViewController: KeyboardViewController {
         rateInfoText.text = viewModel.infoText
         
         ratingsTitle.text = R.Strings.userRatingSelectATag
-        ratingTagsCollectionView.collectionViewLayout = CenterAlignedCollectionViewFlowLayout()
+        let collectionViewLayout = CollectionViewCenteredFlowLayout()
+        collectionViewLayout.minimumInteritemSpacing = 5
+        ratingTagsCollectionView.collectionViewLayout = collectionViewLayout
         ratingTagsCollectionView.allowsSelection = true
         ratingTagsCollectionView.allowsMultipleSelection = true
         ratingTagsCollectionView.register(UserRatingTagCell.self,

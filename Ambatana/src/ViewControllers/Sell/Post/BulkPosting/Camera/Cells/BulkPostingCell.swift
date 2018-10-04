@@ -10,7 +10,7 @@ class BulkPostingCell: UICollectionViewCell, ReusableCell {
     }()
 
     private let postedCheckImageView: UIImageView = {
-        let imageView = UIImageView(image: R.Asset.IconsButtons.icBulkProductsTick.image)
+        let imageView = UIImageView(image: R.Asset.IconsButtons.icBulkPostingTick.image)
         return imageView
     }()
 

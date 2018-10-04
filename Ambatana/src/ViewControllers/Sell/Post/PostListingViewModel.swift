@@ -91,7 +91,7 @@ class PostListingViewModel: BaseViewModel {
     let postCategory: PostCategory?
     let isBlockingPosting: Bool
     let machineLearningSupported: Bool
-    let isBulkProducts: Bool
+    let isBulkPosting: Bool
     var bulkPostedListings: [Listing]?
     
     fileprivate let listingRepository: ListingRepository
@@ -163,9 +163,8 @@ class PostListingViewModel: BaseViewModel {
         return (category.isProduct && !category.isServices) && featureFlags.videoPosting.isActive
     }
 
-    var shouldShowBulkProductsTooltip: Bool {
-        guard isBulkProducts, bulkPostedListings?.count ?? 0 > 0 else { return false }
-        return postListingCameraViewModel.cameraMode.value == .photo
+    var shouldShowBulkPostingTooltip: Bool {
+        return isBulkPosting && bulkPostedListings?.count ?? 0 > 0
     }
     
     fileprivate let disposeBag: DisposeBag
@@ -181,14 +180,14 @@ class PostListingViewModel: BaseViewModel {
                      listingTitle: String?,
                      isBlockingPosting: Bool,
                      machineLearningSupported: Bool,
-                     isBulkProducts: Bool,
+                     isBulkPosting: Bool,
                      bulkPostedListings: [Listing]?) {
         self.init(source: source,
                   postCategory: postCategory,
                   listingTitle: listingTitle,
                   isBlockingPosting: isBlockingPosting,
                   machineLearningSupported: machineLearningSupported,
-                  isBulkProducts: isBulkProducts,
+                  isBulkPosting: isBulkPosting,
                   bulkPostedListings: bulkPostedListings,
                   listingRepository: Core.listingRepository,
                   categoryRepository: Core.categoryRepository,
@@ -209,7 +208,7 @@ class PostListingViewModel: BaseViewModel {
          listingTitle: String?,
          isBlockingPosting: Bool,
          machineLearningSupported: Bool,
-         isBulkProducts: Bool,
+         isBulkPosting: Bool,
          bulkPostedListings: [Listing]?,
          listingRepository: ListingRepository,
          categoryRepository: CategoryRepository,
@@ -230,7 +229,7 @@ class PostListingViewModel: BaseViewModel {
         self.postCategory = postCategory
         self.isBlockingPosting = isBlockingPosting
         self.machineLearningSupported = machineLearningSupported
-        self.isBulkProducts = isBulkProducts
+        self.isBulkPosting = isBulkPosting
         self.bulkPostedListings = bulkPostedListings
         self.listingRepository = listingRepository
         self.categoryRepository = categoryRepository
@@ -242,6 +241,7 @@ class PostListingViewModel: BaseViewModel {
         self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source,
                                                                      postCategory: postCategory,
                                                                      isBlockingPosting: isBlockingPosting,
+                                                                     isBulkPosting: isBulkPosting,
                                                                      machineLearningSupported: machineLearningSupported)
         self.postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: postCategory,
                                                                        isBlockingPosting: isBlockingPosting,
@@ -415,8 +415,8 @@ class PostListingViewModel: BaseViewModel {
         } else {
             if state.value.lastImagesUploadResult?.value == nil && state.value.uploadedVideo == nil {
                 trackPostSellAbandon()
-                if isBulkProducts, let listings = bulkPostedListings, listings.count > 0 {
-                    navigator?.showBulkListingPostConfirmation(listings: listings, modalStyle: true)
+                if isBulkPosting, let listings = bulkPostedListings, listings.count > 0 {
+                    navigator?.showBulkPostingPostConfirmation(listings: listings, modalStyle: true)
                 } else {
                     navigator?.cancelPostListing()
                 }
@@ -626,7 +626,7 @@ fileprivate extension PostListingViewModel {
             guard state.value.lastImagesUploadResult?.value != nil || state.value.uploadedVideo != nil,
                 let listingCreationParams = makeListingParams() else { return }
 
-            if isBulkProducts {
+            if isBulkPosting {
                 postBulkPosting(params: listingCreationParams, trackingInfo: trackingInfo)
             } else {
                 navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
@@ -692,11 +692,11 @@ fileprivate extension PostListingViewModel {
 
     func continueBulkPosting() {
         guard let bulkPostedListings = self.bulkPostedListings else { return }
-        if bulkPostedListings.count >= featureFlags.bulkProducts.productsLimit {
-            navigator?.showBulkListingPostConfirmation(listings: bulkPostedListings,
+        if bulkPostedListings.count >= featureFlags.bulkPosting.productsLimit {
+            navigator?.showBulkPostingPostConfirmation(listings: bulkPostedListings,
                                                                   modalStyle: true)
         } else {
-            navigator?.closePostProductAndPostAnotherOne(listings: bulkPostedListings,
+            navigator?.closePostProductAndContinueBulkPosting(listings: bulkPostedListings,
                                                          source: postingSource,
                                                          listingTitle: state.value.title)
         }
@@ -783,7 +783,7 @@ fileprivate extension PostListingViewModel {
             step = .uploadingImage
         case .uploadingVideo:
             step = .uploadingVideo
-        case .uploadSuccess, .finished, .postingListing, .postingError: //TODO: Ver que hacemos con los nuevos
+        case .uploadSuccess, .finished, .postingListing, .postingError:
             step = .none
         }
 

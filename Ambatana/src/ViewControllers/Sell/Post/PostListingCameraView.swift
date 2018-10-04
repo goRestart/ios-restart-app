@@ -434,7 +434,10 @@ final class PostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetail
 
         viewModel.cameraState.asDriver().drive(onNext: { [weak self] cameraState in
             guard let strongSelf = self else { return }
-            strongSelf.cornersContainer.isHidden = !(cameraState == .capture && !strongSelf.viewModel.isLiveStatsEnabled.value)
+            let isBulkPosting = strongSelf.viewModel.isBulkPosting
+            let isLiveStatsEnabled = strongSelf.viewModel.isLiveStatsEnabled.value
+            let showCorners = cameraState == .capture && !isLiveStatsEnabled && !isBulkPosting
+            strongSelf.cornersContainer.isHidden = !showCorners
         }).disposed(by: disposeBag)
 
         viewModel.videoRecordingErrorMessage.asObservable().ignoreNil().subscribeNext { [weak self] errorMessage in
