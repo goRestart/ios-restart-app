@@ -3,12 +3,17 @@ import LGComponents
 
 final class BulkPostingListingsView: UIView {
 
+    private enum Layout {
+        static let cellsSpace: CGFloat = 18
+        static let cellsSize: CGSize = CGSize(width: 75, height: 75)
+    }
+
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 18
+        layout.minimumInteritemSpacing = Layout.cellsSpace
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 75, height: 75)
-        return UICollectionView(frame: CGRect(x: 0, y: 0, width: 300, height: 75), collectionViewLayout: layout)
+        layout.itemSize = Layout.cellsSize
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
 
     private let listingsLabel: UILabel = {
@@ -22,7 +27,7 @@ final class BulkPostingListingsView: UIView {
 
     init(images: [URL?]) {
         self.images = images
-        super.init(frame: CGRect(x: 0, y: 0, width: 300, height: 75))
+        super.init(frame: .zero)
 
         setupUI()
         collectionView.reloadData()
@@ -48,7 +53,7 @@ final class BulkPostingListingsView: UIView {
             leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
             trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
             bottomAnchor.constraint(equalTo: collectionView.bottomAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 75)
+            collectionView.heightAnchor.constraint(equalToConstant: Layout.cellsSize.height)
         ])
     }
 }

@@ -3,6 +3,10 @@ import LGComponents
 
 class BulkPostingCell: UICollectionViewCell, ReusableCell {
 
+    private enum Layout {
+        static let cornerRadius: CGFloat = 10
+    }
+
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -34,7 +38,7 @@ class BulkPostingCell: UICollectionViewCell, ReusableCell {
     }
 
     func setupUI() {
-        cornerRadius = 10
+        cornerRadius = Layout.cornerRadius
         addSubviewsForAutoLayout([imageView, imageMaskView, postedCheckImageView])
         NSLayoutConstraint.activate([
             topAnchor.constraint(equalTo: imageView.topAnchor),

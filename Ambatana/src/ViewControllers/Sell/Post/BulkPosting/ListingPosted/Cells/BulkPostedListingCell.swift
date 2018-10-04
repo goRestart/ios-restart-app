@@ -5,9 +5,15 @@ import RxCocoa
 
 class BulkPostedListingCell: UICollectionViewCell, ReusableCell {
 
+    private enum Layout {
+        static let cornerRadius: CGFloat = 10
+        static let imageHeight: CGFloat = 86
+        static let editButtonHeight: CGFloat = 32
+    }
+
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.cornerRadius = 10
+        imageView.cornerRadius = Layout.cornerRadius
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -42,7 +48,7 @@ class BulkPostedListingCell: UICollectionViewCell, ReusableCell {
             topAnchor.constraint(equalTo: imageView.topAnchor),
             leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 86),
+            imageView.heightAnchor.constraint(equalToConstant: Layout.imageHeight),
 
             priceLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Metrics.veryShortMargin),
             priceLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -51,7 +57,7 @@ class BulkPostedListingCell: UICollectionViewCell, ReusableCell {
             editButton.topAnchor.constraint(equalTo: priceLabel.bottomAnchor),
             editButton.leadingAnchor.constraint(equalTo: leadingAnchor),
             editButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            editButton.heightAnchor.constraint(equalToConstant: 32)
+            editButton.heightAnchor.constraint(equalToConstant: Layout.editButtonHeight)
         ])
     }
 

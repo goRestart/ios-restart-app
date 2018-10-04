@@ -6,6 +6,18 @@ import RxCocoa
 
 final class BulkPostingsPostedViewController: BaseViewController {
 
+    private enum Layout {
+        static let titleFontSize: Int = 27
+        static let cellSize: CGSize = CGSize(width: 86, height: 114)
+        static let cellsSpace: CGFloat = 16
+        static let closeButtonSize: CGSize = CGSize(width: 44, height: 44)
+        static let titleTopMargin: CGFloat = 45
+        static let mainButtonSize: CGSize = CGSize(width: 240, height: 50)
+        static let mainButtonTopMargin: CGFloat = 47
+        static let editLabelTopMargin: CGFloat = 41
+        static let listingsTopMargin: CGFloat = 17
+    }
+
     private let scrollView = UIScrollView()
     private let containerView = UIView()
     private let closeButton: UIButton = {
@@ -15,7 +27,7 @@ final class BulkPostingsPostedViewController: BaseViewController {
     }()
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemBoldFont(size: 27)
+        label.font = UIFont.systemBoldFont(size: Layout.titleFontSize)
         label.textColor = .lgBlack
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -47,8 +59,8 @@ final class BulkPostingsPostedViewController: BaseViewController {
     }()
     private let listingsCollectionView: UICollectionView = {
         let layout = CollectionViewCenteredFlowLayout()
-        layout.itemSize = CGSize(width: 86, height: 144)
-        layout.minimumInteritemSpacing = 16
+        layout.itemSize = Layout.cellSize
+        layout.minimumInteritemSpacing = Layout.cellsSpace
         let collectionView = LGAutoIntrinsicContentSizeCollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         return collectionView
@@ -57,11 +69,8 @@ final class BulkPostingsPostedViewController: BaseViewController {
         return PostIncentivatorView.postIncentivatorView(false, isServicesListing: false)
     }()
 
-    private static let contentContainerShownHeight: CGFloat = 80
-    fileprivate let viewModel: BulkPostingsPostedViewModel
+    private let viewModel: BulkPostingsPostedViewModel
     private let disposeBag = DisposeBag()
-
-    private var listings: [Listing] = []
 
     // MARK: - View lifecycle
 
@@ -118,10 +127,10 @@ final class BulkPostingsPostedViewController: BaseViewController {
 
             closeButton.topAnchor.constraint(equalTo: view.safeTopAnchor),
             closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            closeButton.widthAnchor.constraint(equalToConstant: 44),
-            closeButton.heightAnchor.constraint(equalToConstant: 44),
+            closeButton.widthAnchor.constraint(equalToConstant: Layout.closeButtonSize.width),
+            closeButton.heightAnchor.constraint(equalToConstant: Layout.closeButtonSize.height),
 
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 45),
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.titleTopMargin),
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metrics.margin),
             titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Metrics.margin),
 
@@ -129,16 +138,16 @@ final class BulkPostingsPostedViewController: BaseViewController {
             secondaryLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metrics.margin),
             secondaryLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Metrics.margin),
 
-            mainButton.topAnchor.constraint(equalTo: secondaryLabel.bottomAnchor, constant: 47),
+            mainButton.topAnchor.constraint(equalTo: secondaryLabel.bottomAnchor, constant: Layout.mainButtonTopMargin),
             mainButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            mainButton.heightAnchor.constraint(equalToConstant: 50),
-            mainButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 240),
+            mainButton.heightAnchor.constraint(equalToConstant: Layout.mainButtonSize.height),
+            mainButton.widthAnchor.constraint(greaterThanOrEqualToConstant: Layout.mainButtonSize.width),
 
-            editLabel.topAnchor.constraint(equalTo: mainButton.bottomAnchor, constant: 41),
+            editLabel.topAnchor.constraint(equalTo: mainButton.bottomAnchor, constant: Layout.editLabelTopMargin),
             editLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metrics.margin),
             editLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Metrics.margin),
 
-            listingsCollectionView.topAnchor.constraint(equalTo: editLabel.bottomAnchor, constant: 17),
+            listingsCollectionView.topAnchor.constraint(equalTo: editLabel.bottomAnchor, constant: Layout.listingsTopMargin),
             listingsCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metrics.margin),
             listingsCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Metrics.margin),
 
