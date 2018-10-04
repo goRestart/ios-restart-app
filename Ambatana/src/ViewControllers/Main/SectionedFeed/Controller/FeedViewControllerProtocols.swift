@@ -2,6 +2,7 @@ protocol FeedRenderable: class {
     func updateFeed(forceLayoutCalculation: Bool)
     func reloadFeed()
     func convertViewRectInFeed(from originalFrame: CGRect) -> CGRect
+    func updateHeaderLocation(withTitle: String)
 }
 
 protocol WaterFallScrollable: class {

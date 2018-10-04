@@ -9,6 +9,14 @@ final class FeedViewController: BaseViewController {
         enum TabBarIcons {
             static let avatarSize = CGSize(width: 26, height: 26)
         }
+        
+        enum Header {
+            static let headerHeight: CGFloat = 50.0
+        }
+        
+        enum Animation {
+            static let scaleDistanceAnimation: CGFloat = 50.0
+        }
     }
     
     private let refreshControl = UIRefreshControl()
@@ -34,6 +42,9 @@ final class FeedViewController: BaseViewController {
         waterFallAdapter.scrollDelegate = self
         return waterFallAdapter
     }()
+    
+    private let stackHeader = StackHeaders()
+    private let locationHeader = SectionTitleHeaderView(frame: .zero)
 
     private let viewModel: FeedViewModelType
     private let navbarSearch: LGNavBarSearchField?
@@ -68,6 +79,8 @@ final class FeedViewController: BaseViewController {
     override func loadView() {
         super.loadView()
         addCollectionView()
+        addStackHeader()
+        setupHeader()
         refreshUIWithState(viewModel.viewState)
         loadFeed()
     }
@@ -92,7 +105,7 @@ final class FeedViewController: BaseViewController {
     private func loadFeed() {
         viewModel.loadFeedItems()
     }
-
+    
     private func addCollectionView() {
         view.addSubviewForAutoLayout(collectionView)
         NSLayoutConstraint.activate([
@@ -100,6 +113,23 @@ final class FeedViewController: BaseViewController {
             collectionView.topAnchor.constraint(equalTo: isSafeAreaAvailable ? safeTopAnchor : view.topAnchor),
             collectionView.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    private func addStackHeader() {
+        view.addSubviewForAutoLayout(stackHeader)
+        NSLayoutConstraint.activate([
+            stackHeader.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+            stackHeader.topAnchor.constraint(equalTo: isSafeAreaAvailable ? safeTopAnchor : view.topAnchor),
+            stackHeader.trailingAnchor.constraint(equalTo: safeTrailingAnchor)
+        ])
+    }
+    
+    private func setupHeader() {
+        locationHeader.sectionHeaderDelegate = (viewModel as? SectionTitleHeaderViewDelegate)
+        NSLayoutConstraint.activate([
+            locationHeader.heightAnchor.constraint(
+                equalToConstant: Layout.Header.headerHeight)
         ])
     }
     
@@ -242,6 +272,7 @@ final class FeedViewController: BaseViewController {
         }
         errorViewController = errorVC
         add(childViewController: errorVC)
+        stackHeader.removeAll()
     }
     
     private func refreshUIWithState(_ state: ViewState) {
@@ -306,6 +337,9 @@ extension FeedViewController: WaterFallScrollable {
     }
     
     func didScroll(_ scrollView: UIScrollView) {
+        checkPinnedHeader()
+        scaleAnimationHeader(withContentOffestY: scrollView.contentOffset.y)
+        
         if collectionView.contentOffset.y == 0 {
             setBars(hidden: false)
         } else {
@@ -313,6 +347,26 @@ extension FeedViewController: WaterFallScrollable {
         }
     }
     
+    private func checkPinnedHeader() {
+        guard let point = waterFallLayout.originOfPinnedHeader() else { return }
+        if collectionView.contentOffset.y >= point.y && stackHeader.isEmpty {
+            locationHeader.configure(
+                with: viewModel.location,
+                buttonText: R.Strings.commonEdit)
+            stackHeader.submit(header: locationHeader)
+            return
+        }
+        if collectionView.contentOffset.y < point.y && !stackHeader.isEmpty {
+            stackHeader.removeAll()
+        }
+    }
+    
+    private func scaleAnimationHeader(withContentOffestY offset: CGFloat) {
+        guard let point = waterFallLayout.originOfPinnedHeader() else { return }
+        let distanceVector: CGFloat = offset - point.y
+        locationHeader.setScale(
+            factor: max(0.0, min(1.0, distanceVector / Layout.Animation.scaleDistanceAnimation)))
+    }
 }
 
 // MARK: - Scrollable To Top
@@ -375,6 +429,10 @@ extension FeedViewController: FeedRenderable {
     
     func reloadFeed() {
         adapter.reloadData(completion: nil)
+    }
+    
+    func updateHeaderLocation(withTitle title: String) {
+        locationHeader.configure(with: title, buttonText: R.Strings.commonEdit)
     }
 }
 

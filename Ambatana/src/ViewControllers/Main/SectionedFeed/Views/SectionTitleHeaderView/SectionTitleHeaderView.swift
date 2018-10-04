@@ -7,6 +7,9 @@ protocol SectionTitleHeaderViewDelegate: class {
 
 final class SectionTitleHeaderView: UICollectionReusableView {
 
+    private var updatedHeight: CGFloat = 0.0
+    private weak var centerButtonConstraint: NSLayoutConstraint?
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
@@ -35,16 +38,27 @@ final class SectionTitleHeaderView: UICollectionReusableView {
     }()
 
     enum Style {
+        
+        enum Constants {
+            static let minTitleFontSize: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus) ? 20.0 : 18.0
+            static let titleFontSize: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus) ? 23.0 : 21.0
+            static let buttonFontSize: CGFloat = 15.0
+            static let reducerSize: CGFloat = 10.0
+            
+            static let smallHeight: CGFloat = 27
+            static let maxCharactersPerLine: Int = 26
+        }
+        
         static let buttonTintColor = UIColor(red: 255, green: 63, blue: 55)
         static let titleTextColor = UIColor.lgBlack
-        static let buttonFont = UIFont.systemFont(ofSize: 15, weight: .bold)
-        static let titleFont = UIFont.systemFont(ofSize: 23, weight: .bold)
+        static let buttonFont = UIFont.systemFont(ofSize: Constants.buttonFontSize, weight: .bold)
+        static let titleFont = UIFont.systemFont(ofSize: Constants.titleFontSize, weight: .bold)
     }
     
     enum Layout {
         static let sideMargin: CGFloat = 15
         static let titleWidthMultiplier: CGFloat = 0.65
-        static let verticalMargin: CGFloat = Metrics.shortMargin
+        static let verticalMargin: CGFloat = Metrics.bigMargin
         
         enum Hitbox {
             static let rightPadding: CGFloat = 14.0
@@ -62,7 +76,10 @@ final class SectionTitleHeaderView: UICollectionReusableView {
             let height = title.heightForWidth(width: containerWidth,
                                                      maxLines: maxLines,
                                                      withFont: SectionTitleHeaderView.Style.titleFont)
-            return CGSize(width: containerWidth, height: height + 2 * Layout.verticalMargin)
+            return CGSize(width: containerWidth,
+                          height: height + 2 * ((height <= Style.Constants.smallHeight) ?
+                            Metrics.shortMargin :
+                            Metrics.bigMargin))
         }
     }
 
@@ -76,18 +93,22 @@ final class SectionTitleHeaderView: UICollectionReusableView {
         setupHitbox()
         setupConstraints()
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updatedHeight = frame.height
+    }
 
     private func setupConstraints() {
-        NSLayoutConstraint.activate([
+        let constraints = [
             titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Layout.sideMargin),
             titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: Layout.titleWidthMultiplier),
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Layout.verticalMargin),
-            titleLabel.bottomAnchor.constraint(equalTo: topAnchor, constant: -Layout.verticalMargin),
-
+            
             hitboxArea.rightAnchor.constraint(equalTo: rightAnchor),
             hitboxArea.heightAnchor.constraint(equalToConstant: Layout.Hitbox.height),
             hitboxArea.widthAnchor.constraint(equalToConstant: Layout.Hitbox.width),
+            hitboxArea.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             
             arrowIcon.rightAnchor.constraint(equalTo: hitboxArea.rightAnchor, constant: -Layout.sideMargin),
             arrowIcon.centerYAnchor.constraint(equalTo: hitboxArea.centerYAnchor),
@@ -95,7 +116,9 @@ final class SectionTitleHeaderView: UICollectionReusableView {
             arrowIcon.leftAnchor.constraint(
                 equalTo: buttonTitle.rightAnchor, constant: Layout.ArrowIcon.leftMargin),
             buttonTitle.centerYAnchor.constraint(equalTo: arrowIcon.centerYAnchor)
-        ])
+        ]
+        centerButtonConstraint = constraints[2]
+        constraints.activate()
     }
 
     private func setupHitbox() {
@@ -117,6 +140,24 @@ final class SectionTitleHeaderView: UICollectionReusableView {
         titleLabel.text = titleText
         buttonTitle.text = buttonText
         hitboxArea.isHidden = !shouldShowSeeAllButton
+    }
+    
+    // Scale factor calculation:
+    // R = MaxSize - MinSize
+    // FinalSize = (R * ScaleFactor) + MinSize
+    func setScale(factor: CGFloat) {
+        let sizeDiff = Style.Constants.titleFontSize - Style.Constants.minTitleFontSize
+        titleLabel.font = titleLabel.font.withSize(
+            (sizeDiff * (1.0 - factor)) + Style.Constants.minTitleFontSize
+        )
+        
+        guard let text = titleLabel.text, text.count <= Style.Constants.maxCharactersPerLine
+            else { return }
+        frame = CGRect(x: frame.origin.x,
+                       y: -(Style.Constants.reducerSize * factor),
+                       width: frame.width,
+                       height: frame.height)
+        centerButtonConstraint?.constant = (Style.Constants.reducerSize / 2) * factor
     }
 }
 

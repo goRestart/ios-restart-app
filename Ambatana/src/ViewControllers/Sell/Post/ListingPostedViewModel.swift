@@ -361,14 +361,6 @@ class ListingPostedViewModel: BaseViewModel {
                                                      typePage: typePage,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
-
-        // Track product was sold in the first 24h (and not tracked before)
-        if let firstOpenDate = keyValueStorage[.firstRunDate], NSDate().timeIntervalSince(firstOpenDate as Date) <= 86400 &&
-            !keyValueStorage.userTrackingProductSellComplete24hTracked {
-            keyValueStorage.userTrackingProductSellComplete24hTracked = true
-            let event = TrackerEvent.listingSellComplete24h(postedListing)
-            tracker.trackEvent(event)
-        }
     }
 
     private func trackPostSellError(error: RepositoryError) {

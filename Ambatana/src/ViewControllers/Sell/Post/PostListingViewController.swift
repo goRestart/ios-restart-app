@@ -490,6 +490,9 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         footer.cameraTooltip.isHidden = !viewModel.shouldShowBulkPostingTooltip
 
         footer.doneButton.isHidden = hiddeDoneButton
+
+        let newBadgeTapGesture = UITapGestureRecognizer(target: self, action: #selector(videoButtonPressed))
+        footer.newBadgeLabel.addGestureRecognizer(newBadgeTapGesture)
         
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)

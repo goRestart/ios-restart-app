@@ -122,7 +122,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     fileprivate var listingIsNew: Bool {
         guard let creationDate = initialListing.createdAt else { return true }
-        return creationDate.isNewerThan(SharedConstants.cloudsightTimeThreshold)
+        return creationDate.isNewerThan(seconds: SharedConstants.cloudsightTimeThreshold)
     }
     fileprivate var shouldAskForAutoTitle: Bool {
         // we ask for title if the product has less than 1h (or doesn't has creation date)

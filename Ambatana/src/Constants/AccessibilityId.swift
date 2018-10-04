@@ -830,7 +830,7 @@ enum AccessibilityId: Equatable, Accessible {
         case .feedInviteButton:
             return "feedInviteButton"
         case .feedNavBarSearch:
-            return "feedNavBarSearch"
+            return "mainListingsNavBarSearch"
         case .feedCollectionView:
             return "feedCollectionView"
             

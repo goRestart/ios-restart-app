@@ -9,7 +9,7 @@ struct WaterFallLayoutSettings {
     
     // Behaviours
     static let columnCount: Int = 2
-    static let  itemRenderPolicy: WaterfallLayoutItemRenderPolicy = .shortestFirst
+    static let itemRenderPolicy: WaterfallLayoutItemRenderPolicy = .shortestFirst
     /// If the top header is a super sticky header, it can also be stretchy.
     static let topHeaderIsStretchy: Bool = false
     

@@ -14,7 +14,7 @@ struct ProductsABGroup: ABGroupType {
         static let servicesCategoryOnSalchichasMenu = "20180508ServicesCategoryOnSalchichasMenu"
         static let predictivePosting = "20180604PredictivePosting"
         static let videoPosting = "20180604VideoPosting"
-        static let simplifiedChatButton = "20180611SimplifiedChatButton"
+        static let simplifiedChatButton = "20181003SimplifiedChatButton"
         static let deckItemPage = "20180704DeckItemPage"
         static let frictionlessShare = "20180716FrictionlessShare"
         static let freePostingTurkey = "20180817FreePostingTurkey"
