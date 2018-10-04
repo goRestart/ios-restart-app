@@ -126,10 +126,10 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
     private func setupConstraints() {
         var constraints = [
 
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeTopAnchor),
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
             scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
 
             containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             containerView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
@@ -163,22 +163,17 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
             continueButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Layout.viewSidesMargin)
         ]
 
-        if DeviceFamily.current >= .iPhone6 {
-            let continueButtonConstraint = continueButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,
-                                                                                  constant: -Layout.continueButtonBottomMargin)
-            continueButtonBottomConstraint = continueButtonConstraint
-            constraints.append(continueButtonConstraint)
+        let continueButtonConstraint = continueButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,
+                                                                                constant: -Layout.continueButtonBottomMargin)
+        let continueButtonTopConstraint = continueButton.topAnchor.constraint(greaterThanOrEqualTo: phoneNumberTextField.bottomAnchor,
+                                                                              constant: Metrics.veryBigMargin)
+        let containerHeightConstraint = containerView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+        containerHeightConstraint.priority = .defaultLow
 
-        } else {
-            let continueButtonConstraint = continueButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,
-                                                                                  constant: -Layout.continueButtonBottomMargin)
-            let continueButtonTopConstraint = continueButton.topAnchor.constraint(greaterThanOrEqualTo: phoneNumberTextField.bottomAnchor,
-                                                                                  constant: Metrics.veryBigMargin)
-            continueButtonBottomConstraint = continueButtonConstraint
-            constraints.append(contentsOf: [continueButtonTopConstraint, continueButtonConstraint])
-        }
-
+        constraints.append(contentsOf: [continueButtonTopConstraint, continueButtonConstraint, containerHeightConstraint])
         NSLayoutConstraint.activate(constraints)
+
+        continueButtonBottomConstraint = continueButtonConstraint
         countryCodeLabel.setContentHuggingPriority(.required, for: .horizontal)
     }
 
