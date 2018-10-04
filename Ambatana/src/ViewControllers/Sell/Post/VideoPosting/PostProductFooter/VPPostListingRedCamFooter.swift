@@ -19,6 +19,7 @@ final class VPPostListingRedCamFooter: UIView {
         label.font = UIFont.systemBoldFont(size: 11)
         label.textColor = UIColor.white
         label.padding = FooterMetrics.newBadgeInsets
+        label.isUserInteractionEnabled = true
         return label
     }()
     let cameraButton: UIButton = CameraButton()
@@ -49,7 +50,7 @@ final class VPPostListingRedCamFooter: UIView {
     // MARK: - Overrides
 
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return [galleryButton, photoButton, videoButton, cameraButton, infoButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
+        return [galleryButton, photoButton, videoButton, newBadgeLabel, cameraButton, infoButton].compactMap { $0 }.reduce(false) { (result, view) -> Bool in
             let convertedPoint = view.convert(point, from: self)
             return result || (!view.isHidden && view.point(inside: convertedPoint, with: event))
         }
