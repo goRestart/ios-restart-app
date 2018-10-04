@@ -49,7 +49,7 @@ final class BulkPostingsPostedViewController: BaseViewController {
         let layout = CollectionViewCenteredFlowLayout()
         layout.itemSize = CGSize(width: 86, height: 144)
         layout.minimumInteritemSpacing = 16
-        let collectionView = LGIntrinsicSizeCollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = LGAutoIntrinsicContentSizeCollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         return collectionView
     }()
@@ -178,35 +178,5 @@ final class BulkPostingsPostedViewController: BaseViewController {
     func setAccesibilityIds() {
         closeButton.set(accessibilityId: .postingInfoCloseButton)
         mainButton.set(accessibilityId: .postingInfoMainButton)
-    }
-}
-
-class LGIntrinsicSizeCollectionView: UICollectionView {
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
-    }
-
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
-        setup()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if !bounds.size.equalTo(intrinsicContentSize) {
-            invalidateIntrinsicContentSize()
-        }
-    }
-
-    override var intrinsicContentSize: CGSize {
-        get {
-            return contentSize
-        }
-    }
-
-    private func setup() {
-        self.isScrollEnabled = false
-        self.bounces = false
     }
 }
