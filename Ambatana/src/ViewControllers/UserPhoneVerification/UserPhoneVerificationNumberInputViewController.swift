@@ -158,18 +158,27 @@ final class UserPhoneVerificationNumberInputViewController: BaseViewController {
             verticalSeparatorView.leftAnchor.constraint(equalTo: countryCodeLabel.rightAnchor, constant: 10),
             verticalSeparatorView.widthAnchor.constraint(equalToConstant: Layout.lineThickness),
             verticalSeparatorView.heightAnchor.constraint(equalToConstant: Layout.verticalLineHeight),
-            continueButton.topAnchor.constraint(greaterThanOrEqualTo: phoneNumberTextField.bottomAnchor, constant: Metrics.veryBigMargin),
             continueButton.heightAnchor.constraint(equalToConstant: Layout.continueButtonHeight),
             continueButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Layout.viewSidesMargin),
             continueButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Layout.viewSidesMargin)
         ]
 
-        let continueButtonConstraint = continueButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,
-                                                                              constant: -Layout.continueButtonBottomMargin)
-        constraints.append(continueButtonConstraint)
-        NSLayoutConstraint.activate(constraints)
-        continueButtonBottomConstraint = continueButtonConstraint
+        if DeviceFamily.current >= .iPhone6 {
+            let continueButtonConstraint = continueButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+                                                                                  constant: -Layout.continueButtonBottomMargin)
+            continueButtonBottomConstraint = continueButtonConstraint
+            constraints.append(continueButtonConstraint)
 
+        } else {
+            let continueButtonConstraint = continueButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,
+                                                                                  constant: -Layout.continueButtonBottomMargin)
+            let continueButtonTopConstraint = continueButton.topAnchor.constraint(greaterThanOrEqualTo: phoneNumberTextField.bottomAnchor,
+                                                                                  constant: Metrics.veryBigMargin)
+            continueButtonBottomConstraint = continueButtonConstraint
+            constraints.append(contentsOf: [continueButtonTopConstraint, continueButtonConstraint])
+        }
+
+        NSLayoutConstraint.activate(constraints)
         countryCodeLabel.setContentHuggingPriority(.required, for: .horizontal)
     }
 
