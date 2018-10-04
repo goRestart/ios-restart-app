@@ -33,9 +33,8 @@ class BulkPostedListingCell: UICollectionViewCell, ReusableCell {
         setupUI()
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) { fatalError() }
 
     func setupUI() {
         addSubviewsForAutoLayout([imageView, priceLabel, editButton])
@@ -58,6 +57,8 @@ class BulkPostedListingCell: UICollectionViewCell, ReusableCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        priceLabel.text = nil
+        imageView.image = nil
         disposeBag = DisposeBag()
     }
 

@@ -103,20 +103,6 @@ class BulkPostingsPostedViewModel: BaseViewModel, BulkPostingsPostedViewModelTyp
             }
         }
     }
-
-    // MARK: - Public
-
-    var mainButtonText: String? {
-        return R.Strings.productPostConfirmationAnotherListingButton
-    }
-
-    var mainText: String? {
-        return R.Strings.productPostIncentiveTitle
-    }
-
-    var secondaryText: String? {
-        return R.Strings.productPostIncentiveSubtitle
-    }
 }
 
 // MARK: - OnEditActionable
