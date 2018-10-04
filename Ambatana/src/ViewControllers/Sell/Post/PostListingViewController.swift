@@ -446,6 +446,9 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         footer.videoButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
             self?.videoButtonPressed()
         }).disposed(by: disposeBag)
+
+        let newBadgeTapGesture = UITapGestureRecognizer(target: self, action: #selector(videoButtonPressed))
+        footer.newBadgeLabel.addGestureRecognizer(newBadgeTapGesture)
         
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
