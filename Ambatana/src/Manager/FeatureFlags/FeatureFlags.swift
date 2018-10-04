@@ -362,7 +362,7 @@ extension FullScreenAdsWhenBrowsingForUS {
     
     func shouldShowFullScreenAdsForUser(createdIn: Date?) -> Bool {
         guard let creationDate = createdIn,
-            creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
+            creationDate.isNewerThan(seconds: SharedConstants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
         return shouldShowFullScreenAdsForNewUsers
     }
 }
@@ -380,7 +380,7 @@ extension MultiAdRequestInChatSectionForUS {
     
     func shouldShowAdsForUser(createdIn: Date?) -> Bool {
         guard isActive else { return false }
-        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+        return createdIn?.isOlderThan(seconds: SharedConstants.newUserTimeThresholdForAds) ?? false
     }
 }
 
@@ -389,7 +389,7 @@ extension MultiAdRequestInChatSectionForTR {
     
     func shouldShowAdsForUser(createdIn: Date?) -> Bool {
         guard isActive else { return false }
-        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+        return createdIn?.isOlderThan(seconds: SharedConstants.newUserTimeThresholdForAds) ?? false
     }
 }
 
