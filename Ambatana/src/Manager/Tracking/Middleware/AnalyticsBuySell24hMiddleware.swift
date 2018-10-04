@@ -1,7 +1,6 @@
-import LGComponents
 import LGCoreKit
 
-struct AnalyticsSell24hMiddleware: AnalyticsMiddleware {
+struct AnalyticsBuySell24hMiddleware: AnalyticsMiddleware {
     private let threshold = TimeInterval.make(days: 1)
     private let keyValueStorage: KeyValueStorageable
 
@@ -17,13 +16,13 @@ struct AnalyticsSell24hMiddleware: AnalyticsMiddleware {
 
     func process(event: TrackerEvent,
                  trackNewEvent: (TrackerEvent) -> ()) {
-        guard event.name == .listingSellComplete else { return }
-        guard let newEvent = TrackerEvent.lister24h(event: event),
+        guard event.name == .listingSellComplete || event.name == .firstMessage else { return }
+        guard let newEvent = TrackerEvent.buyerLister24h(event: event),
             let firstOpenDate = keyValueStorage[.firstRunDate],
             firstOpenDate.isNewerThan(seconds: threshold) &&
-                !keyValueStorage.userTrackingProductSellComplete24hTracked else { return }
+                !keyValueStorage.userTrackingProductBuySellComplete24hTracked else { return }
 
-        keyValueStorage.userTrackingProductSellComplete24hTracked = true
+        keyValueStorage.userTrackingProductBuySellComplete24hTracked = true
         trackNewEvent(newEvent)
     }
 }

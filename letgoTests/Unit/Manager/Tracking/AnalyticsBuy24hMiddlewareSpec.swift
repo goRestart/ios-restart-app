@@ -3,58 +3,65 @@ import LGCoreKit
 import Nimble
 import Quick
 
-final class AnalyticsSell24hMiddlewareSpec: QuickSpec {
+final class AnalyticsBuy24hMiddlewareSpec: QuickSpec {
     override func spec() {
-        describe("AnalyticsSell24hMiddleware") {
+        describe("AnalyticsBuy24hMiddleware") {
             var tracker: MockTracker!
             var keyValueStorage: MockKeyValueStorage!
-            var sut: AnalyticsSell24hMiddleware!
+            var sut: AnalyticsBuy24hMiddleware!
 
             beforeEach {
                 tracker = MockTracker()
                 keyValueStorage = MockKeyValueStorage()
                 keyValueStorage.currentUserProperties = UserDefaultsUser()
-                sut = AnalyticsSell24hMiddleware(keyValueStorage: keyValueStorage)
+                sut = AnalyticsBuy24hMiddleware(keyValueStorage: keyValueStorage)
             }
 
-            describe("process listing sell complete event") {
+            describe("process listing first message event") {
                 var event: TrackerEvent!
                 beforeEach {
                     let listing = Listing.makeMock()
-                    let machineLearningTrackingInfo = MachineLearningTrackingInfo.defaultValues()
-                    event = TrackerEvent.listingSellComplete(listing,
-                                                             buttonName: nil,
-                                                             sellButtonPosition: nil,
-                                                             negotiable: nil,
-                                                             pictureSource: nil,
-                                                             videoLength: nil,
-                                                             freePostingModeAllowed: false,
-                                                             typePage: .sell,
-                                                             machineLearningTrackingInfo: machineLearningTrackingInfo)
+                    let sendMessageInfo = SendMessageTrackingInfo()
+                        .set(listing: listing, freePostingModeAllowed: true)
+                        .set(messageType: .text)
+                        .set(quickAnswerTypeParameter: nil)
+                        .set(typePage: .listingDetail)
+                        .set(sellerRating: 4)
+                        .set(isBumpedUp: .trueParameter)
+                        .set(containsEmoji: true)
+                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
+                    event = TrackerEvent.firstMessage(info: sendMessageInfo,
+                                                      listingVisitSource: .listingList,
+                                                      feedPosition: .position(index:1),
+                                                      sectionPosition: .none,
+                                                      userBadge: .silver,
+                                                      containsVideo: .trueParameter,
+                                                      isProfessional: false,
+                                                      sectionName: nil)
                 }
 
-                context("when first run date is before 24h and did not track a sell 24h event") {
+                context("when first run date is before 24h and did not track a buyer 24h event") {
                     beforeEach {
                         keyValueStorage[.firstRunDate] = Date(timeIntervalSinceNow: -TimeInterval.make(minutes: 1))
-                        keyValueStorage.userTrackingProductSellComplete24hTracked = false
+                        keyValueStorage.userTrackingProductBuyComplete24hTracked = false
                         sut.process(event: event,
                                     trackNewEvent: tracker.trackEvent)
                     }
-                    it("calls back to track a lister 24h event") {
-                        expect(tracker.trackedEvents[0].name) == .lister24h
+                    it("calls back to track a buyer 24h event") {
+                        expect(tracker.trackedEvents[0].name) == .buyer24h
                     }
                     it("calls back to track an event with same params as the event that originated this one") {
                         expect(tracker.trackedEvents[0].params?.params.keys) == event.params?.params.keys
                     }
                     it("updates userTrackingProductSellComplete24hTracked") {
-                        expect(keyValueStorage.userTrackingProductSellComplete24hTracked) == true
+                        expect(keyValueStorage.userTrackingProductBuyComplete24hTracked) == true
                     }
                 }
 
-                context("when first run date is after 24h and did not track a sell 24h event") {
+                context("when first run date is after 24h and did not track a buyer 24h event") {
                     beforeEach {
                         keyValueStorage[.firstRunDate] = Date(timeIntervalSinceNow: -TimeInterval.make(days: 2))
-                        keyValueStorage.userTrackingProductSellComplete24hTracked = false
+                        keyValueStorage.userTrackingProductBuyComplete24hTracked = false
                         sut.process(event: event,
                                     trackNewEvent: tracker.trackEvent)
                     }
@@ -63,10 +70,10 @@ final class AnalyticsSell24hMiddlewareSpec: QuickSpec {
                     }
                 }
 
-                context("when first run date is before 24h and did track a sell 24h event") {
+                context("when first run date is before 24h and did track a buyer 24h event") {
                     beforeEach {
                         keyValueStorage[.firstRunDate] = Date(timeIntervalSinceNow: -TimeInterval.make(minutes: 1))
-                        keyValueStorage.userTrackingProductSellComplete24hTracked = true
+                        keyValueStorage.userTrackingProductBuyComplete24hTracked = true
                         sut.process(event: event,
                                     trackNewEvent: tracker.trackEvent)
                     }
@@ -75,10 +82,10 @@ final class AnalyticsSell24hMiddlewareSpec: QuickSpec {
                     }
                 }
 
-                context("when first run date is after 24h and did track a sell 24h event") {
+                context("when first run date is after 24h and did track a buyer 24h event") {
                     beforeEach {
                         keyValueStorage[.firstRunDate] = Date(timeIntervalSinceNow: -TimeInterval.make(days: 2))
-                        keyValueStorage.userTrackingProductSellComplete24hTracked = true
+                        keyValueStorage.userTrackingProductBuyComplete24hTracked = true
                         sut.process(event: event,
                                     trackNewEvent: tracker.trackEvent)
                     }
