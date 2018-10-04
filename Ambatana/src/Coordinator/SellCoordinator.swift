@@ -77,7 +77,7 @@ final class SellCoordinator: Coordinator {
             let language = Locale.systemLanguage()
             let machineLearningSupported = featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
                                                                                          language: language)
-            let isBulkPosting = featureFlags.bulkPosting.isActive && featureFlags.bulkPosting.supportsCategory(category: postCategory)
+            let isBulkPosting = featureFlags.bulkPosting.supportsCategory(category: postCategory)
             let postListingVM = PostListingViewModel(source: source,
                                                      postCategory: postCategory,
                                                      listingTitle: listingTitle,
@@ -150,7 +150,7 @@ extension SellCoordinator: PostListingNavigator {
         let language = Locale.systemLanguage()
         let machineLearningSupported = featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
                                                                                      language: language)
-        let isBulkPosting = featureFlags.bulkPosting.isActive && featureFlags.bulkPosting.supportsCategory(category: postCategory)
+        let isBulkPosting = featureFlags.bulkPosting.supportsCategory(category: postCategory)
         let postListingVM = PostListingViewModel(source: source,
                                                  postCategory: postCategory,
                                                  listingTitle: listingTitle,
@@ -415,8 +415,7 @@ extension SellCoordinator: ListingPostedNavigator {
             let language = Locale.systemLanguage()
             let machineLearningSupported = strongSelf.featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
                                                                                          language: language)
-            let isBulkPosting = strongSelf.featureFlags.bulkPosting.isActive &&
-                strongSelf.featureFlags.bulkPosting.supportsCategory(category: postCategory)
+            let isBulkPosting = strongSelf.featureFlags.bulkPosting.supportsCategory(category: postCategory)
             let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
                                                      postCategory: postCategory,
                                                      listingTitle: nil,

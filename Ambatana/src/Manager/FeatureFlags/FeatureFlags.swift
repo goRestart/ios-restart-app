@@ -373,7 +373,7 @@ extension BulkPosting {
     func supportsCategory(category: PostCategory?) -> Bool {
         switch category {
         case .otherItems?:
-            return true
+            return isActive
         default:
             return false
         }
