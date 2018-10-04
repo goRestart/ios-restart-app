@@ -101,6 +101,7 @@
 		2E71A9272131CF25009D24A9 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		2E71A9292131CFD4009D24A9 /* Assembly+TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+TabBar.swift"; sourceTree = "<group>"; };
 		2E71A92D2131D64A009D24A9 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		2E859ACC2165650D00DB8920 /* Restart.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Restart.entitlements; sourceTree = "<group>"; };
 		2EB2B18B212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductSelector.strings; sourceTree = "<group>"; };
 		2EB2B18D212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductPrice.strings; sourceTree = "<group>"; };
 		2EB2B18F212B4BCC00705ACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductDescription.strings; sourceTree = "<group>"; };
@@ -152,6 +153,7 @@
 		1C3B45401FEFCC54008B7B87 /* Restart */ = {
 			isa = PBXGroup;
 			children = (
+				2E859ACC2165650D00DB8920 /* Restart.entitlements */,
 				1CAF0F6620043239004046A9 /* Application */,
 				1CAF0F6720043243004046A9 /* Infrastructure */,
 				1CAF0F62200431DE004046A9 /* Resources */,
@@ -332,6 +334,11 @@
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -683,6 +690,7 @@
 			baseConfigurationReference = C8F64BDE6FEF6B8E05B33FEA /* Pods-Restart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Restart/Restart.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -704,6 +712,7 @@
 			baseConfigurationReference = FBEBFC161A71DE5C63A92027 /* Pods-Restart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Restart/Restart.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
 				FRAMEWORK_SEARCH_PATHS = (
