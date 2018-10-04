@@ -26,7 +26,7 @@ final class VPPostListingRedCamFooter: UIView {
     let cameraTooltip: CameraTooltip = CameraTooltip()
     let doneButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .medium))
-        button.setTitle("Done", for: .normal)
+        button.setTitle(R.Strings.commonDone, for: .normal)
         button.contentEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 30)
         return button
     }()

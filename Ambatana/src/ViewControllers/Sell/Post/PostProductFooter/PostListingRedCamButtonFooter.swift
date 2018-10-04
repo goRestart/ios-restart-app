@@ -2,8 +2,14 @@ import UIKit
 import LGComponents
 
 final class PostListingRedCamButtonFooter: UIView {
-    static let galleryIconSide: CGFloat = 70
-    static let cameraIconSide: CGFloat = 84
+
+    private enum Layout {
+        static let galleryIconSide: CGFloat = 70
+        static let cameraIconSide: CGFloat = 84
+        static let doneButtonInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 30)
+        static let doneButtonBottomMargin: CGFloat = 28
+        static let doneButtonBottomHeight: CGFloat = 44
+    }
     
     let galleryButton = UIButton()
     let photoButton = UIButton()
@@ -19,8 +25,8 @@ final class PostListingRedCamButtonFooter: UIView {
     }()
     let doneButton: UIButton = {
         let button = LetgoButton(withStyle: .primary(fontSize: .medium))
-        button.setTitle("Done", for: .normal)
-        button.contentEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 30)
+        button.setTitle(R.Strings.commonDone, for: .normal)
+        button.contentEdgeInsets = Layout.doneButtonInsets
         return button
     }()
     private let infoButtonIncluded: Bool
@@ -130,7 +136,7 @@ fileprivate extension PostListingRedCamButtonFooter {
             .top(relatedBy: .greaterThanOrEqual)
             .bottom()
         infoButton.layout()
-            .width(PostListingRedCamButtonFooter.galleryIconSide)
+            .width(Layout.galleryIconSide)
             .widthProportionalToHeight()
         
         galleryButton.layout(with: self)
@@ -138,23 +144,23 @@ fileprivate extension PostListingRedCamButtonFooter {
             .top(relatedBy: .greaterThanOrEqual)
             .bottom()
         galleryButton.layout()
-            .width(PostListingRedCamButtonFooter.galleryIconSide)
+            .width(Layout.galleryIconSide)
             .widthProportionalToHeight()
         
         cameraButton.layout(with: self)
             .centerX(constraintBlock: { [weak self] constraint in self?.cameraButtonCenterXConstraint = constraint })
             .top()
             .bottom(by: -Metrics.margin)
-        cameraButton.layout().width(PostListingRedCamButtonFooter.cameraIconSide).widthProportionalToHeight()
+        cameraButton.layout().width(Layout.cameraIconSide).widthProportionalToHeight()
 
         cameraTooltip.layout(with: cameraButton).above(by: -Metrics.margin).centerX()
         cameraTooltip.layout(with: self).leading(by: Metrics.margin, relatedBy: .greaterThanOrEqual)
 
         doneButton.layout(with: self)
             .trailing(by: -Metrics.margin)
-            .bottom(by: -28)
+            .bottom(by: -Layout.doneButtonBottomMargin)
         doneButton.layout()
-            .height(44)
+            .height(Layout.doneButtonBottomHeight)
         
         infoButton.isHidden = !infoButtonIncluded
     }
