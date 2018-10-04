@@ -32,7 +32,7 @@ final class BulkPostingListingsView: UIView {
     required init?(coder aDecoder: NSCoder) { fatalError() }
     
     func setupUI() {
-        listingsLabel.text = "Your items (\(images.count))"
+        listingsLabel.text = R.Strings.productPostCameraBulkPostingItemsLabel(images.count)
 
         collectionView.register(BulkPostingCell.self, forCellWithReuseIdentifier: BulkPostingCell.reusableID)
         collectionView.backgroundColor = .clear

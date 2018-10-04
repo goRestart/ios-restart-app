@@ -376,7 +376,7 @@ extension R {
     public static let categoriesHomeAndGarden = Strings.tr("Localizable", "categories_home_and_garden")
     /// Baby and Child
     public static let categoriesInFeedBabyChild = Strings.tr("Localizable", "categories_inFeed_baby_child")
-    /// Entertainment
+    /// Movies, Books and Music
     public static let categoriesInFeedBooksMovies = Strings.tr("Localizable", "categories_inFeed_books_movies")
     /// Cars
     public static let categoriesInFeedCars = Strings.tr("Localizable", "categories_inFeed_cars")
@@ -2450,6 +2450,16 @@ extension R {
     public static let productOptionShare = Strings.tr("Localizable", "product_option_share")
     /// Popular near you
     public static let productPopularNearYou = Strings.tr("Localizable", "product_popular_near_you")
+    /// Your items (%i)
+    public static func productPostCameraBulkPostingItemsLabel(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "product_post_camera_bulk_posting_items_label", p1)
+    }
+    /// %@ another listing
+    public static func productPostCameraBulkPostingTooltip(_ p1: String) -> String {
+      return Strings.tr("Localizable", "product_post_camera_bulk_posting_tooltip", p1)
+    }
+    /// Post
+    public static let productPostCameraBulkPostingTooltipHighlightedWord = Strings.tr("Localizable", "product_post_camera_bulk_posting_tooltip_highlighted_word")
     /// Take a good picture and start making cash!
     public static let productPostCameraFirstTimeAlertSubtitle = Strings.tr("Localizable", "product_post_camera_first_time_alert_subtitle")
     /// What are you selling?
@@ -3330,7 +3340,7 @@ extension R {
     public static let reportingUserReportSentBlockUserBigButtonTitle = Strings.tr("Localizable", "reporting_user_report_sent_block_user_big_button_title")
     /// Block
     public static let reportingUserReportSentBlockUserSmallButtonTitle = Strings.tr("Localizable", "reporting_user_report_sent_block_user_small_button_title")
-    /// We're very sorry about your experience. We strongly encourage you to reach out to local law enforcement and file a police report as soon as possible (if you haven't already done so).\n\nPlease remind the police to contact letgo’s law enforcement team at lawenforcement@letgo.com so we can help with their investigation. We can share relevant information about %@ with police but, due to strict privacy protection laws, we need them to send us a valid search warrant or subpoena first. In the meantime, please provide additonal information so our team can investigate your claim.\n\nRemember, you can always block a user to make sure they can no longer see your items or chat with you.
+    /// We're very sorry about your experience. We strongly encourage you to reach out to local law enforcement and file a police report as soon as possible (if you haven't already done so).\n\nPlease remind the police to contact letgo’s law enforcement team at lawenforcement@letgo.com so we can help with their investigation. We can share relevant information about %@ with police but, due to strict privacy protection laws, we need them to send us a valid search warrant or subpoena first. In the meantime, please provide additional information so our team can investigate your claim.\n\nRemember, you can always block a user to make sure they can no longer see your items or chat with you.
     public static func reportingUserReportSentLawEnforcementAndBlockText(_ p1: String) -> String {
       return Strings.tr("Localizable", "reporting_user_report_sent_law_enforcement_and_block_text", p1)
     }

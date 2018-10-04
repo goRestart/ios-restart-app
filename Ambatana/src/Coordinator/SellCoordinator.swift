@@ -290,9 +290,9 @@ extension SellCoordinator: PostListingNavigator {
             strongSelf.viewController = strongSelf.navigationController
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
             
-            }, closeAction: { [weak self] listings in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.sellCoordinator(coordinator: strongSelf, didFinishWithBulkPostingListings: listings)
+        }, closeAction: { [weak self] listings in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.sellCoordinator(coordinator: strongSelf, didFinishWithBulkPostingListings: listings)
         })
 
         dismissViewController(animated: true) {

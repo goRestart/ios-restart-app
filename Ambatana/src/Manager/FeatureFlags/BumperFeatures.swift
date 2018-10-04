@@ -2051,7 +2051,7 @@ enum BulkPosting: String, BumperFeature  {
     static var defaultValue: String { return BulkPosting.control.rawValue }
     static var enumValues: [BulkPosting] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Bulk products" } 
+    static var description: String { return "[PRODUCTS] Bulk posting" } 
     static func fromPosition(_ position: Int) -> BulkPosting {
         switch position { 
             case 0: return .control

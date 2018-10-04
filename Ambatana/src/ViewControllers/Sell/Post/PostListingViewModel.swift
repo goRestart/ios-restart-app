@@ -137,8 +137,8 @@ class PostListingViewModel: BaseViewModel {
     }()
 
     let bulkPostingTooltipText: NSAttributedString = {
-        let highlightedText = "Post"
-        let hintText = "Post another listing"
+        let highlightedText = R.Strings.productPostCameraBulkPostingTooltipHighlightedWord
+        let hintText = R.Strings.productPostCameraBulkPostingTooltip(highlightedText)
         let hintNSString = NSString(string: hintText)
         let range = hintNSString.range(of: highlightedText)
         let attributues: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17),
