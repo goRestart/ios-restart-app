@@ -766,8 +766,15 @@ extension FeedViewModel: SectionTitleHeaderViewDelegate {
 
 extension FeedViewModel: ListingActionDelegate {
     func chatButtonPressedFor(listing: Listing) {
-        let chatDetailData = ChatDetailData.listingAPI(listing: listing)
-        openChat(withData: chatDetailData)
+        if listing.sellerIsProfessional,
+            featureFlags.preventMessagesFromFeedToProUsers.isActive,
+            listing.category.isProfessionalCategory {
+            navigator?.openAskPhoneFromMainFeedFor(listing: listing,
+                                                   interlocutor: LocalUser(userListing: listing.user))
+        } else {
+            let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+            openChat(withData: chatDetailData)
+        }
     }
 
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {
