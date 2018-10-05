@@ -398,7 +398,6 @@ lane :make_automation_build do
 	)
 	zipped_output = "~/Desktop/automation" + timestamp + ".zip"
 	sh("zip -r #{zipped_output} #{output}") 
-	bender message: message, channels: [ENV["SLACK_IOS_CORE_CHANNEL"]]    
 end
 
 after_all do |lane|
