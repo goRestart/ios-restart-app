@@ -531,9 +531,9 @@ extension UserProfileViewController: UserRatingListViewModelDelegate {
 
     func vmDidFailLoadingUserRatings(_ firstPage: Bool) {}
 
-    func vmDidLoadUserRatings(_ ratings: [UserRating]) {
+    func vmDidLoadUserRatings(_ ratings: [UserRating], firstPage: Bool) {
         emptyReviewsLabel.isHidden = viewModel.ratingListViewModel.objectCount > 0
-        guard !ratings.isEmpty else { return }
+        guard !ratings.isEmpty || firstPage else { return }
         tableView.reloadData()
     }
 

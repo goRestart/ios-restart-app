@@ -54,7 +54,7 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
         }
     }
 
-    func vmDidLoadUserRatings(_ ratings: [UserRating]) {
+    func vmDidLoadUserRatings(_ ratings: [UserRating], firstPage: Bool) {
         activityIndicator.stopAnimating()
         if !ratings.isEmpty {
             tableView.isHidden = false

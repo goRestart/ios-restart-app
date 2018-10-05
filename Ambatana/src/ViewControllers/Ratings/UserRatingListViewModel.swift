@@ -4,7 +4,7 @@ import LGComponents
 
 protocol UserRatingListViewModelDelegate : BaseViewModelDelegate {
     func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool)
-    func vmDidLoadUserRatings(_ ratings: [UserRating])
+    func vmDidLoadUserRatings(_ ratings: [UserRating], firstPage: Bool)
     func vmDidFailLoadingUserRatings(_ firstPage: Bool)
     func vmRefresh()
 }
@@ -106,9 +106,9 @@ extension UserRatingListViewModel : UserRatingListRequesterDelegate {
         delegate?.vmIsLoadingUserRatingsRequest(isLoading, firstPage: firstPage)
     }
 
-    func requesterDidLoadUserRatings(_ ratings: [UserRating]) {
+    func requesterDidLoadUserRatings(_ ratings: [UserRating], firstPage: Bool) {
         self.ratings.append(contentsOf: ratings)
-        delegate?.vmDidLoadUserRatings(ratings)
+        delegate?.vmDidLoadUserRatings(ratings, firstPage: firstPage)
     }
 
     func requesterDidFailLoadingUserRatings(_ firstPage: Bool) {
@@ -116,7 +116,7 @@ extension UserRatingListViewModel : UserRatingListRequesterDelegate {
     }
 }
 
-extension UserRatingListViewModel:  UserRatingCellDelegate {
+extension UserRatingListViewModel: UserRatingCellDelegate {
     
     func actionButtonPressedForCellAtIndex(_ indexPath: IndexPath) {
         guard let rating = ratingAtIndex(indexPath.row) else { return }
