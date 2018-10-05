@@ -1,13 +1,31 @@
 import UIKit
 import LGComponents
 
-class GalleryImageCell: UICollectionViewCell, ReusableCell {
+final class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
-    static var reusableID = "GalleryImageCell"
-
-    @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var multipleSelectionCountLabel: UILabel!
-    @IBOutlet weak var disabledView: UIView!
+    let image: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
+        image.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        return image
+    }()
+    let multipleSelectionCountLabel: UILabel = {
+        let label = UILabel()
+        label.layer.borderWidth = 2
+        label.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        label.layer.borderColor = UIColor.white.cgColor
+        label.font = UIFont.systemSemiBoldFont(size: 21)
+        label.textAlignment = .center
+        label.textColor = .white
+        return label
+    }()
+    let disabledView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.alpha = 0.6
+        return view
+    }()
 
     var disabled: Bool = false {
         didSet {
@@ -16,6 +34,14 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     }
     
     // MARK: - Lifecycle
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) { fatalError("Die xibs, die") }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,15 +65,26 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Private methods
 
-    // Sets up the UI
     private func setupUI() {
-        multipleSelectionCountLabel.text = nil
-        multipleSelectionCountLabel.layer.borderWidth = 2
-        multipleSelectionCountLabel.cornerRadius = LGUIKitConstants.mediumCornerRadius
-        multipleSelectionCountLabel.layer.borderColor = UIColor.white.cgColor
+        contentView.addSubviewsForAutoLayout([image, multipleSelectionCountLabel, disabledView])
+        [
+            image.topAnchor.constraint(equalTo: contentView.topAnchor),
+            image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+
+            multipleSelectionCountLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            multipleSelectionCountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            multipleSelectionCountLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            multipleSelectionCountLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+
+            disabledView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            disabledView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            disabledView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            disabledView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        ].activate()
     }
 
-    // Resets the UI to the initial state
     private func resetUI() {
         image.image = nil
 

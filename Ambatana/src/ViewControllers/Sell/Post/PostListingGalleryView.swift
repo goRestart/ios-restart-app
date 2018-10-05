@@ -191,8 +191,7 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
         closeButton.setImage(R.Asset.IconsButtons.icPostClose.image, for: .normal)
         closeButton.isHidden = viewModel.isBlockingPosting
         topRightButton.setStyle(.primary(fontSize: .small))
-        let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
-        collectionView.register(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
+        collectionView.register(type: GalleryImageCell.self)
         collectionView.alwaysBounceVertical = true
         collectionView.allowsMultipleSelection = true
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -266,8 +265,8 @@ extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDe
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            guard let galleryCell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryImageCell.reusableID,
-                                                                       for: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
+            guard let galleryCell = collectionView.dequeue(type: GalleryImageCell.self,
+                                                           for: indexPath) else { return UICollectionViewCell() }
             
             galleryCell.tag = indexPath.row
             viewModel.imageForCellAtIndex(indexPath.row) { image in
