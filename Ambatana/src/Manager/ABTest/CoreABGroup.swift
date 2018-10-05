@@ -60,7 +60,7 @@ struct CoreABGroup: ABGroupType {
         return .makeInt(key: key, defaultValue: value, groupType: .core)
     }
     
-    private static func coreBoolFor(key: String, value: Int = 0) -> LeanplumABVariable<Bool> {
+    private static func coreBoolFor(key: String, value: Bool) -> LeanplumABVariable<Bool> {
         return .makeBool(key: key, defaultValue: value, groupType: .core)
     }
 }
