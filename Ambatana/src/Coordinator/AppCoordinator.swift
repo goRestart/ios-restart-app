@@ -228,6 +228,7 @@ extension AppCoordinator: AppNavigator {
             && !sessionManager.loggedIn
         let shouldShowOnboarding = !keyValueStorage[.didShowOnboarding]
         if !shouldShowBlockingSignUp && !shouldShowOnboarding {
+            AppsFlyerAffiliationResolver.shared.rx_AppIsReady.accept(true)
             return false
         }
 
