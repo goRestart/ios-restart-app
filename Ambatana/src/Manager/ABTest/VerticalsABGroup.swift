@@ -8,7 +8,8 @@ struct VerticalsABGroup: ABGroupType {
     let proUsersExtraImages: LeanplumABVariable<Int>
     let clickToTalk: LeanplumABVariable<Int>
     let boostSmokeTest: LeanplumABVariable<Int>
-    
+    let realEstateEnabled: LeanplumABVariable<Int>
+
     let group: ABGroup = .verticals
     var intVariables: [LeanplumABVariable<Int>] = []
     var stringVariables: [LeanplumABVariable<String>] = []
@@ -22,7 +23,8 @@ struct VerticalsABGroup: ABGroupType {
                  realEstatePromoCells: LeanplumABVariable<Int>,
                  proUsersExtraImages: LeanplumABVariable<Int>,
                  clickToTalk: LeanplumABVariable<Int>,
-                 boostSmokeTest: LeanplumABVariable<Int>) {
+                 boostSmokeTest: LeanplumABVariable<Int>,
+                 realEstateEnabled: LeanplumABVariable<Int>) {
         self.servicesPaymentFrequency = servicesPaymentFrequency
         self.jobsAndServicesEnabled = jobsAndServicesEnabled
         self.carPromoCells = carPromoCells
@@ -31,6 +33,7 @@ struct VerticalsABGroup: ABGroupType {
         self.proUsersExtraImages = proUsersExtraImages
         self.clickToTalk = clickToTalk
         self.boostSmokeTest = boostSmokeTest
+        self.realEstateEnabled = realEstateEnabled
         intVariables.append(contentsOf: [servicesPaymentFrequency,
                                          jobsAndServicesEnabled,
                                          carPromoCells,
@@ -38,7 +41,8 @@ struct VerticalsABGroup: ABGroupType {
                                          realEstatePromoCells,
                                          proUsersExtraImages,
                                          clickToTalk,
-                                         boostSmokeTest])
+                                         boostSmokeTest,
+                                         realEstateEnabled])
     }
     
     static func make() -> VerticalsABGroup {
@@ -49,7 +53,8 @@ struct VerticalsABGroup: ABGroupType {
                                 realEstatePromoCells: verticalsIntFor(key: Keys.realEstatePromoCells),
                                 proUsersExtraImages: verticalsIntFor(key: Keys.proUsersExtraImages),
                                 clickToTalk:verticalsIntFor(key: Keys.clickToTalk),
-                                boostSmokeTest:verticalsIntFor(key: Keys.boostSmokeTest))
+                                boostSmokeTest:verticalsIntFor(key: Keys.boostSmokeTest),
+                                realEstateEnabled: verticalsIntFor(key: Keys.realEstateEnabled))
     }
     
     private static func verticalsIntFor(key: String) -> LeanplumABVariable<Int> {
@@ -66,4 +71,5 @@ private struct Keys {
     static let proUsersExtraImages = "20182808allow25ImagesForPros"
     static let clickToTalk = "20182708clickToTalk"
     static let boostSmokeTest = "20180110boostSmokeTest"
+    static let realEstateEnabled = "20171228realEstateEnabled"
 }

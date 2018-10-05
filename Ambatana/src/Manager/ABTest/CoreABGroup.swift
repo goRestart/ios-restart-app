@@ -1,11 +1,3 @@
-//
-//  ABCore.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 29/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 
 struct CoreABGroup: ABGroupType {
@@ -22,7 +14,7 @@ struct CoreABGroup: ABGroupType {
     let mutePushNotificationsStartHour: LeanplumABVariable<Int>
     let mutePushNotificationsEndHour: LeanplumABVariable<Int>
 
-    let group: ABGroup = .retention
+    let group: ABGroup = .core
     var intVariables: [LeanplumABVariable<Int>] = []
     var stringVariables: [LeanplumABVariable<String>] = []
     var floatVariables: [LeanplumABVariable<Float>] = []
@@ -48,20 +40,14 @@ struct CoreABGroup: ABGroupType {
     }
     
     static func make() -> CoreABGroup {
-        return CoreABGroup(searchImprovements: .makeInt(key: Keys.searchImprovements,
-                                                        defaultValue: 0,
-                                                        groupType: .core),
-                           relaxedSearch: .makeInt(key: Keys.relaxedSearch,
-                                                   defaultValue: 0,
-                                                   groupType: .core),
-                           mutePushNotifications: .makeInt(key: Keys.muteNotifications,
-                                                           defaultValue: 0,
-                                                           groupType: .core),
-                           mutePushNotificationsStartHour: .makeInt(key: Keys.muteNotificationsStartHour,
-                                                                    defaultValue: 23,
-                                                                    groupType: .core),
-                           mutePushNotificationsEndHour: .makeInt(key: Keys.muteNotificationsEndHour,
-                                                                  defaultValue: 6,
-                                                                    groupType: .core))
+        return CoreABGroup(searchImprovements: coreIntFor(key: Keys.searchImprovements),
+                           relaxedSearch: coreIntFor(key: Keys.relaxedSearch),
+                           mutePushNotifications: coreIntFor(key: Keys.muteNotifications),
+                           mutePushNotificationsStartHour: coreIntFor(key: Keys.muteNotificationsStartHour, value: 23),
+                           mutePushNotificationsEndHour: coreIntFor(key: Keys.muteNotificationsEndHour, value: 6))
+    }
+
+    private static func coreIntFor(key: String, value: Int = 0) -> LeanplumABVariable<Int> {
+        return .makeInt(key: key, defaultValue: value, groupType: .core)
     }
 }
