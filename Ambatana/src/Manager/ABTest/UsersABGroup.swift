@@ -54,7 +54,7 @@ struct UsersABGroup: ABGroupType {
         intVariables.append(contentsOf: [showPasswordlessLogin,
                                          emergencyLocate,
                                          offensiveReportAlert,
-                                         reportingFostaSesta,
+                                         // reportingFostaSesta, TODO: Activate when the feature is fully ready and tested
                                          community,
                                          advancedReputationSystem11,
                                          advancedReputationSystem12,
