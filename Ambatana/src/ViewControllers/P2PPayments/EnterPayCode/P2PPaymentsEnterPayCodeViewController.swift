@@ -107,7 +107,7 @@ final class P2PPaymentsEnterPayCodeViewController: BaseViewController, Verificat
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            buyerImageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: Layout.avatarTopMargin),
+            buyerImageView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: Layout.avatarTopMargin),
             buyerImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             buyerImageView.widthAnchor.constraint(equalToConstant: Layout.avatarImageSize),
             buyerImageView.heightAnchor.constraint(equalToConstant: Layout.avatarImageSize),
