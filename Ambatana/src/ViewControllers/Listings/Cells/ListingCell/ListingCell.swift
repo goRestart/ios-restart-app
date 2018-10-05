@@ -451,7 +451,7 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     }
     private func shouldPreventMessagesFromFeedToProUsers(category: ListingCategory) -> Bool {
         guard featureFlags.preventMessagesFromFeedToProUsers.isActive else { return false }
-        return category == .realEstate || category == .cars || category == .services
+        return category.isProfessionalCategory
     }
     
     private func layoutFeatureListArea(isMine: Bool, hideProductDetail: Bool) {
@@ -556,6 +556,11 @@ final class ListingCell: UICollectionViewCell, ReusableCell {
     
     @objc private func openChat() {
         guard let listing = listing else { return }
-        delegate?.chatButtonPressedFor(listing: listing)
+        guard listing.sellerIsProfessional,
+            shouldPreventMessagesFromFeedToProUsers(category: listing.category) else {
+                delegate?.chatButtonPressedFor(listing: listing)
+                return
+        }
+        delegate?.openAskPhoneFor(listing, interlocutor: LocalUser(userListing: listing.user))
     }
 }

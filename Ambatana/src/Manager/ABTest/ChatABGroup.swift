@@ -1,7 +1,7 @@
 import Foundation
 
 struct ChatABGroup: ABGroupType {
-    private struct Keys {
+    private enum Keys {
         static let showInactiveConversations = "20180206ShowInactiveConversations"
         static let showChatSafetyTips = "20180226ShowChatSafetyTips"
         static let chatNorris = "20180319ChatNorris"
@@ -12,6 +12,7 @@ struct ChatABGroup: ABGroupType {
         static let smartQuickAnswers = "20180806SmartQuickAnswers"
         static let openChatFromUserProfile = "20180807OpenChatFromUserProfile"
         static let markAsSoldQuickAnswerNewFlow = "20180926markAsSoldQuickAnswerNewFlow"
+        static let shouldMoveLetsMeetAction = "20181001shouldMoveLetsMeetAction"
     }
 
     let showInactiveConversations: LeanplumABVariable<Bool>
@@ -24,6 +25,7 @@ struct ChatABGroup: ABGroupType {
     let smartQuickAnswers: LeanplumABVariable<Int>
     let openChatFromUserProfile: LeanplumABVariable<Int>
     let markAsSoldQuickAnswerNewFlow: LeanplumABVariable<Int>
+    let shouldMoveLetsMeetAction: LeanplumABVariable<Bool>
     
     let group: ABGroup = .chat
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -40,7 +42,8 @@ struct ChatABGroup: ABGroupType {
          expressChatImprovement: LeanplumABVariable<Int>,
          smartQuickAnswers: LeanplumABVariable<Int>,
          openChatFromUserProfile: LeanplumABVariable<Int>,
-         markAsSoldQuickAnswerNewFlow: LeanplumABVariable<Int>) {
+         markAsSoldQuickAnswerNewFlow: LeanplumABVariable<Int>,
+         shouldMoveLetsMeetAction: LeanplumABVariable<Bool>) {
         self.showInactiveConversations = showInactiveConversations
         self.showChatSafetyTips = showChatSafetyTips
         self.chatNorris = chatNorris
@@ -51,6 +54,7 @@ struct ChatABGroup: ABGroupType {
         self.smartQuickAnswers = smartQuickAnswers
         self.openChatFromUserProfile = openChatFromUserProfile
         self.markAsSoldQuickAnswerNewFlow = markAsSoldQuickAnswerNewFlow
+        self.shouldMoveLetsMeetAction = shouldMoveLetsMeetAction
 
         intVariables.append(contentsOf: [chatNorris,
                                          showChatConnectionStatusBar,
@@ -61,7 +65,8 @@ struct ChatABGroup: ABGroupType {
         boolVariables.append(contentsOf: [showInactiveConversations,
                                           showChatSafetyTips,
                                           showChatHeaderWithoutUser,
-                                          enableCTAMessageType])
+                                          enableCTAMessageType,
+                                          shouldMoveLetsMeetAction])
     }
 
     static func make() -> ChatABGroup {
@@ -95,6 +100,9 @@ struct ChatABGroup: ABGroupType {
                                                             groupType: .chat),
                            markAsSoldQuickAnswerNewFlow: .makeInt(key: Keys.markAsSoldQuickAnswerNewFlow,
                                                                   defaultValue: 0,
-                                                                  groupType: .chat))
+                                                                  groupType: .chat),
+                           shouldMoveLetsMeetAction: .makeBool(key: Keys.shouldMoveLetsMeetAction,
+                                                               defaultValue: false,
+                                                               groupType: .chat))
     }
 }

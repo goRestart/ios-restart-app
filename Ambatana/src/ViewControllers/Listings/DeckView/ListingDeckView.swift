@@ -29,11 +29,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     lazy var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
     private let collectionLayout = ListingDeckCollectionViewLayout()
 
-    let itemActionsView = ListingDeckActionView()
-
     var currentPage: Int { return collectionLayout.page }
-    var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
-    var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisible }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,7 +44,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
 
     private func setupUI() {
         backgroundColor = UIColor.white
-        addSubviewsForAutoLayout([collectionView, statusView, itemActionsView])
+        addSubviewsForAutoLayout([collectionView, statusView])
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.collectionVerticalInset),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -56,15 +52,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.Height.actions),
 
             statusView.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: Metrics.veryBigMargin),
-            statusView.centerXAnchor.constraint(equalTo: centerXAnchor),
-
-            itemActionsView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            itemActionsView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            statusView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
 
         setupCollectionView()
-        setupPrivateActionsView()
         statusView.addGestureRecognizer(statusTap)
 
         if #available(iOS 10.0, *) { collectionView.isPrefetchingEnabled = true }
@@ -79,54 +70,12 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         collectionView.backgroundColor = UIColor.white
     }
 
-    private func setupPrivateActionsView() {
-        itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        itemActionsView.layout(with: self).fillHorizontal()
-
-        itemActionsView.setContentCompressionResistancePriority(.required, for: .vertical)
-        itemActionsView.setContentHuggingPriority(.required, for: .vertical)
-        itemActionsView.alpha = 0
-        itemActionsView.backgroundColor = ListingDeckView.actionsViewBackgroundColor
-    }
-
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {
         return collectionLayout.normalizedPageOffset(givenOffset: givenOffset)
     }
 
-    func updatePrivateActionsWith(actionsAlpha: CGFloat) {
-        itemActionsView.alpha = actionsAlpha
-        itemActionsView.backgroundColor = actionsAlpha > 0 ? ListingDeckView.actionsViewBackgroundColor : .clear
-        itemActionsView.updatePrivateActionsWith(actionsAlpha: actionsAlpha)
-    }
-
     // MARK: ItemActionsView
-
-    func configureActionWith(_ action: UIAction?) {
-        if let action = action {
-            itemActionsView.actionButton.configureWith(uiAction: action)
-        } else {
-            itemActionsView.actionButton.alpha = 0
-        }
-    }
-
-    // MARK: BumpUp
-
-    func updateBumpUp(withInfo info: BumpUpInfo) {
-        itemActionsView.updateBumpUp(withInfo: info)
-    }
-
-    func showBumpUp() {
-        itemActionsView.showBumpUp()
-    }
-
-    func hideBumpUp() {
-        itemActionsView.hideBumpUp()
-    }
-
-    func resetBumpUpCountdown() {
-        bumpUpBanner.resetCountdown()
-    }
-
+    
     func handleCollectionChange<T>(_ change: CollectionChange<T>, completion: ((Bool) -> Void)? = nil) {
         collectionView.handleCollectionChange(change, completion: completion)
     }
@@ -149,7 +98,6 @@ extension ListingDeckView {
 
 extension Reactive where Base: ListingDeckView {
     var collectionView: Reactive<UICollectionView> { return base.collectionView.rx }
-    var actionButton: Reactive<LetgoButton> { return base.itemActionsView.actionButton.rx }
     var statusControlEvent: ControlEvent<UITapGestureRecognizer> { return base.statusTap.rx.event }
 }
 

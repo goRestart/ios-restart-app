@@ -65,7 +65,8 @@ class QuickAnswerSpec: QuickSpec {
                     isFree = false
                     isBuyer = false
                     quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree,
-                                                                       chatNorrisABtestVersion: .control)
+                                                                       chatNorrisABtestVersion: .control,
+                                                                       letsMeetIsInsideBar: false)
                 }
                 it("receives 6 groups of quick answers") {
                     expect(quickAnswers.count) == 6
@@ -94,7 +95,8 @@ class QuickAnswerSpec: QuickSpec {
                     isFree = false
                     isBuyer = true
                     quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree,
-                                                                       chatNorrisABtestVersion: .control)
+                                                                       chatNorrisABtestVersion: .control,
+                                                                       letsMeetIsInsideBar: false)
                 }
                 it("receives 5 groups of quick answers") {
                     expect(quickAnswers.count) == 5
@@ -121,7 +123,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = false
 
                     quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree,
-                                                                       chatNorrisABtestVersion: .control)
+                                                                       chatNorrisABtestVersion: .control,
+                                                                       letsMeetIsInsideBar: false)
                 }
                 it("receives 4 groups of quick answers") {
                     expect(quickAnswers.count) == 4
@@ -144,7 +147,8 @@ class QuickAnswerSpec: QuickSpec {
                     isFree = true
                     isBuyer = true
                     quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree,
-                                                                       chatNorrisABtestVersion: .control)
+                                                                       chatNorrisABtestVersion: .control,
+                                                                       letsMeetIsInsideBar: false)
                 }
                 it("receives 4 groups of quick answers") {
                     expect(quickAnswers.count) == 4
@@ -168,13 +172,11 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = true
 
                     quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree,
-                                                                       chatNorrisABtestVersion: .redButton)
+                                                                       chatNorrisABtestVersion: .redButton,
+                                                                       letsMeetIsInsideBar: false)
                 }
-                it("receives 5 groups of quick answers") {
+                it("receives 4 groups of quick answers") {
                     expect(quickAnswers.count) == 5
-                }
-                it("matches first group with meeting assistant answer") {
-                    expect(quickAnswers[0]) == QuickAnswer.meetingAssistant(chatNorrisABtestVersion: .redButton)
                 }
                 it("matches first group with the right interested quick answers") {
                     expect(quickAnswers[1]) == QuickAnswer.interested
@@ -185,7 +187,7 @@ class QuickAnswerSpec: QuickSpec {
                 it("matches third group with the right meet up quick answers") {
                     expect(quickAnswers[3]) == QuickAnswer.meetUp
                 }
-                it("matches fourth group with the right not interested quick answers") {
+                pending("matches fourth group with the right not interested quick answers") {
                     expect(quickAnswers[4]) == QuickAnswer.notInterested
                 }
             }

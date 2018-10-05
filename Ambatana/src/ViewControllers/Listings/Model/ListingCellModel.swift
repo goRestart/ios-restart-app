@@ -182,6 +182,7 @@ struct AdvertisementAdxData {
     
     let adLoader: GADAdLoader
     let adxNativeView: UIView?
+    let bidder: PMBidder?
 }
 
 enum AdProviderType {

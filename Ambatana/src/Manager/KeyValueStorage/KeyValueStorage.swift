@@ -191,6 +191,29 @@ extension KeyValueStorageable {
             currentUserProperties = userProperties
         }
     }
+    var userTrackingProductBuyComplete24hTracked: Bool {
+        get {
+            return currentUserProperties?.trackingProductBuyComplete24hTracked ??
+                UserDefaultsUser.trackingProductBuyComplete24hTrackedDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.trackingProductBuyComplete24hTracked = newValue
+            currentUserProperties = userProperties
+        }
+    }
+    var userTrackingProductBuySellComplete24hTracked: Bool {
+        get {
+            return currentUserProperties?.trackingProductBuySellComplete24hTracked ??
+                UserDefaultsUser.trackingProductBuySellComplete24hTrackedDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.trackingProductBuySellComplete24hTracked = newValue
+            currentUserProperties = userProperties
+        }
+    }
+
 
     var userShouldShowExpressChat: Bool {
         get {

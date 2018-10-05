@@ -129,7 +129,7 @@ final class ChatViewController: TextViewController {
         super.viewDidLayoutSubviews()
         tableView.contentInset.bottom = tableViewInsetBottom
 
-        let topSpace = viewModel.thereAreMessagesSent ? 0: quickAnswerBottomHeight
+        let topSpace = viewModel.thereAreMessagesSent ? 0 : quickAnswerBottomHeight
         tableView.contentInset.top = topSpace
     }
     
@@ -151,6 +151,10 @@ final class ChatViewController: TextViewController {
     override func sendButtonPressed() {
         guard let message = textView.text else { return }
         viewModel.send(text: message)
+    }
+    
+    override func letsMeetButtonPressed() {
+        viewModel.onMeetingAssistantPressed()
     }
 
     /**

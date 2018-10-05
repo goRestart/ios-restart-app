@@ -15,6 +15,11 @@
 #import <Leanplum/Leanplum.h>
 #import <NewRelicAgent/NewRelic.h>
 
+// Polymorph
+#import "PMBidder.h"
+#import "PolymorphDFPNativeAdAdapter.h"
+#import "PolymorphDFPNativeCustomEvent.h"
+
 #if GOD_MODE
 // FLEX
 #import <FLEX/FLEXManager.h>

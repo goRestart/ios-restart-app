@@ -19,7 +19,6 @@ protocol FeatureFlaggeable: class {
     var deckItemPage: NewItemPageV3 { get }
 
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
-    var realEstateNewCopy: RealEstateNewCopy { get }
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var mutePushNotifications: MutePushNotifications { get }
@@ -70,6 +69,7 @@ protocol FeatureFlaggeable: class {
     var smartQuickAnswers: SmartQuickAnswers { get }
     var openChatFromUserProfile: OpenChatFromUserProfile { get }
     var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow { get }
+    var shouldMoveLetsMeetAction: Bool { get }
 
     // MARK: Verticals
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory { get }
@@ -79,11 +79,11 @@ protocol FeatureFlaggeable: class {
     var realEstatePromoCells: RealEstatePromoCells { get }
     var clickToTalk: ClickToTalk { get }
     var proUsersExtraImages: ProUsersExtraImages { get }
+    var boostSmokeTest: BoostSmokeTest { get }
     
     // MARK: Discovery
     var personalizedFeed: PersonalizedFeed { get }
     var personalizedFeedABTestIntValue: Int? { get }
-    var emptySearchImprovements: EmptySearchImprovements { get }
     var sectionedFeed: SectionedDiscoveryFeed { get }
     var sectionedFeedABTestIntValue: Int { get }
     var newSearchAPI: NewSearchAPIEndPoint { get }
@@ -111,6 +111,7 @@ protocol FeatureFlaggeable: class {
     var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR { get }
     var multiAdRequestInChatSectionAdUnitId: String? { get }
     var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit { get }
+    var polymorphFeedAdsUSA: PolymorphFeedAdsUSA { get }
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
@@ -151,10 +152,6 @@ extension RealEstateEnabled {
 
 extension ShowAdsInFeedWithRatio {
     var isActive: Bool { return self != .control && self != .baseline }
-}
-
-extension RealEstateNewCopy {
-    var isActive: Bool { return self == .active }
 }
 
 extension DummyUsersInfoProfile {
@@ -198,6 +195,10 @@ extension ProUsersExtraImages {
 }
 
 extension ClickToTalk {
+    var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension BoostSmokeTest {
     var isActive: Bool { return self != .control && self != .baseline }
 }
 
@@ -363,7 +364,7 @@ extension FullScreenAdsWhenBrowsingForUS {
     
     func shouldShowFullScreenAdsForUser(createdIn: Date?) -> Bool {
         guard let creationDate = createdIn,
-            creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
+            creationDate.isNewerThan(seconds: SharedConstants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
         return shouldShowFullScreenAdsForNewUsers
     }
 }
@@ -381,7 +382,7 @@ extension MultiAdRequestInChatSectionForUS {
     
     func shouldShowAdsForUser(createdIn: Date?) -> Bool {
         guard isActive else { return false }
-        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+        return createdIn?.isOlderThan(seconds: SharedConstants.newUserTimeThresholdForAds) ?? false
     }
 }
 
@@ -390,7 +391,7 @@ extension MultiAdRequestInChatSectionForTR {
     
     func shouldShowAdsForUser(createdIn: Date?) -> Bool {
         guard isActive else { return false }
-        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+        return createdIn?.isOlderThan(seconds: SharedConstants.newUserTimeThresholdForAds) ?? false
     }
 }
 
@@ -464,7 +465,7 @@ extension MultiDayBumpUp {
 }
 
 final class FeatureFlags: FeatureFlaggeable {
-    
+  
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     private let locale: Locale
@@ -553,13 +554,6 @@ final class FeatureFlags: FeatureFlaggeable {
         return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
     }
     
-    var realEstateNewCopy: RealEstateNewCopy {
-        if Bumper.enabled {
-            return Bumper.realEstateNewCopy
-        }
-        return RealEstateNewCopy.fromPosition(abTests.realEstateNewCopy.value)
-    }
-    
     var dummyUsersInfoProfile: DummyUsersInfoProfile {
         if Bumper.enabled {
             return Bumper.dummyUsersInfoProfile
@@ -638,6 +632,13 @@ final class FeatureFlags: FeatureFlaggeable {
             return Bumper.markAsSoldQuickAnswerNewFlow
         }
         return MarkAsSoldQuickAnswerNewFlow.fromPosition(abTests.markAsSoldQuickAnswerNewFlow.value)
+    }
+    
+    var shouldMoveLetsMeetAction: Bool {
+        if Bumper.enabled {
+            return Bumper.shouldMoveLetsMeetAction && !chatNorris.isActive
+        }
+        return abTests.shouldMoveLetsMeetAction.value && !chatNorris.isActive
     }
  
     var emergencyLocate: EmergencyLocate {
@@ -1145,6 +1146,13 @@ extension FeatureFlags {
         }
         return ClickToTalk.fromPosition(abTests.clickToTalk.value)
     }
+    
+    var boostSmokeTest: BoostSmokeTest {
+        if Bumper.enabled {
+            return Bumper.boostSmokeTest
+        }
+        return .control //BoostSmokeTest.fromPosition(abTests.boostSmokeTest.value)
+    }
 }
 
 
@@ -1177,11 +1185,6 @@ extension FeatureFlags {
     var personalizedFeedABTestIntValue: Int? {
         return abTests.personlizedFeedIsActive ? abTests.personalizedFeed.value : PersonalizedFeed.defaultVariantValue
     }
-    
-    var emptySearchImprovements: EmptySearchImprovements {
-        if Bumper.enabled { return Bumper.emptySearchImprovements }
-        return EmptySearchImprovements.fromPosition(abTests.emptySearchImprovements.value)
-    }
 
     var sectionedFeed: SectionedDiscoveryFeed {
         if Bumper.enabled {
@@ -1201,29 +1204,6 @@ extension FeatureFlags {
     var newSearchAPI: NewSearchAPIEndPoint {
         if Bumper.enabled { return Bumper.newSearchAPIEndPoint }
         return NewSearchAPIEndPoint.fromPosition(abTests.newSearchAPI.value)
-    }
-}
-
-extension EmptySearchImprovements {
-    
-    static let minNumberOfListing = 20
-    
-    func shouldContinueWithSimilarQueries(withCurrentListing numListings: Int) -> Bool {
-        let resultIsInsufficient = numListings < EmptySearchImprovements.minNumberOfListing
-            && self == .similarQueriesWhenFewResults
-        let shouldAlwaysShowSimilar = self == .alwaysSimilar
-        return resultIsInsufficient || shouldAlwaysShowSimilar
-    }
-    
-    var isActive: Bool {
-        return self != .control && self != .baseline
-    }
-    
-    var filterDescription: String? {
-        switch self {
-        case .baseline, .control: return nil
-        case .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar: return R.Strings.listingShowSimilarResultsDescription
-        }
     }
 }
 
@@ -1283,6 +1263,10 @@ extension FeatureFlags {
 
 // MARK: Money
 
+extension PolymorphFeedAdsUSA {
+    var isActive: Bool { return self == .active }
+}
+
 extension FeatureFlags {
     
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers {
@@ -1327,6 +1311,15 @@ extension FeatureFlags {
         }
         return BumpPromoAfterSellNoLimit.fromPosition(abTests.bumpPromoAfterSellNoLimit.value)
     }
+    
+    var polymorphFeedAdsUSA: PolymorphFeedAdsUSA {
+        if Bumper.enabled {
+            return Bumper.polymorphFeedAdsUSA
+        }
+        return PolymorphFeedAdsUSA.fromPosition(abTests.polymorphFeedAdsUSA.value)
+        
+    }
+    
 }
 
 // MARK: Retention

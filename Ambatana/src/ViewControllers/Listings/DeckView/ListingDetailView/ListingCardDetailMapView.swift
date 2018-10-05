@@ -24,7 +24,15 @@ final class ListingCardDetailMapView: UIView {
     private let verticalStackView = UIStackView()
 
     private let mapHeader = UIStackView()
-    private let locationLabel = UILabel()
+    private let locationLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemMediumFont(size: 13)
+        label.textAlignment = .left
+        label.textColor = .grayDark
+        label.backgroundColor = .clear
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        return label
+    }()
     private let mapPlaceHolder = UIView()
 
     private let mapSnapShotView: UIImageView = {
@@ -96,13 +104,6 @@ final class ListingCardDetailMapView: UIView {
             .fillVertical()
     }
 
-    private func setupLocationLabel() {
-        locationLabel.font = UIFont.systemMediumFont(size: 13)
-        locationLabel.textAlignment = .left
-        locationLabel.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
-        locationLabel.backgroundColor = .clear
-        locationLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-    }
     func setupMapHeader() {
         mapHeader.axis = .horizontal
         mapHeader.distribution = .fillProportionally
@@ -111,8 +112,6 @@ final class ListingCardDetailMapView: UIView {
         location.contentMode = .center
         location.backgroundColor = .clear
         location.widthAnchor.constraint(equalToConstant: 16).isActive = true
-
-        setupLocationLabel()
 
         mapHeader.addArrangedSubview(location)
         mapHeader.addArrangedSubview(locationLabel)
@@ -123,7 +122,9 @@ final class ListingCardDetailMapView: UIView {
     private func setupSnapshotView() {
         verticalStackView.addArrangedSubview(mapSnapShotView)
 
-        mapSnapShotView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.75).isActive = true
+        let height = mapSnapShotView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.75)
+        height.priority = 999
+        height.isActive = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapOnView))
         gesture.cancelsTouchesInView = true
         addGestureRecognizer(gesture)

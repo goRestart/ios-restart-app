@@ -23,7 +23,7 @@ try {
 		"CI": { 
 			if (branch_type == "pr") {
 				stopPreviousRunningBuilds()
-				launchUnitTests() 
+				launchUnitTests()
         	} 
       	}
     )
@@ -73,6 +73,17 @@ def moveMergedTicketsToTesting(String release_version) {
 	}
 }
 
+def cleanupEnvironment() {
+	stage("Cleanup Env") {
+		dir('/Users/jenkins/workspace') {
+			deleteDir()
+		}
+		dir('/Users/jenkins/Library/Developer/Xcode/DerivedData') {
+			deleteDir()
+		}
+	}
+}
+
 def markJiraIssuesAsDone() {
 	node(node_name) {
 		stage ("Move Tickets") {
@@ -108,6 +119,7 @@ def launchUnitTests(){
         sh 'fastlane ciJenkins'
       }
     }
+   cleanupEnvironment()
   }
 }
 
@@ -165,5 +177,3 @@ def notifyBuildStatus(String buildStatus = 'STARTED') {
      slackSend (channel: slack_channel ,color: red, message: summary)  
   } 
 }
-
-

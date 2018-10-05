@@ -52,7 +52,8 @@ extension WaterFallListAdapter: LGWaterFallLayoutDelegate {
     
     func collectionView(_ collectionView: UICollectionView,
                         headerStickynessForSectionAt section: Int) -> HeaderStickyType {
-        return .nonSticky
+        let isLocationHeader = sectionController(forSection: section) is LocationSectionController
+        return isLocationHeader ? .pinned : .nonSticky
     }
     
     func collectionView(_ collectionView: UICollectionView,

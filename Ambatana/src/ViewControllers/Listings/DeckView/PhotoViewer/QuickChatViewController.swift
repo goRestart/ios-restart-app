@@ -15,11 +15,11 @@ final class QuickChatViewController: BaseViewController {
     private let featureFlags: FeatureFlaggeable
     private let disposeBag = DisposeBag()
 
-    convenience init(listingViewModel: ListingViewModel) {
+    convenience init(listingViewModel: ListingCardViewModel) {
         self.init(listingViewModel: listingViewModel, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    private init(listingViewModel: ListingViewModel, featureFlags: FeatureFlaggeable) {
+    private init(listingViewModel: ListingCardViewModel, featureFlags: FeatureFlaggeable) {
         self.featureFlags = featureFlags
 
         super.init(viewModel: viewModel,

@@ -29,6 +29,8 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     var rx_userAvatar: BehaviorRelay<UIImage?> { get }
     var rx_updateAffiliate: Driver<Bool> { get }
     
+    var location: String { get }
+    
     func openInvite()
     func openSearches()
     func showFilters()

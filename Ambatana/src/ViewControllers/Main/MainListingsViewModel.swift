@@ -6,6 +6,8 @@ import RxCocoa
 import GoogleMobileAds
 import MoPub
 import LGComponents
+import AdsNativeSDK
+
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
@@ -65,7 +67,6 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     var filters: ListingFilters
     var queryString: String?
     var shouldHideCategoryAfterSearch = false
-    var activeRequesterType: RequesterType?
     
     private var isMapTooltipAdded = false
     private var isAffiliationTooltipAdded = false
@@ -520,10 +521,8 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let itemsPerPage = show3Columns ? SharedConstants.numListingsPerPageBig : SharedConstants.numListingsPerPageDefault
         self.requesterDependencyContainer = RequesterDependencyContainer(itemsPerPage: itemsPerPage,
                                                                          filters: filters,
-                                                                         queryString: searchType?.query,
-                                                                         similarSearchActive: featureFlags.emptySearchImprovements.isActive)
-        let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer,
-                                                      featureFlags: featureFlags)
+                                                                         queryString: searchType?.query)
+        let requesterFactory = SearchRequesterFactory(dependencyContainer: self.requesterDependencyContainer)
         self.requesterFactory = requesterFactory
         self.listViewModel = ListingListViewModel(numberOfColumns: columns,
                                                   tracker: tracker,
@@ -532,7 +531,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                                                   searchType: searchType,
                                                   source: .feed,
                                                   interestedStateUpdater: interestedHandler.interestedStateUpdater)
-        let multiRequester = self.listViewModel.currentActiveRequester as? ListingListMultiRequester
+        let multiRequester = self.listViewModel.listingListRequester as? ListingListMultiRequester
         self.listingListRequester = multiRequester ?? ListingListMultiRequester()
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
         
@@ -984,12 +983,10 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         let currentItemsPerPage = listingListRequester.itemsPerPage
         requesterDependencyContainer.updateContainer(itemsPerPage: currentItemsPerPage,
                                                      filters: filters,
-                                                     queryString: queryString,
-                                                     similarSearchActive: featureFlags.emptySearchImprovements.isActive)
-        let requesterFactory = SearchRequesterFactory(dependencyContainer: requesterDependencyContainer,
-                                                      featureFlags: featureFlags)
+                                                     queryString: queryString)
+        let requesterFactory = SearchRequesterFactory(dependencyContainer: requesterDependencyContainer)
         listViewModel.updateFactory(requesterFactory)
-        listingListRequester = (listViewModel.currentActiveRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
+        listingListRequester = (listViewModel.listingListRequester as? ListingListMultiRequester) ?? ListingListMultiRequester()
         infoBubbleVisible.value = false
         recentItemsBubbleVisible.value = false
         errorMessage.value = nil
@@ -1232,9 +1229,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
         
         // set title for cell at index if necessary
-        if !featureFlags.emptySearchImprovements.isActive {
-            filterTitle.value = listViewModel.titleForIndex(index: index)
-        }
+        filterTitle.value = listViewModel.titleForIndex(index: index)
         
         guard let sortCriteria = filters.selectedOrdering else { return }
         
@@ -1285,8 +1280,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             return
         }
         
-        let requester = listViewModel.currentActiveRequester as? ListingListMultiRequester
-        activeRequesterType = viewModel.currentRequesterType
+        let requester = listViewModel.listingListRequester as? ListingListMultiRequester
         
         if let isFirstPage = requester?.multiIsFirstPage, isFirstPage {
             filterDescription.value = !hasListings && shouldShowNoExactMatchesDisclaimer ? R.Strings.filterResultsCarsNoMatches : nil
@@ -1304,7 +1298,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 trackRequestSuccess(page: page,
                                     resultsCount: resultsCount,
                                     hasListings: hasListings,
-                                    searchRelatedItems: featureFlags.emptySearchImprovements.isActive,
                                     recentItems: containsRecentListings,
                                     pullToRefreshTriggered: pullToRefreshTriggered)
 
@@ -1312,36 +1305,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 listViewModel.retrieveListingsNextPage()
             }
             
-        } else if let requesterType = activeRequesterType,
-            featureFlags.emptySearchImprovements.isActive {
-            
-            let isFirstRequesterInAlwaysSimilarCase = featureFlags.emptySearchImprovements == .alwaysSimilar && requesterType == .nonFilteredFeed
-            let isFirstRequesterInOtherCases = featureFlags.emptySearchImprovements != .alwaysSimilar && requesterType != .search
-            if isFirstRequesterInAlwaysSimilarCase || isFirstRequesterInOtherCases {
-                trackRequestSuccess(page: page,
-                                    resultsCount: resultsCount,
-                                    hasListings: hasListings,
-                                    searchRelatedItems: true,
-                                    recentItems: containsRecentListings,
-                                    pullToRefreshTriggered: pullToRefreshTriggered)
-                
-                shouldHideCategoryAfterSearch = true
-                filterDescription.value = featureFlags.emptySearchImprovements.filterDescription
-                filterTitle.value = filterTitleString(forRequesterType: requesterType)
-                updateCategoriesHeader()
-            } else {
-                trackRequestSuccess(page: page,
-                                    resultsCount: resultsCount,
-                                    hasListings: hasListings,
-                                    searchRelatedItems: false,
-                                    recentItems: containsRecentListings,
-                                    pullToRefreshTriggered: pullToRefreshTriggered)
-            }
         } else {
             trackRequestSuccess(page: page,
                                 resultsCount: resultsCount,
                                 hasListings: hasListings,
-                                searchRelatedItems: false,
                                 recentItems: containsRecentListings,
                                 pullToRefreshTriggered: pullToRefreshTriggered)
         }
@@ -1492,6 +1459,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             feedAdUnitId = appInstallAdUnit
             adTypes.append(.nativeAppInstall)
         }
+        var bidder: PMBidder? = nil
+        if featureFlags.polymorphFeedAdsUSA.isActive {
+            bidder = PMBidder.init(pmAdUnitID: EnvironmentProxy.sharedInstance.polymorphAdUnit)
+            feedAdUnitId = EnvironmentProxy.sharedInstance.feedAdUnitIdPolymorphUSA
+        }
         let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
                                    rootViewController: adsDelegate.rootViewControllerForAds(),
                                    adTypes: adTypes,
@@ -1503,7 +1475,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                           adRequested: false,
                                           categories: filters.selectedCategories,
                                           adLoader: adLoader,
-                                          adxNativeView: NativeAdBlankStateView())
+                                          adxNativeView: NativeAdBlankStateView(),
+                                          bidder: bidder)
         return ListingCellModel.adxAdvertisement(data: adData)
     }
     
@@ -1596,16 +1569,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             return adRelativePosition
         }
         return nil
-    }
-    
-    private func filterTitleString(forRequesterType type: RequesterType) -> String? {
-        switch type {
-        case .nonFilteredFeed:
-            return R.Strings.productPopularNearYou
-        case .similarProducts:
-            return R.Strings.listingShowSimilarResults
-        case .search: return nil
-        }
     }
 }
 
@@ -2001,7 +1964,6 @@ fileprivate extension MainListingsViewModel {
     private func trackRequestSuccess(page: UInt,
                                      resultsCount: Int,
                                      hasListings: Bool,
-                                     searchRelatedItems: Bool,
                                      recentItems: Bool,
                                      pullToRefreshTriggered: Bool) {
         guard page == 0 else { return }
@@ -2021,14 +1983,13 @@ fileprivate extension MainListingsViewModel {
         
         if let searchType = searchType, let searchQuery = searchType.query, shouldTrackSearch {
             shouldTrackSearch = false
-            let successValue = searchRelatedItems || !hasListings ? EventParameterSearchCompleteSuccess.fail : EventParameterSearchCompleteSuccess.success
+            let successValue = !hasListings ? EventParameterSearchCompleteSuccess.fail : EventParameterSearchCompleteSuccess.success
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchQuery,
                                                            isTrending: searchType.isTrending,
                                                            success: successValue,
                                                            isLastSearch: searchType.isLastSearch,
                                                            isSuggestiveSearch: searchType.isSuggestive,
-                                                           suggestiveSearchIndex: searchType.indexSelected,
-                                                           searchRelatedItems: searchRelatedItems))
+                                                           suggestiveSearchIndex: searchType.indexSelected))
         }
     }
     
@@ -2120,7 +2081,10 @@ extension MainListingsViewModel: ListingCellDelegate {
                                          duration: InterestedHandler.undoTimeout) {
                                             cancellable.cancel()
                     }
-                    self?.interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                    self?.interestedHandler.handleCancellableInterestedAction(listing,
+                                                                              timer: timer,
+                                                                              typePage: .feed,
+                                                                              completion: completion)
                 }
             }
         }

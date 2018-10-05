@@ -26,7 +26,7 @@ enum SearchSuggestionType {
 
 final class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
     FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop, MainListingsAdsDelegate {
-    
+
     // ViewModel
     var viewModel: MainListingsViewModel
     
@@ -34,13 +34,15 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
     private let listingListView = ListingListView(source: .feed)
     private let filterDescriptionHeaderView = FilterDescriptionHeaderView()
     private let filterTitleHeaderView = FilterTitleHeaderView()
-    private let infoBubbleView = InfoBubbleView(style: .light)
-    private let recentItemsBubbleView = InfoBubbleView(style: .reddish)
     private let freshFeedBubble = RoundedActivityIndicatorView()
 
     private let navbarSearch: LGNavBarSearchField
     private var trendingSearchView = TrendingSearchView()
     private var filterTagsView = FilterTagsView()
+    
+    private let stackHeader = StackHeaders()
+    private let locationHeader = SectionTitleHeaderView(frame: .zero)
+    private let floatLocationHeader = SectionTitleHeaderView(frame: .zero)
     
     private let tagsContainerView: UIView = {
         let view = UIView()
@@ -124,10 +126,9 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
         setupFilterHeaders()
         setupListingView()
         setupFreshFeedBuble()
-        setupInfoBubble()
-        if viewModel.isEngagementBadgingEnabled {
-            setupRecentItemsBubbleView()
-        }
+        setupLocationHeader()
+        addStackHeader()
+        setupHeader()
         setupTagsView()
         setupSearchAndTrending()
         setFiltersNavBarButton()
@@ -178,8 +179,9 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
     }
 
     func listingListView(_ listingListView: ListingListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
-        updateBubbleTopConstraint()
         updateFilterHeaderTopConstraint(withContentOffsetY: contentOffsetY)
+        checkPinnedHeader(withContentOffestY: contentOffsetY)
+        scaleAnimationHeader(withContentOffestY: contentOffsetY)
     }
     
     private func updateFilterHeaderTopConstraint(withContentOffsetY contentOffsetY: CGFloat) {
@@ -202,14 +204,41 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
             filterDescriptionHeaderView.alpha = 0.1
         }
     }
+    
+    private func checkPinnedHeader(withContentOffestY offset: CGFloat) {
+        let locationHeaderPosition = collectionViewHeadersHeight - locationHeader.height
+        let tagPositionCorrection: CGFloat = tagsShowing ? Layout.Header.tagHeaderHeight : 0.0
 
-    private func updateBubbleTopConstraint() {
-        let infoBubbleTopMargin: CGFloat = 8
-        let offset: CGFloat = topInset.value
-        let delta = listingListView.headerBottom - offset
-        infoBubbleTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
-        freshFeedBubbleTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
-        activityTopConstraint?.constant = infoBubbleTopMargin + max(0, delta)
+        if (offset >= locationHeaderPosition - tagPositionCorrection) && stackHeader.isEmpty && !locationHeader.isHidden {
+            stackHeader.submit(header: floatLocationHeader)
+            return
+        }
+        if offset < locationHeaderPosition - tagPositionCorrection && !stackHeader.isEmpty {
+            stackHeader.removeAll()
+        }
+    }
+    
+    private func scaleAnimationHeader(withContentOffestY offset: CGFloat) {
+        let distanceVector: CGFloat = offset - locationHeader.frame.origin.y
+        floatLocationHeader.setScale(
+            factor: max(0.0, min(1.0, distanceVector / Layout.Animation.scaleDistanceAnimation)))
+    }
+    
+    private func addStackHeader() {
+        view.addSubviewForAutoLayout(stackHeader)
+        NSLayoutConstraint.activate([
+            stackHeader.leadingAnchor.constraint(equalTo: safeLeadingAnchor),
+            stackHeader.topAnchor.constraint(equalTo: tagsContainerView.bottomAnchor),
+            stackHeader.trailingAnchor.constraint(equalTo: safeTrailingAnchor)
+        ])
+        
+    }
+    
+    private func setupHeader() {
+        NSLayoutConstraint.activate([
+            locationHeader.heightAnchor.constraint(equalToConstant: Layout.Header.headerHeight),
+            floatLocationHeader.heightAnchor.constraint(equalToConstant: Layout.Header.headerHeight)
+        ])
     }
     
     // MARK: - MainListingsViewModelDelegate
@@ -337,7 +366,6 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
                                        filterTitleHeaderView,
                                        listingListView,
                                        freshFeedBubble,
-                                       infoBubbleView,
                                        tagsContainerView,
                                        trendingSearchView])
     }
@@ -566,7 +594,9 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
 
     private func setupFreshFeedBuble() {
         freshFeedBubble.isUserInteractionEnabled = false
-        let freshFeedBubbleTopConstraint = freshFeedBubble.topAnchor.constraint(equalTo: filterTitleHeaderView.bottomAnchor)
+        let freshFeedBubbleTopConstraint = freshFeedBubble.topAnchor
+            .constraint(equalTo: filterTitleHeaderView.bottomAnchor,
+                        constant: Layout.FreshBubble.topSpacing)
         freshFeedBubbleTopConstraint.priority = UILayoutPriority.defaultLow
 
         freshFeedBubble.layer.cornerRadius = Layout.FreshBubble.height / 2
@@ -579,50 +609,11 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
         self.freshFeedBubbleTopConstraint = freshFeedBubbleTopConstraint
     }
 
-    private func setupInfoBubble() {
-        let infoBubbleTopConstraint = infoBubbleView.topAnchor.constraint(equalTo: filterTitleHeaderView.bottomAnchor)
-        let infoBubbleLeadingConstraint = infoBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: safeLeadingAnchor, constant: Metrics.bigMargin)
-        let infoBubbleTrailingConstraint = infoBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
-        infoBubbleTopConstraint.priority = UILayoutPriority.defaultLow
-        infoBubbleTrailingConstraint.priority = UILayoutPriority.defaultLow
-        
-        NSLayoutConstraint.activate([
-            infoBubbleTopConstraint,
-            infoBubbleView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            infoBubbleView.heightAnchor.constraint(equalToConstant: InfoBubbleView.bubbleHeight),
-            infoBubbleLeadingConstraint,
-            infoBubbleTrailingConstraint
-            ])
-        self.infoBubbleTopConstraint = infoBubbleTopConstraint
-        
-        let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
-        infoBubbleView.addGestureRecognizer(bubbleTap)
+    private func setupLocationHeader() {
+        locationHeader.sectionHeaderDelegate = self
+        floatLocationHeader.sectionHeaderDelegate = self
     }
     
-    private func setupRecentItemsBubbleView() {
-        view.addSubviewForAutoLayout(recentItemsBubbleView)
-        // trendingSearchesView should be up front of every view, as it is added the latest in addSubviews method
-        view.bringSubview(toFront: trendingSearchView)
-        
-        let recentItemsBubbleViewTopConstraint = recentItemsBubbleView.topAnchor.constraint(equalTo: infoBubbleView.bottomAnchor, constant: Metrics.shortMargin)
-        let recentItemsBubbleViewTrailingConstraint = recentItemsBubbleView.trailingAnchor.constraint(greaterThanOrEqualTo: safeTrailingAnchor, constant: Metrics.bigMargin)
-        recentItemsBubbleViewTopConstraint.priority = UILayoutPriority.defaultLow
-        recentItemsBubbleViewTrailingConstraint.priority = UILayoutPriority.defaultLow
-        
-        NSLayoutConstraint.activate([
-            recentItemsBubbleViewTopConstraint,
-            recentItemsBubbleView.centerXAnchor.constraint(equalTo: view.centerXAnchor,
-                                                           constant: 0),
-            recentItemsBubbleView.heightAnchor.constraint(equalToConstant: InfoBubbleView.bubbleHeight),
-            recentItemsBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: safeLeadingAnchor,
-                                                           constant: Metrics.bigMargin),
-            recentItemsBubbleViewTrailingConstraint
-            ])
-
-        let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onRecentItemsBubbleTapped))
-        recentItemsBubbleView.addGestureRecognizer(bubbleTap)
-    }
-
     @objc private func onBubbleTapped() {
         viewModel.bubbleTapped()
     }
@@ -647,23 +638,11 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
                 self?.setLetGoRightButtonsWith(images: buttons.map { $0.image },
                                                selectors: buttons.map { $0.selector })
             }.disposed(by: disposeBag)
-
-        viewModel.infoBubbleText.asObservable()
-            .bind { [weak self] _ in
-                self?.infoBubbleView.invalidateIntrinsicContentSize()
-            }.disposed(by: disposeBag)
         
-        viewModel.infoBubbleText.asObservable()
-            .bind(to: infoBubbleView.title.rx.text)
-            .disposed(by: disposeBag)
-        viewModel.infoBubbleVisible.asObservable().map { !$0 }
-            .bind(to: infoBubbleView.rx.isHidden)
-            .disposed(by: disposeBag)
-        
-        viewModel.recentItemsBubbleText
-            .asObservable()
-            .bind(to: recentItemsBubbleView.title.rx.text)
-            .disposed(by: disposeBag)
+        viewModel.infoBubbleText.asObservable().bind { locationText in
+            self.floatLocationHeader.configure(with: locationText, buttonText: R.Strings.commonEdit)
+            self.locationHeader.configure(with: locationText, buttonText: R.Strings.commonEdit)
+        }.disposed(by: disposeBag)
 
         viewModel.isFreshBubbleVisible
             .asDriver()
@@ -675,10 +654,7 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
                 }
                 self?.updateFreshBubble(with: isVisible)
         }).disposed(by: disposeBag)
-        viewModel.recentItemsBubbleVisible.asObservable().map { !$0 }
-            .bind(to: recentItemsBubbleView.rx.isHidden)
-            .disposed(by: disposeBag)
-
+        
         topInset.asObservable()
             .bind { [weak self] topInset in
                 self?.listingListView.collectionViewContentInset.top = topInset
@@ -757,29 +733,50 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
         }
     }
     
-    private struct Layout {
-        struct ToolTipMap  {
+    private enum Layout {
+        enum ToolTipMap  {
             static let left: CGFloat = 50
             static let right: CGFloat = -60
             static let buttonHeight: CGFloat = 32
             static let buttonSidePadding: CGFloat = 20
         }
         
-        struct ToolTipAffiliation  {
+        enum ToolTipAffiliation  {
             static let left: CGFloat = 50
             static let right: CGFloat = -10
             static let buttonHeight: CGFloat = 32
             static let buttonSidePadding: CGFloat = 20
         }
-        struct FreshBubble {
+        enum FreshBubble {
             static let height: CGFloat = 45
+            static let topSpacing: CGFloat = 60.0
         }
-        struct TabBarIcons {
+        enum TabBarIcons {
             static let avatarSize = CGSize(width: 26, height: 26)
+        }
+        enum Header {
+            static let tagHeaderHeight: CGFloat = 52.0
+            static let headerHeight: CGFloat = 50.0
+        }
+        enum Animation {
+            static let scaleDistanceAnimation: CGFloat = 50.0
+        }
+        
+        enum HeaderOrder: Int {
+            case first = 0
+            case second = 1
+            case third = 2
+            case fourth = 3
+        }
+        enum pepe: String {
+            case pepe = "hola"
         }
     }
 }
 
+extension MainListingsViewController: SectionTitleHeaderViewDelegate {
+    func didTapViewAll() { viewModel.bubbleTapped() }
+}
 
 // MARK: - ListingListViewHeaderDelegate
 
@@ -796,6 +793,9 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if shouldShowSearchAlertBanner {
             totalHeight += SearchAlertFeedHeader.viewHeight
         }
+        
+        totalHeight += locationHeader.height
+        
         return totalHeight
     }
 
@@ -803,11 +803,11 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         header.clear()
         if shouldShowPermissionsBanner {
             let pushHeader = PushPermissionsHeader()
-            pushHeader.tag = 0
+            pushHeader.tag = Layout.HeaderOrder.first.rawValue
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
         }
-       
+        
         if shouldShowCategoryCollectionBanner {
             categoriesHeader = CategoriesHeaderCollectionView()
             categoriesHeader?.configure(with: viewModel.categoryHeaderElements,
@@ -819,17 +819,25 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
                 
             }.disposed(by: disposeBag)
             if let categoriesHeader = categoriesHeader {
-                categoriesHeader.tag = 1
+                categoriesHeader.tag = Layout.HeaderOrder.second.rawValue
                 header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
             }
         }
         
         if shouldShowSearchAlertBanner, let searchAlertCreationData = viewModel.currentSearchAlertCreationData.value {
             let searchAlertHeader = SearchAlertFeedHeader(searchAlertCreationData: searchAlertCreationData)
-            searchAlertHeader.tag = 3
+            searchAlertHeader.tag = Layout.HeaderOrder.fourth.rawValue
             searchAlertHeader.delegate = self
             header.addHeader(searchAlertHeader, height: SearchAlertFeedHeader.viewHeight)
         }
+        
+        locationHeader.tag = Layout.HeaderOrder.fourth.rawValue
+        header.addHeader(locationHeader, height: Layout.Header.headerHeight)
+    }
+    
+    func showingNoResultError() {
+        stackHeader.removeAll()
+        locationHeader.isHidden = true
     }
 
     private var shouldShowPermissionsBanner: Bool {

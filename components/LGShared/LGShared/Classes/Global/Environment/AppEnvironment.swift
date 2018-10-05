@@ -40,6 +40,10 @@ public protocol AppEnvironment: AnalyticsAPIKeys {
     var chatSectionAdUnitForOldUsersTR: String { get }
     var sectionedFeedAdUnitForUS: String { get }
 
+    // Polymorph
+    var feedAdUnitIdPolymorphUSA: String { get }
+    var polymorphAdUnit: String { get }
+
     // Stripe
     var stripeAPIKey: String { get }
 }

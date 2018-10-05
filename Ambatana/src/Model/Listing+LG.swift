@@ -41,6 +41,10 @@ extension Listing {
     var shouldShowFeaturedStripe: Bool {
         return featured ?? false
     }
+
+    var sellerIsProfessional: Bool {
+        return user.type.isProfessional
+    }
 }
 
 extension Listing {

@@ -174,6 +174,7 @@ final class LGWaterFallLayout: UICollectionViewLayout {
                                 contentHeight: sectionBottom)
         }
         prepareUnionRects()
+        
     }
 
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -238,7 +239,7 @@ final class LGWaterFallLayout: UICollectionViewLayout {
                 }
             }
         }
-        
+                
         // Generates and returns all the attributes, cells + headers + footers
         return Array(cellAttrDict.values)
             + Array(supplHeaderAttrDict.values)
@@ -251,6 +252,31 @@ final class LGWaterFallLayout: UICollectionViewLayout {
             return true
         }
         return false
+    }
+}
+
+
+extension LGWaterFallLayout {
+    func originOfPinnedHeader() -> CGPoint? {
+        for attribute in headerAttributes {
+            let section = attribute.key
+            let headerType = headerTypeForSection(section)
+            if headerType == .pinned {
+                return attribute.value.frame.origin
+            }
+        }
+        return nil
+    }
+    
+    func indexOfPinnedHeader() -> IndexPath? {
+        for attribute in headerAttributes {
+            let section = attribute.key
+            let headerType = headerTypeForSection(section)
+            if headerType == .pinned {
+                return IndexPath(row: 0, section: section)
+            }
+        }
+        return nil
     }
 }
 
@@ -437,6 +463,7 @@ extension LGWaterFallLayout {
 // MARK:- Helpers For Sticky, Pinned Header Layout Calculation
 
 extension LGWaterFallLayout {
+    
     /// Set Scrolling behaviour for section headers in collectionview depending on the header type (nonSticky, sticky or pinned)
     private func setHeaderScrollingBehaviour(_ collectionView: UICollectionView,
                                              inSection section: Int,

@@ -1,34 +1,6 @@
 import LGCoreKit
 import LGComponents
 
-extension ListingCategory {
-    func sortWeight(featureFlags: FeatureFlaggeable) -> Int {
-        switch self {
-        case .cars:
-            return 100
-        case .motorsAndAccessories:
-            return 80
-        case .realEstate:
-            return 60
-        case .services:
-            switch featureFlags.servicesCategoryOnSalchichasMenu {
-            case .variantA:
-                return 110  // Should appear above cars
-            case .variantB:
-                return 70   // Should appear below motors and accesories
-            case .variantC:
-                return 50   // Should appear below real estate
-            default:
-                return 10 // Not active, should never happen
-            }
-        case .unassigned:
-            return 0    // Usually at bottom
-        default:
-            return 10
-        }
-    }
-}
-
 protocol ExpandableCategorySelectionDelegate: class {
     func didPressCloseButton()
     func tapOutside()
@@ -80,7 +52,7 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
              .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
             return category.name
         case .realEstate:
-            return featureFlags.realEstateNewCopy.isActive ? R.Strings.productPostSelectCategoryRealEstate : R.Strings.productPostSelectCategoryHousing
+            return R.Strings.productPostSelectCategoryHousing
         case .services:
             if featureFlags.jobsAndServicesEnabled.isActive {
                 return R.Strings.postingFlowJobsAndServicesCategoryButtonText
