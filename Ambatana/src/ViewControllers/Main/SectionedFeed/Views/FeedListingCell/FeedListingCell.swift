@@ -123,11 +123,17 @@ class FeedListingCell: UICollectionViewCell {
         setupRibbon()
         updateInterestedButton(withState: data.interestedState)
         setupActivityIndicator()
+        setupAccessibilityId(data.listingId)
     }
     
     private func updateInterestedButton(withState state: InterestedState) {
         interestedButton.setImage(state.image, for: .normal)
         interestedButton.isUserInteractionEnabled = (state != .none && state != .send(enabled: false))
+    }
+    
+    private func setupAccessibilityId(_ id: String?) {
+        guard let listingId = id else { return }
+        set(accessibilityId: .listingCell(listingId: listingId))
     }
     
     

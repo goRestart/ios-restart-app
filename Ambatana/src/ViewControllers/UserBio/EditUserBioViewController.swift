@@ -69,6 +69,7 @@ final class EditUserBioViewController: BaseViewController {
         charCounterLabel.text = "\(characterLimit)"
         charCounterLabel.font = .smallBodyFont
         charCounterLabel.textColor = .darkGrayText
+        updateCharCounterWith(count: textView.text.count)
 
         saveButton.setTitle(R.Strings.changeBioSaveButton, for: .normal)
         saveButton.addTarget(self, action: #selector(didTapSave), for: .touchUpInside)

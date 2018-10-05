@@ -30,7 +30,7 @@ extension ChatListing {
 extension ChatListing {
     func updating(listing: Listing) -> ChatListing {
         return type(of: self).init(objectId: listing.objectId,
-                                   name: listing.name,
+                                   name: listing.name ?? listing.nameAuto,
                                    status: listing.status,
                                    image: listing.images.first,
                                    price: listing.price,

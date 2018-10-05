@@ -129,10 +129,8 @@ final class ChatViewController: TextViewController {
         super.viewDidLayoutSubviews()
         tableView.contentInset.bottom = tableViewInsetBottom
 
-        if featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers {
-            let topSpace = viewModel.thereAreMessagesSent ? 0: quickAnswerBottomHeight
-            tableView.contentInset.top = topSpace
-        }
+        let topSpace = viewModel.thereAreMessagesSent ? 0 : quickAnswerBottomHeight
+        tableView.contentInset.top = topSpace
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {

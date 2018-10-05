@@ -5,16 +5,25 @@ import RxSwift
 import RxCocoa
 import GoogleMobileAds
 
+fileprivate enum Layout {
+    static let buttonSize = CGSize(width: 40, height: 40)
+    static let actionButtonHeight: CGFloat = 50
+}
 final class ListingDetailViewController: BaseViewController {
-    private enum Layout {
-        static let buttonSize = CGSize(width: 40, height: 40)
-    }
     fileprivate let detailView = ListingDetailView()
 
     let viewModel: ListingDetailViewModel
-    private let disposeBag = DisposeBag()
+    fileprivate let actionButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .terciary)
+        button.setTitle(R.Strings.productMarkAsSoldButton, for: .normal)
+        return button
+    }()
+    fileprivate var actionBottomInset: NSLayoutConstraint?
+
+    fileprivate let disposeBag = DisposeBag()
 
     private let quickChatViewController: QuickChatViewController
+    fileprivate lazy var bumpUpVC = BumpUpContainerViewController()
 
     lazy var dfpBannerView: DFPBannerView = {
         let dfpBanner = DFPBannerView(adSize: kGADAdSizeLargeBanner)
@@ -39,7 +48,7 @@ final class ListingDetailViewController: BaseViewController {
         button.addTarget(self, action: #selector(ListingDetailViewController.didTapMoreActions), for: .touchUpInside)
         return button
     }()
-    fileprivate lazy var actionButton: UIButton = {
+    fileprivate lazy var actionNavButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(R.Asset.IconsButtons.icPen.image, for: .normal)
         button.addTarget(viewModel, action: #selector(ListingDetailViewModel.listingAction), for: .touchUpInside)
@@ -76,9 +85,12 @@ final class ListingDetailViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        addQuickChat()
+        if viewModel.isMine {
+            addBumpUp()
+        } else {
+            addQuickChat()
+        }
         addBanner()
-        setupRx()
     }
 
     @objc private func didTapMoreActions() {
@@ -94,7 +106,26 @@ final class ListingDetailViewController: BaseViewController {
             quickChatViewController.view.leadingAnchor.constraint(equalTo: detailView.leadingAnchor),
             quickChatViewController.view.trailingAnchor.constraint(equalTo: detailView.trailingAnchor),
             quickChatViewController.view.bottomAnchor.constraint(equalTo: safeBottomAnchor)
-            ])
+        ])
+    }
+
+    private func addBumpUp() {
+        addChildViewController(bumpUpVC)
+        detailView.addSubviewsForAutoLayout([bumpUpVC.view, actionButton])
+        let actionBottomInset = actionButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+        NSLayoutConstraint.activate([
+            actionBottomInset,
+            actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.margin),
+            actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metrics.margin),
+            actionButton.heightAnchor.constraint(equalToConstant: Layout.actionButtonHeight),
+
+            bumpUpVC.view.leadingAnchor.constraint(equalTo: detailView.leadingAnchor),
+            bumpUpVC.view.trailingAnchor.constraint(equalTo: detailView.trailingAnchor),
+            bumpUpVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        self.actionBottomInset = actionBottomInset
+
+        bumpUpVC.bumpDelegate = viewModel
     }
 
     private func addBanner() {
@@ -113,6 +144,8 @@ final class ListingDetailViewController: BaseViewController {
         } else {
             detailView.hideBanner()
         }
+
+        setupRx()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -129,8 +162,16 @@ final class ListingDetailViewController: BaseViewController {
             viewModel.rx.stats.drive(rx.stats),
             viewModel.rx.user.drive(rx.userDetail),
             viewModel.rx.location.drive(rx.location),
+            viewModel.rx.navAction.drive(rx.navAction),
             viewModel.rx.action.drive(rx.action),
-            viewModel.rx.social.drive(rx.social)
+            viewModel.rx.social.drive(rx.social),
+            viewModel.rx.bumpUpBannerInfo.drive(rx.bumpUp),
+            bumpUpVC.rx.bumpBannerHeight.distinctUntilChanged().drive(rx.bottomInset),
+            viewModel.rx.tags.drive(rx.tags),
+            viewModel.rx.attributeGrid.drive(rx.attributeGrid),
+            detailView.rx.attributesTap.drive(onNext: { [weak self] _ in
+                self?.viewModel.listingAttributeGridTapped()
+            })
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
 
@@ -163,7 +204,7 @@ final class ListingDetailViewController: BaseViewController {
 
     private func setNavBar() {
         let button = UIButton(type: .custom)
-        detailView.addSubviewsForAutoLayout([button, moreButton, shareButton, actionButton])
+        detailView.addSubviewsForAutoLayout([button, moreButton, shareButton, actionNavButton])
         NSLayoutConstraint.activate([
             button.topAnchor.constraint(equalTo: detailView.topAnchor, constant: statusBarHeight + Metrics.shortMargin),
             button.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: Metrics.veryShortMargin),
@@ -178,8 +219,8 @@ final class ListingDetailViewController: BaseViewController {
             shareButton.trailingAnchor.constraint(equalTo: moreButton.leadingAnchor,
                                                   constant: -Metrics.margin),
 
-            actionButton.centerYAnchor.constraint(equalTo: button.centerYAnchor),
-            actionButton.trailingAnchor.constraint(equalTo: shareButton.leadingAnchor,
+            actionNavButton.centerYAnchor.constraint(equalTo: button.centerYAnchor),
+            actionNavButton.trailingAnchor.constraint(equalTo: shareButton.leadingAnchor,
                                                    constant: -Metrics.margin)
         ])
         button.addTarget(self, action: #selector(closeView), for: .touchUpInside)
@@ -212,21 +253,48 @@ extension ListingDetailViewController: DeckMapViewDelegate {
 }
 
 private extension Reactive where Base: ListingDetailViewController {
-    var action: Binder<ListingAction> {
+    var bottomInset: Binder<CGFloat?> {
+        return Binder(self.base) { controller, inset in
+            guard let inset = inset else { return }
+            controller.actionBottomInset?.constant = -(inset + Metrics.shortMargin)
+            controller.detailView.updateBottomInset(inset + Metrics.shortMargin + Layout.actionButtonHeight)
+        }
+    }
+    var bumpUp: Binder<BumpUpInfo?> { return base.bumpUpVC.rx.bumpInfo }
+    var navAction: Binder<ListingAction> {
         return Binder(self.base) { controller, action in
             if action.isFavoritable {
                 if action.isFavorite {
-                    controller.actionButton.setImage(R.Asset.IconsButtons.NewItemPage.nitFavouriteOn.image,
+                    controller.actionNavButton.setImage(R.Asset.IconsButtons.NewItemPage.nitFavouriteOn.image,
                                                      for: .normal)
                 } else {
-                    controller.actionButton.setImage(R.Asset.IconsButtons.NewItemPage.nitFavourite.image,
+                    controller.actionNavButton.setImage(R.Asset.IconsButtons.NewItemPage.nitFavourite.image,
                                                      for: .normal)
                 }
             } else if action.isEditable {
-                controller.actionButton.setImage(R.Asset.IconsButtons.icPen.image, for: .normal)
+                controller.actionNavButton.setImage(R.Asset.IconsButtons.icPen.image, for: .normal)
             } else {
-                controller.actionButton.alpha = 0
+                controller.actionNavButton.alpha = 0
             }
+            controller.actionNavButton.setNeedsLayout()
+        }
+    }
+
+    var action: Binder<UIAction?> {
+        return Binder(self.base) { controller, actionable in
+            if let actionable = actionable {
+                controller.actionButton.configureWith(uiAction: actionable)
+                controller.actionButton.isHidden = false
+            } else {
+                controller.actionButton.isHidden = true
+            }
+
+            controller.actionButton.rx
+                .tap
+                .takeUntil(controller.viewModel.rx.action.asObservable().skip(1))
+                .bind {
+                    actionable?.action()
+                }.disposed(by: controller.disposeBag)
         }
     }
 
@@ -276,6 +344,18 @@ private extension Reactive where Base: ListingDetailViewController {
     var social: Binder<(SocialSharer, SocialMessage?)> {
         return Binder(self.base) { controller, social in
             controller.detailView.set(socialSharer: social.0, socialMessage: social.1, socialDelegate: controller)
+        }
+    }
+
+    var tags: Binder<[String]?> {
+        return Binder(self.base) { controller, tags in
+            controller.detailView.populateWith(tags: tags)
+        }
+    }
+
+    var attributeGrid: Binder<AttributeGrid> {
+        return Binder(self.base) { controller, grid in
+            controller.detailView.setupAttributeGridView(withTitle: grid.0, items: grid.1)
         }
     }
 }

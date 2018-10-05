@@ -25,6 +25,7 @@ protocol ListingListViewCellsDelegate: class {
 protocol ListingListViewHeaderDelegate: class {
     func totalHeaderHeight() -> CGFloat
     func setupViewsIn(header: ListHeaderContainer)
+    func showingNoResultError()
 }
 
 final class ListingListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ListingListViewModelDelegate,
@@ -214,6 +215,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                     cell?.setup(withStyle: errorStyle)
                 }
                 cell?.setup(viewModel)
+                headerDelegate?.showingNoResultError()
                 return cell ?? UICollectionViewCell()
             default:
                 return UICollectionViewCell()

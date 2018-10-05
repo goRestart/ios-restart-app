@@ -255,6 +255,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
                                                   place: currentPlace)
     }
     
+    var location: String { return locationText }
+    
     //  MARK: - Load Feed Items
     
     func loadFeedItems() {
@@ -524,8 +526,6 @@ extension FeedViewModel {
     }
 }
 
-
-
 extension FeedViewModel {
     private func loadAvatar(for user: User?) {
         guard let avatarUrl = user?.avatar?.fileURL else {
@@ -692,6 +692,7 @@ extension FeedViewModel: EditLocationDelegate, LocationEditable {
     
     private func refreshFeedUponLocationChange() {
         updateLocationTextInFeedItems(newLocationString: locationText)
+        feedRenderingDelegate?.updateHeaderLocation(withTitle: locationText)
         resetFeed()
         updateFeedRequester()
         refreshFiltersVar()
@@ -754,13 +755,26 @@ extension FeedViewModel: HorizontalSectionDelegate {
     }
 }
 
+// MARK: - Section title header delegate
+
+extension FeedViewModel: SectionTitleHeaderViewDelegate {
+    func didTapViewAll() { openEditLocation() }
+}
+
 
 //  MARK: - ProductListing Actions
 
 extension FeedViewModel: ListingActionDelegate {
     func chatButtonPressedFor(listing: Listing) {
-        let chatDetailData = ChatDetailData.listingAPI(listing: listing)
-        openChat(withData: chatDetailData)
+        if listing.sellerIsProfessional,
+            featureFlags.preventMessagesFromFeedToProUsers.isActive,
+            listing.category.isProfessionalCategory {
+            navigator?.openAskPhoneFromMainFeedFor(listing: listing,
+                                                   interlocutor: LocalUser(userListing: listing.user))
+        } else {
+            let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+            openChat(withData: chatDetailData)
+        }
     }
 
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {
