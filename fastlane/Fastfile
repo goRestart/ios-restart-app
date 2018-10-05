@@ -218,7 +218,7 @@ lane :update_dsyms do |options|
 	download_dsyms(version: version, build_number: build_number)
 	upload_symbols_to_crashlytics(
 		dsym_path: dsym_path,
-		api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34'
+		api_token: ENV["FABRIC_API_TOKEN"]
 	)
 	clean_build_artifacts
 end
@@ -397,7 +397,6 @@ lane :make_automation_build do
 	)
 	zipped_output = "~/Desktop/automation" + timestamp + ".zip"
 	sh("zip -r #{zipped_output} #{output}") 
-	bender message: message, channels: [ENV["SLACK_IOS_CORE_CHANNEL"]]    
 end
 
 after_all do |lane|
@@ -544,6 +543,13 @@ lane :release_beta do |options|
 	rb_git_clone_clean()
 	success = "Okey the new beta (#{new_version} - #{new_build}) is in crashlytics. Thanks for nothing. Oh my god I need a beer🍻"
 	bender(message: success, channels: channels)
+
+	bender(
+		message: "I'll upload the dsyms to fabric so we can track bugs",
+		success: true,
+		channels: channels
+	)
+	upload_last_beta_dsyms
 end
 	
 desc "Upload build to appstore"
@@ -583,12 +589,23 @@ lane :upload_crashlytics do |options|
 			
 	changelog = "Beta #{version_number}-#{build_number}"
 	crashlytics(
-		api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
+		api_token: ENV["FABRIC_API_TOKEN"],
 		build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
 		ipa_path: ipa_path,
 		notes: "#{changelog}",
 		groups: "letgo-testers"
     )
+end
+
+# Dsyms related
+
+desc "Upload last beta dsyms to fabric"
+lane :upload_last_beta_dsyms do 
+	dsyms_path = ENV["LAST_BETA_BUILD"] + '/LetGoGodMode.app.dSYM.zip'
+	upload_symbols_to_crashlytics(                                                                                      
+		dsym_path: dsym_path,                                                                                           
+		api_token: ENV["FABRIC_API_TOKEN"]
+	) 
 end
 	
 # Here there are our 3 ways of building staff (simulator, beta, appstore)

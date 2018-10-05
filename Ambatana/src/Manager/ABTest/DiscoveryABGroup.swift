@@ -1,11 +1,3 @@
-//
-//  DiscoveryABGroup.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 11/04/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 
 struct DiscoveryABGroup: ABGroupType {

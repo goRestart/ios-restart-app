@@ -25,11 +25,10 @@ protocol ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] { get }
 }
 
-class ABTests {
+final class ABTests {
     private let syncer: LeamplumSyncerType
     let trackingData = Variable<[(String, ABGroup)]?>(nil)
 
-    let legacy = LegacyABGroup.make()
     let verticals = VerticalsABGroup.make()
     let retention = RetentionABGroup.make()
     let money = MoneyABGroup.make()
@@ -50,7 +49,6 @@ class ABTests {
     private var intVariables: [LeanplumABVariable<Int>] {
         var result = [LeanplumABVariable<Int>]()
 
-        result.append(contentsOf: legacy.intVariables)
         result.append(contentsOf: money.intVariables)
         result.append(contentsOf: retention.intVariables)
         result.append(contentsOf: verticals.intVariables)
@@ -64,7 +62,6 @@ class ABTests {
 
     private var boolVariables: [LeanplumABVariable<Bool>] {
         var result = [LeanplumABVariable<Bool>]()
-        result.append(contentsOf: legacy.boolVariables)
         result.append(contentsOf: money.boolVariables)
         result.append(contentsOf: retention.boolVariables)
         result.append(contentsOf: verticals.boolVariables)
@@ -76,7 +73,7 @@ class ABTests {
         return result
     }
 
-    private var stringVariables: [LeanplumABVariable<String>] { return legacy.stringVariables }
+    private var stringVariables: [LeanplumABVariable<String>] { return [] }
     private var floatVariables: [LeanplumABVariable<Float>] { return [] }
 
     func registerVariables() {
@@ -198,6 +195,7 @@ extension ABTests {
     var multiAdRequestInChatSectionForTR: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForTR }
     var bumpPromoAfterSellNoLimit: LeanplumABVariable<Int> { return money.bumpPromoAfterSellNoLimit }
     var polymorphFeedAdsUSA: LeanplumABVariable<Int> { return money.polymorphFeedAdsUSA }
+    var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return money.showAdsInFeedWithRatio }
 }
 
 //  MARK: Retention
@@ -226,6 +224,7 @@ extension ABTests {
     var realEstatePromoCells: LeanplumABVariable<Int> { return verticals.realEstatePromoCells }
     var proUserExtraImages: LeanplumABVariable<Int> { return verticals.proUsersExtraImages }
     var clickToTalk: LeanplumABVariable<Int> { return verticals.clickToTalk }
+    var realEstateEnabled: LeanplumABVariable<Int> { return verticals.realEstateEnabled }
 }
 
 //  MARK: Products
@@ -239,12 +238,4 @@ extension ABTests {
     var frictionlessShare: LeanplumABVariable<Int> { return products.frictionlessShare }
     var turkeyFreePosting: LeanplumABVariable<Int> { return products.turkeyFreePosting }
     var makeAnOfferButton: LeanplumABVariable<Int> { return products.makeAnOfferButton }
-}
-
-//  MARK: Legacy
-
-extension ABTests {
-    var locationDataSourceType: LeanplumABVariable<Int> { return legacy.locationDataSourceType }
-    var realEstateEnabled: LeanplumABVariable<Int> { return legacy.realEstateEnabled }
-    var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return legacy.showAdsInFeedWithRatio }
 }

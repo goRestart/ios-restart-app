@@ -202,8 +202,6 @@
 		0A04D5DA20760A9D00471B9D /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CA20760A9C00471B9D /* ABTests.swift */; };
 		0A04D5DB20760A9D00471B9D /* ChatABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */; };
 		0A04D5DC20760A9D00471B9D /* ChatABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */; };
-		0A04D5DD20760A9D00471B9D /* LegacyABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */; };
-		0A04D5DE20760A9D00471B9D /* LegacyABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */; };
 		0A04D5E0207614F000471B9D /* UsersABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5DF207614F000471B9D /* UsersABGroup.swift */; };
 		0A04D5E12076175D00471B9D /* UsersABGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A04D5DF207614F000471B9D /* UsersABGroup.swift */; };
 		0A05F383209B375D00F43A67 /* DeckMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A05F382209B375D00F43A67 /* DeckMapViewController.swift */; };
@@ -2629,8 +2627,6 @@
 		F59170072151A7A300CFE38E /* AppsFlyerAffiliationResolverSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59170062151A7A300CFE38E /* AppsFlyerAffiliationResolverSpec.swift */; };
 		F59755FA20B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59755F920B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift */; };
 		F59755FB20B5A8AA00C5103F /* UIApplication+AnalyticsApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59755F920B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift */; };
-		F59755FD20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59755FC20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift */; };
-		F59755FE20B5AE5D00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59755FC20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift */; };
 		F5A836AB1FD1AE32009E636D /* ListingAttributePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A836AA1FD1AE32009E636D /* ListingAttributePickerViewController.swift */; };
 		F5A836AD1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A836AC1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift */; };
 		F5A836AE1FD1BA11009E636D /* ListingAttributePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A836AA1FD1AE32009E636D /* ListingAttributePickerViewController.swift */; };
@@ -2846,7 +2842,6 @@
 		0A04D5C920760A9C00471B9D /* RetentionABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetentionABGroup.swift; sourceTree = "<group>"; };
 		0A04D5CA20760A9C00471B9D /* ABTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABTests.swift; sourceTree = "<group>"; };
 		0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatABGroup.swift; sourceTree = "<group>"; };
-		0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegacyABGroup.swift; sourceTree = "<group>"; };
 		0A04D5DF207614F000471B9D /* UsersABGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersABGroup.swift; sourceTree = "<group>"; };
 		0A05F382209B375D00F43A67 /* DeckMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckMapViewController.swift; sourceTree = "<group>"; };
 		0A05F385209B37C400F43A67 /* DeckMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckMapView.swift; sourceTree = "<group>"; };
@@ -4184,7 +4179,6 @@
 		F591700121519F3600CFE38E /* ReferrerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferrerInfo.swift; sourceTree = "<group>"; };
 		F59170062151A7A300CFE38E /* AppsFlyerAffiliationResolverSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsFlyerAffiliationResolverSpec.swift; sourceTree = "<group>"; };
 		F59755F920B5A89E00C5103F /* UIApplication+AnalyticsApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+AnalyticsApplication.swift"; sourceTree = "<group>"; };
-		F59755FC20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ABGroup+AnalyticsABTestGroupIdentifier.swift"; sourceTree = "<group>"; };
 		F5A836AA1FD1AE32009E636D /* ListingAttributePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributePickerViewController.swift; sourceTree = "<group>"; };
 		F5A836AC1FD1AEB1009E636D /* ListingAttributePickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingAttributePickerViewModel.swift; sourceTree = "<group>"; };
 		F5AE3CF22142E308009B3320 /* PushNotificationScheduleChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationScheduleChecker.swift; sourceTree = "<group>"; };
@@ -4563,10 +4557,8 @@
 		0A04D5C320760A9C00471B9D /* ABTest */ = {
 			isa = PBXGroup;
 			children = (
-				F59755FC20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift */,
 				0A04D5C520760A9C00471B9D /* ABDynamicVar.swift */,
 				0A04D5CA20760A9C00471B9D /* ABTests.swift */,
-				0A04D5CC20760A9C00471B9D /* LegacyABGroup.swift */,
 				0A04D5C420760A9C00471B9D /* CoreABGroup.swift */,
 				0A04D5CB20760A9C00471B9D /* ChatABGroup.swift */,
 				0A04D5C720760A9C00471B9D /* MoneyABGroup.swift */,
@@ -10605,7 +10597,6 @@
 				72DBA6BE214F88F9008D6F39 /* AffiliationInvisteSMSContactsCellViewModel.swift in Sources */,
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ListingListView.swift in Sources */,
-				0A04D5DD20760A9D00471B9D /* LegacyABGroup.swift in Sources */,
 				50D15408214A5BFF00221B06 /* AffiliationInviteSMSContactsBuilder.swift in Sources */,
 				C6977E892119F4E900B57E54 /* ServiceListingType+LG.swift in Sources */,
 				6AE143CD204413B000CFAE10 /* UserProfileBioAndTrustView.swift in Sources */,
@@ -10710,7 +10701,6 @@
 				2E79430B212B008900CBC5CB /* ProcessInfo+Extended.swift in Sources */,
 				C75B5DD11D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				01A171BD208DD1A300C98D4C /* SearchAlertsListViewController.swift in Sources */,
-				F59755FD20B5AA2F00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */,
 				0A6FECD42130344000B57004 /* ProfessionalDealerAskPhoneNavigator.swift in Sources */,
 				0904D898213F310C00D5D554 /* P2PPaymentsCreateOfferViewController.swift in Sources */,
 				3299E5E7207FB7AB002935AE /* WaterFallLayoutSettings.swift in Sources */,
@@ -11810,7 +11800,6 @@
 				0A6FECE12130344000B57004 /* EditListingStandardWireframe.swift in Sources */,
 				0A6FECB12130344000B57004 /* SignupLoginNavigator.swift in Sources */,
 				C7732F701D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
-				0A04D5DE20760A9D00471B9D /* LegacyABGroup.swift in Sources */,
 				72854D241F8E287600E54530 /* NumberOfBedrooms.swift in Sources */,
 				0AF28D7D213EAFFC005A6F8C /* ListingDeckNavigator.swift in Sources */,
 				2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
@@ -11933,7 +11922,6 @@
 				0A6FECAF2130343F00B57004 /* LoginNavigator.swift in Sources */,
 				50EAFB221F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */,
 				C26D224E208B47E500C66EC0 /* UploadingVideo.swift in Sources */,
-				F59755FE20B5AE5D00C5103F /* ABGroup+AnalyticsABTestGroupIdentifier.swift in Sources */,
 				727EF0701E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */,
 				C66105EE2136D3D500BA4EF7 /* AnnotatedScrollingPageControlView.swift in Sources */,
 				42E7496A2130102B00297F75 /* AdUpdated.swift in Sources */,

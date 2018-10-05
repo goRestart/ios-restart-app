@@ -1,17 +1,8 @@
-//
-//  ABDynamicVar.swift
-//  LetGo
-//
-//  Created by Dídac on 12/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 protocol ABRegistrable {
     func register()
 }
 
 enum ABGroup {
-    case legacyABTests
     case core
     case verticals
     case realEstate
