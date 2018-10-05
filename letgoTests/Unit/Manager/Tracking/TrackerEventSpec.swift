@@ -875,7 +875,8 @@ class TrackerEventSpec: QuickSpec {
                                                                 feedSource: .section,
                                                                 success: .trueParameter,
                                                                 sectionPosition: nil,
-                                                                sectionName: nil)
+                                                                sectionName: nil,
+                                                                pullToRefreshTriggered: .trueParameter)
                 }
 
                 it("has its event name") {
@@ -902,9 +903,11 @@ class TrackerEventSpec: QuickSpec {
                 it("contains number-of-items-section parameter") {
                     expect(sut.params!.stringKeyParams["number-of-items-section"] as? String).to(equal("\(sectionItemCount)"))
                 }
-                
                 it("contains comma separated section names") {
                     expect(sut.params!.stringKeyParams["sections-shown"] as? String).to(equal("sec-1,sec-2,sec-3"))
+                }
+                it("contains reload parameter with true value") {
+                    expect(sut.params!.stringKeyParams["reload"] as? String).to(equal("true"))
                 }
             }
             

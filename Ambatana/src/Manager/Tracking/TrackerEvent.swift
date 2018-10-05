@@ -216,9 +216,11 @@ struct TrackerEvent {
                                          feedSource: EventParameterFeedSource,
                                          success: EventParameterBoolean?,
                                          sectionPosition: EventParameterSectionPosition?,
-                                         sectionName: EventParameterSectionName?) -> TrackerEvent {
+                                         sectionName: EventParameterSectionName?,
+                                         pullToRefreshTriggered: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         
+        params[.reload] = pullToRefreshTriggered.rawValue
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = (categories ?? [.unassigned]).trackValue
         params[.keywordName] = TrackerEvent.notApply
