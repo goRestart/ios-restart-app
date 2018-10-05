@@ -126,7 +126,9 @@ final class P2PPaymentsCreateOfferViewModel: BaseViewModel {
             switch result {
             case .success:
                 self?.trackMakeAnOfferComplete()
+                self?.delegate?.vmShowLoading(nil)
                 delay(P2PPayments.chatRefreshDelay) { [weak self] in
+                    self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                     self?.navigator?.closeOnboarding()
                 }
             case let .failure(error):
