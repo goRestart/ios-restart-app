@@ -21,6 +21,7 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
         case advancedReputationSystem13 = "advancedReputationSystem13"
         case mutePushNotifications = "mutePushNotifications"
         case affiliationEnabled = "affiliationEnabled"
+        case blockingSignUp = "blockingSignUp"
     }
 
     fileprivate var dictionary: [String: Any]
@@ -113,6 +114,16 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     
     func save(affiliationEnabled: AffiliationEnabled) {
         save(key: .affiliationEnabled, value: affiliationEnabled.rawValue)
+        sync()
+    }
+    
+    func retrieveBlockingSignUp() -> BlockingSignUp? {
+        guard let rawValue: String = retrieve(key: .blockingSignUp) else { return nil }
+        return BlockingSignUp(rawValue: rawValue)
+    }
+    
+    func save(blockingSignUp: BlockingSignUp) {
+        save(key: .blockingSignUp, value: blockingSignUp.rawValue)
         sync()
     }
 }

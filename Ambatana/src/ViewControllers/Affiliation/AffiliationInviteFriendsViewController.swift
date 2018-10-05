@@ -118,7 +118,8 @@ final class AffiliationInviteFriendsViewController: BaseViewController {
             headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                                       constant: -Metrics.shortMargin),
             headerImageView.topAnchor.constraint(equalTo: safeTopAnchor, constant: Layout.labelTitleTopMargin),
-            headerImageView.heightAnchor.constraint(equalTo: headerImageView.widthAnchor, multiplier: 0.6)
+            headerImageView.heightAnchor.constraint(equalTo: headerImageView.widthAnchor,
+                                                    multiplier: DeviceFamily.current.imageHeightMultiplier)
         ]
 
         let titleConstraints = [
@@ -171,5 +172,15 @@ extension AffiliationInviteFriendsViewController: SocialSharerDelegate {
     
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         viewModel.shareOtherCompleted(withState: state)
+    }
+}
+
+fileprivate extension DeviceFamily {
+    
+    var imageHeightMultiplier: CGFloat {
+        switch self {
+        case .iPhone4, .iPhone5: return 0
+        default: return 0.6
+        }
     }
 }

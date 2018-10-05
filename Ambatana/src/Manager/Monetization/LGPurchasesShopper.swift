@@ -436,8 +436,14 @@ final class LGPurchasesShopper: NSObject, PurchasesShopper {
 
         var price: String?
         var currency: String?
-        if let appstoreProducts = letgoProductsDict[listingId], appstoreProducts.count > 0 {
-            if let boughtProduct = appstoreProducts.first {
+        if let appstoreProducts = letgoProductsDict[listingId],
+            let itemId = letgoItemId,
+            let storeProduct = storeToLetgoIdsMapper.filter({ $0.value == itemId }).first,
+            appstoreProducts.count > 0 {
+
+            let matchingStoreProducts = appstoreProducts.filter { $0.productIdentifier == storeProduct.key }
+
+            if let boughtProduct = matchingStoreProducts.first {
                 price = String(describing: boughtProduct.price)
                 currency = boughtProduct.priceLocale.currencyCode ?? ""
             }

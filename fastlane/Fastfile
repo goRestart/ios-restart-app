@@ -64,7 +64,6 @@ lane :beta do
 	)
 
 	lg_update_cars_info
-	lg_update_taxonomies
 	lg_strings(repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/")
 
 	deploy_to_crashlitycs

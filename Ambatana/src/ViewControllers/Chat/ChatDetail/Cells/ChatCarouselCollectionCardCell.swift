@@ -131,23 +131,26 @@ final class ChatCarouselCollectionCardCell: UICollectionViewCell, ReusableCell {
     }
     
     // MARK: Setup
-    
-    private func shouldHideFreeBanner(for card: ChatCarouselCard) -> Bool {
-        guard let isFree = card.product?.price.isFree else { return true }
-        return !isFree
-    }
-    
+ 
     func set(card: ChatCarouselCard) {
         self.card = card
         if let imageURL = card.imageURL {
             imageView.af_setImage(withURL: imageURL)
         }
-        ribbonView.isHidden = !shouldHideFreeBanner(for: card)
+        
         titleLabel.text = card.title
-        if let price = card.product?.price, !price.isFree,
-            let currency = card.product?.currency {
-            priceLabel.text = price.stringValue(currency: currency, isFreeEnabled: true)
+
+        let isFree = isFreeProduct(card)
+        
+        if isFree {
+            ribbonView.isHidden = false
+            priceLabel.isHidden = true
+        } else {
+            priceLabel.text = priceLabel(card)
+            priceLabel.isHidden = false
+            ribbonView.isHidden = true
         }
+        
         textLabel.text = card.text
         if let buttonTitle = card.actions.first?.content.text {
             button.setTitle(buttonTitle, for: .normal)
@@ -155,6 +158,18 @@ final class ChatCarouselCollectionCardCell: UICollectionViewCell, ReusableCell {
         }
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cardPresed))
         contentView.addGestureRecognizer(tapGesture)
+    }
+    
+    private func priceLabel(_ card: ChatCarouselCard) -> String? {
+        guard let price = card.product?.price, !price.isFree, let currency = card.product?.currency else {
+            return nil
+        }
+        return price.stringValue(currency: currency, isFreeEnabled: true)
+    }
+    
+    private func isFreeProduct(_ card: ChatCarouselCard) -> Bool {
+        guard let price = card.product?.price, price.isFree || price.value == 0 else { return false }
+        return true
     }
     
     // MARK: Actions

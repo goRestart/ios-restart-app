@@ -355,6 +355,16 @@
         "description": "[RETENTION] Notification center with different thumbnails sizes"
     },
     {
+        "name": "BlockingSignUp",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] User needs to sign up/sign in even after killing the app in log in screen"
+    },
+    {
+        "name": "FacebookUnavailable",
+        "values": ["no", "yes"],
+        "description": "[CORE] Show Facebook unavailable message when user tries to authenticate with Facebook."
+    },
+    {
         "name": "BoostSmokeTest",
         "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
         "description": "[VERTICALS] Show Boost and Super Boost Smoke Test"

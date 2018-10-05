@@ -42,7 +42,7 @@ final class ABTestsSpec: QuickSpec {
                     sut.registerVariables()
                 }
                 it("registers all the variables") {
-                    expect(syncer.syncedCount) == 74
+                    expect(syncer.syncedCount) == 76
                 }
             }
             context("registering all the variables") {
@@ -132,7 +132,7 @@ final class ABTestsSpec: QuickSpec {
 
             context("registering all the retention variables") {
                 it("the retention int variable registered are correct") {
-                    expect(retention.intVariables.count) == 10
+                    expect(retention.intVariables.count) == 11
                 }
 
                 it("the retention bool variable registered are correct") {
@@ -157,7 +157,7 @@ final class ABTestsSpec: QuickSpec {
                 }
 
                 it("the variables registered are correct") {
-                    expect(syncer.syncedCount) == 10
+                    expect(syncer.syncedCount) == 11
                 }
             }
 
@@ -227,7 +227,7 @@ final class ABTestsSpec: QuickSpec {
                 }
 
                 it("the core bool variable registered are correct") {
-                    expect(core.boolVariables.count) == 0
+                    expect(core.boolVariables.count) == 1
                 }
 
                 it("the core string variable registered are correct") {
@@ -247,7 +247,7 @@ final class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: core.floatVariables)
                 }
                 it("the variables registered are correct") {
-                    expect(syncer.syncedCount) == 5
+                    expect(syncer.syncedCount) == 6
                 }
             }
 

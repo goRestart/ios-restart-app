@@ -88,11 +88,11 @@ final class P2PPaymentsPayoutViewController: BaseViewController {
         payoutRequestBottomContraint = payoutRequestView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor)
         payoutRequestBottomContraint?.isActive = true
         NSLayoutConstraint.activate([
-            personalInfoView.topAnchor.constraint(equalTo: view.safeTopAnchor),
+            personalInfoView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
             personalInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             personalInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-            payoutRequestView.topAnchor.constraint(equalTo: view.safeTopAnchor),
+            payoutRequestView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
             payoutRequestView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             payoutRequestView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 

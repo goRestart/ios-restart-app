@@ -28,7 +28,6 @@ def shared_pods
     #Fabric
     pod "Fabric",               "1.7.2"     # Obj-c
     pod "Crashlytics",          "3.9.3"     # Obj-c
-    pod "Branch",               "0.22.5"    # Obj-c
 
     # Tracking
     pod "Amplitude-iOS",        "4.0.4"     # Obj-c
@@ -43,6 +42,7 @@ def shared_pods
     pod "LGComponents",            :path => "components"
  
     # letgo Core
+
 
     pod "LGCoreKit",             "4.92.0", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit", :inhibit_warnings => false

@@ -155,6 +155,7 @@ extension ABTests {
     var mutePushNotifications: LeanplumABVariable<Int> { return core.mutePushNotifications }
     var mutePushNotificationsStartHour: LeanplumABVariable<Int> { return core.mutePushNotificationsStartHour }
     var mutePushNotificationsEndHour: LeanplumABVariable<Int> { return core.mutePushNotificationsEndHour }
+    var facebookUnavailable: LeanplumABVariable<Bool> { return core.facebookUnavailable }
 }
 
 //  MARK: Chat
@@ -210,6 +211,7 @@ extension ABTests {
     var shareAfterScreenshot: LeanplumABVariable<Int> { return retention.shareAfterScreenshot }
     var affiliationCampaign: LeanplumABVariable<Int> { return retention.affiliationCampaign }
     var imageSizesNotificationCenter: LeanplumABVariable<Int> { return retention.imageSizesNotificationCenter }
+    var blockingSignUp: LeanplumABVariable<Int> { return retention.blockingSignUp }
 }
 
 //  MARK: Verticals

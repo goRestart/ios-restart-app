@@ -932,7 +932,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(trackedEventNames) == [EventName.loginEmail]
                         }
                         it("calls close after login in navigator when signup succeeds") {
-                            expect(self.closeWithCallbackWasCalled).toEventually(beTrue())
+                            expect(self.closeWasCalled).toEventually(beTrue())
                         }
                         it("saves letgo as previous user account provider") {
                             let provider = keyValueStorage[.previousUserAccountProvider]
@@ -1282,7 +1282,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(trackedEventNames) == [EventName.signupEmail]
                         }
                         it("calls close after login in navigator when signup succeeds") {
-                            expect(self.closeWithCallbackWasCalled).toEventually(beTrue())
+                            expect(self.closeWasCalled).toEventually(beTrue())
                         }
                         it("saves letgo as previous user account provider") {
                             let provider = keyValueStorage[.previousUserAccountProvider]

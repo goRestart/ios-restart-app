@@ -98,6 +98,7 @@
 "bump_up_banner_pay_text_improvement_turkish_d" = "Attract more buyers";
 "bump_up_banner_wait_text" = "to feature again";
 "bump_up_boost_success_alert_text" = "Your listing was boosted! It will be featured for the next 24 hours.";
+"bump_up_chat_list_fail_alert" = "This listing can't be featured right now.";
 "bump_up_error_bump_generic" = "An error occurred while featuring your listing. Please try again.";
 "bump_up_error_bump_token" = "Your payment has been processed but your listing hasn't been featured.";
 "bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
@@ -689,6 +690,8 @@
 "main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
+"main_sign_up_fb_connect_error_unavailable_message" = "An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.";
+"main_sign_up_fb_connect_error_unavailable_title" = "Oops! An error occurred";
 "main_sign_up_google_connect_button" = "Continue with Google";
 "main_sign_up_google_connect_button_w_name" = "Log in as %@";
 "main_sign_up_help_button" = "Help";
@@ -1285,6 +1288,7 @@
 "profile_verifications_view_email_title" = "Email";
 "profile_verifications_view_extra_section_title" = "BUY & SELL";
 "profile_verifications_view_facebook_title" = "Facebook";
+"profile_verifications_view_facebook_unavailable" = "An error occurred while verifying with Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 pts for each listing (up to 10 pts)";
 "profile_verifications_view_mark_as_sold_title" = "Mark as sold";

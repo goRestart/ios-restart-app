@@ -313,6 +313,9 @@
 // Text for the loading bump up banner
 "bump_up_banner_loading_text" = "Loading more info…";
 
+// Text for unable to bump alert
+"bump_up_chat_list_fail_alert" = "This listing can't be featured right now.";
+
 // Free bump up success message
 "bump_up_free_success" = "Bumped Up! Keep Bumping Up your listing and it'll be even more visible.";
 
@@ -2161,6 +2164,12 @@
 // Main sign up fb connect error generic. Message displayal is like the other error messages
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
 
+// Oops! An error occurred
+"main_sign_up_fb_connect_error_unavailable_title" = "Oops! An error occurred";
+
+// An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.
+"main_sign_up_fb_connect_error_unavailable_message" = "An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.";
+
 // Main sign up error email invalid. Message displayal is like the other error messages
 "main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";
 
@@ -3801,6 +3810,9 @@
 
 // Option to verify with Facebook title
 "profile_verifications_view_facebook_title" = "Facebook";
+
+// An error ocurred while verifying with Facebook
+"profile_verifications_view_facebook_unavailable" = "An error occurred while verifying with Facebook";
 
 // Option to verify with Google title
 "profile_verifications_view_google_title" = "Google";

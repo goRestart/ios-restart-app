@@ -223,5 +223,184 @@ final class AppsFlyerAffiliationResolverSpec: QuickSpec {
                 }
             }
         }
+        
+        // These are the exact same scenarios than the rx_affiliationCampaign tests
+        describe("isProbablyReferral") {
+            let scheduler = TestScheduler(initialClock: 0)
+            let mockRepo = MockMyUserRepository()
+            beforeEach {
+                scheduler.start()
+                observer = scheduler.createObserver(AffiliationCampaignState.self)
+                mockRepo.resultVoid = MyUserVoidResult(value: Void())
+                sut = AppsFlyerAffiliationResolver(myUserRepository: mockRepo)
+            }
+            afterEach {
+                mockRepo.myUserVar.value = nil
+                scheduler.stop()
+            }
+            
+            context("when all events have been notified correctly") {
+                beforeEach {
+                    sut.setCampaignFeatureAs(active: true)
+                    sut.appsFlyerConversionData(data: conversionDataMockOk)
+                    mockRepo.myUserVar.value = myUser
+                    sut.userLoggedIn()
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                }
+                it("should be true") {
+                    expect(sut.isProbablyReferral).to(beTrue())
+                }
+            }
+            
+            context("when all events have been notified correctly after observing") {
+                beforeEach {
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                    sut.setCampaignFeatureAs(active: true)
+                    sut.appsFlyerConversionData(data: conversionDataMockOk)
+                    mockRepo.myUserVar.value = myUser
+                    sut.userLoggedIn()
+                }
+                it("should be true") {
+                    expect(sut.isProbablyReferral).to(beTrue())
+                }
+            }
+            
+            context("when all events have been notified but the feature is not active") {
+                beforeEach {
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                    sut.setCampaignFeatureAs(active: false)
+                    sut.appsFlyerConversionData(data: conversionDataMockOk)
+                    mockRepo.myUserVar.value = myUser
+                    sut.userLoggedIn()
+                }
+                it("should be false") {
+                    expect(sut.isProbablyReferral).to(beFalse())
+                }
+            }
+            
+            context("when all events have been notified except the feature one") {
+                beforeEach {
+                    sut.appsFlyerConversionData(data: conversionDataMockOk)
+                    mockRepo.myUserVar.value = myUser
+                    sut.userLoggedIn()
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                }
+                it("should be false") {
+                    waitUntil { done in delay(delayTime, completion: done) }
+                    expect(sut.isProbablyReferral).to(beFalse())
+                }
+            }
+            
+            context("when all events have been notified except the AppsFlyer data") {
+                beforeEach {
+                    sut.setCampaignFeatureAs(active: true)
+                    mockRepo.myUserVar.value = myUser
+                    sut.userLoggedIn()
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                }
+                it("should be false") {
+                    waitUntil { done in delay(delayTime, completion: done) }
+                    expect(sut.isProbablyReferral).to(beFalse())
+                }
+            }
+            
+            context("when all events have been notified except the login") {
+                beforeEach {
+                    sut.appsFlyerConversionData(data: conversionDataMockOk)
+                    sut.setCampaignFeatureAs(active: true)
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                }
+                it("should be false") {
+                    waitUntil { done in delay(delayTime, completion: done) }
+                    expect(sut.isProbablyReferral).to(beFalse())
+                }
+            }
+            
+            context("when all events have been notified but data first launch is false") {
+                beforeEach {
+                    sut.appsFlyerConversionData(data: conversionDataMockKO_notFirstLaunch)
+                    sut.setCampaignFeatureAs(active: true)
+                    mockRepo.myUserVar.value = myUser
+                    sut.userLoggedIn()
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                }
+                it("should be false") {
+                    waitUntil { done in delay(delayTime, completion: done) }
+                    expect(sut.isProbablyReferral).to(beFalse())
+                }
+            }
+            
+            context("when all events have been notified but data campaign is wrong") {
+                beforeEach {
+                    sut.appsFlyerConversionData(data: conversionDataMockKO_wrongCampaign)
+                    sut.setCampaignFeatureAs(active: true)
+                    mockRepo.myUserVar.value = myUser
+                    sut.userLoggedIn()
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                }
+                it("should be false") {
+                    waitUntil { done in delay(delayTime, completion: done) }
+                    expect(sut.isProbablyReferral).to(beFalse())
+                }
+            }
+            
+            context("when all events have been notified but data userId is missing") {
+                beforeEach {
+                    sut.appsFlyerConversionData(data: conversionDataMockKO_noUserIdField)
+                    sut.setCampaignFeatureAs(active: true)
+                    mockRepo.myUserVar.value = myUser
+                    sut.userLoggedIn()
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                }
+                it("should be false") {
+                    waitUntil { done in delay(delayTime, completion: done) }
+                    expect(sut.isProbablyReferral).to(beFalse())
+                }
+            }
+            
+            context("when all events have been notified correctly and apps flyer data is passed two times the second one with first launch to false") {
+                beforeEach {
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                    sut.setCampaignFeatureAs(active: true)
+                    sut.appsFlyerConversionData(data: conversionDataMockOk)
+                    mockRepo.myUserVar.value = myUser
+                    sut.userLoggedIn()
+                    sut.appsFlyerConversionData(data: conversionDataMockKO_notFirstLaunch)
+                }
+                it("should be true") {
+                    expect(sut.isProbablyReferral).to(beTrue())
+                }
+            }
+        }
+        
+        // This case is specific for isProbablyReferral
+        describe("isProbablyReferral") {
+            let scheduler = TestScheduler(initialClock: 0)
+            let mockRepo = MockMyUserRepository()
+            beforeEach {
+                scheduler.start()
+                observer = scheduler.createObserver(AffiliationCampaignState.self)
+                mockRepo.resultVoid = MyUserVoidResult(value: Void())
+                sut = AppsFlyerAffiliationResolver(myUserRepository: mockRepo)
+            }
+            afterEach {
+                mockRepo.myUserVar.value = nil
+                scheduler.stop()
+            }
+            
+            context("when is only missing Bouncer confirmation") {
+                beforeEach {
+                    sut.setCampaignFeatureAs(active: true)
+                    sut.appsFlyerConversionData(data: conversionDataMockOk)
+                    mockRepo.myUserVar.value = myUser
+                    sut.userLoggedIn()
+                    sut.rx_affiliationCampaign.asObservable().bind(to: observer).disposed(by: disposeBag)
+                    // notice that we don't wait for mockRepo to respond
+                }
+                it("should be true") {
+                    expect(sut.isProbablyReferral).to(beTrue())
+                }
+            }
+        }
     }
 }

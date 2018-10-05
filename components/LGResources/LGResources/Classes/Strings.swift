@@ -238,6 +238,8 @@ extension R {
     public static let bumpUpBannerWaitText = Strings.tr("Localizable", "bump_up_banner_wait_text")
     /// Your listing was boosted! It will be featured for the next 24 hours.
     public static let bumpUpBoostSuccessAlertText = Strings.tr("Localizable", "bump_up_boost_success_alert_text")
+    /// This listing can't be featured right now.
+    public static let bumpUpChatListFailAlert = Strings.tr("Localizable", "bump_up_chat_list_fail_alert")
     /// An error occurred while featuring your listing. Please try again.
     public static let bumpUpErrorBumpGeneric = Strings.tr("Localizable", "bump_up_error_bump_generic")
     /// Your payment has been processed but your listing hasn't been featured.
@@ -1490,6 +1492,10 @@ extension R {
     public static let mainSignUpFbConnectErrorEmailTaken = Strings.tr("Localizable", "main_sign_up_fb_connect_error_email_taken")
     /// Unable to log in. Please try again.
     public static let mainSignUpFbConnectErrorGeneric = Strings.tr("Localizable", "main_sign_up_fb_connect_error_generic")
+    /// An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.
+    public static let mainSignUpFbConnectErrorUnavailableMessage = Strings.tr("Localizable", "main_sign_up_fb_connect_error_unavailable_message")
+    /// Oops! An error occurred
+    public static let mainSignUpFbConnectErrorUnavailableTitle = Strings.tr("Localizable", "main_sign_up_fb_connect_error_unavailable_title")
     /// Continue with Google
     public static let mainSignUpGoogleConnectButton = Strings.tr("Localizable", "main_sign_up_google_connect_button")
     /// Log in as %@
@@ -2832,6 +2838,8 @@ extension R {
     public static let profileVerificationsViewExtraSectionTitle = Strings.tr("Localizable", "profile_verifications_view_extra_section_title")
     /// Facebook
     public static let profileVerificationsViewFacebookTitle = Strings.tr("Localizable", "profile_verifications_view_facebook_title")
+    /// An error occurred while verifying with Facebook
+    public static let profileVerificationsViewFacebookUnavailable = Strings.tr("Localizable", "profile_verifications_view_facebook_unavailable")
     /// Google
     public static let profileVerificationsViewGoogleTitle = Strings.tr("Localizable", "profile_verifications_view_google_title")
     /// +2 pts for each listing (up to 10 pts)

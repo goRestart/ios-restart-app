@@ -14,9 +14,6 @@ struct UniversalLink {
     }
 
     static func buildFromUserActivity(_ userActivity: NSUserActivity) -> UniversalLink? {
-        // we don't need to handle Branch links as we will get the branch object in the callback
-        guard !isBranchDeepLink(userActivity) else { return nil }
-
         guard let url = userActivity.webpageURL else { return nil }
         return UniversalLink.buildFromUrl(url)
     }
@@ -110,15 +107,5 @@ struct UniversalLink {
         }
 
         return UniversalLink(deepLink: DeepLink.link(.home, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
-    }
-
-    static func isBranchDeepLink(_ userActivity: NSUserActivity) -> Bool {
-        guard let url = userActivity.webpageURL else { return false }
-        return UniversalLink.isBranchDeepLink(url)
-    }
-
-    private static func isBranchDeepLink(_ url: URL) -> Bool {
-        guard let host = url.host  else { return false }
-        return host == SharedConstants.branchLinksHost
     }
 }

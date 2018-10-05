@@ -2318,8 +2318,6 @@
 		C765EE491E7FEA4500063750 /* DeepLink+MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */; };
 		C765EE7F1E84036400063750 /* SessionErrors+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE7E1E84036400063750 /* SessionErrors+LG.swift */; };
 		C765EE801E84036400063750 /* SessionErrors+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE7E1E84036400063750 /* SessionErrors+LG.swift */; };
-		C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */; };
-		C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */; };
 		C7732F6A1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7732F681D87FA3400EAD5B7 /* TourPostingViewController.swift */; };
 		C7732F6B1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7732F681D87FA3400EAD5B7 /* TourPostingViewController.swift */; };
 		C7732F6C1D87FA3400EAD5B7 /* TourPostingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7732F691D87FA3400EAD5B7 /* TourPostingViewController.xib */; };
@@ -4040,7 +4038,6 @@
 		C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDeepLinksRouter.swift; sourceTree = "<group>"; };
 		C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DeepLink+MockFactory.swift"; sourceTree = "<group>"; };
 		C765EE7E1E84036400063750 /* SessionErrors+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SessionErrors+LG.swift"; sourceTree = "<group>"; };
-		C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchDeepLink.swift; sourceTree = "<group>"; };
 		C7732F681D87FA3400EAD5B7 /* TourPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourPostingViewController.swift; sourceTree = "<group>"; };
 		C7732F691D87FA3400EAD5B7 /* TourPostingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourPostingViewController.xib; sourceTree = "<group>"; };
 		C7732F6E1D87FA4600EAD5B7 /* TourPostingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourPostingViewModel.swift; sourceTree = "<group>"; };
@@ -8217,7 +8214,6 @@
 				C7111F011CA438AC000C5C5A /* UniversalLink.swift */,
 				C7111F041CA438C2000C5C5A /* UriScheme.swift */,
 				C7111F071CA4458F000C5C5A /* ShortcutItem.swift */,
-				C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */,
 				C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */,
 			);
 			path = DeepLinks;
@@ -9514,7 +9510,6 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Amplitude-iOS/Amplitude_iOS.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/DeviceGuru/DeviceGuru.framework",
@@ -9556,7 +9551,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude_iOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CHTCollectionViewWaterfallLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceGuru.framework",
@@ -9705,7 +9699,6 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Amplitude-iOS/Amplitude_iOS.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/DeviceGuru/DeviceGuru.framework",
@@ -9751,7 +9744,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude_iOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CHTCollectionViewWaterfallLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceGuru.framework",
@@ -9843,7 +9835,6 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Amplitude-iOS/Amplitude_iOS.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/DeviceGuru/DeviceGuru.framework",
@@ -9885,7 +9876,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude_iOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CHTCollectionViewWaterfallLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceGuru.framework",
@@ -10385,7 +10375,6 @@
 				C75B55F91C7E12C90001F5CD /* FilterDisclosureCell.swift in Sources */,
 				50D1542D214A6C9A00221B06 /* AffiliationChallengesViewModel.swift in Sources */,
 				C6FFC49C20F748C500B9F53A /* RealEstateFilters.swift in Sources */,
-				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				0941DF022147C15900576659 /* P2PPaymentsNumberView.swift in Sources */,
 				6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				C72794491D54944E009C25AB /* SettingsViewModel.swift in Sources */,
@@ -11600,7 +11589,6 @@
 				C6FFC4B220FCA84600B9F53A /* FilterCategoryItem.swift in Sources */,
 				01D432012080FBD100061F0C /* NotificationSettingsMainViewModel.swift in Sources */,
 				0A6FED052130344000B57004 /* BumpUpNavigator.swift in Sources */,
-				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				0A2F52C121232AC90034EF85 /* PromoteBumpBuilder.swift in Sources */,
 				C6A5CC5E20E3A22500610A3A /* FilterSliderCell.swift in Sources */,
 				6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
