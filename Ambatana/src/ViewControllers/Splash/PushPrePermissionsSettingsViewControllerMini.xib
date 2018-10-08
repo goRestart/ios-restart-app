@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PushPrePermissionsSettingsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="allowNotificationsLabel" destination="af2-wa-rdJ" id="0wE-R4-poN"/>
+                <outlet property="closeButton" destination="UXi-jO-4r5" id="dmR-jo-gbR"/>
                 <outlet property="firstSectionLabel" destination="jA5-Cd-7Id" id="zcD-4v-TWC"/>
                 <outlet property="notificationsLabel" destination="GnO-bX-dSG" id="bkd-dy-kxR"/>
                 <outlet property="secondSectionLabel" destination="UAT-h9-Z56" id="VbN-tu-rjd"/>
@@ -118,6 +119,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UXi-jO-4r5">
+                                <rect key="frame" x="23" y="11" width="30" height="30"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -146,6 +150,7 @@
                             <constraint firstItem="af2-wa-rdJ" firstAttribute="trailing" secondItem="EAi-Cv-LAd" secondAttribute="trailing" id="PZt-Ha-fiF"/>
                             <constraint firstItem="H1q-HW-Lpd" firstAttribute="leading" secondItem="I0V-7U-PBM" secondAttribute="leading" constant="8" id="S34-k5-Eus"/>
                             <constraint firstItem="af2-wa-rdJ" firstAttribute="top" secondItem="EAi-Cv-LAd" secondAttribute="top" id="TDu-Gh-3iw"/>
+                            <constraint firstItem="UXi-jO-4r5" firstAttribute="leading" secondItem="I0V-7U-PBM" secondAttribute="leading" constant="23" id="TSs-fr-U3f"/>
                             <constraint firstItem="yMg-qD-WY4" firstAttribute="top" secondItem="jA5-Cd-7Id" secondAttribute="bottom" constant="10" id="Wfc-eY-j2R"/>
                             <constraint firstItem="EAi-Cv-LAd" firstAttribute="centerX" secondItem="I0V-7U-PBM" secondAttribute="centerX" id="ZsS-Rb-cjP"/>
                             <constraint firstItem="xut-Ai-QCh" firstAttribute="leading" secondItem="I0V-7U-PBM" secondAttribute="leading" constant="8" id="agj-Ua-wDq"/>
@@ -153,6 +158,7 @@
                             <constraint firstItem="GnO-bX-dSG" firstAttribute="leading" secondItem="yMg-qD-WY4" secondAttribute="leading" constant="39" id="c2V-kz-mRJ"/>
                             <constraint firstAttribute="trailing" secondItem="UAT-h9-Z56" secondAttribute="trailing" constant="15" id="cX7-O8-a7h"/>
                             <constraint firstItem="xut-Ai-QCh" firstAttribute="top" secondItem="H1q-HW-Lpd" secondAttribute="bottom" constant="4" id="f5F-aX-sA6"/>
+                            <constraint firstItem="UXi-jO-4r5" firstAttribute="top" secondItem="I0V-7U-PBM" secondAttribute="top" constant="11" id="fF3-rk-HdA"/>
                             <constraint firstAttribute="trailing" secondItem="xut-Ai-QCh" secondAttribute="trailing" constant="8" id="fox-jL-oGb"/>
                             <constraint firstItem="GnO-bX-dSG" firstAttribute="centerX" secondItem="yMg-qD-WY4" secondAttribute="centerX" id="ful-Xa-KBL"/>
                             <constraint firstItem="GnO-bX-dSG" firstAttribute="leading" secondItem="yMg-qD-WY4" secondAttribute="trailing" constant="-259" id="gSh-K0-RVD"/>
@@ -191,7 +197,7 @@
                 <constraint firstAttribute="bottom" secondItem="VjK-0H-94U" secondAttribute="bottom" id="o8X-hh-5YE"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
-            <point key="canvasLocation" x="808" y="585"/>
+            <point key="canvasLocation" x="-511" y="-87"/>
         </view>
     </objects>
 </document>
