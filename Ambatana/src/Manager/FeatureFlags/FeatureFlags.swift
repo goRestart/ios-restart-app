@@ -30,6 +30,7 @@ protocol FeatureFlaggeable: class {
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var shouldHightlightFreeFilterInFeed: Bool { get }
+    func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool
 
     var postingFlowType: PostingFlowType { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
@@ -89,7 +90,6 @@ protocol FeatureFlaggeable: class {
     var newSearchAPI: NewSearchAPIEndPoint { get }
 
     // MARK: Products
-    var predictivePosting: PredictivePosting { get }
     var simplifiedChatButton: SimplifiedChatButton { get }
     var frictionlessShare: FrictionlessShare { get }
     var turkeyFreePosting: TurkeyFreePosting { get }
@@ -316,18 +316,6 @@ extension AdvancedReputationSystem13 {
 }
 
 // MARK: Products
-
-extension PredictivePosting {
-    var isActive: Bool { return self == .active }
-
-    func isSupportedFor(postCategory: PostCategory?, language: String) -> Bool {
-        if #available(iOS 11, *), isActive, postCategory?.listingCategory.isProduct ?? false, language == "en" {
-            return true
-        } else {
-            return false
-        }
-    }
-}
 
 extension FrictionlessShare {
     var isActive: Bool { return self == .active }
@@ -720,6 +708,16 @@ final class FeatureFlags: FeatureFlaggeable {
         switch locationCountryCode {
         case .turkey?: return freePostingModeAllowed // just for turkey
         default: return false
+        }
+    }
+
+    func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool {
+        guard #available(iOS 11, *), postCategory?.listingCategory.isProduct ?? false else { return false}
+        switch (locationCountryCode, localeCountryCode) {
+        case (.usa?, .usa?):
+            return true
+        default:
+            return false
         }
     }
 
@@ -1235,13 +1233,6 @@ extension FeatureFlags {
 // MARK: Products
 
 extension FeatureFlags {
-
-    var predictivePosting: PredictivePosting {
-        if Bumper.enabled {
-            return Bumper.predictivePosting
-        }
-        return PredictivePosting.fromPosition(abTests.predictivePosting.value)
-    }
 
     var simplifiedChatButton: SimplifiedChatButton {
         if Bumper.enabled {

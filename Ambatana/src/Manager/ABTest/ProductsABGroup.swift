@@ -3,7 +3,6 @@ import Foundation
 struct ProductsABGroup: ABGroupType {
 
     private struct Keys {
-        static let predictivePosting = "20180604PredictivePosting"
         static let simplifiedChatButton = "20181003SimplifiedChatButton"
         static let deckItemPage = "20180704DeckItemPage"
         static let frictionlessShare = "20180716FrictionlessShare"
@@ -12,7 +11,6 @@ struct ProductsABGroup: ABGroupType {
         static let makeAnOfferButton = "20180904MakeAnOfferButton"
     }
 
-    let predictivePosting: LeanplumABVariable<Int>
     let simplifiedChatButton: LeanplumABVariable<Int>
     let deckItemPage: LeanplumABVariable<Int>
     let frictionlessShare: LeanplumABVariable<Int>
@@ -26,22 +24,19 @@ struct ProductsABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
-    init(predictivePosting: LeanplumABVariable<Int>,
-         simplifiedChatButton: LeanplumABVariable<Int>,
+    init(simplifiedChatButton: LeanplumABVariable<Int>,
          deckItemPage: LeanplumABVariable<Int>,
          frictionlessShare: LeanplumABVariable<Int>,
          turkeyFreePosting: LeanplumABVariable<Int>,
          bulkPosting:  LeanplumABVariable<Int>,
          makeAnOfferButton: LeanplumABVariable<Int>) {
-        self.predictivePosting = predictivePosting
         self.simplifiedChatButton = simplifiedChatButton
         self.deckItemPage = deckItemPage
         self.frictionlessShare = frictionlessShare
         self.turkeyFreePosting = turkeyFreePosting
         self.bulkPosting = bulkPosting
         self.makeAnOfferButton = makeAnOfferButton
-        intVariables.append(contentsOf: [predictivePosting,
-                                         simplifiedChatButton,
+        intVariables.append(contentsOf: [simplifiedChatButton,
                                          deckItemPage,
                                          frictionlessShare,
                                          turkeyFreePosting,
@@ -50,10 +45,7 @@ struct ProductsABGroup: ABGroupType {
     }
 
     static func make() -> ProductsABGroup {
-        return ProductsABGroup(predictivePosting: .makeInt(key: Keys.predictivePosting,
-                                                           defaultValue: 0,
-                                                           groupType: .products),
-                               simplifiedChatButton: .makeInt(key: Keys.simplifiedChatButton,
+        return ProductsABGroup(simplifiedChatButton: .makeInt(key: Keys.simplifiedChatButton,
                                                               defaultValue: 0,
                                                               groupType: .products),
                                deckItemPage: .makeInt(key: Keys.deckItemPage,
