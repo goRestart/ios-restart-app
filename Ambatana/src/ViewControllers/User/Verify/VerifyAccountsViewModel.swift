@@ -175,6 +175,12 @@ fileprivate extension VerifyAccountsViewModel {
                 break
             case .error:
                 self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
+            case .unavailable:
+                self?.delegate?.vmShowAlertWithTitle(
+                    R.Strings.mainSignUpFbConnectErrorUnavailableTitle,
+                    text: R.Strings.profileVerificationsViewFacebookUnavailable,
+                    alertType: .plainAlert,
+                    actions: [UIAction.init(interface: .text(R.Strings.commonOk), action: {})])
             }
         }
     }
@@ -192,7 +198,7 @@ fileprivate extension VerifyAccountsViewModel {
                         self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
                     }
                 }
-            case .cancelled:
+            case .cancelled, .unavailable:
                 break
             case .error:
                 self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })

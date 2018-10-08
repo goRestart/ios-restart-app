@@ -215,9 +215,21 @@ class SignUpViewModel: BaseViewModel {
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showDeviceNotAllowedAlert(accountProvider.accountNetwork)
             }
+        case .unavailable:
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showServiceUnavailable()
+            }
         case .cancelled, .network, .notFound, .conflict, .badRequest, .internalError, .loginError:
             delegate?.vmHideLoading(result.errorMessage, afterMessageCompletion: nil)
         }
+    }
+    
+    private func showServiceUnavailable() {
+        router?.showAlert(
+            withTitle: R.Strings.mainSignUpFbConnectErrorUnavailableTitle,
+            andBody: R.Strings.mainSignUpFbConnectErrorUnavailableMessage,
+            andType: .plainAlert,
+            andActions: [UIAction.init(interface: .text(R.Strings.commonOk), action: {})])
     }
 
     private func showScammerAlert(_ network: EventParameterAccountNetwork) {

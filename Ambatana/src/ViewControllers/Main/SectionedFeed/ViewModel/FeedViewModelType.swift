@@ -41,7 +41,7 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
 
     func resetFirstLoadState()
     
-    func loadFeedItems()
+    func loadFeedItems(uponPullToRefresh: Bool)
     func willScroll(toSection section: Int)
     func feedSectionController(for object: Any) -> ListSectionController
 }

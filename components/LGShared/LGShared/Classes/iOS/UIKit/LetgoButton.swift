@@ -3,6 +3,7 @@ import Foundation
 public enum ButtonFontSize {
     case big
     case medium
+    case mediumBold
     case small
     case verySmall
     case verySmallBold
@@ -119,6 +120,8 @@ public enum ButtonStyle {
             return UIFont.bigButtonFont
         case .medium:
             return UIFont.mediumButtonFont
+        case .mediumBold:
+            return UIFont.mediumBoldButtonFont
         case .small:
             return UIFont.smallButtonFont
         case .verySmall:
@@ -206,7 +209,7 @@ public enum ButtonStyle {
             switch fontSize {
             case .big:
                 return 15
-            case .medium, .small, .verySmall, .verySmallBold:
+            case .medium, .mediumBold, .small, .verySmall, .verySmallBold:
                 return 10
             }
         case .transparent(_, let side):

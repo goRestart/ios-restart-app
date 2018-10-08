@@ -1,11 +1,3 @@
-//
-//  ABCore.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 29/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 
 struct CoreABGroup: ABGroupType {
@@ -15,14 +7,16 @@ struct CoreABGroup: ABGroupType {
         static let muteNotifications = "20180906MutePushNotifications"
         static let muteNotificationsStartHour = "20180906MutePushNotificationsHourStart"
         static let muteNotificationsEndHour = "20180906MutePushNotificationsHourEnd"
+        static let facebookUnavailable = "20181001FacebookUnavailable"
     }
     let searchImprovements: LeanplumABVariable<Int>
     let relaxedSearch: LeanplumABVariable<Int>
     let mutePushNotifications: LeanplumABVariable<Int>
     let mutePushNotificationsStartHour: LeanplumABVariable<Int>
     let mutePushNotificationsEndHour: LeanplumABVariable<Int>
+    let facebookUnavailable: LeanplumABVariable<Bool>
 
-    let group: ABGroup = .retention
+    let group: ABGroup = .core
     var intVariables: [LeanplumABVariable<Int>] = []
     var stringVariables: [LeanplumABVariable<String>] = []
     var floatVariables: [LeanplumABVariable<Float>] = []
@@ -32,12 +26,14 @@ struct CoreABGroup: ABGroupType {
          relaxedSearch: LeanplumABVariable<Int>,
          mutePushNotifications: LeanplumABVariable<Int>,
          mutePushNotificationsStartHour: LeanplumABVariable<Int>,
-         mutePushNotificationsEndHour: LeanplumABVariable<Int>) {
+         mutePushNotificationsEndHour: LeanplumABVariable<Int>,
+         facebookUnavailable: LeanplumABVariable<Bool>) {
         self.searchImprovements = searchImprovements
         self.relaxedSearch = relaxedSearch
         self.mutePushNotifications = mutePushNotifications
         self.mutePushNotificationsStartHour = mutePushNotificationsStartHour
         self.mutePushNotificationsEndHour = mutePushNotificationsEndHour
+        self.facebookUnavailable = facebookUnavailable
         intVariables.append(contentsOf: [
             searchImprovements,
             relaxedSearch,
@@ -45,23 +41,26 @@ struct CoreABGroup: ABGroupType {
             mutePushNotificationsStartHour,
             mutePushNotificationsEndHour
             ])
+        boolVariables.append(contentsOf:[
+            facebookUnavailable
+            ])
     }
     
     static func make() -> CoreABGroup {
-        return CoreABGroup(searchImprovements: .makeInt(key: Keys.searchImprovements,
-                                                        defaultValue: 0,
-                                                        groupType: .core),
-                           relaxedSearch: .makeInt(key: Keys.relaxedSearch,
-                                                   defaultValue: 0,
-                                                   groupType: .core),
-                           mutePushNotifications: .makeInt(key: Keys.muteNotifications,
-                                                           defaultValue: 0,
-                                                           groupType: .core),
-                           mutePushNotificationsStartHour: .makeInt(key: Keys.muteNotificationsStartHour,
-                                                                    defaultValue: 23,
-                                                                    groupType: .core),
-                           mutePushNotificationsEndHour: .makeInt(key: Keys.muteNotificationsEndHour,
-                                                                  defaultValue: 6,
-                                                                    groupType: .core))
+        return CoreABGroup(searchImprovements: coreIntFor(key: Keys.searchImprovements),
+                           relaxedSearch: coreIntFor(key: Keys.relaxedSearch),
+                           mutePushNotifications: coreIntFor(key: Keys.muteNotifications),
+                           mutePushNotificationsStartHour: coreIntFor(key: Keys.muteNotificationsStartHour, value: 23),
+                           mutePushNotificationsEndHour: coreIntFor(key: Keys.muteNotificationsEndHour, value: 6),
+                           facebookUnavailable: coreBoolFor(key: Keys.facebookUnavailable, value: false)
+        )
+    }
+
+    private static func coreIntFor(key: String, value: Int = 0) -> LeanplumABVariable<Int> {
+        return .makeInt(key: key, defaultValue: value, groupType: .core)
+    }
+    
+    private static func coreBoolFor(key: String, value: Bool) -> LeanplumABVariable<Bool> {
+        return .makeBool(key: key, defaultValue: value, groupType: .core)
     }
 }

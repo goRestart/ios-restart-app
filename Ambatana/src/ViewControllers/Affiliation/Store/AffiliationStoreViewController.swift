@@ -58,7 +58,7 @@ final class AffiliationStoreViewController: BaseViewController {
         let bindings = [
             viewModel.rx.state.throttle(RxTimeInterval(1)).drive(rx.state),
             viewModel.rx.redeemTapped.drive(rx.redeemCell),
-            viewModel.rx.points.drive(rx.points),
+            viewModel.rx.points.drive(rx.points)
         ]
         bindings.forEach { $0.disposed(by: disposeBag) }
     }
@@ -115,10 +115,10 @@ final class AffiliationStoreViewController: BaseViewController {
             dismiss(animated: true, completion: { [weak self] in
                 self?.showError()
             })
+            pointsView.alpha = state == .loading ? 0 : 1
         }
-        pointsView.alpha = state == .loading ? 0 : 1
     }
-
+    
     private func showError() {
         showAlert(R.Strings.affiliationStoreGenericError, message: nil, actions: [])
         delay(2) { [weak self] in

@@ -223,8 +223,17 @@ extension AppCoordinator: AppNavigator {
     }
 
     private func openOnboarding() -> Bool {
-        guard !keyValueStorage[.didShowOnboarding] else { return false }
-        keyValueStorage[.didShowOnboarding] = true
+        let shouldShowBlockingSignUp = featureFlags.blockingSignUp.isActive &&
+            !keyValueStorage[.didShowBlockingSignUp]
+            && !sessionManager.loggedIn
+        let shouldShowOnboarding = !keyValueStorage[.didShowOnboarding]
+        if !shouldShowBlockingSignUp && !shouldShowOnboarding {
+            AppsFlyerAffiliationResolver.shared.rx_AppIsReady.accept(true)
+            return false
+        }
+
+            keyValueStorage[.didShowOnboarding] = true
+        
         // If I have to show the onboarding, then I assume it is the first time the user opens the app:
         if keyValueStorage[.firstRunDate] == nil {
             keyValueStorage[.firstRunDate] = Date()
@@ -626,6 +635,13 @@ extension AppCoordinator: SellCoordinatorDelegate {
 
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
         openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .sellEdit(listing: listing))
+    }
+
+    func sellCoordinator(coordinator: SellCoordinator, didFinishWithBulkPostingListings listings: [Listing]) {
+        refreshSelectedListingsRefreshable()
+        if listings.count == 1, let listing = listings.first {
+            openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .promoted)
+        }
     }
 }
 

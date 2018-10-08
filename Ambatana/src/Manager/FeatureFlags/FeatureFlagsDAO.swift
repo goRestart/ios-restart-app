@@ -21,4 +21,6 @@ protocol FeatureFlagsDAO {
     func save(mutePushNotifications: MutePushNotifications, hourStart: Int, hourEnd: Int)
     func retrieveAffiliationEnabled() -> AffiliationEnabled?
     func save(affiliationEnabled: AffiliationEnabled)
+    func retrieveBlockingSignUp() -> BlockingSignUp?
+    func save(blockingSignUp: BlockingSignUp)
 }

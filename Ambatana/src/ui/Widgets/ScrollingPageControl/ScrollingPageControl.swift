@@ -100,7 +100,7 @@ final class ScrollingPageControl: UIView {
     
     private func setupScrollView() {
         resetScrollView()
-        
+        guard numberOfPages > 0 else { return }
         for i in 0...numberOfPages-1 {
             let itemRect = frameForItem(atIndex: i)
             let itemView = PageItemDotView(withColor: itemColor,

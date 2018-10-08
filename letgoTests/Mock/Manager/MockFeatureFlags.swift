@@ -27,6 +27,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var mutePushNotifications: MutePushNotifications = .control
+    var facebookUnavailable: Bool = false
     var showProTagUserProfile: Bool = false
     var showExactLocationForPros: Bool = true
     var shouldMoveLetsMeetAction = false
@@ -100,6 +101,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var simplifiedChatButton: SimplifiedChatButton = .control
     var frictionlessShare: FrictionlessShare = .control
     var turkeyFreePosting: TurkeyFreePosting = .control
+    var bulkPosting: BulkPosting = .control
     var makeAnOfferButton: MakeAnOfferButton = .control
 
     // MARK: Users
@@ -131,5 +133,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shareAfterScreenshot: ShareAfterScreenshot = .control
     var affiliationEnabled: AffiliationEnabled = .control
     var imageSizesNotificationCenter: ImageSizesNotificationCenter = .control
+    var blockingSignUp: BlockingSignUp = .control
 }
 

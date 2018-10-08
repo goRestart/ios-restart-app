@@ -66,7 +66,7 @@ final class P2PPaymentsCreateOfferViewController: BaseViewController {
         bottomContraint = changeOfferView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor)
         bottomContraint?.isActive = true
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: Layout.headerTopMargin),
+            headerView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: Layout.headerTopMargin),
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Layout.contentHorizontalMargin),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Layout.contentHorizontalMargin),
 

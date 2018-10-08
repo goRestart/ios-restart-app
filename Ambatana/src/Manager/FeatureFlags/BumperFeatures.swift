@@ -78,6 +78,7 @@ extension Bumper  {
         flags.append(MultiDayBumpUp.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(BulkPosting.self)
         flags.append(ShareAfterScreenshot.self)
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
@@ -87,6 +88,8 @@ extension Bumper  {
         flags.append(MakeAnOfferButton.self)
         flags.append(NewSearchAPIEndPoint.self)
         flags.append(ImageSizesNotificationCenter.self)
+        flags.append(BlockingSignUp.self)
+        flags.append(FacebookUnavailable.self)
         flags.append(BoostSmokeTest.self)
         flags.append(PolymorphFeedAdsUSA.self)
         Bumper.initialize(flags)
@@ -898,6 +901,19 @@ extension Bumper  {
     }
     #endif
 
+    static var bulkPosting: BulkPosting {
+        guard let value = Bumper.value(for: BulkPosting.key) else { return .control }
+        return BulkPosting(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var bulkPostingObservable: Observable<BulkPosting> {
+        return Bumper.observeValue(for: BulkPosting.key).map {
+            BulkPosting(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var shareAfterScreenshot: ShareAfterScreenshot {
         guard let value = Bumper.value(for: ShareAfterScreenshot.key) else { return .control }
         return ShareAfterScreenshot(rawValue: value) ?? .control 
@@ -1011,6 +1027,32 @@ extension Bumper  {
     static var imageSizesNotificationCenterObservable: Observable<ImageSizesNotificationCenter> {
         return Bumper.observeValue(for: ImageSizesNotificationCenter.key).map {
             ImageSizesNotificationCenter(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var blockingSignUp: BlockingSignUp {
+        guard let value = Bumper.value(for: BlockingSignUp.key) else { return .control }
+        return BlockingSignUp(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var blockingSignUpObservable: Observable<BlockingSignUp> {
+        return Bumper.observeValue(for: BlockingSignUp.key).map {
+            BlockingSignUp(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var facebookUnavailable: Bool {
+        guard let value = Bumper.value(for: FacebookUnavailable.key) else { return false }
+        return FacebookUnavailable(rawValue: value)?.asBool ?? false
+    } 
+
+    #if (RX_BUMPER)
+    static var facebookUnavailableObservable: Observable<Bool> {
+        return Bumper.observeValue(for: FacebookUnavailable.key).map {
+            FacebookUnavailable(rawValue: $0 ?? "")?.asBool ?? false
         }
     }
     #endif
@@ -2032,6 +2074,25 @@ enum ClickToTalk: String, BumperFeature  {
     }
 }
 
+enum BulkPosting: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return BulkPosting.control.rawValue }
+    static var enumValues: [BulkPosting] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[PRODUCTS] Bulk posting" } 
+    static func fromPosition(_ position: Int) -> BulkPosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
+            case 5: return .variantD
+            default: return .control
+        }
+    }
+}
+
 enum ShareAfterScreenshot: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return ShareAfterScreenshot.control.rawValue }
@@ -2176,6 +2237,31 @@ enum ImageSizesNotificationCenter: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum BlockingSignUp: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return BlockingSignUp.control.rawValue }
+    static var enumValues: [BlockingSignUp] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] User needs to sign up/sign in even after killing the app in log in screen" } 
+    static func fromPosition(_ position: Int) -> BlockingSignUp {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum FacebookUnavailable: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return FacebookUnavailable.no.rawValue }
+    static var enumValues: [FacebookUnavailable] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CORE] Show Facebook unavailable message when user tries to authenticate with Facebook." } 
+    var asBool: Bool { return self == .yes }
 }
 
 enum BoostSmokeTest: String, BumperFeature  {

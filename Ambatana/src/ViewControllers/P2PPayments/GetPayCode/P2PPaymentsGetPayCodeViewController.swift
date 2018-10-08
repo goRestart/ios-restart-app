@@ -138,7 +138,7 @@ final class P2PPaymentsGetPayCodeViewController: BaseViewController {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            warningImageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: Layout.warningIconTopMargin),
+            warningImageView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: Layout.warningIconTopMargin),
             warningImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             warningImageView.widthAnchor.constraint(equalToConstant: Layout.warningIconSize),
             warningImageView.heightAnchor.constraint(equalToConstant: Layout.warningIconSize),

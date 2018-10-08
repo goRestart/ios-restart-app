@@ -9,6 +9,10 @@ final class TourLocationWireframe: TourLocationNavigator {
     private let featureFlags: FeatureFlaggeable
     private var shouldShowBlockingPosting: Bool { return featureFlags.onboardingIncentivizePosting.isActive }
 
+    private var shouldSkipForAffiliation: Bool {
+        return AppsFlyerAffiliationResolver.shared.isProbablyReferral
+    }
+
     convenience init(nc: UINavigationController,
                      action: @escaping TourPostingAction,
                      skipper: TourSkiperNavigator?) {
@@ -35,11 +39,9 @@ final class TourLocationWireframe: TourLocationNavigator {
     }
 
     private func openNextTour() {
-        guard false else {
-            action(TourPosting(posting: false, source: .onboardingBlockingPosting))
-            return
-        }
-        if let tourSkipper = skipper, tourSkipper.shouldSkipTour {
+        if shouldSkipForAffiliation  {
+            action(TourPosting(posting: false, source: nil))
+        } else if let tourSkipper = skipper, tourSkipper.shouldSkipTour {
             tourSkipper.skipTour()
         } else if shouldShowBlockingPosting {
             action(TourPosting(posting: true, source: .onboardingBlockingPosting))

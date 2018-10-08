@@ -35,6 +35,8 @@ final class NotificationSettingsAccessorListViewController: BaseViewController, 
         tableView.dataSource = self
         tableView.register(NotificationSettingsAccessorCell.self,
                            forCellReuseIdentifier: NotificationSettingsAccessorCell.reusableID)
+        tableView.register(NotificationSettingsSwitchCell.self,
+                           forCellReuseIdentifier: NotificationSettingsSwitchCell.reusableID)
     }
     
     required init?(coder: NSCoder) {

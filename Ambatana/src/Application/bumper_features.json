@@ -310,6 +310,11 @@
         "description": "[VERTICALS] Show Click to talk"
     },
     {
+        "name": "BulkPosting",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
+        "description": "[PRODUCTS] Bulk posting"
+    },
+    {
         "name": "ShareAfterScreenshot",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Show a share view after the user takes a screenshot"
@@ -353,6 +358,16 @@
         "name": "ImageSizesNotificationCenter",
         "values": ["control", "baseline", "nineSix", "oneTwoEight"],
         "description": "[RETENTION] Notification center with different thumbnails sizes"
+    },
+    {
+        "name": "BlockingSignUp",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] User needs to sign up/sign in even after killing the app in log in screen"
+    },
+    {
+        "name": "FacebookUnavailable",
+        "values": ["no", "yes"],
+        "description": "[CORE] Show Facebook unavailable message when user tries to authenticate with Facebook."
     },
     {
         "name": "BoostSmokeTest",

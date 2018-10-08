@@ -2,7 +2,6 @@
     import AdSupport
 #endif
 import AppsFlyerLib
-import Branch
 import Crashlytics
 import CocoaLumberjack
 import Fabric
@@ -286,18 +285,6 @@ fileprivate extension AppDelegate {
                                             carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath),
                                             servicesInfoAppJSONURL: URL(fileURLWithPath: servicesJSONPath))
         LGCoreKit.initialize(config: coreKitConfig)
-
-        // Branch.io
-        if let branch = Branch.getInstance() {
-            #if DEBUG
-                branch.setDebug()
-            #endif
-            
-            branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
-                [weak self] object, properties, error in
-                self?.deepLinksRouter?.deepLinkFromBranchObject(object, properties: properties)
-            })
-        }
 
         // Facebook id
         FBSDKSettings.setAppID(EnvironmentProxy.sharedInstance.facebookAppId)

@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PushPrePermissionsSettingsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="allowNotificationsLabel" destination="CKL-gX-JF8" id="jiJ-dV-y2g"/>
+                <outlet property="closeButton" destination="JoF-Ny-u2i" id="ISX-QW-auq"/>
                 <outlet property="firstSectionLabel" destination="vQm-MM-For" id="jRG-uY-eds"/>
                 <outlet property="notificationsLabel" destination="Iba-AE-7sd" id="sRM-ch-Paw"/>
                 <outlet property="secondSectionLabel" destination="csY-8D-QCD" id="FEd-YK-U1E"/>
@@ -112,6 +113,9 @@
                                     <action selector="yesButtonPressed:" destination="-1" eventType="touchUpInside" id="dZq-0f-cpc"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JoF-Ny-u2i">
+                                <rect key="frame" x="15" y="28" width="30" height="30"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -143,8 +147,10 @@
                             <constraint firstItem="CKL-gX-JF8" firstAttribute="top" secondItem="WKI-ya-7M8" secondAttribute="top" id="fhg-xJ-WQ1"/>
                             <constraint firstItem="Iba-AE-7sd" firstAttribute="centerY" secondItem="TA1-6c-LD0" secondAttribute="centerY" id="gW8-Pn-9f3"/>
                             <constraint firstItem="WKI-ya-7M8" firstAttribute="leading" secondItem="DdJ-KT-kq7" secondAttribute="leading" constant="35" id="hrb-FQ-Svl"/>
+                            <constraint firstItem="JoF-Ny-u2i" firstAttribute="top" secondItem="DdJ-KT-kq7" secondAttribute="top" constant="28" id="kxH-00-NWx"/>
                             <constraint firstAttribute="trailing" secondItem="WKI-ya-7M8" secondAttribute="trailing" constant="35" id="lSf-77-Bhb"/>
                             <constraint firstItem="CKL-gX-JF8" firstAttribute="bottom" secondItem="WKI-ya-7M8" secondAttribute="bottom" id="lWb-Kb-NPA"/>
+                            <constraint firstItem="JoF-Ny-u2i" firstAttribute="leading" secondItem="DdJ-KT-kq7" secondAttribute="leading" constant="15" id="lrb-4s-ehQ"/>
                             <constraint firstAttribute="trailing" secondItem="TA1-6c-LD0" secondAttribute="trailing" constant="35" id="oYt-pk-Nmo"/>
                             <constraint firstItem="Iba-AE-7sd" firstAttribute="bottom" secondItem="TA1-6c-LD0" secondAttribute="bottom" constant="-38" id="ob3-65-LbD"/>
                             <constraint firstItem="Iba-AE-7sd" firstAttribute="leading" secondItem="TA1-6c-LD0" secondAttribute="leading" constant="46" id="pp1-kX-ssl"/>
@@ -183,7 +189,7 @@
                 <constraint firstAttribute="bottom" secondItem="WXY-sb-G2K" secondAttribute="bottom" id="qDg-Oh-NKZ"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
-            <point key="canvasLocation" x="808.5" y="585.5"/>
+            <point key="canvasLocation" x="-396" y="48"/>
         </view>
     </objects>
 </document>
