@@ -12,7 +12,8 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     @IBOutlet weak var yesButton: LetgoButton!
     @IBOutlet weak var settingsImage1: UIImageView!
     @IBOutlet weak var settingsImage2: UIImageView!
-
+    @IBOutlet weak var closeButton: UIButton!
+  
     var completion: (() -> ())?
 
     let viewModel: PushPrePermissionsSettingsViewModel
@@ -52,13 +53,11 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         
         settingsImage1.image = R.Asset.BackgroundsAndImages.settingsNotifications1.image
         settingsImage2.image = R.Asset.BackgroundsAndImages.settingsNotifications2.image
-
-        let close = UIBarButtonItem(image: R.Asset.IconsButtons.icClose.image,
-                                    style: .plain,
-                                    target: self,
-                                    action: #selector(closeButtonPressed))
-        navigationItem.leftBarButtonItem = close
-
+ 
+        closeButton.tintColor = .white
+        closeButton.setImage(R.Asset.IconsButtons.icClose.image, for: .normal)
+        closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
+ 
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont

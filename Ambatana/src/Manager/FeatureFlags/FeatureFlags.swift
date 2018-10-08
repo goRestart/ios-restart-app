@@ -22,6 +22,7 @@ protocol FeatureFlaggeable: class {
     var searchImprovements: SearchImprovements { get }
     var relaxedSearch: RelaxedSearch { get }
     var mutePushNotifications: MutePushNotifications { get }
+    var facebookUnavailable: Bool { get }
     var showProTagUserProfile: Bool { get }
     var showExactLocationForPros: Bool { get }
     var showPasswordlessLogin: ShowPasswordlessLogin { get }
@@ -94,6 +95,7 @@ protocol FeatureFlaggeable: class {
     var simplifiedChatButton: SimplifiedChatButton { get }
     var frictionlessShare: FrictionlessShare { get }
     var turkeyFreePosting: TurkeyFreePosting { get }
+    var bulkPosting: BulkPosting{ get }
     var makeAnOfferButton: MakeAnOfferButton { get }
 
     // MARK: Users
@@ -123,6 +125,7 @@ protocol FeatureFlaggeable: class {
     var shareAfterScreenshot: ShareAfterScreenshot { get }
     var affiliationEnabled: AffiliationEnabled { get }
     var imageSizesNotificationCenter: ImageSizesNotificationCenter { get }
+    var blockingSignUp: BlockingSignUp {  get }
 
     var rx_affiliationEnabled: Observable<AffiliationEnabled> { get }
 }
@@ -344,6 +347,40 @@ extension TurkeyFreePosting {
     var isActive: Bool { return self == .active }
 }
 
+extension BulkPosting {
+    var isActive: Bool { return self != .control && self != .baseline }
+
+    var productsLimit: Int {
+        switch self {
+        case .control, .baseline:
+            return 0
+        case .variantA, .variantD:
+            return 5
+        case .variantB:
+            return 10
+        case .variantC:
+            return 25
+        }
+    }
+
+    var showDoneButtonInCameraScreen: Bool {
+        switch self {
+        case .control, .baseline, .variantD:
+            return false
+        case .variantA, .variantB, .variantC:
+            return true
+        }
+    }
+
+    func supportsCategory(category: PostCategory?) -> Bool {
+        switch category {
+        case .otherItems?:
+            return isActive
+        default:
+            return false
+        }
+    }
+}
 extension MakeAnOfferButton {
     var isActive: Bool { return self == .active }
 }
@@ -362,7 +399,7 @@ extension FullScreenAdsWhenBrowsingForUS {
     
     func shouldShowFullScreenAdsForUser(createdIn: Date?) -> Bool {
         guard let creationDate = createdIn,
-            creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
+            creationDate.isNewerThan(seconds: SharedConstants.newUserTimeThresholdForAds) else { return shouldShowFullScreenAdsForOldUsers }
         return shouldShowFullScreenAdsForNewUsers
     }
 }
@@ -380,7 +417,7 @@ extension MultiAdRequestInChatSectionForUS {
     
     func shouldShowAdsForUser(createdIn: Date?) -> Bool {
         guard isActive else { return false }
-        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+        return createdIn?.isOlderThan(seconds: SharedConstants.newUserTimeThresholdForAds) ?? false
     }
 }
 
@@ -389,7 +426,7 @@ extension MultiAdRequestInChatSectionForTR {
     
     func shouldShowAdsForUser(createdIn: Date?) -> Bool {
         guard isActive else { return false }
-        return createdIn?.isOlderThan(SharedConstants.newUserTimeThresholdForAds) ?? false
+        return createdIn?.isOlderThan(seconds: SharedConstants.newUserTimeThresholdForAds) ?? false
     }
 }
 
@@ -433,6 +470,10 @@ extension ImageSizesNotificationCenter {
     var isActive: Bool {
         return self == .nineSix || self == .oneTwoEight
     }
+}
+
+extension BlockingSignUp {
+    var isActive: Bool { return self == .active }
 }
 
 extension BumpInEditCopys {
@@ -512,6 +553,7 @@ final class FeatureFlags: FeatureFlaggeable {
                      hourStart: abTests.core.mutePushNotificationsStartHour.value,
                      hourEnd: abTests.core.mutePushNotificationsEndHour.value)
             dao.save(affiliationEnabled: Bumper.affiliationEnabled)
+            dao.save(blockingSignUp: Bumper.blockingSignUp)
         } else {
             dao.save(emergencyLocate: EmergencyLocate.fromPosition(abTests.emergencyLocate.value))
             dao.save(community: ShowCommunity.fromPosition(abTests.community.value))
@@ -522,6 +564,7 @@ final class FeatureFlags: FeatureFlaggeable {
                      hourStart: abTests.core.mutePushNotificationsStartHour.value,
                      hourEnd: abTests.core.mutePushNotificationsEndHour.value)
             dao.save(affiliationEnabled: AffiliationEnabled.fromPosition(abTests.affiliationCampaign.value))
+            dao.save(blockingSignUp: BlockingSignUp.fromPosition(abTests.blockingSignUp.value))
         }
     }
 
@@ -581,6 +624,13 @@ final class FeatureFlags: FeatureFlaggeable {
     
     var mutePushNotificationsEndHour: Int {
         return abTests.mutePushNotificationsEndHour.value
+    }
+    
+    var facebookUnavailable: Bool {
+        if Bumper.enabled {
+            return Bumper.facebookUnavailable
+        }
+        return abTests.facebookUnavailable.value
     }
     
     var showProTagUserProfile: Bool {
@@ -1238,6 +1288,13 @@ extension FeatureFlags {
         return TurkeyFreePosting.fromPosition(abTests.turkeyFreePosting.value)
     }
 
+    var bulkPosting: BulkPosting {
+        if Bumper.enabled {
+            return Bumper.bulkPosting
+        }
+        return BulkPosting.fromPosition(abTests.bulkPosting.value)
+    }
+
     var makeAnOfferButton: MakeAnOfferButton {
         if Bumper.enabled {
             return Bumper.makeAnOfferButton
@@ -1372,6 +1429,13 @@ extension FeatureFlags {
             return Bumper.imageSizesNotificationCenter
         }
         return ImageSizesNotificationCenter.fromPosition(abTests.imageSizesNotificationCenter.value)
+    }
+    
+    var blockingSignUp: BlockingSignUp {
+        if Bumper.enabled {
+            return Bumper.blockingSignUp
+        }
+        return BlockingSignUp.fromPosition(abTests.blockingSignUp.value)
     }
 
     var rx_affiliationEnabled: Observable<AffiliationEnabled> {

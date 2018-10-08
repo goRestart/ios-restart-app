@@ -28,7 +28,6 @@ def shared_pods
     #Fabric
     pod "Fabric",               "1.7.2"     # Obj-c
     pod "Crashlytics",          "3.9.3"     # Obj-c
-    pod "Branch",               "0.22.5"    # Obj-c
 
     # Tracking
     pod "Amplitude-iOS",        "4.0.4"     # Obj-c
@@ -44,9 +43,10 @@ def shared_pods
  
     # letgo Core
 
-#  pod "LGCoreKit",             "4.88.0", :inhibit_warnings => false
+
+    pod "LGCoreKit",             "4.92.0", :inhibit_warnings => false
 #    pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit", :inhibit_warnings => false
-   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-5234-reconnect-chat-after-coming-from-background', :inhibit_warnings => false
+#pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :branch => 'ABIOS-5234-reconnect-chat-after-coming-from-background', :inhibit_warnings => false
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0", :inhibit_warnings => false     # :path => "../collapsiblelabel"

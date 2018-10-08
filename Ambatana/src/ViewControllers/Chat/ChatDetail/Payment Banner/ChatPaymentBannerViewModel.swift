@@ -14,13 +14,18 @@ final class ChatPaymentBannerViewModel {
     private var params: P2PPaymentStateParams?
     private var disposeBag = DisposeBag()
     var isHidden: Driver<Bool> {
-        guard featureFlags.makeAnOfferButton.isActive else {
-            return Driver<Bool>.just(true)
-        }
+        let isMakeOfferHidden = !featureFlags.makeAnOfferButton.isActive
         return offerState.map { state in
             switch state {
-            case .offersUnavailable: return true
-            default: return false
+            case .offersUnavailable:
+                return true
+            case .makeOffer:
+                return isMakeOfferHidden
+            case .viewOffer,
+                 .viewPayCode,
+                 .exchangeCode,
+                 .payout:
+                return false
             }
         }.asDriver()
     }

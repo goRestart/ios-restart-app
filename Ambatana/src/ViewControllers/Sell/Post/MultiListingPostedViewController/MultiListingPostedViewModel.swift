@@ -494,7 +494,6 @@ extension MultiListingPostedViewModel {
 // MARK:- Tracking
 
 extension MultiListingPostedViewModel {
-    
     private func trackPostSellComplete(listing: Listing, trackingInfo: PostListingTrackingInfo) {
         let event = TrackerEvent.listingSellComplete(listing,
                                                      buttonName: trackingInfo.buttonName,
@@ -506,14 +505,6 @@ extension MultiListingPostedViewModel {
                                                      typePage: trackingInfo.typePage,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
-        
-        // Track product was sold in the first 24h (and not tracked before)
-        if let firstOpenDate = keyValueStorage[.firstRunDate], NSDate().timeIntervalSince(firstOpenDate as Date) <= 86400 &&
-            !keyValueStorage.userTrackingProductSellComplete24hTracked {
-            keyValueStorage.userTrackingProductSellComplete24hTracked = true
-            let event = TrackerEvent.listingSellComplete24h(listing)
-            tracker.trackEvent(event)
-        }
     }
     
     private func trackPostSellComplete(withListings listing: [Listing], trackingInfo: PostListingTrackingInfo) {

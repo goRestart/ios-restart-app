@@ -31,8 +31,11 @@ struct SectionedFeedVMTrackerHelper {
                                searchQuery: String?,
                                feedSource: EventParameterFeedSource,
                                sectionPosition: UInt?,
-                               sectionIdentifier: String?) {
+                               sectionIdentifier: String?,
+                               pullToRefreshTriggered: Bool) {
+        guard let isFirstPage = feed?.isFirstPage, isFirstPage else { return }
         let successParameter: EventParameterBoolean = feed != nil ? .trueParameter : .falseParameter
+        let reloadParameter: EventParameterBoolean = pullToRefreshTriggered ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingListSectionedFeed(user,
                                                                  categories: categories,
                                                                  searchQuery: searchQuery,
@@ -46,7 +49,8 @@ struct SectionedFeedVMTrackerHelper {
                                                                     EventParameterSectionPosition.none,
                                                                  sectionName: (sectionIdentifier != nil) ?
                                                                     EventParameterSectionName.identifier(id: sectionIdentifier!) :
-                                                                    nil)
+            nil,
+                                                                 pullToRefreshTriggered: reloadParameter)
         tracker.trackEvent(trackerEvent)
     }
     

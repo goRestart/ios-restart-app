@@ -82,7 +82,6 @@ final class ListingCardView: UICollectionViewCell, ReusableCell {
         mediaViewModel = vm
         mediaView.set(viewModel: vm)
         updateWith(carousel: ListingCardMediaCarousel(media: media, currentIndex: 0))
-        mediaView.reloadData()
     }
 
     private func populateWith(title: String, price: String) {

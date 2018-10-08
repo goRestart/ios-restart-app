@@ -1,5 +1,7 @@
 import UIKit
 import LGComponents
+import RxSwift
+import RxCocoa
 
 protocol PostIncentivatorViewDelegate: class {
     func incentivatorTapped()
@@ -18,6 +20,9 @@ class PostIncentivatorView: UIView {
     @IBOutlet weak var thirdNameLabel: UILabel!
     @IBOutlet weak var thirdCountLabel: UILabel!
     @IBOutlet var magnifyingGlass: [UIImageView]!
+    fileprivate lazy var tapGesture: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(target: self, action: #selector(onTap))
+    }()
 
     weak var delegate: PostIncentivatorViewDelegate?
 
@@ -38,9 +43,9 @@ class PostIncentivatorView: UIView {
     // MARK: - Lifecycle
 
     static func postIncentivatorView(_ isFree: Bool,
-                                     isServicesListing: Bool) -> PostIncentivatorView? {
+                                     isServicesListing: Bool) -> PostIncentivatorView {
         guard let view = Bundle.main.loadNibNamed("PostIncentivatorView", owner: self, options: nil)?.first
-            as? PostIncentivatorView else { return nil }
+            as? PostIncentivatorView else { return PostIncentivatorView() }
         view.isFree = isFree
         view.isServicesListing = isServicesListing
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -49,6 +54,10 @@ class PostIncentivatorView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+
+    private override init(frame: CGRect) {
+        super.init(frame: frame)
     }
 
 
@@ -90,8 +99,7 @@ class PostIncentivatorView: UIView {
 
         incentiveLabel.attributedText = incentiveText
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(onTap))
-        self.addGestureRecognizer(tap)
+        addGestureRecognizer(tapGesture)
     }
     
     private func getIncentiviserPack() -> [PostIncentiviserItem] {
@@ -145,5 +153,11 @@ class PostIncentivatorView: UIView {
         resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
         
         return resultText
+    }
+}
+
+extension Reactive where Base: PostIncentivatorView {
+    var viewTapped: ControlEvent<UITapGestureRecognizer> {
+        return base.tapGesture.rx.event
     }
 }

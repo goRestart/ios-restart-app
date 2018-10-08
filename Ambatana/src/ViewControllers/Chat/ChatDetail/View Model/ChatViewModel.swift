@@ -1937,7 +1937,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             }
             return QuickAnswer.quickAnswersForOpenChatFromProfile()
         }
-
+        
         if let lastMessage = messages.value.first,
             let userId = myUserRepository.myUser?.objectId,
             let quickAnswers = QuickAnswer.quickAnswersForChatMessage(chatViewMessage: lastMessage),
@@ -1957,7 +1957,6 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
                                                        chatNorrisABtestVersion: featureFlags.chatNorris,
                                                        letsMeetIsInsideBar: featureFlags.shouldMoveLetsMeetAction)
         }
-    
         return []
     }
 

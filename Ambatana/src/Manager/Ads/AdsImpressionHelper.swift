@@ -27,7 +27,7 @@ struct LGAdsImpressionConfigurable: AdsImpressionConfigurable {
 
     var shouldShowAdsForUser: Bool {
         guard let creationDate = userCreationDate else { return true }
-        return !creationDate.isNewerThan(SharedConstants.newUserTimeThresholdForAds)
+        return !creationDate.isNewerThan(seconds: SharedConstants.newUserTimeThresholdForAds)
     }
 
     var ratio: Int {

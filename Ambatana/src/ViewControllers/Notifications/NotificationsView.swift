@@ -6,6 +6,7 @@ import RxSwift
 final class NotificationsView: UIView {
     private let tableView = UITableView(frame: .zero, style: .grouped)
     private let refreshControl = UIRefreshControl()
+    private let estimatedRowHeight: CGFloat = 80
     
     private let loadingActivityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
@@ -43,6 +44,7 @@ final class NotificationsView: UIView {
         tableView.register(type: NotificationCenterModularCell.self)
         
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = estimatedRowHeight
         tableView.separatorStyle = .none
         tableView.contentInset = .zero
         

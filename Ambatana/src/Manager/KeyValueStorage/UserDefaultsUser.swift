@@ -19,6 +19,8 @@ struct UserDefaultsUser {
     static let postListingLastTabSelectedDefaultValue: Int = 1
     static let postListingPostedPreviouslyDefaultValue = false
     static let trackingProductSellComplete24hTrackedDefaultValue = false
+    static let trackingProductBuyComplete24hTrackedDefaultValue = false
+    static let trackingProductBuySellComplete24hTrackedDefaultValue = false
     static let shouldShowExpressChatDefaultValue = true
     static let listingsWithExpressChatAlreadyShownDefaultValue: [String] = []
     static let listingsWithExpressChatMessageSentDefaultValue: [String] = []
@@ -40,6 +42,8 @@ struct UserDefaultsUser {
     var postListingLastTabSelected: Int
     var postListingPostedPreviously: Bool
     var trackingProductSellComplete24hTracked: Bool
+    var trackingProductBuyComplete24hTracked: Bool
+    var trackingProductBuySellComplete24hTracked: Bool
     var shouldShowExpressChat: Bool
     var listingsWithExpressChatAlreadyShown: [String]
     var listingsWithExpressChatMessageSent: [String]
@@ -63,6 +67,8 @@ struct UserDefaultsUser {
                   postListingLastTabSelected: UserDefaultsUser.postListingLastTabSelectedDefaultValue,
                   postListingPostedPreviously: UserDefaultsUser.postListingPostedPreviouslyDefaultValue,
                   trackingProductSellComplete24hTracked: UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue,
+                  trackingProductBuyComplete24hTracked: UserDefaultsUser.trackingProductBuyComplete24hTrackedDefaultValue,
+                  trackingProductBuySellComplete24hTracked: UserDefaultsUser.trackingProductBuySellComplete24hTrackedDefaultValue,
                   shouldShowExpressChat: UserDefaultsUser.shouldShowExpressChatDefaultValue,
                   listingsWithExpressChatAlreadyShown: UserDefaultsUser.listingsWithExpressChatAlreadyShownDefaultValue,
                   listingsWithExpressChatMessageSent: UserDefaultsUser.listingsWithExpressChatMessageSentDefaultValue,
@@ -84,6 +90,8 @@ struct UserDefaultsUser {
          postListingLastTabSelected: Int,
          postListingPostedPreviously: Bool,
          trackingProductSellComplete24hTracked: Bool,
+         trackingProductBuyComplete24hTracked: Bool,
+         trackingProductBuySellComplete24hTracked: Bool,
          shouldShowExpressChat: Bool,
          listingsWithExpressChatAlreadyShown: [String],
          listingsWithExpressChatMessageSent: [String],
@@ -103,6 +111,8 @@ struct UserDefaultsUser {
         self.postListingLastTabSelected = postListingLastTabSelected
         self.postListingPostedPreviously = postListingPostedPreviously
         self.trackingProductSellComplete24hTracked = trackingProductSellComplete24hTracked
+        self.trackingProductBuyComplete24hTracked = trackingProductBuyComplete24hTracked
+        self.trackingProductBuySellComplete24hTracked = trackingProductBuySellComplete24hTracked
         self.shouldShowExpressChat = shouldShowExpressChat
         self.listingsWithExpressChatAlreadyShown = listingsWithExpressChatAlreadyShown
         self.listingsWithExpressChatMessageSent = listingsWithExpressChatMessageSent
@@ -137,9 +147,12 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                                            defaultValue: UserDefaultsUser.postListingLastTabSelectedDefaultValue)
         let postListingPostedPreviously = dictionary.decode(UserDefaultsUserKey.postListingPostedPreviously.rawValue,
                                                            defaultValue: UserDefaultsUser.postListingPostedPreviouslyDefaultValue)
-
         let trackingProductSellComplete24hTracked = dictionary.decode(UserDefaultsUserKey.trackingProductSellComplete24hTracked.rawValue,
                                                                       defaultValue: UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue)
+        let trackingProductBuyComplete24hTracked = dictionary.decode(UserDefaultsUserKey.trackingProductBuyComplete24hTracked.rawValue,
+                                                                     defaultValue: UserDefaultsUser.trackingProductBuyComplete24hTrackedDefaultValue)
+        let trackingProductBuySellComplete24hTracked = dictionary.decode(UserDefaultsUserKey.trackingProductBuySellComplete24hTracked.rawValue,
+                                                                         defaultValue: UserDefaultsUser.trackingProductBuySellComplete24hTrackedDefaultValue)
         let shouldShowExpressChat = dictionary.decode(UserDefaultsUserKey.shouldShowExpressChat.rawValue,
                                                       defaultValue: UserDefaultsUser.shouldShowExpressChatDefaultValue)
         let listingsWithExpressChatAlreadyShown = dictionary.decode(UserDefaultsUserKey.listingsWithExpressChatAlreadyShown.rawValue,
@@ -168,6 +181,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 postListingLastTabSelected: postListingLastTabSelected,
                                 postListingPostedPreviously:  postListingPostedPreviously,
                                 trackingProductSellComplete24hTracked: trackingProductSellComplete24hTracked,
+                                trackingProductBuyComplete24hTracked: trackingProductBuyComplete24hTracked,
+                                trackingProductBuySellComplete24hTracked: trackingProductBuySellComplete24hTracked,
                                 shouldShowExpressChat: shouldShowExpressChat,
                                 listingsWithExpressChatAlreadyShown: listingsWithExpressChatAlreadyShown,
                                 listingsWithExpressChatMessageSent: listingsWithExpressChatMessageSent,
@@ -196,6 +211,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.postListingLastTabSelected.rawValue, value: postListingLastTabSelected)
         dict.encode(UserDefaultsUserKey.postListingPostedPreviously.rawValue, value: postListingPostedPreviously)
         dict.encode(UserDefaultsUserKey.trackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked)
+        dict.encode(UserDefaultsUserKey.trackingProductBuyComplete24hTracked.rawValue, value: trackingProductBuyComplete24hTracked)
+        dict.encode(UserDefaultsUserKey.trackingProductBuySellComplete24hTracked.rawValue, value: trackingProductBuySellComplete24hTracked)
         dict.encode(UserDefaultsUserKey.shouldShowExpressChat.rawValue, value: shouldShowExpressChat)
         dict.encode(UserDefaultsUserKey.listingsWithExpressChatAlreadyShown.rawValue, value: listingsWithExpressChatAlreadyShown)
         dict.encode(UserDefaultsUserKey.listingsWithExpressChatMessageSent.rawValue, value: listingsWithExpressChatMessageSent)
@@ -231,6 +248,8 @@ private enum UserDefaultsUserKey: String {
     case postListingPostedPreviously = "postProductPostedPreviously"
 
     case trackingProductSellComplete24hTracked = "trackingProductSellComplete24hTracked"
+    case trackingProductBuyComplete24hTracked = "trackingProductBuyComplete24hTracked"
+    case trackingProductBuySellComplete24hTracked = "trackingProductBuySellComplete24hTracked"
 
     case shouldShowExpressChat = "shouldShowExpressChat"
     case listingsWithExpressChatAlreadyShown = "productsWithExpressChatAlreadyShown"

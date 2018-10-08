@@ -1,11 +1,3 @@
-//
-//  ProductsABGroup.swift
-//  LetGo
-//
-//  Created by Álvaro Murillo del Puerto on 8/5/18.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 
 struct ProductsABGroup: ABGroupType {
@@ -18,6 +10,7 @@ struct ProductsABGroup: ABGroupType {
         static let deckItemPage = "20180704DeckItemPage"
         static let frictionlessShare = "20180716FrictionlessShare"
         static let freePostingTurkey = "20180817FreePostingTurkey"
+        static let bulkPosting = "20180726BulkPosting"
         static let makeAnOfferButton = "20180904MakeAnOfferButton"
     }
     
@@ -28,6 +21,7 @@ struct ProductsABGroup: ABGroupType {
     let deckItemPage: LeanplumABVariable<Int>
     let frictionlessShare: LeanplumABVariable<Int>
     let turkeyFreePosting: LeanplumABVariable<Int>
+    let bulkPosting: LeanplumABVariable<Int>
     let makeAnOfferButton: LeanplumABVariable<Int>
 
     let group: ABGroup = .products
@@ -43,6 +37,7 @@ struct ProductsABGroup: ABGroupType {
          deckItemPage: LeanplumABVariable<Int>,
          frictionlessShare: LeanplumABVariable<Int>,
          turkeyFreePosting: LeanplumABVariable<Int>,
+         bulkPosting:  LeanplumABVariable<Int>,
          makeAnOfferButton: LeanplumABVariable<Int>) {
         self.servicesCategoryOnSalchichasMenu = servicesCategoryOnSalchichasMenu
         self.predictivePosting = predictivePosting
@@ -51,6 +46,7 @@ struct ProductsABGroup: ABGroupType {
         self.deckItemPage = deckItemPage
         self.frictionlessShare = frictionlessShare
         self.turkeyFreePosting = turkeyFreePosting
+        self.bulkPosting = bulkPosting
         self.makeAnOfferButton = makeAnOfferButton
         intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu,
                                          predictivePosting,
@@ -59,6 +55,7 @@ struct ProductsABGroup: ABGroupType {
                                          deckItemPage,
                                          frictionlessShare,
                                          turkeyFreePosting,
+                                            bulkPosting,
                                          makeAnOfferButton])
     }
 
@@ -83,6 +80,9 @@ struct ProductsABGroup: ABGroupType {
                                                            groupType: .products),
                                turkeyFreePosting: .makeInt(key: Keys.freePostingTurkey,
                                                            defaultValue: 0,
+                                                           groupType: .products),
+                               bulkPosting: .makeInt(key: Keys.bulkPosting,
+                                                      defaultValue: 0,
                                                            groupType: .products),
                                makeAnOfferButton: .makeInt(key: Keys.makeAnOfferButton,
                                                            defaultValue: 0,

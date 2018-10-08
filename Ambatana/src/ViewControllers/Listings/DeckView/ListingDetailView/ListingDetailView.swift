@@ -380,8 +380,6 @@ extension ListingDetailView {
                                            imageDownloader: ImageDownloader.sharedInstance)
         mediaViewModel = vm
         mediaView.set(viewModel: vm)
-        mediaView.reloadData()
-
         updateWith(carousel: carousel)
     }
 

@@ -2,6 +2,7 @@ import LGCoreKit
 import Result
 import UIKit
 import LGComponents
+import RxSwift
 
 class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, ChangePasswordViewModelDelegate {
 
@@ -42,6 +43,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     
     let viewModel: ChangePasswordViewModel
     var lines : [CALayer] = []
+    private let disposeBag = DisposeBag()
 
     init(viewModel: ChangePasswordViewModel) {
         self.viewModel = viewModel
@@ -63,6 +65,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         super.viewDidLoad()
         setNavBarBackButton()
         setupUI()
+        setupRx()
         setupAccessibilityIds()
     }
 
@@ -102,34 +105,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     }
     
     // MARK: - TextFieldDelegate
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let textFieldText = textField.text {
-            let text = (textFieldText as NSString).replacingCharacters(in: range, with: string)
-            if let tag = TextFieldTag(rawValue: textField.tag) {
-                switch (tag) {
-                case .password:
-                    viewModel.password = text
-                case .confirmPassword:
-                    viewModel.confirmPassword = text
-                }
-            }
-        }
-        return true
-    }
-    
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        if let tag = TextFieldTag(rawValue: textField.tag) {
-            switch (tag) {
-            case .password:
-                viewModel.password = ""
-            case .confirmPassword:
-                viewModel.confirmPassword = ""
-            }
-        }
-        return true
-    }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.passwordTextfield {
             self.confirmPasswordTextfield.becomeFirstResponder()
@@ -235,6 +211,15 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         ]
 
         NSLayoutConstraint.activate(constraints)
+    }
+
+    private func setupRx() {
+        passwordTextfield.rx.text.bind { [weak self] value in
+            self?.viewModel.password = value ?? ""
+            }.disposed(by: disposeBag)
+        confirmPasswordTextfield.rx.text.bind { [weak self] value in
+            self?.viewModel.confirmPassword = value ?? ""
+            }.disposed(by: disposeBag)
     }
 
     private func setupAccessibilityIds() {

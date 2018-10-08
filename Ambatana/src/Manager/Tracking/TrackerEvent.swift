@@ -216,9 +216,11 @@ struct TrackerEvent {
                                          feedSource: EventParameterFeedSource,
                                          success: EventParameterBoolean?,
                                          sectionPosition: EventParameterSectionPosition?,
-                                         sectionName: EventParameterSectionName?) -> TrackerEvent {
+                                         sectionName: EventParameterSectionName?,
+                                         pullToRefreshTriggered: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         
+        params[.reload] = pullToRefreshTriggered.rawValue
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = (categories ?? [.unassigned]).trackValue
         params[.keywordName] = TrackerEvent.notApply
@@ -676,10 +678,22 @@ struct TrackerEvent {
         return TrackerEvent(name: .predictedPosting, params: params)
     }
     
-    static func listingSellComplete24h(_ listing: Listing) -> TrackerEvent {
-        var params = EventParameters()
-        params[.listingId] = listing.objectId ?? ""
-        return TrackerEvent(name: .listingSellComplete24h, params: params)
+    static func lister24h(event: TrackerEvent) -> TrackerEvent? {
+        guard event.name == .listingSellComplete else { return nil }
+        return TrackerEvent(name: .lister24h,
+                            params: event.params)
+    }
+
+    static func buyer24h(event: TrackerEvent) -> TrackerEvent? {
+        guard event.name == .firstMessage else { return nil }
+        return TrackerEvent(name: .buyer24h,
+                            params: event.params)
+    }
+
+    static func buyerLister24h(event: TrackerEvent) -> TrackerEvent? {
+        guard (event.name == .listingSellComplete || event.name == .firstMessage) else { return nil }
+        return TrackerEvent(name: .buyerLister24h,
+                            params: event.params)
     }
 
     static func listingSellError(_ error: EventParameterPostListingError,

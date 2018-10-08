@@ -316,6 +316,7 @@ public extension UIColor {
         public static var cameraButtonHighlighted: UIColor { return almostWatermelonDarker }
         public static var selectedPhotoVideoButton: UIColor { return almostWatermelon }
         public static var unselectedPhotoVideoButton: UIColor { return UIColor.white }
+        public static var tooltipBubble: UIColor { return UIColor(white: 44/255, alpha: 0.95) }
 
         fileprivate static let almostWatermelon = UIColor(rgb: 0xf6416c) // (244, 65, 108)
         fileprivate static let almostWatermelonDarker = UIColor(rgb: 0xa93f56) // (169, 63, 86)

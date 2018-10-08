@@ -42,7 +42,8 @@ final class PhotoMediaViewerView: UIView {
     func set(viewModel: PhotoMediaViewerViewModel) {
         disposeBag = DisposeBag()
         collectionView.dataSource = viewModel.datasource
-        viewModel.rx.index.drive(rx.index).disposed(by: disposeBag)
+        reloadData()
+        viewModel.rx.index.skip(1).distinctUntilChanged().delay(0.5).drive(rx.index).disposed(by: disposeBag)
     }
 
     private func setupUI() {
@@ -62,6 +63,7 @@ final class PhotoMediaViewerView: UIView {
 extension Reactive where Base: PhotoMediaViewerView {
     var index: Binder<Int> {
         return Binder(self.base) { view, index in
+            guard view.collectionView.numberOfItems(inSection: 0) > 0 else { return }
             view.collectionView.scrollToItem(at: IndexPath(item: index, section: 0),
                                              at: .centeredHorizontally,
                                              animated: true)
