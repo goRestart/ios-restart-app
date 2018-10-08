@@ -37,7 +37,6 @@ extension Bumper  {
         flags.append(CopyForSellFasterNowInEnglish.self)
         flags.append(EmergencyLocate.self)
         flags.append(PersonalizedFeed.self)
-        flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(OffensiveReportAlert.self)
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
         flags.append(VideoPosting.self)
@@ -364,19 +363,6 @@ extension Bumper  {
     static var personalizedFeedObservable: Observable<PersonalizedFeed> {
         return Bumper.observeValue(for: PersonalizedFeed.key).map {
             PersonalizedFeed(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
-        guard let value = Bumper.value(for: ServicesCategoryOnSalchichasMenu.key) else { return .control }
-        return ServicesCategoryOnSalchichasMenu(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var servicesCategoryOnSalchichasMenuObservable: Observable<ServicesCategoryOnSalchichasMenu> {
-        return Bumper.observeValue(for: ServicesCategoryOnSalchichasMenu.key).map {
-            ServicesCategoryOnSalchichasMenu(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1402,24 +1388,6 @@ enum PersonalizedFeed: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .personalized
-            default: return .control
-        }
-    }
-}
-
-enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
-    case control, baseline, variantA, variantB, variantC
-    static var defaultValue: String { return ServicesCategoryOnSalchichasMenu.control.rawValue }
-    static var enumValues: [ServicesCategoryOnSalchichasMenu] { return [.control, .baseline, .variantA, .variantB, .variantC]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Show services category on salchichas menu" } 
-    static func fromPosition(_ position: Int) -> ServicesCategoryOnSalchichasMenu {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .variantA
-            case 3: return .variantB
-            case 4: return .variantC
             default: return .control
         }
     }

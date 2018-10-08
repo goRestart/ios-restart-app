@@ -105,11 +105,6 @@
         "description": "Personalize the feed"
     },
     {
-        "name": "ServicesCategoryOnSalchichasMenu",
-        "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
-        "description": "[PRODUCTS] Show services category on salchichas menu"
-    },
-    {
          "name": "OffensiveReportAlert",
          "values": ["control", "baseline", "active"],
          "description": "Offensive Report alert active"
