@@ -48,13 +48,13 @@ final class UserRatingListViewController: BaseViewController {
 
 extension UserRatingListViewController: UserRatingListViewModelDelegate {
 
-    func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool) {
-        if isLoading && firstPage {
+    func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, isFirstPage: Bool) {
+        if isLoading && isFirstPage {
             activityIndicator.startAnimating()
         }
     }
 
-    func vmDidLoadUserRatings(_ ratings: [UserRating], firstPage: Bool) {
+    func vmDidLoadUserRatings(_ ratings: [UserRating], isFirstPage: Bool) {
         activityIndicator.stopAnimating()
         if !ratings.isEmpty {
             tableView.isHidden = false
@@ -62,9 +62,9 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
         }
     }
 
-    func vmDidFailLoadingUserRatings(_ firstPage: Bool) {
+    func vmDidFailLoadingUserRatings(_ isFirstPage: Bool) {
         activityIndicator.stopAnimating()
-        if firstPage {
+        if isFirstPage {
             vmShowAutoFadingMessage(R.Strings.ratingListLoadingErrorMessage) { [weak self] in
                 self?.navigationController?.popBackViewController()
             }

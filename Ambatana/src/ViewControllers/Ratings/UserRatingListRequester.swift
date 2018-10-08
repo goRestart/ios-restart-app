@@ -10,9 +10,9 @@ import Foundation
 import LGCoreKit
 
 protocol UserRatingListRequesterDelegate: class {
-    func requesterIsLoadingUserRatings(_ isLoading: Bool, firstPage: Bool)
-    func requesterDidLoadUserRatings(_ ratings: [UserRating], firstPage: Bool)
-    func requesterDidFailLoadingUserRatings(_ firstPage: Bool)
+    func requesterIsLoadingUserRatings(_ isLoading: Bool, isFirstPage: Bool)
+    func requesterDidLoadUserRatings(_ ratings: [UserRating], isFirstPage: Bool)
+    func requesterDidFailLoadingUserRatings(_ isFirstPage: Bool)
 }
 
 class UserRatingListRequester {
@@ -59,17 +59,17 @@ extension UserRatingListRequester: Paginable {
         if isFirstPage {
             objectCount = 0
         }
-        delegate?.requesterIsLoadingUserRatings(isLoading, firstPage: isFirstPage)
+        delegate?.requesterIsLoadingUserRatings(isLoading, isFirstPage: isFirstPage)
         userRatingRepository.index(userId, offset: objectCount, limit: resultsPerPage) { [weak self] result in
             if let value = result.value {
                 self?.nextPage += 1
-                self?.delegate?.requesterDidLoadUserRatings(value, firstPage: isFirstPage)
+                self?.delegate?.requesterDidLoadUserRatings(value, isFirstPage: isFirstPage)
                 self?.objectCount += value.count
             } else if let _ = result.error {
                 self?.delegate?.requesterDidFailLoadingUserRatings(isFirstPage)
             }
             self?.isLoading = false
-            self?.delegate?.requesterIsLoadingUserRatings(self?.isLoading ?? false, firstPage: isFirstPage)
+            self?.delegate?.requesterIsLoadingUserRatings(self?.isLoading ?? false, isFirstPage: isFirstPage)
         }
     }
 }
