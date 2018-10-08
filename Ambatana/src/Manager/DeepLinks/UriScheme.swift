@@ -13,6 +13,12 @@ struct UriScheme {
       static let category = "category"
       static let title = "title"
    }
+   private enum Reporting {
+      static let username = "username"
+      static let reason = "reason"
+      static let product = "product"
+      static let userid = "userid"
+   }
 
    var deepLink: DeepLink
 
@@ -182,12 +188,12 @@ struct UriScheme {
                                                   cardActionParameter: cardActionParameter))
       case .report:
          guard let reportId = components.first,
-            let username = params["username"],
-            let reasonString = params["reason"],
-            let userId = params["userid"],
+            let username = params[Reporting.username],
+            let reasonString = params[Reporting.reason],
+            let userId = params[Reporting.userid],
             let reason = ReportOptionType(rawValue: reasonString)
             else { return nil }
-         let product = params["product"]
+         let product = params[Reporting.product]
          let action = DeepLinkAction.report(reportId: reportId, username: username, reason: reason, userId: userId, product: product)
          return UriScheme(deepLink: DeepLink.link(action, campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
       case .invite:

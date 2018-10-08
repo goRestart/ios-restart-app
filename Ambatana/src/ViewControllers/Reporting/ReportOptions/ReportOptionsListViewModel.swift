@@ -2,13 +2,14 @@ import Foundation
 import LGCoreKit
 import LGComponents
 import RxSwift
+import RxCocoa
 
 final class ReportOptionsListViewModel: BaseViewModel {
     
     let title: String
     let optionGroup: ReportOptionsGroup
-    let showReportButtonActive = Variable<Bool>(false)
-    let showAdditionalNotes = Variable<Bool>(false)
+    let showReportButtonActive = BehaviorRelay<Bool>(value: false)
+    let showAdditionalNotes = BehaviorRelay<Bool>(value: false)
     private let superReason: ReportOptionType?
     private let tracker: Tracker
     private let reportedId: String
@@ -49,8 +50,8 @@ final class ReportOptionsListViewModel: BaseViewModel {
         if let child = option.childOptions {
             navigator?.openNextStep(with: child, from: option.type)
         } else {
-            showAdditionalNotes.value = option.type.allowsAdditionalNotes
-            showReportButtonActive.value = true
+            showAdditionalNotes.accept(option.type.allowsAdditionalNotes)
+            showReportButtonActive.accept(true)
         }
 
         selectedOption = option

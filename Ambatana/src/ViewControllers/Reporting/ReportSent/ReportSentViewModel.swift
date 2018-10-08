@@ -2,6 +2,7 @@ import Foundation
 import LGComponents
 import LGCoreKit
 import RxSwift
+import RxCocoa
 
 protocol ReportSentViewModelDelegate: BaseViewModelDelegate {}
 
@@ -10,10 +11,10 @@ final class ReportSentViewModel: BaseViewModel {
     var navigator: ReportNavigator?
     weak var delegate: ReportSentViewModelDelegate?
 
-    let title = Variable<String>("")
-    let message = Variable<NSAttributedString>(NSAttributedString(string: ""))
-    let showBlockAction = Variable<Bool>(false)
-    let showReviewAction = Variable<Bool>(false)
+    let title = BehaviorRelay<String>(value: "")
+    let message = BehaviorRelay<NSAttributedString>(value: NSAttributedString(string: ""))
+    let showBlockAction = BehaviorRelay<Bool>(value: false)
+    let showReviewAction = BehaviorRelay<Bool>(value: false)
 
     private let reportSentType: Variable<ReportSentType>
     private let reportedObjectId: String
@@ -48,9 +49,9 @@ final class ReportSentViewModel: BaseViewModel {
             .asObservable()
             .subscribeNext(onNext: { [weak self] type in
                 guard let strongSelf = self else { return }
-                self?.showBlockAction.value = type.allowsBlockUser
-                self?.title.value = type.title
-                self?.message.value = type.attributedMessage(userName: strongSelf.username)
+                self?.showBlockAction.accept(type.allowsBlockUser)
+                self?.title.accept(type.title)
+                self?.message.accept(type.attributedMessage(userName: strongSelf.username))
             })
             .disposed(by: disposeBag)
     }
@@ -77,7 +78,7 @@ final class ReportSentViewModel: BaseViewModel {
                 return
             }
 
-            self?.showReviewAction.value = canReviewUser
+            self?.showReviewAction.accept(canReviewUser)
 
             if !canReviewUser {
                 self?.applyFallbackType()
@@ -93,7 +94,8 @@ final class ReportSentViewModel: BaseViewModel {
         }
     }
 
-    func viewWillAppear() {
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
         setupActions()
     }
 

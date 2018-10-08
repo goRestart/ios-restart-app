@@ -4,7 +4,7 @@ protocol ReportUpdateNavigator {
     func closeReportUpdate()
 }
 
-final class ReportUpdateRouter: ReportUpdateNavigator {
+final class ReportUpdateWireframe: ReportUpdateNavigator {
     private weak var root: UIViewController!
 
     init(root: UIViewController) {

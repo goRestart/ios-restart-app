@@ -1,6 +1,7 @@
 import UIKit
 import LGComponents
 import RxSwift
+import RxCocoa
 
 final class ReportSentViewController: BaseViewController {
 
@@ -73,6 +74,10 @@ final class ReportSentViewController: BaseViewController {
     init(viewModel: ReportSentViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setupUI()
         setupRx()
         setupAccessibilityIds()
@@ -86,7 +91,6 @@ final class ReportSentViewController: BaseViewController {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.transparent(substyle: .light))
         setNavBarBackButton(R.Asset.IconsButtons.navbarClose.image, selector: #selector(didTapClose))
-        viewModel.viewWillAppear()
     }
 
     @objc private func didTapClose() {
@@ -132,10 +136,9 @@ final class ReportSentViewController: BaseViewController {
     }
 
     private func setupRx() {
-        Observable
-            .combineLatest(viewModel.showBlockAction.asObservable(),
-                           viewModel.showReviewAction.asObservable())
-            .asDriver(onErrorJustReturn: (false, false))
+        Driver
+            .combineLatest(viewModel.showBlockAction.asDriver(),
+                           viewModel.showReviewAction.asDriver())
             .drive(onNext: { [weak self] (showBlockAction, showReviewAction) in
                 self?.setupActions(showBlockAction: showBlockAction, showReviewAction: showReviewAction)
             })

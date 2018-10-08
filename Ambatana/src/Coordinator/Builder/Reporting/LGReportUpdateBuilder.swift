@@ -15,7 +15,7 @@ extension LGReportUpdateBuilder: ReportUpdateAssembly {
         case .modal(let root):
             let updateType = ReportUpdateType(reason: reason, username: username, productName: product)
             let viewModel = ReportUpdateViewModel(type: updateType, reportId: reportId, reportedUserId: userId)
-            viewModel.navigator = ReportUpdateRouter(root: root)
+            viewModel.navigator = ReportUpdateWireframe(root: root)
             return ReportUpdateViewController(viewModel: viewModel)
         }
     }
