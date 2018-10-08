@@ -203,6 +203,113 @@ extension ListingCategory {
 
         return categories
     }
+
+    var isProfessionalCategory: Bool {
+        return self == .realEstate || self == .cars || self == .services
+    }
+
+    func sortWeight(featureFlags: FeatureFlaggeable) -> Int {
+        switch self {
+        case .cars:
+            return 100
+        case .motorsAndAccessories:
+            return 80
+        case .realEstate:
+            return 60
+        case .services:
+            switch featureFlags.servicesCategoryOnSalchichasMenu {
+            case .variantA:
+                return 110  // Should appear above cars
+            case .variantB:
+                return 70   // Should appear below motors and accesories
+            case .variantC:
+                return 50   // Should appear below real estate
+            default:
+                return 10 // Not active, should never happen
+            }
+        case .unassigned:
+            return 0    // Usually at bottom
+        default:
+            return 10
+        }
+    }
+
+    func index(listingRepository: ListingRepository) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
+        switch self {
+        case .realEstate:
+            return listingRepository.indexRealEstate
+        case .cars:
+            return listingRepository.indexCars
+        case .services:
+            return listingRepository.indexServices
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
+             .moviesBooksAndMusic, .other, .sportsLeisureAndGames,
+             .unassigned:
+            return listingRepository.index
+        }
+    }
+}
+
+extension ListingCategory: CustomStringConvertible {
+    private enum Descriptor {
+        static let unassigned = "unassigned"
+        static let electronics = "electronics"
+        static let motorsAndAccessories = "motorsAndAccessories"
+        static let sportsLeisureAndGames = "sportsLeisureAndGames"
+        static let homeAndGarden = "homeAndGarden"
+        static let moviesBooksAndMusic = "moviesBooksAndMusic"
+        static let fashionAndAccesories = "fashionAndAccesories"
+        static let babyAndChild = "babyAndChild"
+        static let other = "other"
+        static let cars = "cars"
+        static let realEstate = "realEstate"
+        static let services = "services"
+    }
+    public var description: String {
+        switch self {
+        case .unassigned: return "unassigned"
+        case .electronics: return "electronics"
+        case .motorsAndAccessories: return "motorsAndAccessories"
+        case .sportsLeisureAndGames:return "sportsLeisureAndGames"
+        case .homeAndGarden: return "homeAndGarden"
+        case .moviesBooksAndMusic: return "moviesBooksAndMusic"
+        case .fashionAndAccesories: return "fashionAndAccesories"
+        case .babyAndChild: return "babyAndChild"
+        case .other: return "other"
+        case .cars: return "cars"
+        case .realEstate: return "realEstate"
+        case .services: return "services"
+        }
+    }
+
+    init?(description: String) {
+        if description == Descriptor.unassigned {
+            self = .unassigned
+        } else if description == Descriptor.electronics {
+            self = .electronics
+        } else if description == Descriptor.motorsAndAccessories {
+            self = .motorsAndAccessories
+        } else if description == Descriptor.sportsLeisureAndGames {
+            self = .sportsLeisureAndGames
+        } else if description == Descriptor.homeAndGarden {
+            self = .homeAndGarden
+        } else if description == Descriptor.moviesBooksAndMusic {
+            self = .moviesBooksAndMusic
+        } else if description == Descriptor.fashionAndAccesories {
+            self = .fashionAndAccesories
+        } else if description == Descriptor.babyAndChild {
+            self = .babyAndChild
+        } else if description == Descriptor.other {
+            self = .other
+        } else if description == Descriptor.cars {
+            self = .cars
+        } else if description == Descriptor.realEstate {
+            self = .realEstate
+        } else if description == Descriptor.services {
+            self = .services
+        }
+        return nil
+    }
 }
 
 extension Array where Element == ListingCategory {

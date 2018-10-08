@@ -310,20 +310,3 @@ private extension RelaxedSearch {
         }
     }
 }
-
-private extension ListingCategory {
-    func index(listingRepository: ListingRepository) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
-        switch self {
-        case .realEstate:
-            return listingRepository.indexRealEstate
-        case .cars:
-            return listingRepository.indexCars
-        case .services:
-            return listingRepository.indexServices
-        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
-             .moviesBooksAndMusic, .other, .sportsLeisureAndGames,
-             .unassigned:
-            return listingRepository.index
-        }
-    }
-}

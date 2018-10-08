@@ -922,7 +922,9 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
                     self?.navigator?.openAffiliationOnboarding(data: referrer)
                 })
             case .unknown:
-                self?.showTooltipAffiliation()
+                delay(1, completion: { [weak self] in
+                    self?.showTooltipAffiliation()
+                })
             }
         }.disposed(by: disposeBag)
         Observable.combineLatest(notificationsManager.engagementBadgingNotifications.asObservable(),

@@ -6,7 +6,7 @@ import LGComponents
 import IGListKit
 
 final class FeedViewModel: BaseViewModel, FeedViewModelType {
-    
+
     static let minimumSearchesSavedToShowCollection = 3
     static let interestingUndoTimeout: TimeInterval = 5
 
@@ -133,7 +133,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     
     // https://ambatana.atlassian.net/browse/ABIOS-5133
     private var isComingFromASection: Bool = false
-    
+    private var pullToRefreshTriggered = false
+
     //  Ads
     
     private var adsPaginationHelper: AdsPaginationHelper
@@ -259,7 +260,8 @@ final class FeedViewModel: BaseViewModel, FeedViewModelType {
     
     //  MARK: - Load Feed Items
     
-    func loadFeedItems() {
+    func loadFeedItems(uponPullToRefresh: Bool = false) {
+        pullToRefreshTriggered = uponPullToRefresh
         guard let searchType = searchType else { return retrieve() }
         if case .feed(let page, _) = searchType {
             sectionedFeedRequester.retrieveNext(withUrl: page, completion: feedCompletion())
@@ -585,7 +587,7 @@ extension FeedViewModel {
         isFirstPageAlreadyLoadedWithLocation = nil
         resetFeed()
         updatePermissionBanner()
-        loadFeedItems()
+        loadFeedItems(uponPullToRefresh: true)
     }
 
     func resetFirstLoadState() { isFirstPageAlreadyLoadedWithLocation = nil }
@@ -766,8 +768,15 @@ extension FeedViewModel: SectionTitleHeaderViewDelegate {
 
 extension FeedViewModel: ListingActionDelegate {
     func chatButtonPressedFor(listing: Listing) {
-        let chatDetailData = ChatDetailData.listingAPI(listing: listing)
-        openChat(withData: chatDetailData)
+        if listing.sellerIsProfessional,
+            featureFlags.preventMessagesFromFeedToProUsers.isActive,
+            listing.category.isProfessionalCategory {
+            navigator?.openAskPhoneFromMainFeedFor(listing: listing,
+                                                   interlocutor: LocalUser(userListing: listing.user))
+        } else {
+            let chatDetailData = ChatDetailData.listingAPI(listing: listing)
+            openChat(withData: chatDetailData)
+        }
     }
 
     func getUserInfoFor(_ listing: Listing, completion: @escaping (User?) -> Void) {
@@ -1006,7 +1015,8 @@ extension FeedViewModel {
                                                            searchQuery: queryString,
                                                            feedSource: feedSource,
                                                            sectionPosition: comingSectionPosition,
-                                                           sectionIdentifier: comingSectionIdentifier)
+                                                           sectionIdentifier: comingSectionIdentifier,
+                                                           pullToRefreshTriggered: pullToRefreshTriggered)
     }
     
     private func trackFirstMessage(info: SendMessageTrackingInfo,

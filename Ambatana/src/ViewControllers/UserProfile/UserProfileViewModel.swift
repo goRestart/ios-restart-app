@@ -65,7 +65,7 @@ final class UserProfileViewModel: BaseViewModel {
     }
     
     var showClickToTalkBanner: Bool {
-        return isLoggedInUser && featureFlags.clickToTalk.isActive && !keyValueStorage[.clickToTalkShown]
+        return isLoggedInUser && featureFlags.clickToTalk.isActive && !keyValueStorage[.clickToTalkShown] && isPrivateProfile
     }
     
     var bannerHeight: CGFloat {

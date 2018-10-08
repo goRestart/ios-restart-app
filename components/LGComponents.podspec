@@ -46,7 +46,6 @@ Pod::Spec.new do |s|
         
         # analyticsSpec.dependency 'Amplitude-iOS',      '4.0.4'
         # analyticsSpec.dependency 'AppsFlyerFramework', '4.8.4'
-        # analyticsSpec.dependency 'Branch',             '0.22.5'
         # analyticsSpec.dependency 'Crashlytics',        '3.9.3'
         # analyticsSpec.dependency 'Fabric',             '1.7.2'
         # analyticsSpec.dependency 'FBSDKCoreKit',       '4.29.0'
@@ -93,7 +92,7 @@ Pod::Spec.new do |s|
         # sharedSpec.dependency 'LGComponents/LGAnalytics'
         # sharedSpec.dependency 'LGComponents/LGResources'
 
-        sharedSpec.dependency  'LGCoreKit'#,             '4.86.0'
+        sharedSpec.dependency  'LGCoreKit'#,             '4.89.0'
 
         # sharedSpec.dependency 'DeviceGuru',            '3.0.1'
         sharedSpec.dependency 'AlamofireImage',        '3.3.1'

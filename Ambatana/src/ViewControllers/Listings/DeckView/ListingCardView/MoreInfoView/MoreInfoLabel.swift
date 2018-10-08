@@ -18,7 +18,7 @@ final class MoreInfoLabel: MoreInfoViewType {
         let label = UILabel()
         label.font = UIFont.systemMediumFont(size: 15)
         label.textColor = .white
-        label.text = R.Strings.productMoreInfoOpenButton
+        label.text = R.Strings.productMoreInfoOpenButton.lowercased().capitalizedFirstLetterOnly
         return label
     }()
 

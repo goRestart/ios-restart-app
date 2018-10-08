@@ -103,7 +103,7 @@ final class FeedViewController: BaseViewController {
     // MARK:- Private Methods
     
     private func loadFeed() {
-        viewModel.loadFeedItems()
+        viewModel.loadFeedItems(uponPullToRefresh: false)
     }
     
     private func addCollectionView() {

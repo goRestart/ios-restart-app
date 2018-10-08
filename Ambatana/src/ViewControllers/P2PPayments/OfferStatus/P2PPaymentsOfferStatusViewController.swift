@@ -73,12 +73,12 @@ final class P2PPaymentsOfferStatusViewController: BaseViewController {
     private func setupConstraints() {
         errorRetryView.constraintToEdges(in: view)
         NSLayoutConstraint.activate([
-            offerStatusBuyer.topAnchor.constraint(equalTo: view.safeTopAnchor),
+            offerStatusBuyer.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
             offerStatusBuyer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             offerStatusBuyer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             offerStatusBuyer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-            offerStatusSeller.topAnchor.constraint(equalTo: view.safeTopAnchor),
+            offerStatusSeller.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
             offerStatusSeller.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             offerStatusSeller.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             offerStatusSeller.trailingAnchor.constraint(equalTo: view.trailingAnchor),

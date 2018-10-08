@@ -69,7 +69,7 @@ extension GoogleLoginHelper: ExternalAuthHelper {
                         loginCompletion?(ExternalServiceAuthResult(loginError: error))
                     }
                 }
-            case .cancelled:
+            case .cancelled, .unavailable:
                 loginCompletion?(.cancelled)
             case .error:
                 loginCompletion?(.internalError(description: "Google SDK error"))

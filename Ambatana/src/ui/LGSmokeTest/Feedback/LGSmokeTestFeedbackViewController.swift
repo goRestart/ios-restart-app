@@ -10,6 +10,10 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
     
     private var selectedTitle: String?
     
+    private lazy var sendButtonBottomConstraint: NSLayoutConstraint = {
+        return sendButton.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -Metrics.margin)
+    }()
+    
     // MARK: - Subviews
     
     private let closeButton: UIButton = {
@@ -143,7 +147,15 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
                 self?.rootScrollView.contentInset.bottom = bottomInset
                 let scrollPoint = keyboardVisible ? selectionListBottom-Layout.scrollingBottomMarging : 0
                 self?.rootScrollView.setContentOffset(CGPoint(x: 0, y: scrollPoint), animated: true)
+                self?.animateSendButton(keyboardVisible, keyboardHeight)
             }.disposed(by: disposeBag)
+    }
+    
+    private func animateSendButton(_ keyboardVisible: Bool, _ keyboardHeight: CGFloat) {
+        sendButtonBottomConstraint.constant = keyboardVisible ? -(keyboardHeight + Metrics.veryShortMargin) : -Metrics.margin
+        UIView.animate(withDuration: 1.0, animations: {
+            self.view.layoutIfNeeded()
+        })
     }
     
     private func addSubViews() {
@@ -153,6 +165,7 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
     }
     
     private func addConstraints() {
+        
         let constraints = [
             closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.shortMargin),
             closeButton.topAnchor.constraint(equalTo: safeTopAnchor, constant: Metrics.shortMargin),
@@ -162,7 +175,7 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
             rootScrollView.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: Metrics.margin),
             rootScrollView.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Metrics.margin),
             
-            sendButton.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -Metrics.margin),
+            sendButtonBottomConstraint,
             sendButton.heightAnchor.constraint(equalToConstant: Layout.sendButtonHeight),
             sendButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.veryBigMargin),
             sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metrics.veryBigMargin),
@@ -217,5 +230,5 @@ private enum Layout {
     static let tellUsFontSize: CGFloat = 20
     static let tellUsTextViewHeight: CGFloat = 110
     static let sendButtonHeight: CGFloat = 55
-    static let scrollingBottomMarging: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone5) ? 50 : 0
+    static let scrollingBottomMarging: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone5) ? 50 : -20
 }

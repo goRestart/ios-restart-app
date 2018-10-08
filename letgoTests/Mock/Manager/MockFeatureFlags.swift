@@ -27,6 +27,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var searchImprovements: SearchImprovements = .control
     var relaxedSearch: RelaxedSearch = .control
     var mutePushNotifications: MutePushNotifications = .control
+    var facebookUnavailable: Bool = false
     var showProTagUserProfile: Bool = false
     var showExactLocationForPros: Bool = true
     var shouldMoveLetsMeetAction = false
@@ -132,5 +133,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shareAfterScreenshot: ShareAfterScreenshot = .control
     var affiliationEnabled: AffiliationEnabled = .control
     var imageSizesNotificationCenter: ImageSizesNotificationCenter = .control
+    var blockingSignUp: BlockingSignUp = .control
 }
 

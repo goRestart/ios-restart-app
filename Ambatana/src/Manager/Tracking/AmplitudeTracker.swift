@@ -170,7 +170,6 @@ final class AmplitudeTracker: Tracker {
     private func setupABTestsRx(featureFlags: FeatureFlaggeable) {
         featureFlags.trackingData.asObservable().bind { trackingData in
             guard let trackingData = trackingData else { return }
-            var legacyABTests: [String] = []
             var coreAbtests: [String] = []
             var moneyAbTests: [String] = []
             var verticalsAbTests: [String] = []
@@ -183,8 +182,6 @@ final class AmplitudeTracker: Tracker {
 
             trackingData.forEach({ (identifier, abGroupType) in
                 switch abGroupType {
-                case .legacyABTests:
-                    legacyABTests.append(identifier)
                 case .core:
                     coreAbtests.append(identifier)
                 case .money:
@@ -213,7 +210,6 @@ final class AmplitudeTracker: Tracker {
                                             AmplitudeTracker.userPropABTestsChat: chatAbTests,
                                             AmplitudeTracker.userPropABTestsProducts: productsAbTests,
                                             AmplitudeTracker.userPropABTestsUsers: usersAbTests,
-                                            AmplitudeTracker.userPropABTests: legacyABTests,
                                             AmplitudeTracker.userPropABTestsDiscovery: discoveryAbTests
                                             ]
             dict.forEach({ (type, variables) in

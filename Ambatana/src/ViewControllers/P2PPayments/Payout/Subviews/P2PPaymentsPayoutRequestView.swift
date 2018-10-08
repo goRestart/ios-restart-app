@@ -38,6 +38,7 @@ final class P2PPaymentsPayoutRequestView: UIView {
                 self?.bankAccountView.isHidden = true
                 self?.debitCardView.isHidden = false
             }
+            self?.endEditing(true)
         }).disposed(by: disposeBag)
     }
 
