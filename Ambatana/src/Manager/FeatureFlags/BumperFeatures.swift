@@ -39,7 +39,6 @@ extension Bumper  {
         flags.append(PersonalizedFeed.self)
         flags.append(OffensiveReportAlert.self)
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
-        flags.append(VideoPosting.self)
         flags.append(PredictivePosting.self)
         flags.append(PreventMessagesFromFeedToProUsers.self)
         flags.append(SimplifiedChatButton.self)
@@ -389,19 +388,6 @@ extension Bumper  {
     static var fullScreenAdsWhenBrowsingForUSObservable: Observable<FullScreenAdsWhenBrowsingForUS> {
         return Bumper.observeValue(for: FullScreenAdsWhenBrowsingForUS.key).map {
             FullScreenAdsWhenBrowsingForUS(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var videoPosting: VideoPosting {
-        guard let value = Bumper.value(for: VideoPosting.key) else { return .control }
-        return VideoPosting(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var videoPostingObservable: Observable<VideoPosting> {
-        return Bumper.observeValue(for: VideoPosting.key).map {
-            VideoPosting(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1421,22 +1407,6 @@ enum FullScreenAdsWhenBrowsingForUS: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .adsForAllUsers
             case 3: return .adsForOldUsers
-            default: return .control
-        }
-    }
-}
-
-enum VideoPosting: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return VideoPosting.control.rawValue }
-    static var enumValues: [VideoPosting] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu" } 
-    static func fromPosition(_ position: Int) -> VideoPosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }

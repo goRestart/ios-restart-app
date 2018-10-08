@@ -4,7 +4,6 @@ struct ProductsABGroup: ABGroupType {
 
     private struct Keys {
         static let predictivePosting = "20180604PredictivePosting"
-        static let videoPosting = "20180604VideoPosting"
         static let simplifiedChatButton = "20181003SimplifiedChatButton"
         static let deckItemPage = "20180704DeckItemPage"
         static let frictionlessShare = "20180716FrictionlessShare"
@@ -14,7 +13,6 @@ struct ProductsABGroup: ABGroupType {
     }
 
     let predictivePosting: LeanplumABVariable<Int>
-    let videoPosting: LeanplumABVariable<Int>
     let simplifiedChatButton: LeanplumABVariable<Int>
     let deckItemPage: LeanplumABVariable<Int>
     let frictionlessShare: LeanplumABVariable<Int>
@@ -29,7 +27,6 @@ struct ProductsABGroup: ABGroupType {
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
     init(predictivePosting: LeanplumABVariable<Int>,
-         videoPosting: LeanplumABVariable<Int>,
          simplifiedChatButton: LeanplumABVariable<Int>,
          deckItemPage: LeanplumABVariable<Int>,
          frictionlessShare: LeanplumABVariable<Int>,
@@ -37,7 +34,6 @@ struct ProductsABGroup: ABGroupType {
          bulkPosting:  LeanplumABVariable<Int>,
          makeAnOfferButton: LeanplumABVariable<Int>) {
         self.predictivePosting = predictivePosting
-        self.videoPosting = videoPosting
         self.simplifiedChatButton = simplifiedChatButton
         self.deckItemPage = deckItemPage
         self.frictionlessShare = frictionlessShare
@@ -45,7 +41,6 @@ struct ProductsABGroup: ABGroupType {
         self.bulkPosting = bulkPosting
         self.makeAnOfferButton = makeAnOfferButton
         intVariables.append(contentsOf: [predictivePosting,
-                                         videoPosting,
                                          simplifiedChatButton,
                                          deckItemPage,
                                          frictionlessShare,
@@ -58,9 +53,6 @@ struct ProductsABGroup: ABGroupType {
         return ProductsABGroup(predictivePosting: .makeInt(key: Keys.predictivePosting,
                                                            defaultValue: 0,
                                                            groupType: .products),
-                               videoPosting: .makeInt(key: Keys.videoPosting,
-                                                      defaultValue: 0,
-                                                      groupType: .products),
                                simplifiedChatButton: .makeInt(key: Keys.simplifiedChatButton,
                                                               defaultValue: 0,
                                                               groupType: .products),

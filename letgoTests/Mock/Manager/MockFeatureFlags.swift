@@ -96,7 +96,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     //  MARK:  Products
     var predictivePosting: PredictivePosting = .control
-    var videoPosting: VideoPosting = .control
     var simplifiedChatButton: SimplifiedChatButton = .control
     var frictionlessShare: FrictionlessShare = .control
     var turkeyFreePosting: TurkeyFreePosting = .control

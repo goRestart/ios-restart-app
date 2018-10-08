@@ -157,7 +157,7 @@ class PostListingViewModel: BaseViewModel {
 
     var shouldShowVideoFooter: Bool {
         guard let category = postCategory?.listingCategory else { return false }
-        return (category.isProduct && !category.isServices) && featureFlags.videoPosting.isActive
+        return (category.isProduct && !category.isServices)
     }
 
     var shouldShowBulkPostingTooltip: Bool {

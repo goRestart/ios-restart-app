@@ -90,7 +90,6 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Products
     var predictivePosting: PredictivePosting { get }
-    var videoPosting: VideoPosting { get }
     var simplifiedChatButton: SimplifiedChatButton { get }
     var frictionlessShare: FrictionlessShare { get }
     var turkeyFreePosting: TurkeyFreePosting { get }
@@ -328,10 +327,6 @@ extension PredictivePosting {
             return false
         }
     }
-}
-
-extension VideoPosting {
-    var isActive: Bool { return self == .active }
 }
 
 extension FrictionlessShare {
@@ -1246,13 +1241,6 @@ extension FeatureFlags {
             return Bumper.predictivePosting
         }
         return PredictivePosting.fromPosition(abTests.predictivePosting.value)
-    }
-
-    var videoPosting: VideoPosting {
-        if Bumper.enabled {
-            return Bumper.videoPosting
-        }
-        return VideoPosting.fromPosition(abTests.videoPosting.value)
     }
 
     var simplifiedChatButton: SimplifiedChatButton {
