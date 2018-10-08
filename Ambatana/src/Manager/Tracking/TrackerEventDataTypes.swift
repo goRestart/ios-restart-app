@@ -118,6 +118,7 @@ enum EventName: String {
     case profileEditEmailComplete           = "profile-edit-email-complete"
     case profileEditBioComplete             = "profile-edit-bio"
     case profileChatNowButton               = "profile-detail-ask-question"
+    case profileAskVerificationButton       = "verification-request-sent"
 
     case appInviteFriendStart               = "app-invite-friend-start"
     case appInviteFriend                    = "app-invite-friend"

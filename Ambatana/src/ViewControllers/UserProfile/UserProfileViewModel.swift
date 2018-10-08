@@ -93,18 +93,29 @@ final class UserProfileViewModel: BaseViewModel {
     var userBadge: Driver<UserHeaderViewBadge> { return makeUserBadge() }
     let userRelationIsBlocked = Variable<Bool>(false)
     let userRelationIsBlockedBy = Variable<Bool>(false)
+    let askVerificationProfileIsSent = Variable<Bool>(false)
     var userRelationText: Driver<String?> { return makeUserRelationText() }
     var listingListViewModel: Driver<ListingListViewModel?> { return makeListingListViewModelDriver() }
     let ratingListViewModel: UserRatingListViewModel
     let showBubbleNotification = PublishSubject<BubbleNotificationData>()
-    
-    var chatNowButtonIsHidden: Driver<Bool> {
+
+    var shouldShowChatNowButton: Driver<Bool> {
         return Observable.combineLatest(user.asObservable(), isMyUser.asObservable()) { user, isMyUser in
             guard let user = user else { return false }
-            return user.isDummy || user.isProfessional || isMyUser || !self.featureFlags.openChatFromUserProfile.isActive
+            return !user.isDummy && !user.isProfessional && !isMyUser
+                && self.featureFlags.openChatFromUserProfile.isActive
+            }.asDriver(onErrorJustReturn: false)
+    }
+
+    var shouldShowAskVerificationButton: Driver<Bool> {
+        return Observable.combineLatest(user.asObservable(), isMyUser.asObservable()) { user, isMyUser in
+            guard let user = user else { return false }
+            return !user.isDummy && !user.isProfessional
+                && !isMyUser && !user.hasBadge
+                && self.featureFlags.advancedReputationSystem13.isActive
         }.asDriver(onErrorJustReturn: false)
     }
-    
+
     weak var delegate: UserProfileViewModelDelegate?
 
     // MARK: - Private
@@ -253,8 +264,27 @@ final class UserProfileViewModel: BaseViewModel {
             retrieveUserData()
         }
 
+        checkIfVerificationHasBeenRequested()
         loadListingContent()
         trackVisit()
+    }
+
+    private func checkIfVerificationHasBeenRequested() {
+        guard let user = user.value, let userId = user.objectId,
+            !user.isDummy && !user.isProfessional && !isMyUser.value && !user.hasBadge
+                && featureFlags.advancedReputationSystem13.isActive else { return }
+
+        userRepository.retriveVerificationRequests(userId) { [weak self] result in
+            guard let userRequests = result.value else { return }
+            self?.askVerificationProfileIsSent.value = userRequests.count > 0
+        }
+    }
+
+    func requestUserVerifiaction() {
+        guard let userId = user.value?.objectId else { return }
+        userRepository.requestVerification(userId) { [weak self] result in
+            self?.askVerificationProfileIsSent.value = true
+        }
     }
 
     deinit {
@@ -274,6 +304,11 @@ extension UserProfileViewModel {
         guard isPrivateProfile else { return }
         profileNavigator?.openUserVerificationView()
         trackVerifyAccountStart()
+    }
+
+    func didTapAskVerification() {
+        requestUserVerifiaction()
+        trackAskVerification()
     }
 
     func didTapAvatar() {
@@ -808,6 +843,11 @@ extension UserProfileViewModel {
     
     func trackSmokeTestShown(testType: EventParameterSmokeTestType) {
         let event = TrackerEvent.smokeTestCtaShown(testType: testType, source: .profile)
+        tracker.trackEvent(event)
+    }
+
+    func trackAskVerification() {
+        let event = TrackerEvent.profileAskVerificationTapped()
         tracker.trackEvent(event)
     }
 }

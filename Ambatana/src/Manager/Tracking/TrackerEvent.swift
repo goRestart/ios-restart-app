@@ -1080,6 +1080,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .profileChatNowButton, params: params)
     }
 
+    static func profileAskVerificationTapped() -> TrackerEvent {
+        return TrackerEvent(name: .profileAskVerificationButton, params: nil)
+    }
+
     static func profileShareStart(_ type: EventParameterProfileType)  -> TrackerEvent {
         var params = EventParameters()
         params[.profileType] = type.rawValue

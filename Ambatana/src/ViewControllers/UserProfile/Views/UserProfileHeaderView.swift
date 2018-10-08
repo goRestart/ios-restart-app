@@ -1,13 +1,10 @@
 import Foundation
 import LGComponents
-import RxSwift
-import RxCocoa
 
 protocol UserProfileHeaderDelegate: class {
     func didTapEditAvatar()
     func didTapAvatar()
     func didTapRating()
-    func didTapChatNow()
 }
 
 enum UserHeaderViewBadge {
@@ -36,12 +33,6 @@ final class UserProfileHeaderView: UIView {
     private let verifiedBadgeImageView = UIImageView()
     private let proBadgeImageView = UIImageView()
     private var locationLabelTopConstraint: NSLayoutConstraint?
-    fileprivate let chatNowButton: LetgoButton = {
-        let button = LetgoButton(withStyle: .primary(fontSize: .medium))
-        button.setTitle(R.Strings.chatUserProfileChatNow, for: .normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
-        return button
-    }()
     weak var delegate: UserProfileHeaderDelegate?
  
     let isPrivate: Bool
@@ -56,8 +47,6 @@ final class UserProfileHeaderView: UIView {
         static let editAvatarButtonTopInset: CGFloat = 4
         static let proBadgeHeight: CGFloat = 20
         static let proBadgeWidth: CGFloat = 50
-        static let chatNowButtonHeight: CGFloat = 40
-        static let chatowButtonTopDistance: CGFloat = 25
     }
 
     init(isPrivate: Bool) {
@@ -92,7 +81,7 @@ final class UserProfileHeaderView: UIView {
 
     private func setupView() {
         addSubviewsForAutoLayout([userNameLabel, ratingView, ratingCountLabel, locationLabel, memberSinceLabel,
-                                  avatarImageView, editAvatarButton, verifiedBadgeImageView, proBadgeImageView, chatNowButton])
+                                  avatarImageView, editAvatarButton, verifiedBadgeImageView, proBadgeImageView])
 
         avatarImageView.contentMode = .scaleAspectFill
         avatarImageView.backgroundColor = .grayLight
@@ -128,8 +117,6 @@ final class UserProfileHeaderView: UIView {
 
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRatingView))
         ratingView.addGestureRecognizer(gestureRecognizer)
-
-        chatNowButton.addTarget(self, action: #selector(tapChatNowbutton), for: .touchUpInside)
     }
 
     private func setupConstraints() {
@@ -155,7 +142,8 @@ final class UserProfileHeaderView: UIView {
             avatarImageView.heightAnchor.constraint(equalToConstant: Layout.imageHeight),
             avatarImageView.widthAnchor.constraint(equalToConstant: Layout.imageHeight),
             avatarImageView.topAnchor.constraint(equalTo: topAnchor),
- 
+            avatarImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
             editAvatarButton.topAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: -Layout.editAvatarButtonTopInset),
             editAvatarButton.rightAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: Layout.editAvatarButtonRightInset),
             editAvatarButton.heightAnchor.constraint(equalToConstant: Layout.editAvatarButtonHeight),
@@ -170,12 +158,6 @@ final class UserProfileHeaderView: UIView {
             proBadgeImageView.centerXAnchor.constraint(equalTo: avatarImageView.centerXAnchor),
             proBadgeImageView.heightAnchor.constraint(equalToConstant: Layout.proBadgeHeight),
             proBadgeImageView.widthAnchor.constraint(equalToConstant: Layout.proBadgeWidth),
-            
-            chatNowButton.leadingAnchor.constraint(equalTo: leadingAnchor),
-            chatNowButton.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
-            chatNowButton.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: Layout.chatowButtonTopDistance),
-            chatNowButton.heightAnchor.constraint(equalToConstant: Layout.chatNowButtonHeight),
-            chatNowButton.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
         NSLayoutConstraint.activate(constraints)
 
@@ -233,19 +215,5 @@ final class UserProfileHeaderView: UIView {
 
     @objc private func tapRatingView() {
         delegate?.didTapRating()
-    }
-    
-    @objc private func tapChatNowbutton() {
-        delegate?.didTapChatNow()
-    }
-}
-
-// MARK: - View Bindings
-
-extension Reactive where Base: UserProfileHeaderView {
-    var chatNowButtonIsHidden: Binder<Bool> {
-        return Binder(base) { base, isHidden in
-            base.chatNowButton.isHidden = isHidden
-        }
     }
 }
