@@ -215,6 +215,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
                 viewPager.scrollEnabled = false
                 cameraView.recordVideo(maxDuration: SharedConstants.videoMaxRecordingDuration)
             } else {
+                footer.hideTooltip()
                 cameraView.takePhoto()
             }
         } else {
