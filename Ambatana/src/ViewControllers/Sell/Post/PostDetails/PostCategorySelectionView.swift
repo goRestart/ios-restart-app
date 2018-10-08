@@ -107,19 +107,10 @@ extension PostCategory {
             return 100
         case .motorsAndAccessories:
             return 80
+        case .services:
+            return 70
         case .realEstate:
             return 60
-        case .services:
-            switch featureFlags.servicesCategoryOnSalchichasMenu {
-            case .variantA:
-                return 110  // Should appear above cars
-            case .variantB:
-                return 70   // Should appear below motors and accesories
-            case .variantC:
-                return 50   // Should appear below real estate
-            default:
-                return 10 // Not active, should never happen
-            }
         case .otherItems:
             return 0    // Usually at bottom
         }

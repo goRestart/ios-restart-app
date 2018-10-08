@@ -89,7 +89,6 @@ protocol FeatureFlaggeable: class {
     var newSearchAPI: NewSearchAPIEndPoint { get }
 
     // MARK: Products
-    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
     var predictivePosting: PredictivePosting { get }
     var videoPosting: VideoPosting { get }
     var simplifiedChatButton: SimplifiedChatButton { get }
@@ -318,10 +317,6 @@ extension AdvancedReputationSystem13 {
 }
 
 // MARK: Products
-
-extension ServicesCategoryOnSalchichasMenu {
-    var isActive: Bool { return self != .control && self != .baseline }    
-}
 
 extension PredictivePosting {
     var isActive: Bool { return self == .active }
@@ -1245,13 +1240,6 @@ extension FeatureFlags {
 // MARK: Products
 
 extension FeatureFlags {
-
-    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
-        if Bumper.enabled {
-            return Bumper.servicesCategoryOnSalchichasMenu
-        }
-        return ServicesCategoryOnSalchichasMenu.fromPosition(abTests.servicesCategoryOnSalchichasMenu.value)
-    }
 
     var predictivePosting: PredictivePosting {
         if Bumper.enabled {

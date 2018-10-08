@@ -3,7 +3,6 @@ import Foundation
 struct ProductsABGroup: ABGroupType {
 
     private struct Keys {
-        static let servicesCategoryOnSalchichasMenu = "20180508ServicesCategoryOnSalchichasMenu"
         static let predictivePosting = "20180604PredictivePosting"
         static let videoPosting = "20180604VideoPosting"
         static let simplifiedChatButton = "20181003SimplifiedChatButton"
@@ -13,8 +12,7 @@ struct ProductsABGroup: ABGroupType {
         static let bulkPosting = "20180726BulkPosting"
         static let makeAnOfferButton = "20180904MakeAnOfferButton"
     }
-    
-    let servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>
+
     let predictivePosting: LeanplumABVariable<Int>
     let videoPosting: LeanplumABVariable<Int>
     let simplifiedChatButton: LeanplumABVariable<Int>
@@ -30,8 +28,7 @@ struct ProductsABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
 
-    init(servicesCategoryOnSalchichasMenu: LeanplumABVariable<Int>,
-         predictivePosting: LeanplumABVariable<Int>,
+    init(predictivePosting: LeanplumABVariable<Int>,
          videoPosting: LeanplumABVariable<Int>,
          simplifiedChatButton: LeanplumABVariable<Int>,
          deckItemPage: LeanplumABVariable<Int>,
@@ -39,7 +36,6 @@ struct ProductsABGroup: ABGroupType {
          turkeyFreePosting: LeanplumABVariable<Int>,
          bulkPosting:  LeanplumABVariable<Int>,
          makeAnOfferButton: LeanplumABVariable<Int>) {
-        self.servicesCategoryOnSalchichasMenu = servicesCategoryOnSalchichasMenu
         self.predictivePosting = predictivePosting
         self.videoPosting = videoPosting
         self.simplifiedChatButton = simplifiedChatButton
@@ -48,8 +44,7 @@ struct ProductsABGroup: ABGroupType {
         self.turkeyFreePosting = turkeyFreePosting
         self.bulkPosting = bulkPosting
         self.makeAnOfferButton = makeAnOfferButton
-        intVariables.append(contentsOf: [servicesCategoryOnSalchichasMenu,
-                                         predictivePosting,
+        intVariables.append(contentsOf: [predictivePosting,
                                          videoPosting,
                                          simplifiedChatButton,
                                          deckItemPage,
@@ -60,10 +55,7 @@ struct ProductsABGroup: ABGroupType {
     }
 
     static func make() -> ProductsABGroup {
-        return ProductsABGroup(servicesCategoryOnSalchichasMenu: .makeInt(key: Keys.servicesCategoryOnSalchichasMenu,
-                                                                          defaultValue: 0,
-                                                                          groupType: .products),
-                               predictivePosting: .makeInt(key: Keys.predictivePosting,
+        return ProductsABGroup(predictivePosting: .makeInt(key: Keys.predictivePosting,
                                                            defaultValue: 0,
                                                            groupType: .products),
                                videoPosting: .makeInt(key: Keys.videoPosting,
