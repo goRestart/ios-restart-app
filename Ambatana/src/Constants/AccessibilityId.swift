@@ -275,6 +275,7 @@ enum AccessibilityId: Equatable, Accessible {
     case postingDetailShareOnFacebookTitleLabel
     case postingDetailShareOnFacebookFooterLabel
     case postingDetailShareOnFacebookCheckbox
+    case postingCameraTooltipLabel
 
     // Editlisting
     case editListingCloseButton
@@ -829,7 +830,7 @@ enum AccessibilityId: Equatable, Accessible {
         case .feedInviteButton:
             return "feedInviteButton"
         case .feedNavBarSearch:
-            return "feedNavBarSearch"
+            return "mainListingsNavBarSearch"
         case .feedCollectionView:
             return "feedCollectionView"
             
@@ -1352,6 +1353,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "postingDetailShareOnFacebookFooterLabel"
         case .postingDetailShareOnFacebookCheckbox:
             return "postingDetailShareOnFacebookCheckbox"
+        case .postingCameraTooltipLabel:
+            return "postingCameraTooltipLabel"
             
         // Editlisting
         case .editListingCloseButton:

@@ -1,6 +1,6 @@
 import LGComponents
 
-struct LGWaterFallSettings {
+enum LGWaterFallSettings {
 
     static let columnCount: Int = 2
     static let  itemRenderPolicy: WaterfallLayoutItemRenderPolicy = .leftToRight
@@ -10,8 +10,8 @@ struct LGWaterFallSettings {
     static let itemSize: CGSize = CGSize(width: 50,
                                          height: 50)
     static let headerHeight: CGFloat = 0
-    static let  footerHeight: CGFloat = 0
-    static let minimumLineSpacing: CGFloat = Metrics.shortMargin
+    static let footerHeight: CGFloat = 0
+    static let minimumLineSpacing: CGFloat = 0
     static let sectionInset: UIEdgeInsets = UIEdgeInsets(top: Metrics.shortMargin,
                                                          left: Metrics.shortMargin,
                                                          bottom: 0,

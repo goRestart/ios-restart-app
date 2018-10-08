@@ -15,6 +15,11 @@
          "description": "New flow when marking an item as sold on chat using quick answers"
     },
     {
+         "name": "ShouldMoveLetsMeetAction",
+         "values": ["no", "yes"],
+         "description": "Put the lets meet icon inside the chat bar"
+    },
+    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "[MONEY] show ads in feed every X cells"
@@ -23,11 +28,6 @@
         "name": "RealEstateFlowType",
         "values": ["standard", "turkish"],
         "description": "Real Estate Flow Type"
-    },
-    {
-        "name": "RealEstateNewCopy",
-        "values": ["control", "baseline", "active"],
-        "description": "Try real estate copy instead of housing"
     },
     {
         "name": "DummyUsersInfoProfile",
@@ -108,11 +108,6 @@
         "name": "ServicesCategoryOnSalchichasMenu",
         "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
         "description": "[PRODUCTS] Show services category on salchichas menu"
-    },
-    {
-         "name": "EmptySearchImprovements",
-         "values": ["control", "baseline", "popularNearYou", "similarQueries", "similarQueriesWhenFewResults", "alwaysSimilar"],
-         "description": "Improve empty search experience by proposing relavant listings"
     },
     {
          "name": "OffensiveReportAlert",
@@ -315,6 +310,11 @@
         "description": "[VERTICALS] Show Click to talk"
     },
     {
+        "name": "BulkPosting",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
+        "description": "[PRODUCTS] Bulk posting"
+    },
+    {
         "name": "ShareAfterScreenshot",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Show a share view after the user takes a screenshot"
@@ -358,5 +358,25 @@
         "name": "ImageSizesNotificationCenter",
         "values": ["control", "baseline", "nineSix", "oneTwoEight"],
         "description": "[RETENTION] Notification center with different thumbnails sizes"
+    },
+    {
+        "name": "BlockingSignUp",
+        "values": ["control", "baseline", "active"],
+        "description": "[RETENTION] User needs to sign up/sign in even after killing the app in log in screen"
+    },
+    {
+        "name": "FacebookUnavailable",
+        "values": ["no", "yes"],
+        "description": "[CORE] Show Facebook unavailable message when user tries to authenticate with Facebook."
+    },
+    {
+        "name": "BoostSmokeTest",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD", "variantE", "variantF"],
+        "description": "[VERTICALS] Show Boost and Super Boost Smoke Test"
+    },
+    {
+        "name": "PolymorphFeedAdsUSA",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] Show Polymorph ads in feed for USA"
     }
 ]

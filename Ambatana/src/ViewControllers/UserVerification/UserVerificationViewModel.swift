@@ -161,6 +161,12 @@ final class UserVerificationViewModel: BaseViewModel {
             case .error:
                 self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric,
                                                         completion: nil)
+            case .unavailable:
+                self?.delegate?.vmShowAlertWithTitle(
+                    R.Strings.mainSignUpFbConnectErrorUnavailableTitle,
+                    text: R.Strings.profileVerificationsViewFacebookUnavailable,
+                    alertType: .plainAlert,
+                    actions: [UIAction.init(interface: .text(R.Strings.commonOk), action: {})])
             }
         }
     }
@@ -178,7 +184,7 @@ final class UserVerificationViewModel: BaseViewModel {
                                                                 completion: nil)
                     }
                 }
-            case .cancelled:
+            case .cancelled, .unavailable:
                 break
             case .error:
                 self?.delegate?.vmShowAutoFadingMessage(R.Strings.mainSignUpFbConnectErrorGeneric,

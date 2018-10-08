@@ -29,6 +29,8 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
     var rx_userAvatar: BehaviorRelay<UIImage?> { get }
     var rx_updateAffiliate: Driver<Bool> { get }
     
+    var location: String { get }
+    
     func openInvite()
     func openSearches()
     func showFilters()
@@ -39,7 +41,7 @@ protocol FeedViewModelType: FeedNavigatorOwnership {
 
     func resetFirstLoadState()
     
-    func loadFeedItems()
+    func loadFeedItems(uponPullToRefresh: Bool)
     func willScroll(toSection section: Int)
     func feedSectionController(for object: Any) -> ListSectionController
 }

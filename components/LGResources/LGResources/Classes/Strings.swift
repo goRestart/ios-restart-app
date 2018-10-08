@@ -28,7 +28,7 @@ extension R {
     public static func affiliationChallengesInviteFriendsMilestone(_ p1: String) -> String {
       return Strings.tr("Localizable", "affiliation_challenges_invite_friends_milestone", p1)
     }
-    /// Get a $60 Amazon Gift Card
+    /// Get a $30 Amazon Gift Card
     public static let affiliationChallengesInviteFriendsSubtitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_subtitle")
     /// INVITE YOUR FRIENDS
     public static let affiliationChallengesInviteFriendsTitle = Strings.tr("Localizable", "affiliation_challenges_invite_friends_title")
@@ -68,7 +68,7 @@ extension R {
     public static let affiliationInviteFriendsOthersButton = Strings.tr("Localizable", "affiliation_invite_friends_others_button")
     /// Invite via text
     public static let affiliationInviteFriendsSmsButton = Strings.tr("Localizable", "affiliation_invite_friends_sms_button")
-    /// Invite 3 friends to earn $10 when they start using letgo. Invite 10 friends and earn $50! \n\nYour friends will each get a $5 gift card, too.
+    /// Invite 3 friends to earn $5 when they start using letgo. Invite 10 friends and earn $25! \n\nYour friends will each get a $2 gift card, too.
     public static let affiliationInviteFriendsSubtitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_subtitle_label")
     /// Learn more
     public static let affiliationInviteFriendsTermsButton = Strings.tr("Localizable", "affiliation_invite_friends_terms_button")
@@ -76,11 +76,11 @@ extension R {
     public static let affiliationInviteFriendsTitle = Strings.tr("Localizable", "affiliation_invite_friends_title")
     /// Invite your friends
     public static let affiliationInviteFriendsTitleLabel = Strings.tr("Localizable", "affiliation_invite_friends_title_label")
-    /// Join a community of local buyers and sellers on letgo! Sign up and get $5 when you get started:
+    /// Join a community of local buyers and sellers on letgo! Sign up and get $2 when you get started:
     public static let affiliationInviteMessageText = Strings.tr("Localizable", "affiliation_invite_message_text")
-    /// You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $5 Amazon gift card when you get started
+    /// You've invited you to join a free online community of local buyers and sellers on letgo! Sign up here for a $2 Amazon gift card when you get started
     public static let affiliationInviteMessageTextNoName = Strings.tr("Localizable", "affiliation_invite_message_text_no_name")
-    /// Since %@ invited you to use letgo, you could win a $5 Amazon gift card.
+    /// Since %@ invited you to use letgo, you could win a $2 Amazon gift card.
     public static func affiliationInviteOnboardingText(_ p1: String) -> String {
       return Strings.tr("Localizable", "affiliation_invite_onboarding_text", p1)
     }
@@ -102,9 +102,9 @@ extension R {
     public static let affiliationInviteSmsMessageError = Strings.tr("Localizable", "affiliation_invite_sms_message_error")
     /// Message sent!
     public static let affiliationInviteSmsMessageSent = Strings.tr("Localizable", "affiliation_invite_sms_message_sent")
-    /// Get up to $60 in Amazon gift cards
+    /// Get up to $30 in Amazon gift cards
     public static let affiliationMainFeedTooltipText = Strings.tr("Localizable", "affiliation_main_feed_tooltip_text")
-    /// $60 in Amazon gift cards
+    /// $30 in Amazon gift cards
     public static let affiliationMainFeedTooltipTextHighlighted = Strings.tr("Localizable", "affiliation_main_feed_tooltip_text_highlighted")
     /// Sell your stuff
     public static let affiliationOnboardingCountryErrorMainButton = Strings.tr("Localizable", "affiliation_onboarding_country_error_main_button")
@@ -144,11 +144,11 @@ extension R {
     public static let affiliationStoreRedeemGiftSuccessSubheadlineWithoutEmail = Strings.tr("Localizable", "affiliation_store_redeem_gift_success_subheadline_without_email")
     /// Resend
     public static let affiliationStoreResendVoucher = Strings.tr("Localizable", "affiliation_store_resend_voucher")
-    /// $10 Amazon gift card
-    public static let affiliationStoreRewardsAmazon10 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_10")
     /// $5 Amazon gift card
+    public static let affiliationStoreRewardsAmazon10 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_10")
+    /// $2 Amazon gift card
     public static let affiliationStoreRewardsAmazon5 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_5")
-    /// $50 Amazon gift card
+    /// $25 Amazon gift card
     public static let affiliationStoreRewardsAmazon50 = Strings.tr("Localizable", "affiliation_store_rewards_amazon_50")
     /// Rewards store
     public static let affiliationStoreTitle = Strings.tr("Localizable", "affiliation_store_title")
@@ -238,6 +238,8 @@ extension R {
     public static let bumpUpBannerWaitText = Strings.tr("Localizable", "bump_up_banner_wait_text")
     /// Your listing was boosted! It will be featured for the next 24 hours.
     public static let bumpUpBoostSuccessAlertText = Strings.tr("Localizable", "bump_up_boost_success_alert_text")
+    /// This listing can't be featured right now.
+    public static let bumpUpChatListFailAlert = Strings.tr("Localizable", "bump_up_chat_list_fail_alert")
     /// An error occurred while featuring your listing. Please try again.
     public static let bumpUpErrorBumpGeneric = Strings.tr("Localizable", "bump_up_error_bump_generic")
     /// Your payment has been processed but your listing hasn't been featured.
@@ -372,19 +374,19 @@ extension R {
     public static let categoriesFree = Strings.tr("Localizable", "categories_free")
     /// Home and Garden
     public static let categoriesHomeAndGarden = Strings.tr("Localizable", "categories_home_and_garden")
-    /// Child
+    /// Baby and Child
     public static let categoriesInFeedBabyChild = Strings.tr("Localizable", "categories_inFeed_baby_child")
-    /// Entertainment
+    /// Movies, Books and Music
     public static let categoriesInFeedBooksMovies = Strings.tr("Localizable", "categories_inFeed_books_movies")
     /// Cars
     public static let categoriesInFeedCars = Strings.tr("Localizable", "categories_inFeed_cars")
-    /// Tech
+    /// Electronics
     public static let categoriesInFeedElectronics = Strings.tr("Localizable", "categories_inFeed_electronics")
-    /// Fashion
+    /// Fashion and Accessories
     public static let categoriesInFeedFashion = Strings.tr("Localizable", "categories_inFeed_fashion")
-    /// Home
+    /// Home and Garden
     public static let categoriesInFeedHome = Strings.tr("Localizable", "categories_inFeed_home")
-    /// Motors
+    /// Other Vehicles and Parts
     public static let categoriesInFeedMotors = Strings.tr("Localizable", "categories_inFeed_motors")
     /// Other
     public static let categoriesInFeedOthers = Strings.tr("Localizable", "categories_inFeed_others")
@@ -394,7 +396,7 @@ extension R {
     public static let categoriesInFeedRealEstateTitle = Strings.tr("Localizable", "categories_inFeed_real_estate_title")
     /// Services
     public static let categoriesInFeedServices = Strings.tr("Localizable", "categories_inFeed_services")
-    /// Leisure
+    /// Sports, Leisure and Games
     public static let categoriesInFeedSportsLeisureGames = Strings.tr("Localizable", "categories_inFeed_sports_leisure_games")
     /// Jobs & Services
     public static let categoriesJobsServices = Strings.tr("Localizable", "categories_jobs_services")
@@ -738,7 +740,7 @@ extension R {
     public static let chatStatusViewNoNetwork = Strings.tr("Localizable", "chat_status_view_no_network")
     /// try again
     public static let chatStatusViewTryAgain = Strings.tr("Localizable", "chat_status_view_try_again")
-    /// Unable to connect. Please try again
+    /// Unable to connect. Please try again.
     public static let chatStatusViewUnableToConnect = Strings.tr("Localizable", "chat_status_view_unable_to_connect")
     /// NEW!
     public static let chatStickersTooltipNew = Strings.tr("Localizable", "chat_stickers_tooltip_new")
@@ -1490,6 +1492,10 @@ extension R {
     public static let mainSignUpFbConnectErrorEmailTaken = Strings.tr("Localizable", "main_sign_up_fb_connect_error_email_taken")
     /// Unable to log in. Please try again.
     public static let mainSignUpFbConnectErrorGeneric = Strings.tr("Localizable", "main_sign_up_fb_connect_error_generic")
+    /// An error occurred while connecting to Facebook. To log in, reset your password entering the email address you use on Facebook.
+    public static let mainSignUpFbConnectErrorUnavailableMessage = Strings.tr("Localizable", "main_sign_up_fb_connect_error_unavailable_message")
+    /// Oops! An error occurred
+    public static let mainSignUpFbConnectErrorUnavailableTitle = Strings.tr("Localizable", "main_sign_up_fb_connect_error_unavailable_title")
     /// Continue with Google
     public static let mainSignUpGoogleConnectButton = Strings.tr("Localizable", "main_sign_up_google_connect_button")
     /// Log in as %@
@@ -2444,6 +2450,16 @@ extension R {
     public static let productOptionShare = Strings.tr("Localizable", "product_option_share")
     /// Popular near you
     public static let productPopularNearYou = Strings.tr("Localizable", "product_popular_near_you")
+    /// Your items (%i)
+    public static func productPostCameraBulkPostingItemsLabel(_ p1: Int) -> String {
+      return Strings.tr("Localizable", "product_post_camera_bulk_posting_items_label", p1)
+    }
+    /// %@ another listing
+    public static func productPostCameraBulkPostingTooltip(_ p1: String) -> String {
+      return Strings.tr("Localizable", "product_post_camera_bulk_posting_tooltip", p1)
+    }
+    /// Post
+    public static let productPostCameraBulkPostingTooltipHighlightedWord = Strings.tr("Localizable", "product_post_camera_bulk_posting_tooltip_highlighted_word")
     /// Take a good picture and start making cash!
     public static let productPostCameraFirstTimeAlertSubtitle = Strings.tr("Localizable", "product_post_camera_first_time_alert_subtitle")
     /// What are you selling?
@@ -2832,6 +2848,8 @@ extension R {
     public static let profileVerificationsViewExtraSectionTitle = Strings.tr("Localizable", "profile_verifications_view_extra_section_title")
     /// Facebook
     public static let profileVerificationsViewFacebookTitle = Strings.tr("Localizable", "profile_verifications_view_facebook_title")
+    /// An error occurred while verifying with Facebook
+    public static let profileVerificationsViewFacebookUnavailable = Strings.tr("Localizable", "profile_verifications_view_facebook_unavailable")
     /// Google
     public static let profileVerificationsViewGoogleTitle = Strings.tr("Localizable", "profile_verifications_view_google_title")
     /// +2 pts for each listing (up to 10 pts)
@@ -3322,7 +3340,7 @@ extension R {
     public static let reportingUserReportSentBlockUserBigButtonTitle = Strings.tr("Localizable", "reporting_user_report_sent_block_user_big_button_title")
     /// Block
     public static let reportingUserReportSentBlockUserSmallButtonTitle = Strings.tr("Localizable", "reporting_user_report_sent_block_user_small_button_title")
-    /// We're very sorry about your experience. We strongly encourage you to reach out to local law enforcement and file a police report as soon as possible (if you haven't already done so).\n\nPlease remind the police to contact letgo’s law enforcement team at lawenforcement@letgo.com so we can help with their investigation. We can share relevant information about %@ with police but, due to strict privacy protection laws, we need them to send us a valid search warrant or subpoena first. In the meantime, please provide additonal information so our team can investigate your claim.\n\nRemember, you can always block a user to make sure they can no longer see your items or chat with you.
+    /// We're very sorry about your experience. We strongly encourage you to reach out to local law enforcement and file a police report as soon as possible (if you haven't already done so).\n\nPlease remind the police to contact letgo’s law enforcement team at lawenforcement@letgo.com so we can help with their investigation. We can share relevant information about %@ with police but, due to strict privacy protection laws, we need them to send us a valid search warrant or subpoena first. In the meantime, please provide additional information so our team can investigate your claim.\n\nRemember, you can always block a user to make sure they can no longer see your items or chat with you.
     public static func reportingUserReportSentLawEnforcementAndBlockText(_ p1: String) -> String {
       return Strings.tr("Localizable", "reporting_user_report_sent_law_enforcement_and_block_text", p1)
     }

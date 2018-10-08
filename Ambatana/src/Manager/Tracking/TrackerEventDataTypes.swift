@@ -60,7 +60,6 @@ enum EventName: String {
     case listingSellYourStuffButton         = "product-sell-your-stuff-button"
     case listingSellStart                   = "product-sell-start"
     case listingSellComplete                = "product-sell-complete"
-    case listingSellComplete24h             = "product-sell-complete-24h"
     case listingSellError                   = "product-sell-error"
     case listingSellErrorClose              = "product-sell-error-close"
     case listingSellErrorPost               = "product-sell-error-post"
@@ -263,7 +262,12 @@ enum EventName: String {
     case p2pPaymentsSellerPayoutError       = "p2p-seller-payout-error"
     case p2pPaymentsSellerPayoutSignup      = "p2p-seller-payout-signup"
     case p2pPaymentsSellerPayoutSignupError = "p2p-seller-payout-signup-error"
-    
+
+    // perf marketing
+    case buyer24h                           = "buyer-24h"
+    case buyerLister24h                     = "buyer-lister-24h"
+    case lister24h                          = "product-sell-complete-24h"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -309,7 +313,6 @@ enum EventParameterName: String {
     case userZipCode          = "user-zipcode"
     case searchString         = "search-keyword"
     case searchSuccess        = "search-success"
-    case searchRelatedItems   = "search-related-items"
     case searchSuggestion     = "search-suggestion"
     case searchSuggestionPosition = "search-suggestion-position"
     case trendingSearch       = "trending-search"
@@ -899,6 +902,7 @@ enum EventParameterLoginError {
     case scammer
     case blacklistedDomain
     case badRequest
+    case unavailable
 
     var description: String {
         switch self {
@@ -940,6 +944,8 @@ enum EventParameterLoginError {
             return "BlacklistedDomain"
         case .badRequest:
             return "BadRequest"
+        case .unavailable:
+            return "ServiceUnavailable"
         }
     }
 
@@ -949,7 +955,7 @@ enum EventParameterLoginError {
             return description
         case .network, .unauthorized, .notFound, .forbidden, .invalidEmail, .nonExistingEmail, .invalidPassword,
              .invalidUsername, .userNotFoundOrWrongPassword, .emailTaken, .passwordMismatch, .usernameTaken,
-             .termsNotAccepted, .tooManyRequests, .scammer, .blacklistedDomain, .badRequest, .deviceNotAllowed:
+             .termsNotAccepted, .tooManyRequests, .scammer, .blacklistedDomain, .badRequest, .deviceNotAllowed, .unavailable:
             return nil
         }
     }
@@ -1558,6 +1564,7 @@ enum EventParameterAdType {
     case adx
     case interstitial
     case variableSize(size: CGSize)
+    case polymorph
 
     var stringValue: String {
         switch self {
@@ -1571,6 +1578,8 @@ enum EventParameterAdType {
             return "adx"
         case .interstitial:
             return "interstitial"
+        case .polymorph:
+            return "polymorph"
         }
     }
 }

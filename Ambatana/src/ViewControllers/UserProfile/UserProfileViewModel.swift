@@ -65,7 +65,7 @@ final class UserProfileViewModel: BaseViewModel {
     }
     
     var showClickToTalkBanner: Bool {
-        return isLoggedInUser && featureFlags.clickToTalk.isActive && !keyValueStorage[.clickToTalkShown]
+        return isLoggedInUser && featureFlags.clickToTalk.isActive && !keyValueStorage[.clickToTalkShown] && isPrivateProfile
     }
     
     var bannerHeight: CGFloat {
@@ -880,7 +880,10 @@ extension UserProfileViewModel: ListingCellDelegate {
                                          duration: InterestedHandler.undoTimeout) {
                                             cancellable.cancel()
                     }
-                    interestedHandler.handleCancellableInterestedAction(listing, timer: timer,  completion: completion)
+                    interestedHandler.handleCancellableInterestedAction(listing,
+                                                                        timer: timer,
+                                                                        typePage: .profile,
+                                                                        completion: completion)
                 }
             }
         }

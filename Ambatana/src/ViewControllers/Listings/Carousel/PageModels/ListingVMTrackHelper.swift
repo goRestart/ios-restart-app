@@ -509,7 +509,8 @@ extension ProductVMTrackHelper {
                                                          isProfessional: nil,
                                                          sectionName: sectionName))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: info, isProfessional: nil))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info,
+                                                        isProfessional: nil))
     }
 
     func trackMessageSentError(messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool, error: RepositoryError) {

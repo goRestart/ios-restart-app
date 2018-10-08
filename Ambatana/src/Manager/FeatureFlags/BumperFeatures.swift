@@ -19,9 +19,9 @@ extension Bumper  {
         flags.append(RealEstateEnabled.self)
         flags.append(RequestsTimeOut.self)
         flags.append(MarkAsSoldQuickAnswerNewFlow.self)
+        flags.append(ShouldMoveLetsMeetAction.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
-        flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
         flags.append(SearchImprovements.self)
@@ -38,7 +38,6 @@ extension Bumper  {
         flags.append(EmergencyLocate.self)
         flags.append(PersonalizedFeed.self)
         flags.append(ServicesCategoryOnSalchichasMenu.self)
-        flags.append(EmptySearchImprovements.self)
         flags.append(OffensiveReportAlert.self)
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
         flags.append(VideoPosting.self)
@@ -79,6 +78,7 @@ extension Bumper  {
         flags.append(MultiDayBumpUp.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(BulkPosting.self)
         flags.append(ShareAfterScreenshot.self)
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
@@ -88,6 +88,10 @@ extension Bumper  {
         flags.append(MakeAnOfferButton.self)
         flags.append(NewSearchAPIEndPoint.self)
         flags.append(ImageSizesNotificationCenter.self)
+        flags.append(BlockingSignUp.self)
+        flags.append(FacebookUnavailable.self)
+        flags.append(BoostSmokeTest.self)
+        flags.append(PolymorphFeedAdsUSA.self)
         Bumper.initialize(flags)
     } 
 
@@ -130,6 +134,19 @@ extension Bumper  {
     }
     #endif
 
+    static var shouldMoveLetsMeetAction: Bool {
+        guard let value = Bumper.value(for: ShouldMoveLetsMeetAction.key) else { return false }
+        return ShouldMoveLetsMeetAction(rawValue: value)?.asBool ?? false
+    } 
+
+    #if (RX_BUMPER)
+    static var shouldMoveLetsMeetActionObservable: Observable<Bool> {
+        return Bumper.observeValue(for: ShouldMoveLetsMeetAction.key).map {
+            ShouldMoveLetsMeetAction(rawValue: $0 ?? "")?.asBool ?? false
+        }
+    }
+    #endif
+
     static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         guard let value = Bumper.value(for: ShowAdsInFeedWithRatio.key) else { return .control }
         return ShowAdsInFeedWithRatio(rawValue: value) ?? .control 
@@ -152,19 +169,6 @@ extension Bumper  {
     static var realEstateFlowTypeObservable: Observable<RealEstateFlowType> {
         return Bumper.observeValue(for: RealEstateFlowType.key).map {
             RealEstateFlowType(rawValue: $0 ?? "") ?? .standard
-        }
-    }
-    #endif
-
-    static var realEstateNewCopy: RealEstateNewCopy {
-        guard let value = Bumper.value(for: RealEstateNewCopy.key) else { return .control }
-        return RealEstateNewCopy(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var realEstateNewCopyObservable: Observable<RealEstateNewCopy> {
-        return Bumper.observeValue(for: RealEstateNewCopy.key).map {
-            RealEstateNewCopy(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -373,19 +377,6 @@ extension Bumper  {
     static var servicesCategoryOnSalchichasMenuObservable: Observable<ServicesCategoryOnSalchichasMenu> {
         return Bumper.observeValue(for: ServicesCategoryOnSalchichasMenu.key).map {
             ServicesCategoryOnSalchichasMenu(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var emptySearchImprovements: EmptySearchImprovements {
-        guard let value = Bumper.value(for: EmptySearchImprovements.key) else { return .control }
-        return EmptySearchImprovements(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var emptySearchImprovementsObservable: Observable<EmptySearchImprovements> {
-        return Bumper.observeValue(for: EmptySearchImprovements.key).map {
-            EmptySearchImprovements(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -910,6 +901,19 @@ extension Bumper  {
     }
     #endif
 
+    static var bulkPosting: BulkPosting {
+        guard let value = Bumper.value(for: BulkPosting.key) else { return .control }
+        return BulkPosting(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var bulkPostingObservable: Observable<BulkPosting> {
+        return Bumper.observeValue(for: BulkPosting.key).map {
+            BulkPosting(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
     static var shareAfterScreenshot: ShareAfterScreenshot {
         guard let value = Bumper.value(for: ShareAfterScreenshot.key) else { return .control }
         return ShareAfterScreenshot(rawValue: value) ?? .control 
@@ -1026,6 +1030,58 @@ extension Bumper  {
         }
     }
     #endif
+
+    static var blockingSignUp: BlockingSignUp {
+        guard let value = Bumper.value(for: BlockingSignUp.key) else { return .control }
+        return BlockingSignUp(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var blockingSignUpObservable: Observable<BlockingSignUp> {
+        return Bumper.observeValue(for: BlockingSignUp.key).map {
+            BlockingSignUp(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var facebookUnavailable: Bool {
+        guard let value = Bumper.value(for: FacebookUnavailable.key) else { return false }
+        return FacebookUnavailable(rawValue: value)?.asBool ?? false
+    } 
+
+    #if (RX_BUMPER)
+    static var facebookUnavailableObservable: Observable<Bool> {
+        return Bumper.observeValue(for: FacebookUnavailable.key).map {
+            FacebookUnavailable(rawValue: $0 ?? "")?.asBool ?? false
+        }
+    }
+    #endif
+
+    static var boostSmokeTest: BoostSmokeTest {
+        guard let value = Bumper.value(for: BoostSmokeTest.key) else { return .control }
+        return BoostSmokeTest(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var boostSmokeTestObservable: Observable<BoostSmokeTest> {
+        return Bumper.observeValue(for: BoostSmokeTest.key).map {
+            BoostSmokeTest(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var polymorphFeedAdsUSA: PolymorphFeedAdsUSA {
+        guard let value = Bumper.value(for: PolymorphFeedAdsUSA.key) else { return .control }
+        return PolymorphFeedAdsUSA(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var polymorphFeedAdsUSAObservable: Observable<PolymorphFeedAdsUSA> {
+        return Bumper.observeValue(for: PolymorphFeedAdsUSA.key).map {
+            PolymorphFeedAdsUSA(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
 }
 
 
@@ -1079,6 +1135,15 @@ enum MarkAsSoldQuickAnswerNewFlow: String, BumperFeature  {
     }
 }
 
+enum ShouldMoveLetsMeetAction: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ShouldMoveLetsMeetAction.no.rawValue }
+    static var enumValues: [ShouldMoveLetsMeetAction] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Put the lets meet icon inside the chat bar" } 
+    var asBool: Bool { return self == .yes }
+}
+
 enum ShowAdsInFeedWithRatio: String, BumperFeature  {
     case control, baseline, ten, fifteen, twenty
     static var defaultValue: String { return ShowAdsInFeedWithRatio.control.rawValue }
@@ -1108,22 +1173,6 @@ enum RealEstateFlowType: String, BumperFeature  {
             case 0: return .standard
             case 1: return .turkish
             default: return .standard
-        }
-    }
-}
-
-enum RealEstateNewCopy: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RealEstateNewCopy.control.rawValue }
-    static var enumValues: [RealEstateNewCopy] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Try real estate copy instead of housing" } 
-    static func fromPosition(_ position: Int) -> RealEstateNewCopy {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }
@@ -1371,25 +1420,6 @@ enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
             case 2: return .variantA
             case 3: return .variantB
             case 4: return .variantC
-            default: return .control
-        }
-    }
-}
-
-enum EmptySearchImprovements: String, BumperFeature  {
-    case control, baseline, popularNearYou, similarQueries, similarQueriesWhenFewResults, alwaysSimilar
-    static var defaultValue: String { return EmptySearchImprovements.control.rawValue }
-    static var enumValues: [EmptySearchImprovements] { return [.control, .baseline, .popularNearYou, .similarQueries, .similarQueriesWhenFewResults, .alwaysSimilar]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Improve empty search experience by proposing relavant listings" } 
-    static func fromPosition(_ position: Int) -> EmptySearchImprovements {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .popularNearYou
-            case 3: return .similarQueries
-            case 4: return .similarQueriesWhenFewResults
-            case 5: return .alwaysSimilar
             default: return .control
         }
     }
@@ -2044,6 +2074,25 @@ enum ClickToTalk: String, BumperFeature  {
     }
 }
 
+enum BulkPosting: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return BulkPosting.control.rawValue }
+    static var enumValues: [BulkPosting] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[PRODUCTS] Bulk posting" } 
+    static func fromPosition(_ position: Int) -> BulkPosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
+            case 5: return .variantD
+            default: return .control
+        }
+    }
+}
+
 enum ShareAfterScreenshot: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return ShareAfterScreenshot.control.rawValue }
@@ -2185,6 +2234,68 @@ enum ImageSizesNotificationCenter: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .nineSix
             case 3: return .oneTwoEight
+            default: return .control
+        }
+    }
+}
+
+enum BlockingSignUp: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return BlockingSignUp.control.rawValue }
+    static var enumValues: [BlockingSignUp] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[RETENTION] User needs to sign up/sign in even after killing the app in log in screen" } 
+    static func fromPosition(_ position: Int) -> BlockingSignUp {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum FacebookUnavailable: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return FacebookUnavailable.no.rawValue }
+    static var enumValues: [FacebookUnavailable] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[CORE] Show Facebook unavailable message when user tries to authenticate with Facebook." } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum BoostSmokeTest: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC, variantD, variantE, variantF
+    static var defaultValue: String { return BoostSmokeTest.control.rawValue }
+    static var enumValues: [BoostSmokeTest] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD, .variantE, .variantF]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[VERTICALS] Show Boost and Super Boost Smoke Test" } 
+    static func fromPosition(_ position: Int) -> BoostSmokeTest {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
+            case 5: return .variantD
+            case 6: return .variantE
+            case 7: return .variantF
+            default: return .control
+        }
+    }
+}
+
+enum PolymorphFeedAdsUSA: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return PolymorphFeedAdsUSA.control.rawValue }
+    static var enumValues: [PolymorphFeedAdsUSA] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] Show Polymorph ads in feed for USA" } 
+    static func fromPosition(_ position: Int) -> PolymorphFeedAdsUSA {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

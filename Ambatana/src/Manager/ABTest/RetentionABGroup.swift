@@ -1,11 +1,3 @@
-//
-//  ABRetention.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 29/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 
 struct RetentionABGroup: ABGroupType {
@@ -18,8 +10,9 @@ struct RetentionABGroup: ABGroupType {
         static let randomImInterestedMessages = "20180817RandomImInterestedMessages"
         static let imInterestedInProfile = "20180828ImInterestedInProfile"
         static let shareAfterScreenshot = "20180905ShareAfterScreenshot"
-        static let affiliationCampaign = "20180927Affiliation"
+        static let affiliationCampaign = "20181001Affiliation-1-49-0"
         static let imageSizesNotificationCenter = "20180928ImageSizesNotificationCenter"
+        static let blockingSignUp = "20180919BlockingSignUp"
     }
     let dummyUsersInfoProfile: LeanplumABVariable<Int>
     let onboardingIncentivizePosting: LeanplumABVariable<Int>
@@ -31,6 +24,7 @@ struct RetentionABGroup: ABGroupType {
     let shareAfterScreenshot: LeanplumABVariable<Int>
     let affiliationCampaign: LeanplumABVariable<Int>
     let imageSizesNotificationCenter: LeanplumABVariable<Int>
+    let blockingSignUp: LeanplumABVariable<Int>
     
     let group: ABGroup = .retention
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -47,7 +41,8 @@ struct RetentionABGroup: ABGroupType {
          imInterestedInProfile: LeanplumABVariable<Int>,
          shareAfterScreenshot: LeanplumABVariable<Int>,
          affiliationCampaign: LeanplumABVariable<Int>,
-         imageSizesNotificationCenter: LeanplumABVariable<Int>) {
+         imageSizesNotificationCenter: LeanplumABVariable<Int>,
+         blockingSignUp: LeanplumABVariable<Int>) {
         self.dummyUsersInfoProfile = dummyUsersInfoProfile
         self.onboardingIncentivizePosting = onboardingIncentivizePosting
         self.searchAlertsInSearchSuggestions = searchAlertsInSearchSuggestions
@@ -58,6 +53,7 @@ struct RetentionABGroup: ABGroupType {
         self.shareAfterScreenshot = shareAfterScreenshot
         self.affiliationCampaign = affiliationCampaign
         self.imageSizesNotificationCenter = imageSizesNotificationCenter
+        self.blockingSignUp = blockingSignUp
 
         intVariables.append(contentsOf: [dummyUsersInfoProfile,
                                         onboardingIncentivizePosting,
@@ -68,7 +64,8 @@ struct RetentionABGroup: ABGroupType {
                                         imInterestedInProfile,
                                         shareAfterScreenshot,
                                         affiliationCampaign,
-                                        imageSizesNotificationCenter])
+                                        imageSizesNotificationCenter,
+                                        blockingSignUp])
     }
 
     static func make() -> RetentionABGroup {
@@ -100,7 +97,10 @@ struct RetentionABGroup: ABGroupType {
                                                               defaultValue: 0,
                                                               groupType: .retention),
                                 imageSizesNotificationCenter: .makeInt(key: Keys.imageSizesNotificationCenter,
-                                                                        defaultValue: 0,
-                                                              groupType: .retention))
+                                                                       defaultValue: 0,
+                                                                       groupType: .retention),
+                                blockingSignUp: .makeInt(key: Keys.blockingSignUp,
+                                                         defaultValue: 0,
+                                                         groupType: .retention))
     }
 }

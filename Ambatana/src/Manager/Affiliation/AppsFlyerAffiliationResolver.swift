@@ -43,12 +43,14 @@ final class AppsFlyerAffiliationResolver {
     private let myUserRepository: MyUserRepository
     private var isFeatureActive: Bool = false
     private var isFeatureStatusNotified: Bool = false
+    private var waitingBouncerConfirmation: Bool  = false
 
-    var isReferral: Bool {
+    /// Either it is a referral or we are waiting for Bouncer confirmation
+    var isProbablyReferral: Bool {
         if case AffiliationCampaignState.referral = rx_affiliationCampaign.value {
             return true
         }
-        return false
+        return waitingBouncerConfirmation
     }
     
     init(myUserRepository: MyUserRepository = Core.myUserRepository) {
@@ -115,6 +117,7 @@ private extension AppsFlyerAffiliationResolver {
             rx_affiliationCampaign.accept(.campaignNotAvailableForUser)
             return
         }
+        waitingBouncerConfirmation = true
         myUserRepository.notifyReferral(inviterId: referrer.userId) { [weak self] result in
             switch result {
             case .success:
@@ -122,6 +125,7 @@ private extension AppsFlyerAffiliationResolver {
             case .failure(let error):
                 logMessage(.error, type: AppLoggingOptions.deepLink, message: "Failed to notify referral: \(error)")
             }
+            self?.waitingBouncerConfirmation = false
         }
     }
 }

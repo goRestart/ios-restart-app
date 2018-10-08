@@ -17,7 +17,7 @@ enum TagCollectionViewFlowLayout {
             flowLayout.minimumLineSpacing = 5
             return flowLayout
         case .centerAligned:
-            let flowLayout = CenterAlignedCollectionViewFlowLayout()
+            let flowLayout = CollectionViewCenteredFlowLayout()
             flowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
             flowLayout.minimumInteritemSpacing = 10
             flowLayout.minimumLineSpacing = 10

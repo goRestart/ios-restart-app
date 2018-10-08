@@ -39,14 +39,24 @@ protocol ListingDeckViewModelDelegate: BaseViewModelDelegate {
 
 typealias DeckActionOnFirstAppear = ProductCarouselActionOnFirstAppear
 final class ListingDeckViewModel: BaseViewModel {
-
-    private let disposeBag = DisposeBag()
+    private var currentDisposeBag = DisposeBag()
 
     let objects = CollectionVariable<ListingCellModel>([])
+    private var modelsCache: [String: ListingCardViewModel] = [:]
+    fileprivate let isMine = BehaviorRelay<Bool>(value: false)
+    fileprivate let actionButton = BehaviorRelay<UIAction?>(value: nil)
+    fileprivate let bumpUpBannerInfo = BehaviorRelay<BumpUpInfo?>(value: nil)
+    fileprivate let listing: BehaviorRelay<Listing>
+    fileprivate let isFavorite = BehaviorRelay<Bool>(value: false)
+    fileprivate let status = BehaviorRelay<ListingViewModelStatus>(value: .pending)
+    fileprivate let isShowingFeaturedStripe = BehaviorRelay<Bool>(value: false)
 
-    let currentListingViewModel: ListingViewModel
+    var currentListingViewModel: ListingCardViewModel
     var navigator: ListingDeckNavigator?
-
+    var detailNavigator: ListingDetailNavigator? {
+        didSet { currentListingViewModel.navigator = detailNavigator }
+    }
+    
     weak var delegate: ListingDeckViewModelDelegate?
 
     var pagination: Pagination
@@ -69,20 +79,16 @@ final class ListingDeckViewModel: BaseViewModel {
     private let listingListRequester: ListingListRequester
     private let userRepository: MyUserRepository
 
-    private let listingViewModelAssembly: ListingViewModelAssembly
+    private let listingViewModelAssembly: ListingCardViewModelAssembly
     private let listingTracker: ListingTracker
 
     private let featureFlags: FeatureFlaggeable
 
     private let actionOnFirstAppear: DeckActionOnFirstAppear
 
-    fileprivate let actionButtons = Variable<[UIAction]>([])
-    var navBarButtons: [UIAction] { return currentListingViewModel.navBarActionsNewItemPage }
+    var navBarButtons: [UIAction] { return currentListingViewModel.navBarActions }
 
     private let quickChatViewModel = QuickChatViewModel()
-    let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
-    fileprivate let isFavorite: BehaviorRelay<Bool> = .init(value: false)
-    private var favoriteCache: [String: Bool] = [:]
 
     let imageDownloader: ImageDownloaderType
     private var sectionFeedChatTrackingInfo: SectionedFeedChatTrackingInfo? {
@@ -93,10 +99,6 @@ final class ListingDeckViewModel: BaseViewModel {
         let feedIndex = EventParameterFeedPosition.position(index: position)
         return SectionedFeedChatTrackingInfo(sectionId: sectionName,
                                              itemIndexInSection: feedIndex)
-    }
-    
-    override var active: Bool {
-        didSet { currentListingViewModel.active = active }
     }
 
     var userHasScrolled: Bool = false
@@ -110,7 +112,7 @@ final class ListingDeckViewModel: BaseViewModel {
     
     convenience init(listModels: [ListingCellModel],
                      listing: Listing,
-                     viewModelMaker: ListingViewModelAssembly,
+                     viewModelMaker: ListingCardViewModelAssembly,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: DeckActionOnFirstAppear,
@@ -139,7 +141,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     convenience init(listModels: [ListingCellModel],
                      initialListing: Listing,
-                     viewModelMaker: ListingViewModelAssembly,
+                     viewModelMaker: ListingCardViewModelAssembly,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      imageDownloader: ImageDownloaderType,
@@ -171,7 +173,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     init(listModels: [ListingCellModel],
          initialListing: Listing,
-         viewModelMaker: ListingViewModelAssembly,
+         viewModelMaker: ListingCardViewModelAssembly,
          listingListRequester: ListingListRequester,
          source: EventParameterListingVisitSource,
          imageDownloader: ImageDownloaderType,
@@ -213,8 +215,14 @@ final class ListingDeckViewModel: BaseViewModel {
             guard let aListing = $0.listing else { return false }
             return aListing.objectId == initialListing.objectId
         }) ?? 0
-        currentListingViewModel = listingViewModelAssembly.build(listing: initialListing, visitSource: source)
+        listing = BehaviorRelay<Listing>(value: initialListing)
+        currentListingViewModel = listingViewModelAssembly.build(listing: initialListing,
+                                                                 detailNavigator: detailNavigator,
+                                                                 visitSource: source)
         quickChatViewModel.listingViewModel = currentListingViewModel
+        if let objectID = initialListing.objectId {
+            modelsCache[objectID] = currentListingViewModel
+        }
 
         currentIndex = startIndex
         self.trackingIdentifier = trackingIdentifier
@@ -224,10 +232,10 @@ final class ListingDeckViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         if shouldSyncFirstListing {
+            setupRx()
             syncFirstListing()
         }
         if firstTime {
-            bind(to: currentListingViewModel)
             processActionOnFirstAppear()
         }
         moveToListingAtIndex(currentIndex, movement: .initial)
@@ -251,13 +259,15 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     func moveToListingAtIndex(_ index: Int, movement: DeckMovement) {
-        guard let listing = objects.value[safeAt: index]?.listing else { return }
+        guard let listing = objects.value[safeAt: index]?.listing,
+            let listingID = listing.objectId else { return }
         lastMovement = movement
         if active {
             currentListingViewModel.delegate = nil
             currentListingViewModel.active = false
-            currentListingViewModel.listing.value = listing
-            forceCurrentUpdate(listing: listing)
+            currentListingViewModel = modelForListing(listing, withID: listingID)
+            drive(with: currentListingViewModel)
+            quickChatViewModel.listingViewModel = currentListingViewModel
             currentListingViewModel.active = true
             currentListingViewModel.delegate = self
             quickChatViewModel.sectionFeedChatTrackingInfo = sectionFeedChatTrackingInfo
@@ -269,35 +279,38 @@ final class ListingDeckViewModel: BaseViewModel {
         }
     }
 
-    private func forceCurrentUpdate(listing: Listing) {
-        currentListingViewModel.forcedUpdate()
-        guard let objectId = listing.objectId,
-            let cachedValue = favoriteCache[objectId] else {
-                isFavorite.accept(false)
-                return
+    private func modelForListing(_ listing: Listing, withID listingID: String) -> ListingCardViewModel {
+        if let model = modelsCache[listingID] {
+            return model
+        } else {
+            let model = listingViewModelAssembly.build(listing: listing,
+                                                       detailNavigator: detailNavigator,
+                                                       visitSource: source)
+            modelsCache[listingID] = model
+            return model
         }
-        isFavorite.accept(cachedValue)
     }
 
-    private func bind(to current: ListingViewModel) {
-        current.listing
-            .asObservable()
-            .bind { [weak self] listing in
-                guard let strongSelf = self else { return }
-                guard let index = strongSelf.objects.value.index(where: {
-                    $0.listing?.objectId == listing.objectId
-                }) else { return }
-                strongSelf.replaceListingCellModelAtIndex(index, withListing: listing)
-            }.disposed(by: disposeBag)
-        current.isFavorite.asObservable().bind { [weak self] in
-            self?.isFavorite.accept($0)
-            if let listingID = current.listing.value.objectId {
-                self?.favoriteCache[listingID] = $0
-            }
-        }.disposed(by: disposeBag)
-        current.actionButtons.asObservable().bind(to: actionButtons).disposed(by: disposeBag)
-        current.cardBumpUpBannerInfo.bind(to: bumpUpBannerInfo).disposed(by: disposeBag)
+    private func setupRx() {
+        listing.asDriver()
+            .skip(1)
+            .drive(onNext: { [weak self] (listing) in
+            guard let strongSelf = self else { return }
+            guard let index = strongSelf.objects.value.index(where: {
+                $0.listing?.objectId == listing.objectId
+            }) else { return }
+            strongSelf.replaceListingCellModelAtIndex(index, withListing: listing)
+        }).disposed(by: currentDisposeBag)
+    }
 
+    private func drive(with current: ListingCardViewModel) {
+        current.rx.listing.drive(listing).disposed(by: currentDisposeBag)
+        current.rx.actionButton.asDriver().drive(actionButton).disposed(by: currentDisposeBag)
+        current.rx.bumpUpBannerInfo.drive(bumpUpBannerInfo).disposed(by: currentDisposeBag)
+        current.rx.status.drive(status).disposed(by: currentDisposeBag)
+        current.rx.isFavorite.drive(isFavorite).disposed(by: currentDisposeBag)
+        current.rx.isShowingFeaturedStripe.drive(isShowingFeaturedStripe).disposed(by: currentDisposeBag)
+        current.rx.isMine.drive(isMine).disposed(by: currentDisposeBag)
     }
 
     @objc func edit() {
@@ -315,7 +328,7 @@ final class ListingDeckViewModel: BaseViewModel {
     private func syncFirstListing() {
         currentListingViewModel.syncListing() { [weak self] in
             guard let strongSelf = self else { return }
-            let listing = strongSelf.currentListingViewModel.listing.value
+            let listing = strongSelf.currentListingViewModel.listing
             strongSelf.objects.replace(strongSelf.startIndex, with: ListingCellModel.listingCell(listing: listing))
         }
     }
@@ -337,7 +350,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     func bumpUpBannerShown(bumpInfo: BumpUpInfo) {
         guard bumpInfo.shouldTrackBumpBannerShown else { return }
-        let listing = currentListingViewModel.listing.value
+        let listing = currentListingViewModel.listing
         listingTracker.trackBumpUpBannerShown(listing,
                                               type: bumpInfo.type,
                                               storeProductId: currentListingViewModel.storeProductId)
@@ -348,7 +361,7 @@ final class ListingDeckViewModel: BaseViewModel {
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let willLeave = EventParameterBoolean(bool: true)
 
-        let listing = currentListingViewModel.listing.value
+        let listing = currentListingViewModel.listing
         listingTracker.trackInterstitialAdTapped(listing,
                                                  adType: adType,
                                                  feedPosition: feedPosition,
@@ -361,7 +374,7 @@ final class ListingDeckViewModel: BaseViewModel {
         let feedPosition: EventParameterFeedPosition = .position(index: currentIndex)
         let adShown = EventParameterBoolean(bool: true)
 
-        let listing = currentListingViewModel.listing.value
+        let listing = currentListingViewModel.listing
         listingTracker.trackInterstitialAdShown(listing,
                                                 adType: adType,
                                                 feedPosition: feedPosition,
@@ -399,7 +412,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     func didTapStatusView() {
         navigator?.openFeaturedInfo()
-        listingTracker.trackOpenFeaturedInfo(currentListingViewModel.listing.value)
+        listingTracker.trackOpenFeaturedInfo(currentListingViewModel.listing)
     }
 
     func close() {
@@ -424,7 +437,6 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     func showBumpUpView(_ action: DeckActionOnFirstAppear) {
-
         if case .triggerBumpUp(let purchases,
                                let maxCountdown,
                                let bumpUpType,
@@ -439,7 +451,7 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     func didTapActionButton() {
-        actionButtons.value.first?.action()
+        actionButton.value?.action()
     }
 }
 
@@ -615,28 +627,30 @@ typealias ListingDeckStatus = (status: ListingViewModelStatus, isFeatured: Bool)
 extension ListingDeckViewModel: ReactiveCompatible {}
 extension Reactive where Base: ListingDeckViewModel {
     var listingStatus: Driver<ListingDeckStatus> {
-        let status = base.currentListingViewModel.status.asObservable()
-        let isFeatured = base.currentListingViewModel.cardIsFeatured.asObservable()
+        let status = base.status.asObservable()
+        let isFeatured = base.isShowingFeaturedStripe.asObservable()
 
         let combined = Observable<ListingDeckStatus>.combineLatest(status, isFeatured) { ($0, $1) }
         return combined.asDriver(onErrorJustReturn: (.pending, false))
     }
 
-    var listingAction: Driver<ListingAction> {
-        let isFavorite = base.isFavorite.asObservable()
-        let isFavoritable = isMine.map { return !$0 }
-        let isEditable = base.currentListingViewModel.status.asObservable().map { return $0.isEditable }
+    var isMine: Observable<Bool> { return base.isMine.asObservable() }
 
-        return Observable.combineLatest(isFavorite, isFavoritable, isEditable) { ($0, $1, $2) }
-            .map { return ListingAction(isFavorite: $0, isFavoritable: $1, isEditable: $2) }
+    var listingAction: Driver<ListingAction> {
+        let isFavorite = base.isFavorite.asDriver()
+        let isEditable = base.status.asDriver().map { return $0.isEditable }
+        let isMine = base.isMine.asDriver()
+        return Driver.combineLatest(isFavorite, isEditable, isMine) { ($0, $1, $2) }
+            .map {
+                return ListingAction(
+                    isFavorite: $0.0,
+                    isFavoritable: !$0.2,
+                    isEditable: $0.1
+            ) }
             .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: ListingAction(isFavorite: false, isFavoritable: false, isEditable: false))
-    }
-    var isMine: Observable<Bool> {
-        return base.currentListingViewModel.productIsFavoriteable.asObservable().map { return !$0 }
     }
 
     var objectChanges: Observable<CollectionChange<ListingCellModel>> { return base.objects.changesObservable }
-    var actionButtons: Observable<[UIAction]> { return base.actionButtons.asObservable() }
+    var actionButton: Observable<UIAction?> { return base.actionButton.asObservable() }
     var bumpUpBannerInfo: Observable<BumpUpInfo?> { return base.bumpUpBannerInfo.asObservable() }
 }

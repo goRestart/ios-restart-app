@@ -84,8 +84,8 @@ class TabBarViewModel: BaseViewModel {
         titleTextAttributes[.foregroundColor] = UIColor.white
         titleTextAttributes[.font] = UIFont.systemSemiBoldFont(size: 15)
         
-        let title = featureFlags.realEstateNewCopy.isActive ? R.Strings.realEstateTooltipSellButtonTitle : R.Strings.realEstateTooltipSellButton
-        let titleText = NSAttributedString(string: title, attributes: titleTextAttributes)
+        let titleText = NSAttributedString(string: R.Strings.realEstateTooltipSellButton,
+                                           attributes: titleTextAttributes)
         
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
         fullTitle.append(NSAttributedString(string: " "))

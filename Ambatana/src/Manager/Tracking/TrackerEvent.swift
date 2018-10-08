@@ -216,9 +216,11 @@ struct TrackerEvent {
                                          feedSource: EventParameterFeedSource,
                                          success: EventParameterBoolean?,
                                          sectionPosition: EventParameterSectionPosition?,
-                                         sectionName: EventParameterSectionName?) -> TrackerEvent {
+                                         sectionName: EventParameterSectionName?,
+                                         pullToRefreshTriggered: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         
+        params[.reload] = pullToRefreshTriggered.rawValue
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = (categories ?? [.unassigned]).trackValue
         params[.keywordName] = TrackerEvent.notApply
@@ -267,7 +269,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .searchStart, params: params)
     }
 
-    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?, searchRelatedItems: Bool)
+    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?)
         -> TrackerEvent {
             var params = EventParameters()
             params[.searchString] = searchQuery
@@ -275,7 +277,6 @@ struct TrackerEvent {
             params[.trendingSearch] = isTrending
             params[.lastSearch] = isLastSearch
             params[.searchSuggestion] = isSuggestiveSearch
-            params[.searchRelatedItems] = searchRelatedItems
             
             if let suggestiveSearchPosition = suggestiveSearchIndex {
                 params[.searchSuggestionPosition] = suggestiveSearchPosition
@@ -677,10 +678,22 @@ struct TrackerEvent {
         return TrackerEvent(name: .predictedPosting, params: params)
     }
     
-    static func listingSellComplete24h(_ listing: Listing) -> TrackerEvent {
-        var params = EventParameters()
-        params[.listingId] = listing.objectId ?? ""
-        return TrackerEvent(name: .listingSellComplete24h, params: params)
+    static func lister24h(event: TrackerEvent) -> TrackerEvent? {
+        guard event.name == .listingSellComplete else { return nil }
+        return TrackerEvent(name: .lister24h,
+                            params: event.params)
+    }
+
+    static func buyer24h(event: TrackerEvent) -> TrackerEvent? {
+        guard event.name == .firstMessage else { return nil }
+        return TrackerEvent(name: .buyer24h,
+                            params: event.params)
+    }
+
+    static func buyerLister24h(event: TrackerEvent) -> TrackerEvent? {
+        guard (event.name == .listingSellComplete || event.name == .firstMessage) else { return nil }
+        return TrackerEvent(name: .buyerLister24h,
+                            params: event.params)
     }
 
     static func listingSellError(_ error: EventParameterPostListingError,
@@ -996,7 +1009,8 @@ struct TrackerEvent {
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
-    static func userMessageSent(info: SendMessageTrackingInfo, isProfessional: Bool?) -> TrackerEvent {
+    static func userMessageSent(info: SendMessageTrackingInfo,
+                                isProfessional: Bool?) -> TrackerEvent {
         info.set(isProfessional: isProfessional)
         return TrackerEvent(name: .userMessageSent, params: info.params)
     }
@@ -1013,6 +1027,19 @@ struct TrackerEvent {
         var params = EventParameters()
         params[.shownReason] = shownReason.rawValue
         return TrackerEvent(name: .chatRelatedItemsStart, params: params)
+    }
+    
+    static func chatFilterChanged(_ filter: ChatConversationsListFilter) -> TrackerEvent {
+        var params = EventParameters()
+        switch filter {
+        case .all:
+            params[.chatTabName] = EventParameterChatTabName.all.rawValue
+        case .buying:
+            params[.chatTabName] = EventParameterChatTabName.buying.rawValue
+        case .selling:
+            params[.chatTabName] = EventParameterChatTabName.selling.rawValue
+        }
+        return TrackerEvent(name: .chatTabOpen, params: params)
     }
 
     static func chatRelatedItemsComplete(_ itemPosition: Int, shownReason: EventParameterRelatedShownReason) -> TrackerEvent {
@@ -1554,12 +1581,7 @@ struct TrackerEvent {
         params[.chatEnabled] = chatEnabled
         return TrackerEvent(name: .chatWindowVisit, params: params)
     }
-
-    static func chatTabOpen(tabName: EventParameterChatTabName) -> TrackerEvent {
-        var params = EventParameters()
-        params[.chatTabName] = tabName.rawValue
-        return TrackerEvent(name: .chatTabOpen, params: params)
-    }
+ 
     
     static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterEmptyReason,
                                 errorCode:Int?, errorDescription: String?) -> TrackerEvent {

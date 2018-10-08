@@ -10,9 +10,6 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - Branch (0.22.5):
-    - Branch/Core (= 0.22.5)
-  - Branch/Core (0.22.5)
   - bumper (1.3.1):
     - bumper/Core (= 1.3.1)
   - bumper/Core (1.3.1):
@@ -79,7 +76,7 @@ PODS:
     - CocoaLumberjack/Swift (= 3.3.0)
     - LGCoreKit
     - RxCocoa (= 4.0.0)
-  - LGCoreKit (4.88.0):
+  - LGCoreKit (4.92.0):
     - Alamofire (~> 4.7.3)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -153,7 +150,6 @@ DEPENDENCIES:
   - AlamofireImage (= 3.3.1)
   - Amplitude-iOS (= 4.0.4)
   - AppsFlyerFramework (= 4.8.4)
-  - Branch (= 0.22.5)
   - bumper (= 1.3.1)
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
@@ -173,7 +169,7 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
   - LGComponents (from `components`)
-  - LGCoreKit (= 4.88.0)
+  - LGCoreKit (= 4.92.0)
   - lottie-ios (= 2.5.0)
   - mopub-ios-sdk (= 4.20.0)
   - NewRelicAgent (= 6.1.1)
@@ -202,7 +198,6 @@ SPEC REPOS:
     - Amplitude-iOS
     - AppsFlyerFramework
     - Bolts
-    - Branch
     - CHTCollectionViewWaterfallLayout
     - CocoaLumberjack
     - Crashlytics
@@ -262,7 +257,6 @@ SPEC CHECKSUMS:
   Amplitude-iOS: 2ad4d7270c99186236c1272a3a9425463b1ae1a7
   AppsFlyerFramework: c45bbd289a6f9e9a19976ee270b44edea646aab6
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
   bumper: f8d19f02bca78a960374877f07ce4072d5a35f17
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
@@ -286,8 +280,8 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGComponents: ef36425677175584b2f80e3e2091d22ed9a0667b
-  LGCoreKit: d909620747a8d90174f0157f8777b34133ad9093
+  LGComponents: 359233c9c92113769a081bc9698c573ead402df2
+  LGCoreKit: 86c07f49298aa0b4b4f1bc35d147977101ca7437
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   mopub-ios-sdk: 89c6ac9ca01d3b36e9fba16a6cfe31d3c290d354
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
@@ -309,6 +303,6 @@ SPEC CHECKSUMS:
   SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: 428712e0bbc753d79ebd280d6e67c0ae0bc4ce80
+PODFILE CHECKSUM: 61dc549eec703568d998791ae522248d190ba54b
 
 COCOAPODS: 1.5.3

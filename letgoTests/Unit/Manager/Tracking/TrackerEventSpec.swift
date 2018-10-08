@@ -875,7 +875,8 @@ class TrackerEventSpec: QuickSpec {
                                                                 feedSource: .section,
                                                                 success: .trueParameter,
                                                                 sectionPosition: nil,
-                                                                sectionName: nil)
+                                                                sectionName: nil,
+                                                                pullToRefreshTriggered: .trueParameter)
                 }
 
                 it("has its event name") {
@@ -902,9 +903,11 @@ class TrackerEventSpec: QuickSpec {
                 it("contains number-of-items-section parameter") {
                     expect(sut.params!.stringKeyParams["number-of-items-section"] as? String).to(equal("\(sectionItemCount)"))
                 }
-                
                 it("contains comma separated section names") {
                     expect(sut.params!.stringKeyParams["sections-shown"] as? String).to(equal("sec-1,sec-2,sec-3"))
+                }
+                it("contains reload parameter with true value") {
+                    expect(sut.params!.stringKeyParams["reload"] as? String).to(equal("true"))
                 }
             }
             
@@ -941,7 +944,7 @@ class TrackerEventSpec: QuickSpec {
                 context("isLastSearch") {
                     context("success") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil, searchRelatedItems: false)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
                         }
                         it("has its event name") {
                             expect(sut.name.rawValue).to(equal("search-complete"))
@@ -972,7 +975,7 @@ class TrackerEventSpec: QuickSpec {
                     }
                     context("failure") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil, searchRelatedItems: false)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
                         }
                         it("search with no success") {
                             let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
@@ -983,7 +986,7 @@ class TrackerEventSpec: QuickSpec {
                 context("isSuggestiveSearch") {
                     context("success") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0, searchRelatedItems: false)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
                         }
                         it("has its event name") {
                             expect(sut.name.rawValue).to(equal("search-complete"))
@@ -1015,7 +1018,7 @@ class TrackerEventSpec: QuickSpec {
                     }
                     context("failure") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0, searchRelatedItems: false)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
                         }
                         it("search with no success") {
                             let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
@@ -1027,7 +1030,7 @@ class TrackerEventSpec: QuickSpec {
                 context("Shows SearchRelatedItems when search") {
                     context("Original search shows no result (unsuccessful) and show related items") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: false, suggestiveSearchIndex: 0, searchRelatedItems: true)
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: false, suggestiveSearchIndex: 0)
                         }
                         it("has its event name") {
                             expect(sut.name.rawValue).to(equal("search-complete"))
@@ -1056,19 +1059,10 @@ class TrackerEventSpec: QuickSpec {
                             let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
                             expect(searchSuccess) == "no"
                         }
-                        
-                        it("searches for related items") {
-                            let searchRelated = sut.params!.stringKeyParams["search-related-items"] as? Bool
-                            expect(searchRelated) == true
-                        }
                     }
                     context("Original search shows no result (unsuccessful) and not showing related items") {
                         beforeEach {
-                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0, searchRelatedItems: false)
-                        }
-                        it("doesnot search for related items") {
-                            let searchRelated = sut.params!.stringKeyParams["search-related-items"] as? Bool
-                            expect(searchRelated) == false
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
                         }
                     }
                 }
@@ -5204,14 +5198,14 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("chat-tab-open") {
                 beforeEach {
-                    sut = TrackerEvent.chatTabOpen(tabName: .selling)
+                    sut = TrackerEvent.chatFilterChanged(.all)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("chat-tab-open"))
                 }
                 it("contains tabName parameter") {
                     let param = sut.params!.stringKeyParams["tab-name"] as? String
-                    expect(param) == "selling"
+                    expect(param) == "all"
                 }
             }
             describe("app rating start") {
@@ -7063,7 +7057,162 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
-            
+
+            describe("lister 24h") {
+                var sourceEvent: TrackerEvent!
+
+                context("from a listing sell complete event") {
+                    beforeEach {
+                        let listing = Listing.makeMock()
+                        let machineLearningTrackingInfo = MachineLearningTrackingInfo.defaultValues()
+                        sourceEvent = TrackerEvent.listingSellComplete(listing,
+                                                                       buttonName: nil,
+                                                                       sellButtonPosition: nil,
+                                                                       negotiable: nil,
+                                                                       pictureSource: nil,
+                                                                       videoLength: nil,
+                                                                       freePostingModeAllowed: false,
+                                                                       typePage: .sell,
+                                                                       machineLearningTrackingInfo: machineLearningTrackingInfo)
+                        sut = TrackerEvent.lister24h(event: sourceEvent)
+                    }
+
+                    it("has name product-sell-complete-24h") {
+                        expect(sut.name.rawValue) == "product-sell-complete-24h"
+                    }
+                    it("has the same params") {
+                        expect(sut.params?.params.keys) == sourceEvent.params?.params.keys
+                    }
+                }
+
+                context("from another event") {
+                    beforeEach {
+                        sourceEvent = TrackerEvent.showNewItemsBadge()
+                        sut = TrackerEvent.lister24h(event: sourceEvent)
+                    }
+
+                    it("returns nil") {
+                        expect(sut).to(beNil())
+                    }
+                }
+            }
+
+            describe("buyer 24h") {
+                var sourceEvent: TrackerEvent!
+
+                context("from a first message event") {
+                    beforeEach {
+                        let listing = Listing.makeMock()
+                        let sendMessageInfo = SendMessageTrackingInfo()
+                            .set(listing: listing, freePostingModeAllowed: true)
+                            .set(messageType: .text)
+                            .set(quickAnswerTypeParameter: nil)
+                            .set(typePage: .listingDetail)
+                            .set(sellerRating: 4)
+                            .set(isBumpedUp: .trueParameter)
+                            .set(containsEmoji: true)
+                            .set(assistantMeeting: nil, isSuggestedPlace: nil)
+                        sourceEvent = TrackerEvent.firstMessage(info: sendMessageInfo,
+                                                                listingVisitSource: .listingList,
+                                                                feedPosition: .position(index:1),
+                                                                sectionPosition: .none,
+                                                                userBadge: .silver,
+                                                                containsVideo: .trueParameter,
+                                                                isProfessional: false,
+                                                                sectionName: nil)
+                        sut = TrackerEvent.buyer24h(event: sourceEvent)
+                    }
+
+                    it("has name buyer-24h") {
+                        expect(sut.name.rawValue) == "buyer-24h"
+                    }
+                    it("has the same params") {
+                        expect(sut.params?.params.keys) == sourceEvent.params?.params.keys
+                    }
+                }
+
+                context("from another event") {
+                    beforeEach {
+                        sourceEvent = TrackerEvent.showNewItemsBadge()
+                        sut = TrackerEvent.buyer24h(event: sourceEvent)
+                    }
+
+                    it("returns nil") {
+                        expect(sut).to(beNil())
+                    }
+                }
+            }
+
+            describe("buyer lister 24h") {
+                var sourceEvent: TrackerEvent!
+
+                context("from a first message event") {
+                    beforeEach {
+                        let listing = Listing.makeMock()
+                        let sendMessageInfo = SendMessageTrackingInfo()
+                            .set(listing: listing, freePostingModeAllowed: true)
+                            .set(messageType: .text)
+                            .set(quickAnswerTypeParameter: nil)
+                            .set(typePage: .listingDetail)
+                            .set(sellerRating: 4)
+                            .set(isBumpedUp: .trueParameter)
+                            .set(containsEmoji: true)
+                            .set(assistantMeeting: nil, isSuggestedPlace: nil)
+                        sourceEvent = TrackerEvent.firstMessage(info: sendMessageInfo,
+                                                                listingVisitSource: .listingList,
+                                                                feedPosition: .position(index:1),
+                                                                sectionPosition: .none,
+                                                                userBadge: .silver,
+                                                                containsVideo: .trueParameter,
+                                                                isProfessional: false,
+                                                                sectionName: nil)
+                        sut = TrackerEvent.buyerLister24h(event: sourceEvent)
+                    }
+
+                    it("has name buyer-lister-24h") {
+                        expect(sut.name.rawValue) == "buyer-lister-24h"
+                    }
+                    it("has the same params") {
+                        expect(sut.params?.params.keys) == sourceEvent.params?.params.keys
+                    }
+                }
+
+                context("from a listing sell complete event") {
+                    beforeEach {
+                        let listing = Listing.makeMock()
+                        let machineLearningTrackingInfo = MachineLearningTrackingInfo.defaultValues()
+                        sourceEvent = TrackerEvent.listingSellComplete(listing,
+                                                                       buttonName: nil,
+                                                                       sellButtonPosition: nil,
+                                                                       negotiable: nil,
+                                                                       pictureSource: nil,
+                                                                       videoLength: nil,
+                                                                       freePostingModeAllowed: false,
+                                                                       typePage: .sell,
+                                                                       machineLearningTrackingInfo: machineLearningTrackingInfo)
+                        sut = TrackerEvent.buyerLister24h(event: sourceEvent)
+                    }
+
+                    it("has name buyer-lister-24h") {
+                        expect(sut.name.rawValue) == "buyer-lister-24h"
+                    }
+                    it("has the same params") {
+                        expect(sut.params?.params.keys) == sourceEvent.params?.params.keys
+                    }
+                }
+
+                context("from another event") {
+                    beforeEach {
+                        sourceEvent = TrackerEvent.showNewItemsBadge()
+                        sut = TrackerEvent.buyerLister24h(event: sourceEvent)
+                    }
+
+                    it("returns nil") {
+                        expect(sut).to(beNil())
+                    }
+                }
+            }
+
             func makeSutForListingDetailVisit(withSectionId id: String?) -> TrackerEvent {
                 var sectionName: EventParameterSectionName? = nil
                 if let id = id {

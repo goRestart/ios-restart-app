@@ -88,20 +88,6 @@ final class ListingViewModel: BaseViewModel {
     lazy var actionButtons = Variable<[UIAction]>([])
     lazy var altActions = Variable<[UIAction]>([])
 
-    var navBarActionsNewItemPage: [UIAction] {
-        var navBarButtons = [UIAction]()
-        if isMine {
-            if status.value.isEditable && isListingDetailsCompleted.value {
-                navBarButtons.append(buildEditAction())
-            }
-            navBarButtons.append(buildDeleteAction())
-        } else {
-            navBarButtons.append(buildReportAction())
-        }
-        navBarButtons.insert(buildShareAction(), at: navBarButtons.count - 1)
-        return navBarButtons
-    }
-
     lazy var directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder: String {
         let userName = listing.value.user.name?.toNameReduced(maxChars: SharedConstants.maxCharactersOnUserNameChatButton) ?? ""
@@ -271,10 +257,6 @@ final class ListingViewModel: BaseViewModel {
         }
 
         isInterested.value = keyValueStorage.interestingListingIDs.contains(listingId)
-    }
-
-    func forcedUpdate() {
-        refreshUserListingRelation()
     }
 
     func refreshUserListingRelation() {

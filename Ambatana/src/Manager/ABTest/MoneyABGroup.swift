@@ -1,11 +1,3 @@
-//
-//  MoneyABGroup.swift
-//  LetGo
-//
-//  Created by Facundo Menzella on 29/03/2018.
-//  Copyright © 2018 Ambatana. All rights reserved.
-//
-
 import Foundation
 
 struct MoneyABGroup: ABGroupType {
@@ -27,6 +19,8 @@ struct MoneyABGroup: ABGroupType {
         static let multiAdRequestInChatSectionForUS = "20180802MultiAdRequestInChatSectionForUS"
         static let multiAdRequestInChatSectionForTR = "20180802MultiAdRequestInChatSectionForTR"
         static let bumpPromoAfterSellNoLimit = "20180925BumpPromoAfterSellNoLimit"
+        static let polymorphFeedAdsUSA = "20180828PolymorphFeedAdsUSA"
+        static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
     }
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
     let showProTagUserProfile: LeanplumABVariable<Bool>
@@ -45,6 +39,8 @@ struct MoneyABGroup: ABGroupType {
     let multiAdRequestInChatSectionForUS: LeanplumABVariable<Int>
     let multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>
     let bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>
+    let polymorphFeedAdsUSA: LeanplumABVariable<Int>
+    let showAdsInFeedWithRatio: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -68,7 +64,9 @@ struct MoneyABGroup: ABGroupType {
          multiDayBumpUp: LeanplumABVariable<Int>,
          multiAdRequestInChatSectionForUS: LeanplumABVariable<Int>,
          multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>,
-         bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>){
+         bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>,
+         polymorphFeedAdsUSA: LeanplumABVariable<Int>,
+         showAdsInFeedWithRatio: LeanplumABVariable<Int>){
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
         self.copyForChatNowInEnglish = copyForChatNowInEnglish
@@ -86,6 +84,8 @@ struct MoneyABGroup: ABGroupType {
         self.multiAdRequestInChatSectionForUS = multiAdRequestInChatSectionForUS
         self.multiAdRequestInChatSectionForTR = multiAdRequestInChatSectionForTR
         self.bumpPromoAfterSellNoLimit = bumpPromoAfterSellNoLimit
+        self.polymorphFeedAdsUSA = polymorphFeedAdsUSA
+        self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
 
         intVariables.append(contentsOf: [copyForChatNowInTurkey,
                                          copyForChatNowInEnglish,
@@ -101,64 +101,42 @@ struct MoneyABGroup: ABGroupType {
                                          multiDayBumpUp,
                                          multiAdRequestInChatSectionForUS,
                                          multiAdRequestInChatSectionForTR,
-                                         bumpPromoAfterSellNoLimit])
+                                         bumpPromoAfterSellNoLimit,
+                                         polymorphFeedAdsUSA,
+                                         showAdsInFeedWithRatio])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
 
     static func make() -> MoneyABGroup {
-        return MoneyABGroup(copyForChatNowInTurkey: .makeInt(key: Keys.copyForChatNowInTurkey,
-                                                             defaultValue: 0,
-                                                             groupType: .money),
-                            showProTagUserProfile:.makeBool(key: Keys.showProTagUserProfile,
-                                                            defaultValue: false,
-                                                            groupType: .money),
-                            copyForChatNowInEnglish: .makeInt(key: Keys.copyForChatNowInEnglish,
-                                                              defaultValue: 0,
-                                                              groupType: .money),
-                            showExactLocationForPros: .makeBool(key: Keys.showExactLocationForPros,
-                                                                defaultValue: true,
-                                                                groupType: .money),
-                            copyForSellFasterNowInEnglish: .makeInt(key: Keys.copyForSellFasterNowInEnglish,
-                                                                    defaultValue: 0,
-                                                                    groupType: .money),
-                            fullScreenAdsWhenBrowsingForUS: .makeInt(key: Keys.fullScreenAdsWhenBrowsingForUS,
-                                                                     defaultValue: 0,
-                                                                     groupType: .money),
-                            preventMessagesFromFeedToProUsers: .makeInt(key: Keys.preventMessagesFromFeedToProUsers,
-                                                                        defaultValue: 0,
-                                                                        groupType: .money),
-                            appInstallAdsInFeed: .makeInt(key: Keys.appInstallAdsInFeed,
-                                                          defaultValue: 0,
-                                                          groupType: .money),
-                            alwaysShowBumpBannerWithLoading: .makeInt(key: Keys.alwaysShowBumpBannerWithLoading,
-                                                                      defaultValue: 0,
-                                                                      groupType: .money),
-                            showSellFasterInProfileCells: .makeInt(key: Keys.showSellFasterInProfileCells,
-                                                                   defaultValue: 0,
-                                                                   groupType: .money),
-                            bumpInEditCopys: .makeInt(key: Keys.bumpInEditCopys,
-                                                      defaultValue: 0,
-                                                      groupType: .money),
-                            copyForSellFasterNowInTurkish: .makeInt(key: Keys.copyForSellFasterNowInTurkish,
-                                                                    defaultValue: 0,
-                                                                    groupType: .money),
-                            multiAdRequestMoreInfo: .makeInt(key: Keys.multiAdRequestMoreInfo,
-                                                             defaultValue: 0,
-                                                             groupType: .money),
-                            multiDayBumpUp: .makeInt(key: Keys.multiDayBumpUp,
-                                                     defaultValue: 0,
-                                                     groupType: .money),
-                            multiAdRequestInChatSectionForUS: .makeInt(key: Keys.multiAdRequestInChatSectionForUS,
-                                                                      defaultValue: 0,
-                                                                      groupType: .money),
-                            multiAdRequestInChatSectionForTR: .makeInt(key: Keys.multiAdRequestInChatSectionForTR,
-                                                                      defaultValue: 0,
-                                                                      groupType: .money),
-                            bumpPromoAfterSellNoLimit: .makeInt(key: Keys.bumpPromoAfterSellNoLimit,
-                                                                defaultValue: 0,
-                                                                groupType: .money)
+        return MoneyABGroup(copyForChatNowInTurkey: moneyIntFor(key: Keys.copyForChatNowInTurkey),
+                            showProTagUserProfile: moneyBoolFor(key: Keys.showProTagUserProfile, value: false),
+                            copyForChatNowInEnglish: moneyIntFor(key: Keys.copyForChatNowInEnglish),
+                            showExactLocationForPros: moneyBoolFor(key: Keys.showExactLocationForPros, value: true),
+                            copyForSellFasterNowInEnglish: moneyIntFor(key: Keys.copyForSellFasterNowInEnglish),
+                            fullScreenAdsWhenBrowsingForUS: moneyIntFor(key: Keys.fullScreenAdsWhenBrowsingForUS),
+                            preventMessagesFromFeedToProUsers: moneyIntFor(key: Keys.preventMessagesFromFeedToProUsers),
+                            appInstallAdsInFeed: moneyIntFor(key: Keys.appInstallAdsInFeed),
+                            alwaysShowBumpBannerWithLoading: moneyIntFor(key: Keys.alwaysShowBumpBannerWithLoading),
+                            showSellFasterInProfileCells: moneyIntFor(key: Keys.showSellFasterInProfileCells),
+                            bumpInEditCopys: moneyIntFor(key: Keys.bumpInEditCopys),
+                            copyForSellFasterNowInTurkish: moneyIntFor(key: Keys.copyForSellFasterNowInTurkish),
+                            multiAdRequestMoreInfo: moneyIntFor(key: Keys.multiAdRequestMoreInfo),
+                            multiDayBumpUp: moneyIntFor(key: Keys.multiDayBumpUp),
+                            multiAdRequestInChatSectionForUS: moneyIntFor(key: Keys.multiAdRequestInChatSectionForUS),
+                            multiAdRequestInChatSectionForTR: moneyIntFor(key: Keys.multiAdRequestInChatSectionForTR),
+                            bumpPromoAfterSellNoLimit: moneyIntFor(key: Keys.bumpPromoAfterSellNoLimit),
+                            polymorphFeedAdsUSA: moneyIntFor(key: Keys.polymorphFeedAdsUSA),
+                            showAdsInFeedWithRatio: moneyIntFor(key: Keys.showAdsInFeedWithRatio)
         )
+    }
+
+    private static func moneyIntFor(key: String) -> LeanplumABVariable<Int> {
+        return .makeInt(key: key, defaultValue: 0, groupType: .money)
+    }
+
+    private static func moneyBoolFor(key: String, value: Bool) -> LeanplumABVariable<Bool> {
+        return .makeBool(key: key, defaultValue: value, groupType: .money)
     }
 }
 

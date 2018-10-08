@@ -52,6 +52,10 @@ final class EscrowEnvironment: AppEnvironment {
     
     let sectionedFeedAdUnitForUS = ""
     
+    // Polymorph
+    let feedAdUnitIdPolymorphUSA = ""
+    let polymorphAdUnit = ""
+    
     // MoPub Ads
     let feedAdUnitIdMoPubUSAForAllUsers = ""
     let feedAdUnitIdMoPubUSAForOldUsers = ""

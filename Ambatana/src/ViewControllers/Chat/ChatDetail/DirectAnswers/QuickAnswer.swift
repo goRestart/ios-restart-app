@@ -379,9 +379,9 @@ enum QuickAnswer: Equatable {
         return nil
     }
 
-    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, chatNorrisABtestVersion: ChatNorris) -> [QuickAnswer] {
+    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, chatNorrisABtestVersion: ChatNorris, letsMeetIsInsideBar: Bool) -> [QuickAnswer] {
         var result = [QuickAnswer]()
-        if chatNorrisABtestVersion.isActive {
+        if chatNorrisABtestVersion.isActive && !letsMeetIsInsideBar {
             result.append(.meetingAssistant(chatNorrisABtestVersion: chatNorrisABtestVersion))
         }
         if isFree {

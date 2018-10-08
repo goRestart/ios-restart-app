@@ -78,7 +78,11 @@ class PostListingState {
         let pendingImages = pendingToUploadImages?.count ?? 0
         return pendingImages > 0 || pendingToUploadVideo != nil
     }
-    
+
+    var didUploadMedia: Bool {
+        return lastImagesUploadResult?.value != nil || uploadedVideo != nil
+    }
+
     var serviceAttributes: ServiceAttributes {
         return verticalAttributes?.serviceAttributes ?? ServiceAttributes.emptyServicesAttributes()
     }
@@ -186,7 +190,8 @@ class PostListingState {
         case .imageSelection, .errorUpload:
             break
         case .uploadingImage, .uploadingVideo, .errorVideoUpload, .detailsSelection,
-             .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+             .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing,
+             .postingError:
             return self
         }
         return PostListingState(step: .uploadingImage,
@@ -209,7 +214,9 @@ class PostListingState {
         switch step {
         case .imageSelection:
             break
-        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection,
+             .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing,
+             .postingError:
             return self
         }
         let newStep: PostListingStep
@@ -247,7 +254,9 @@ class PostListingState {
         switch step {
         case .imageSelection:
             break
-        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection,
+             .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing,
+             .postingError:
             return self
         }
         let newStep: PostListingStep
@@ -276,7 +285,8 @@ class PostListingState {
         switch step {
         case .imageSelection, .errorVideoUpload, .errorUpload:
             break
-        case .uploadingImage, .uploadingVideo, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .uploadingImage, .uploadingVideo, .detailsSelection, .categorySelection, .carDetailsSelection, .finished,
+             .uploadSuccess, .addingDetails, .postingListing, .postingError:
             return self
         }
         return PostListingState(step: .uploadingVideo(state: .uploadingSnapshot),
@@ -299,7 +309,9 @@ class PostListingState {
         switch step {
         case .uploadingVideo, .errorUpload:
             break
-        case .imageSelection, .errorVideoUpload, .uploadingImage, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .errorVideoUpload, .uploadingImage, .detailsSelection, .categorySelection,
+             .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing,
+             .postingError:
             return self
         }
         return PostListingState(step: .uploadingVideo(state: .creatingPreSignedUploadUrl),
@@ -322,7 +334,9 @@ class PostListingState {
         switch step {
         case .uploadingVideo:
             break
-        case .imageSelection, .errorVideoUpload, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .errorVideoUpload, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection,
+             .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing,
+             .postingError:
             return self
         }
         return PostListingState(step: .uploadingVideo(state: .uploadingVideo),
@@ -345,7 +359,9 @@ class PostListingState {
         switch step {
         case .uploadingVideo:
             break
-        case .imageSelection, .errorVideoUpload, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .errorVideoUpload, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection,
+             .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing,
+             .postingError:
             return self
         }
         return PostListingState(step: .uploadSuccess,
@@ -417,6 +433,49 @@ class PostListingState {
                                 shareAfterPost: shareAfterPost)
     }
 
+    func updatingToPosting() -> PostListingState {
+        guard step == .finished else { return self }
+        return PostListingState(step: .postingListing,
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: verticalAttributes,
+                                place: place,
+                                title: title,
+                                predictionData: predictionData,
+                                shareAfterPost: shareAfterPost)
+    }
+
+    func updatingToPostingError(error: RepositoryError) -> PostListingState {
+        guard step == .postingListing else { return self }
+        let message: String
+        switch error {
+        case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .wsChatError, .searchAlertError:
+            message = R.Strings.productPostGenericError
+        case .network:
+            message = R.Strings.productPostNetworkError
+        }
+        return PostListingState(step: .postingError(message: message),
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                pendingToUploadVideo: pendingToUploadVideo,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                uploadingVideo: uploadingVideo,
+                                uploadedVideo: uploadedVideo,
+                                price: price,
+                                verticalAttributes: verticalAttributes,
+                                place: place,
+                                title: title,
+                                predictionData: predictionData,
+                                shareAfterPost: shareAfterPost)
+    }
     
     func updating(uploadError: RepositoryError) -> PostListingState {
         guard step.isUploadingResource() else { return self }
@@ -659,6 +718,10 @@ enum PostListingStep: Equatable {
     
     case finished
     case addingDetails
+
+    // Bulk listing
+    case postingListing
+    case postingError(message: String)
     
     func isUploadingResource() -> Bool {
         if case .uploadingVideo = self {
@@ -674,12 +737,16 @@ func ==(lhs: PostListingStep, rhs: PostListingStep) -> Bool {
     switch (lhs, rhs) {
     case (.imageSelection, .imageSelection), (.uploadingImage, .uploadingImage), (.detailsSelection, .detailsSelection),
          (.categorySelection, .categorySelection), (.finished, .finished), (.uploadSuccess, .uploadSuccess),
-         (.carDetailsSelection, .carDetailsSelection), (.addingDetails, .addingDetails):
+         (.carDetailsSelection, .carDetailsSelection), (.addingDetails, .addingDetails), (.postingListing, .postingListing):
         return true
     case (let .errorUpload(lMessage), let .errorUpload(rMessage)):
         return lMessage == rMessage
     case (let .uploadingVideo(lState), let .uploadingVideo(rState)):
         return lState == rState
+    case (let .errorVideoUpload(lMessage), let .errorVideoUpload(rMessage)):
+        return lMessage == rMessage
+    case (let .postingError(lMessage), let .postingError(rMessage)):
+        return lMessage == rMessage
     default:
         return false
     }

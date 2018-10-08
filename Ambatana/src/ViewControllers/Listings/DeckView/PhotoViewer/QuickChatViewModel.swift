@@ -26,7 +26,7 @@ struct SellerTrackingInfo {
 }
 
 final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelegate {
-    var listingViewModel: ListingViewModel? {
+    var listingViewModel: ListingCardViewModel? {
         didSet { setupRx() }
     }
     
@@ -45,7 +45,7 @@ final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelega
 
         guard let listingVM = listingViewModel else { return }
 
-        let isInterested = listingVM.isInterested.asDriver().distinctUntilChanged()
+        let isInterested = listingVM.rx.isInterested.distinctUntilChanged()
 
         Driver.combineLatest(rx.quickAnswersViewState(listingVM: listingVM),
                              rx.proChatViewState(listingVM: listingVM),
@@ -105,7 +105,7 @@ final class QuickChatViewModel: BaseViewModel, DirectAnswersHorizontalViewDelega
     }
 
     func callSeller() {
-        guard let phoneNumber = listingViewModel?.seller.value?.phone else { return }
+        guard let phoneNumber = listingViewModel?.seller?.phone else { return }
         PhoneCallsHelper.call(phoneNumber: phoneNumber)
         if let source = sellerTrackInfo?.source, let feedPosition = sellerTrackInfo?.feedPosition {
             listingViewModel?.trackCallTapped(source: source, feedPosition: feedPosition)
@@ -120,17 +120,14 @@ extension Reactive where Base: QuickChatViewModel {
     }
     var chatState: Driver<QuickChatViewState> { return base.chatState.asDriver() }
 
-    fileprivate func quickAnswersViewState(listingVM: ListingViewModel) -> Driver<QuickAnswersViewState?> {
-        return listingVM.cardDirectChatEnabled
-            .asObservable()
+    fileprivate func quickAnswersViewState(listingVM: ListingCardViewModel) -> Driver<QuickAnswersViewState?> {
+        return listingVM.rx.directChatEnabled
             .distinctUntilChanged()
-            .map {
-                return $0 ? QuickAnswersViewState(quickAnswers: listingVM.quickAnswers) : nil
-        }.asDriver(onErrorJustReturn: nil)
+            .map { return $0 ? QuickAnswersViewState(quickAnswers: listingVM.quickAnswers) : nil }
     }
 
-    fileprivate func proChatViewState(listingVM: ListingViewModel) -> Driver<ProChatViewState?> {
-        let seller = listingVM.seller.asObservable().share()
+    fileprivate func proChatViewState(listingVM: ListingCardViewModel) -> Driver<ProChatViewState?> {
+        let seller = listingVM.rx.seller.asObservable().share()
         let phoneNumber = seller.map { $0?.phone }
 
         let isPro = seller.map { $0?.isProfessional ?? false }.distinctUntilChanged()
