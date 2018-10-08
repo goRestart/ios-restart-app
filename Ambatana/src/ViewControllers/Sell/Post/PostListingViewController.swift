@@ -43,9 +43,15 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     fileprivate let gradientLayer = CAGradientLayer.gradientWithColor(UIColor.black,
                                                                       alphas: [0, 0.6],
                                                                       locations: [0, 1])
+    private var hiddeDoneButton: Bool {
+        return !(featureFlags.bulkPosting.showDoneButtonInCameraScreen
+            && viewModel.isBulkPosting && viewModel.bulkPostedListings?.count ?? 0 > 0)
+    }
     fileprivate let keyboardHelper: KeyboardHelper
     fileprivate var isLoading: Bool = false
     private var viewDidAppear: Bool = false
+
+    private var bulkPostingListingsView: BulkPostingListingsView?
     
     fileprivate static let detailTopMarginPrice: CGFloat = 100
 
@@ -56,6 +62,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         }
         return Tab(rawValue: keyValueStorage.userPostListingLastTabSelected) ?? .gallery
     }
+    private let socialSharer: SocialSharer
 
     private let disposeBag = DisposeBag()
 
@@ -76,7 +83,8 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
                   keyboardHelper: KeyboardHelper(),
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  socialSharer: SocialSharer())
     }
 
     required init(viewModel: PostListingViewModel,
@@ -84,7 +92,8 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
                   keyboardHelper: KeyboardHelper,
                   keyValueStorage: KeyValueStorageable,
                   tracker: Tracker,
-                  featureFlags: FeatureFlaggeable) {
+                  featureFlags: FeatureFlaggeable,
+                  socialSharer: SocialSharer) {
         
         let tabPosition: LGViewPagerTabPosition = .hidden
         var postFooter: UIView & PostListingFooter
@@ -106,14 +115,17 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         self.forcedInitialTab = forcedInitialTab        
         self.galleryView = PostListingGalleryView(viewModel: viewModel.postListingGalleryViewModel)
         self.featureFlags = featureFlags
+        self.socialSharer = socialSharer
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView(categoriesAvailables: viewModel.availablePostCategories, featureFlags: featureFlags)
         self.carDetailsView = PostCarDetailsView(initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
+
         super.init(viewModel: viewModel, nibName: "PostListingViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         setupForModalWithNonOpaqueBackground()
         viewModel.delegate = self
+        socialSharer.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -135,6 +147,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
             viewPager.delegate = self
             viewPager.selectTabAtIndex(initialTab.index)
             footer.update(scroll: CGFloat(initialTab.index))
+            bulkPostingListingsView?.alpha = CGFloat(initialTab.index)
         }
     }
     
@@ -202,6 +215,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
                 viewPager.scrollEnabled = false
                 cameraView.recordVideo(maxDuration: SharedConstants.videoMaxRecordingDuration)
             } else {
+                footer.hideTooltip()
                 cameraView.takePhoto()
             }
         } else {
@@ -221,9 +235,13 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
 
     @objc func photoButtonPressed() {
+        guard viewModel.postListingCameraViewModel.cameraMode.value != .photo else { return }
         let previousSource = mediaSource
         footer.updateToPhotoMode()
         viewModel.postListingCameraViewModel.cameraMode.value = .photo
+        if !viewModel.shouldShowBulkPostingTooltip {
+            footer.hideTooltip()
+        }
         cameraView.setCameraModeToPhoto()
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
         viewModel.mediaSourceDidChange(mediaSource: mediaSource)
@@ -231,13 +249,27 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
     }
 
     @objc func videoButtonPressed() {
+        guard viewModel.postListingCameraViewModel.cameraMode.value != .video else { return }
         let previousSource = mediaSource
         footer.updateToVideoMode()
         viewModel.postListingCameraViewModel.cameraMode.value = .video
+        if !viewModel.shouldShowBulkPostingTooltip {
+            footer.showTooltip(tooltipText: viewModel.videoPostingTooltipText)
+        }
         cameraView.setCameraModeToVideo()
         cameraView.usePhotoButtonText = viewModel.useVideoButtonText
         viewModel.mediaSourceDidChange(mediaSource: mediaSource)
         trackMediaSource(source: mediaSource, previousSource: previousSource)
+    }
+
+    @objc func doneButtonPressed() {
+        viewModel.closeButtonPressed()
+    }
+
+    @objc func cameraTooltipPressed() {
+        footer.cameraTooltip.animateTo(alpha: 0, duration: 0.5) { _ in
+            self.footer.hideTooltip()
+        }
     }
 
     @IBAction func onRetryButton(_ sender: AnyObject) {
@@ -262,6 +294,7 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         setupAddCarDetailsView()
         setupCloseButton()
         setupFooter()
+        setupBulkPostingView()
         setupLoadingStackView()
         setupMachineLearningOnboardingView()
     }
@@ -421,7 +454,6 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         cameraGalleryContainer.addSubviewForAutoLayout(footerView)
         footerView.bottomAnchor.constraint(equalTo: safeBottomAnchor).isActive = true
         footerView.layout(with: cameraGalleryContainer).fillHorizontal()
-
         
         footer.galleryButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
             self?.galleryButtonPressed()
@@ -447,23 +479,52 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
             self?.videoButtonPressed()
         }).disposed(by: disposeBag)
 
+        footer.doneButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
+            self?.doneButtonPressed()
+        }).disposed(by: disposeBag)
+
+        footer.cameraTooltip.rx.tooltipTapped.asDriver().drive(onNext: { [weak self] (_) in
+            self?.cameraTooltipPressed()
+        }).disposed(by: disposeBag)
+
+        footer.cameraTooltip.label.attributedText = viewModel.bulkPostingTooltipText
+        footer.cameraTooltip.isHidden = !viewModel.shouldShowBulkPostingTooltip
+
+        footer.doneButton.isHidden = hiddeDoneButton
+
         let newBadgeTapGesture = UITapGestureRecognizer(target: self, action: #selector(videoButtonPressed))
         footer.newBadgeLabel.addGestureRecognizer(newBadgeTapGesture)
         
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
-        cameraView.recordingDuration.asObservable().subscribeNext { [weak self] (duration) in
+        cameraView.recordingDuration.asDriver().drive(onNext: { [weak self] (duration) in
             let progress = CGFloat(duration/SharedConstants.videoMaxRecordingDuration)
             self?.footer.updateVideoRecordingDurationProgress(progress: progress, recordingDuration: duration)
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
 
         cameraView.isRecordingVideo.asDriver().drive(onNext: { [weak self] isRecordingVideo in
             self?.footer.photoButton.isHidden = isRecordingVideo
             self?.footer.videoButton.isHidden = isRecordingVideo
             self?.footer.newBadgeLabel.isHidden = isRecordingVideo
             self?.footer.galleryButton.isHidden = isRecordingVideo
+            self?.footer.doneButton.isHidden = isRecordingVideo || self?.hiddeDoneButton ?? true
             isRecordingVideo ? self?.footer.startRecording() : self?.footer.stopRecording()
         }).disposed(by: disposeBag)
+    }
+
+    private func setupBulkPostingView() {
+        if let bulkPostedListings = viewModel.bulkPostedListings, bulkPostedListings.count > 0 {
+            let images: [URL?] = bulkPostedListings.map { $0.thumbnail?.fileURL }
+            let bulkPostingListingsView = BulkPostingListingsView(images: images )
+            self.bulkPostingListingsView = bulkPostingListingsView
+            cameraGalleryContainer.addSubviewForAutoLayout(bulkPostingListingsView)
+            cameraGalleryContainer.bringSubview(toFront: footerView)
+            NSLayoutConstraint.activate([
+                bulkPostingListingsView.leadingAnchor.constraint(equalTo: cameraGalleryContainer.leadingAnchor, constant: Metrics.margin),
+                bulkPostingListingsView.trailingAnchor.constraint(equalTo: cameraGalleryContainer.trailingAnchor, constant: Metrics.margin),
+                bulkPostingListingsView.bottomAnchor.constraint(equalTo: footerView.topAnchor, constant: -Metrics.margin)
+            ])
+        }
     }
 
     private func setupRx() {
@@ -508,6 +569,16 @@ final class PostListingViewController: BaseViewController, PostListingViewModelD
         UIView.animate(withDuration: animationDuration) {
             self.setNeedsStatusBarAppearanceUpdate()
         }
+    }
+
+    // MARK: - PostListingViewModelDelegate
+
+    func shareOnFacebook(socialMessage: SocialMessage) {
+        socialSharer.share(socialMessage, shareType: .facebook, viewController: self)
+    }
+
+    func showCameraTab() {
+        viewPager.selectTabAtIndex(Tab.camera.index)
     }
 }
 
@@ -595,9 +666,10 @@ extension PostListingViewController {
 private extension PostListingState {
     var closeButtonAlpha: CGFloat {
         switch step {
-        case .carDetailsSelection:
+        case .carDetailsSelection, .postingListing:
             return 0
-        case .imageSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection,
+             .categorySelection, .finished, .uploadSuccess, .addingDetails, .postingError:
             return 1
         }
     }
@@ -606,7 +678,8 @@ private extension PostListingState {
         switch step {
         case .imageSelection:
             return 0
-        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .categorySelection,
+             .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing, .postingError:
             return 1
         }
     }
@@ -616,7 +689,8 @@ private extension PostListingState {
         switch step {
         case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
             return 0
-        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .uploadSuccess:
+        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .uploadSuccess,
+             .postingListing, .postingError:
             return 1
         }
     }
@@ -625,7 +699,8 @@ private extension PostListingState {
         switch step {
         case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
             return 0
-        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .uploadSuccess:
+        case .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .uploadSuccess,
+             .postingListing, .postingError:
             return 1
         }
     }
@@ -633,7 +708,8 @@ private extension PostListingState {
     var postedInfoLabelAlpha: CGFloat {
         guard !isRealEstate && !isService else { return 0 }
         switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .carDetailsSelection, .finished, .addingDetails:
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload,
+             .carDetailsSelection, .finished, .addingDetails, .postingListing, .postingError:
             return 0
         case .detailsSelection, .uploadSuccess:
             return 1
@@ -655,10 +731,10 @@ private extension PostListingState {
     
     var postErrorLabelText: String? {
         switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage,
-             .uploadingVideo, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .uploadingVideo,
+             .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing:
             return nil
-        case let .errorUpload(message), let .errorVideoUpload(message):
+        case let .errorUpload(message), let .errorVideoUpload(message), let .postingError(message):
             return message
         }
     }
@@ -670,7 +746,9 @@ private extension PostListingState {
     
     var priceViewAlpha: CGFloat {
         switch step {
-        case .imageSelection, .categorySelection, .carDetailsSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .categorySelection, .carDetailsSelection, .uploadingImage, .errorUpload, .uploadingVideo,
+             .errorVideoUpload, .finished, .uploadSuccess, .addingDetails, .postingListing,
+             .postingError:
             return 0
         case .detailsSelection:
             return 1
@@ -679,7 +757,9 @@ private extension PostListingState {
     
     var categorySelectionViewAlpha: CGFloat {
         switch step {
-        case .imageSelection, .carDetailsSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .carDetailsSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload,
+             .detailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing,
+             .postingError:
             return 0
         case .categorySelection:
             return 1
@@ -688,7 +768,9 @@ private extension PostListingState {
     
     var carDetailsViewAlpha: CGFloat {
         switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .detailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload,
+             .detailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing,
+             .postingError:
             return 0
         case .carDetailsSelection:
             return 1
@@ -697,7 +779,9 @@ private extension PostListingState {
     
     func priceViewShouldBecomeFirstResponder() -> Bool {
         switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload,
+             .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing,
+             .postingError:
             return false
         case .detailsSelection:
             return true
@@ -710,18 +794,20 @@ private extension PostListingState {
     
     var isError: Bool {
         switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .uploadingVideo, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .uploadingVideo,
+             .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingListing:
             return false
-        case .errorUpload, .errorVideoUpload:
+        case .errorUpload, .errorVideoUpload, .postingError:
             return true
         }
     }
     
     var isLoading: Bool {
         switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .errorUpload, .errorVideoUpload, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .detailsSelection, .categorySelection, .errorUpload, .errorVideoUpload,
+             .carDetailsSelection, .finished, .uploadSuccess, .addingDetails, .postingError:
             return false
-        case .uploadingImage, .uploadingVideo:
+        case .uploadingImage, .uploadingVideo, .postingListing:
             return true
         }
     }
@@ -796,7 +882,8 @@ extension PostListingViewController {
             return categorySelectionView
         case .carDetailsSelection:
             return carDetailsView
-        case .imageSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .finished, .uploadSuccess, .addingDetails:
+        case .imageSelection, .uploadingImage, .errorUpload, .uploadingVideo, .errorVideoUpload, .finished,
+             .uploadSuccess, .addingDetails, .postingListing, .postingError:
             return nil
         }
     }
@@ -950,6 +1037,7 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         galleryView.showHeader(pagePosition == 0.0)
 
         footer.update(scroll: pagePosition)
+        bulkPostingListingsView?.alpha = pagePosition
     }
 
     func viewPagerNumberOfTabs(_ viewPager: LGViewPager) -> Int {
@@ -1014,6 +1102,14 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         titleAttributes[NSAttributedStringKey.foregroundColor] = UIColor.white
         titleAttributes[NSAttributedStringKey.font] = UIFont.activeTabFont
         return titleAttributes
+    }
+}
+
+extension PostListingViewController: SocialSharerDelegate {
+    func shareStartedIn(_ shareType: ShareType) {}
+
+    func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
+        viewModel.shareFinishedIn(shareType, withState: state)
     }
 }
 

@@ -237,5 +237,6 @@ extension ABTests {
     var deckItemPage: LeanplumABVariable<Int> { return products.deckItemPage }
     var frictionlessShare: LeanplumABVariable<Int> { return products.frictionlessShare }
     var turkeyFreePosting: LeanplumABVariable<Int> { return products.turkeyFreePosting }
+    var bulkPosting: LeanplumABVariable<Int> { return products.bulkPosting }
     var makeAnOfferButton: LeanplumABVariable<Int> { return products.makeAnOfferButton }
 }

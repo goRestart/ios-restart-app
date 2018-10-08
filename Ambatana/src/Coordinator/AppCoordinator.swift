@@ -636,6 +636,13 @@ extension AppCoordinator: SellCoordinatorDelegate {
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
         openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .sellEdit(listing: listing))
     }
+
+    func sellCoordinator(coordinator: SellCoordinator, didFinishWithBulkPostingListings listings: [Listing]) {
+        refreshSelectedListingsRefreshable()
+        if listings.count == 1, let listing = listings.first {
+            openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .promoted)
+        }
+    }
 }
 
 fileprivate extension AppCoordinator {

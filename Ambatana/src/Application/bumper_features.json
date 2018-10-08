@@ -310,6 +310,11 @@
         "description": "[VERTICALS] Show Click to talk"
     },
     {
+        "name": "BulkPosting",
+        "values": ["control", "baseline", "variantA", "variantB", "variantC", "variantD"],
+        "description": "[PRODUCTS] Bulk posting"
+    },
+    {
         "name": "ShareAfterScreenshot",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Show a share view after the user takes a screenshot"

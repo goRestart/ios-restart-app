@@ -95,6 +95,7 @@ protocol FeatureFlaggeable: class {
     var simplifiedChatButton: SimplifiedChatButton { get }
     var frictionlessShare: FrictionlessShare { get }
     var turkeyFreePosting: TurkeyFreePosting { get }
+    var bulkPosting: BulkPosting{ get }
     var makeAnOfferButton: MakeAnOfferButton { get }
 
     // MARK: Users
@@ -346,6 +347,40 @@ extension TurkeyFreePosting {
     var isActive: Bool { return self == .active }
 }
 
+extension BulkPosting {
+    var isActive: Bool { return self != .control && self != .baseline }
+
+    var productsLimit: Int {
+        switch self {
+        case .control, .baseline:
+            return 0
+        case .variantA, .variantD:
+            return 5
+        case .variantB:
+            return 10
+        case .variantC:
+            return 25
+        }
+    }
+
+    var showDoneButtonInCameraScreen: Bool {
+        switch self {
+        case .control, .baseline, .variantD:
+            return false
+        case .variantA, .variantB, .variantC:
+            return true
+        }
+    }
+
+    func supportsCategory(category: PostCategory?) -> Bool {
+        switch category {
+        case .otherItems?:
+            return isActive
+        default:
+            return false
+        }
+    }
+}
 extension MakeAnOfferButton {
     var isActive: Bool { return self == .active }
 }
@@ -1251,6 +1286,13 @@ extension FeatureFlags {
             return Bumper.turkeyFreePosting
         }
         return TurkeyFreePosting.fromPosition(abTests.turkeyFreePosting.value)
+    }
+
+    var bulkPosting: BulkPosting {
+        if Bumper.enabled {
+            return Bumper.bulkPosting
+        }
+        return BulkPosting.fromPosition(abTests.bulkPosting.value)
     }
 
     var makeAnOfferButton: MakeAnOfferButton {

@@ -78,6 +78,7 @@ extension Bumper  {
         flags.append(MultiDayBumpUp.self)
         flags.append(ImInterestedInProfile.self)
         flags.append(ClickToTalk.self)
+        flags.append(BulkPosting.self)
         flags.append(ShareAfterScreenshot.self)
         flags.append(MutePushNotifications.self)
         flags.append(MultiAdRequestInChatSectionForUS.self)
@@ -896,6 +897,19 @@ extension Bumper  {
     static var clickToTalkObservable: Observable<ClickToTalk> {
         return Bumper.observeValue(for: ClickToTalk.key).map {
             ClickToTalk(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var bulkPosting: BulkPosting {
+        guard let value = Bumper.value(for: BulkPosting.key) else { return .control }
+        return BulkPosting(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var bulkPostingObservable: Observable<BulkPosting> {
+        return Bumper.observeValue(for: BulkPosting.key).map {
+            BulkPosting(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2055,6 +2069,25 @@ enum ClickToTalk: String, BumperFeature  {
             case 2: return .variantA
             case 3: return .variantB
             case 4: return .variantC
+            default: return .control
+        }
+    }
+}
+
+enum BulkPosting: String, BumperFeature  {
+    case control, baseline, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return BulkPosting.control.rawValue }
+    static var enumValues: [BulkPosting] { return [.control, .baseline, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[PRODUCTS] Bulk posting" } 
+    static func fromPosition(_ position: Int) -> BulkPosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variantA
+            case 3: return .variantB
+            case 4: return .variantC
+            case 5: return .variantD
             default: return .control
         }
     }

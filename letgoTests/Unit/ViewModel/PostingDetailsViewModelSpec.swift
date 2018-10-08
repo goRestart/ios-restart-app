@@ -354,4 +354,6 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
                                    postState: PostListingState, source: EventParameterMediaSource) {}
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
                                    imageSource: EventParameterMediaSource, postingSource: PostingSource) {}
+    func closePostProductAndContinueBulkPosting(listings: [Listing], source: PostingSource, listingTitle: String?) {}
+    func showBulkPostingPostConfirmation(listings: [Listing], modalStyle: Bool) {}
 }
