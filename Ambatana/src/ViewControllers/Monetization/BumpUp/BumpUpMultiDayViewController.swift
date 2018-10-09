@@ -94,19 +94,27 @@ final class BumpUpMultiDayViewController: BaseViewController {
     private func createBumpViews() {
         if let oneDayData = viewModel.oneDayBumpData {
             oneDayView = createBumpViewWith(data: oneDayData)
-            let tapOneDay = UITapGestureRecognizer(target: self, action: #selector(oneDayBumpViewTapped))
-            oneDayView.addGestureRecognizer(tapOneDay)
+        } else {
+            oneDayView = createPlaceholderBumpViewWith(featurePurchaseType: .bump)
         }
+        let tapOneDay = UITapGestureRecognizer(target: self, action: #selector(oneDayBumpViewTapped))
+        oneDayView.addGestureRecognizer(tapOneDay)
+
         if let threeDaysData = viewModel.threeDaysBumpData {
             threeDaysView = createBumpViewWith(data: threeDaysData)
-            let tapThreeDays = UITapGestureRecognizer(target: self, action: #selector(threeDaysBumpViewTapped))
-            threeDaysView.addGestureRecognizer(tapThreeDays)
+        } else {
+            threeDaysView = createPlaceholderBumpViewWith(featurePurchaseType: .threeDays)
         }
+        let tapThreeDays = UITapGestureRecognizer(target: self, action: #selector(threeDaysBumpViewTapped))
+        threeDaysView.addGestureRecognizer(tapThreeDays)
+
         if let sevenDaysData = viewModel.sevenDaysBumpData {
             sevenDaysView = createBumpViewWith(data: sevenDaysData)
-            let tapSevenDays = UITapGestureRecognizer(target: self, action: #selector(sevenDaysBumpViewTapped))
-            sevenDaysView.addGestureRecognizer(tapSevenDays)
+        } else {
+            sevenDaysView = createPlaceholderBumpViewWith(featurePurchaseType: .sevenDays)
         }
+        let tapSevenDays = UITapGestureRecognizer(target: self, action: #selector(sevenDaysBumpViewTapped))
+        sevenDaysView.addGestureRecognizer(tapSevenDays)
     }
 
     private func createBumpViewWith(data: BumpUpProductData) -> BumpUpMultiDayView {
@@ -119,6 +127,16 @@ final class BumpUpMultiDayViewController: BaseViewController {
                                                             status: status,
                                                             listingImageUrl: imageUrl,
                                                             buttonAction: featureButtonTapped)
+        bumpViewsArray.append(view)
+        return view
+    }
+
+    private func createPlaceholderBumpViewWith(featurePurchaseType: FeaturePurchaseType) -> BumpUpMultiDayView {
+        let status: BumpUpMultiDayViewStatus = initialFeaturePurchaseType == featurePurchaseType ? .expanded : .collapsed
+        let imageUrl = viewModel.listing.images.first?.fileURL
+        let view = BumpUpMultiDayView.placeholderViewFor(featurePurchaseType: featurePurchaseType,
+                                                         status: status,
+                                                         listingImageUrl: imageUrl)
         bumpViewsArray.append(view)
         return view
     }

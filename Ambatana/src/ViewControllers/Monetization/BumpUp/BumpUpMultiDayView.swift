@@ -47,7 +47,7 @@ extension FeaturePurchaseType {
     var backgroundImage: UIImage? {
         switch self {
         case .bump:
-            return R.Asset.Monetization.featuredBackground.image
+            return R.Asset.Monetization.featured1DayBackground.image
         case .threeDays:
             return R.Asset.Monetization.featured3DaysBackground.image
         case .sevenDays:
@@ -184,6 +184,14 @@ final class BumpUpMultiDayView: UIView {
 
     private let disposeBag = DisposeBag()
 
+    static func placeholderViewFor(featurePurchaseType: FeaturePurchaseType,
+                                   status: BumpUpMultiDayViewStatus,
+                                   listingImageUrl: URL?) -> BumpUpMultiDayView {
+        return bumpUpMultiDayViewFor(featurePurchaseType: featurePurchaseType,
+                                     priceString: nil,
+                                     status: status, listingImageUrl: listingImageUrl,
+                                     buttonAction: nil)
+    }
 
     static func bumpUpMultiDayViewFor(featurePurchaseType: FeaturePurchaseType,
                                       priceString: String?,
