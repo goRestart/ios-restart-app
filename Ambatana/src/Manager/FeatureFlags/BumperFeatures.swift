@@ -37,11 +37,8 @@ extension Bumper  {
         flags.append(CopyForSellFasterNowInEnglish.self)
         flags.append(EmergencyLocate.self)
         flags.append(PersonalizedFeed.self)
-        flags.append(ServicesCategoryOnSalchichasMenu.self)
         flags.append(OffensiveReportAlert.self)
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
-        flags.append(VideoPosting.self)
-        flags.append(PredictivePosting.self)
         flags.append(PreventMessagesFromFeedToProUsers.self)
         flags.append(SimplifiedChatButton.self)
         flags.append(ShowChatConnectionStatusBar.self)
@@ -53,7 +50,6 @@ extension Bumper  {
         flags.append(OpenChatFromUserProfile.self)
         flags.append(SearchAlertsInSearchSuggestions.self)
         flags.append(EngagementBadging.self)
-        flags.append(FrictionlessShare.self)
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
         flags.append(SmartQuickAnswers.self)
@@ -368,19 +364,6 @@ extension Bumper  {
     }
     #endif
 
-    static var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
-        guard let value = Bumper.value(for: ServicesCategoryOnSalchichasMenu.key) else { return .control }
-        return ServicesCategoryOnSalchichasMenu(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var servicesCategoryOnSalchichasMenuObservable: Observable<ServicesCategoryOnSalchichasMenu> {
-        return Bumper.observeValue(for: ServicesCategoryOnSalchichasMenu.key).map {
-            ServicesCategoryOnSalchichasMenu(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
     static var offensiveReportAlert: OffensiveReportAlert {
         guard let value = Bumper.value(for: OffensiveReportAlert.key) else { return .control }
         return OffensiveReportAlert(rawValue: value) ?? .control 
@@ -403,32 +386,6 @@ extension Bumper  {
     static var fullScreenAdsWhenBrowsingForUSObservable: Observable<FullScreenAdsWhenBrowsingForUS> {
         return Bumper.observeValue(for: FullScreenAdsWhenBrowsingForUS.key).map {
             FullScreenAdsWhenBrowsingForUS(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var videoPosting: VideoPosting {
-        guard let value = Bumper.value(for: VideoPosting.key) else { return .control }
-        return VideoPosting(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var videoPostingObservable: Observable<VideoPosting> {
-        return Bumper.observeValue(for: VideoPosting.key).map {
-            VideoPosting(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var predictivePosting: PredictivePosting {
-        guard let value = Bumper.value(for: PredictivePosting.key) else { return .control }
-        return PredictivePosting(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var predictivePostingObservable: Observable<PredictivePosting> {
-        return Bumper.observeValue(for: PredictivePosting.key).map {
-            PredictivePosting(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -572,19 +529,6 @@ extension Bumper  {
     static var engagementBadgingObservable: Observable<EngagementBadging> {
         return Bumper.observeValue(for: EngagementBadging.key).map {
             EngagementBadging(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var frictionlessShare: FrictionlessShare {
-        guard let value = Bumper.value(for: FrictionlessShare.key) else { return .control }
-        return FrictionlessShare(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var frictionlessShareObservable: Observable<FrictionlessShare> {
-        return Bumper.observeValue(for: FrictionlessShare.key).map {
-            FrictionlessShare(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1407,24 +1351,6 @@ enum PersonalizedFeed: String, BumperFeature  {
     }
 }
 
-enum ServicesCategoryOnSalchichasMenu: String, BumperFeature  {
-    case control, baseline, variantA, variantB, variantC
-    static var defaultValue: String { return ServicesCategoryOnSalchichasMenu.control.rawValue }
-    static var enumValues: [ServicesCategoryOnSalchichasMenu] { return [.control, .baseline, .variantA, .variantB, .variantC]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Show services category on salchichas menu" } 
-    static func fromPosition(_ position: Int) -> ServicesCategoryOnSalchichasMenu {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .variantA
-            case 3: return .variantB
-            case 4: return .variantC
-            default: return .control
-        }
-    }
-}
-
 enum OffensiveReportAlert: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return OffensiveReportAlert.control.rawValue }
@@ -1453,38 +1379,6 @@ enum FullScreenAdsWhenBrowsingForUS: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .adsForAllUsers
             case 3: return .adsForOldUsers
-            default: return .control
-        }
-    }
-}
-
-enum VideoPosting: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return VideoPosting.control.rawValue }
-    static var enumValues: [VideoPosting] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu" } 
-    static func fromPosition(_ position: Int) -> VideoPosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum PredictivePosting: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return PredictivePosting.control.rawValue }
-    static var enumValues: [PredictivePosting] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Show predictive posting flow when pressing Other Items on salchichas menu" } 
-    static func fromPosition(_ position: Int) -> PredictivePosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }
@@ -1653,22 +1547,6 @@ enum EngagementBadging: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Show recent items bubble in feed basic approach" } 
     static func fromPosition(_ position: Int) -> EngagementBadging {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum FrictionlessShare: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return FrictionlessShare.control.rawValue }
-    static var enumValues: [FrictionlessShare] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Open facebook share dialog in congrats screen" } 
-    static func fromPosition(_ position: Int) -> FrictionlessShare {
         switch position { 
             case 0: return .control
             case 1: return .baseline

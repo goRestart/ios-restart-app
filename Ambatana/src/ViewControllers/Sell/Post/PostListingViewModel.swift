@@ -69,12 +69,9 @@ class PostListingViewModel: BaseViewModel {
     }
 
     var availablePostCategories: [PostCategory] {
-        var categories: [PostCategory] = [.car, .motorsAndAccessories, .otherItems(listingCategory: nil)]
+        var categories: [PostCategory] = [.car, .motorsAndAccessories, .services, .otherItems(listingCategory: nil)]
         if featureFlags.realEstateEnabled.isActive {
             categories.append(.realEstate)
-        }
-        if featureFlags.servicesCategoryOnSalchichasMenu.isActive {
-            categories.append(.services)
         }
         return categories.sorted(by: {
             $0.sortWeight(featureFlags: featureFlags) > $1.sortWeight(featureFlags: featureFlags)
@@ -160,7 +157,7 @@ class PostListingViewModel: BaseViewModel {
 
     var shouldShowVideoFooter: Bool {
         guard let category = postCategory?.listingCategory else { return false }
-        return (category.isProduct && !category.isServices) && featureFlags.videoPosting.isActive
+        return (category.isProduct && !category.isServices)
     }
 
     var shouldShowBulkPostingTooltip: Bool {

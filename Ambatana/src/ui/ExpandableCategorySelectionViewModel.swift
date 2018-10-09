@@ -18,28 +18,21 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     
     init(featureFlags: FeatureFlaggeable) {
         self.featureFlags = featureFlags
-        let servicesEnabled = featureFlags.servicesCategoryOnSalchichasMenu.isActive
         let realEstateEnabled = featureFlags.realEstateEnabled.isActive
 
         var categories: [ListingCategory] = []
         categories.append(.unassigned)
         categories.append(.motorsAndAccessories)
         categories.append(.cars)
+        categories.append(.services)
 
         if realEstateEnabled {
             categories.append(.realEstate)
         }
-        if servicesEnabled {
-            categories.append(.services)
-        }
         self.categoriesAvailable = categories.sorted(by: {
             $0.sortWeight(featureFlags: featureFlags) < $1.sortWeight(featureFlags: featureFlags)
         })
-        if servicesEnabled {
-            self.newBadgeCategory = .services
-        } else if featureFlags.realEstateEnabled.isActive {
-            self.newBadgeCategory = .realEstate
-        }
+        self.newBadgeCategory = .services
         super.init()
     }
     

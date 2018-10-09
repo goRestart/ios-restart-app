@@ -30,6 +30,7 @@ protocol FeatureFlaggeable: class {
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var shouldHightlightFreeFilterInFeed: Bool { get }
+    func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool
 
     var postingFlowType: PostingFlowType { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
@@ -89,11 +90,7 @@ protocol FeatureFlaggeable: class {
     var newSearchAPI: NewSearchAPIEndPoint { get }
 
     // MARK: Products
-    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu { get }
-    var predictivePosting: PredictivePosting { get }
-    var videoPosting: VideoPosting { get }
     var simplifiedChatButton: SimplifiedChatButton { get }
-    var frictionlessShare: FrictionlessShare { get }
     var turkeyFreePosting: TurkeyFreePosting { get }
     var bulkPosting: BulkPosting{ get }
     var makeAnOfferButton: MakeAnOfferButton { get }
@@ -324,30 +321,6 @@ extension AdvancedReputationSystem13 {
 }
 
 // MARK: Products
-
-extension ServicesCategoryOnSalchichasMenu {
-    var isActive: Bool { return self != .control && self != .baseline }    
-}
-
-extension PredictivePosting {
-    var isActive: Bool { return self == .active }
-
-    func isSupportedFor(postCategory: PostCategory?, language: String) -> Bool {
-        if #available(iOS 11, *), isActive, postCategory?.listingCategory.isProduct ?? false, language == "en" {
-            return true
-        } else {
-            return false
-        }
-    }
-}
-
-extension VideoPosting {
-    var isActive: Bool { return self == .active }
-}
-
-extension FrictionlessShare {
-    var isActive: Bool { return self == .active }
-}
 
 extension TurkeyFreePosting {
     var isActive: Bool { return self == .active }
@@ -743,6 +716,19 @@ final class FeatureFlags: FeatureFlaggeable {
         switch locationCountryCode {
         case .turkey?: return freePostingModeAllowed // just for turkey
         default: return false
+        }
+    }
+
+    func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool {
+        if #available(iOS 11, *), postCategory?.listingCategory.isProduct ?? false {
+            switch (locationCountryCode, localeCountryCode) {
+            case (.usa?, .usa?):
+                return true
+            default:
+                return false
+            }
+        } else {
+            return false
         }
     }
 
@@ -1259,39 +1245,11 @@ extension FeatureFlags {
 
 extension FeatureFlags {
 
-    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu {
-        if Bumper.enabled {
-            return Bumper.servicesCategoryOnSalchichasMenu
-        }
-        return ServicesCategoryOnSalchichasMenu.fromPosition(abTests.servicesCategoryOnSalchichasMenu.value)
-    }
-
-    var predictivePosting: PredictivePosting {
-        if Bumper.enabled {
-            return Bumper.predictivePosting
-        }
-        return PredictivePosting.fromPosition(abTests.predictivePosting.value)
-    }
-
-    var videoPosting: VideoPosting {
-        if Bumper.enabled {
-            return Bumper.videoPosting
-        }
-        return VideoPosting.fromPosition(abTests.videoPosting.value)
-    }
-
     var simplifiedChatButton: SimplifiedChatButton {
         if Bumper.enabled {
             return Bumper.simplifiedChatButton
         }
         return SimplifiedChatButton.fromPosition(abTests.simplifiedChatButton.value)
-    }
-
-    var frictionlessShare: FrictionlessShare {
-        if Bumper.enabled {
-            return Bumper.frictionlessShare
-        }
-        return FrictionlessShare.fromPosition(abTests.frictionlessShare.value)
     }
 
     var turkeyFreePosting: TurkeyFreePosting {
