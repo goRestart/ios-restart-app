@@ -712,11 +712,14 @@ final class FeatureFlags: FeatureFlaggeable {
     }
 
     func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool {
-        guard #available(iOS 11, *), postCategory?.listingCategory.isProduct ?? false else { return false}
-        switch (locationCountryCode, localeCountryCode) {
-        case (.usa?, .usa?):
-            return true
-        default:
+        if #available(iOS 11, *), postCategory?.listingCategory.isProduct ?? false {
+            switch (locationCountryCode, localeCountryCode) {
+            case (.usa?, .usa?):
+                return true
+            default:
+                return false
+            }
+        } else {
             return false
         }
     }
