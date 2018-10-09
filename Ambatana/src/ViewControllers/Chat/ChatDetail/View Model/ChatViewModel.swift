@@ -1270,9 +1270,13 @@ extension ChatViewModel {
     }
     
     private func reportUserAction() {
-        guard let userID = conversation.value.interlocutor?.objectId else { return }
-        let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
-        delegate?.vmDidPressReportUser(reportVM)
+        guard let interlocutor = conversation.value.interlocutor, let userID = interlocutor.objectId else { return }
+        if featureFlags.reportingFostaSesta.isActive {
+             navigator?.openUserReport(user: interlocutor, source: .chat)
+        } else {
+            let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
+            delegate?.vmDidPressReportUser(reportVM)
+        }
     }
     
     fileprivate func blockUserAction(buttonPosition: EventParameterBlockButtonPosition) {

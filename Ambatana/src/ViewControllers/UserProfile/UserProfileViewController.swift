@@ -125,6 +125,14 @@ final class UserProfileViewController: BaseViewController {
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setNavBarBackgroundStyle(.white)
+        if !viewModel.isPrivateProfile {
+            self.tabBarController?.setTabBarHidden(true, animated: false)
+        }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.refreshUserRelation()
     }
 
     override func viewDidLayoutSubviews() {

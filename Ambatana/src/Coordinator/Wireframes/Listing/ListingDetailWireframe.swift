@@ -280,6 +280,13 @@ final class ListingDetailWireframe: ListingDetailNavigator {
         let vc = assembly.buildPostAnotherListing()
         nc.present(vc, animated: true, completion: nil)
     }
+
+    func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String) {
+        guard let nc = nc else { return }
+        let assembly = ReportBuilder.modal(nc)
+        let vc = assembly.buildReport(type: .product(listing: listing), reportedId: productId, source: source)
+        nc.present(vc, animated: true, completion: nil)
+    }
 }
 
 extension ListingDetailWireframe: OnEditActionable {

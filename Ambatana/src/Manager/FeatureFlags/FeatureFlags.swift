@@ -95,6 +95,7 @@ protocol FeatureFlaggeable: class {
     // MARK: Users
     var emergencyLocate: EmergencyLocate { get }
     var offensiveReportAlert: OffensiveReportAlert { get }
+    var reportingFostaSesta: ReportingFostaSesta { get }
     var community: ShowCommunity { get }
     var advancedReputationSystem11: AdvancedReputationSystem11 { get }
     var advancedReputationSystem12: AdvancedReputationSystem12 { get }
@@ -232,6 +233,11 @@ extension EmergencyLocate {
 
 extension OffensiveReportAlert {
     var isActive: Bool { return self == .active }
+}
+
+extension ReportingFostaSesta {
+    var isActive: Bool { return self != .baseline && self != .control }
+    var shouldShowIcons: Bool { return self == .withIcons }
 }
 
 extension CopyForChatNowInEnglish {
@@ -657,6 +663,13 @@ final class FeatureFlags: FeatureFlaggeable {
         return OffensiveReportAlert.fromPosition(abTests.offensiveReportAlert.value)
     }
 
+    var reportingFostaSesta: ReportingFostaSesta {
+        if Bumper.enabled {
+            return Bumper.reportingFostaSesta
+        }
+        return ReportingFostaSesta.fromPosition(abTests.reportingFostaSesta.value)
+    }    
+    
     var advancedReputationSystem11: AdvancedReputationSystem11 {
         if Bumper.enabled {
             return Bumper.advancedReputationSystem11

@@ -134,6 +134,7 @@ extension R {
       public static let stickerError = ImageAsset(name: "sticker_error")
       public static let stripeWhite = ImageAsset(name: "stripe_white")
       public static let tour1 = ImageAsset(name: "tour_1")
+      public static let whitePixel = ImageAsset(name: "white_pixel")
 
       // swiftlint:disable trailing_comma
       public static let allColors: [ColorAsset] = [
@@ -170,6 +171,7 @@ extension R {
         stickerError,
         stripeWhite,
         tour1,
+        whitePixel,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")
@@ -1074,6 +1076,97 @@ extension R {
         fingerScroll,
         fingerSwipe,
         fingerTap,
+      ]
+      // swiftlint:enable trailing_comma
+      @available(*, deprecated, renamed: "allImages")
+      public static let allValues: [AssetType] = allImages
+    }
+    public enum Reporting {
+      public static let communityBadge = ImageAsset(name: "CommunityBadge")
+      public static let counterfeitMoney = ImageAsset(name: "CounterfeitMoney")
+      public static let drugs = ImageAsset(name: "Drugs")
+      public static let duplicate = ImageAsset(name: "Duplicate")
+      public static let forbidden = ImageAsset(name: "Forbidden")
+      public static let inappropriateBio = ImageAsset(name: "InappropriateBio")
+      public static let inappropriateChat = ImageAsset(name: "InappropriateChat")
+      public static let inappropriateItem = ImageAsset(name: "InappropriateItem")
+      public static let inappropriatePhoto = ImageAsset(name: "InappropriatePhoto")
+      public static let inappropriateProfile = ImageAsset(name: "InappropriateProfile")
+      public static let itemDefective = ImageAsset(name: "ItemDefective")
+      public static let meetupProblem = ImageAsset(name: "MeetupProblem")
+      public static let noAnswerChat = ImageAsset(name: "NoAnswerChat")
+      public static let noShow = ImageAsset(name: "NoShow")
+      public static let obsceneLanguage = ImageAsset(name: "ObsceneLanguage")
+      public static let offensiveChat = ImageAsset(name: "OffensiveChat")
+      public static let onlinePayment = ImageAsset(name: "OnlinePayment")
+      public static let other = ImageAsset(name: "Other")
+      public static let robbery = ImageAsset(name: "Robbery")
+      public static let rocket = ImageAsset(name: "Rocket")
+      public static let scam = ImageAsset(name: "Scam")
+      public static let sexualContent = ImageAsset(name: "SexualContent")
+      public static let spam = ImageAsset(name: "Spam")
+      public static let suspicious = ImageAsset(name: "Suspicious")
+      public static let trade = ImageAsset(name: "Trade")
+      public static let unrealisticPrice = ImageAsset(name: "UnrealisticPrice")
+      public static let violence = ImageAsset(name: "Violence")
+      public static let weapons = ImageAsset(name: "Weapons")
+      public static let wrongCategory = ImageAsset(name: "WrongCategory")
+      public static let feedbackHappy = ImageAsset(name: "feedback_happy")
+      public static let feedbackHappyDisabled = ImageAsset(name: "feedback_happyDisabled")
+      public static let feedbackNeutral = ImageAsset(name: "feedback_neutral")
+      public static let feedbackNeutralDisabled = ImageAsset(name: "feedback_neutralDisabled")
+      public static let feedbackSad = ImageAsset(name: "feedback_sad")
+      public static let feedbackSadDisabled = ImageAsset(name: "feedback_sadDisabled")
+      public static let feedbackVeryHappy = ImageAsset(name: "feedback_veryHappy")
+      public static let feedbackVeryHappyDisabled = ImageAsset(name: "feedback_veryHappyDisabled")
+      public static let feedbackVerySad = ImageAsset(name: "feedback_verySad")
+      public static let feedbackVerySadDisabled = ImageAsset(name: "feedback_verySadDisabled")
+      public static let icCheck = ImageAsset(name: "ic_check")
+
+      // swiftlint:disable trailing_comma
+      public static let allColors: [ColorAsset] = [
+      ]
+      public static let allImages: [ImageAsset] = [
+        communityBadge,
+        counterfeitMoney,
+        drugs,
+        duplicate,
+        forbidden,
+        inappropriateBio,
+        inappropriateChat,
+        inappropriateItem,
+        inappropriatePhoto,
+        inappropriateProfile,
+        itemDefective,
+        meetupProblem,
+        noAnswerChat,
+        noShow,
+        obsceneLanguage,
+        offensiveChat,
+        onlinePayment,
+        other,
+        robbery,
+        rocket,
+        scam,
+        sexualContent,
+        spam,
+        suspicious,
+        trade,
+        unrealisticPrice,
+        violence,
+        weapons,
+        wrongCategory,
+        feedbackHappy,
+        feedbackHappyDisabled,
+        feedbackNeutral,
+        feedbackNeutralDisabled,
+        feedbackSad,
+        feedbackSadDisabled,
+        feedbackVeryHappy,
+        feedbackVeryHappyDisabled,
+        feedbackVerySad,
+        feedbackVerySadDisabled,
+        icCheck,
       ]
       // swiftlint:enable trailing_comma
       @available(*, deprecated, renamed: "allImages")

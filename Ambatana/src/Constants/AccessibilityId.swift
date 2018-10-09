@@ -311,6 +311,23 @@ enum AccessibilityId: Equatable, Accessible {
     case reportUserCommentField
     case reportUserSendButton
 
+    // Reporting Flow
+    case reportOptionsTable
+    case reportOptionsButton
+    case reportOptionsAdditionalNotes
+    case reportOptionsCellText
+    case reportSentTitle
+    case reportSentMessage
+    case reportSentBlockButton
+    case reportSentReviewButton
+    case reportUpdateTitle
+    case reportUpdateMessage
+    case reportUpdateFeedbackVerySad
+    case reportUpdateFeedbackSad
+    case reportUpdateFeedbackNeutral
+    case reportUpdateFeedbackHappy
+    case reportUpdateFeedbackVeryHappy
+
     // RateUser
     case rateUserUserNameLabel
     case rateUserStarButton1
@@ -1420,7 +1437,39 @@ enum AccessibilityId: Equatable, Accessible {
             return "reportUserCommentField"
         case .reportUserSendButton:
             return "reportUserSendButton"
-            
+
+        // Reporting Flow
+        case .reportOptionsTable:
+            return "reportOptionsTable"
+        case .reportOptionsButton:
+            return "reportOptionsButton"
+        case .reportOptionsAdditionalNotes:
+            return "reportOptionsAdditionalNotes"
+        case .reportOptionsCellText:
+            return "reportOptionsCellText"
+        case .reportSentTitle:
+            return "reportSentTitle"
+        case .reportSentMessage:
+            return "reportSentMessage"
+        case .reportSentBlockButton:
+            return "reportSentBlockButton"
+        case .reportSentReviewButton:
+            return "reportSentReviewButton"
+        case .reportUpdateTitle:
+            return "reportUpdateTitle"
+        case .reportUpdateMessage:
+            return "reportUpdateMessage"
+        case .reportUpdateFeedbackVerySad:
+            return "reportUpdateFeedbackVerySad"
+        case .reportUpdateFeedbackSad:
+            return "reportUpdateFeedbackSad"
+        case .reportUpdateFeedbackNeutral:
+            return "reportUpdateFeedbackNeutral"
+        case .reportUpdateFeedbackHappy:
+            return "reportUpdateFeedbackHappy"
+        case .reportUpdateFeedbackVeryHappy:
+            return "reportUpdateFeedbackVeryHappy"
+
         // RateUser
         case .rateUserUserNameLabel:
             return "rateUserUserNameLabel"

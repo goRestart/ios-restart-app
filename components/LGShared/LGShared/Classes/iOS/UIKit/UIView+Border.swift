@@ -43,18 +43,24 @@ public extension UIView {
     }
 
     @discardableResult
-    func addTopViewBorderWith(width: CGFloat, color: UIColor) -> UIView {
+    func addTopViewBorderWith(width: CGFloat,
+                              color: UIColor,
+                              leftMargin: CGFloat = 0,
+                              rightMargin: CGFloat = 0) -> UIView {
         let topSeparator = UIView()
         topSeparator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topSeparator)
-        topSeparator.layout(with: self).leading().trailing().top()
+        topSeparator.layout(with: self).leading(by: leftMargin).trailing(by: -rightMargin).top()
         topSeparator.layout().height(width)
         topSeparator.backgroundColor = color
         return topSeparator
     }
 
     @discardableResult
-    func addBottomViewBorderWith(width: CGFloat, color: UIColor, leftMargin: CGFloat = 0, rightMargin: CGFloat = 0) -> UIView {
+    func addBottomViewBorderWith(width: CGFloat,
+                                 color: UIColor,
+                                 leftMargin: CGFloat = 0,
+                                 rightMargin: CGFloat = 0) -> UIView {
         let separator = UIView()
         separator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(separator)

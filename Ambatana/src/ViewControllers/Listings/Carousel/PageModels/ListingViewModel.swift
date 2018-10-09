@@ -963,7 +963,15 @@ extension ListingViewModel {
 
     private func buildReportAction() -> UIAction {
         let title = R.Strings.productReportProductButton
-        return UIAction(interface: .text(title), action: { [weak self] in self?.confirmToReportProduct() } )
+        return UIAction(interface: .text(title), action: { [weak self] in self?.reportProduct() } )
+    }
+
+    fileprivate func reportProduct() {
+        if featureFlags.reportingFostaSesta.isActive, let productId = listing.value.objectId {
+            navigator?.openListingReport(source: .listingDetail, listing: listing.value, productId: productId)
+        } else {
+            confirmToReportProduct()
+        }
     }
     
     fileprivate func confirmToReportProduct() {

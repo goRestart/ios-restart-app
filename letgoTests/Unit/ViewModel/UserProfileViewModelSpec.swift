@@ -279,7 +279,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
         openEditBioCalled = true
     }
 
-    override func openUserReport(source: EventParameterTypePage, userReportedId: String) {
+    override func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData) {
         openUserReportCalled = true
     }
 

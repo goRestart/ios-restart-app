@@ -1731,6 +1731,75 @@ struct TrackerEvent {
         return dynamicParams
     }
 
+    static func productReport(listing: Listing,
+                              reason: ReportOptionType,
+                              subreason: ReportOptionType?,
+                              hasComment: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.productReportReason] = reason.rawValue
+        if let subreason = subreason {
+            params[.productReportSubReason] = subreason.rawValue
+        }
+        params[.comment] = hasComment.rawValue
+        return TrackerEvent(name: .listingReport, params: params)
+    }
+
+    static func userReport(typePage: EventParameterTypePage,
+                           reportedUserId: String,
+                           reason: ReportOptionType,
+                           subreason: ReportOptionType?,
+                           hasComment: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.userToId] = reportedUserId
+        params[.profileReportReason] = reason.rawValue
+        if let subreason = subreason {
+            params[.profileReportSubReason] = subreason.rawValue
+        }
+        params[.comment] = hasComment.rawValue
+        return TrackerEvent(name: .profileReport, params: params)
+    }
+
+    static func profileReportUpdateSent(userId: String, reportedUserId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        return TrackerEvent(name: .profileReportUpdateSent, params: params)
+    }
+
+    static func profileReportUpdateCompleted(userId: String,
+                                             reportedUserId: String,
+                                             rating: EventParameterReportingRating) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        params[.experienceRating] = rating.rawValue
+        return TrackerEvent(name: .profileReportUpdateComplete, params: params)
+    }
+
+    static func productReportUpdateSent(userId: String,
+                                        reportedUserId: String,
+                                        listingId: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        params[.listingId] = listingId
+        return TrackerEvent(name: .productReportUpdateSent, params: params)
+    }
+
+    static func producReportUpdateCompleted(userId: String,
+                                            reportedUserId: String,
+                                            listingId: String,
+                                            rating: EventParameterReportingRating) -> TrackerEvent {
+        var params = EventParameters()
+        params[.userId] = userId
+        params[.userToId] = reportedUserId
+        params[.listingId] = listingId
+        params[.experienceRating] = rating.rawValue
+        return TrackerEvent(name: .productReportUpdateComplete, params: params)
+    }
+
     static func openCommunityFromProductList(showingBanner: Bool, bannerType: EventBannerType) -> TrackerEvent {
         var params = EventParameters()
         params[.showingBanner] = EventParameterBoolean(bool: showingBanner).rawValue

@@ -63,6 +63,7 @@ enum DeepLinkAction: Equatable {
     case passwordlessSignup(token: String)
     case passwordlessLogin(token: String)
     case webView(url: URL)
+    case report(reportId: String, username: String, reason: ReportOptionType, userId: String, product: String?)
     case invite(userid: String, username: String)
     case userVerification
     case affiliation
@@ -121,6 +122,8 @@ enum DeepLinkAction: Equatable {
             return true
         case (.webView(let lhsUrl), .webView(let rhsUrl)):
             return lhsUrl == rhsUrl
+        case (.report(let lhsId, _, _, _, _), .report(let rhsId, _, _, _, _)):
+            return lhsId == rhsId
         case (.invite(let lhsuserid, let lhsusername), .invite(let rhslhsuserid, let rhssername)):
             return lhsuserid == rhslhsuserid && lhsusername == rhssername
         case (.userVerification, .userVerification):

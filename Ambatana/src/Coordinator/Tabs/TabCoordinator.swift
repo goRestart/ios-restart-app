@@ -39,6 +39,7 @@ class TabCoordinator: NSObject, Coordinator {
     private lazy var rateBuyerAssembly = RateBuyerBuilder.modal(navigationController)
     private lazy var expressChatAssembly = ExpressChatBuilder.modal(navigationController)
     private lazy var p2pPaymentsMakeAnOfferAssembly = P2PPaymentsMakeAnOfferBuilder.modal
+    private lazy var reportAssembly = ReportBuilder.modal(navigationController)
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
@@ -249,6 +250,22 @@ extension TabCoordinator: ChatDetailNavigator {
         deeplinkMailBox.push(convertible: convertible)
     }
 
+    func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData) {
+        if featureFlags.reportingFostaSesta.isActive {
+            let vc = reportAssembly.buildReport(type: .user(rateData: rateData), reportedId: userReportedId, source: source)
+            navigationController.present(vc, animated: true, completion: nil)
+        } else {
+            let vm = ReportUsersViewModel(origin: source, userReportedId: userReportedId)
+            let vc = ReportUsersViewController(viewModel: vm)
+            navigationController.pushViewController(vc, animated: true)
+        }
+    }
+
+    func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String) {
+        let vc = reportAssembly.buildReport(type: .product(listing: listing), reportedId: productId, source: source)
+        navigationController.present(vc, animated: true, completion: nil)
+    }
+    
     func closeChatDetail() {
         navigationController.popViewController(animated: true)
     }
@@ -270,6 +287,12 @@ extension TabCoordinator: ChatDetailNavigator {
             withMessage: R.Strings.chatLoginPopupText,
             andSource: from, loginAction: loggedInAction, cancelAction: nil)
         viewController.present(vc, animated: true, completion: nil)
+    }
+
+    func openUserReport(user: ChatInterlocutor, source: EventParameterTypePage) {
+        guard let userId = user.objectId else { return }
+        guard let data = RateUserData(user: user, listingId: nil, ratingType: .report) else { return }
+        openUserReport(source: source, userReportedId: userId, rateData: data)
     }
 
     func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate) {

@@ -358,8 +358,9 @@ extension UserProfileViewModel {
     }
 
     func didTapReportUserButton() {
-        guard let userReportedId = user.value?.objectId else { return }
-        navigator?.openUserReport(source: .profile, userReportedId: userReportedId)
+        guard let user = user.value, let userReportedId = user.objectId else { return }
+        guard let rateData = RateUserData(user: user, listingId: nil, ratingType: .report) else { return }
+        navigator?.openUserReport(source: .profile, userReportedId: userReportedId, rateData: rateData)
     }
     
     func makeSocialMessage() -> SocialMessage? {
@@ -368,6 +369,11 @@ extension UserProfileViewModel {
                                  itsMe: isMyUser.value,
                                  myUserId: myUserId,
                                  myUserName: myUserName)
+    }
+
+    func refreshUserRelation() {
+        guard !isPrivateProfile else { return }
+        retrieveUsersRelation()
     }
 }
 
