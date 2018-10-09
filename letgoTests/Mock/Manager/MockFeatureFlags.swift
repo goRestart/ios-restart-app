@@ -33,7 +33,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shouldMoveLetsMeetAction = false
     
     // Country dependant features
-    var freePostingModeAllowed = false
     var shouldHightlightFreeFilterInFeed = false
     func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool { return false }
 
@@ -97,7 +96,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     
     //  MARK:  Products
     var simplifiedChatButton: SimplifiedChatButton = .control
-    var turkeyFreePosting: TurkeyFreePosting = .control
     var bulkPosting: BulkPosting = .control
     var makeAnOfferButton: MakeAnOfferButton = .control
 
@@ -118,6 +116,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var multiAdRequestInChatSectionAdUnitId: String? = ""
     var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit = .control
     var polymorphFeedAdsUSA: PolymorphFeedAdsUSA = .control
+    var googleUnifiedNativeAds: GoogleUnifiedNativeAds = .control
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control

@@ -64,7 +64,7 @@ extension ListingCreationParams {
                                                           images: images,
                                                           videos: videos)
                 listingCreationParams = ListingCreationParams.product(productParams)
-            case .services:
+            case .services, .jobs:
                 let serviceParams = ServicesCreationParams(name: title,
                                                            description: description,
                                                            price: postListingState.price ?? SharedConstants.defaultPrice,

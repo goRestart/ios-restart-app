@@ -225,11 +225,6 @@
         "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
     },
     {
-        "name": "TurkeyFreePosting",
-        "values": ["control", "baseline", "active"],
-        "description": "[PRODUCTS] Enable Leanplum driven Turkey free posting"
-    },
-    {
         "name": "RandomImInterestedMessages",
         "values": ["control", "baseline", "active"],
         "description": "[RETENTION] Random Im Interested messages from listing list"
@@ -358,5 +353,10 @@
         "name": "PolymorphFeedAdsUSA",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Show Polymorph ads in feed for USA"
+    },
+    {
+        "name": "GoogleUnifiedNativeAds",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] New unified Google Native Ads"
     }
 ]

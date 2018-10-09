@@ -22,14 +22,11 @@ final class AnalyticsBuy24hMiddlewareSpec: QuickSpec {
                 beforeEach {
                     let listing = Listing.makeMock()
                     let sendMessageInfo = SendMessageTrackingInfo()
-                        .set(listing: listing, freePostingModeAllowed: true)
+                        .set(listing: listing)
                         .set(messageType: .text)
                         .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .listingDetail)
-                        .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
-                        .set(containsEmoji: true)
-                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
                     event = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                       listingVisitSource: .listingList,
                                                       feedPosition: .position(index:1),

@@ -23,7 +23,6 @@ final class BulkPostingPostedModalWireframe: BulkPostingPostedNavigator {
         guard let viewController = root.presentedViewController else { return }
         let editListingAssembly = EditListingBuilder.modal(viewController)
         let vc = editListingAssembly.buildEditView(listing: listing,
-                                                   pageType: nil,
                                                    purchases: [],
                                                    listingCanBeBoosted: false,
                                                    timeSinceLastBump: nil,

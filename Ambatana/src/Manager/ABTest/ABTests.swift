@@ -196,6 +196,7 @@ extension ABTests {
     var bumpPromoAfterSellNoLimit: LeanplumABVariable<Int> { return money.bumpPromoAfterSellNoLimit }
     var polymorphFeedAdsUSA: LeanplumABVariable<Int> { return money.polymorphFeedAdsUSA }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return money.showAdsInFeedWithRatio }
+    var googleUnifiedNativeAds: LeanplumABVariable<Int> { return money.googleUnifiedNativeAds }
 }
 
 //  MARK: Retention
@@ -232,7 +233,6 @@ extension ABTests {
 extension ABTests {
     var simplifiedChatButton: LeanplumABVariable<Int> { return products.simplifiedChatButton }
     var deckItemPage: LeanplumABVariable<Int> { return products.deckItemPage }
-    var turkeyFreePosting: LeanplumABVariable<Int> { return products.turkeyFreePosting }
     var bulkPosting: LeanplumABVariable<Int> { return products.bulkPosting }
     var makeAnOfferButton: LeanplumABVariable<Int> { return products.makeAnOfferButton }
 }

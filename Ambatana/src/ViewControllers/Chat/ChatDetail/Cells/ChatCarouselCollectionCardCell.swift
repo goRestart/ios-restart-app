@@ -164,7 +164,7 @@ final class ChatCarouselCollectionCardCell: UICollectionViewCell, ReusableCell {
         guard let price = card.product?.price, !price.isFree, let currency = card.product?.currency else {
             return nil
         }
-        return price.stringValue(currency: currency, isFreeEnabled: true)
+        return price.stringValue(currency: currency)
     }
     
     private func isFreeProduct(_ card: ChatCarouselCard) -> Bool {

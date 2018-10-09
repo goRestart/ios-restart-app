@@ -440,7 +440,6 @@ extension SellCoordinator: MultiListingPostedNavigator {
     
     func openEdit(forListing listing: Listing) {
         let vc = editAssembly.buildEditView(listing: listing,
-                                            pageType: nil,
                                             purchases: [],
                                             listingCanBeBoosted: false,
                                             timeSinceLastBump: nil,
@@ -556,7 +555,6 @@ fileprivate extension SellCoordinator {
                                                      negotiable: trackingInfo.negotiablePrice,
                                                      pictureSource: trackingInfo.imageSource,
                                                      videoLength: trackingInfo.videoLength,
-                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
 

@@ -90,7 +90,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     weak var headerDelegate: ListingListViewHeaderDelegate? {
         didSet { dataView.collectionView.reloadData() }
     }
-    weak var adsDelegate: MainListingsAdsDelegate?
+    weak var adsDelegate: AdsDelegate?
     
     // MARK: - Lifecycle
     convenience init(source: ListingListViewModel.ListingListViewContainer) {
@@ -107,7 +107,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, frame: .zero)
-        drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()
@@ -536,7 +535,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             banner.validAdSizes = [NSValueFromGADAdSize(kGADAdSizeFluid)]
             banner.tag = data.adPosition
             banner.load(data.adRequest)
-            viewModel.updateAdvertisementRequestedIn(position: inPosition, bannerView: banner)
+            viewModel.updateAdvertisementRequestedIn(position: inPosition, ad: banner)
             break
         case .mopubAdvertisement(let data):
             guard !data.adRequested else { return }
@@ -654,7 +653,7 @@ extension ListingListView: GADNativeContentAdLoaderDelegate, GADAdLoaderDelegate
         guard let position = adLoader.position else { return }
         nativeContentAd.delegate = self
         nativeContentAd.position = position
-        viewModel.updateAdvertisementRequestedIn(position: position, nativeAd: nativeContentAd)
+        viewModel.updateAdvertisementRequestedIn(position: position, ad: nativeContentAd)
     }
     
     public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
@@ -687,7 +686,18 @@ extension ListingListView: GADNativeAppInstallAdLoaderDelegate {
         guard let position = adLoader.position else { return }
         nativeAppInstallAd.delegate = self
         nativeAppInstallAd.position = position
-        viewModel.updateAdvertisementRequestedIn(position: position, nativeAd: nativeAppInstallAd)
+        viewModel.updateAdvertisementRequestedIn(position: position, ad: nativeAppInstallAd)
+    }
+}
+
+// MARK: - GADUnifiedNativeAdLoaderDelegate
+extension ListingListView: GADUnifiedNativeAdLoaderDelegate {
+    
+    public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADUnifiedNativeAd) {
+        guard let position = adLoader.position else { return }
+        nativeAd.delegate = adsDelegate
+        nativeAd.position = position
+        viewModel.updateAdvertisementRequestedIn(position: position, ad: nativeAd)
     }
 }
 
@@ -706,6 +716,20 @@ extension GADAdLoader {
 }
 
 extension GADNativeAd {
+    var position: Int? {
+        get  {
+            guard let accessibilityValue = accessibilityValue else { return -1 }
+            return Int(accessibilityValue)
+        }
+        
+        set (newPosition) {
+            guard let newPosition = newPosition else { return }
+            accessibilityValue = newPosition.description
+        }
+    }
+}
+
+extension GADUnifiedNativeAd {
     var position: Int? {
         get  {
             guard let accessibilityValue = accessibilityValue else { return -1 }

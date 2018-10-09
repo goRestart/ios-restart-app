@@ -848,6 +848,8 @@ extension UserProfileViewModel: ListingCellDelegate {
                     }
                     interestedHandler.handleCancellableInterestedAction(listing,
                                                                         timer: timer,
+                                                                        feedPosition: nil,
+                                                                        sectionPosition: nil,
                                                                         typePage: .profile,
                                                                         completion: completion)
                 }
@@ -912,7 +914,7 @@ extension UserProfileViewModel: ListingCellDelegate {
     }
 
     func editPressedForDiscarded(listing: Listing) {
-        profileNavigator?.editListing(listing, pageType: .profile)
+        profileNavigator?.editListing(listing)
     }
 
     func moreOptionsPressedForDiscarded(listing: Listing) {

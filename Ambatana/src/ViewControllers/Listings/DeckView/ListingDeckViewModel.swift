@@ -607,7 +607,7 @@ extension ListingDeckViewModel {
 extension ListingDeckViewModel: DeckCollectionViewModel {
     func cardModel(at index: Int) -> ListingCardModel? {
         guard let model = objects.value[safeAt: index] else { return nil }
-        guard let price = model.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed),
+        guard let price = model.listing?.priceString(),
             let media = model.listing?.media else { return nil }
 
         return ListingCardModel(title: model.listing?.title,

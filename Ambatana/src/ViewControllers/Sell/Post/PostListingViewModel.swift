@@ -65,15 +65,12 @@ class PostListingViewModel: BaseViewModel {
         return true
     }
     var isService: Bool {
-        return postCategory?.isService ?? false
+        return postCategory?.isServiceOrJob ?? false
     }
 
     var availablePostCategories: [PostCategory] {
-        var categories: [PostCategory] = [.car, .motorsAndAccessories, .services, .otherItems(listingCategory: nil)]
-        if featureFlags.realEstateEnabled.isActive {
-            categories.append(.realEstate)
-        }
-        return categories.sorted(by: {
+        let postCategories = PostCategory.buildPostCategories(featureFlags: featureFlags)
+        return postCategories.sorted(by: {
             $0.sortWeight(featureFlags: featureFlags) > $1.sortWeight(featureFlags: featureFlags)
         })
     }
@@ -711,11 +708,7 @@ fileprivate extension PostListingViewModel {
     }
     
     private func createFirstStep(forCategory category: PostCategory?) -> PostingDetailStep {
-        guard let category = category, category.isService else { return .summary }
-        
-        if featureFlags.jobsAndServicesEnabled.isActive {
-            return .servicesListingType
-        }
+        guard let category = category, category.isServiceOrJob else { return .summary }
         return .servicesSubtypes
     }
     
@@ -802,7 +795,6 @@ fileprivate extension PostListingViewModel {
                                                      negotiable: trackingInfo.negotiablePrice,
                                                      pictureSource: trackingInfo.imageSource,
                                                      videoLength: trackingInfo.videoLength,
-                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
 

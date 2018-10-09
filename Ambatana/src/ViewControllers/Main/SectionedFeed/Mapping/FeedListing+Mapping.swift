@@ -7,14 +7,12 @@ extension Array where Element == FeedListing {
                            myUserRepository: MyUserRepository,
                            listingInterestStates: Set<String>,
                            chatNowTitle: String,
-                           freePostingAllowed: Bool,
                            preventMessagesFromFeedToProUser: Bool,
                            imageHasFixedSize: Bool) -> [FeedListingData]  {
         return filterDuplicationFromFeedItems(cellMetrics: cellMetrics,
                                               myUserRepository: myUserRepository,
                                               listingInterestStates: listingInterestStates,
                                               chatNowTitle: chatNowTitle,
-                                              freePostingAllowed: freePostingAllowed,
                                               preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
                                               imageHasFixedSize: imageHasFixedSize)
     }
@@ -23,7 +21,6 @@ extension Array where Element == FeedListing {
                                                 myUserRepository: MyUserRepository,
                                                 listingInterestStates: Set<String>,
                                                 chatNowTitle: String,
-                                                freePostingAllowed: Bool,
                                                 preventMessagesFromFeedToProUser: Bool,
                                                 imageHasFixedSize: Bool) -> [FeedListingData] {
         var identifierSet: Set<String> = Set<String>()
@@ -39,7 +36,6 @@ extension Array where Element == FeedListing {
                                                         myUserRepository: myUserRepository,
                                                         listingInterestStates: listingInterestStates,
                                                         chatNowTitle: chatNowTitle,
-                                                        freePostingAllowed: freePostingAllowed,
                                                         preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
                                                         imageHasFixedSize: imageHasFixedSize)
             feedListingDataArray.append(feedListingData)
@@ -52,7 +48,6 @@ extension Array where Element == FeedListing {
                                        myUserRepository: MyUserRepository,
                                        listingInterestStates: Set<String>,
                                        chatNowTitle: String,
-                                       freePostingAllowed: Bool,
                                        preventMessagesFromFeedToProUser: Bool,
                                        imageHasFixedSize: Bool) -> FeedListingData {
         let isMine = listing.isMine(myUserRepository: myUserRepository)
@@ -65,7 +60,7 @@ extension Array where Element == FeedListing {
                                isFree: listing.price.isFree,
                                isFeatured: listing.featured ?? false,
                                isMine: isMine,
-                               price: listing.priceString(freeModeAllowed: freePostingAllowed),
+                               price: listing.priceString(),
                                imageSize: imageSize,
                                imageHasFixedSize: imageHasFixedSize,
                                interestedState: interestedState,

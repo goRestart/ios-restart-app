@@ -56,7 +56,7 @@ class FilteredListingListRequester: ListingListRequester {
         retrieve() { [weak self] result in
             guard let indexListings = result.value, let useLimbo = self?.prependLimbo, useLimbo else {
                 self?.offset = result.value?.count ?? self?.offset ?? 0
-                completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle, verticalTrackingInfo: self?.generateVerticalTrackingInfo()))
+                completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle))
                 return
             }
             self?.listingRepository.indexLimbo { [weak self] limboResult in
@@ -248,26 +248,6 @@ fileprivate extension FilteredListingListRequester {
 }
 
 // Tracking Helpers
-
-fileprivate extension FilteredListingListRequester {
-
-    func generateVerticalTrackingInfo() -> VerticalTrackingInfo? {
-        let vertical: ListingCategory = ListingCategory.cars
-        guard let filters = filters, filters.selectedCategories.contains(vertical) else { return nil }
-
-        var keywords: [String] = []
-        var matchingFields: [String] = []
-        
-        filters.verticalFilters.createTrackingParams().forEach { (key, value) in
-            let keyRaw = key.rawValue
-            if let _ = value, !keywords.contains(keyRaw) { return }
-            keywords.append(keyRaw)
-            matchingFields.append(key.rawValue)
-        }
-
-        return VerticalTrackingInfo(category: vertical, keywords: keywords, matchingFields: matchingFields)
-    }
-}
 
 extension SearchImprovements {
     var stringValue: String? {

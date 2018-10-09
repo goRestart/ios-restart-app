@@ -119,8 +119,7 @@ final class SearchAlertsListViewModel: BaseViewModel {
         } else {
             disableSearchAlert(withId: searchAlertId)
         }
-        let trackerEvent = TrackerEvent.searchAlertSwitchChanged(userId: myUserRepository.myUser?.objectId,
-                                                                 searchKeyword: queryForSearchAlertWith(alertId: searchAlertId),
+        let trackerEvent = TrackerEvent.searchAlertSwitchChanged(searchKeyword: queryForSearchAlertWith(alertId: searchAlertId),
                                                                  enabled: EventParameterBoolean(bool: enable),
                                                                  source: .settings)
         tracker.trackEvent(trackerEvent)

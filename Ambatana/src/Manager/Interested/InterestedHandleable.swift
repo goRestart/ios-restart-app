@@ -11,6 +11,8 @@ protocol InterestedHandleable {
                              actionCompletion: @escaping (InterestedAction) -> Void)
     func handleCancellableInterestedAction(_ listing: Listing,
                                            timer: Observable<Any>,
+                                           feedPosition: EventParameterFeedPosition?,
+                                           sectionPosition: EventParameterSectionPosition?,
                                            typePage: EventParameterTypePage,
                                            completion: @escaping (InterestedState) -> Void)
 }

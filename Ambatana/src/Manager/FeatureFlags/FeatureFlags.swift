@@ -28,8 +28,6 @@ protocol FeatureFlaggeable: class {
     var showPasswordlessLogin: ShowPasswordlessLogin { get }
     
     // Country dependant features
-    var freePostingModeAllowed: Bool { get }
-    var shouldHightlightFreeFilterInFeed: Bool { get }
     func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool
 
     var postingFlowType: PostingFlowType { get }
@@ -91,7 +89,6 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Products
     var simplifiedChatButton: SimplifiedChatButton { get }
-    var turkeyFreePosting: TurkeyFreePosting { get }
     var bulkPosting: BulkPosting{ get }
     var makeAnOfferButton: MakeAnOfferButton { get }
 
@@ -111,6 +108,7 @@ protocol FeatureFlaggeable: class {
     var multiAdRequestInChatSectionAdUnitId: String? { get }
     var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit { get }
     var polymorphFeedAdsUSA: PolymorphFeedAdsUSA { get }
+    var googleUnifiedNativeAds: GoogleUnifiedNativeAds { get }
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
@@ -322,10 +320,6 @@ extension AdvancedReputationSystem13 {
 
 // MARK: Products
 
-extension TurkeyFreePosting {
-    var isActive: Bool { return self == .active }
-}
-
 extension BulkPosting {
     var isActive: Bool { return self != .control && self != .baseline }
 
@@ -476,6 +470,10 @@ extension MultiAdRequestMoreInfo {
 
 extension MultiDayBumpUp {
     var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension GoogleUnifiedNativeAds {
+    var isActive: Bool { return self == .active }
 }
 
 final class FeatureFlags: FeatureFlaggeable {
@@ -702,22 +700,6 @@ final class FeatureFlags: FeatureFlaggeable {
     }
 
     // MARK: - Country features
-
-    var freePostingModeAllowed: Bool {
-        switch locationCountryCode {
-        case .turkey?:
-            return turkeyFreePosting.isActive
-        default:
-            return true
-        }
-    }
-
-    var shouldHightlightFreeFilterInFeed: Bool {
-        switch locationCountryCode {
-        case .turkey?: return freePostingModeAllowed // just for turkey
-        default: return false
-        }
-    }
 
     func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool {
         if #available(iOS 11, *), postCategory?.listingCategory.isProduct ?? false {
@@ -1252,13 +1234,6 @@ extension FeatureFlags {
         return SimplifiedChatButton.fromPosition(abTests.simplifiedChatButton.value)
     }
 
-    var turkeyFreePosting: TurkeyFreePosting {
-        if Bumper.enabled {
-            return Bumper.turkeyFreePosting
-        }
-        return TurkeyFreePosting.fromPosition(abTests.turkeyFreePosting.value)
-    }
-
     var bulkPosting: BulkPosting {
         if Bumper.enabled {
             return Bumper.bulkPosting
@@ -1331,6 +1306,13 @@ extension FeatureFlags {
         }
         return PolymorphFeedAdsUSA.fromPosition(abTests.polymorphFeedAdsUSA.value)
         
+    }
+    
+    var googleUnifiedNativeAds: GoogleUnifiedNativeAds {
+        if Bumper.enabled {
+            return Bumper.googleUnifiedNativeAds
+        }
+        return GoogleUnifiedNativeAds.fromPosition(abTests.googleUnifiedNativeAds.value)
     }
     
 }

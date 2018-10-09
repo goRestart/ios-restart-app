@@ -396,6 +396,7 @@ extension R {
         public static let categoriesFashionInactive = ImageAsset(name: "categories_fashion_inactive")
         public static let categoriesFreeInactive = ImageAsset(name: "categories_free_inactive")
         public static let categoriesHomesInactive = ImageAsset(name: "categories_homes_inactive")
+        public static let categoriesJobsInactive = ImageAsset(name: "categories_jobs_inactive")
         public static let categoriesMotorsInactive = ImageAsset(name: "categories_motors_inactive")
         public static let categoriesMusicInactive = ImageAsset(name: "categories_music_inactive")
         public static let categoriesOtherItems = ImageAsset(name: "categories_other_items")
@@ -715,6 +716,7 @@ extension R {
         FiltersCategoriesIcons.categoriesFashionInactive,
         FiltersCategoriesIcons.categoriesFreeInactive,
         FiltersCategoriesIcons.categoriesHomesInactive,
+        FiltersCategoriesIcons.categoriesJobsInactive,
         FiltersCategoriesIcons.categoriesMotorsInactive,
         FiltersCategoriesIcons.categoriesMusicInactive,
         FiltersCategoriesIcons.categoriesOtherItems,

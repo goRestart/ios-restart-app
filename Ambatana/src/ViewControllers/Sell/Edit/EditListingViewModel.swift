@@ -235,7 +235,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     fileprivate let initialListing: Listing
     fileprivate var savedListing: Listing?
     fileprivate var shouldTrack: Bool = true
-    fileprivate var pageType: EventParameterTypePage?
     fileprivate var myUserId: String? {
         return myUserRepository.myUser?.objectId
     }
@@ -267,13 +266,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     // MARK: - Lifecycle
     
     convenience init(listing: Listing,
-                     pageType: EventParameterTypePage?,
                      purchases: [BumpUpProductData],
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
         self.init(listing: listing,
-                  pageType: pageType,
                   purchases: purchases,
                   myUserRepository: Core.myUserRepository,
                   listingRepository: Core.listingRepository,
@@ -291,7 +288,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     init(listing: Listing,
-         pageType: EventParameterTypePage?,
          purchases: [BumpUpProductData],
          myUserRepository: MyUserRepository,
          listingRepository: ListingRepository,
@@ -393,8 +389,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
 
         self.shouldShareInFB = false
-        self.isFreePosting.value = featureFlags.freePostingModeAllowed && listing.price.isFree
-        self.pageType = pageType
+        self.isFreePosting.value = listing.price.isFree
 
         let listingHasPaymentInfo = purchases.hasPaymentIds
 
@@ -957,7 +952,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func generatePrice() -> ListingPrice {
-        guard !(isFreePosting.value && featureFlags.freePostingModeAllowed) else { return .free }
+        guard !isFreePosting.value else { return .free }
         guard let actualPrice = price else { return .normal(0.0) }
         let priceValue = actualPrice.toPriceDouble()
         return .normal(priceValue)
@@ -1300,9 +1295,7 @@ extension EditListingViewModel {
 extension EditListingViewModel {
 
     fileprivate func trackStart() {
-        let myUser = myUserRepository.myUser
-        let event = TrackerEvent.listingEditStart(myUser, listing: initialListing, pageType: pageType)
-        trackEvent(event)
+        trackEvent(TrackerEvent.listingEditStart(listing: initialListing))
     }
 
     fileprivate func trackValidationFailedWithError(_ error: ListingCreateValidationError) {
@@ -1325,7 +1318,7 @@ extension EditListingViewModel {
 
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.listingEditComplete(myUser, listing: listing, category: category.value,
-                                                     editedFields: editedFields, pageType: pageType)
+                                                     editedFields: editedFields)
         trackEvent(event)
     }
 
@@ -1354,8 +1347,7 @@ extension EditListingViewModel {
         if (initialListing.name ?? "") != (listing.name ?? "") {
             editedFields.append(.title)
         }
-        if initialListing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) !=
-            listing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) {
+        if initialListing.priceString() != listing.priceString() {
             editedFields.append(.price)
         }
         if (initialListing.descr ?? "") != (listing.descr ?? "") {

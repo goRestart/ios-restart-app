@@ -23,7 +23,7 @@ def shared_pods
     pod "RxMKMapView",          "4.0.0"
 
     #Ads
-    pod "Google-Mobile-Ads-SDK","7.31.0"
+    pod "Google-Mobile-Ads-SDK","7.34.0"    # Obj-c
 
     #Fabric
     pod "Fabric",               "1.7.2"     # Obj-c

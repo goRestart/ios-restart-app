@@ -979,6 +979,7 @@
 "post_description_info_title" = "THÔNG TIN BÀI ĐĂNG";
 "post_description_name_placeholder" = "Tên";
 "post_description_save_button_text" = "Lưu bài đăng này!";
+"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
 "post_details_jobs_services_camera_message" = "Đăng logo công ty của bạn hoặc ảnh hiển thị dịch vụ hay công việc bạn thực hiện";
 "post_details_jobs_services_congratulation_add_more_details" = "bằng cách thêm thông tin:";
 "post_details_jobs_services_congratulation_improve_listing" = "Cải thiện bài đăng";
@@ -1112,6 +1113,9 @@
 "product_option_edit" = "Sửa bài đăng";
 "product_option_share" = "Chia sẻ bài đăng";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
+"product_post_camera_bulk_posting_items_label" = "Đồ của bạn (%i)";
+"product_post_camera_bulk_posting_tooltip" = "%@ một bài khác";
+"product_post_camera_bulk_posting_tooltip_highlighted_word" = "Đăng";
 "product_post_camera_first_time_alert_subtitle" = "Chụp một bức ảnh đẹp và bắt đầu kiếm tiền!";
 "product_post_camera_first_time_alert_title" = "Bạn đang bán gì?";
 "product_post_camera_gallery_text_button" = "THƯ VIỆN HÌNH ẢNH";
@@ -1181,6 +1185,7 @@
 "product_post_retry_button" = "Thử lại";
 "product_post_select_category_cars" = "Xe hơi";
 "product_post_select_category_housing" = "Nhà đất cho Thuê/Bán";
+"product_post_select_category_jobs" = "Jobs";
 "product_post_select_category_jobs_services" = "Công việc & Dịch vụ";
 "product_post_select_category_motors_and_accessories" = "Phương tiện và Phụ tùng khác";
 "product_post_select_category_other" = "Sản phẩm khác";

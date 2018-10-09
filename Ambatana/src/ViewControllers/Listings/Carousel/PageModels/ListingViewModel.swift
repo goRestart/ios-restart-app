@@ -80,7 +80,7 @@ final class ListingViewModel: BaseViewModel {
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
     var quickAnswers: [QuickAnswer] {
         guard !isMine else { return [] }
-        let isFree = listing.value.price.isFree && featureFlags.freePostingModeAllowed
+        let isFree = listing.value.price.isFree
         return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
     }
 
@@ -349,7 +349,6 @@ final class ListingViewModel: BaseViewModel {
             let productInfo = ListingVMProductInfo(listing: listing,
                                                    isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),
                                                    distance: strongSelf.distanceString(listing),
-                                                   freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
                                                    postingFlowType: strongSelf.featureFlags.postingFlowType)
             strongSelf.productInfo.value = productInfo
         }.disposed(by: disposeBag)
@@ -799,8 +798,6 @@ extension ListingViewModel {
 
     func chatWithSeller() {
         guard let seller = seller.value else { return }
-        let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .listingDetailMoreInfo : .listingDetail
-        trackHelper.trackChatWithSeller(source)
         navigator?.openListingChat(listing.value, source: .listingDetail, interlocutor: seller)
     }
 
