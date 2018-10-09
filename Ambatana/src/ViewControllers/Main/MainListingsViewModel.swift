@@ -19,6 +19,8 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmHideAffiliationToolTip(hideForever: Bool)
 }
 
+typealias AdsDelegate = MainListingsAdsDelegate & GADUnifiedNativeAdDelegate
+
 protocol MainListingsAdsDelegate: class {
     func rootViewControllerForAds() -> UIViewController
 }
@@ -1463,6 +1465,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         if featureFlags.polymorphFeedAdsUSA.isActive {
             bidder = PMBidder.init(pmAdUnitID: EnvironmentProxy.sharedInstance.polymorphAdUnit)
             feedAdUnitId = EnvironmentProxy.sharedInstance.feedAdUnitIdPolymorphUSA
+        }
+        if featureFlags.googleUnifiedNativeAds.isActive {
+            adTypes = [.unifiedNative]
         }
         let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
                                    rootViewController: adsDelegate.rootViewControllerForAds(),

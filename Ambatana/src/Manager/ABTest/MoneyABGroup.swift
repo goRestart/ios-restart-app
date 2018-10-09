@@ -21,6 +21,7 @@ struct MoneyABGroup: ABGroupType {
         static let bumpPromoAfterSellNoLimit = "20180925BumpPromoAfterSellNoLimit"
         static let polymorphFeedAdsUSA = "20180828PolymorphFeedAdsUSA"
         static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
+        static let googleUnifiedNativeAds = "20180928GoogleUnifiedNativeAds"
     }
     let copyForChatNowInTurkey: LeanplumABVariable<Int>
     let showProTagUserProfile: LeanplumABVariable<Bool>
@@ -41,6 +42,7 @@ struct MoneyABGroup: ABGroupType {
     let bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>
     let polymorphFeedAdsUSA: LeanplumABVariable<Int>
     let showAdsInFeedWithRatio: LeanplumABVariable<Int>
+    let googleUnifiedNativeAds: LeanplumABVariable<Int>
 
     let group: ABGroup = .money
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -66,7 +68,8 @@ struct MoneyABGroup: ABGroupType {
          multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>,
          bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>,
          polymorphFeedAdsUSA: LeanplumABVariable<Int>,
-         showAdsInFeedWithRatio: LeanplumABVariable<Int>){
+         showAdsInFeedWithRatio: LeanplumABVariable<Int>,
+         googleUnifiedNativeAds: LeanplumABVariable<Int>){
         self.copyForChatNowInTurkey = copyForChatNowInTurkey
         self.showProTagUserProfile = showProTagUserProfile
         self.copyForChatNowInEnglish = copyForChatNowInEnglish
@@ -86,6 +89,7 @@ struct MoneyABGroup: ABGroupType {
         self.bumpPromoAfterSellNoLimit = bumpPromoAfterSellNoLimit
         self.polymorphFeedAdsUSA = polymorphFeedAdsUSA
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
+        self.googleUnifiedNativeAds = googleUnifiedNativeAds
 
         intVariables.append(contentsOf: [copyForChatNowInTurkey,
                                          copyForChatNowInEnglish,
@@ -103,7 +107,8 @@ struct MoneyABGroup: ABGroupType {
                                          multiAdRequestInChatSectionForTR,
                                          bumpPromoAfterSellNoLimit,
                                          polymorphFeedAdsUSA,
-                                         showAdsInFeedWithRatio])
+                                         showAdsInFeedWithRatio,
+                                         googleUnifiedNativeAds])
         boolVariables.append(contentsOf: [showProTagUserProfile,
                                           showExactLocationForPros])
     }
@@ -127,7 +132,8 @@ struct MoneyABGroup: ABGroupType {
                             multiAdRequestInChatSectionForTR: moneyIntFor(key: Keys.multiAdRequestInChatSectionForTR),
                             bumpPromoAfterSellNoLimit: moneyIntFor(key: Keys.bumpPromoAfterSellNoLimit),
                             polymorphFeedAdsUSA: moneyIntFor(key: Keys.polymorphFeedAdsUSA),
-                            showAdsInFeedWithRatio: moneyIntFor(key: Keys.showAdsInFeedWithRatio)
+                            showAdsInFeedWithRatio: moneyIntFor(key: Keys.showAdsInFeedWithRatio),
+                            googleUnifiedNativeAds: moneyIntFor(key: Keys.googleUnifiedNativeAds)
         )
     }
 

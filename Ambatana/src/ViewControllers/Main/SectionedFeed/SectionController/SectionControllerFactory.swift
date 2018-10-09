@@ -1,5 +1,6 @@
 import IGListKit
 import LGComponents
+import GoogleMobileAds
 
 typealias FeedDelegate = PushPermissionsPresenterDelegate &
     ListingActionDelegate &
@@ -9,7 +10,7 @@ typealias FeedDelegate = PushPermissionsPresenterDelegate &
     HorizontalSectionDelegate &
     AdUpdated
 
-final class SectionControllerFactory {
+final class SectionControllerFactory: NSObject {
     
     private let waterfallColumnCount: Int
     private let featureFlags: FeatureFlaggeable
@@ -79,18 +80,28 @@ final class SectionControllerFactory {
             bannerSectionController.delegate = delegate
             return bannerSectionController
         case .native:
-            var appAdUnit = featureFlags.appInstallAdsInFeedAdUnit
+            var feedAdUnitId = featureFlags.feedAdUnitId
+            var adTypes: [GADAdLoaderAdType] = [.nativeContent]
+            if featureFlags.appInstallAdsInFeed.isActive {
+                feedAdUnitId = featureFlags.appInstallAdsInFeedAdUnit
+                adTypes.append(.nativeAppInstall)
+            }
+            if featureFlags.googleUnifiedNativeAds.isActive {
+                adTypes = [.unifiedNative]
+            }
             var bidder: PMBidder? = nil
             if featureFlags.polymorphFeedAdsUSA.isActive {
-                appAdUnit = EnvironmentProxy.sharedInstance.feedAdUnitIdPolymorphUSA
+                feedAdUnitId = EnvironmentProxy.sharedInstance.feedAdUnitIdPolymorphUSA
                 bidder = PMBidder.init(pmAdUnitID: EnvironmentProxy.sharedInstance.polymorphAdUnit)
             }
+
             let adsSectionController = AdsSectionController(adWidth: ListingCellSizeMetrics(numberOfColumns: waterfallColumnCount).cellWidth,
-                                                            adUnitId: appAdUnit ?? "",
+                                                            adUnitId: feedAdUnitId ?? "",
                                                             rootViewController: rootViewController ?? UIViewController(),
-                                                            adTypes: [.nativeContent, .nativeAppInstall],
+                                                            adTypes: adTypes,
                                                             bidder: bidder)
             adsSectionController.delegate = delegate
+            adsSectionController.unifiedAdsDelegate = self
             return adsSectionController
         }
     }
@@ -106,5 +117,29 @@ final class SectionControllerFactory {
         }
     }
     
+}
+
+extension SectionControllerFactory: GADUnifiedNativeAdDelegate {
     
+    public func nativeAdWillLeaveApplication(_ nativeAd: GADUnifiedNativeAd) {
+        guard let position = nativeAd.position else { return }
+        let hasVideoContent = nativeAd.videoController?.hasVideoContent()
+        var adType = EventParameterAdType.adx
+        if let extraAssets = nativeAd.extraAssets,
+            let network = extraAssets[SharedConstants.adNetwork] as? String,
+            network == EventParameterAdType.polymorph.stringValue {
+            adType = .polymorph
+        }
+        let trackerEvent = TrackerEvent.adTapped(listingId: nil,
+                                                 adType: adType,
+                                                 isMine: .notAvailable,
+                                                 queryType: nil,
+                                                 query: nil,
+                                                 willLeaveApp: .trueParameter,
+                                                 hasVideoContent: EventParameterBoolean.init(bool: hasVideoContent),
+                                                 typePage: .listingList,
+                                                 categories: nil,
+                                                 feedPosition: .position(index: position))
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
 }

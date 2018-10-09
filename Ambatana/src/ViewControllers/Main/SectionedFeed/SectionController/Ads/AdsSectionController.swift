@@ -5,6 +5,7 @@ import GoogleMobileAds
 final class AdsSectionController: ListSectionController {
     
     weak var delegate: AdUpdated?
+    weak var unifiedAdsDelegate: GADUnifiedNativeAdDelegate?
     
     private var adData: AdData?
     private var adLoader: GADAdLoader
@@ -63,13 +64,8 @@ final class AdsSectionController: ListSectionController {
         }
     }
     
-    private func updateAdView(nativeContentAd: GADNativeAd, adLoader: GADAdLoader)  {
-        guard let position = adLoader.position else { return }
-        nativeContentAd.delegate = self
-        nativeContentAd.position = position
-        
-        guard let adxNativeView = GADNativeAdViewFactory.makeNativeAdView(fromContent: nativeContentAd) else { return }
-        
+    private func updateAdView(nativeAd: Any)  {
+        guard let adxNativeView = GADNativeAdViewFactory.makeNativeAdView(fromNativeAd: nativeAd) else { return }
         self.adxNativeView = adxNativeView
         updatedAdData(withView: adxNativeView)
     }
@@ -88,10 +84,12 @@ final class AdsSectionController: ListSectionController {
 
 extension AdsSectionController: GADNativeContentAdLoaderDelegate, GADNativeAppInstallAdLoaderDelegate {
     public func adLoader(_ adLoader: GADAdLoader, didReceive nativeContentAd: GADNativeContentAd) {
-        updateAdView(nativeContentAd: nativeContentAd, adLoader: adLoader)
+        nativeContentAd.delegate = self
+        updateAdView(nativeAd: nativeContentAd)
     }
     public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAppInstallAd: GADNativeAppInstallAd) {
-        updateAdView(nativeContentAd: nativeAppInstallAd, adLoader: adLoader)
+        nativeAppInstallAd.delegate = self
+        updateAdView(nativeAd: nativeAppInstallAd)
     }
 }
 
@@ -107,7 +105,7 @@ extension AdsSectionController: GADAdLoaderDelegate {
 
 extension AdsSectionController: GADNativeAdDelegate {
     public func nativeAdWillLeaveApplication(_ nativeAd: GADNativeAd) {
-        guard let position = nativeAd.position else { return }
+        guard let position = adData?.adPosition else { return }
         var adType = EventParameterAdType.adx
         if let extraAssets = nativeAd.extraAssets,
             let network = extraAssets[SharedConstants.adNetwork] as? String,
@@ -121,6 +119,7 @@ extension AdsSectionController: GADNativeAdDelegate {
                                                  queryType: nil,
                                                  query: nil,
                                                  willLeaveApp: .trueParameter,
+                                                 hasVideoContent: nil,
                                                  typePage: .listingList,
                                                  categories: nil, // TODO: double check this param with money team
                                                  feedPosition: .position(index: position))
@@ -128,3 +127,13 @@ extension AdsSectionController: GADNativeAdDelegate {
     }
 }
 
+// MARK: - GADUnifiedNativeAdLoaderDelegate
+
+extension AdsSectionController: GADUnifiedNativeAdLoaderDelegate {
+    
+    public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADUnifiedNativeAd) {
+        nativeAd.position = adData?.adPosition
+        nativeAd.delegate = unifiedAdsDelegate
+        updateAdView(nativeAd: nativeAd)
+    }
+}

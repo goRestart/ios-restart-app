@@ -5133,7 +5133,6 @@
 		31F18B64F18B73B5FF7870FEBE4059EB /* FBSDKLoginManagerLoginResult.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKLoginManagerLoginResult.m; path = FBSDKLoginKit/FBSDKLoginKit/FBSDKLoginManagerLoginResult.m; sourceTree = "<group>"; };
 		31F711C913DF58521C06913E9950E053 /* sync_config.cpp */ = {isa = PBXFileReference; includeInIndex = 1; name = sync_config.cpp; path = Realm/ObjectStore/src/sync/sync_config.cpp; sourceTree = "<group>"; };
 		3219AD52CFF1FB6979DEEFF48F1069D9 /* MPAdDestinationDisplayAgent.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MPAdDestinationDisplayAgent.m; path = MoPubSDK/Internal/Common/MPAdDestinationDisplayAgent.m; sourceTree = "<group>"; };
-		3219D8D0B6FAF4881D6C5843DAEFBBEF /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Frameworks/frameworks/GoogleMobileAds.framework; sourceTree = "<group>"; };
 		32213F3BD305EF7DA32F0C4FEA7C22A1 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AlamofireImage.framework; path = AlamofireImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32255E06B0CEC491B436D1A160907743 /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
 		3236902E349D62956E0DF88E262B7AD0 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -6247,6 +6246,7 @@
 		849E1ACD3D080918FED733581FAFBBD4 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84AB015E9083764FCAB01382C2A84213 /* RealmSwift.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = RealmSwift.xcconfig; sourceTree = "<group>"; };
 		84B774E94A6CD30952D6706AB8359041 /* MPMRAIDInterstitialViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MPMRAIDInterstitialViewController.m; path = MoPubSDK/Internal/MRAID/MPMRAIDInterstitialViewController.m; sourceTree = "<group>"; };
+		84CA288D5BEF2D8A9F72BCAFDE300D64 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Frameworks/frameworks/GoogleMobileAds.framework; sourceTree = "<group>"; };
 		84D2F44C20D8E00FB0096165F2880652 /* MOPUBReplayView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MOPUBReplayView.m; path = MoPubSDK/NativeVideo/Internal/MOPUBReplayView.m; sourceTree = "<group>"; };
 		84DD4A0C04A703F0DF84BBA346C7E7B5 /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OHHTTPStubsResponse.m; path = OHHTTPStubs/Sources/OHHTTPStubsResponse.m; sourceTree = "<group>"; };
 		84ECDB3FEB8EEC235B48F46CD25DE8E7 /* IGListKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IGListKit-umbrella.h"; sourceTree = "<group>"; };
@@ -6461,6 +6461,7 @@
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		93B0C1EE60EAD55C453BC750E7A8507D /* STPSectionHeaderView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = STPSectionHeaderView.h; path = Stripe/STPSectionHeaderView.h; sourceTree = "<group>"; };
 		93B62BFCFF81A4FCFE1D478541B98AB1 /* RealmConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RealmConfiguration.swift; path = RealmSwift/RealmConfiguration.swift; sourceTree = "<group>"; };
+		93E029974F771F7D9943EA5F4A657509 /* libGoogleMobileAds.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGoogleMobileAds.a; path = Libraries/libGoogleMobileAds.a; sourceTree = "<group>"; };
 		941D569186FF44478D288033284B8BC0 /* CALayer+Compat.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "CALayer+Compat.m"; path = "lottie-ios/Classes/MacCompatability/CALayer+Compat.m"; sourceTree = "<group>"; };
 		942F5668102650770BE643BCA74E9D61 /* GTMNSDictionary+URLArguments.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "GTMNSDictionary+URLArguments.m"; path = "Foundation/GTMNSDictionary+URLArguments.m"; sourceTree = "<group>"; };
 		94434D0C5F5BBAC537A96C0DBF74D237 /* MPCloseBtn@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "MPCloseBtn@2x.png"; path = "MoPubSDK/Resources/MPCloseBtn@2x.png"; sourceTree = "<group>"; };
@@ -10322,6 +10323,15 @@
 			path = Foundation;
 			sourceTree = "<group>";
 		};
+		6CCB9948458BDB986F968A9D55E24EEC /* Google-Mobile-Ads-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				8F7EB7F0F54D18F192BC2B5696713A05 /* Frameworks */,
+			);
+			name = "Google-Mobile-Ads-SDK";
+			path = "Google-Mobile-Ads-SDK";
+			sourceTree = "<group>";
+		};
 		6FA37B7033CA4FC0FC492C6E7055C94F /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -11171,6 +11181,15 @@
 			path = "../Target Support Files/SocketRocket";
 			sourceTree = "<group>";
 		};
+		8F7EB7F0F54D18F192BC2B5696713A05 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				84CA288D5BEF2D8A9F72BCAFDE300D64 /* GoogleMobileAds.framework */,
+				93E029974F771F7D9943EA5F4A657509 /* libGoogleMobileAds.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		91065F3927204D84B6E085124FC0F068 /* RealmSwift */ = {
 			isa = PBXGroup;
 			children = (
@@ -11208,14 +11227,6 @@
 			);
 			name = CHTCollectionViewWaterfallLayout;
 			path = CHTCollectionViewWaterfallLayout;
-			sourceTree = "<group>";
-		};
-		92ADFD9E373F07D08C3FC5807E0D15D8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3219D8D0B6FAF4881D6C5843DAEFBBEF /* GoogleMobileAds.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		93FC3942A59935FC2DCC750D0C0BD00B /* Help */ = {
@@ -11513,15 +11524,6 @@
 				B7C2369495ADAFB52A7F233C91EB3198 /* Fabric.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		B5AC9F2229108BA7E45972EC3EF15461 /* Google-Mobile-Ads-SDK */ = {
-			isa = PBXGroup;
-			children = (
-				92ADFD9E373F07D08C3FC5807E0D15D8 /* Frameworks */,
-			);
-			name = "Google-Mobile-Ads-SDK";
-			path = "Google-Mobile-Ads-SDK";
 			sourceTree = "<group>";
 		};
 		B8C193299309781CAEB8E2DADB699384 /* OHHTTPStubs */ = {
@@ -12278,7 +12280,7 @@
 				25C561FBB63DC5D3F1A057ABF6C968AA /* FBSDKLoginKit */,
 				E05AFC3264E59391E693D555DB3DA9A9 /* FBSDKShareKit */,
 				C2C54BEB65B6A4B1CCC55503675D520D /* FLEX */,
-				B5AC9F2229108BA7E45972EC3EF15461 /* Google-Mobile-Ads-SDK */,
+				6CCB9948458BDB986F968A9D55E24EEC /* Google-Mobile-Ads-SDK */,
 				CF94CD408B236B9837BE0927597E988F /* GoogleIDFASupport */,
 				33F0D963FFF58EA33033DE0328341444 /* GoogleSignIn */,
 				7141993CA401FB16545F278DE45000EE /* GoogleToolboxForMac */,

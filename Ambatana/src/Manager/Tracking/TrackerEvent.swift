@@ -422,6 +422,7 @@ struct TrackerEvent {
                                  queryType: EventParameterAdQueryType?,
                                  query: String?,
                                  willLeaveApp: EventParameterBoolean,
+                                 hasVideoContent: EventParameterBoolean?,
                                  typePage: EventParameterTypePage,
                                  categories: [ListingCategory]?,
                                  feedPosition: EventParameterFeedPosition) -> TrackerEvent {
@@ -433,6 +434,7 @@ struct TrackerEvent {
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
         params[.adActionLeftApp] = willLeaveApp.rawValue
+        params[.isAdVideo] = hasVideoContent?.rawValue ?? TrackerEvent.notApply
         params[.typePage] = typePage.rawValue
         params[.feedPosition] = feedPosition.value
         params[.categoryId] = (categories ?? [.unassigned]).trackValue

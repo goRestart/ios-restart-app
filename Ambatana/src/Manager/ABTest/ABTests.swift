@@ -196,6 +196,7 @@ extension ABTests {
     var bumpPromoAfterSellNoLimit: LeanplumABVariable<Int> { return money.bumpPromoAfterSellNoLimit }
     var polymorphFeedAdsUSA: LeanplumABVariable<Int> { return money.polymorphFeedAdsUSA }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return money.showAdsInFeedWithRatio }
+    var googleUnifiedNativeAds: LeanplumABVariable<Int> { return money.googleUnifiedNativeAds }
 }
 
 //  MARK: Retention

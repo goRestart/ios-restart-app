@@ -116,6 +116,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var multiAdRequestInChatSectionAdUnitId: String? = ""
     var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit = .control
     var polymorphFeedAdsUSA: PolymorphFeedAdsUSA = .control
+    var googleUnifiedNativeAds: GoogleUnifiedNativeAds = .control
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control

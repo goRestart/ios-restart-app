@@ -87,6 +87,7 @@ extension Bumper  {
         flags.append(FacebookUnavailable.self)
         flags.append(BoostSmokeTest.self)
         flags.append(PolymorphFeedAdsUSA.self)
+        flags.append(GoogleUnifiedNativeAds.self)
         Bumper.initialize(flags)
     } 
 
@@ -1009,6 +1010,19 @@ extension Bumper  {
     static var polymorphFeedAdsUSAObservable: Observable<PolymorphFeedAdsUSA> {
         return Bumper.observeValue(for: PolymorphFeedAdsUSA.key).map {
             PolymorphFeedAdsUSA(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var googleUnifiedNativeAds: GoogleUnifiedNativeAds {
+        guard let value = Bumper.value(for: GoogleUnifiedNativeAds.key) else { return .control }
+        return GoogleUnifiedNativeAds(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var googleUnifiedNativeAdsObservable: Observable<GoogleUnifiedNativeAds> {
+        return Bumper.observeValue(for: GoogleUnifiedNativeAds.key).map {
+            GoogleUnifiedNativeAds(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2140,6 +2154,22 @@ enum PolymorphFeedAdsUSA: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[MONEY] Show Polymorph ads in feed for USA" } 
     static func fromPosition(_ position: Int) -> PolymorphFeedAdsUSA {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum GoogleUnifiedNativeAds: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return GoogleUnifiedNativeAds.control.rawValue }
+    static var enumValues: [GoogleUnifiedNativeAds] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[MONEY] New unified Google Native Ads" } 
+    static func fromPosition(_ position: Int) -> GoogleUnifiedNativeAds {
         switch position { 
             case 0: return .control
             case 1: return .baseline

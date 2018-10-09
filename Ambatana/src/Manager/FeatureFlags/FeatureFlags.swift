@@ -108,6 +108,7 @@ protocol FeatureFlaggeable: class {
     var multiAdRequestInChatSectionAdUnitId: String? { get }
     var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit { get }
     var polymorphFeedAdsUSA: PolymorphFeedAdsUSA { get }
+    var googleUnifiedNativeAds: GoogleUnifiedNativeAds { get }
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
@@ -469,6 +470,10 @@ extension MultiAdRequestMoreInfo {
 
 extension MultiDayBumpUp {
     var isActive: Bool { return self != .control && self != .baseline }
+}
+
+extension GoogleUnifiedNativeAds {
+    var isActive: Bool { return self == .active }
 }
 
 final class FeatureFlags: FeatureFlaggeable {
@@ -1301,6 +1306,13 @@ extension FeatureFlags {
         }
         return PolymorphFeedAdsUSA.fromPosition(abTests.polymorphFeedAdsUSA.value)
         
+    }
+    
+    var googleUnifiedNativeAds: GoogleUnifiedNativeAds {
+        if Bumper.enabled {
+            return Bumper.googleUnifiedNativeAds
+        }
+        return GoogleUnifiedNativeAds.fromPosition(abTests.googleUnifiedNativeAds.value)
     }
     
 }

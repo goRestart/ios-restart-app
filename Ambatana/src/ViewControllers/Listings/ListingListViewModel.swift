@@ -758,9 +758,8 @@ final class ListingListViewModel: BaseViewModel {
     }
 
     func categoriesForBannerIn(position: Int) -> [ListingCategory]? {
-        guard 0..<objects.count ~= position else { return nil }
+        guard let cellModel = objects[safeAt: position] else { return nil }
         var categories: [ListingCategory]? = nil
-        let cellModel = objects[position]
         switch cellModel {
         case .dfpAdvertisement(let data):
             categories = data.categories
@@ -773,31 +772,9 @@ final class ListingListViewModel: BaseViewModel {
         }
         return categories
     }
-
-    func updateAdvertisementRequestedIn(position: Int, bannerView: GADBannerView) {
-        guard 0..<objects.count ~= position else { return }
-        let modelToBeUpdated = objects[position]
-        switch modelToBeUpdated {
-        case .dfpAdvertisement(let data):
-            guard data.adPosition == position else { return }
-                let newAdData = AdvertisementDFPData(adUnitId: data.adUnitId,
-                                                     rootViewController: data.rootViewController,
-                                                     adPosition: data.adPosition,
-                                                     bannerHeight: data.bannerHeight,
-                                                     adRequested: true,
-                                                     categories: data.categories,
-                                                     adRequest: data.adRequest,
-                                                     bannerView: bannerView)
-                objects[position] = ListingCellModel.dfpAdvertisement(data: newAdData)
-
-        case .listingCell, .collectionCell, .emptyCell, .mopubAdvertisement, .promo, .adxAdvertisement:
-            break
-        }
-    }
     
     func updateAdvertisementRequestedIn(position: Int, moPubNativeAd: MPNativeAd?, moPubView: UIView) {
-        guard 0..<objects.count ~= position else { return }
-        let modelToBeUpdated = objects[position]
+        guard let modelToBeUpdated = objects[safeAt: position] else { return }
         switch modelToBeUpdated {
         case .mopubAdvertisement(let data):
             guard data.adPosition == position else { return }
@@ -818,33 +795,32 @@ final class ListingListViewModel: BaseViewModel {
         }
     }
     
-    func updateAdvertisementRequestedIn(position: Int, nativeAd: GADNativeAd) {
-        guard 0..<objects.count ~= position else { return }
-        let modelToBeUpdated = objects[position]
+    func updateAdvertisementRequestedIn(position: Int, ad: Any) {
+        guard let modelToBeUpdated = objects[safeAt: position] else { return }
         switch modelToBeUpdated {
         case .adxAdvertisement(let data):
-            guard data.adPosition == position,
-                let newAdData = updateAdvertisementAdxDataFor(data: data, nativeAd: nativeAd) else { return }
+            guard data.adPosition == position, let newAdData = updateAdvertisementAdxDataFor(data: data, nativeAd: ad) else { return }
             objects[position] = ListingCellModel.adxAdvertisement(data: newAdData)
             delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(row: position, section: 0))
-        case .listingCell, .collectionCell, .emptyCell, .dfpAdvertisement, .mopubAdvertisement, .promo:
+        case .dfpAdvertisement(let data):
+            if let bannerView = ad as? GADBannerView {
+                let newAdData = AdvertisementDFPData(adUnitId: data.adUnitId,
+                                                     rootViewController: data.rootViewController,
+                                                     adPosition: data.adPosition,
+                                                     bannerHeight: data.bannerHeight,
+                                                     adRequested: true,
+                                                     categories: data.categories,
+                                                     adRequest: data.adRequest,
+                                                     bannerView: bannerView)
+                objects[position] = ListingCellModel.dfpAdvertisement(data: newAdData)
+            }
+        case .listingCell, .collectionCell, .emptyCell, .mopubAdvertisement, .promo:
             break
         }
     }
     
-    private func updateAdvertisementAdxDataFor(data: AdvertisementAdxData, nativeAd: GADNativeAd) -> AdvertisementAdxData? {
-        var adxNativeView = UIView()
-        if let nativeContentAd = nativeAd as? GADNativeContentAd {
-            let adxNativeContentView = GoogleAdxNativeContentView()
-            adxNativeContentView.nativeContentAd = nativeContentAd
-            adxNativeView = adxNativeContentView
-        } else if let nativeAppInstallAd = nativeAd as? GADNativeAppInstallAd {
-            let adxNativeAppInstallView = GoogleAdxNativeAppInstallView()
-            adxNativeAppInstallView.nativeAppInstallAd = nativeAppInstallAd
-            adxNativeView = adxNativeAppInstallView
-        } else {
-            return nil
-        }
+    private func updateAdvertisementAdxDataFor(data: AdvertisementAdxData, nativeAd: Any) -> AdvertisementAdxData? {
+        guard let adxNativeView = GADNativeAdViewFactory.makeNativeAdView(fromNativeAd: nativeAd) else { return nil }
         let size = adxNativeView.systemLayoutSizeFitting(CGSize.init(width: cellWidth,
                                                                      height: LGUIKitConstants.advertisementCellDefaultHeight),
                                                          withHorizontalFittingPriority: .required,
@@ -889,8 +865,7 @@ extension ListingListViewModel {
 
 extension ListingListViewModel {
     func updateAdCellHeight(newHeight: CGFloat, forPosition: Int, withBannerView bannerView: GADBannerView) {
-        guard 0..<objects.count ~= forPosition else { return }
-        let modelToBeUpdated = objects[forPosition]
+        guard let modelToBeUpdated = objects[safeAt: forPosition] else { return }
         switch modelToBeUpdated {
         case .dfpAdvertisement(let data):
             guard data.adPosition == forPosition else { return }
@@ -919,9 +894,29 @@ extension ListingListViewModel {
                                                  queryType: nil,
                                                  query: nil,
                                                  willLeaveApp: willLeaveApp,
+                                                 hasVideoContent: nil,
                                                  typePage: .listingList,
                                                  categories: categories,
                                                  feedPosition: feedPosition)
         tracker.trackEvent(trackerEvent)
     }
+    
+    func adTapped(adType: EventParameterAdType,
+                  willLeaveApp: EventParameterBoolean,
+                  hasVideoContent: EventParameterBoolean,
+                  categories: [ListingCategory]?,
+                  feedPosition: EventParameterFeedPosition) {
+        let trackerEvent = TrackerEvent.adTapped(listingId: nil,
+                                                 adType: adType,
+                                                 isMine: .notAvailable,
+                                                 queryType: nil,
+                                                 query: nil,
+                                                 willLeaveApp: willLeaveApp,
+                                                 hasVideoContent: hasVideoContent,
+                                                 typePage: .listingList,
+                                                 categories: categories,
+                                                 feedPosition: feedPosition)
+        tracker.trackEvent(trackerEvent)
+    }
+    
 }

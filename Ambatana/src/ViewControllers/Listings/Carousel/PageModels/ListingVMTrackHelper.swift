@@ -380,6 +380,7 @@ extension ProductVMTrackHelper {
                                                          queryType: queryType,
                                                          query: query,
                                                          willLeaveApp: willLeaveApp,
+                                                         hasVideoContent: nil,
                                                          typePage: typePage,
                                                          categories: nil,
                                                          feedPosition: .none)
@@ -397,6 +398,7 @@ extension ProductVMTrackHelper {
                                                  queryType: nil,
                                                  query: nil,
                                                  willLeaveApp: willLeaveApp,
+                                                 hasVideoContent: nil,
                                                  typePage: typePage,
                                                  categories: nil,
                                                  feedPosition: feedPosition)

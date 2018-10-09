@@ -435,6 +435,7 @@ enum EventParameterName: String {
     case adQuery              = "ad-query-text"
     case adVisibility         = "ad-visibility"
     case adActionLeftApp      = "left-application"
+    case isAdVideo            = "is-ad-video"
     case isMine               = "is-mine"
     case numberOfItems        = "number-of-items"
     case transactionStatus    = "transaction-status"

@@ -182,6 +182,12 @@ static NSString *kAdNetwork = @"adNetwork";
         imageView.frame = v.logoView.bounds;
         [v.logoView addSubview:imageView];
         [v.logoView bringSubviewToFront:imageView];
+    } else if([view isKindOfClass:[GADUnifiedNativeAd class]] && [[[self.pmNativeAd nativeAssets] objectForKey:kNativeIconImageKey] isKindOfClass:[UIView class]]) {
+        GADUnifiedNativeAdView *v = (GADUnifiedNativeAdView *)view;
+        UIView *imageView = [[self.pmNativeAd nativeAssets] objectForKey:kNativeIconImageKey];
+        imageView.frame = v.iconView.bounds;
+        [v.iconView addSubview:imageView];
+        [v.iconView bringSubviewToFront:imageView];
     }
     
     [self.pmNativeAd registerNativeAdForView:view];

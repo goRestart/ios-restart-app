@@ -4,6 +4,7 @@ import UIKit
 import CHTCollectionViewWaterfallLayout
 import RxSwift
 import LGComponents
+import GoogleMobileAds
 
 enum SearchSuggestionType {
     case suggestive
@@ -25,7 +26,7 @@ enum SearchSuggestionType {
 }
 
 final class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
-    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop, MainListingsAdsDelegate {
+    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop, AdsDelegate {
 
     // ViewModel
     var viewModel: MainListingsViewModel
@@ -406,6 +407,24 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
         updateTagsView(tags: viewModel.tags)
     }
     
+    // MARK: - GADUnifiedNativeAdDelegate
+    
+    public func nativeAdWillLeaveApplication(_ nativeAd: GADUnifiedNativeAd) {
+        guard let position = nativeAd.position else { return }
+        let feedPosition: EventParameterFeedPosition = .position(index: position)
+        let hasVideoContent = nativeAd.videoController?.hasVideoContent()
+        var adType = EventParameterAdType.adx
+        if let extraAssets = nativeAd.extraAssets,
+            let network = extraAssets[SharedConstants.adNetwork] as? String,
+            network == EventParameterAdType.polymorph.stringValue {
+            adType = .polymorph
+        }
+        listingListView.viewModel.adTapped(adType: adType,
+                                           willLeaveApp: .trueParameter,
+                                           hasVideoContent: EventParameterBoolean.init(bool: hasVideoContent),
+                                           categories: listingListView.viewModel.categoriesForBannerIn(position: position),
+                                           feedPosition: feedPosition)
+    }
     
     // MARK: - Private methods
 
@@ -972,4 +991,4 @@ extension MainListingsViewController {
         navbarSearch.set(accessibilityId: .mainListingsNavBarSearch)
         navigationItem.leftBarButtonItem?.set(accessibilityId: .mainListingsInviteButton)
     }
-}
+}     

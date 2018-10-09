@@ -1893,6 +1893,8 @@
 		8E5320CE21523D8E00C08618 /* ChatSystemCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5320CD21523D8E00C08618 /* ChatSystemCellDrawer.swift */; };
 		8E56D74520A2ED1300097B61 /* ChatConversationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */; };
 		8E56D74620A2F0A300097B61 /* ChatConversationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */; };
+		8E5D3CE7216BAA5500EB686E /* GoogleAdxNativeUnifiedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D3CE6216BAA5500EB686E /* GoogleAdxNativeUnifiedView.swift */; };
+		8E5D3CE8216BAA5500EB686E /* GoogleAdxNativeUnifiedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D3CE6216BAA5500EB686E /* GoogleAdxNativeUnifiedView.swift */; };
 		8E69F3F21E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */; };
 		8E69F3F31E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */; };
 		8E6A4A5720DA6A8300C2DD4F /* ChatConversationsListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6A4A5620DA6A8300C2DD4F /* ChatConversationsListViewModelSpec.swift */; };
@@ -3857,6 +3859,7 @@
 		8E5320CD21523D8E00C08618 /* ChatSystemCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSystemCellDrawer.swift; sourceTree = "<group>"; };
 		8E56D74420A2ED1300097B61 /* ChatConversationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListView.swift; sourceTree = "<group>"; };
 		8E56D74720A342EF00097B61 /* ChatConversationsListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListFilter.swift; sourceTree = "<group>"; };
+		8E5D3CE6216BAA5500EB686E /* GoogleAdxNativeUnifiedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAdxNativeUnifiedView.swift; sourceTree = "<group>"; };
 		8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryDetailTableView.swift; sourceTree = "<group>"; };
 		8E6A4A5620DA6A8300C2DD4F /* ChatConversationsListViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationsListViewModelSpec.swift; sourceTree = "<group>"; };
 		8E7F4FD92119A819004E70C5 /* ConversationCellStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCellStatus.swift; sourceTree = "<group>"; };
@@ -8619,6 +8622,7 @@
 		C749C7811C10811B00F7118E /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				8E5D3CE6216BAA5500EB686E /* GoogleAdxNativeUnifiedView.swift */,
 				F5E79A67210E3AE6003101D4 /* ListingErrorCell.swift */,
 				4219243F20761CDF00862CEF /* PromoCell */,
 				8EEC7F55206AA60900616858 /* NativeAdBlankStateView.swift */,
@@ -11226,6 +11230,7 @@
 				0AFE31212056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift in Sources */,
 				0A6FECBE2130344000B57004 /* FiltersStandardWireframe.swift in Sources */,
 				2E9716AE1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */,
+				8E5D3CE7216BAA5500EB686E /* GoogleAdxNativeUnifiedView.swift in Sources */,
 				329ACF4720EA89CF00A1C6A4 /* SectionTitleHeaderView.swift in Sources */,
 				0915FB942140FE0B0003D5B0 /* P2PPaymentsOfferStatusViewController.swift in Sources */,
 				328E8E3520C046A700BBF639 /* SuggestiveSearchInfo.swift in Sources */,
@@ -12334,6 +12339,7 @@
 				2ECB416F20065FB200482EF7 /* BumpUpPayViewController.swift in Sources */,
 				09DC34032154EE2F00A7DEF7 /* P2PPaymentsTrackingInfo.swift in Sources */,
 				0A6FED0D2130344000B57004 /* RecaptchaPasswordWireframe.swift in Sources */,
+				8E5D3CE8216BAA5500EB686E /* GoogleAdxNativeUnifiedView.swift in Sources */,
 				2E151D7720A5D3370038D7C7 /* ChatBlockedUsersCell.swift in Sources */,
 				2E2FF6E620AAC8CB00C9A5DA /* ChatAssistantConversationCell.swift in Sources */,
 				0A98767420CE586900DCD360 /* UIStackView+LG.swift in Sources */,

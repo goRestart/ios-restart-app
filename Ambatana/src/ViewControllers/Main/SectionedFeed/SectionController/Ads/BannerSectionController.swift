@@ -102,6 +102,7 @@ extension BannerSectionController: GADAdSizeDelegate, GADBannerViewDelegate {
                                                  queryType: nil,
                                                  query: nil,
                                                  willLeaveApp: .trueParameter,
+                                                 hasVideoContent: nil,
                                                  typePage: .feed,
                                                  categories: nil, feedPosition: .none)
         tracker.trackEvent(trackerEvent)

@@ -1613,6 +1613,7 @@ class TrackerEventSpec: QuickSpec {
                                                 queryType: .title,
                                                 query: "patata",
                                                 willLeaveApp: .trueParameter,
+                                                hasVideoContent: nil,
                                                 typePage: .listingDetailMoreInfo,
                                                 categories: [.homeAndGarden, .motorsAndAccessories],
                                                 feedPosition: .position(index: 14))
@@ -5688,6 +5689,7 @@ class TrackerEventSpec: QuickSpec {
                                                 queryType: nil,
                                                 query: nil,
                                                 willLeaveApp: .trueParameter,
+                                                hasVideoContent: nil,
                                                 typePage: .nextItem,
                                                 categories: nil,
                                                 feedPosition: .position(index: 19))
