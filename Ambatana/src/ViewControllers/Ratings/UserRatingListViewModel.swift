@@ -107,7 +107,11 @@ extension UserRatingListViewModel : UserRatingListRequesterDelegate {
     }
 
     func requesterDidLoadUserRatings(_ ratings: [UserRating], isFirstPage: Bool) {
-        self.ratings.append(contentsOf: ratings)
+        if isFirstPage {
+            self.ratings = ratings
+        } else {
+            self.ratings.append(contentsOf: ratings)
+        }
         delegate?.vmDidLoadUserRatings(ratings, isFirstPage: isFirstPage)
     }
 
