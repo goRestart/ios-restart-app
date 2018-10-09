@@ -40,6 +40,7 @@ class TabCoordinator: NSObject, Coordinator {
     private lazy var expressChatAssembly = ExpressChatBuilder.modal(navigationController)
     private lazy var p2pPaymentsMakeAnOfferAssembly = P2PPaymentsMakeAnOfferBuilder.modal
     private lazy var reportAssembly = ReportBuilder.modal(navigationController)
+    private lazy var rateUserAssembly = RateUserBuilder.modal(navigationController)
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
@@ -129,7 +130,12 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
-        appNavigator?.openUserRating(source, data: data)
+        if featureFlags.community.shouldShowOnTab {
+            let vc = rateUserAssembly.buildRateUser(source: source, data: data, showSkipButton: false, onRateUserFinishAction: nil)
+            navigationController.present(vc, animated: true, completion: nil)
+        } else {
+            appNavigator?.openUserRating(source, data: data)
+        }
     }
 
     func openUser(_ data: UserDetailData) {

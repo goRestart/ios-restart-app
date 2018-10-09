@@ -193,10 +193,12 @@ extension MainTabCoordinator: MainTabNavigator {
     }
 
     func openPrivateUserProfile() {
-        openFullLoginIfNeeded(source: .profile) {
+        openFullLoginIfNeeded(source: .profile) { [weak self] in
+            guard let strongSelf = self else { return }
             let coord = ProfileTabCoordinator(source: .mainListing)
-            self.openChild(coordinator: coord,
-                           parent: self.rootViewController,
+            coord.appNavigator = strongSelf.appNavigator
+            strongSelf.openChild(coordinator: coord,
+                           parent: strongSelf.rootViewController,
                            animated: true,
                            forceCloseChild: true,
                            completion: nil)
