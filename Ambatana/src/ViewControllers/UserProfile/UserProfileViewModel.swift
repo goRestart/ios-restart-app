@@ -430,6 +430,7 @@ extension UserProfileViewModel {
         }
         setupTabRxBindings()
         setupListingsListRxBindings()
+        observeAuthEvents()
     }
 
     func retrieveUserData() {
@@ -438,6 +439,17 @@ extension UserProfileViewModel {
             self?.user.value = result.value
             self?.isMyUser.value = result.value?.objectId == self?.myUserRepository.myUser?.objectId
         }
+    }
+
+    private func observeAuthEvents() {
+        sessionManager.sessionEvents.subscribe(onNext: { [weak self] event in
+            switch event {
+            case .login:
+                break
+            case .logout:
+                self?.ratingListViewModel.ratings = []
+            }
+        }).disposed(by: disposeBag)
     }
 
     private func setupMyUserRxBindings() {
