@@ -157,7 +157,7 @@ final class EditLocationView: UIView {
     private func setupLocationButton() {
         let margin = Metrics.veryBigMargin
         addLayoutGuide(locationButtonLayoutGuide)
-        addSubviewsForAutoLayout([locationActivityIndicator, locationButton])
+        addSubviewsForAutoLayout([locationButton, locationActivityIndicator])
 
         let bottomToContainer = locationButtonLayoutGuide.bottomAnchor.constraint(equalTo: bottomAnchor)
         bottomToContainer.priority = 999
