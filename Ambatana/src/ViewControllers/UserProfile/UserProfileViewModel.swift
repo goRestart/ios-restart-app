@@ -929,7 +929,7 @@ extension UserProfileViewModel: ListingCellDelegate {
     func chatButtonPressedFor(listing: Listing) {}
     
     func openChatNow() {
-        guard let user = user.value else { return }
+        guard let user = user.value, let userId = user.objectId else { return }
         let listing = Listing.makeFakeListing(with: user)
         let chatDetailData = ChatDetailData.listingAPI(listing: listing)
         
@@ -937,7 +937,7 @@ extension UserProfileViewModel: ListingCellDelegate {
         case .baseline, .control:
             break
         case .vatiant1NoQuickAnswers, .variant2WithOneTimeQuickAnswers:
-            let event = TrackerEvent.profileChatNowButtonTapped(user: user)
+            let event = TrackerEvent.profileChatNowButtonTapped(userId: userId)
             tracker.trackEvent(event)
             navigator?.openListingChat(data: chatDetailData,
                                              source: .profile,
