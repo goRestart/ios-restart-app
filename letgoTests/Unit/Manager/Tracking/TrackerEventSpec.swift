@@ -1215,7 +1215,7 @@ class TrackerEventSpec: QuickSpec {
                     it("max price") {
                         expect(sut.params!.stringKeyParams["price-to"] as? String) == "false"
                     }
-                    it("free posting") {
+                    it("free posting false by default") {
                         expect(sut.params!.stringKeyParams["free-posting"] as? String) == "false"
                     }
                     it ("seller type") {
