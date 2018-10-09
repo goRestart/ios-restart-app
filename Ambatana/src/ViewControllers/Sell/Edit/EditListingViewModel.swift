@@ -235,7 +235,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     fileprivate let initialListing: Listing
     fileprivate var savedListing: Listing?
     fileprivate var shouldTrack: Bool = true
-    fileprivate var pageType: EventParameterTypePage?
     fileprivate var myUserId: String? {
         return myUserRepository.myUser?.objectId
     }
@@ -267,13 +266,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     // MARK: - Lifecycle
     
     convenience init(listing: Listing,
-                     pageType: EventParameterTypePage?,
                      purchases: [BumpUpProductData],
                      listingCanBeBoosted: Bool,
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
         self.init(listing: listing,
-                  pageType: pageType,
                   purchases: purchases,
                   myUserRepository: Core.myUserRepository,
                   listingRepository: Core.listingRepository,
@@ -291,7 +288,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     init(listing: Listing,
-         pageType: EventParameterTypePage?,
          purchases: [BumpUpProductData],
          myUserRepository: MyUserRepository,
          listingRepository: ListingRepository,
@@ -394,7 +390,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         self.shouldShareInFB = false
         self.isFreePosting.value = listing.price.isFree
-        self.pageType = pageType
 
         let listingHasPaymentInfo = purchases.hasPaymentIds
 
@@ -1300,9 +1295,7 @@ extension EditListingViewModel {
 extension EditListingViewModel {
 
     fileprivate func trackStart() {
-        let myUser = myUserRepository.myUser
-        let event = TrackerEvent.listingEditStart(myUser, listing: initialListing, pageType: pageType)
-        trackEvent(event)
+        trackEvent(TrackerEvent.listingEditStart(listing: initialListing))
     }
 
     fileprivate func trackValidationFailedWithError(_ error: ListingCreateValidationError) {
@@ -1325,7 +1318,7 @@ extension EditListingViewModel {
 
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.listingEditComplete(myUser, listing: listing, category: category.value,
-                                                     editedFields: editedFields, pageType: pageType)
+                                                     editedFields: editedFields)
         trackEvent(event)
     }
 

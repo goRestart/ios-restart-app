@@ -479,12 +479,7 @@ extension ProductVMTrackHelper {
     func trackSaveFavoriteCompleted(_ isShowingFeaturedStripe: Bool) {
         let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
             EventParameterBoolean.falseParameter
-        let trackerEvent = TrackerEvent.listingFavorite(listing, typePage: .listingDetail, isBumpedUp: isBumpedUp)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func trackChatWithSeller(_ source: EventParameterTypePage) {
-        let trackerEvent = TrackerEvent.listingDetailOpenChat(listing, typePage: source)
+        let trackerEvent = TrackerEvent.listingFavorite(listing, isBumpedUp: isBumpedUp)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -531,7 +526,6 @@ extension ProductVMTrackHelper {
             .set(quickAnswerTypeParameter: messageType.quickAnswerTypeParameter)
             .set(typePage: .listingDetail)
             .set(isBumpedUp: isBumpedUp)
-            .set(containsEmoji: messageType.text.containsEmoji)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
         }

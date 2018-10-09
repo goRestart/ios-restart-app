@@ -798,8 +798,6 @@ extension ListingViewModel {
 
     func chatWithSeller() {
         guard let seller = seller.value else { return }
-        let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .listingDetailMoreInfo : .listingDetail
-        trackHelper.trackChatWithSeller(source)
         navigator?.openListingChat(listing.value, source: .listingDetail, interlocutor: seller)
     }
 

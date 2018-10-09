@@ -440,7 +440,6 @@ extension SellCoordinator: MultiListingPostedNavigator {
     
     func openEdit(forListing listing: Listing) {
         let vc = editAssembly.buildEditView(listing: listing,
-                                            pageType: nil,
                                             purchases: [],
                                             listingCanBeBoosted: false,
                                             timeSinceLastBump: nil,

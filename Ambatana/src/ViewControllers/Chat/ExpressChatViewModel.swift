@@ -284,7 +284,6 @@ extension ExpressChatViewModel {
             .set(quickAnswerTypeParameter: nil)
             .set(typePage: .expressChat)
             .set(isBumpedUp: .falseParameter)
-            .set(containsEmoji: containsEmoji)
 
         if let error = error {
             sendMessageInfo.set(error: error.chatError)

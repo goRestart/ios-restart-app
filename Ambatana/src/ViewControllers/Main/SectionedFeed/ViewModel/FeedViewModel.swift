@@ -870,7 +870,6 @@ extension FeedViewModel: ListingActionDelegate {
             .makeWith(type: type, listing: listing)
             .set(typePage: .listingList)
             .set(isBumpedUp: .falseParameter)
-            .set(containsEmoji: false)
             .set(typePage: .feed)
         tracker.trackEvent(.userMessageSent(info: trackingInfo, isProfessional: nil))
         chatWrapper.sendMessageFor(listing: listing, type: type) { [weak self] isFirstMessage in
@@ -885,10 +884,6 @@ extension FeedViewModel: ListingActionDelegate {
     }
     
     private func openProChat(_ listing: Listing, interlocutor: LocalUser) {
-        let trackHelper = ProductVMTrackHelper(tracker: tracker,
-                                               listing: listing,
-                                               featureFlags: featureFlags)
-        trackHelper.trackChatWithSeller(.feed)
         navigator?.openListingChat(listing,
                                    source: .listingList,
                                    interlocutor: interlocutor)
@@ -1018,10 +1013,13 @@ extension FeedViewModel {
                                                            sectionIdentifier: comingSectionIdentifier,
                                                            pullToRefreshTriggered: pullToRefreshTriggered)
     }
+
+    
     
     private func trackFirstMessage(info: SendMessageTrackingInfo,
                                    sectionedFeedChatTrackingInfo: SectionedFeedChatTrackingInfo?,
                                    listing: Listing) {
+
         sectionedFeedVMTrackerHelper.trackFirstMessage(info: info,
                                                        listingVisitSource: listingVisitSource,
                                                        sectionedFeedChatTrackingInfo: sectionedFeedChatTrackingInfo,

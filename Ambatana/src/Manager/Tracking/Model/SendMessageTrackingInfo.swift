@@ -31,18 +31,10 @@ final class SendMessageTrackingInfo {
         params[.messageType] = messageType.rawValue
         return self
     }
-    
-    @discardableResult
-    func set(containsEmoji: Bool) -> Self {
-        params[.chatContainsEmoji] = containsEmoji
-        return self
-    }
 
     @discardableResult
     func set(quickAnswerTypeParameter: String?) -> Self {
         params[.quickAnswerType] = quickAnswerTypeParameter
-        let isQuickAnswer: EventParameterBoolean = quickAnswerTypeParameter != nil ? .trueParameter : .falseParameter
-        params[.quickAnswer] = isQuickAnswer.rawValue
         return self
     }
 
@@ -79,16 +71,6 @@ final class SendMessageTrackingInfo {
 
     func set(isVideo: EventParameterBoolean) -> Self {
         params[.isVideo] = isVideo.rawValue
-        return self
-    }
-
-    @discardableResult
-    func set(assistantMeeting: AssistantMeeting?, isSuggestedPlace: Bool?) -> Self {
-        guard let assistantMeeting = assistantMeeting else { return self }
-        params[.meetingMessageType] = EventParameterAssistantMeetingType(meetingMessageType: assistantMeeting.meetingType).rawValue
-        params[.meetingDate] = assistantMeeting.date?.formattedForTracking() ?? TrackerEvent.notApply
-        params[.meetingLocation] = assistantMeeting.locationName ?? TrackerEvent.notApply
-        params[.suggestedLocation] = EventParameterBoolean(bool: isSuggestedPlace).rawValue
         return self
     }
     

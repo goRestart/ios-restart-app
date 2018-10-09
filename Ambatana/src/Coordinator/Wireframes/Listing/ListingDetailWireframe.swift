@@ -93,7 +93,6 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
         let vc = editAssembly.buildEditView(listing: listing,
-                                            pageType: nil,
                                             purchases: purchases,
                                             listingCanBeBoosted: listingCanBeBoosted,
                                             timeSinceLastBump: timeSinceLastBump,

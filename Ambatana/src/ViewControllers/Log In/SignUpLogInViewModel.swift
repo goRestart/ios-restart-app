@@ -337,9 +337,7 @@ class SignUpLogInViewModel: BaseViewModel {
                     strongSelf.sessionManager.login(signUpForm.email, password: signUpForm.password) { [weak self] loginResult in
                         guard let strongSelf = self else { return }
                         if let _ = loginResult.value {
-                            let rememberedAccount = strongSelf.previousEmail.value != nil
-                            let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
-                                                                       rememberedAccount: rememberedAccount)
+                            let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
                             strongSelf.tracker.trackEvent(trackerEvent)
                             strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
                                 self?.close(completion: self?.onLoginCallback)
@@ -394,8 +392,7 @@ class SignUpLogInViewModel: BaseViewModel {
             if let user = loginResult.value {
                 self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
                 
-                let rememberedAccount = strongSelf.previousEmail.value != nil
-                let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
+                let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
                 self?.tracker.trackEvent(trackerEvent)
                 
                 self?.delegate?.vmHideLoading(nil) { [weak self] in
@@ -587,14 +584,14 @@ class SignUpLogInViewModel: BaseViewModel {
         let contact = UIAction(
             interface: .button(R.Strings.loginScammerAlertContactButton, .primary(fontSize: .medium)),
             action: {
-                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .accountUnderReview))
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
                 self.close(completion: { self.router?.open(url: contactURL) })
         })
         let keepBrowsing = UIAction(
             interface: .button(R.Strings.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
                                                                                          withBorder: false)),
             action: {
-                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .accountUnderReview))
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
                 self.close(completion: nil)
         })
         
@@ -607,7 +604,7 @@ class SignUpLogInViewModel: BaseViewModel {
             andActions: actions
         )
         
-        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .accountUnderReview))
+        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
     }
 
     private func showDeviceNotAllowedAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
@@ -622,7 +619,7 @@ class SignUpLogInViewModel: BaseViewModel {
         let contact = UIAction(
             interface: .button(R.Strings.loginDeviceNotAllowedAlertContactButton, .primary(fontSize: .medium)),
             action: {
-                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .secondDevice))
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
                 self.close(completion: { self.router?.open(url: contactURL) })
         })
         
@@ -630,7 +627,7 @@ class SignUpLogInViewModel: BaseViewModel {
             interface: .button(R.Strings.loginDeviceNotAllowedAlertOkButton, .secondary(fontSize: .medium,
                                                                                         withBorder: false)),
             action: {
-                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .secondDevice))
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
                 self.close(completion: nil)
         })
         
@@ -640,7 +637,7 @@ class SignUpLogInViewModel: BaseViewModel {
             andType: .iconAlert(icon: R.Asset.IconsButtons.icDeviceBlockedAlert.image),
             andActions: [contact, keepBrowsing])
         
-        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .secondDevice))
+        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
     }
     
     private func persistLogInProcessed() {
@@ -669,8 +666,7 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func trackLoginFBOK() {
-        let rememberedAccount = previousFacebookUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource))
     }
 
     private func trackLoginFBFailedWithError(_ error: EventParameterLoginError) {
@@ -678,8 +674,7 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func trackLoginGoogleOK() {
-        let rememberedAccount = previousGoogleUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource))
     }
 
     private func trackLoginGoogleFailedWithError(_ error: EventParameterLoginError) {

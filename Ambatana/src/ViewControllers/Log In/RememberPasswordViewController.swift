@@ -13,7 +13,6 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     // ViewModel
     var viewModel: RememberPasswordViewModel
 
-
     @IBOutlet weak var darkAppereanceBgView: UIView!
     @IBOutlet weak var kenBurnsView: KenBurnsView!
     

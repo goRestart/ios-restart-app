@@ -293,7 +293,7 @@ final class UserProfileViewModelSpec: BaseViewModelSpec, ProfileTabNavigator, Us
 
     func closeProfile() {}
 
-    func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {}
+    func editListing(_ listing: Listing) {}
 
     func openAvatarDetail(isPrivate: Bool, user: User) {}
     

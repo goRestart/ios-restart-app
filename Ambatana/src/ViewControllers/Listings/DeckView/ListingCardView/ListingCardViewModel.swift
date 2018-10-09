@@ -732,8 +732,6 @@ extension ListingCardViewModel {
 
     func chatWithSeller() {
         guard let seller = sellerRelay.value else { return }
-        let source: EventParameterTypePage = .listingDetail
-        trackHelper.trackChatWithSeller(source)
         navigator?.openListingChat(listingRelay.value, source: .listingDetail, interlocutor: seller)
     }
 

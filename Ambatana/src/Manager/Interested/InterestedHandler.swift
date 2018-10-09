@@ -73,7 +73,7 @@ final class InterestedHandler: InterestedHandleable {
         let interestedAction = retrieveInterestedActionFor(listing, userListing: userListing)
         switch interestedAction {
         case .openChatProUser:
-            trackChatWithSeller(listing: listing)
+            break
         case .openChatNonProUser:
             stateCompletion(.seeConversation)
         case .askPhoneProUser, .triggerInterestedAction:
@@ -84,12 +84,17 @@ final class InterestedHandler: InterestedHandleable {
     
     func handleCancellableInterestedAction(_ listing: Listing,
                                            timer: Observable<Any>,
+                                           feedPosition: EventParameterFeedPosition?,
+                                           sectionPosition: EventParameterSectionPosition?,
                                            typePage: EventParameterTypePage,
                                            completion: @escaping (InterestedState) -> Void) {
         timer.subscribe { [weak self] (event) in
             guard event.error == nil else {
                 completion(.seeConversation)
-                self?.sendMessage(forListing: listing, typePage: typePage)
+                self?.sendMessage(forListing: listing,
+                                  feedPosition: nil,
+                                  sectionPosition: nil,
+                                  typePage: typePage)
                 return
             }
             completion(.send(enabled: true))
@@ -97,7 +102,10 @@ final class InterestedHandler: InterestedHandleable {
         }.disposed(by: disposeBag)
     }
     
-    private func sendMessage(forListing listing: Listing, typePage: EventParameterTypePage) {
+    private func sendMessage(forListing listing: Listing,
+                             feedPosition: EventParameterFeedPosition?,
+                             sectionPosition: EventParameterSectionPosition?,
+                             typePage: EventParameterTypePage) {
         interestedStateUpdater.addInterestedState(forListing: listing, completion: nil)
         let type: ChatWrapperMessageType
         if featureFlags.randomImInterestedMessages.isActive {
@@ -110,19 +118,15 @@ final class InterestedHandler: InterestedHandleable {
         trackUserMessageSent(trackingInfo: trackingInfo)
         chatWrapper.sendMessageFor(listing: listing, type: type) { [weak self] isFirstMessage in
             guard let isFirstMessage = isFirstMessage.value, isFirstMessage else { return }
-            self?.trackFirstMessage(trackingInfo: trackingInfo, listing: listing)
+            self?.trackFirstMessage(trackingInfo: trackingInfo,
+                                    feedPosition: feedPosition,
+                                    sectionPosition: sectionPosition,
+                                    listing: listing)
         }
     }
     
     
     // MARK - Tracking
-    
-    private func trackChatWithSeller(listing: Listing) {
-        let trackHelper = ProductVMTrackHelper(tracker: tracker,
-                                               listing: listing,
-                                               featureFlags: featureFlags)
-        trackHelper.trackChatWithSeller(.feed)
-    }
     
     private func trackUndoSendingInterestedMessage() {
         tracker.trackEvent(TrackerEvent.undoSentMessage())
@@ -135,7 +139,6 @@ final class InterestedHandler: InterestedHandleable {
             .makeWith(type: type, listing: listing)
             .set(typePage: .listingList)
             .set(isBumpedUp: .falseParameter)
-            .set(containsEmoji: false)
             .set(typePage: typePage)
         return trackingInfo
     }
@@ -144,11 +147,14 @@ final class InterestedHandler: InterestedHandleable {
         tracker.trackEvent(.userMessageSent(info: trackingInfo, isProfessional: nil))
     }
     
-    private func trackFirstMessage(trackingInfo: SendMessageTrackingInfo, listing: Listing) {
+    private func trackFirstMessage(trackingInfo: SendMessageTrackingInfo,
+                                   feedPosition: EventParameterFeedPosition?,
+                                   sectionPosition: EventParameterSectionPosition?,
+                                   listing: Listing) {
         let event = TrackerEvent.firstMessage(info: trackingInfo,
                                               listingVisitSource: .listingList,
-                                              feedPosition: .none,
-                                              sectionPosition: .none,
+                                              feedPosition: feedPosition ?? .none,
+                                              sectionPosition: sectionPosition ?? .none,
                                               userBadge: .noBadge,
                                               containsVideo: EventParameterBoolean(bool: listing.containsVideo()),
                                               isProfessional: nil,

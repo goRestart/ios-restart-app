@@ -3,7 +3,6 @@ import LGCoreKit
 
 protocol EditListingAssembly {
     func buildEditView(listing: Listing,
-                       pageType: EventParameterTypePage?,
                        purchases: [BumpUpProductData],
                        listingCanBeBoosted: Bool,
                        timeSinceLastBump: TimeInterval?,
@@ -19,7 +18,6 @@ enum EditListingBuilder {
 
 extension EditListingBuilder: EditListingAssembly {
     func buildEditView(listing: Listing,
-                       pageType: EventParameterTypePage?,
                        purchases: [BumpUpProductData],
                        listingCanBeBoosted: Bool,
                        timeSinceLastBump: TimeInterval?,
@@ -27,7 +25,6 @@ extension EditListingBuilder: EditListingAssembly {
                        onEditAction: OnEditActionable?,
                        onCancelEditAction: OnEditActionable?) -> UIViewController {
         let vm = EditListingViewModel(listing: listing,
-                                      pageType: pageType,
                                       purchases: purchases,
                                       listingCanBeBoosted: listingCanBeBoosted,
                                       timeSinceLastBump: timeSinceLastBump,

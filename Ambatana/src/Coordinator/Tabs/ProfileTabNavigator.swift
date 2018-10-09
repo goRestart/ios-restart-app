@@ -10,7 +10,7 @@ import LGCoreKit
 protocol ProfileTabNavigator: TabNavigator, PublicProfileNavigator {
     func openSettings()
     func openEditUserBio()
-    func editListing(_ listing: Listing, pageType: EventParameterTypePage?)
+    func editListing(_ listing: Listing)
     func openUserVerificationView()
     func closeProfile()
     func openSmokeTest(feature: LGSmokeTestFeature, userAvatarInfo: UserAvatarInfo?)

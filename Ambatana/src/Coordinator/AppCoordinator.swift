@@ -575,7 +575,6 @@ extension AppCoordinator: AppNavigator {
                             purchases: [BumpUpProductData],
                             maxCountdown: TimeInterval) {
         let vc = editAssembly.buildEditView(listing: listing,
-                                            pageType: nil,
                                             purchases: purchases,
                                             listingCanBeBoosted: false,
                                             timeSinceLastBump: nil,
@@ -1300,7 +1299,7 @@ fileprivate extension AppCoordinator {
             switch result {
             case .success:
                 navCtl.dismissLoadingMessageAlert()
-                let event = TrackerEvent.loginEmail(.passwordless, rememberedAccount: false)
+                let event = TrackerEvent.loginEmail(.passwordless)
                 self?.tracker.trackEvent(event)
             case .failure:
                 let message = R.Strings.commonErrorGenericBody

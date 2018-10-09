@@ -315,6 +315,8 @@
 		0A686D9A2164D722000A23DE /* ListingAttributesBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A686D982164D722000A23DE /* ListingAttributesBuilder.swift */; };
 		0A686D9C2164DFF1000A23DE /* UICollectionView+Bug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A686D9B2164DFF1000A23DE /* UICollectionView+Bug.swift */; };
 		0A686D9D2164DFF1000A23DE /* UICollectionView+Bug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A686D9B2164DFF1000A23DE /* UICollectionView+Bug.swift */; };
+		0A686D9F21663421000A23DE /* Collection+Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A686D9E21663421000A23DE /* Collection+Index.swift */; };
+		0A686DA02166348D000A23DE /* Collection+Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A686D9E21663421000A23DE /* Collection+Index.swift */; };
 		0A6BAC1E1FC58D680008A703 /* ListingCardViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */; };
 		0A6D88BF1F7CED6900819E89 /* DeepLinksRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */; };
 		0A6D88C41F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */; };
@@ -2953,6 +2955,7 @@
 		0A6650DB20BBF51500BD1F2B /* EditLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationView.swift; sourceTree = "<group>"; };
 		0A686D982164D722000A23DE /* ListingAttributesBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingAttributesBuilder.swift; sourceTree = "<group>"; };
 		0A686D9B2164DFF1000A23DE /* UICollectionView+Bug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Bug.swift"; sourceTree = "<group>"; };
+		0A686D9E21663421000A23DE /* Collection+Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Index.swift"; sourceTree = "<group>"; };
 		0A6BAC1D1FC58D680008A703 /* ListingCardViewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewCellModel.swift; sourceTree = "<group>"; };
 		0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksRouterSpec.swift; sourceTree = "<group>"; };
 		0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkTargetCategory.json; sourceTree = "<group>"; };
@@ -7509,6 +7512,7 @@
 				421CB34A207BBE5E006BF8A4 /* Collection+Safe.swift */,
 				425B40A620A99981000968CF /* MKMapView+Location.swift */,
 				C6FFC47320F49A9F00B9F53A /* NumberFormatter+LG.swift */,
+				0A686D9E21663421000A23DE /* Collection+Index.swift */,
 			);
 			path = FoundationExtensions;
 			sourceTree = "<group>";
@@ -10547,6 +10551,7 @@
 				097BC1D32149255E0024D9F8 /* P2PPaymentsEnterPayCodeViewModel.swift in Sources */,
 				6A77E4CB215E398F00F98E33 /* ReportWireframe.swift in Sources */,
 				0A3C143121232FBD00C836F7 /* PaymentFrequency+LG.swift in Sources */,
+				0A686D9F21663421000A23DE /* Collection+Index.swift in Sources */,
 				F57D3A2D1FED017A006F2CA4 /* UIRoundedLabelWithPadding.swift in Sources */,
 				50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */,
 				2E2208E81DD4BD1100FB2483 /* EmptyCell.swift in Sources */,
@@ -12018,6 +12023,7 @@
 				0904D89B213F310C00D5D554 /* P2PPaymentsCreateOfferBuyerInfoView.swift in Sources */,
 				0A760FF21FA0B7930055F2B6 /* ListingDeckViewModel.swift in Sources */,
 				0AE6F4F820F8CC7700D58BCE /* SearchViewController.swift in Sources */,
+				0A686DA02166348D000A23DE /* Collection+Index.swift in Sources */,
 				72FE02E01F98D38F005BD672 /* PostingAddDetailPriceView.swift in Sources */,
 				3237C69D21072A4400B7359B /* ErrorView.swift in Sources */,
 				2ECB417F2008CC6900482EF7 /* AdvertisementCell.swift in Sources */,

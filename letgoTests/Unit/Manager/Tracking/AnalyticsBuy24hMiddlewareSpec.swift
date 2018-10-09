@@ -26,10 +26,7 @@ final class AnalyticsBuy24hMiddlewareSpec: QuickSpec {
                         .set(messageType: .text)
                         .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .listingDetail)
-                        .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
-                        .set(containsEmoji: true)
-                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
                     event = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                       listingVisitSource: .listingList,
                                                       feedPosition: .position(index:1),

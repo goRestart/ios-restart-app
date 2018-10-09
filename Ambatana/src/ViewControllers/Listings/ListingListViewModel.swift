@@ -34,19 +34,11 @@ protocol ListingListViewModelDataDelegate: class {
 struct ListingsRequesterResult {
     let listingsResult: ListingsResult
     let context: String?
-    let verticalTrackingInfo: VerticalTrackingInfo?
 
-    init(listingsResult: ListingsResult, context: String?, verticalTrackingInfo: VerticalTrackingInfo? = nil) {
+    init(listingsResult: ListingsResult, context: String?) {
         self.listingsResult = listingsResult
         self.context = context
-        self.verticalTrackingInfo = verticalTrackingInfo
     }
-}
-
-struct VerticalTrackingInfo {
-    let category: ListingCategory
-    let keywords: [String]
-    let matchingFields: [String]
 }
 
 private enum Layout {
@@ -442,8 +434,7 @@ final class ListingListViewModel: BaseViewModel {
             }
 
             strongSelf.applyNewListingInfo(hasNewListing: !newListings.isEmpty,
-                                           context: result.context,
-                                           verticalTracking: result.verticalTrackingInfo)
+                                           context: result.context)
             
             let cellModels = strongSelf.mapListingsToCellModels(newListings,
                                                                 pageNumber: nextPageNumber,
@@ -501,13 +492,10 @@ final class ListingListViewModel: BaseViewModel {
         return indexes
     }
     
-    private func applyNewListingInfo(hasNewListing: Bool, context: String?, verticalTracking: VerticalTrackingInfo?) {
+    private func applyNewListingInfo(hasNewListing: Bool, context: String?) {
         guard hasNewListing else { return }
         if let context = context {
             indexToTitleMapping[numberOfListings] = context
-        }
-        if let verticalTrackingInfo = verticalTracking {
-            trackVerticalFilterResults(withVerticalTrackingInfo: verticalTrackingInfo)
         }
     }
 
@@ -853,13 +841,6 @@ extension ListingListViewModel {
         reporter.report(CrashlyticsReporter.appDomain,
                         code: errorCode ?? 0,
                         message: "Listing list empty state shown -> \(reason.rawValue)")
-    }
-
-    func trackVerticalFilterResults(withVerticalTrackingInfo info: VerticalTrackingInfo) {
-        let event = TrackerEvent.listingListVertical(category: info.category,
-                                                     keywords: info.keywords,
-                                                     matchingFields: info.matchingFields)
-        tracker.trackEvent(event)
     }
 }
 
