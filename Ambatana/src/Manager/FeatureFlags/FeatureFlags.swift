@@ -91,7 +91,6 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Products
     var simplifiedChatButton: SimplifiedChatButton { get }
-    var frictionlessShare: FrictionlessShare { get }
     var turkeyFreePosting: TurkeyFreePosting { get }
     var bulkPosting: BulkPosting{ get }
     var makeAnOfferButton: MakeAnOfferButton { get }
@@ -316,10 +315,6 @@ extension AdvancedReputationSystem13 {
 }
 
 // MARK: Products
-
-extension FrictionlessShare {
-    var isActive: Bool { return self == .active }
-}
 
 extension TurkeyFreePosting {
     var isActive: Bool { return self == .active }
@@ -1242,13 +1237,6 @@ extension FeatureFlags {
             return Bumper.simplifiedChatButton
         }
         return SimplifiedChatButton.fromPosition(abTests.simplifiedChatButton.value)
-    }
-
-    var frictionlessShare: FrictionlessShare {
-        if Bumper.enabled {
-            return Bumper.frictionlessShare
-        }
-        return FrictionlessShare.fromPosition(abTests.frictionlessShare.value)
     }
 
     var turkeyFreePosting: TurkeyFreePosting {

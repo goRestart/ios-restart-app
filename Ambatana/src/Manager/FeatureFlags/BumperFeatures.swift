@@ -50,7 +50,6 @@ extension Bumper  {
         flags.append(OpenChatFromUserProfile.self)
         flags.append(SearchAlertsInSearchSuggestions.self)
         flags.append(EngagementBadging.self)
-        flags.append(FrictionlessShare.self)
         flags.append(ShowCommunity.self)
         flags.append(ExpressChatImprovement.self)
         flags.append(SmartQuickAnswers.self)
@@ -530,19 +529,6 @@ extension Bumper  {
     static var engagementBadgingObservable: Observable<EngagementBadging> {
         return Bumper.observeValue(for: EngagementBadging.key).map {
             EngagementBadging(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var frictionlessShare: FrictionlessShare {
-        guard let value = Bumper.value(for: FrictionlessShare.key) else { return .control }
-        return FrictionlessShare(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var frictionlessShareObservable: Observable<FrictionlessShare> {
-        return Bumper.observeValue(for: FrictionlessShare.key).map {
-            FrictionlessShare(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1561,22 +1547,6 @@ enum EngagementBadging: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[RETENTION] Show recent items bubble in feed basic approach" } 
     static func fromPosition(_ position: Int) -> EngagementBadging {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum FrictionlessShare: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return FrictionlessShare.control.rawValue }
-    static var enumValues: [FrictionlessShare] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Open facebook share dialog in congrats screen" } 
-    static func fromPosition(_ position: Int) -> FrictionlessShare {
         switch position { 
             case 0: return .control
             case 1: return .baseline
