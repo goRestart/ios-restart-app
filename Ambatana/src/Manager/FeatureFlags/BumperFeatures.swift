@@ -39,7 +39,6 @@ extension Bumper  {
         flags.append(PersonalizedFeed.self)
         flags.append(OffensiveReportAlert.self)
         flags.append(FullScreenAdsWhenBrowsingForUS.self)
-        flags.append(PredictivePosting.self)
         flags.append(PreventMessagesFromFeedToProUsers.self)
         flags.append(SimplifiedChatButton.self)
         flags.append(ShowChatConnectionStatusBar.self)
@@ -388,19 +387,6 @@ extension Bumper  {
     static var fullScreenAdsWhenBrowsingForUSObservable: Observable<FullScreenAdsWhenBrowsingForUS> {
         return Bumper.observeValue(for: FullScreenAdsWhenBrowsingForUS.key).map {
             FullScreenAdsWhenBrowsingForUS(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var predictivePosting: PredictivePosting {
-        guard let value = Bumper.value(for: PredictivePosting.key) else { return .control }
-        return PredictivePosting(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var predictivePostingObservable: Observable<PredictivePosting> {
-        return Bumper.observeValue(for: PredictivePosting.key).map {
-            PredictivePosting(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1407,22 +1393,6 @@ enum FullScreenAdsWhenBrowsingForUS: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .adsForAllUsers
             case 3: return .adsForOldUsers
-            default: return .control
-        }
-    }
-}
-
-enum PredictivePosting: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return PredictivePosting.control.rawValue }
-    static var enumValues: [PredictivePosting] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Show predictive posting flow when pressing Other Items on salchichas menu" } 
-    static func fromPosition(_ position: Int) -> PredictivePosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }

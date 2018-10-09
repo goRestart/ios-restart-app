@@ -74,9 +74,7 @@ final class SellCoordinator: Coordinator {
             self.viewController = navigationController
             getStartedVM.navigator = self
         } else {
-            let language = Locale.systemLanguage()
-            let machineLearningSupported = featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
-                                                                                         language: language)
+            let machineLearningSupported = featureFlags.predictivePostingAllowedFor(postCategory: postCategory)
             let isBulkPosting = featureFlags.bulkPosting.supportsCategory(category: postCategory)
             let postListingVM = PostListingViewModel(source: source,
                                                      postCategory: postCategory,
@@ -147,9 +145,7 @@ extension SellCoordinator: PostListingNavigator {
     }
 
     func closePostProductAndContinueBulkPosting(listings: [Listing], source: PostingSource, listingTitle: String?) {
-        let language = Locale.systemLanguage()
-        let machineLearningSupported = featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
-                                                                                     language: language)
+        let machineLearningSupported = featureFlags.predictivePostingAllowedFor(postCategory: postCategory)
         let isBulkPosting = featureFlags.bulkPosting.supportsCategory(category: postCategory)
         let postListingVM = PostListingViewModel(source: source,
                                                  postCategory: postCategory,
@@ -271,9 +267,7 @@ extension SellCoordinator: PostListingNavigator {
         let vc = bulkPostingPostedAssembly.buildListingPosted(listings: listings, postAgainAction: { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
             let postCategory: PostCategory? = nil
-            let language = Locale.systemLanguage()
-            let machineLearningSupported = strongSelf.featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
-                                                                                                    language: language)
+            let machineLearningSupported = strongSelf.featureFlags.predictivePostingAllowedFor(postCategory: postCategory)
             let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
                                                      postCategory: .otherItems(listingCategory: nil),
                                                      listingTitle: nil,
@@ -412,9 +406,7 @@ extension SellCoordinator: ListingPostedNavigator {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
             let postCategory: PostCategory? = nil
-            let language = Locale.systemLanguage()
-            let machineLearningSupported = strongSelf.featureFlags.predictivePosting.isSupportedFor(postCategory: postCategory,
-                                                                                         language: language)
+            let machineLearningSupported = strongSelf.featureFlags.predictivePostingAllowedFor(postCategory: postCategory)
             let isBulkPosting = strongSelf.featureFlags.bulkPosting.supportsCategory(category: postCategory)
             let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
                                                      postCategory: postCategory,

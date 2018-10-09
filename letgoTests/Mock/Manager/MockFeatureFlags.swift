@@ -35,6 +35,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     // Country dependant features
     var freePostingModeAllowed = false
     var shouldHightlightFreeFilterInFeed = false
+    func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool { return false }
 
     var postingFlowType: PostingFlowType = .standard
     var locationRequiresManualChangeSuggestion = false
@@ -95,7 +96,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var newSearchAPI: NewSearchAPIEndPoint = .control
     
     //  MARK:  Products
-    var predictivePosting: PredictivePosting = .control
     var simplifiedChatButton: SimplifiedChatButton = .control
     var frictionlessShare: FrictionlessShare = .control
     var turkeyFreePosting: TurkeyFreePosting = .control

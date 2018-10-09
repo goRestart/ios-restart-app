@@ -115,11 +115,6 @@
         "description": "[MONEY] Show full screen Interstitial while browsing through items"
     },
     {
-        "name": "PredictivePosting",
-        "values": ["control", "baseline", "active"],
-        "description": "[PRODUCTS] Show predictive posting flow when pressing Other Items on salchichas menu"
-    },
-    {
         "name": "PreventMessagesFromFeedToProUsers",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] If buyer taps 'I'm interested' button in the feed and the listing is from a PRO user, show the phone number request screen"
