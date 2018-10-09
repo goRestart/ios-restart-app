@@ -27,6 +27,20 @@ protocol SocialMessageConvertible {
     func retrieveSocialMessage() -> SocialMessage?
 }
 
+protocol ListingSocialMessageConvertible: SocialMessageConvertible {
+    var listingId: String? { get }
+}
+
+protocol UserProfileSocialMessageConvertible: SocialMessageConvertible {
+    var userToId: String? { get }
+}
+
+protocol FeedSocialMessageTrackeable {
+    var searchString: String? { get }
+    var feedSource: EventParameterFeedSource { get }
+}
+
+
 // MARK: - SocialMessage
 
 protocol SocialMessage {

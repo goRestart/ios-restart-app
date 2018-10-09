@@ -1700,10 +1700,67 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDetailPreview, params: params)
     }
     
-    static func userDidTakeScreenshot() -> TrackerEvent {
-        return TrackerEvent(name: .screenshot, params: nil)
+    static func userDidTakeScreenshot(type: ScreenshotType?) -> TrackerEvent {
+        var params = EventParameters()
+        if let type = type?.trackingType {
+            params[.typeScreenshot] = type.rawValue
+        }
+        if let listingId = type?.listingId {
+            params[.listingId] = listingId
+        }
+        if let feedSource = type?.feedSource {
+            params[.feedSource] = feedSource.rawValue
+        }
+        if let userToId = type?.userToId {
+            params[.userToId] = userToId
+        }
+        if let searchString = type?.searchString {
+            params[.searchString] = searchString
+        }
+        return TrackerEvent(name: .screenshot, params: params)
     }
-
+    
+    static func shareScreenshot(type: ScreenshotType) -> TrackerEvent {
+        var params = EventParameters()
+        if let trackingType = type.trackingType {
+            params[.typeScreenshot] = trackingType.rawValue
+        }
+        if let listingId = type.listingId {
+            params[.listingId] = listingId
+        }
+        if let feedSource = type.feedSource {
+            params[.feedSource] = feedSource.rawValue
+        }
+        if let userToId = type.userToId {
+            params[.userToId] = userToId
+        }
+        if let searchString = type.searchString {
+            params[.searchString] = searchString
+        }
+        return TrackerEvent(name: .screenshotShare, params: params)
+    }
+    
+    static func shareScreenshotComplete(type: ScreenshotType, network: EventParameterShareNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        if let trackingType = type.trackingType {
+            params[.typeScreenshot] = trackingType.rawValue
+        }
+        if let listingId = type.listingId {
+            params[.listingId] = listingId
+        }
+        if let feedSource = type.feedSource {
+            params[.feedSource] = feedSource.rawValue
+        }
+        if let userToId = type.userToId {
+            params[.userToId] = userToId
+        }
+        if let searchString = type.searchString {
+            params[.searchString] = searchString
+        }
+        params[.shareNetwork] = network.rawValue
+        return TrackerEvent(name: .screenshotShareComplete, params: params)
+    }
+    
     static func sessionOneMinuteFirstWeek() -> TrackerEvent {
         return TrackerEvent(name: .sessionOneMinuteFirstWeek, params: nil)
     }

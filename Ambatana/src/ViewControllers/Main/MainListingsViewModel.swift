@@ -468,6 +468,25 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     private var canShowServicePromoCells: Bool {
         return featureFlags.servicesPromoCells.isActive && filters.isJobsAndServicesSearch
     }
+
+    var feedSource: EventParameterFeedSource {
+        if let search = searchType, search.isCollection {
+            return .collection
+        }
+        if searchType == nil {
+            if hasFilters {
+                return .filter
+            }
+        } else {
+            if hasFilters {
+                return .searchAndFilter
+            } else {
+                return .search
+            }
+        }
+        return .home
+    }
+    
     
     // MARK: - Lifecycle
     
@@ -1941,24 +1960,6 @@ fileprivate extension MainListingsViewModel {
         }
         
         return .listingList
-    }
-    
-    var feedSource: EventParameterFeedSource {
-        if let search = searchType, search.isCollection {
-            return .collection
-        }
-        if searchType == nil {
-            if hasFilters {
-                return .filter
-            }
-        } else {
-            if hasFilters {
-                return .searchAndFilter
-            } else {
-                return .search
-            }
-        }
-        return .home
     }
 
     private func trackRequestSuccess(page: UInt,

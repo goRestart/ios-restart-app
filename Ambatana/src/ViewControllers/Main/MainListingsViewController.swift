@@ -89,6 +89,14 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
         return listingListView.headerDelegate?.totalHeaderHeight() ?? 0
     }
     
+    var searchString: String? {
+        return viewModel.searchString
+    }
+    
+    var feedSource: EventParameterFeedSource {
+        return viewModel.feedSource
+    }
+    
     // MARK: - Lifecycle
 
     required init(viewModel: MainListingsViewModel) {

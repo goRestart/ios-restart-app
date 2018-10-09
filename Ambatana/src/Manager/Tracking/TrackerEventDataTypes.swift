@@ -210,6 +210,8 @@ enum EventName: String {
     case productDetailPreview               = "product-detail-preview"
 
     case screenshot                         = "os-screenshot"
+    case screenshotShare                    = "screenshot-share"
+    case screenshotShareComplete            = "screenshot-share-complete"
 
     case sessionOneMinuteFirstWeek          = "session-one-minute-first-week"
     
@@ -530,6 +532,8 @@ enum EventParameterName: String {
     case numberOfInvitees   = "number-of-invites"
     case rewardCampaignsAvailable = "reward-campaigns-available"
 
+    // Screenshot
+    case typeScreenshot     = "type-screenshot"
 }
 
 enum EventParameterBoolean: String {
@@ -1724,6 +1728,13 @@ enum EventParameterSectionName {
         }
     }
 
+}
+
+enum EventParameterScreenshotType: String {
+    case listingList        = "product-list"
+    case profileVisit       = "profile-visit"
+    case listingDetailVisit = "product-detail-visit"
+    case searchComplete     = "search-complete"
 }
 
 struct EventParameters {

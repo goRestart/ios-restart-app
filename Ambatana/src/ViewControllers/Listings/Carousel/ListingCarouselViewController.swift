@@ -4,7 +4,8 @@ import RxCocoa
 import LGComponents
 import GoogleMobileAds
 
-final class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
+final class ListingCarouselViewController: KeyboardViewController,
+    AnimatableTransition, ListingSocialMessageConvertible {
     
     private struct Layout {
         static let pageControlArbitraryTopMargin: CGFloat = 40
@@ -661,6 +662,17 @@ final class ListingCarouselViewController: KeyboardViewController, AnimatableTra
             shouldHideStatusBar = false
             setNeedsStatusBarAppearanceUpdate()
         }
+    }
+    
+    
+    // MARK: - ListingSocialMessageConvertible
+    
+    var listingId: String? {
+        return viewModel.currentListingViewModel?.listing.value.objectId
+    }
+    
+    func retrieveSocialMessage() -> SocialMessage? {
+        return viewModel.makeSocialMessage()
     }
 }
 
@@ -1443,12 +1455,6 @@ extension ListingCarouselViewController {
                           animated flag: Bool, completion: (() -> Void)? = nil) {
         viewControllerToPresent.modalPresentationStyle = .overFullScreen
         super.present(viewControllerToPresent, animated: flag, completion: completion)
-    }
-}
-
-extension ListingCarouselViewController {
-    func retrieveSocialMessage() -> SocialMessage? {
-        return viewModel.makeSocialMessage()
     }
 }
 

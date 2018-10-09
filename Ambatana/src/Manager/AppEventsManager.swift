@@ -1,6 +1,72 @@
 import Foundation
 import LGCoreKit
 
+struct ScreenshotData {
+    let type: ScreenshotType
+    let socialMessage: SocialMessage
+}
+
+enum ScreenshotType {
+    case profile(userToId: String)
+    case listingDetail(listingId: String)
+    case searchComplete(searchString: String, feedSource: EventParameterFeedSource)
+    case listingList(feedSource: EventParameterFeedSource)
+    case other
+    
+    var trackingType: EventParameterScreenshotType? {
+        switch self {
+        case .profile:
+            return .profileVisit
+        case .listingDetail:
+            return .listingDetailVisit
+        case .searchComplete:
+            return .searchComplete
+        case .listingList:
+            return .listingList
+        case .other:
+            return nil
+        }
+    }
+    
+    var listingId: String? {
+        switch self {
+        case .listingDetail(let listingId):
+            return listingId
+        case .profile, .searchComplete, .listingList, .other:
+            return nil
+        }
+    }
+    
+    var feedSource: EventParameterFeedSource? {
+        switch self {
+        case .listingList(let feedSource):
+            return feedSource
+        case .searchComplete(_, let feedSource):
+            return feedSource
+        case .profile, .listingDetail, .other:
+            return nil
+        }
+    }
+    
+    var searchString: String? {
+        switch self {
+        case .searchComplete(let searchString, _):
+            return searchString
+        case .profile, .listingDetail, .listingList, .other:
+            return nil
+        }
+    }
+    
+    var userToId: String? {
+        switch self {
+        case .profile(let userToId):
+            return userToId
+        case .other, .listingDetail, .searchComplete, .listingList:
+            return nil
+        }
+    }
+}
+
 final class AppEventsManager {
 
     static let sharedInstance: AppEventsManager = AppEventsManager()
@@ -30,36 +96,55 @@ final class AppEventsManager {
     }
 
     @objc func userDidTakeScreenshot(_ notification: Notification) {
-        defer { trackScreenshotEvent() }
+        guard let topVC = UIApplication.getTopMostViewController() else {
+            trackScreenshotEvent(screenshotType: nil)
+            return
+        }
+        let screenshotData = processScreenshot(topVC: topVC)
+        trackScreenshotEvent(screenshotType: screenshotData.type)
+
         guard featureFlags.shareAfterScreenshot.isActive else { return }
-        guard let topVC = UIApplication.getTopMostViewController() else { return }
         guard isNavigableToShareScreenshot(viewController: topVC) else { return }
         guard let image = UIApplication.shared.takeWindowSnapshot() else { return }
         let shareScreenshotAssembly = LGShareScreenshotBuilder.modal(root: topVC)
-        let socialMessage = makeSocialMessage(topVC: topVC)
-        
         let shareScreenshotVC = shareScreenshotAssembly.buildShareScreenshot(screenshotImage: image,
-                                                                             socialMessage: socialMessage)
+                                                                             screenshotData: screenshotData)
         topVC.navigationController?.present(shareScreenshotVC, animated: false, completion: nil)
     }
     
     
-    // MARK: - Social message generator
+    // MARK: - Screenshot processor
     
-    private func makeSocialMessage(topVC: UIViewController) -> SocialMessage {
-        let socialMessage: SocialMessage
+    private func processScreenshot(topVC: UIViewController) -> ScreenshotData {
         let myUserId = myUserRepository.myUser?.objectId
         let myUserName = myUserRepository.myUser?.name
+        let screenshotType: ScreenshotType
+        let socialMessage: SocialMessage
         if let profileViewController = topVC as? UserProfileViewController,
-            let profileSocialMessage = profileViewController.retrieveSocialMessage() {
+            let profileSocialMessage = profileViewController.retrieveSocialMessage(),
+            let userToId = profileViewController.userToId {
+            screenshotType = .profile(userToId: userToId)
             socialMessage = profileSocialMessage
         } else if let listingViewController = topVC as? ListingCarouselViewController,
-            let listingSocialMessage = listingViewController.retrieveSocialMessage() {
+            let listingSocialMessage = listingViewController.retrieveSocialMessage(),
+            let listingId = listingViewController.listingId {
+            screenshotType = .listingDetail(listingId: listingId)
             socialMessage = listingSocialMessage
+        } else if let feedViewController = topVC as? MainListingsViewController,
+            let searchString = feedViewController.searchString {
+            let feedSource = feedViewController.feedSource
+            screenshotType = .searchComplete(searchString: searchString, feedSource: feedSource)
+            socialMessage = AppShareSocialMessage(myUserId: myUserId, myUserName: myUserName)
+        } else if let feedViewController = topVC as? MainListingsViewController {
+            let feedSource = feedViewController.feedSource
+            screenshotType = .listingList(feedSource: feedSource)
+            socialMessage = AppShareSocialMessage(myUserId: myUserId, myUserName: myUserName)
         } else {
+            screenshotType = .other
             socialMessage = AppShareSocialMessage(myUserId: myUserId, myUserName: myUserName)
         }
-        return socialMessage
+        return ScreenshotData(type: screenshotType,
+                              socialMessage: socialMessage)
     }
     
     private func isNavigableToShareScreenshot(viewController: UIViewController) -> Bool {
@@ -72,8 +157,8 @@ final class AppEventsManager {
     
     // MARK: - Tracking
     
-    private func trackScreenshotEvent() {
-        let event = TrackerEvent.userDidTakeScreenshot()
+    private func trackScreenshotEvent(screenshotType: ScreenshotType?) {
+        let event = TrackerEvent.userDidTakeScreenshot(type: screenshotType)
         tracker.trackEvent(event)
     }
 }

@@ -4,7 +4,7 @@ import RxCocoa
 import LGCoreKit
 import LGComponents
 
-final class UserProfileViewController: BaseViewController {
+final class UserProfileViewController: BaseViewController, UserProfileSocialMessageConvertible {
 
     // Data
 
@@ -410,6 +410,15 @@ final class UserProfileViewController: BaseViewController {
             tableView.contentSize.height = listingView.minimumContentHeight
         }
     }
+ 
+    
+    // MARK: - UserProfileSocialMessageConvertible
+    
+    var userToId: String?
+    
+    func retrieveSocialMessage() -> SocialMessage? {
+        return viewModel.makeSocialMessage()
+    }
 }
 
 // MARK: - NavigationBar actions
@@ -542,11 +551,6 @@ extension UserProfileViewController: UserRatingListViewModelDelegate {
     }
 }
 
-extension UserProfileViewController: SocialMessageConvertible {
-    func retrieveSocialMessage() -> SocialMessage? {
-        return viewModel.makeSocialMessage()
-    }
-}
 
 // MARK: - Rx
 
@@ -562,6 +566,13 @@ extension UserProfileViewController {
     }
 
     private func setupHeaderRxBindings() {
+        viewModel
+            .userId
+            .drive(onNext: { [weak self] userId in
+                self?.userToId = userId
+            })
+            .disposed(by: disposeBag)
+        
         viewModel
             .userName
             .drive(onNext: { [weak self] userName in

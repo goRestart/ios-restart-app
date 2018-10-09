@@ -5663,15 +5663,175 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("Taking an screenshot") {
-                beforeEach {
-                    sut = TrackerEvent.userDidTakeScreenshot()
+            describe("screenshot sharing") {
+                describe("Taking an screenshot") {
+                    context("control variant, does not display share view") {
+                        beforeEach {
+                            sut = TrackerEvent.userDidTakeScreenshot(type: nil)
+                        }
+                        it("has its event name") {
+                            expect(sut.name.rawValue).to(equal("os-screenshot"))
+                        }
+                        it("the information is empty") {
+                            expect(sut.params?.params).to(be([:]))
+                        }
+                    }
+                    
+                    context("displays a share view") {
+                        context("screenshot taken in listing detail") {
+                            beforeEach {
+                                sut = TrackerEvent.userDidTakeScreenshot(type: .listingDetail(listingId: "listingIdValue"))
+                            }
+                            it("has its event name") {
+                                expect(sut.name.rawValue).to(equal("os-screenshot"))
+                            }
+                            it("has screenshot-type parameter") {
+                                expect(sut.params!.stringKeyParams["type-screenshot"] as? String).to(equal("product-detail-visit"))
+                            }
+                            it("has product-id parameter") {
+                                expect(sut.params!.stringKeyParams["product-id"] as? String).to(equal("listingIdValue"))
+                            }
+                            it("has not user-to-id parameter") {
+                                expect(sut.params!.stringKeyParams["user-to-id"]).to(beNil())
+                            }
+                            it("has not feed-source parameter") {
+                                expect(sut.params!.stringKeyParams["feed-source"]).to(beNil())
+                            }
+                            it("has not search-keyword parameter") {
+                                expect(sut.params!.stringKeyParams["search-keyword"]).to(beNil())
+                            }
+                        }
+                        
+                        context("screenshot taken in a different view than feed, profile or item detail") {
+                            beforeEach {
+                                sut = TrackerEvent.userDidTakeScreenshot(type: .other)
+                            }
+                            it("has its event name") {
+                                expect(sut.name.rawValue).to(equal("os-screenshot"))
+                            }
+                            it("has not screenshot-type parameter") {
+                                expect(sut.params!.stringKeyParams["type-screenshot"]).to(beNil())
+                            }
+                            it("has not product-id parameter") {
+                                expect(sut.params!.stringKeyParams["product-id"]).to(beNil())
+                            }
+                            it("has not user-to-id parameter") {
+                                expect(sut.params!.stringKeyParams["user-to-id"]).to(beNil())
+                            }
+                            it("has not feed-source parameter") {
+                                expect(sut.params!.stringKeyParams["feed-source"]).to(beNil())
+                            }
+                            it("has not search-keyword parameter") {
+                                expect(sut.params!.stringKeyParams["search-keyword"]).to(beNil())
+                            }
+                        }
+                    }
                 }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("os-screenshot"))
+                
+                describe("start sharing a screenshot") {
+                    context("screenshot in profile") {
+                        beforeEach {
+                            sut = TrackerEvent.shareScreenshot(type: ScreenshotType.profile(userToId: "userToId"))
+                        }
+                        it("has its event name") {
+                            expect(sut.name.rawValue).to(equal("screenshot-share"))
+                        }
+                        it("has screenshot-type parameter") {
+                            expect(sut.params!.stringKeyParams["type-screenshot"] as? String).to(equal("profile-visit"))
+                        }
+                        it("has not product-id parameter") {
+                            expect(sut.params!.stringKeyParams["product-id"]).to(beNil())
+                        }
+                        it("has not user-to-id parameter") {
+                            expect(sut.params!.stringKeyParams["user-to-id"] as? String).to(equal("userToId"))
+                        }
+                        it("has not feed-source parameter") {
+                            expect(sut.params!.stringKeyParams["feed-source"]).to(beNil())
+                        }
+                        it("has not search-keyword parameter") {
+                            expect(sut.params!.stringKeyParams["search-keyword"]).to(beNil())
+                        }
+                    }
+                    
+                    context("screenshot taken in a different view than feed, profile or item detail") {
+                        beforeEach {
+                            sut = TrackerEvent.shareScreenshot(type: .other)
+                        }
+                        it("has its event name") {
+                            expect(sut.name.rawValue).to(equal("screenshot-share"))
+                        }
+                        it("has screenshot-type parameter") {
+                            expect(sut.params!.stringKeyParams["type-screenshot"]).to(beNil())
+                        }
+                        it("has not product-id parameter") {
+                            expect(sut.params!.stringKeyParams["product-id"]).to(beNil())
+                        }
+                        it("has not user-to-id parameter") {
+                            expect(sut.params!.stringKeyParams["type-screenshot"]).to(beNil())
+                        }
+                        it("has not feed-source parameter") {
+                            expect(sut.params!.stringKeyParams["feed-source"]).to(beNil())
+                        }
+                        it("has not search-keyword parameter") {
+                            expect(sut.params!.stringKeyParams["search-keyword"]).to(beNil())
+                        }
+                    }
                 }
-                it("the information is empty") {
-                    expect(sut.params?.params).to(beNil())
+                
+                describe("screenshot share complete") {
+                    context("screenshot in feed search") {
+                        beforeEach {
+                            sut = TrackerEvent.shareScreenshotComplete(type: .searchComplete(searchString: "laptop", feedSource: .search), network: .facebook)
+                        }
+                        it("has its event name") {
+                            expect(sut.name.rawValue).to(equal("screenshot-share-complete"))
+                        }
+                        it("has screenshot-type parameter") {
+                            expect(sut.params!.stringKeyParams["type-screenshot"] as? String).to(equal("search-complete"))
+                        }
+                        it("has not product-id parameter") {
+                            expect(sut.params!.stringKeyParams["product-id"]).to(beNil())
+                        }
+                        it("has not user-to-id parameter") {
+                            expect(sut.params!.stringKeyParams["user-to-id"]).to(beNil())
+                        }
+                        it("has not feed-source parameter") {
+                            expect(sut.params!.stringKeyParams["feed-source"] as? String).to(equal("search"))
+                        }
+                        it("has not search-keyword parameter") {
+                            expect(sut.params!.stringKeyParams["search-keyword"] as? String).to(equal("laptop"))
+                        }
+                        it("has share-network parameter") {
+                            expect(sut.params!.stringKeyParams["share-network"] as? String).to(equal("facebook"))
+                        }
+                    }
+                    
+                    context("screenshot in feed but not search source") {
+                        beforeEach {
+                            sut = TrackerEvent.shareScreenshotComplete(type: .listingList(feedSource: .home), network: .whatsapp)
+                        }
+                        it("has its event name") {
+                            expect(sut.name.rawValue).to(equal("screenshot-share-complete"))
+                        }
+                        it("has screenshot-type parameter") {
+                            expect(sut.params!.stringKeyParams["type-screenshot"] as? String).to(equal("product-list"))
+                        }
+                        it("has not product-id parameter") {
+                            expect(sut.params!.stringKeyParams["product-id"]).to(beNil())
+                        }
+                        it("has not user-to-id parameter") {
+                            expect(sut.params!.stringKeyParams["user-to-id"]).to(beNil())
+                        }
+                        it("has not feed-source parameter") {
+                            expect(sut.params!.stringKeyParams["feed-source"] as? String).to(equal("home"))
+                        }
+                        it("has not search-keyword parameter") {
+                            expect(sut.params!.stringKeyParams["search-keyword"]).to(beNil())
+                        }
+                        it("has share-network parameter") {
+                            expect(sut.params!.stringKeyParams["share-network"] as? String).to(equal("whatsapp"))
+                        }
+                    }
                 }
             }
 

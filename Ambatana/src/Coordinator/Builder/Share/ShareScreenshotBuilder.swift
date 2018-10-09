@@ -1,5 +1,6 @@
 protocol ShareScreenshotAssembly {
-    func buildShareScreenshot(screenshotImage: UIImage, socialMessage: SocialMessage) -> UIViewController
+    func buildShareScreenshot(screenshotImage: UIImage,
+                              screenshotData: ScreenshotData) -> UIViewController
 }
 
 enum LGShareScreenshotBuilder {
@@ -7,10 +8,12 @@ enum LGShareScreenshotBuilder {
 }
 
 extension LGShareScreenshotBuilder: ShareScreenshotAssembly {
-    func buildShareScreenshot(screenshotImage: UIImage, socialMessage: SocialMessage) -> UIViewController {
+    func buildShareScreenshot(screenshotImage: UIImage,
+                              screenshotData: ScreenshotData) -> UIViewController {
         switch self {
         case .modal(let root):
-            let vm = ShareScreenshotViewModel(screenshotImage: screenshotImage, socialMessage: socialMessage)
+            let vm = ShareScreenshotViewModel(screenshotImage: screenshotImage,
+                                              screenshotData: screenshotData)
             vm.navigator = ShareScreenshotWireframe(root: root)
             return ShareScreenshotViewController(viewModel: vm)
         }
