@@ -979,7 +979,7 @@
 "post_description_info_title" = "ANNONSEINFORMASJON";
 "post_description_name_placeholder" = "Navn";
 "post_description_save_button_text" = "Lagre denne annonsen!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "Publiser bedriftens logo eller et bilde som viser jobben du tilbyr";
 "post_details_jobs_services_camera_message" = "Publiser bedriftens logo eller et bilde som viser tjenesten eller jobben du tilbyr";
 "post_details_jobs_services_congratulation_add_more_details" = "ved å legge til flere detaljer:";
 "post_details_jobs_services_congratulation_improve_listing" = "Forbedre din annonse";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "Prøv igjen";
 "product_post_select_category_cars" = "Biler";
 "product_post_select_category_housing" = "Bolig til utleie / salgs";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "Jobber";
 "product_post_select_category_jobs_services" = "Jobber & tjenester";
 "product_post_select_category_motors_and_accessories" = "Andre kjøretøyer og bildeler";
 "product_post_select_category_other" = "Andre produkter";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Annet";
 "smoketest_feedback_send" = "Send";
 "smoketest_feedback_subtitle" = "Vi tester for tiden %@ og ønsker din tilbakemelding. Vennligst hjelp oss å forbedre tjenesten.";
-"smoketest_feedback_tell_us" = "Fortell oss mer";
+"smoketest_feedback_tell_us" = "Fortell oss mer:";
+"smoketest_feedback_tell_us_placeholder" = "Legg til din kommentar her";
 "smoketest_feedback_title" = "Hvorfor ville ikke du brukt det?";
 "smoketest_recommended" = "Anbefalt";
 "smoketest_thank_you_register_interest" = "Vi har registrert din interesse.";

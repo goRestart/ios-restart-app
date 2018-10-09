@@ -979,7 +979,7 @@
 "post_description_info_title" = "DADOS DA PUBLICAÇÃO";
 "post_description_name_placeholder" = "Alterar nome";
 "post_description_save_button_text" = "Guardar este anúncio!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "Publique o logótipo da sua empresa ou uma foto que mostre o trabalho que está a oferecer";
 "post_details_jobs_services_camera_message" = "Publique o logótipo da sua empresa ou uma foto que mostre o serviço ou trabalho que está a oferecer";
 "post_details_jobs_services_congratulation_add_more_details" = "adicionando mais detalhes:";
 "post_details_jobs_services_congratulation_improve_listing" = "Melhore o seu anúncio";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "Tente novamente";
 "product_post_select_category_cars" = "Viaturas";
 "product_post_select_category_housing" = "Imobiliário para Arrendar / Vender";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "Trabalhos";
 "product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Outros Veículos e Peças";
 "product_post_select_category_other" = "Outros itens";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Outro";
 "smoketest_feedback_send" = "Enviar";
 "smoketest_feedback_subtitle" = "Estamos atualmente a testar o %@ e gostaríamos de saber o que pensa. Ajude-nos a melhorar.";
-"smoketest_feedback_tell_us" = "Conte-nos mais";
+"smoketest_feedback_tell_us" = "Conte-nos mais:";
+"smoketest_feedback_tell_us_placeholder" = "Introduza aqui os seus comentários";
 "smoketest_feedback_title" = "Por que não utilizá-lo?";
 "smoketest_recommended" = "Recomendado";
 "smoketest_thank_you_register_interest" = "Registamos o seu interesse.";

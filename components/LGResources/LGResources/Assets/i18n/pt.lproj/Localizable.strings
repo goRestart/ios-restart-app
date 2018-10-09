@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Other";
 "smoketest_feedback_send" = "Send";
 "smoketest_feedback_subtitle" = "We are currently testing %@ and we'd like to hear your feedback. Please help us improve.";
-"smoketest_feedback_tell_us" = "Tell us more";
+"smoketest_feedback_tell_us" = "Tell us more:";
+"smoketest_feedback_tell_us_placeholder" = "Enter your comments here";
 "smoketest_feedback_title" = "Why wouldn’t you use it?";
 "smoketest_recommended" = "Recommended";
 "smoketest_thank_you_register_interest" = "We've registered your interest.";

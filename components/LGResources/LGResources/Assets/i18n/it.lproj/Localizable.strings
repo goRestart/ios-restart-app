@@ -979,7 +979,7 @@
 "post_description_info_title" = "INFORMAZIONI ANNUNCIO";
 "post_description_name_placeholder" = "Nome";
 "post_description_save_button_text" = "Salva questo annuncio!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "Pubblica il logo della tua azienda o una foto che mostri il lavoro da te offerto";
 "post_details_jobs_services_camera_message" = "Pubblica il logo della tua azienda o una foto che mostri il servizio o il lavoro da te offerto";
 "post_details_jobs_services_congratulation_add_more_details" = "aggiungendo altri dettagli:";
 "post_details_jobs_services_congratulation_improve_listing" = "Migliora il tuo annuncio";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "Riprova";
 "product_post_select_category_cars" = "Auto";
 "product_post_select_category_housing" = "Alloggi in vendita o affitto";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "Lavoro";
 "product_post_select_category_jobs_services" = "Lavori e servizi";
 "product_post_select_category_motors_and_accessories" = "Altri veicoli e ricambi";
 "product_post_select_category_other" = "Altri articoli";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Altro";
 "smoketest_feedback_send" = "Invia";
 "smoketest_feedback_subtitle" = "Stiamo attualmente testando %@ e ci piacerebbe avere il tuo feedback. Grazie per il tuo aiuto.";
-"smoketest_feedback_tell_us" = "Dicci qualcosa in più";
+"smoketest_feedback_tell_us" = "Dicci qualcosa in più :";
+"smoketest_feedback_tell_us_placeholder" = "Enter your comments here";
 "smoketest_feedback_title" = "Perché non lo utilizzi tu?";
 "smoketest_recommended" = "Consigliati";
 "smoketest_thank_you_register_interest" = "Abbiamo registrato il tuo interesse!";

@@ -979,7 +979,7 @@
 "post_description_info_title" = "INFORMATION";
 "post_description_name_placeholder" = "Namn";
 "post_description_save_button_text" = "Spara annonsen!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "Lägg upp din företagslogga eller en bild som visar vilket slags jobb du erbjuder";
 "post_details_jobs_services_camera_message" = "Lägg upp din företagslogga eller en bild som visar vilken tjänst eller vilket obb du erbjuder";
 "post_details_jobs_services_congratulation_add_more_details" = "med flera detaljer:";
 "post_details_jobs_services_congratulation_improve_listing" = "Förbättra din annons";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "Försök igen";
 "product_post_select_category_cars" = "Bilar";
 "product_post_select_category_housing" = "Bostad Uthyres / Säljes";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "Jobb";
 "product_post_select_category_jobs_services" = "Jobb & Tjänster";
 "product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
 "product_post_select_category_other" = "Något annat";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Annat";
 "smoketest_feedback_send" = "Skicka";
 "smoketest_feedback_subtitle" = "Vi testar för närvarande %@ och skulle gärna veta vad du tycker. Din feedback hjälper oss att bli ännu bättre.";
-"smoketest_feedback_tell_us" = "Berätta mer";
+"smoketest_feedback_tell_us" = "Berätta mer:";
+"smoketest_feedback_tell_us_placeholder" = "Lämna dina kommentarer här";
 "smoketest_feedback_title" = "Varför skulle du inte använda den?";
 "smoketest_recommended" = "Rekommenderat";
 "smoketest_thank_you_register_interest" = "Dina åsikter är viktiga för oss.";

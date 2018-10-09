@@ -979,7 +979,7 @@
 "post_description_info_title" = "상품 목록 정보";
 "post_description_name_placeholder" = "이름";
 "post_description_save_button_text" = "해당 상품 목록 저장하기!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "기업 로고를 게시하거나 서비스 혹은 제공하는 서비스를 보여줄 수 있는 사진을 게시해주세요";
 "post_details_jobs_services_camera_message" = "기업 로고를 게시하거나 서비스 혹은 제공하는 직업을 보여줄 수 있는 사진을 게시해주세요";
 "post_details_jobs_services_congratulation_add_more_details" = "상세 내역 추가하기:";
 "post_details_jobs_services_congratulation_improve_listing" = "게시글을 효과적으로 만들어보세요";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "다시 시도하기";
 "product_post_select_category_cars" = "자동차";
 "product_post_select_category_housing" = "매매/임대용 부동산";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "직업";
 "product_post_select_category_jobs_services" = "구직 & 서비스";
 "product_post_select_category_motors_and_accessories" = "다른 운송 수단들과 부품들";
 "product_post_select_category_other" = "기타 제품";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "기타";
 "smoketest_feedback_send" = "발송";
 "smoketest_feedback_subtitle" = "저희는 현재 %@를 테스트하고 있으며, 사용자분의 피드백을 기다리고 있습니다. 저희가 발전할 수 있도록 도움을주세요.";
-"smoketest_feedback_tell_us" = "자세한 설명을 입력해주세요";
+"smoketest_feedback_tell_us" = "의견 제시하기 :";
+"smoketest_feedback_tell_us_placeholder" = "Enter your comments here";
 "smoketest_feedback_title" = "사용하지 않으신 사유를 여쭤봐도 될까요?";
 "smoketest_recommended" = "추천사항";
 "smoketest_thank_you_register_interest" = "관심목록을 등록하였습니다.";

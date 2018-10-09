@@ -3664,8 +3664,10 @@ extension R {
     public static func smoketestFeedbackSubtitle(_ p1: String) -> String {
       return Strings.tr("Localizable", "smoketest_feedback_subtitle", p1)
     }
-    /// Tell us more
+    /// Tell us more:
     public static let smoketestFeedbackTellUs = Strings.tr("Localizable", "smoketest_feedback_tell_us")
+    /// Enter your comments here
+    public static let smoketestFeedbackTellUsPlaceholder = Strings.tr("Localizable", "smoketest_feedback_tell_us_placeholder")
     /// Why wouldn’t you use it?
     public static let smoketestFeedbackTitle = Strings.tr("Localizable", "smoketest_feedback_title")
     /// Recommended
