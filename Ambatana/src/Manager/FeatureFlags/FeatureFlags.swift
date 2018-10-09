@@ -28,8 +28,6 @@ protocol FeatureFlaggeable: class {
     var showPasswordlessLogin: ShowPasswordlessLogin { get }
     
     // Country dependant features
-    var freePostingModeAllowed: Bool { get }
-    var shouldHightlightFreeFilterInFeed: Bool { get }
     func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool
 
     var postingFlowType: PostingFlowType { get }
@@ -91,7 +89,6 @@ protocol FeatureFlaggeable: class {
 
     // MARK: Products
     var simplifiedChatButton: SimplifiedChatButton { get }
-    var turkeyFreePosting: TurkeyFreePosting { get }
     var bulkPosting: BulkPosting{ get }
     var makeAnOfferButton: MakeAnOfferButton { get }
 
@@ -315,10 +312,6 @@ extension AdvancedReputationSystem13 {
 }
 
 // MARK: Products
-
-extension TurkeyFreePosting {
-    var isActive: Bool { return self == .active }
-}
 
 extension BulkPosting {
     var isActive: Bool { return self != .control && self != .baseline }
@@ -689,22 +682,6 @@ final class FeatureFlags: FeatureFlaggeable {
     }
 
     // MARK: - Country features
-
-    var freePostingModeAllowed: Bool {
-        switch locationCountryCode {
-        case .turkey?:
-            return turkeyFreePosting.isActive
-        default:
-            return true
-        }
-    }
-
-    var shouldHightlightFreeFilterInFeed: Bool {
-        switch locationCountryCode {
-        case .turkey?: return freePostingModeAllowed // just for turkey
-        default: return false
-        }
-    }
 
     func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool {
         if #available(iOS 11, *), postCategory?.listingCategory.isProduct ?? false {
@@ -1237,13 +1214,6 @@ extension FeatureFlags {
             return Bumper.simplifiedChatButton
         }
         return SimplifiedChatButton.fromPosition(abTests.simplifiedChatButton.value)
-    }
-
-    var turkeyFreePosting: TurkeyFreePosting {
-        if Bumper.enabled {
-            return Bumper.turkeyFreePosting
-        }
-        return TurkeyFreePosting.fromPosition(abTests.turkeyFreePosting.value)
     }
 
     var bulkPosting: BulkPosting {

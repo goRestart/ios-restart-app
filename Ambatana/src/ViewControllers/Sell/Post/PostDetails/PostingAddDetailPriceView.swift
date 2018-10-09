@@ -19,7 +19,6 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
     private var textFieldContainerHeightConstraint = NSLayoutConstraint()
     
     private let currencySymbol: String?
-    private let freeEnabled: Bool
     
     var priceListing = Variable<ListingPrice>(SharedConstants.defaultPrice)
     
@@ -28,9 +27,8 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
     
     // MARK - Lifecycle
     
-    init(currencySymbol: String?, freeEnabled: Bool, frame: CGRect) {
+    init(currencySymbol: String?, frame: CGRect) {
         self.currencySymbol = currencySymbol
-        self.freeEnabled = freeEnabled
         super.init(frame: frame)
         setupUI()
         setupConstraints()
@@ -67,9 +65,6 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
         freeLabel.textAlignment = .left
         freeLabel.textColor = UIColor.white
         freeLabel.font = UIFont.systemBoldFont(size: 26)
-        
-        contentSwitchView.isHidden = !freeEnabled
-        separatorView.isHidden = !freeEnabled
         
         currencyLabel.text = currencySymbol
         freeLabel.text = R.Strings.sellPostFreeLabel

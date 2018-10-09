@@ -217,8 +217,7 @@ final class FiltersViewModel: BaseViewModel {
 
     func saveFilters() {
         TrackerProxy.sharedInstance.trackEvent(.filterComplete(productFilter,
-                                                               carSellerType: trackCarSellerType,
-                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed))
+                                                               carSellerType: trackCarSellerType))
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
     }
     
@@ -239,10 +238,7 @@ final class FiltersViewModel: BaseViewModel {
     }
 
     private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
-        var filterCarItems: [FilterCategoryItem] = [.category(category: .cars)]
-        if featureFlags.freePostingModeAllowed {
-            filterCarItems.append(.free)
-        }
+        let filterCarItems: [FilterCategoryItem] = [.category(category: .cars), .free]
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCarItems + builtCategories
     }

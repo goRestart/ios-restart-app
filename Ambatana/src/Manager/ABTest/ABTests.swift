@@ -232,7 +232,6 @@ extension ABTests {
 extension ABTests {
     var simplifiedChatButton: LeanplumABVariable<Int> { return products.simplifiedChatButton }
     var deckItemPage: LeanplumABVariable<Int> { return products.deckItemPage }
-    var turkeyFreePosting: LeanplumABVariable<Int> { return products.turkeyFreePosting }
     var bulkPosting: LeanplumABVariable<Int> { return products.bulkPosting }
     var makeAnOfferButton: LeanplumABVariable<Int> { return products.makeAnOfferButton }
 }

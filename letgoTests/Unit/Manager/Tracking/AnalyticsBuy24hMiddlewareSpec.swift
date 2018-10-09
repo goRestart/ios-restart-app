@@ -22,7 +22,7 @@ final class AnalyticsBuy24hMiddlewareSpec: QuickSpec {
                 beforeEach {
                     let listing = Listing.makeMock()
                     let sendMessageInfo = SendMessageTrackingInfo()
-                        .set(listing: listing, freePostingModeAllowed: true)
+                        .set(listing: listing)
                         .set(messageType: .text)
                         .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .listingDetail)

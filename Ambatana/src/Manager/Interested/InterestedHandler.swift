@@ -132,7 +132,7 @@ final class InterestedHandler: InterestedHandleable {
                                              listing: Listing,
                                              typePage: EventParameterTypePage) -> SendMessageTrackingInfo {
         let trackingInfo = SendMessageTrackingInfo
-            .makeWith(type: type, listing: listing, freePostingAllowed: featureFlags.freePostingModeAllowed)
+            .makeWith(type: type, listing: listing)
             .set(typePage: .listingList)
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: false)

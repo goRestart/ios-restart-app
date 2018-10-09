@@ -107,7 +107,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, frame: .zero)
-        drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()

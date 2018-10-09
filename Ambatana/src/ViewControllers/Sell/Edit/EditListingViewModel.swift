@@ -393,7 +393,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
 
         self.shouldShareInFB = false
-        self.isFreePosting.value = featureFlags.freePostingModeAllowed && listing.price.isFree
+        self.isFreePosting.value = listing.price.isFree
         self.pageType = pageType
 
         let listingHasPaymentInfo = purchases.hasPaymentIds
@@ -957,7 +957,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func generatePrice() -> ListingPrice {
-        guard !(isFreePosting.value && featureFlags.freePostingModeAllowed) else { return .free }
+        guard !isFreePosting.value else { return .free }
         guard let actualPrice = price else { return .normal(0.0) }
         let priceValue = actualPrice.toPriceDouble()
         return .normal(priceValue)
@@ -1354,8 +1354,7 @@ extension EditListingViewModel {
         if (initialListing.name ?? "") != (listing.name ?? "") {
             editedFields.append(.title)
         }
-        if initialListing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) !=
-            listing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) {
+        if initialListing.priceString() != listing.priceString() {
             editedFields.append(.price)
         }
         if (initialListing.descr ?? "") != (listing.descr ?? "") {

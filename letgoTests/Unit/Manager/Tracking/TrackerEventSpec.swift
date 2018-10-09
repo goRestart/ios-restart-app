@@ -1087,7 +1087,7 @@ class TrackerEventSpec: QuickSpec {
             describe("filterComplete") {
                 context("receiving all params") {
                     beforeEach {
-                        sut = TrackerEvent.filterComplete(ListingFilters.makeMock(), carSellerType: "professional", freePostingModeAllowed: true)
+                        sut = TrackerEvent.filterComplete(ListingFilters.makeMock(), carSellerType: "professional")
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -1179,7 +1179,7 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         var mockFilter = ListingFilters()
                         mockFilter.distanceType = .km
-                        sut = TrackerEvent.filterComplete(mockFilter, carSellerType: nil, freePostingModeAllowed: false)
+                        sut = TrackerEvent.filterComplete(mockFilter, carSellerType: nil)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -1215,8 +1215,8 @@ class TrackerEventSpec: QuickSpec {
                     it("max price") {
                         expect(sut.params!.stringKeyParams["price-to"] as? String) == "false"
                     }
-                    it("free posting") {
-                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == TrackerEvent.notApply
+                    it("free posting false by default") {
+                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == "false"
                     }
                     it ("seller type") {
                         expect(sut.params!.stringKeyParams["seller-type"] as? String).to(beNil())
@@ -1895,7 +1895,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     listing = Listing.product(mockProduct)
                     sendMessageInfo = SendMessageTrackingInfo()
-                        .set(listing: listing, freePostingModeAllowed: true)
+                        .set(listing: listing)
                         .set(messageType: .text)
                         .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .listingDetail)
@@ -2396,7 +2396,6 @@ class TrackerEventSpec: QuickSpec {
 
                     let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(product),
                                                                    isBumpedUp: .trueParameter,
-                                                                   isFreePostingModeAllowed: true,
                                                                    typePage: .listingDetail)
                     sut = TrackerEvent.listingMarkAsSold(trackingInfo: trackingInfo)
                 }
@@ -2456,7 +2455,6 @@ class TrackerEventSpec: QuickSpec {
                                                           countryCode: "US", country: nil)
                     let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(product),
                                                                    isBumpedUp: .trueParameter,
-                                                                   isFreePostingModeAllowed: true,
                                                                    typePage: .listingDetail).updating(buyerId: "buyerId")
                     sut = TrackerEvent.listingMarkAsSoldAtLetgo(trackingInfo: trackingInfo)
                 }
@@ -2514,7 +2512,6 @@ class TrackerEventSpec: QuickSpec {
                     
                     let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(product),
                                                                    isBumpedUp: .trueParameter,
-                                                                   isFreePostingModeAllowed: true,
                                                                    typePage: .listingDetail)
                     sut = TrackerEvent.listingMarkAsSoldOutsideLetgo(trackingInfo: trackingInfo)
                 }
@@ -2920,7 +2917,6 @@ class TrackerEventSpec: QuickSpec {
                                                            negotiable: .yes,
                                                            pictureSource: .gallery,
                                                            videoLength: nil,
-                                                           freePostingModeAllowed: true,
                                                            typePage: .sell,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
@@ -3029,7 +3025,6 @@ class TrackerEventSpec: QuickSpec {
                                                            negotiable: .yes,
                                                            pictureSource: .videoCamera,
                                                            videoLength: 12,
-                                                           freePostingModeAllowed: true,
                                                            typePage: .sell,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
@@ -3139,7 +3134,6 @@ class TrackerEventSpec: QuickSpec {
                                                            negotiable: .yes,
                                                            pictureSource: .gallery,
                                                            videoLength: nil,
-                                                           freePostingModeAllowed: true,
                                                            typePage: .sell,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
@@ -3267,7 +3261,6 @@ class TrackerEventSpec: QuickSpec {
                                                            negotiable: .yes,
                                                            pictureSource: .gallery,
                                                            videoLength: nil,
-                                                           freePostingModeAllowed: true,
                                                            typePage: .sell,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
@@ -3967,7 +3960,7 @@ class TrackerEventSpec: QuickSpec {
                                                               status: .pending)
 
                     sendMessageInfo = SendMessageTrackingInfo()
-                        .set(listing: .product(product), freePostingModeAllowed: true)
+                        .set(listing: .product(product))
                         .set(messageType: .text)
                         .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .chat)
@@ -4138,7 +4131,7 @@ class TrackerEventSpec: QuickSpec {
                     let error: EventParameterChatError = .serverError(code: 404)
 
                     sendMessageInfo = SendMessageTrackingInfo()
-                        .set(listing: .product(product), freePostingModeAllowed: true)
+                        .set(listing: .product(product))
                         .set(messageType: .text)
                         .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .chat)
@@ -7071,7 +7064,6 @@ class TrackerEventSpec: QuickSpec {
                                                                        negotiable: nil,
                                                                        pictureSource: nil,
                                                                        videoLength: nil,
-                                                                       freePostingModeAllowed: false,
                                                                        typePage: .sell,
                                                                        machineLearningTrackingInfo: machineLearningTrackingInfo)
                         sut = TrackerEvent.lister24h(event: sourceEvent)
@@ -7104,7 +7096,7 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         let listing = Listing.makeMock()
                         let sendMessageInfo = SendMessageTrackingInfo()
-                            .set(listing: listing, freePostingModeAllowed: true)
+                            .set(listing: listing)
                             .set(messageType: .text)
                             .set(quickAnswerTypeParameter: nil)
                             .set(typePage: .listingDetail)
@@ -7150,7 +7142,7 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         let listing = Listing.makeMock()
                         let sendMessageInfo = SendMessageTrackingInfo()
-                            .set(listing: listing, freePostingModeAllowed: true)
+                            .set(listing: listing)
                             .set(messageType: .text)
                             .set(quickAnswerTypeParameter: nil)
                             .set(typePage: .listingDetail)
@@ -7187,7 +7179,6 @@ class TrackerEventSpec: QuickSpec {
                                                                        negotiable: nil,
                                                                        pictureSource: nil,
                                                                        videoLength: nil,
-                                                                       freePostingModeAllowed: false,
                                                                        typePage: .sell,
                                                                        machineLearningTrackingInfo: machineLearningTrackingInfo)
                         sut = TrackerEvent.buyerLister24h(event: sourceEvent)
@@ -7249,7 +7240,7 @@ class TrackerEventSpec: QuickSpec {
             
             func makeSendMessageInfo(withProduct product: ChatListing) -> SendMessageTrackingInfo {
                 return SendMessageTrackingInfo()
-                    .set(chatListing: product, freePostingModeAllowed: true)
+                    .set(chatListing: product)
                     .set(interlocutorId: "67890")
                     .set(messageType: .text)
                     .set(quickAnswerTypeParameter: nil)

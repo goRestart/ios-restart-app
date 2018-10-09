@@ -28,7 +28,7 @@ class ListingPriceLGSpec: QuickSpec {
                 context("listingPrice free") {
                     beforeEach {
                         listingPrice = .free
-                        sut = listingPrice.stringValue(currency: currency, isFreeEnabled: true)
+                        sut = listingPrice.stringValue(currency: currency)
                     }
                     it("Free") {
                         expect(sut) == R.Strings.productFreePrice
@@ -37,25 +37,14 @@ class ListingPriceLGSpec: QuickSpec {
                 context("listingPrice normal without price") {
                     beforeEach {
                         listingPrice = .normal(0)
-                        sut = listingPrice.stringValue(currency: currency, isFreeEnabled: true)
+                        sut = listingPrice.stringValue(currency: currency)
                         
                     }
                     it("is negotiable") {
                         expect(sut) == R.Strings.productNegotiablePrice
                     }
                 }
-            }
-            context("stringValue with currency and free disabled") {
-                context("listingPrice free") {
-                    beforeEach {
-                        listingPrice = .free
-                        sut = listingPrice.stringValue(currency: currency, isFreeEnabled: false)
-                    }
-                    it("is negotiable") {
-                        expect(sut) == R.Strings.productNegotiablePrice
-                    }
-                }
-            }
+            }            
 
         }
         
@@ -64,7 +53,7 @@ class ListingPriceLGSpec: QuickSpec {
             context("listingPrice free") {
                 beforeEach {
                     listingPrice = .free
-                    sut = listingPrice.allowFreeFilters(freePostingModeAllowed: true)
+                    sut = listingPrice.allowFreeFilters()
                 }
                 it("true value") {
                     expect(sut) == .trueParameter
@@ -74,20 +63,10 @@ class ListingPriceLGSpec: QuickSpec {
             context("listingPrice NOT free") {
                 beforeEach {
                     listingPrice = .normal(1.0)
-                    sut = listingPrice.allowFreeFilters(freePostingModeAllowed: true)
+                    sut = listingPrice.allowFreeFilters()
                 }
                 it("true value") {
                     expect(sut) == .falseParameter
-                }
-            }
-            
-            context("listingPrice NOT available") {
-                beforeEach {
-                    listingPrice = .normal(1.0)
-                    sut = listingPrice.allowFreeFilters(freePostingModeAllowed: false)
-                }
-                it("true value") {
-                    expect(sut) == .notAvailable
                 }
             }
         }
