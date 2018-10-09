@@ -208,23 +208,6 @@ extension ListingCategory {
         return self == .realEstate || self == .cars || self == .services
     }
 
-    func sortWeight(featureFlags: FeatureFlaggeable) -> Int {
-        switch self {
-        case .cars:
-            return 100
-        case .motorsAndAccessories:
-            return 80
-        case .services:
-            return 70
-        case .realEstate:
-            return 60
-        case .unassigned:
-            return 0    // Usually at bottom
-        default:
-            return 10
-        }
-    }
-
     func index(listingRepository: ListingRepository) -> ((RetrieveListingParams, ListingsCompletion?) -> ()) {
         switch self {
         case .realEstate:

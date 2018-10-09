@@ -63,8 +63,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate {
     // MARK: - UI
     
     private func setupNewBadge() {
-        guard let newBadgeCategory = viewModel.newBadgeCategory,
-            let position = viewModel.categoriesAvailable.index(of: newBadgeCategory) else { return }
+        guard let badgePosition = viewModel.newBadgePosition else { return }
         
         newBadgeView.backgroundColor = .white
         
@@ -79,7 +78,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate {
         newBadgeView.applyDefaultShadow()
         addSubviewForAutoLayout(newBadgeView)
 
-        newBadgeView.layout(with: buttons[position])
+        newBadgeView.layout(with: buttons[badgePosition])
             .right(by: Metrics.veryShortMargin)
             .top(by: -Metrics.veryShortMargin)
     }
@@ -87,31 +86,27 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate {
     private func addButtons() {
         guard !expanded.value else { return }
         
-        viewModel.categoriesAvailable.forEach({ (category) in
-            guard let actionIndex = viewModel.categoriesAvailable.index(of: category) else { return }
+        viewModel.postCategories.enumerated().forEach { index, category in
             
             let button = LetgoButton()
             button.setStyle(.primary(fontSize: .medium))
-            button.tag = actionIndex
+            button.tag = index
             
-            let title = viewModel.buttonTitle(forCategory: category)
-            let icon = viewModel.buttonIcon(forCategory: category)
-            button.setImage(icon, for: .normal)
-            button.setTitle(title, for: .normal)
+            button.setImage(category.menuIcon, for: .normal)
+            button.setTitle(category.menuName, for: .normal)
             button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
             button.set(accessibilityId: .expandableCategorySelectionButton)
-            button.translatesAutoresizingMaskIntoConstraints = false
             button.centerTextAndImage(spacing: 10)
-            addSubview(button)
+            addSubviewForAutoLayout(button)
             
             button.layout(with: self).centerX()
-            button.layout(with: closeButton).above(by: -marginForButtonAtIndex(actionIndex, expanded: expanded.value), constraintBlock: { [weak self] constraint in
-                self?.topConstraints.append(constraint)
-            })
+            button.layout(with: closeButton).above(by: -marginForButtonAtIndex(index, expanded: expanded.value)) { [weak self] in
+                self?.topConstraints.append($0)
+            }
            
             button.layout().height(buttonHeight)
             buttons.append(button)
-        })
+        }
     }
 
     private func setupUI() {
@@ -132,9 +127,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate {
         closeButton.layout().height(buttonCloseSide)
         
         addButtons()
-        if viewModel.newBadgeCategory != nil {
-            setupNewBadge()
-        }
+        setupNewBadge()
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
         tapRecognizer.delegate = self
@@ -207,11 +200,9 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate {
         viewModel.closeButtonAction()
     }
 
-    @objc fileprivate dynamic func buttonPressed(_ button: UIButton) {
-        let buttonIndex = button.tag
-        guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
+    @objc private dynamic func buttonPressed(_ button: UIButton) {
         shrink(animated: true)
-        viewModel.pressCategoryAction(listingCategory: viewModel.categoriesAvailable[buttonIndex])
+        viewModel.pressCategoryAction(index: button.tag)
     }
     
     

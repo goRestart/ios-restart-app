@@ -664,6 +664,7 @@ enum EventParameterPostingType: String {
     case stuff = "stuff"
     case realEstate = "real-estate"
     case service = "service"
+    case job = "job"
     case none = "N/A"
     
     init(category: PostCategory) {
@@ -676,6 +677,8 @@ enum EventParameterPostingType: String {
             self = .realEstate
         case .services:
             self = .service
+        case .jobs:
+            self = .job
         }
     }
 }

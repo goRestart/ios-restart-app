@@ -67,7 +67,7 @@ class PostListingState {
     }
     
     var isService: Bool {
-        return category?.isService ?? false
+        return category?.isServiceOrJob ?? false
     }
     
     var sizeSquareMeters: Int? {
@@ -148,7 +148,7 @@ class PostListingState {
             newStep = .addingDetails
         case .otherItems, .motorsAndAccessories:
             newStep = .finished
-        case .services:
+        case .services, .jobs:
             newStep = .addingDetails
         }
         return PostListingState(step: newStep,
@@ -511,7 +511,7 @@ class PostListingState {
             switch category {
             case .car:
                 newStep = .carDetailsSelection
-            case .realEstate, .services:
+            case .realEstate, .services, .jobs:
                 newStep = .addingDetails
             case .otherItems, .motorsAndAccessories:
                 newStep = .finished

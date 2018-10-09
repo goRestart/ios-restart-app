@@ -98,7 +98,7 @@
 "bump_up_banner_pay_text_improvement_turkish_d" = "Gagnez en visibilité";
 "bump_up_banner_wait_text" = "avant remise en vedette";
 "bump_up_boost_success_alert_text" = "Votre annonce a été boostée ! Elle sera mise en vedette pour les prochaines 24 heures.";
-"bump_up_chat_list_fail_alert" = "This listing can't be featured right now.";
+"bump_up_chat_list_fail_alert" = "Cette annonce ne peut pas être mise en vedette pour le moment.";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors de la mise en vedette de votre annonce. Veuillez réessayer.";
 "bump_up_error_bump_token" = "Votre paiement a été effectué, mais l'annonce n'a pas été mise en vedette.";
 "bump_up_error_payment_failed" = "Impossible de se connecter à l'App Store. Votre paiement n'a pas été traité. Veuillez réessayer.";
@@ -979,6 +979,7 @@
 "post_description_info_title" = "INFORMATIONS SUR L'ANNONCE";
 "post_description_name_placeholder" = "Nom";
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
+"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
 "post_details_jobs_services_camera_message" = "Publiez le logo de votre entreprise ou une photo qui montre le service ou l'emploi que vous proposez";
 "post_details_jobs_services_congratulation_add_more_details" = "en ajoutant plus de détails :";
 "post_details_jobs_services_congratulation_improve_listing" = "Améliorez votre annonce";
@@ -1112,6 +1113,9 @@
 "product_option_edit" = "Modifier annonce";
 "product_option_share" = "Partager l'annonce";
 "product_popular_near_you" = "Populaire à proximité";
+"product_post_camera_bulk_posting_items_label" = "Vos produits (%i)";
+"product_post_camera_bulk_posting_tooltip" = "%@ une autre annonce";
+"product_post_camera_bulk_posting_tooltip_highlighted_word" = "Publier";
 "product_post_camera_first_time_alert_subtitle" = "Prenez une bonne photo et commencez à gagner de l'argent !";
 "product_post_camera_first_time_alert_title" = "Que vendez-vous ?";
 "product_post_camera_gallery_text_button" = "Galerie";
@@ -1181,6 +1185,7 @@
 "product_post_retry_button" = "Réessayer";
 "product_post_select_category_cars" = "Autos";
 "product_post_select_category_housing" = "Logements à Louer / Vendre";
+"product_post_select_category_jobs" = "Jobs";
 "product_post_select_category_jobs_services" = "Emplois & Services";
 "product_post_select_category_motors_and_accessories" = "Véhicules et accessoires";
 "product_post_select_category_other" = "Autres biens";
@@ -1243,7 +1248,7 @@
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Merci d'avoir ajouté votre numéro de téléphone ! Il est toujours mieux de nous appeler en utilisant le bouton d'appel ci-dessus.";
 "profile_ask_verification_button_disabled" = "Demande de vérification envoyée !";
 "profile_ask_verification_button_enabled" = "Demandez à %@ de vérifier son profil";
-"profile_ask_verification_button_enabled_short" = "Ask to verify profile";
+"profile_ask_verification_button_enabled_short" = "Demander de vérifier le profil";
 "profile_bio_add_button" = "Ajouter bio";
 "profile_bio_show_more_button" = "PLUS À PROPOS DE MOI";
 "profile_blocked_by_me_label" = "Vous avez bloqué cet utilisateur";
@@ -1288,7 +1293,7 @@
 "profile_verifications_view_email_title" = "Email";
 "profile_verifications_view_extra_section_title" = "ACHETER & VENDRE";
 "profile_verifications_view_facebook_title" = "Facebook";
-"profile_verifications_view_facebook_unavailable" = "An error occurred while verifying with Facebook";
+"profile_verifications_view_facebook_unavailable" = "Une erreur est survenue lors de la vérification avec Facebook";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 pts par annonce (jusqu'à 10 pts)";
 "profile_verifications_view_mark_as_sold_title" = "Marquer \"Vendu\"";

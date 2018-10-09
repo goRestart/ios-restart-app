@@ -979,6 +979,7 @@
 "post_description_info_title" = "LISTING INFORMATION";
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Save this listing!";
+"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
 "post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
 "post_details_jobs_services_congratulation_add_more_details" = "by adding more details:";
 "post_details_jobs_services_congratulation_improve_listing" = "Improve your listing";
@@ -1112,6 +1113,9 @@
 "product_option_edit" = "Edit listing";
 "product_option_share" = "Share listing";
 "product_popular_near_you" = "Popular near you";
+"product_post_camera_bulk_posting_items_label" = "Your items (%i)";
+"product_post_camera_bulk_posting_tooltip" = "%@ another listing";
+"product_post_camera_bulk_posting_tooltip_highlighted_word" = "Post";
 "product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
 "product_post_camera_first_time_alert_title" = "What are you selling?";
 "product_post_camera_gallery_text_button" = "GALLERY";
@@ -1181,6 +1185,7 @@
 "product_post_retry_button" = "Try Again";
 "product_post_select_category_cars" = "Cars";
 "product_post_select_category_housing" = "Housing for Rent / Sale";
+"product_post_select_category_jobs" = "Jobs";
 "product_post_select_category_jobs_services" = "Jobs & Services";
 "product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_other" = "Other items";

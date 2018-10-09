@@ -103,7 +103,7 @@ final class PostingMultiSelectionView: UIView {
     init(keyboardHelper: KeyboardHelper,
          theme: ListingAttributePickerCell.Theme,
          subtypes: [ServiceSubtype],
-         serviceListingType: ServiceListingType?) {
+         serviceListingType: ServiceListingType) {
         let highlightedItems = subtypes.filter { $0.isHighlighted }
         let subtypesNames = subtypes.map { $0.name }
         self.keyboardHelper = keyboardHelper
@@ -113,7 +113,7 @@ final class PostingMultiSelectionView: UIView {
         self.highlightedItems = highlightedItems.map { $0.name }
         self.filteredValues = highlightedItems.map { $0.name }
         self.selectedIndexes = []
-        self.serviceListingType = serviceListingType ?? .service
+        self.serviceListingType = serviceListingType
         super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()

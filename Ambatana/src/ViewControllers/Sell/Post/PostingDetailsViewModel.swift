@@ -19,7 +19,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             return servicesSubtypesTitle(forListingType: postListingState.serviceAttributes.listingType)
         case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters,
              .offerType, .price, .propertyType, .make, .model,
-             .year, .summary, .servicesListingType, .location:
+             .year, .summary, .location:
             return step.title
         }
     }
@@ -30,7 +30,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             return servicesSubtypesSubtitle(forListingType: postListingState.serviceAttributes.listingType)
         case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters,
              .offerType, .price, .propertyType, .make, .model,
-             .year, .summary, .servicesListingType, .location:
+             .year, .summary, .location:
             return step.subtitle
         }
     }
@@ -41,8 +41,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
              .offerType, .price, .propertyType, .make, .model,
              .year, .summary, .servicesSubtypes, .location:
             return true
-        case .servicesListingType:
-            return false
         }
     }
     
@@ -59,8 +57,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             return sizeListing.value == nil ? value : R.Strings.productPostDone
         case .servicesSubtypes:
             return R.Strings.productPostUsePhoto
-        case .servicesListingType:
-            return ""
         }
     }
     
@@ -69,7 +65,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters,
              .offerType, .price, .propertyType, .make, .model, .year, .summary, .servicesSubtypes:
             return  true
-        case .location, .servicesListingType:
+        case .location:
             return false
         }
     }
@@ -88,7 +84,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .bathrooms, .bedrooms, .rooms, .offerType,
              .propertyType, .make, .model, .year:
             return .postingFlow
-        case .location, .summary, .price, .servicesSubtypes, .servicesListingType:
+        case .location, .summary, .price, .servicesSubtypes:
             return .primary(fontSize: .medium)
         case .sizeSquareMeters:
             return sizeListing.value == nil ? .postingFlow : .primary(fontSize: .medium)
@@ -98,7 +94,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     var buttonFullWidth: Bool {
         switch step {
         case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType,
-             .propertyType, .make, .model, .year, .price, .servicesSubtypes, .servicesListingType:
+             .propertyType, .make, .model, .year, .price, .servicesSubtypes:
             return false
         case .location, .summary:
             return true
@@ -115,7 +111,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     private var isPostingServices: Bool {
-        return postListingState.category?.isService ?? false
+        return postListingState.category?.isServiceOrJob ?? false
     }
     
     func makeContentView(viewControllerDelegate: LGSearchMapViewControllerModelDelegate) -> PostingViewConfigurable? {
@@ -152,18 +148,15 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             return nil
         case .servicesSubtypes:
             let serviceSubtypes = servicesInfoRepository.serviceAllSubtypesSorted()
-            let listingType: ServiceListingType? = featureFlags.jobsAndServicesEnabled.isActive ?
-                postListingState.verticalAttributes?.serviceAttributes?.listingType : nil
+            let listingType: ServiceListingType = (postListingState.category?.isJobs ?? false) ? .job : .service
             let postServicesView = PostingMultiSelectionView(keyboardHelper: KeyboardHelper(),
                                                              theme: .light,
                                                              subtypes: serviceSubtypes,
                                                              serviceListingType: listingType)
+            update(serviceListingType: listingType)
             postServicesView.delegate = self
             postServicesView.scrollDelegate = self
             return postServicesView
-        case .servicesListingType:
-            return PostingServicesListingTypeSelectionView(withDelegate: self,
-                                                           items: ServiceListingType.allCases)
         }
         let view = PostingAttributePickerTableView(values: values, selectedIndexes: [], delegate: self)
         return view
@@ -305,8 +298,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             update(place: placeSelected.value)
         case .sizeSquareMeters:
             update(sizeSquareMeters: sizeListing.value)
-        case .servicesListingType:
-            update(serviceListingType: selectedServiceListingType)
         case .bathrooms, .bedrooms, .make, .model, .year, .offerType,
              .propertyType, .summary, .rooms, .servicesSubtypes:
             break
@@ -520,7 +511,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         postListingState = postListingState.updating(realEstateInfo: realEstateAttributes)
     }
     
-    private func update(serviceListingType: ServiceListingType?) {
+    private func update(serviceListingType: ServiceListingType) {
         var serviceAttributes = postListingState.verticalAttributes?.serviceAttributes ?? ServiceAttributes.emptyServicesAttributes()
         serviceAttributes = serviceAttributes.updating(listingType: serviceListingType)
         postListingState = postListingState.updating(servicesInfo: serviceAttributes)
@@ -548,7 +539,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .propertyType:
             realEstatePropertyType = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType)[index]
         case .price, .sizeSquareMeters, .summary, .location,
-             .make, .model, .year, .servicesSubtypes, .servicesListingType:
+             .make, .model, .year, .servicesSubtypes:
             return
         }
         
@@ -587,7 +578,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             removeBedrooms = true
             removeLivingRooms = true
         case .price, .sizeSquareMeters, .summary, .location,
-             .make, .model, .year, .servicesSubtypes, .servicesListingType:
+             .make, .model, .year, .servicesSubtypes:
             return
         }
         if let realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes {
@@ -623,7 +614,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 positionSelected = NumberOfBathrooms(rawValue:bathrooms)?.position
             }
         case .price, .make, .model, .sizeSquareMeters, .year,
-             .location, .summary, .servicesSubtypes, .servicesListingType:
+             .location, .summary, .servicesSubtypes:
             return nil
         }
         return positionSelected
@@ -743,17 +734,6 @@ extension PostingDetailsViewModel {
         case .job:
             return R.Strings.postDetailsJobsSubtitle
         }
-    }
-}
-
-
-// MARK: - PostingServicesListingTypeSelectionViewDelegate Implementation
-
-extension PostingDetailsViewModel: PostingServicesListingTypeSelectionViewDelegate {
-    
-    func didSelectServicesListingType(type: ServiceListingType) {
-        selectedServiceListingType = type
-        completeCurrentStep()
     }
 }
 
