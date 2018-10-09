@@ -98,7 +98,7 @@ final class BulkPostingsPostedViewModel: BaseViewModel, BulkPostingsPostedViewMo
     private let listingsRelay = BehaviorRelay<[Listing]>(value: [])
     var cells: Driver<[(image: URL?, price: String)]> {
         return listingsRelay.asDriver().map { $0.map { listing in
-            let price = listing.price.stringValue(currency: listing.currency, isFreeEnabled: listing.price.isFree)
+            let price = listing.price.stringValue(currency: listing.currency)
             return (listing.thumbnail?.fileURL, price)
             }
         }

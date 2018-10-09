@@ -460,7 +460,6 @@ extension ProductVMTrackHelper {
         let isBumpedUp: EventParameterBoolean = isShowingFeaturedStripe ? .trueParameter : .falseParameter
         return MarkAsSoldTrackingInfo.make(listing: listing,
                                            isBumpedUp: isBumpedUp,
-                                           isFreePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                            typePage: .listingDetail)
     }
     
@@ -525,7 +524,7 @@ extension ProductVMTrackHelper {
             EventParameterBoolean.falseParameter
 
         let sendMessageInfo = SendMessageTrackingInfo()
-            .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            .set(listing: listing)
             .set(messageType: messageType.chatTrackerType)
             .set(quickAnswerTypeParameter: messageType.quickAnswerTypeParameter)
             .set(typePage: .listingDetail)

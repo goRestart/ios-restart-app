@@ -867,7 +867,7 @@ extension FeedViewModel: ListingActionDelegate {
         }
         interestedStateManager.addInterestedState(forListing: listing, completion: nil)
         let trackingInfo = SendMessageTrackingInfo
-            .makeWith(type: type, listing: listing, freePostingAllowed: featureFlags.freePostingModeAllowed)
+            .makeWith(type: type, listing: listing)
             .set(typePage: .listingList)
             .set(isBumpedUp: .falseParameter)
             .set(containsEmoji: false)

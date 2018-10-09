@@ -34,9 +34,6 @@ class PostListingBasicDetailViewModel: BaseViewModel {
     private let featureFlags: FeatureFlaggeable
     private let keyValueStorage: KeyValueStorageable
     private let disposeBag = DisposeBag()
-    var freeOptionAvailable: Bool {
-        return featureFlags.freePostingModeAllowed
-    }
 
     override convenience  init() {
         var currencySymbol: String? = nil

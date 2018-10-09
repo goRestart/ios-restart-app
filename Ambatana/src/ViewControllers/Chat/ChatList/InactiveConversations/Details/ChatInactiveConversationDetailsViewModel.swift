@@ -33,7 +33,7 @@ final class ChatInactiveConversationDetailsViewModel: BaseViewModel {
         return conversation.listing?.title
     }
     var listingPrice: String? {
-        return conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed)
+        return conversation.listing?.priceString()
     }
     var listingImageURL: URL? {
         return conversation.listing?.image?.fileURL

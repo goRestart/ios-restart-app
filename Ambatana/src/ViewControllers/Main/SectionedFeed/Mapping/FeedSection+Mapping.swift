@@ -5,7 +5,6 @@ extension FeedSection {
                         myUserRepository: MyUserRepository,
                         listingInterestStates: Set<String>,
                         chatNowTitle: String,
-                        freePostingAllowed: Bool,
                         preventMessagesFromFeedToProUser: Bool,
                         imageHasFixedSize: Bool,
                         sectionPosition: SectionPosition) -> ListingSectionModel {
@@ -13,7 +12,6 @@ extension FeedSection {
                                                            myUserRepository: myUserRepository,
                                                            listingInterestStates: listingInterestStates,
                                                            chatNowTitle: chatNowTitle,
-                                                           freePostingAllowed: freePostingAllowed,
                                                            preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
                                                            imageHasFixedSize: imageHasFixedSize)
         return ListingSectionModel(id: id,
@@ -30,7 +28,6 @@ extension Array where Element == FeedSection {
                         myUserRepository: MyUserRepository,
                         listingInterestStates: Set<String>,
                         chatNowTitle: String,
-                        freePostingAllowed: Bool,
                         preventMessagesFromFeedToProUser: Bool,
                         imageHasFixedSize: Bool,
                         pageNumber: Int) -> [ListingSectionModel] {
@@ -38,7 +35,6 @@ extension Array where Element == FeedSection {
                                                             myUserRepository: myUserRepository,
                                                             listingInterestStates: listingInterestStates,
                                                             chatNowTitle: chatNowTitle,
-                                                            freePostingAllowed: freePostingAllowed,
                                                             preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
                                                             imageHasFixedSize: imageHasFixedSize,
                                                             sectionPosition: SectionPosition(page: UInt(bitPattern: pageNumber),

@@ -43,7 +43,6 @@ class RateBuyersViewModelSpec: BaseViewModelSpec {
                 
                 trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(MockProduct.makeMock()),
                                                            isBumpedUp: .trueParameter,
-                                                           isFreePostingModeAllowed: true,
                                                            typePage: .listingDetail)
                 
                 let buyers = MockUserListing.makeMocks(count: 5)

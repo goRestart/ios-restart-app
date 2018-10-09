@@ -802,7 +802,6 @@ fileprivate extension PostListingViewModel {
                                                      negotiable: trackingInfo.negotiablePrice,
                                                      pictureSource: trackingInfo.imageSource,
                                                      videoLength: trackingInfo.videoLength,
-                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
 

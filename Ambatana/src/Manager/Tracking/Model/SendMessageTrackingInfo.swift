@@ -12,17 +12,17 @@ final class SendMessageTrackingInfo {
     private(set) var params = EventParameters()
 
     @discardableResult
-    func set(listing: Listing, freePostingModeAllowed: Bool) -> Self {
+    func set(listing: Listing) -> Self {
         params.addListingParams(listing)
         params[.userToId] = listing.user.objectId
-        params[.freePosting] = listing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
+        params[.freePosting] = listing.price.allowFreeFilters().rawValue
         return self
     }
 
     @discardableResult
-    func set(chatListing: ChatListing, freePostingModeAllowed: Bool) -> Self {
+    func set(chatListing: ChatListing) -> Self {
         params.addChatListingParams(chatListing)
-        params[.freePosting] = chatListing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
+        params[.freePosting] = chatListing.price.allowFreeFilters().rawValue
         return self
     }
 
@@ -105,10 +105,9 @@ final class SendMessageTrackingInfo {
 
 extension SendMessageTrackingInfo {
     static func makeWith(type: ChatWrapperMessageType,
-                         listing: Listing,
-                         freePostingAllowed: Bool) -> SendMessageTrackingInfo {
+                         listing: Listing) -> SendMessageTrackingInfo {
         return SendMessageTrackingInfo()
-            .set(listing: listing, freePostingModeAllowed: freePostingAllowed)
+            .set(listing: listing)
             .set(interlocutorId: listing.user.objectId)
             .set(messageType: type.chatTrackerType)
             .set(quickAnswerTypeParameter: type.quickAnswerTypeParameter)

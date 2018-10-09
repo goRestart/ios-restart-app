@@ -83,7 +83,7 @@ class PostListingDetailPriceView: BaseView {
         currencyLabel.text = viewModel.currencySymbol
         currencyLabel.textColor = UIColor.white
         doneButton.setStyle(.primary(fontSize: .big))
-        showFreeOption(viewModel.freeOptionAvailable)
+        showFreeOption(true)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(freeCellPressed))
         postFreeViewContainer.addGestureRecognizer(tap)

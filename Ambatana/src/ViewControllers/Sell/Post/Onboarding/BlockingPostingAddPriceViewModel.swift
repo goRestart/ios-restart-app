@@ -70,8 +70,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     // MARK: - PostingAddDetailPriceView
     
     func makePriceView() -> PostingAddDetailPriceView {
-        let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
-                                                  freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
+        let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol, frame: CGRect.zero)
         priceView.priceListing.asObservable().bind(to: priceListing).disposed(by: disposeBag)
         return priceView
     }

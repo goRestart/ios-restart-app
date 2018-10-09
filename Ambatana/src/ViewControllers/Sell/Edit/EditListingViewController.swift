@@ -638,13 +638,8 @@ final class EditListingViewController: BaseViewController, UITextFieldDelegate,
         featureIcon.image = viewModel.featureIcon
         featureSwitch.isOn = viewModel.shouldFeatureItemAfterEdit.value
 
-        if featureFlags.freePostingModeAllowed {
-            postFreeViewHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
-            freePostViewSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
-        } else {
-            postFreeViewHeightConstraint.constant = 0
-            freePostViewSeparatorTopConstraint.constant = 0
-        }
+        postFreeViewHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
+        freePostViewSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
 
         featureViewHeightConstraint.constant = viewModel.listingCanBeFeatured ? EditListingViewController.viewOptionGenericHeight : 0
 

@@ -15,7 +15,7 @@ final class ListingCardViewModel: BaseViewModel {
     var seller: User? { return sellerRelay.value }
     var quickAnswers: [QuickAnswer] {
         guard !isMine else { return [] }
-        let isFree = listingRelay.value.price.isFree && featureFlags.freePostingModeAllowed
+        let isFree = listingRelay.value.price.isFree
         return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
     }
     var location: LGLocationCoordinates2D? { return productInfoRelay.value?.location }
@@ -294,7 +294,6 @@ final class ListingCardViewModel: BaseViewModel {
                 let productInfo = ListingVMProductInfo(listing: listing,
                                                        isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),
                                                        distance: strongSelf.distanceString(listing),
-                                                       freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
                                                        postingFlowType: strongSelf.featureFlags.postingFlowType)
                 strongSelf.productInfoRelay.accept(productInfo)
                 strongSelf.isMineRelay.accept(listing.isMine(myUserRepository: strongSelf.myUserRepository))

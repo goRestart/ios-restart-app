@@ -61,7 +61,6 @@ extension Bumper  {
         flags.append(MultiAdRequestMoreInfo.self)
         flags.append(EnableJobsAndServicesCategory.self)
         flags.append(CopyForSellFasterNowInTurkish.self)
-        flags.append(TurkeyFreePosting.self)
         flags.append(RandomImInterestedMessages.self)
         flags.append(CarPromoCells.self)
         flags.append(RealEstatePromoCells.self)
@@ -672,19 +671,6 @@ extension Bumper  {
     static var copyForSellFasterNowInTurkishObservable: Observable<CopyForSellFasterNowInTurkish> {
         return Bumper.observeValue(for: CopyForSellFasterNowInTurkish.key).map {
             CopyForSellFasterNowInTurkish(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var turkeyFreePosting: TurkeyFreePosting {
-        guard let value = Bumper.value(for: TurkeyFreePosting.key) else { return .control }
-        return TurkeyFreePosting(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var turkeyFreePostingObservable: Observable<TurkeyFreePosting> {
-        return Bumper.observeValue(for: TurkeyFreePosting.key).map {
-            TurkeyFreePosting(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1733,22 +1719,6 @@ enum CopyForSellFasterNowInTurkish: String, BumperFeature  {
             case 2: return .variantB
             case 3: return .variantC
             case 4: return .variantD
-            default: return .control
-        }
-    }
-}
-
-enum TurkeyFreePosting: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return TurkeyFreePosting.control.rawValue }
-    static var enumValues: [TurkeyFreePosting] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[PRODUCTS] Enable Leanplum driven Turkey free posting" } 
-    static func fromPosition(_ position: Int) -> TurkeyFreePosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }

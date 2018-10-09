@@ -151,7 +151,7 @@ final class LGMapDetailView: UIView, UICollectionViewDelegate, UICollectionViewD
         imageView.image = nil
         imageView.backgroundColor = UIColor.placeholderBackgroundColor(listing.objectId)
         titleLabel.text = listing.name
-        priceLabel.text = listing.priceString(freeModeAllowed: false)
+        priceLabel.text = listing.priceString()
         ribbonView.isHidden = !(listing.featured ?? false)
         guard let imageUrl = listing.thumbnail?.fileURL else { return }
         _ = imageDownloader?.downloadImageWithURL(imageUrl) { [weak self] (result, url) in

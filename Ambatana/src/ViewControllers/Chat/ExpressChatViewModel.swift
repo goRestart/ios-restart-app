@@ -123,12 +123,11 @@ class ExpressChatViewModel: BaseViewModel {
 
     func priceForItemAtIndex(_ index: Int) -> String {
         guard index < productListCount else { return "" }
-        return listings[index].priceString(freeModeAllowed: featureFlags.freePostingModeAllowed)
+        return listings[index].priceString()
     }
 
     func sendMessage() {
         let tracker = trackerProxy
-        let freePostingModeAllowed = featureFlags.freePostingModeAllowed
  
         for listing in selectedListings.value {
             let messageToSend: String
@@ -143,12 +142,10 @@ class ExpressChatViewModel: BaseViewModel {
                     ExpressChatViewModel.singleMessageTrackings(tracker,
                                                                 shouldSendAskQuestion: value,
                                                                 listing: listing,
-                                                                freePostingModeAllowed: freePostingModeAllowed,
                                                                 containsEmoji: messageToSend.containsEmoji)
                 } else if let error = result.error {
                     ExpressChatViewModel.singleMessageTrackingError(tracker,
                                                                     listing: listing,
-                                                                    freePostingModeAllowed: freePostingModeAllowed,
                                                                     containsEmoji: messageToSend.containsEmoji,
                                                                     error: error)
                 }
@@ -251,10 +248,8 @@ extension ExpressChatViewModel {
     static func singleMessageTrackings(_ tracker: Tracker,
                                        shouldSendAskQuestion: Bool,
                                        listing: Listing,
-                                       freePostingModeAllowed: Bool,
                                        containsEmoji: Bool) {
         guard let info = buildSendMessageInfo(withListing: listing,
-                                              freePostingModeAllowed: freePostingModeAllowed,
                                               containsEmoji: containsEmoji,
                                               error: nil) else { return }
         if shouldSendAskQuestion {
@@ -273,22 +268,19 @@ extension ExpressChatViewModel {
 
     static func singleMessageTrackingError(_ tracker: Tracker,
                                            listing: Listing,
-                                           freePostingModeAllowed: Bool,
                                            containsEmoji: Bool,
                                            error: RepositoryError) {
         guard let info = buildSendMessageInfo(withListing: listing,
-                                              freePostingModeAllowed: freePostingModeAllowed,
                                               containsEmoji: containsEmoji,
                                               error: error) else { return }
         tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
     }
 
     private static func buildSendMessageInfo(withListing listing: Listing,
-                                             freePostingModeAllowed: Bool,
                                              containsEmoji: Bool,
                                              error: RepositoryError?) -> SendMessageTrackingInfo? {
         let sendMessageInfo = SendMessageTrackingInfo()
-            .set(listing: listing, freePostingModeAllowed: freePostingModeAllowed)
+            .set(listing: listing)
             .set(messageType: .text)
             .set(quickAnswerTypeParameter: nil)
             .set(typePage: .expressChat)

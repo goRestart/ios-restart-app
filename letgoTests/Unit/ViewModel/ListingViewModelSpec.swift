@@ -116,6 +116,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     userProduct.objectId = myUser.objectId
                     product.user = userProduct
                     product.status = .approved
+                    product.price = .normal(Double.makeRandom())
 
                     monetizationRepository.retrieveResult = BumpeableListingResult(error: .notFound)
 

@@ -293,11 +293,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterLocationStart, params: nil)
     }
 
-    static func filterComplete(_ filters: ListingFilters, carSellerType: String?, freePostingModeAllowed: Bool) -> TrackerEvent {
+    static func filterComplete(_ filters: ListingFilters, carSellerType: String?) -> TrackerEvent {
         var params = filters.trackingParams
         
-        params[.freePosting] = eventParameterFreePostingWithPriceRange(freePostingModeAllowed,
-                                                                       priceRange: filters.priceRange).rawValue
+        params[.freePosting] = eventParameterFreePostingWithPriceRange(priceRange: filters.priceRange).rawValue
         
         if let carSellerType = carSellerType {
             params[.carSellerType] = carSellerType
@@ -587,11 +586,10 @@ struct TrackerEvent {
                                     negotiable: EventParameterNegotiablePrice?,
                                     pictureSource: EventParameterMediaSource?,
                                     videoLength: TimeInterval?,
-                                    freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
                                     machineLearningTrackingInfo: MachineLearningTrackingInfo) -> TrackerEvent {
         var params = EventParameters()
-        params[.freePosting] = listing.price.allowFreeFilters(freePostingModeAllowed: freePostingModeAllowed).rawValue
+        params[.freePosting] = listing.price.allowFreeFilters().rawValue
         params[.listingId] = listing.objectId ?? ""
         params[.categoryId] = listing.category.rawValue
         params[.listingName] = listing.name ?? ""
@@ -1992,9 +1990,7 @@ struct TrackerEvent {
 
     // MARK: - Private methods
     
-    static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool,
-                                                                priceRange: FilterPriceRange) -> EventParameterBoolean {
-        guard freePostingModeAllowed else {return .notAvailable}
+    static func eventParameterFreePostingWithPriceRange(priceRange: FilterPriceRange) -> EventParameterBoolean {
         return priceRange.free ? .trueParameter : .falseParameter
     }
     

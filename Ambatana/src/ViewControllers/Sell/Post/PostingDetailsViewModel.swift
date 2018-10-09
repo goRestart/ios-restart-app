@@ -136,8 +136,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             sizeView.sizeListingObservable.bind(to: sizeListing).disposed(by: disposeBag)
             return sizeView
         case .price:
-            let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
-                                                      freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
+            let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol, frame: CGRect.zero)
             priceView.priceListing.asObservable().bind(to: priceListing).disposed(by: disposeBag)
             return priceView
         case .summary:
@@ -649,8 +648,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         var value: String?
         switch section {
         case .price:
-            if let countryCodeValue = countryCode, let price = postListingState.price?.stringValue(currency: currencyHelper.currencyWithCountryCode(countryCodeValue),
-                                                                                                  isFreeEnabled: featureFlags.freePostingModeAllowed) {
+            if let countryCodeValue = countryCode, let price = postListingState.price?.stringValue(currency: currencyHelper.currencyWithCountryCode(countryCodeValue)) {
                 value = R.Strings.realEstateSummaryPriceTitle(price)
             }
         case .propertyType:

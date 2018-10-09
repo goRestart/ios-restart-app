@@ -17,7 +17,6 @@ enum CellStyle {
 class GridDrawerManager {
 
     var cellStyle: CellStyle = .mainList
-    var freePostingAllowed: Bool = true
 
     private let listingDrawer = ListingCellDrawer()
     private let collectionDrawer = ListingCollectionCellDrawer()
@@ -80,10 +79,10 @@ class GridDrawerManager {
             }
             let data = ListingData(listing: listing,
                                    delegate: delegate,
-                                   isFree: listing.price.isFree && freePostingAllowed,
+                                   isFree: listing.price.isFree,
                                    isFeatured: listing.shouldShowFeaturedStripe,
                                    isMine: isMine,
-                                   price: listing.priceString(freeModeAllowed: freePostingAllowed),
+                                   price: listing.priceString(),
                                    imageSize: imageSize,
                                    currentLocation: locationManager.currentLocation,
                                    interestedState: interestedState)
@@ -118,10 +117,10 @@ class GridDrawerManager {
             }
             let data = ListingData(listing: listing,
                                    delegate: delegate,
-                                   isFree: listing.price.isFree && freePostingAllowed,
+                                   isFree: listing.price.isFree,
                                    isFeatured: listing.shouldShowFeaturedStripe,
                                    isMine: isMine,
-                                   price: listing.priceString(freeModeAllowed: freePostingAllowed),
+                                   price: listing.priceString(),
                                    imageSize: imageSize,
                                    currentLocation: locationManager.currentLocation,
                                    interestedState: .send(enabled: true))
