@@ -661,6 +661,7 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
         viewModel.infoBubbleText.asObservable().bind { locationText in
             self.floatLocationHeader.configure(with: locationText, buttonText: R.Strings.commonEdit)
             self.locationHeader.configure(with: locationText, buttonText: R.Strings.commonEdit)
+            self.locationHeader.isHidden = false
         }.disposed(by: disposeBag)
 
         viewModel.isFreshBubbleVisible
@@ -786,9 +787,6 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
             case second = 1
             case third = 2
             case fourth = 3
-        }
-        enum pepe: String {
-            case pepe = "hola"
         }
     }
 }

@@ -1175,6 +1175,11 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             }
         }
     }
+    
+    override func backButtonPressed() -> Bool {
+        wireframe?.closeAll()
+        return true
+    }
 }
 
 
