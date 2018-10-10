@@ -979,7 +979,7 @@
 "post_description_info_title" = "ILMOITUKSEN TIEDOT";
 "post_description_name_placeholder" = "Nimi";
 "post_description_save_button_text" = "Tallenna tämä ilmoitus!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "Julkaise yrityksesi logo tai kuva, jossa näkyy tarjoamasi työ";
 "post_details_jobs_services_camera_message" = "Julkaise yrityksesi logo tai kuva, jossa näkyy tarjoamasi palvelu tai työ";
 "post_details_jobs_services_congratulation_add_more_details" = "lisäämällä tietoja:";
 "post_details_jobs_services_congratulation_improve_listing" = "Paranna ilmoitustasi";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "Yritä uudelleen";
 "product_post_select_category_cars" = "Autoja";
 "product_post_select_category_housing" = "Vuokrattavat/myytävät asunnot";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "Työt";
 "product_post_select_category_jobs_services" = "Työpaikat & palvelut";
 "product_post_select_category_motors_and_accessories" = "Muut ajoneuvot ja varusteet";
 "product_post_select_category_other" = "Muut tuotteet";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Muu";
 "smoketest_feedback_send" = "Lähetä";
 "smoketest_feedback_subtitle" = "Testaamme tällä hetkellä %@-toimintoa ja haluaisimme kuulla palautettasi. Autathan meitä tekemään parannuksia.";
-"smoketest_feedback_tell_us" = "Kerro meille lisää";
+"smoketest_feedback_tell_us" = "Kerro meille lisää:";
+"smoketest_feedback_tell_us_placeholder" = "Syötä kommenttisi tähän";
 "smoketest_feedback_title" = "Miksi et käyttäisi sitä?";
 "smoketest_recommended" = "Suositeltu";
 "smoketest_thank_you_register_interest" = "Olemme rekisteröineet kiinnostuksesi.";

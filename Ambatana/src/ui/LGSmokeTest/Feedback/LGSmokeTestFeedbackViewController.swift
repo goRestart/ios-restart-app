@@ -76,7 +76,8 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
         textView.backgroundColor = .grayBackground
         textView.textAlignment = .left
         textView.font = .systemRegularFont(size: 14)
-        textView.textColor = .lgBlack
+        textView.textColor = .grayRegular
+        textView.text = R.Strings.smoketestFeedbackTellUsPlaceholder
         return textView
     }()
     
@@ -95,6 +96,7 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
         self.keyboardHelper = keyboardHelper
         self.selectionList = LGSingleSelectionList(titles: viewModel.feedbackOptions)
         super.init(viewModel: viewModel, nibName: nil)
+        tellUsTextView.delegate = self
         setupUI()
         setupRx()
         setupActions()
@@ -136,6 +138,10 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
             self?.selectedTitle = title
         }.disposed(by: disposeBag)
         
+        tellUsTextView.rx.didBeginEditing.asObservable().subscribe(onNext: { [weak self] _ in
+            self?.clearTextViewPlaceholder()
+        }).disposed(by: disposeBag)
+        
         keyboardHelper.rx_keyboardOrigin
             .asObservable()
             .skip(1)
@@ -149,6 +155,12 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
                 self?.rootScrollView.setContentOffset(CGPoint(x: 0, y: scrollPoint), animated: true)
                 self?.animateSendButton(keyboardVisible, keyboardHeight)
             }.disposed(by: disposeBag)
+    }
+    
+    private func clearTextViewPlaceholder() {
+        guard tellUsTextView.text == R.Strings.smoketestFeedbackTellUsPlaceholder  else { return }
+        tellUsTextView.text = nil
+        tellUsTextView.textColor = .lgBlack
     }
     
     private func animateSendButton(_ keyboardVisible: Bool, _ keyboardHeight: CGFloat) {
@@ -213,13 +225,13 @@ extension LGSmokeTestFeedbackViewController {
     }
 }
 
-extension LGSmokeTestFeedbackViewController {
+extension LGSmokeTestFeedbackViewController: UITextViewDelegate {
     
     static let characterCountLimit = 1024
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let text = textField.text else { return true }
-        let newLength = text.count + string.count - range.length
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        guard let textViewText = textView.text else { return true }
+        let newLength = text.count + textViewText.count - range.length
         return newLength <= LGSmokeTestFeedbackViewController.characterCountLimit
     }
 }

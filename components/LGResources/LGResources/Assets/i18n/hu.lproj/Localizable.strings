@@ -979,7 +979,7 @@
 "post_description_info_title" = "HIRDETÉSINFORMÁCIÓK";
 "post_description_name_placeholder" = "Név";
 "post_description_save_button_text" = "Mentsd el a hirdetést!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "Töltsd fel a vállalati emblémát, vagy egy fotót, amely ábrázolja, hogy milyen munkát nyújtasz";
 "post_details_jobs_services_camera_message" = "Töltsd fel a vállalati emblémát vagy egy fotót a nyújtott szolgáltatásról vagy munkáról";
 "post_details_jobs_services_congratulation_add_more_details" = "további részletek hozzáadásával:";
 "post_details_jobs_services_congratulation_improve_listing" = "Turbózd fel a hirdetést";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "Ismét";
 "product_post_select_category_cars" = "Autó";
 "product_post_select_category_housing" = "Kiadó és eladó ingatlan";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "Munkák";
 "product_post_select_category_jobs_services" = "Munkák és szolgáltatások";
 "product_post_select_category_motors_and_accessories" = "Más járművek és alkatrészek";
 "product_post_select_category_other" = "Valami más";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Egyéb";
 "smoketest_feedback_send" = "Küldés";
 "smoketest_feedback_subtitle" = "Az új %@ funkció jelenleg tesztelés alatt áll, és kíváncsiak vagyunk a véleményedre. Segíts a fejlesztésben!";
-"smoketest_feedback_tell_us" = "Mondj részleteket is";
+"smoketest_feedback_tell_us" = "Mondj részleteket is :";
+"smoketest_feedback_tell_us_placeholder" = "Enter your comments here";
 "smoketest_feedback_title" = "Miért is ne próbálnád ki?";
 "smoketest_recommended" = "Ajánlott";
 "smoketest_thank_you_register_interest" = "Véleményedet rögzítettük.";

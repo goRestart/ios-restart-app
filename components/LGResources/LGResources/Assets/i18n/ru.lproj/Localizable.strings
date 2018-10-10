@@ -979,7 +979,7 @@
 "post_description_info_title" = "ИНФОРМАЦИЯ ОБ ОБЪЯВЛЕНИИ";
 "post_description_name_placeholder" = "Изменить имя";
 "post_description_save_button_text" = "Сохранить это объявление!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "Разместите лого вашей компании или фото, которое показывает, какую работу вы предлагаете";
 "post_details_jobs_services_camera_message" = "Разместите лого вашей компании или фото, которое показывает, что вы предлагаете";
 "post_details_jobs_services_congratulation_add_more_details" = "добавив детали:";
 "post_details_jobs_services_congratulation_improve_listing" = "Улучшите свое объявление,";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "Попробовать еще";
 "product_post_select_category_cars" = "Машины";
 "product_post_select_category_housing" = "Жилье в аренду / на продажу";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "Работы";
 "product_post_select_category_jobs_services" = "Работы и услуги";
 "product_post_select_category_motors_and_accessories" = "Транспорт и запчасти";
 "product_post_select_category_other" = "Другие товары";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Другое";
 "smoketest_feedback_send" = "Отправить";
 "smoketest_feedback_subtitle" = "Сейчас мы тестируем %@ и хотели бы услышать ваши отзывы. Пожалуйста, помогите нам сделать лучше!";
-"smoketest_feedback_tell_us" = "Оставьте комментарии";
+"smoketest_feedback_tell_us" = "Расскажите больше:";
+"smoketest_feedback_tell_us_placeholder" = "Введите свои комментарии здесь";
 "smoketest_feedback_title" = "Почему вы не будете этим пользоваться?";
 "smoketest_recommended" = "Рекомендуемое";
 "smoketest_thank_you_register_interest" = "Мы приняли ваше сообщение.";

@@ -1310,7 +1310,10 @@
 "smoketest_feedback_other" = "Other";
 
 // Feedback text title
-"smoketest_feedback_tell_us" = "Tell us more";
+"smoketest_feedback_tell_us" = "Tell us more:";
+
+// Feedback placeholder text
+"smoketest_feedback_tell_us_placeholder" = "Enter your comments here";
 
 // Feedback button title
 "smoketest_feedback_send" = "Send";

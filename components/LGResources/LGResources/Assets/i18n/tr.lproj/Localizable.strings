@@ -979,7 +979,7 @@
 "post_description_info_title" = "İLAN BİLGİSİ";
 "post_description_name_placeholder" = "İsim";
 "post_description_save_button_text" = "Bu ilanı kaydet!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "Şirketinin logosunu ya da sunduğun işi gösteren bir fotoğrafı yayınla";
 "post_details_jobs_services_camera_message" = "Şirketinin logosunu ya da sunduğun hizmet veya işi gösteren bir fotoğraf yayınla";
 "post_details_jobs_services_congratulation_add_more_details" = "daha fazla ayrıntı ekle:";
 "post_details_jobs_services_congratulation_improve_listing" = "İlanını geliştir";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "Tekrar dene";
 "product_post_select_category_cars" = "Araba";
 "product_post_select_category_housing" = "Satılık / Kiralık Emlak";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "İşler";
 "product_post_select_category_jobs_services" = "İşler & Hizmetler";
 "product_post_select_category_motors_and_accessories" = "Diğer Araçlar ve Yedek Parça";
 "product_post_select_category_other" = "Diğer eşyalar";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Diğer";
 "smoketest_feedback_send" = "Gönder";
 "smoketest_feedback_subtitle" = "Şu anda %@'i test ediyoruz ve geri bildirimini duymak isteriz. Lütfen geliştirmemize yardım et.";
-"smoketest_feedback_tell_us" = "Bizimle daha fazlasını paylaş";
+"smoketest_feedback_tell_us" = "Bizimle daha fazlasını paylaş:";
+"smoketest_feedback_tell_us_placeholder" = "Yorumlarını buraya gir";
 "smoketest_feedback_title" = "Neden kullanmayasın?";
 "smoketest_recommended" = "Tavsiye edilen";
 "smoketest_thank_you_register_interest" = "İlgini kaydettik.";

@@ -535,13 +535,13 @@ extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource 
 // MARK: - Ratings ViewModel Delegate
 
 extension UserProfileViewController: UserRatingListViewModelDelegate {
-    func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool) {}
+    func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, isFirstPage: Bool) {}
 
-    func vmDidFailLoadingUserRatings(_ firstPage: Bool) {}
+    func vmDidFailLoadingUserRatings(_ isFirstPage: Bool) {}
 
-    func vmDidLoadUserRatings(_ ratings: [UserRating]) {
+    func vmDidLoadUserRatings(_ ratings: [UserRating], isFirstPage: Bool) {
         emptyReviewsLabel.isHidden = viewModel.ratingListViewModel.objectCount > 0
-        guard !ratings.isEmpty else { return }
+        guard !ratings.isEmpty || isFirstPage else { return }
         tableView.reloadData()
     }
 

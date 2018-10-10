@@ -979,7 +979,7 @@
 "post_description_info_title" = "ΠΛΗΡΟΦΟΡΊΕΣ ΚΑΤΑΧΏΡΗΣΗΣ";
 "post_description_name_placeholder" = "Αλλαγή Ονόματος";
 "post_description_save_button_text" = "Αποθήκευση αυτής της καταχώρησης!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "Δημοσιεύστε το λογότυπο της εταιρίας σας ή μια φωτογραφία που να παρουσιάζει τη δουλειά που προσφέρετε.";
 "post_details_jobs_services_camera_message" = "Δημοσιεύστε το λογότυπο της εταιρίας σας ή μια φωτογραφία που να παρουσιάζει την υπηρεσία ή τη δουλειά που προσφέρετε.";
 "post_details_jobs_services_congratulation_add_more_details" = "προσθέτοντας περισσότερες λεπτομέρειες:";
 "post_details_jobs_services_congratulation_improve_listing" = "Βελτιώστε την καταχώρησή σας";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
 "product_post_select_category_cars" = "Αυτοκίνητα";
 "product_post_select_category_housing" = "Σπίτι για Ενοικίαση / Πώληση";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "Εργασίες";
 "product_post_select_category_jobs_services" = "Εργασίες & Υπηρεσίες";
 "product_post_select_category_motors_and_accessories" = "Άλλα Οχήματα και Εξαρτήματα";
 "product_post_select_category_other" = "Άλλα αντικείμενα";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Άλλο";
 "smoketest_feedback_send" = "Αποστολή";
 "smoketest_feedback_subtitle" = "Αυτή τη στιγμή δοκιμάζουμε το %@ και θα θέλαμε να μάθουμε την άποψή σας. Ευχαριστούμε που μας βοηθάτε να γινόμαστε καλύτεροι.";
-"smoketest_feedback_tell_us" = "Πείτε μας περισσότερα";
+"smoketest_feedback_tell_us" = "Πείτε μας περισσότερα:";
+"smoketest_feedback_tell_us_placeholder" = "Εισάγετε τα σχόλιά σας εδώ";
 "smoketest_feedback_title" = "Γιατί να μην το χρησιμοποιήσετε;";
 "smoketest_recommended" = "Προτεινόμενο";
 "smoketest_thank_you_register_interest" = "Καταγράψαμε το ενδιαφέρον σας.";

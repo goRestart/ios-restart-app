@@ -979,7 +979,7 @@
 "post_description_info_title" = "ADVERTENTIE INFORMATIE";
 "post_description_name_placeholder" = "Naam";
 "post_description_save_button_text" = "Bewaar deze advertentie!";
-"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+"post_details_jobs_camera_message" = "Plaats jouw bedrijfslogo of een foto die de baan die je aanbiedt laat zien";
 "post_details_jobs_services_camera_message" = "Plaats jouw bedrijfslogo of een foto die de dienst of baan die je aanbiedt laat zien";
 "post_details_jobs_services_congratulation_add_more_details" = "door meer details toe te voegen:";
 "post_details_jobs_services_congratulation_improve_listing" = "Verbeter je advertentie";
@@ -1185,7 +1185,7 @@
 "product_post_retry_button" = "Probeer het nogmaals";
 "product_post_select_category_cars" = "Auto’s";
 "product_post_select_category_housing" = "Woningen te Huur / te Koop";
-"product_post_select_category_jobs" = "Jobs";
+"product_post_select_category_jobs" = "Banen";
 "product_post_select_category_jobs_services" = "Banen & Diensten";
 "product_post_select_category_motors_and_accessories" = "Overige Voertuigen en Onderdelen";
 "product_post_select_category_other" = "Overige items";
@@ -1676,7 +1676,8 @@
 "smoketest_feedback_other" = "Overig";
 "smoketest_feedback_send" = "Verzenden";
 "smoketest_feedback_subtitle" = "We testen momenteel %@ en we willen graag jouw feedback horen. Help ons alsjeblief te verbeteren.";
-"smoketest_feedback_tell_us" = "Vertel ons meer";
+"smoketest_feedback_tell_us" = "Vertel ons meer:";
+"smoketest_feedback_tell_us_placeholder" = "Enter your comments here";
 "smoketest_feedback_title" = "Waarom zou je het niet gebruiken?";
 "smoketest_recommended" = "Aanbevolen";
 "smoketest_thank_you_register_interest" = "We hebben je interesse geregistreerd.";

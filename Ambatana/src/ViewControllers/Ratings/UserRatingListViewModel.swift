@@ -3,9 +3,9 @@ import LGCoreKit
 import LGComponents
 
 protocol UserRatingListViewModelDelegate : BaseViewModelDelegate {
-    func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool)
-    func vmDidLoadUserRatings(_ ratings: [UserRating])
-    func vmDidFailLoadingUserRatings(_ firstPage: Bool)
+    func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, isFirstPage: Bool)
+    func vmDidLoadUserRatings(_ ratings: [UserRating], isFirstPage: Bool)
+    func vmDidFailLoadingUserRatings(_ isFirstPage: Bool)
     func vmRefresh()
 }
 
@@ -102,21 +102,25 @@ class UserRatingListViewModel: BaseViewModel {
 
 extension UserRatingListViewModel : UserRatingListRequesterDelegate {
 
-    func requesterIsLoadingUserRatings(_ isLoading: Bool, firstPage: Bool) {
-        delegate?.vmIsLoadingUserRatingsRequest(isLoading, firstPage: firstPage)
+    func requesterIsLoadingUserRatings(_ isLoading: Bool, isFirstPage: Bool) {
+        delegate?.vmIsLoadingUserRatingsRequest(isLoading, isFirstPage: isFirstPage)
     }
 
-    func requesterDidLoadUserRatings(_ ratings: [UserRating]) {
-        self.ratings.append(contentsOf: ratings)
-        delegate?.vmDidLoadUserRatings(ratings)
+    func requesterDidLoadUserRatings(_ ratings: [UserRating], isFirstPage: Bool) {
+        if isFirstPage {
+            self.ratings = ratings
+        } else {
+            self.ratings.append(contentsOf: ratings)
+        }
+        delegate?.vmDidLoadUserRatings(ratings, isFirstPage: isFirstPage)
     }
 
-    func requesterDidFailLoadingUserRatings(_ firstPage: Bool) {
-        delegate?.vmDidFailLoadingUserRatings(firstPage)
+    func requesterDidFailLoadingUserRatings(_ isFirstPage: Bool) {
+        delegate?.vmDidFailLoadingUserRatings(isFirstPage)
     }
 }
 
-extension UserRatingListViewModel:  UserRatingCellDelegate {
+extension UserRatingListViewModel: UserRatingCellDelegate {
     
     func actionButtonPressedForCellAtIndex(_ indexPath: IndexPath) {
         guard let rating = ratingAtIndex(indexPath.row) else { return }
