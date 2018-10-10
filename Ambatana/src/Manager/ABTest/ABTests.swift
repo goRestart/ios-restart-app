@@ -119,10 +119,6 @@ extension ABTests {
         return personalizedFeed.value > 1
     }
     
-    var emptySearchImprovements: LeanplumABVariable<Int> {
-        return discovery.emptySearchImprovements
-    }
-    
     var sectionedFeed: LeanplumABVariable<Int> {
         return discovery.sectionedFeed
     }
