@@ -40,14 +40,6 @@ final class ABTestsSpec: QuickSpec {
             context("registering all the variables") {
                 beforeEach {
                     sut.registerVariables()
-                }
-                it("registers all the variables") {
-                    expect(syncer.syncedCount) == 72
-                }
-            }
-            context("registering all the variables") {
-                beforeEach {
-                    sut.registerVariables()
                     uniqueSyncer = LeamplumSyncerCounter()
 
                     let abGroups: [ABGroupType] = [verticals,
