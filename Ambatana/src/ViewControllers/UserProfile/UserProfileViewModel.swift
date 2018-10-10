@@ -97,7 +97,7 @@ final class UserProfileViewModel: BaseViewModel {
     var userRelationText: Driver<String?> { return makeUserRelationText() }
     var listingListViewModel: Driver<ListingListViewModel?> { return makeListingListViewModelDriver() }
     let ratingListViewModel: UserRatingListViewModel
-    let showBubbleNotification = PublishSubject<BubbleNotificationData>()
+    let showBubbleNotification = BehaviorRelay<BubbleNotificationData?>(value: nil)
 
     var shouldShowChatNowButton: Driver<Bool> {
         return Observable.combineLatest(user.asObservable(), isMyUser.asObservable()) { user, isMyUser in
@@ -270,9 +270,10 @@ final class UserProfileViewModel: BaseViewModel {
     }
 
     private func checkIfVerificationHasBeenRequested() {
-        guard let user = user.value, let userId = user.objectId,
-            !user.isDummy && !user.isProfessional && !isMyUser.value && !user.hasBadge
-                && featureFlags.advancedReputationSystem13.isActive else { return }
+        guard let user = user.value, let userId = user.objectId else { return }
+        let isOtherRegularUser = !user.isDummy && !user.isProfessional
+            && !isMyUser.value && !user.hasBadge && featureFlags.advancedReputationSystem13.isActive
+        guard isOtherRegularUser else { return }
 
         userRepository.retriveVerificationRequests(userId) { [weak self] result in
             guard let userRequests = result.value else { return }
@@ -822,18 +823,15 @@ extension UserProfileViewModel {
     }
 
     func trackUpdateAvatarComplete() {
-        let trackerEvent = TrackerEvent.profileEditEditPicture()
-        tracker.trackEvent(trackerEvent)
+        tracker.trackEvent(.profileEditEditPicture())
     }
 
     func trackVerifyAccountStart() {
-        let event = TrackerEvent.verifyAccountStart(.profile)
-        tracker.trackEvent(event)
+        tracker.trackEvent(.verifyAccountStart(.profile))
     }
 
     func trackOpenAvatarDetail() {
-        let event = TrackerEvent.profileOpenPictureDetail()
-        tracker.trackEvent(event)
+        tracker.trackEvent(.profileOpenPictureDetail())
     }
     
     func trackSmokeTestOpened(testType: EventParameterSmokeTestType) {
@@ -847,8 +845,7 @@ extension UserProfileViewModel {
     }
 
     func trackAskVerification() {
-        let event = TrackerEvent.profileAskVerificationTapped()
-        tracker.trackEvent(event)
+        tracker.trackEvent(.profileAskVerificationTapped())
     }
 }
 
@@ -902,7 +899,7 @@ extension UserProfileViewModel: ListingCellDelegate {
         let action = UIAction(interface: .button(R.Strings.productInterestedUndo, .terciary) , action: action)
         let data = BubbleNotificationData(text: message,
                                           action: action)
-        showBubbleNotification.onNext(data)
+        showBubbleNotification.accept(data)
     }
     
     func showUndoBubble(inView view: UIView,

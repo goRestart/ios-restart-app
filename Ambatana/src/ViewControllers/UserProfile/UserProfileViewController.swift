@@ -37,7 +37,7 @@ final class UserProfileViewController: BaseViewController {
         let button = LetgoButton(withStyle: .primary(fontSize: .verySmall))
         button.addTarget(self, action: #selector(didTapChatNow), for: .touchUpInside)
         button.setTitle(R.Strings.chatUserProfileChatNow, for: .normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 18, bottom: 10, right: 18)
+        button.contentEdgeInsets = UIEdgeInsets(top: Metrics.shortMargin, left: 18, bottom: Metrics.shortMargin, right: 18)
         return button
     }()
 
@@ -45,7 +45,7 @@ final class UserProfileViewController: BaseViewController {
         let button = LetgoButton(withStyle: .secondary(fontSize: .verySmall, withBorder: true))
         button.addTarget(self, action: #selector(didTapAskVerification), for: .touchUpInside)
         button.setTitle(R.Strings.profileAskVerificationButtonDisabled, for: .disabled)
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 18, bottom: 10, right: 18)
+        button.contentEdgeInsets = UIEdgeInsets(top: Metrics.shortMargin, left: 18, bottom: Metrics.shortMargin, right: 18)
         return button
     }()
 
@@ -64,7 +64,6 @@ final class UserProfileViewController: BaseViewController {
     private var dummyViewHeightConstraint: NSLayoutConstraint?
     private var ctaButtonsStackTopConstraint: NSLayoutConstraint?
     private var updatingUserRelation: Bool = false
-    private let emptyReviewsTopMargin: CGFloat = 90
 
     private var scrollableContentInset: UIEdgeInsets {
         let topInset = Layout.topMargin + headerContainerView.height
@@ -103,6 +102,7 @@ final class UserProfileViewController: BaseViewController {
         static let bottomScrollableContentInset: CGFloat = 100
         static let navBarTitleHeight: CGFloat = 44
         static let ctaButtonHeight: CGFloat = 34
+        static let emptyReviewsTopMargin: CGFloat = 90
     }
 
     // MARK: - Lifecycle
@@ -305,7 +305,7 @@ final class UserProfileViewController: BaseViewController {
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            emptyReviewsLabel.topAnchor.constraint(equalTo: tableView.topAnchor, constant: emptyReviewsTopMargin),
+            emptyReviewsLabel.topAnchor.constraint(equalTo: tableView.topAnchor, constant: Layout.emptyReviewsTopMargin),
             emptyReviewsLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
         ]
 
@@ -690,11 +690,11 @@ extension UserProfileViewController {
         
         viewModel
             .showBubbleNotification
-            .asObserver()
-            .bind { [weak self] data in
-                guard let view = self?.view else { return }
+            .asDriver(onErrorJustReturn: nil)
+            .drive(onNext: { [weak self] data in
+                guard let view = self?.view, let data = data else { return }
                 self?.viewModel.showUndoBubble(inView: view, data: data)
-            }.disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
 
         viewModel
             .askVerificationProfileIsSent
