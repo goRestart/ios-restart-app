@@ -98,7 +98,7 @@
 "bump_up_banner_pay_text_improvement_turkish_d" = "Locke mehr Käufer an";
 "bump_up_banner_wait_text" = "um es wieder zu empfehlen";
 "bump_up_boost_success_alert_text" = "Dein Angebot wurde angekurbelt! Es wird nun für die nächsten 24 Stunden empfohlen.";
-"bump_up_chat_list_fail_alert" = "This listing can't be featured right now.";
+"bump_up_chat_list_fail_alert" = "Dieses Angebot kann im Moment nicht empfohlen werden.";
 "bump_up_error_bump_generic" = "Wir konnten dein Angebot nicht empfehlen. Bitte versuche es erneut.";
 "bump_up_error_bump_token" = "Deine Zahlung wurde verarbeitet, aber das Angebot wurde noch nicht empfohlen.";
 "bump_up_error_payment_failed" = "Es konnte keine Verbindung zum App Store hergestellt werden. Deine Zahlung wurde nicht verarbeitet. Bitte versuche es erneut.";
@@ -979,6 +979,7 @@
 "post_description_info_title" = "ANGEBOTSINFORMATIONEN";
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Dieses Angebot speichern!";
+"post_details_jobs_camera_message" = "Stelle dein Firmenlogo oder ein Foto, das zeigt, welche Dienstleistungen du anbietest, ein";
 "post_details_jobs_services_camera_message" = "Stelle dein Firmenlogo oder ein Foto, das zeigt, welche Dienstleistungen du anbietest, ein";
 "post_details_jobs_services_congratulation_add_more_details" = "indem du mehr Details hinzufügst:";
 "post_details_jobs_services_congratulation_improve_listing" = "Verbessere dein Angebot,";
@@ -1112,6 +1113,9 @@
 "product_option_edit" = "Angebot bearbeiten";
 "product_option_share" = "Angebot teilen";
 "product_popular_near_you" = "Beliebt in deiner Nähe";
+"product_post_camera_bulk_posting_items_label" = "Deine Artikel (%i)";
+"product_post_camera_bulk_posting_tooltip" = "%@ ein weiteres Angebot ein";
+"product_post_camera_bulk_posting_tooltip_highlighted_word" = "Stelle";
 "product_post_camera_first_time_alert_subtitle" = "Mach ein gutes Foto und verdiene bares Geld!";
 "product_post_camera_first_time_alert_title" = "Was möchtest du verkaufen?";
 "product_post_camera_gallery_text_button" = "GALERIE";
@@ -1181,6 +1185,7 @@
 "product_post_retry_button" = "Versuch's noch einmal";
 "product_post_select_category_cars" = "Autos";
 "product_post_select_category_housing" = "Immobilien zur Miete / zum Verkauf";
+"product_post_select_category_jobs" = "Stellen";
 "product_post_select_category_jobs_services" = "Stellenangebote & Dienstleistungen";
 "product_post_select_category_motors_and_accessories" = "Andere Fahrzeuge und Teile";
 "product_post_select_category_other" = "Etwas anderes";
@@ -1288,7 +1293,7 @@
 "profile_verifications_view_email_title" = "E-Mail";
 "profile_verifications_view_extra_section_title" = "KAUFEN & VERKAUFEN";
 "profile_verifications_view_facebook_title" = "Facebook";
-"profile_verifications_view_facebook_unavailable" = "An error occurred while verifying with Facebook";
+"profile_verifications_view_facebook_unavailable" = "Beim Verifizieren mit Facebook ist ein Fehler aufgetreten";
 "profile_verifications_view_google_title" = "Google";
 "profile_verifications_view_mark_as_sold_subtitle" = "+2 Punkte pro Angebot (bis zu 10 Punkte)";
 "profile_verifications_view_mark_as_sold_title" = "Als verkauft markieren";
@@ -1671,7 +1676,8 @@
 "smoketest_feedback_other" = "Anderer Grund";
 "smoketest_feedback_send" = "Abschicken";
 "smoketest_feedback_subtitle" = "Wir testen zurzeit %@ und würden gerne deine Meinung hören. Bitte hilf uns, besser zu werden.";
-"smoketest_feedback_tell_us" = "Erzähle uns mehr";
+"smoketest_feedback_tell_us" = "Erzähle uns mehr:";
+"smoketest_feedback_tell_us_placeholder" = "Gib deine Kommentare hier ein";
 "smoketest_feedback_title" = "Warum würdest du es nicht nutzen?";
 "smoketest_recommended" = "Empfohlen";
 "smoketest_thank_you_register_interest" = "Wir haben dein Interesse notiert.";

@@ -357,7 +357,6 @@ class ListingPostedViewModel: BaseViewModel {
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: negotiable, pictureSource: pictureSource,
                                                      videoLength: videoLength,
-                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: typePage,
                                                      machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)

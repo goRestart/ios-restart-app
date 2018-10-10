@@ -1,11 +1,3 @@
-//
-//  ListingViewModelSpec.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 06/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 @testable import LetGoGodMode
 import RxTest
 import RxSwift
@@ -116,6 +108,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     userProduct.objectId = myUser.objectId
                     product.user = userProduct
                     product.status = .approved
+                    product.price = .normal(Double.makeRandom())
 
                     monetizationRepository.retrieveResult = BumpeableListingResult(error: .notFound)
 

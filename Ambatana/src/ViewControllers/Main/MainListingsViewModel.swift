@@ -19,6 +19,8 @@ protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmHideAffiliationToolTip(hideForever: Bool)
 }
 
+typealias AdsDelegate = MainListingsAdsDelegate & GADUnifiedNativeAdDelegate
+
 protocol MainListingsAdsDelegate: class {
     func rootViewControllerForAds() -> UIViewController
 }
@@ -851,7 +853,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
     
     func applyFilters(_ categoryHeaderInfo: CategoryHeaderInfo) {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
-                                                                     name: categoryHeaderInfo.name))
+                                                                     category: categoryHeaderInfo.filterCategoryItem))
         delegate?.vmShowTags(tags: tags)
         updateCategoriesHeader()
         updateListView()
@@ -1054,8 +1056,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
             createSearchAlert(fromEnable: true)
         }
         
-        let trackerEvent = TrackerEvent.searchAlertSwitchChanged(userId: myUserRepository.myUser?.objectId,
-                                                                 searchKeyword: currentSearchAlertCreationData.value?.query,
+        let trackerEvent = TrackerEvent.searchAlertSwitchChanged(searchKeyword: currentSearchAlertCreationData.value?.query,
                                                                  enabled: EventParameterBoolean(bool: fromEnabled),
                                                                  source: .search)
         tracker.trackEvent(trackerEvent)
@@ -1463,6 +1464,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         if featureFlags.polymorphFeedAdsUSA.isActive {
             bidder = PMBidder.init(pmAdUnitID: EnvironmentProxy.sharedInstance.polymorphAdUnit)
             feedAdUnitId = EnvironmentProxy.sharedInstance.feedAdUnitIdPolymorphUSA
+        }
+        if featureFlags.googleUnifiedNativeAds.isActive {
+            adTypes = [.unifiedNative]
         }
         let adLoader = GADAdLoader(adUnitID: feedAdUnitId,
                                    rootViewController: adsDelegate.rootViewControllerForAds(),
@@ -2056,7 +2060,9 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 
 extension MainListingsViewModel: ListingCellDelegate {
     
-    func interestedActionFor(_ listing: Listing, userListing: LocalUser?, completion: @escaping (InterestedState) -> Void) {
+    func interestedActionFor(_ listing: Listing,
+                             userListing: LocalUser?,
+                             completion: @escaping (InterestedState) -> Void) {
         let interestedAction: () -> () = { [weak self] in
             self?.interestedHandler.interestedActionFor(listing,
                                                         userListing: userListing,
@@ -2083,12 +2089,22 @@ extension MainListingsViewModel: ListingCellDelegate {
                     }
                     self?.interestedHandler.handleCancellableInterestedAction(listing,
                                                                               timer: timer,
+                                                                              feedPosition: self?.feedPosition(listing),
+                                                                              sectionPosition: nil,
                                                                               typePage: .feed,
                                                                               completion: completion)
                 }
             }
         }
         navigator?.openLoginIfNeeded(infoMessage: R.Strings.chatLoginPopupText, then: interestedAction)
+    }
+
+    private func feedPosition(_ listing: Listing) -> EventParameterFeedPosition? {
+        if let index = listViewModel.objects.index(where: { $0.listing?.objectId == listing.objectId }) {
+            return EventParameterFeedPosition.position(index: index)
+        } else {
+            return .none
+        }
     }
     
     private func showUndoBubble(withMessage message: String,
@@ -2124,7 +2140,6 @@ extension MainListingsViewModel: ListingCellDelegate {
             if let listingId = listing.objectId,
                 strSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
                 let trackHelper = ProductVMTrackHelper(tracker: strSelf.tracker, listing: listing, featureFlags: strSelf.featureFlags)
-                trackHelper.trackChatWithSeller(.feed)
                 strSelf.navigator?.openListingChat(listing, source: .listingList, interlocutor: interlocutor)
             } else {
                 strSelf.navigator?.openAskPhoneFromMainFeedFor(listing: listing, interlocutor: interlocutor)

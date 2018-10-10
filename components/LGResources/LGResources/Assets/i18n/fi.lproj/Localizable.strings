@@ -979,6 +979,7 @@
 "post_description_info_title" = "ILMOITUKSEN TIEDOT";
 "post_description_name_placeholder" = "Nimi";
 "post_description_save_button_text" = "Tallenna tämä ilmoitus!";
+"post_details_jobs_camera_message" = "Julkaise yrityksesi logo tai kuva, jossa näkyy tarjoamasi työ";
 "post_details_jobs_services_camera_message" = "Julkaise yrityksesi logo tai kuva, jossa näkyy tarjoamasi palvelu tai työ";
 "post_details_jobs_services_congratulation_add_more_details" = "lisäämällä tietoja:";
 "post_details_jobs_services_congratulation_improve_listing" = "Paranna ilmoitustasi";
@@ -1112,6 +1113,9 @@
 "product_option_edit" = "Muokkaa ilmoitusta";
 "product_option_share" = "Jaa ilmoitus";
 "product_popular_near_you" = "Suosittuja lähelläsi";
+"product_post_camera_bulk_posting_items_label" = "Kohteesi (%i)";
+"product_post_camera_bulk_posting_tooltip" = "%@ toinen ilmoitus";
+"product_post_camera_bulk_posting_tooltip_highlighted_word" = "Julkaise";
 "product_post_camera_first_time_alert_subtitle" = "Nappaa hyvä kuva ja ala tienata!";
 "product_post_camera_first_time_alert_title" = "Mitä olet myymässä?";
 "product_post_camera_gallery_text_button" = "GALLERIA";
@@ -1181,6 +1185,7 @@
 "product_post_retry_button" = "Yritä uudelleen";
 "product_post_select_category_cars" = "Autoja";
 "product_post_select_category_housing" = "Vuokrattavat/myytävät asunnot";
+"product_post_select_category_jobs" = "Työt";
 "product_post_select_category_jobs_services" = "Työpaikat & palvelut";
 "product_post_select_category_motors_and_accessories" = "Muut ajoneuvot ja varusteet";
 "product_post_select_category_other" = "Muut tuotteet";
@@ -1671,7 +1676,8 @@
 "smoketest_feedback_other" = "Muu";
 "smoketest_feedback_send" = "Lähetä";
 "smoketest_feedback_subtitle" = "Testaamme tällä hetkellä %@-toimintoa ja haluaisimme kuulla palautettasi. Autathan meitä tekemään parannuksia.";
-"smoketest_feedback_tell_us" = "Kerro meille lisää";
+"smoketest_feedback_tell_us" = "Kerro meille lisää:";
+"smoketest_feedback_tell_us_placeholder" = "Syötä kommenttisi tähän";
 "smoketest_feedback_title" = "Miksi et käyttäisi sitä?";
 "smoketest_recommended" = "Suositeltu";
 "smoketest_thank_you_register_interest" = "Olemme rekisteröineet kiinnostuksesi.";

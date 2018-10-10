@@ -64,9 +64,8 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
+    func editListing(_ listing: Listing) {
         let vc = editAssembly.buildEditView(listing: listing,
-                                           pageType: pageType,
                                            purchases: [],
                                            listingCanBeBoosted: false,
                                            timeSinceLastBump: nil,

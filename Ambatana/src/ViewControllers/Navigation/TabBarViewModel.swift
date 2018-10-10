@@ -64,8 +64,7 @@ class TabBarViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
-    func expandableButtonPressed(listingCategory: ListingCategory, source: PostingSource) {
-        let postCategory = listingCategory.postingCategory(with: featureFlags)
+    func expandableButtonPressed(postCategory: PostCategory, source: PostingSource) {
         trackSelectCategory(source: source, category: postCategory)
         navigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
     }

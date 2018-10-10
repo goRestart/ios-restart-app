@@ -93,7 +93,6 @@ final class ListingDetailWireframe: ListingDetailNavigator {
                      timeSinceLastBump: TimeInterval?,
                      maxCountdown: TimeInterval) {
         let vc = editAssembly.buildEditView(listing: listing,
-                                            pageType: nil,
                                             purchases: purchases,
                                             listingCanBeBoosted: listingCanBeBoosted,
                                             timeSinceLastBump: timeSinceLastBump,
@@ -278,6 +277,13 @@ final class ListingDetailWireframe: ListingDetailNavigator {
         guard let nc = nc else { return }
         let assembly = PostAnotherListingBuilder.modal(nc)
         let vc = assembly.buildPostAnotherListing()
+        nc.present(vc, animated: true, completion: nil)
+    }
+
+    func openListingReport(source: EventParameterTypePage, listing: Listing, productId: String) {
+        guard let nc = nc else { return }
+        let assembly = ReportBuilder.modal(nc)
+        let vc = assembly.buildReport(type: .product(listing: listing), reportedId: productId, source: source)
         nc.present(vc, animated: true, completion: nil)
     }
 }

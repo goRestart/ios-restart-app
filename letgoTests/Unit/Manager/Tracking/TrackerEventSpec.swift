@@ -260,16 +260,11 @@ class TrackerEventSpec: QuickSpec {
 
             describe("loginVisit") {
                 it("has its event name") {
-                    sut = TrackerEvent.loginVisit(.sell, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.sell)
                     expect(sut.name.rawValue).to(equal("login-screen"))
                 }
-                it("contains the existing param") {
-                    sut = TrackerEvent.loginVisit(.sell, rememberedAccount: true)
-                    let existing = sut.params!.stringKeyParams["existing"] as! Bool
-                    expect(existing) == true
-                }
                 it("contains the appropiate login source when visiting login from posting") {
-                    sut = TrackerEvent.loginVisit(.sell, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.sell)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -277,7 +272,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source when visiting login from chats") {
-                    sut = TrackerEvent.loginVisit(.chats, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.chats)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -285,7 +280,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source when visiting login from profile") {
-                    sut = TrackerEvent.loginVisit(.profile, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.profile)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -293,7 +288,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source when visiting login from mark as favourite") {
-                    sut = TrackerEvent.loginVisit(.favourite, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.favourite)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -301,7 +296,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source when visiting login from mark as sold") {
-                    sut = TrackerEvent.loginVisit(.markAsSold, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.markAsSold)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -309,7 +304,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source when visiting login from as a question") {
-                    sut = TrackerEvent.loginVisit(.askQuestion, rememberedAccount: true)
+                    sut = TrackerEvent.loginVisit(.askQuestion)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -317,70 +312,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source when visiting login from report fraud") {
-                    sut = TrackerEvent.loginVisit(.reportFraud, rememberedAccount: true)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("report-fraud"))
-                }
-            }
-            
-            describe("loginAbandon") {
-                it("has its event name") {
-                    sut = TrackerEvent.loginAbandon(.sell)
-                    expect(sut.name.rawValue).to(equal("login-abandon"))
-                }
-                it("contains the appropiate login source when abandoning login from posting") {
-                    sut = TrackerEvent.loginAbandon(.sell)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("posting"))
-                }
-                it("contains the appropiate login source when abandoning login from chats") {
-                    sut = TrackerEvent.loginAbandon(.chats)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("messages"))
-                }
-                it("contains the appropiate login source when abandoning login from profile") {
-                    sut = TrackerEvent.loginAbandon(.profile)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("view-profile"))
-                }
-                it("contains the appropiate login source when abandoning login from mark as favourite") {
-                    sut = TrackerEvent.loginAbandon(.favourite)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("favourite"))
-                }
-                it("contains the appropiate login source when abandoning login from mark as sold") {
-                    sut = TrackerEvent.loginAbandon(.markAsSold)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("mark-as-sold"))
-                }
-                it("contains the appropiate login source when abandoning login from as a question") {
-                    sut = TrackerEvent.loginAbandon(.askQuestion)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("question"))
-                }
-                it("contains the appropiate login source when abandoning login from report fraud") {
-                    sut = TrackerEvent.loginAbandon(.reportFraud)
+                    sut = TrackerEvent.loginVisit(.reportFraud)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -391,16 +323,11 @@ class TrackerEventSpec: QuickSpec {
 
             describe("loginFB") {
                 it("has its event name") {
-                    sut = TrackerEvent.loginFB(.sell, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.sell)
                     expect(sut.name.rawValue).to(equal("login-fb"))
                 }
-                it("contains the existing param") {
-                    sut = TrackerEvent.loginFB(.sell, rememberedAccount: true)
-                    let existing = sut.params!.stringKeyParams["existing"] as! Bool
-                    expect(existing) == true
-                }
                 it("contains the appropiate login source logging in via FB from posting") {
-                    sut = TrackerEvent.loginFB(.sell, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.sell)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -408,7 +335,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source logging in via FB from chats") {
-                    sut = TrackerEvent.loginFB(.chats, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.chats)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -416,7 +343,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source logging in via FB from profile") {
-                    sut = TrackerEvent.loginFB(.profile, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.profile)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -424,7 +351,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source logging in via FB from mark as favourite") {
-                    sut = TrackerEvent.loginFB(.favourite, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.favourite)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -432,7 +359,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source logging in via FB from mark as sold") {
-                    sut = TrackerEvent.loginFB(.markAsSold, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.markAsSold)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -440,7 +367,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source logging in via FB from as a question") {
-                    sut = TrackerEvent.loginFB(.askQuestion, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.askQuestion)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -448,7 +375,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source logging in via FB from report fraud") {
-                    sut = TrackerEvent.loginFB(.reportFraud, rememberedAccount: true)
+                    sut = TrackerEvent.loginFB(.reportFraud)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -459,46 +386,41 @@ class TrackerEventSpec: QuickSpec {
 
             describe("loginGoogle") {
                 it("has its event name") {
-                    sut = TrackerEvent.loginGoogle(.sell, rememberedAccount: true)
+                    sut = TrackerEvent.loginGoogle(.sell)
                     expect(sut.name.rawValue).to(equal("login-google"))
                 }
-                it("contains the existing param") {
-                    sut = TrackerEvent.loginGoogle(.sell, rememberedAccount: true)
-                    let existing = sut.params!.stringKeyParams["existing"] as! Bool
-                    expect(existing) == true
-                }
                 it("contains the appropiate login source logging in via FB from posting") {
-                    sut = TrackerEvent.loginGoogle(.sell, rememberedAccount: true)
+                    sut = TrackerEvent.loginGoogle(.sell)
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source logging in via FB from chats") {
-                    sut = TrackerEvent.loginGoogle(.chats, rememberedAccount: true)
+                    sut = TrackerEvent.loginGoogle(.chats)
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source logging in via FB from profile") {
-                    sut = TrackerEvent.loginGoogle(.profile, rememberedAccount: true)
+                    sut = TrackerEvent.loginGoogle(.profile)
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source logging in via FB from mark as favourite") {
-                    sut = TrackerEvent.loginGoogle(.favourite, rememberedAccount: true)
+                    sut = TrackerEvent.loginGoogle(.favourite)
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source logging in via FB from mark as sold") {
-                    sut = TrackerEvent.loginGoogle(.markAsSold, rememberedAccount: true)
+                    sut = TrackerEvent.loginGoogle(.markAsSold)
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source logging in via FB from as a question") {
-                    sut = TrackerEvent.loginGoogle(.askQuestion, rememberedAccount: true)
+                    sut = TrackerEvent.loginGoogle(.askQuestion)
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source logging in via FB from report fraud") {
-                    sut = TrackerEvent.loginGoogle(.reportFraud, rememberedAccount: true)
+                    sut = TrackerEvent.loginGoogle(.reportFraud)
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("report-fraud"))
                 }
@@ -507,16 +429,11 @@ class TrackerEventSpec: QuickSpec {
 
             describe("loginEmail") {
                 it("has its event name") {
-                    sut = TrackerEvent.loginEmail(.sell, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.sell)
                     expect(sut.name.rawValue).to(equal("login-email"))
                 }
-                it("contains the existing param") {
-                    sut = TrackerEvent.loginEmail(.sell, rememberedAccount: true)
-                    let existing = sut.params!.stringKeyParams["existing"] as! Bool
-                    expect(existing) == true
-                }
                 it("contains the appropiate login source logging in via email from posting") {
-                    sut = TrackerEvent.loginEmail(.sell, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.sell)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -524,7 +441,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source logging in via email from chats") {
-                    sut = TrackerEvent.loginEmail(.chats, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.chats)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -532,7 +449,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source logging in via email from profile") {
-                    sut = TrackerEvent.loginEmail(.profile, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.profile)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -540,7 +457,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source logging in via email from mark as favourite") {
-                    sut = TrackerEvent.loginEmail(.favourite, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.favourite)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -548,7 +465,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source logging in via email from mark as sold") {
-                    sut = TrackerEvent.loginEmail(.markAsSold, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.markAsSold)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -556,7 +473,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source logging in via email from as a question") {
-                    sut = TrackerEvent.loginEmail(.askQuestion, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.askQuestion)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -564,7 +481,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source logging in via email from report fraud") {
-                    sut = TrackerEvent.loginEmail(.reportFraud, rememberedAccount: true)
+                    sut = TrackerEvent.loginEmail(.reportFraud)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -644,10 +561,17 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("password reset visit") {
+            describe("password reset start") {
                 it("has its event name") {
-                    sut = TrackerEvent.passwordResetVisit()
-                    expect(sut.name.rawValue).to(equal("login-reset-password"))
+                    sut = TrackerEvent.passwordResetStart()
+                    expect(sut.name.rawValue).to(equal("login-reset-password-start"))
+                }
+            }
+
+            describe("password reset complete") {
+                it("has its event name") {
+                    sut = TrackerEvent.passwordResetComplete()
+                    expect(sut.name.rawValue).to(equal("login-reset-password-complete"))
                 }
             }
 
@@ -713,7 +637,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("Login Blocked Account Start") {
                 beforeEach {
-                    sut = TrackerEvent.loginBlockedAccountStart(.email, reason: .accountUnderReview)
+                    sut = TrackerEvent.loginBlockedAccountStart(.email)
                 }
 
                 it("has its event name") {
@@ -723,15 +647,11 @@ class TrackerEventSpec: QuickSpec {
                     let network = sut.params!.stringKeyParams["account-network"] as! String
                     expect(network) == "email"
                 }
-                it("contains the reason parameter") {
-                    let network = sut.params!.stringKeyParams["reason"] as! String
-                    expect(network) == "account-under-review"
-                }
             }
 
             describe("Login Blocked Account Contact us") {
                 beforeEach {
-                    sut = TrackerEvent.loginBlockedAccountContactUs(.email, reason: .accountUnderReview)
+                    sut = TrackerEvent.loginBlockedAccountContactUs(.email)
                 }
 
                 it("has its event name") {
@@ -741,15 +661,11 @@ class TrackerEventSpec: QuickSpec {
                     let network = sut.params!.stringKeyParams["account-network"] as! String
                     expect(network) == "email"
                 }
-                it("contains the reason parameter") {
-                    let network = sut.params!.stringKeyParams["reason"] as! String
-                    expect(network) == "account-under-review"
-                }
             }
 
             describe("Login Blocked Account Keep browsing") {
                 beforeEach {
-                    sut = TrackerEvent.loginBlockedAccountKeepBrowsing(.email, reason: .accountUnderReview)
+                    sut = TrackerEvent.loginBlockedAccountKeepBrowsing(.email)
                 }
 
                 it("has its event name") {
@@ -758,10 +674,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the Account network parameter") {
                     let network = sut.params!.stringKeyParams["account-network"] as! String
                     expect(network) == "email"
-                }
-                it("contains the reason parameter") {
-                    let network = sut.params!.stringKeyParams["reason"] as! String
-                    expect(network) == "account-under-review"
                 }
             }
 
@@ -908,28 +820,6 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains reload parameter with true value") {
                     expect(sut.params!.stringKeyParams["reload"] as? String).to(equal("true"))
-                }
-            }
-            
-            describe("listingListVertical") {
-                beforeEach {
-                    sut = TrackerEvent.listingListVertical(category: .cars,
-                                                           keywords: ["kw1", "kw2"],
-                                                           matchingFields: ["mf1", "mf2"])
-                }
-                
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("product-list-vertical"))
-                }
-                it("contains the category id parameter") {
-                    let categoryId = sut.params!.stringKeyParams["category-id"] as? String
-                    expect(categoryId).to(equal("9"))
-                }
-                it("contains vertical keyword parameter") {
-                    expect(sut.params!.stringKeyParams["vertical-keyword"] as? String) == "kw1_kw2"
-                }
-                it("contains vertical matching fields parameter") {
-                    expect(sut.params!.stringKeyParams["vertical-matching-fields"] as? String) == "mf1,mf2"
                 }
             }
 
@@ -1087,7 +977,7 @@ class TrackerEventSpec: QuickSpec {
             describe("filterComplete") {
                 context("receiving all params") {
                     beforeEach {
-                        sut = TrackerEvent.filterComplete(ListingFilters.makeMock(), carSellerType: "professional", freePostingModeAllowed: true)
+                        sut = TrackerEvent.filterComplete(ListingFilters.makeMock(), carSellerType: "professional")
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -1179,7 +1069,7 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         var mockFilter = ListingFilters()
                         mockFilter.distanceType = .km
-                        sut = TrackerEvent.filterComplete(mockFilter, carSellerType: nil, freePostingModeAllowed: false)
+                        sut = TrackerEvent.filterComplete(mockFilter, carSellerType: nil)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -1215,8 +1105,8 @@ class TrackerEventSpec: QuickSpec {
                     it("max price") {
                         expect(sut.params!.stringKeyParams["price-to"] as? String) == "false"
                     }
-                    it("free posting") {
-                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == TrackerEvent.notApply
+                    it("free posting false by default") {
+                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == "false"
                     }
                     it ("seller type") {
                         expect(sut.params!.stringKeyParams["seller-type"] as? String).to(beNil())
@@ -1266,17 +1156,13 @@ class TrackerEventSpec: QuickSpec {
 
             describe("searchAlertSwitchChanged") {
                 beforeEach {
-                    sut = TrackerEvent.searchAlertSwitchChanged(userId: "user_id",
-                                                                searchKeyword: "flux capacitor",
+                    sut = TrackerEvent.searchAlertSwitchChanged(searchKeyword: "flux capacitor",
                                                                 enabled: .trueParameter,
                                                                 source: .search)
                 }
 
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("search-alert"))
-                }
-                it("contains the user id parameter") {
-                    expect(sut.params!.stringKeyParams["user-id"] as? String) == "user_id"
                 }
                 it("contains search keyword parameter") {
                     expect(sut.params!.stringKeyParams["search-keyword"] as? String) == "flux capacitor"
@@ -1613,6 +1499,7 @@ class TrackerEventSpec: QuickSpec {
                                                 queryType: .title,
                                                 query: "patata",
                                                 willLeaveApp: .trueParameter,
+                                                hasVideoContent: nil,
                                                 typePage: .listingDetailMoreInfo,
                                                 categories: [.homeAndGarden, .motorsAndAccessories],
                                                 feedPosition: .position(index: 14))
@@ -1683,7 +1570,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.listingFavorite(.product(product), typePage: .listingDetail, isBumpedUp: .trueParameter)
+                    sut = TrackerEvent.listingFavorite(.product(product), isBumpedUp: .trueParameter)
                     expect(sut.params).notTo(beNil())
                 }
                 it("has its event name") {
@@ -1718,10 +1605,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains item type") {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType).to(equal("1"))
-                }
-                it("contains type page") {
-                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal("product-detail"))
                 }
                 it("contains bumped up param") {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
@@ -1895,14 +1778,12 @@ class TrackerEventSpec: QuickSpec {
                     
                     listing = Listing.product(mockProduct)
                     sendMessageInfo = SendMessageTrackingInfo()
-                        .set(listing: listing, freePostingModeAllowed: true)
+                        .set(listing: listing)
                         .set(messageType: .text)
                         .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .listingDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
-                        .set(containsEmoji: true)
-                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
                                                     feedPosition: .position(index:1),
@@ -2030,10 +1911,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains feed-position") {
                     let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                     expect(feedPosition).to(equal("2"))
-                }
-                it("has contains emoji") {
-                    let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
-                    expect(emoji) == true
                 }
                 it("contains seller badge param") {
                     let badge = sut.params!.stringKeyParams["seller-reputation-badge"] as? String
@@ -2241,10 +2118,6 @@ class TrackerEventSpec: QuickSpec {
                     let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                     expect(feedPosition).to(equal("2"))
                 }
-                it("has contains emoji") {
-                    let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
-                    expect(emoji) == false
-                }
                 it("contains seller badge param") {
                     let badge = sut.params!.stringKeyParams["seller-reputation-badge"] as? String
                     expect(badge) == "silver"
@@ -2353,28 +2226,6 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("listingDetailOpenChat") {
-                beforeEach {
-                    var mockProduct = MockProduct.makeMock()
-                    mockProduct.objectId = "12345"
-                    mockProduct.price = .normal(123.983)
-                    mockProduct.currency = Currency(code: "EUR", symbol: "€")
-
-                    sut = TrackerEvent.listingDetailOpenChat(.product(mockProduct), typePage: .listingDetail)
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("product-detail-open-chat"))
-                }
-                it("contains product-id param") {
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId) == "12345"
-                }
-                it("contains type-page param") {
-                    let productPrice = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(productPrice) == "product-detail"
-                }
-            }
-
             describe("listingMarkAsSold") {
                 beforeEach {
                     var userListing = MockUserListing.makeMock()
@@ -2396,7 +2247,6 @@ class TrackerEventSpec: QuickSpec {
 
                     let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(product),
                                                                    isBumpedUp: .trueParameter,
-                                                                   isFreePostingModeAllowed: true,
                                                                    typePage: .listingDetail)
                     sut = TrackerEvent.listingMarkAsSold(trackingInfo: trackingInfo)
                 }
@@ -2456,7 +2306,6 @@ class TrackerEventSpec: QuickSpec {
                                                           countryCode: "US", country: nil)
                     let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(product),
                                                                    isBumpedUp: .trueParameter,
-                                                                   isFreePostingModeAllowed: true,
                                                                    typePage: .listingDetail).updating(buyerId: "buyerId")
                     sut = TrackerEvent.listingMarkAsSoldAtLetgo(trackingInfo: trackingInfo)
                 }
@@ -2514,7 +2363,6 @@ class TrackerEventSpec: QuickSpec {
                     
                     let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(product),
                                                                    isBumpedUp: .trueParameter,
-                                                                   isFreePostingModeAllowed: true,
                                                                    typePage: .listingDetail)
                     sut = TrackerEvent.listingMarkAsSoldOutsideLetgo(trackingInfo: trackingInfo)
                 }
@@ -2920,7 +2768,6 @@ class TrackerEventSpec: QuickSpec {
                                                            negotiable: .yes,
                                                            pictureSource: .gallery,
                                                            videoLength: nil,
-                                                           freePostingModeAllowed: true,
                                                            typePage: .sell,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
@@ -2942,10 +2789,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains product-name") {
                     let data = sut.params!.stringKeyParams["product-name"] as? String
                     expect(data).to(equal("name"))
-                }
-                it("contains product-description") {
-                    let data = sut.params!.stringKeyParams["product-description"] as? Bool
-                    expect(data).to(equal(true))
                 }
                 it("contains number-photos-posting") {
                     let data = sut.params!.stringKeyParams["number-photos-posting"] as? Int
@@ -3029,7 +2872,6 @@ class TrackerEventSpec: QuickSpec {
                                                            negotiable: .yes,
                                                            pictureSource: .videoCamera,
                                                            videoLength: 12,
-                                                           freePostingModeAllowed: true,
                                                            typePage: .sell,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
@@ -3051,10 +2893,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains product-name") {
                     let data = sut.params!.stringKeyParams["product-name"] as? String
                     expect(data).to(equal("name"))
-                }
-                it("contains product-description") {
-                    let data = sut.params!.stringKeyParams["product-description"] as? Bool
-                    expect(data).to(equal(true))
                 }
                 it("contains number-photos-posting") {
                     let data = sut.params!.stringKeyParams["number-photos-posting"] as? Int
@@ -3139,7 +2977,6 @@ class TrackerEventSpec: QuickSpec {
                                                            negotiable: .yes,
                                                            pictureSource: .gallery,
                                                            videoLength: nil,
-                                                           freePostingModeAllowed: true,
                                                            typePage: .sell,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
@@ -3161,10 +2998,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains product-name") {
                     let data = sut.params!.stringKeyParams["product-name"] as? String
                     expect(data).to(equal("name"))
-                }
-                it("contains product-description") {
-                    let data = sut.params!.stringKeyParams["product-description"] as? Bool
-                    expect(data).to(equal(true))
                 }
                 it("contains number-photos-posting") {
                     let data = sut.params!.stringKeyParams["number-photos-posting"] as? Int
@@ -3267,7 +3100,6 @@ class TrackerEventSpec: QuickSpec {
                                                            negotiable: .yes,
                                                            pictureSource: .gallery,
                                                            videoLength: nil,
-                                                           freePostingModeAllowed: true,
                                                            typePage: .sell,
                                                            machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
@@ -3289,10 +3121,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains product-name") {
                     let data = sut.params!.stringKeyParams["product-name"] as? String
                     expect(data).to(equal("name"))
-                }
-                it("contains product-description") {
-                    let data = sut.params!.stringKeyParams["product-description"] as? Bool
-                    expect(data).to(equal(true))
                 }
                 it("contains number-photos-posting") {
                     let data = sut.params!.stringKeyParams["number-photos-posting"] as? Int
@@ -3535,26 +3363,19 @@ class TrackerEventSpec: QuickSpec {
 
             describe("listingEditStart") {
                 it("has its event name") {
-                    let user = MockUser.makeMock()
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingEditStart(user, listing: .product(product), pageType: nil)
+                    sut = TrackerEvent.listingEditStart(listing: .product(product))
                     expect(sut.name.rawValue).to(equal("product-edit-start"))
                 }
                 it("contains the product id") {
                     var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.listingEditStart(nil, listing: .product(product), pageType: nil)
+                    sut = TrackerEvent.listingEditStart(listing: .product(product))
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
-                }
-                it("has the page type") {
-                    let user = MockUser.makeMock()
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingEditStart(user, listing: .product(product), pageType: .profile)
-                    expect(sut.params!.stringKeyParams["type-page"] as? String).to(equal("profile"))
                 }
             }
             
@@ -3616,7 +3437,7 @@ class TrackerEventSpec: QuickSpec {
                         product.price = .normal(20)
                         product.images = MockFile.makeMocks(count: 2)
                         product.descr = String.makeRandom()
-                        sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: .homeAndGarden, editedFields: [.title, .category, .serviceType, .serviceSubtype, .paymentFrequency], pageType: .profile)
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: .homeAndGarden, editedFields: [.title, .category, .serviceType, .serviceSubtype, .paymentFrequency])
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("product-edit-complete"))
@@ -3655,10 +3476,6 @@ class TrackerEventSpec: QuickSpec {
                         let data = sut.params!.stringKeyParams["bathroom-number"] as? String
                         expect(data).to(equal("N/A"))
                     }
-                    it("contains page type") {
-                        let data = sut.params!.stringKeyParams["type-page"] as? String
-                        expect(data).to(equal("profile"))
-                    }
                 }
                 
                 context("edit car") {
@@ -3672,7 +3489,7 @@ class TrackerEventSpec: QuickSpec {
                         car.images = MockFile.makeMocks(count: 2)
                         car.descr = String.makeRandom()
                         car.carAttributes = CarAttributes.init(makeId: "makeId", make: "make", modelId: "modelId", model: "model", year: 1234, mileage: 50000, mileageType: .mi, bodyType: .coupe, transmission: .automatic, fuelType: .electric, driveTrain: .fourWd, seats: 4)
-                        sut = TrackerEvent.listingEditComplete(nil, listing: .car(car), category: nil, editedFields: [.make, .model, .year], pageType: .profile)
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .car(car), category: nil, editedFields: [.make, .model, .year])
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("product-edit-complete"))
@@ -3730,7 +3547,7 @@ class TrackerEventSpec: QuickSpec {
                                                                         livingRooms: nil,
                                                                         sizeSquareMeters: nil)
                         realEstate.realEstateAttributes = realEstateAttributes
-                        sut = TrackerEvent.listingEditComplete(nil, listing: .realEstate(realEstate), category: nil, editedFields: [.title, .category], pageType: .profile)
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .realEstate(realEstate), category: nil, editedFields: [.title, .category])
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("product-edit-complete"))
@@ -3769,10 +3586,6 @@ class TrackerEventSpec: QuickSpec {
                         let data = sut.params!.stringKeyParams["bathroom-number"] as? String
                         expect(data).to(equal("1.0"))
                     }
-                    it("contains page type") {
-                        let data = sut.params!.stringKeyParams["type-page"] as? String
-                        expect(data).to(equal("profile"))
-                    }
                 }
             }
             
@@ -3796,8 +3609,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.listingEditComplete(nil,
                                                                listing: .service(services),
                                                                category: nil,
-                                                               editedFields: [.title, .category, .serviceListingType],
-                                                               pageType: .profile)
+                                                               editedFields: [.title, .category, .serviceListingType])
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("product-edit-complete"))
@@ -3967,14 +3779,12 @@ class TrackerEventSpec: QuickSpec {
                                                               status: .pending)
 
                     sendMessageInfo = SendMessageTrackingInfo()
-                        .set(listing: .product(product), freePostingModeAllowed: true)
+                        .set(listing: .product(product))
                         .set(messageType: .text)
                         .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .chat)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
-                        .set(containsEmoji: false)
-                        .set(assistantMeeting: assistantMeeting, isSuggestedPlace: true)
                     sut = TrackerEvent.userMessageSent(info: sendMessageInfo, isProfessional: false)
                 }
                 context("Interlocutor is a professional") {
@@ -4037,26 +3847,6 @@ class TrackerEventSpec: QuickSpec {
                     let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
                     expect(freePosting) == "false"
                 }
-                it("has contains emoji") {
-                    let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
-                    expect(emoji) == false
-                }
-                it("has meeting message type") {
-                    let meetingType = sut.params!.stringKeyParams["assistant-meeting-type"] as? String
-                    expect(meetingType) == "assistant-meeting-complete"
-                }
-                it("has meeting message date") {
-                    let meetingLocation = sut.params!.stringKeyParams["assistant-meeting-date"] as? String
-                    expect(meetingLocation) == meetingDate.formattedForTracking()
-                }
-                it("has meeting message location name") {
-                    let meetingLocation = sut.params!.stringKeyParams["assistant-meeting-location"] as? String
-                    expect(meetingLocation) == "Pasa tapas"
-                }
-                it("has meeting location suggested type") {
-                    let locationSuggested = sut.params!.stringKeyParams["assistant-location-suggested"] as? String
-                    expect(locationSuggested) == "true"
-                }
 
                 describe("text message") {
                     beforeEach {
@@ -4066,10 +3856,6 @@ class TrackerEventSpec: QuickSpec {
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
                         expect(value) == "text"
-                    }
-                    it("has quick-answer param with value false") {
-                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
-                        expect(value) == "false"
                     }
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
@@ -4084,10 +3870,6 @@ class TrackerEventSpec: QuickSpec {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
                         expect(value) == "sticker"
                     }
-                    it("has quick-answer param with value false") {
-                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
-                        expect(value) == "false"
-                    }
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
                     }
@@ -4101,10 +3883,6 @@ class TrackerEventSpec: QuickSpec {
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
                         expect(value) == "quick-answer"
-                    }
-                    it("has quick-answer param with value false") {
-                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
-                        expect(value) == "true"
                     }
                     it("has no quick-answer-type") {
                         let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
@@ -4138,15 +3916,13 @@ class TrackerEventSpec: QuickSpec {
                     let error: EventParameterChatError = .serverError(code: 404)
 
                     sendMessageInfo = SendMessageTrackingInfo()
-                        .set(listing: .product(product), freePostingModeAllowed: true)
+                        .set(listing: .product(product))
                         .set(messageType: .text)
                         .set(quickAnswerTypeParameter: nil)
                         .set(typePage: .chat)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
                         .set(error: error)
-                        .set(containsEmoji: false)
-                        .set(assistantMeeting: nil, isSuggestedPlace: nil)
                     sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
                 }
                 it("has its event name") {
@@ -4199,10 +3975,6 @@ class TrackerEventSpec: QuickSpec {
                     let value = sut.params!.stringKeyParams["error-details"] as? String
                     expect(value) == "404"
                 }
-                it("has contains emoji") {
-                    let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
-                    expect(emoji) == false
-                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
@@ -4211,10 +3983,6 @@ class TrackerEventSpec: QuickSpec {
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
                         expect(value) == "text"
-                    }
-                    it("has quick-answer param with value false") {
-                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
-                        expect(value) == "false"
                     }
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
@@ -4229,10 +3997,6 @@ class TrackerEventSpec: QuickSpec {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
                         expect(value) == "sticker"
                     }
-                    it("has quick-answer param with value false") {
-                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
-                        expect(value) == "false"
-                    }
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
                     }
@@ -4246,10 +4010,6 @@ class TrackerEventSpec: QuickSpec {
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
                         expect(value) == "quick-answer"
-                    }
-                    it("has quick-answer param with value false") {
-                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
-                        expect(value) == "true"
                     }
                     it("has no quick-answer-type") {
                         let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
@@ -4425,14 +4185,10 @@ class TrackerEventSpec: QuickSpec {
 
             describe("profileEditBioComplete") {
                 beforeEach {
-                    sut = TrackerEvent.profileEditBioComplete(userId: "1234")
+                    sut = TrackerEvent.profileEditBioComplete()
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("profile-edit-bio"))
-                }
-                it("contains user-id param") {
-                    let param = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(param) == "1234"
                 }
             }
 
@@ -5309,7 +5065,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("category header filter") {
                 beforeEach {
-                    sut = TrackerEvent.filterCategoryHeaderSelected(position: 1, name: "cars")
+                    sut = TrackerEvent.filterCategoryHeaderSelected(position: 1, category: FilterCategoryItem.category(category: .cars))
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("filter-bubble"))
@@ -5349,15 +5105,6 @@ class TrackerEventSpec: QuickSpec {
                 it("contains keyword name parameter") {
                     let param = sut.params!.stringKeyParams["keyword-name"] as? String
                     expect(param) == "electronics"
-                }
-            }
-            
-            describe("product sell your stuff button") {
-                beforeEach {
-                    sut = TrackerEvent.listingSellYourStuffButton()
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("product-sell-your-stuff-button"))
                 }
             }
             
@@ -5715,6 +5462,7 @@ class TrackerEventSpec: QuickSpec {
                                                 queryType: nil,
                                                 query: nil,
                                                 willLeaveApp: .trueParameter,
+                                                hasVideoContent: nil,
                                                 typePage: .nextItem,
                                                 categories: nil,
                                                 feedPosition: .position(index: 19))
@@ -7091,7 +6839,6 @@ class TrackerEventSpec: QuickSpec {
                                                                        negotiable: nil,
                                                                        pictureSource: nil,
                                                                        videoLength: nil,
-                                                                       freePostingModeAllowed: false,
                                                                        typePage: .sell,
                                                                        machineLearningTrackingInfo: machineLearningTrackingInfo)
                         sut = TrackerEvent.lister24h(event: sourceEvent)
@@ -7124,14 +6871,11 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         let listing = Listing.makeMock()
                         let sendMessageInfo = SendMessageTrackingInfo()
-                            .set(listing: listing, freePostingModeAllowed: true)
+                            .set(listing: listing)
                             .set(messageType: .text)
                             .set(quickAnswerTypeParameter: nil)
                             .set(typePage: .listingDetail)
-                            .set(sellerRating: 4)
                             .set(isBumpedUp: .trueParameter)
-                            .set(containsEmoji: true)
-                            .set(assistantMeeting: nil, isSuggestedPlace: nil)
                         sourceEvent = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                                 listingVisitSource: .listingList,
                                                                 feedPosition: .position(index:1),
@@ -7170,14 +6914,11 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         let listing = Listing.makeMock()
                         let sendMessageInfo = SendMessageTrackingInfo()
-                            .set(listing: listing, freePostingModeAllowed: true)
+                            .set(listing: listing)
                             .set(messageType: .text)
                             .set(quickAnswerTypeParameter: nil)
                             .set(typePage: .listingDetail)
-                            .set(sellerRating: 4)
                             .set(isBumpedUp: .trueParameter)
-                            .set(containsEmoji: true)
-                            .set(assistantMeeting: nil, isSuggestedPlace: nil)
                         sourceEvent = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                                 listingVisitSource: .listingList,
                                                                 feedPosition: .position(index:1),
@@ -7207,7 +6948,6 @@ class TrackerEventSpec: QuickSpec {
                                                                        negotiable: nil,
                                                                        pictureSource: nil,
                                                                        videoLength: nil,
-                                                                       freePostingModeAllowed: false,
                                                                        typePage: .sell,
                                                                        machineLearningTrackingInfo: machineLearningTrackingInfo)
                         sut = TrackerEvent.buyerLister24h(event: sourceEvent)
@@ -7269,15 +7009,13 @@ class TrackerEventSpec: QuickSpec {
             
             func makeSendMessageInfo(withProduct product: ChatListing) -> SendMessageTrackingInfo {
                 return SendMessageTrackingInfo()
-                    .set(chatListing: product, freePostingModeAllowed: true)
+                    .set(chatListing: product)
                     .set(interlocutorId: "67890")
                     .set(messageType: .text)
                     .set(quickAnswerTypeParameter: nil)
                     .set(typePage: .listingDetail)
                     .set(sellerRating: 4)
                     .set(isBumpedUp: .trueParameter)
-                    .set(containsEmoji: false)
-                    .set(assistantMeeting: nil, isSuggestedPlace: nil)
             }
             
             func makeSutFirstMessage(product: ChatListing,

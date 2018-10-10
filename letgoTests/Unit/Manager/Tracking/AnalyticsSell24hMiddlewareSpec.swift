@@ -28,7 +28,6 @@ final class AnalyticsSell24hMiddlewareSpec: QuickSpec {
                                                              negotiable: nil,
                                                              pictureSource: nil,
                                                              videoLength: nil,
-                                                             freePostingModeAllowed: false,
                                                              typePage: .sell,
                                                              machineLearningTrackingInfo: machineLearningTrackingInfo)
                 }

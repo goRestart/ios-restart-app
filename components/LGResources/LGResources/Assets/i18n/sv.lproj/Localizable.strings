@@ -52,7 +52,7 @@
 "affiliation_store_redeem_gift_add_email" = "Lägg till e-post";
 "affiliation_store_redeem_gift_edit_email" = "Ändra e-post";
 "affiliation_store_redeem_gift_send" = "Skicka";
-"affiliation_store_redeem_gift_success_headline" = "Presentkortet begärt";
+"affiliation_store_redeem_gift_success_headline" = "Presentkort begärt";
 "affiliation_store_redeem_gift_success_subheadline_with_email" = "Vi kommer att mejla dig när ditt presentkort är klart. Det kan ta upp till 24 timmar.";
 "affiliation_store_redeem_gift_success_subheadline_without_email" = "För att kunna få ditt presentkort måste du lägga till en e-postadress till ditt konto.";
 "affiliation_store_resend_voucher" = "Återsänd";
@@ -979,6 +979,7 @@
 "post_description_info_title" = "INFORMATION";
 "post_description_name_placeholder" = "Namn";
 "post_description_save_button_text" = "Spara annonsen!";
+"post_details_jobs_camera_message" = "Lägg upp din företagslogga eller en bild som visar vilket slags jobb du erbjuder";
 "post_details_jobs_services_camera_message" = "Lägg upp din företagslogga eller en bild som visar vilken tjänst eller vilket obb du erbjuder";
 "post_details_jobs_services_congratulation_add_more_details" = "med flera detaljer:";
 "post_details_jobs_services_congratulation_improve_listing" = "Förbättra din annons";
@@ -1112,6 +1113,9 @@
 "product_option_edit" = "Redigera annons";
 "product_option_share" = "Dela annons";
 "product_popular_near_you" = "Populärt nära dig";
+"product_post_camera_bulk_posting_items_label" = "Dina varor (%i)";
+"product_post_camera_bulk_posting_tooltip" = "%@ en annan annons";
+"product_post_camera_bulk_posting_tooltip_highlighted_word" = "Lägg upp";
 "product_post_camera_first_time_alert_subtitle" = "Ta en bra bild och börja tjäna pengar!";
 "product_post_camera_first_time_alert_title" = "Vad säljer du?";
 "product_post_camera_gallery_text_button" = "BIBLIOTEK";
@@ -1181,6 +1185,7 @@
 "product_post_retry_button" = "Försök igen";
 "product_post_select_category_cars" = "Bilar";
 "product_post_select_category_housing" = "Bostad Uthyres / Säljes";
+"product_post_select_category_jobs" = "Jobb";
 "product_post_select_category_jobs_services" = "Jobb & Tjänster";
 "product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
 "product_post_select_category_other" = "Något annat";
@@ -1241,7 +1246,7 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Ange telefonnummer";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Tack för att du kontaktat oss! Vänligen ring oss eller lägg till ditt nummer så vi kan ringa upp dig.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Tack för att du lämnat ditt telefonnummer! Det är alltid bättre att slå oss en signal med hjälp av ringknappen ovan.";
-"profile_ask_verification_button_disabled" = "Verifikation begärt!";
+"profile_ask_verification_button_disabled" = "Verifikation begärd!";
 "profile_ask_verification_button_enabled" = "Be %@ att verifiera sin profil";
 "profile_ask_verification_button_enabled_short" = "Begär profilverifikation";
 "profile_bio_add_button" = "Lägg till din bio";
@@ -1671,7 +1676,8 @@
 "smoketest_feedback_other" = "Annat";
 "smoketest_feedback_send" = "Skicka";
 "smoketest_feedback_subtitle" = "Vi testar för närvarande %@ och skulle gärna veta vad du tycker. Din feedback hjälper oss att bli ännu bättre.";
-"smoketest_feedback_tell_us" = "Berätta mer";
+"smoketest_feedback_tell_us" = "Berätta mer:";
+"smoketest_feedback_tell_us_placeholder" = "Lämna dina kommentarer här";
 "smoketest_feedback_title" = "Varför skulle du inte använda den?";
 "smoketest_recommended" = "Rekommenderat";
 "smoketest_thank_you_register_interest" = "Dina åsikter är viktiga för oss.";

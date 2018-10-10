@@ -377,7 +377,8 @@ private_lane :tag_release do |options|
 	)
 	push_git_tags(
 		tag: options[:tag_name],
-		remote: "origin"
+		remote: "origin",
+		force: true
 	)
 end
 

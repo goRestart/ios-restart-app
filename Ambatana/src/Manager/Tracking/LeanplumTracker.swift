@@ -19,7 +19,7 @@ fileprivate extension TrackerEvent {
                  .userMessageSent,
                  .loginEmail, .loginFB, .loginGoogle, .signupEmail,
                  .searchComplete, .filterComplete,
-                 .firstMessage, .listingOpenChat, .listingFavorite, .listingShareComplete,
+                 .firstMessage, .listingFavorite, .listingShareComplete,
                  .listingMarkAsSold, .listingDetailVisit,
                  .listingSellComplete, .listingSellStart,
                  .profileVisit, .onboardingInterestsComplete:

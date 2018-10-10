@@ -105,11 +105,6 @@
         "description": "Personalize the feed"
     },
     {
-        "name": "ServicesCategoryOnSalchichasMenu",
-        "values": ["control", "baseline", "VariantA", "VariantB", "VariantC"],
-        "description": "[PRODUCTS] Show services category on salchichas menu"
-    },
-    {
          "name": "OffensiveReportAlert",
          "values": ["control", "baseline", "active"],
          "description": "Offensive Report alert active"
@@ -118,16 +113,6 @@
         "name": "FullScreenAdsWhenBrowsingForUS",
         "values": ["control", "baseline", "AdsForAllUsers", "AdsForOldUsers"],
         "description": "[MONEY] Show full screen Interstitial while browsing through items"
-    },
-    {
-        "name": "VideoPosting",
-        "values": ["control", "baseline", "active"],
-        "description": "[PRODUCTS] Show video posting flow when pressing Other Items and Other Vehicles and Parts on salchichas menu"
-    },
-    {
-        "name": "PredictivePosting",
-        "values": ["control", "baseline", "active"],
-        "description": "[PRODUCTS] Show predictive posting flow when pressing Other Items on salchichas menu"
     },
     {
         "name": "PreventMessagesFromFeedToProUsers",
@@ -185,11 +170,6 @@
         "description": "[RETENTION] Show recent items bubble in feed basic approach"
     },
     {
-        "name": "FrictionlessShare",
-        "values": ["control", "baseline", "active"],
-        "description": "[PRODUCTS] Open facebook share dialog in congrats screen"
-    },
-    {
         "name": "ShowCommunity",
         "values": ["control", "baseline", "communityOnNavBar", "communityOnTabBar"],
         "description": "[Users] Show button/tab to open the new Community feature"
@@ -243,11 +223,6 @@
         "name": "CopyForSellFasterNowInTurkish",
         "values": ["control", "baseline", "variantB", "variantC", "variantD"],
         "description": "[MONEY] Try different copies for 'Sell faster now' banner in Turkish"
-    },
-    {
-        "name": "TurkeyFreePosting",
-        "values": ["control", "baseline", "active"],
-        "description": "[PRODUCTS] Enable Leanplum driven Turkey free posting"
     },
     {
         "name": "RandomImInterestedMessages",
@@ -378,5 +353,10 @@
         "name": "PolymorphFeedAdsUSA",
         "values": ["control", "baseline", "active"],
         "description": "[MONEY] Show Polymorph ads in feed for USA"
+    },
+    {
+        "name": "GoogleUnifiedNativeAds",
+        "values": ["control", "baseline", "active"],
+        "description": "[MONEY] New unified Google Native Ads"
     }
 ]

@@ -121,6 +121,11 @@ Upload build to appstore
 fastlane ios upload_crashlytics
 ```
 Upload beta build to crashlytics
+### ios upload_last_beta_dsyms
+```
+fastlane ios upload_last_beta_dsyms
+```
+Upload last beta dsyms to fabric
 ### ios build_beta
 ```
 fastlane ios build_beta

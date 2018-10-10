@@ -68,14 +68,14 @@ final class PasswordlessEmailViewModel: BaseViewModel {
         let contact = UIAction(
             interface: .button(R.Strings.loginScammerAlertContactButton, .primary(fontSize: .medium)),
             action: {
-                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .accountUnderReview))
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
                 self.router?.close(onFinish: { self.router?.open(url: contactURL) })
         })
         let keepBrowsing = UIAction(
             interface: .button(R.Strings.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
                                                                                          withBorder: false)),
             action: {
-                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .accountUnderReview))
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
                 self.router?.close()
         })
 
@@ -88,7 +88,7 @@ final class PasswordlessEmailViewModel: BaseViewModel {
             andActions: actions
         )
 
-        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .accountUnderReview))
+        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
     }
 
     private func showDeviceNotAllowedAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
@@ -103,7 +103,7 @@ final class PasswordlessEmailViewModel: BaseViewModel {
         let contact = UIAction(
             interface: .button(R.Strings.loginDeviceNotAllowedAlertContactButton, .primary(fontSize: .medium)),
             action: {
-                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .secondDevice))
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
                 self.router?.close(onFinish: { self.router?.open(url: contactURL) })
         })
 
@@ -111,7 +111,7 @@ final class PasswordlessEmailViewModel: BaseViewModel {
             interface: .button(R.Strings.loginDeviceNotAllowedAlertOkButton, .secondary(fontSize: .medium,
                                                                                         withBorder: false)),
             action: {
-                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .secondDevice))
+                self.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
                 self.router?.close()
         })
 
@@ -121,6 +121,6 @@ final class PasswordlessEmailViewModel: BaseViewModel {
             andType: .iconAlert(icon: R.Asset.IconsButtons.icDeviceBlockedAlert.image),
             andActions: [contact, keepBrowsing])
 
-        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .secondDevice))
+        tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network))
     }
 }

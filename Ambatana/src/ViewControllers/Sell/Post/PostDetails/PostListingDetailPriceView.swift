@@ -13,7 +13,6 @@ class PostListingDetailPriceView: BaseView {
     @IBOutlet weak var priceFieldContainer: UIView!
     @IBOutlet weak var postFreeViewContainer: UIView!
     @IBOutlet weak var doneButton: LetgoButton!
-    @IBOutlet weak var doneButtonTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var freePostSwitch: UISwitch!
     @IBOutlet weak var giveAwayContainerHeightConstraint: NSLayoutConstraint!
@@ -84,15 +83,12 @@ class PostListingDetailPriceView: BaseView {
         currencyLabel.text = viewModel.currencySymbol
         currencyLabel.textColor = UIColor.white
         doneButton.setStyle(.primary(fontSize: .big))
-        showFreeOption(viewModel.freeOptionAvailable)
+        showFreeOption(true)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(freeCellPressed))
         postFreeViewContainer.addGestureRecognizer(tap)
 
-        if viewModel.showShareOnFacebook {
-            doneButtonTopConstraint.isActive = false
-            setupShareOnFacebook()
-        }
+        setupShareOnFacebook()
     }
 
     private func setupShareOnFacebook() {

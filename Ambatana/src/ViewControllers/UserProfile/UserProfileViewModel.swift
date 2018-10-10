@@ -394,8 +394,9 @@ extension UserProfileViewModel {
     }
 
     func didTapReportUserButton() {
-        guard let userReportedId = user.value?.objectId else { return }
-        navigator?.openUserReport(source: .profile, userReportedId: userReportedId)
+        guard let user = user.value, let userReportedId = user.objectId else { return }
+        guard let rateData = RateUserData(user: user, listingId: nil, ratingType: .report) else { return }
+        navigator?.openUserReport(source: .profile, userReportedId: userReportedId, rateData: rateData)
     }
     
     func makeSocialMessage() -> SocialMessage? {
@@ -404,6 +405,11 @@ extension UserProfileViewModel {
                                  itsMe: isMyUser.value,
                                  myUserId: myUserId,
                                  myUserName: myUserName)
+    }
+
+    func refreshUserRelation() {
+        guard !isPrivateProfile else { return }
+        retrieveUsersRelation()
     }
 }
 
@@ -460,6 +466,7 @@ extension UserProfileViewModel {
         }
         setupTabRxBindings()
         setupListingsListRxBindings()
+        observeAuthEvents()
     }
 
     func retrieveUserData() {
@@ -468,6 +475,17 @@ extension UserProfileViewModel {
             self?.user.value = result.value
             self?.isMyUser.value = result.value?.objectId == self?.myUserRepository.myUser?.objectId
         }
+    }
+
+    private func observeAuthEvents() {
+        sessionManager.sessionEvents.subscribe(onNext: { [weak self] event in
+            switch event {
+            case .login:
+                break
+            case .logout:
+                self?.ratingListViewModel.ratings = []
+            }
+        }).disposed(by: disposeBag)
     }
 
     private func setupMyUserRxBindings() {
@@ -879,6 +897,8 @@ extension UserProfileViewModel: ListingCellDelegate {
                     }
                     interestedHandler.handleCancellableInterestedAction(listing,
                                                                         timer: timer,
+                                                                        feedPosition: nil,
+                                                                        sectionPosition: nil,
                                                                         typePage: .profile,
                                                                         completion: completion)
                 }
@@ -943,7 +963,7 @@ extension UserProfileViewModel: ListingCellDelegate {
     }
 
     func editPressedForDiscarded(listing: Listing) {
-        profileNavigator?.editListing(listing, pageType: .profile)
+        profileNavigator?.editListing(listing)
     }
 
     func moreOptionsPressedForDiscarded(listing: Listing) {

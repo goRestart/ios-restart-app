@@ -11,6 +11,8 @@ final class MockInterestedHandler: InterestedHandleable {
     func interestedActionFor(_ listing: Listing, userListing: LocalUser?, stateCompletion: @escaping (InterestedState) -> Void, actionCompletion: @escaping (InterestedAction) -> Void) { }
     func handleCancellableInterestedAction(_ listing: Listing,
                                            timer: Observable<Any>,
+                                           feedPosition: EventParameterFeedPosition?,
+                                           sectionPosition: EventParameterSectionPosition?,
                                            typePage: EventParameterTypePage,
                                            completion: @escaping (InterestedState) -> Void) {}
 }

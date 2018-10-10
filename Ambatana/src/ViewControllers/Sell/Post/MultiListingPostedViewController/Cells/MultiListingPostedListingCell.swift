@@ -84,7 +84,7 @@ final class MultiListingPostedListingCell: UICollectionViewCell, ReusableCell {
         
         setupImageView(forListing: listing)
         titleLabel.text = listing.title
-        subtitleLabel.text = listing.priceString(freeModeAllowed: true)
+        subtitleLabel.text = listing.priceString()
     }
     
     

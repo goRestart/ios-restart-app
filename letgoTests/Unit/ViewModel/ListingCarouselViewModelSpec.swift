@@ -362,7 +362,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                 myUserRepository.myUserVar.value = myUser
                                 product.status = .approved
                                 product.price = .free
-                                featureFlags.freePostingModeAllowed = true
                                 buildSut(initialProduct: product)
                                 sut.active = true
                                 expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
@@ -682,6 +681,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     stats = MockListingStats.makeMock()
                     listingRepository.statsResult = ListingStatsResult(stats)
                     product.status = .approved
+                    product.price = .normal(Double.makeRandom())
                 }
                 context("user not logged in") {
                     beforeEach {
@@ -769,9 +769,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     var productUser = MockUserListing.makeMock()
                     productUser.name = String.makeRandom()
                     product.user = productUser
-
-                    // Already selected as winners but not removed
-                    featureFlags.freePostingModeAllowed = true
                 }
                 context("product is mine") {
                     var myUser: MockMyUser!

@@ -1310,7 +1310,10 @@
 "smoketest_feedback_other" = "Other";
 
 // Feedback text title
-"smoketest_feedback_tell_us" = "Tell us more";
+"smoketest_feedback_tell_us" = "Tell us more:";
+
+// Feedback placeholder text
+"smoketest_feedback_tell_us_placeholder" = "Enter your comments here";
 
 // Feedback button title
 "smoketest_feedback_send" = "Send";
@@ -3019,6 +3022,9 @@
 // Posting camera title for jobs & services
 "post_details_jobs_services_camera_message" = "Post your company’s logo or a photo that shows the service or job you’re offering";
 
+// Posting camera title for jobs
+"post_details_jobs_camera_message" = "Post your company’s logo or a photo that shows the job you’re offering";
+
 // Title for Jobs/Services posting flow title
 "post_details_jobs_services_step_title" = "I'm...";
 
@@ -3555,6 +3561,9 @@
 
 // Product post category selection services button
 "product_post_select_category_services" = "Services";
+
+// Product post category selection jobs button
+"product_post_select_category_jobs" = "Jobs";
 
 // Product post category selection jobs & services button
 "product_post_select_category_jobs_services" = "Jobs & Services";

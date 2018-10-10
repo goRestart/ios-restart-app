@@ -33,8 +33,8 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var shouldMoveLetsMeetAction = false
     
     // Country dependant features
-    var freePostingModeAllowed = false
     var shouldHightlightFreeFilterInFeed = false
+    func predictivePostingAllowedFor(postCategory: PostCategory?) -> Bool { return false }
 
     var postingFlowType: PostingFlowType = .standard
     var locationRequiresManualChangeSuggestion = false
@@ -95,12 +95,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var newSearchAPI: NewSearchAPIEndPoint = .control
     
     //  MARK:  Products
-    var servicesCategoryOnSalchichasMenu: ServicesCategoryOnSalchichasMenu = .control
-    var predictivePosting: PredictivePosting = .control
-    var videoPosting: VideoPosting = .control
     var simplifiedChatButton: SimplifiedChatButton = .control
-    var frictionlessShare: FrictionlessShare = .control
-    var turkeyFreePosting: TurkeyFreePosting = .control
     var bulkPosting: BulkPosting = .control
     var makeAnOfferButton: MakeAnOfferButton = .control
 
@@ -121,6 +116,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var multiAdRequestInChatSectionAdUnitId: String? = ""
     var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit = .control
     var polymorphFeedAdsUSA: PolymorphFeedAdsUSA = .control
+    var googleUnifiedNativeAds: GoogleUnifiedNativeAds = .control
     
     // MARK: Retention
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control

@@ -31,7 +31,7 @@ final class EditUserBioViewModel: BaseViewModel {
             if let value = result.value {
                 self?.navigator?.closeEditUserBio()
                 if let userId = value.objectId {
-                    self?.trackBioUpdate(userId)
+                    self?.trackBioUpdate()
                 }
             } else if let _ = result.error {
                 self?.delegate?.vmShowAutoFadingMessage(R.Strings.changeBioErrorMessage, completion: nil)
@@ -41,9 +41,7 @@ final class EditUserBioViewModel: BaseViewModel {
 }
 
 extension EditUserBioViewModel {
-
-    func trackBioUpdate(_ userId: String) {
-        let event = TrackerEvent.profileEditBioComplete(userId: userId)
-        tracker.trackEvent(event)
+    func trackBioUpdate() {
+        tracker.trackEvent(TrackerEvent.profileEditBioComplete())
     }
 }

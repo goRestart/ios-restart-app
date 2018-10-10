@@ -10,6 +10,7 @@ final class UserWireframe {
     private let verificationAssembly: UserVerificationAssembly
     private let loginAssembly: LoginAssembly
     private let chatRouter: ChatWireframe
+    private let reportAssembly: ReportAssembly
 
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
@@ -21,6 +22,7 @@ final class UserWireframe {
                   userAssembly: LGUserBuilder.standard(nc),
                   verificationAssembly: LGUserVerificationBuilder.standard(nav: nc),
                   loginAssembly: LoginBuilder.modal,
+                  reportAssembly: ReportBuilder.modal(nc),
                   chatRouter: ChatWireframe(nc: nc),
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository)
@@ -30,6 +32,7 @@ final class UserWireframe {
                  userAssembly: UserAssembly,
                  verificationAssembly: UserVerificationAssembly,
                  loginAssembly: LoginAssembly,
+                 reportAssembly: ReportAssembly,
                  chatRouter: ChatWireframe,
                  userRepository: UserRepository,
                  myUserRepository: MyUserRepository) {
@@ -40,6 +43,7 @@ final class UserWireframe {
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
         self.loginAssembly = loginAssembly
+        self.reportAssembly = reportAssembly
     }
 
     func openUser(_ data: UserDetailData) {
@@ -95,6 +99,11 @@ final class UserWireframe {
 }
 
 extension UserWireframe: PublicProfileNavigator {
+    func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData) {
+        let vc = reportAssembly.buildReport(type: .user(rateData: rateData), reportedId: userReportedId, source: source)
+        nc?.present(vc, animated: true, completion: nil)
+    }
+
     func openUserReport(source: EventParameterTypePage, userReportedId: String) {
         let vc = userAssembly.buildUserReport(source: source, userReportedId: userReportedId)
         nc?.pushViewController(vc, animated: true)

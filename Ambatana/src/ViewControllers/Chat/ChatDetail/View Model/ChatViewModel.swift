@@ -459,9 +459,7 @@ class ChatViewModel: ChatBaseViewModel {
             self?.title.value = conversation.listing?.name ?? ""
             self?.listingName.value = conversation.listing?.name ?? ""
             self?.listingImageUrl.value = conversation.listing?.image?.fileURL
-            if let featureFlags = self?.featureFlags {
-                self?.listingPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
-            }
+            self?.listingPrice.value = conversation.listing?.priceString() ?? ""
             self?.listingIsFree.value = conversation.listing?.price.isFree ?? false
             if let _ = conversation.listing {
                 self?.shouldUpdateQuickAnswers.value = self?.directAnswers
@@ -1190,7 +1188,6 @@ extension ChatViewModel {
             strongSelf.delegate?.vmHideLoading(nil) {
                 let trackingInfo = MarkAsSoldTrackingInfo.make(chatListing: listing,
                                                                isBumpedUp: .notAvailable,
-                                                               isFreePostingModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
                                                                typePage: .chat)
                 
                 strongSelf.navigator?.selectBuyerToRate(source: .chat, buyers: buyers, listingId: listingId, sourceRateBuyers: .markAsSold, trackingInfo: trackingInfo)
@@ -1273,9 +1270,13 @@ extension ChatViewModel {
     }
     
     private func reportUserAction() {
-        guard let userID = conversation.value.interlocutor?.objectId else { return }
-        let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
-        delegate?.vmDidPressReportUser(reportVM)
+        guard let interlocutor = conversation.value.interlocutor, let userID = interlocutor.objectId else { return }
+        if featureFlags.reportingFostaSesta.isActive {
+             navigator?.openUserReport(user: interlocutor, source: .chat)
+        } else {
+            let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
+            delegate?.vmDidPressReportUser(reportVM)
+        }
     }
     
     fileprivate func blockUserAction(buttonPosition: EventParameterBlockButtonPosition) {
@@ -1689,7 +1690,7 @@ fileprivate extension ChatViewModel {
         title.value = listing.title ?? ""
         listingName.value = listing.title ?? ""
         listingImageUrl.value = listing.thumbnail?.fileURL
-        listingPrice.value = listing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed)
+        listingPrice.value = listing.priceString()
         interlocutorAvatarURL.value = listing.user.avatar?.fileURL
         interlocutorName.value = listing.user.name ?? ""
         interlocutorId.value = sellerId
@@ -1806,7 +1807,6 @@ fileprivate extension ChatViewModel {
         guard let chatListing = conversation.value.listing else { return }
         let trackingInfo = MarkAsSoldTrackingInfo.make(chatListing: chatListing,
                                                        isBumpedUp: .notAvailable,
-                                                       isFreePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                        typePage: .chat)
         let markAsSold = TrackerEvent.listingMarkAsSold(trackingInfo: trackingInfo)
         tracker.trackEvent(markAsSold)
@@ -1835,15 +1835,13 @@ fileprivate extension ChatViewModel {
         let typePage: EventParameterTypePage = source == .listingListFeatured ? .listingListFeatured : .chat
 
         let sendMessageInfo = SendMessageTrackingInfo()
-            .set(chatListing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            .set(chatListing: listing)
             .set(interlocutorId: userId)
             .set(messageType: type.chatTrackerType)
             .set(quickAnswerTypeParameter: type.quickAnswerTypeParameter)
             .set(typePage: typePage)
             .set(sellerRating: sellerRating)
             .set(isBumpedUp: .falseParameter)
-            .set(containsEmoji: type.text.containsEmoji)
-            .set(assistantMeeting: type.assistantMeeting, isSuggestedPlace: type.isSuggestedPlace)
             .set(typePage: .chat)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
@@ -1950,7 +1948,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         }
         
         if !isUserDummy {
-            let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
+            let isFree = listingIsFree.value
             let isBuyer = !conversation.value.amISelling
             return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer,
                                                        isFree: isFree,

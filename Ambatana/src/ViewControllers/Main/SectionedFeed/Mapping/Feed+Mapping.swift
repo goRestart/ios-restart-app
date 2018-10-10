@@ -12,7 +12,6 @@ extension Feed {
                                        myUserRepository: myUserRepository,
                                        listingInterestStates: listingInterestStates,
                                        chatNowTitle: featureFlags.chatNowButtonText,
-                                       freePostingAllowed: featureFlags.freePostingModeAllowed,
                                        preventMessagesFromFeedToProUser: featureFlags.preventMessagesFromFeedToProUsers.isActive,
                                        imageHasFixedSize: true,
                                        pageNumber: pageNumber).filter { $0.type == .horizontal }
@@ -28,7 +27,6 @@ extension Feed {
                                        myUserRepository: myUserRepository,
                                        listingInterestStates: listingInterestStates,
                                        chatNowTitle: featureFlags.chatNowButtonText,
-                                       freePostingAllowed: featureFlags.freePostingModeAllowed,
                                        preventMessagesFromFeedToProUser: featureFlags.preventMessagesFromFeedToProUsers.isActive,
                                        imageHasFixedSize: false)
     }

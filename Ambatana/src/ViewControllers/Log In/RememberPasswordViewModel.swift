@@ -42,8 +42,7 @@ class RememberPasswordViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        let event = TrackerEvent.passwordResetVisit()
-        tracker.trackEvent(event)
+        tracker.trackEvent(.passwordResetStart())
     }
 
     
@@ -61,7 +60,8 @@ class RememberPasswordViewModel: BaseViewModel {
                 case .success:
                     strongSelf.delegate?.vmHideLoading(R.Strings.resetPasswordSendOk(strongSelf.email),
                                                        afterMessageCompletion: {
-                        self?.router?.closeRememberPassword()
+                                                        self?.tracker.trackEvent(.passwordResetStart())
+                                                        self?.router?.closeRememberPassword()
                     })
                 case .failure(let error):
                     var errorMessage: String?

@@ -380,6 +380,7 @@ extension ProductVMTrackHelper {
                                                          queryType: queryType,
                                                          query: query,
                                                          willLeaveApp: willLeaveApp,
+                                                         hasVideoContent: nil,
                                                          typePage: typePage,
                                                          categories: nil,
                                                          feedPosition: .none)
@@ -397,6 +398,7 @@ extension ProductVMTrackHelper {
                                                  queryType: nil,
                                                  query: nil,
                                                  willLeaveApp: willLeaveApp,
+                                                 hasVideoContent: nil,
                                                  typePage: typePage,
                                                  categories: nil,
                                                  feedPosition: feedPosition)
@@ -460,7 +462,6 @@ extension ProductVMTrackHelper {
         let isBumpedUp: EventParameterBoolean = isShowingFeaturedStripe ? .trueParameter : .falseParameter
         return MarkAsSoldTrackingInfo.make(listing: listing,
                                            isBumpedUp: isBumpedUp,
-                                           isFreePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                            typePage: .listingDetail)
     }
     
@@ -478,12 +479,7 @@ extension ProductVMTrackHelper {
     func trackSaveFavoriteCompleted(_ isShowingFeaturedStripe: Bool) {
         let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
             EventParameterBoolean.falseParameter
-        let trackerEvent = TrackerEvent.listingFavorite(listing, typePage: .listingDetail, isBumpedUp: isBumpedUp)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func trackChatWithSeller(_ source: EventParameterTypePage) {
-        let trackerEvent = TrackerEvent.listingDetailOpenChat(listing, typePage: source)
+        let trackerEvent = TrackerEvent.listingFavorite(listing, isBumpedUp: isBumpedUp)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -525,12 +521,11 @@ extension ProductVMTrackHelper {
             EventParameterBoolean.falseParameter
 
         let sendMessageInfo = SendMessageTrackingInfo()
-            .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            .set(listing: listing)
             .set(messageType: messageType.chatTrackerType)
             .set(quickAnswerTypeParameter: messageType.quickAnswerTypeParameter)
             .set(typePage: .listingDetail)
             .set(isBumpedUp: isBumpedUp)
-            .set(containsEmoji: messageType.text.containsEmoji)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
         }

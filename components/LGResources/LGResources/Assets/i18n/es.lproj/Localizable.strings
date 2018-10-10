@@ -979,6 +979,7 @@
 "post_description_info_title" = "INFORMACIÓN DEL ANUNCIO";
 "post_description_name_placeholder" = "Nombre";
 "post_description_save_button_text" = "¡Guardar este anuncio!";
+"post_details_jobs_camera_message" = "Publica el logo de tu empresa o una foto que muestre el empleo que ofreces";
 "post_details_jobs_services_camera_message" = "Publica el logo de tu empresa o una foto que muestre el servicio o empleo que ofreces";
 "post_details_jobs_services_congratulation_add_more_details" = "añadiendo más detalles:";
 "post_details_jobs_services_congratulation_improve_listing" = "Mejora tu anuncio";
@@ -1112,6 +1113,9 @@
 "product_option_edit" = "Editar anuncio";
 "product_option_share" = "Compartir anuncio";
 "product_popular_near_you" = "Popular cerca de ti";
+"product_post_camera_bulk_posting_items_label" = "Tus artículos (%i)";
+"product_post_camera_bulk_posting_tooltip" = "%@ otro anuncio";
+"product_post_camera_bulk_posting_tooltip_highlighted_word" = "Publicar";
 "product_post_camera_first_time_alert_subtitle" = "¡Haz una buena foto y empieza a ganar dinero!";
 "product_post_camera_first_time_alert_title" = "¿Qué quieres vender?";
 "product_post_camera_gallery_text_button" = "GALERÍA";
@@ -1181,6 +1185,7 @@
 "product_post_retry_button" = "Vuelve a intentarlo";
 "product_post_select_category_cars" = "Coches";
 "product_post_select_category_housing" = "Viviendas en Alquiler / Venta";
+"product_post_select_category_jobs" = "Empleos";
 "product_post_select_category_jobs_services" = "Empleo y Servicios";
 "product_post_select_category_motors_and_accessories" = "Otros Vehículos y Accesorios";
 "product_post_select_category_other" = "Otros artículos";
@@ -1671,7 +1676,8 @@
 "smoketest_feedback_other" = "Otros";
 "smoketest_feedback_send" = "Enviar";
 "smoketest_feedback_subtitle" = "Estamos testeando %@ y queremos recibir tus comentarios. Ayúdanos a mejorar.";
-"smoketest_feedback_tell_us" = "Cuéntanos más";
+"smoketest_feedback_tell_us" = "Cuéntanos más:";
+"smoketest_feedback_tell_us_placeholder" = "Introduce tus comentarios aquí";
 "smoketest_feedback_title" = "¿Por qué no lo usarías?";
 "smoketest_recommended" = "Recomendado";
 "smoketest_thank_you_register_interest" = "Hemos anotado tu interés.";

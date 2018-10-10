@@ -46,7 +46,7 @@ struct UsersABGroup: ABGroupType {
         intVariables.append(contentsOf: [showPasswordlessLogin,
                                          emergencyLocate,
                                          offensiveReportAlert,
-                                         reportingFostaSesta,
+                                         // reportingFostaSesta - ABIOS-5296 - Activate when the feature is fully ready and tested
                                          community,
                                          advancedReputationSystem11])
     }

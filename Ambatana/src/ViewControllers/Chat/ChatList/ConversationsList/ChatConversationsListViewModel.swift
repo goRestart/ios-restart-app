@@ -505,6 +505,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
                                                  queryType: nil,
                                                  query: nil,
                                                  willLeaveApp: willLeave,
+                                                 hasVideoContent: nil,
                                                  typePage: EventParameterTypePage.chatList,
                                                  categories: nil,
                                                  feedPosition: .none)

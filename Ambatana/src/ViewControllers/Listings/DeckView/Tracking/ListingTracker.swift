@@ -73,6 +73,7 @@ extension ListingTracker {
                                                  queryType: nil,
                                                  query: nil,
                                                  willLeaveApp: willLeaveApp,
+                                                 hasVideoContent: .falseParameter,
                                                  typePage: typePage,
                                                  categories: nil,
                                                  feedPosition: feedPosition)

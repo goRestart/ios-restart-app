@@ -446,11 +446,9 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
         trackAbandon(buttonName: .tapOutside)
     }
     
-    func didPressCategory(_ listingCategory: ListingCategory) {
+    func didPressCategory(_ postCategory: PostCategory) {
         floatingSellButton.showWithAnimation()
-        let event = TrackerEvent.listingSellYourStuffButton()
-        tracker.trackEvent(event)
         let source: PostingSource = postingSource ?? .listingList
-        viewModel.expandableButtonPressed(listingCategory: listingCategory, source: source)
+        viewModel.expandableButtonPressed(postCategory: postCategory, source: source)
     }
 }

@@ -23,6 +23,7 @@ protocol ChatDetailNavigator: DeepLinkNavigator {
     func openOfferPayCode(offerId: String)
     func openEnterPayCode(offerId: String, buyerName: String, buyerAvatar: File?)
     func openPayout(offerId: String)
+    func openUserReport(user: ChatInterlocutor, source: EventParameterTypePage)
 }
 
 
@@ -192,6 +193,13 @@ final class ChatDetailWireframe: ChatDetailNavigator {
 
     func openPayout(offerId: String) {
         let vc = P2PPaymentsOfferStatusBuilder.modal.buildPayout(offerId: offerId)
+        nc.present(vc, animated: true)
+    }
+
+    func openUserReport(user: ChatInterlocutor, source: EventParameterTypePage) {
+        guard let userId = user.objectId else { return }
+        guard let data = RateUserData(user: user, listingId: nil, ratingType: UserRatingType.report) else { return }
+        let vc = ReportBuilder.modal(nc).buildReport(type: .user(rateData: data), reportedId: userId, source: .chat)
         nc.present(vc, animated: true)
     }
 }

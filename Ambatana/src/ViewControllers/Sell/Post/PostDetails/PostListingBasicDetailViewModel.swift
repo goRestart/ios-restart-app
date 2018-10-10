@@ -34,12 +34,6 @@ class PostListingBasicDetailViewModel: BaseViewModel {
     private let featureFlags: FeatureFlaggeable
     private let keyValueStorage: KeyValueStorageable
     private let disposeBag = DisposeBag()
-    var freeOptionAvailable: Bool {
-        return featureFlags.freePostingModeAllowed
-    }
-    var showShareOnFacebook: Bool {
-        return featureFlags.frictionlessShare.isActive
-    }
 
     override convenience  init() {
         var currencySymbol: String? = nil
@@ -60,7 +54,6 @@ class PostListingBasicDetailViewModel: BaseViewModel {
     }
 
     private func updateShareOnFacebookFromKeyValueStorage() {
-        guard showShareOnFacebook else { return }
         shareOnFacebook.value = keyValueStorage[.sellAutoShareOnFacebook] ?? true
         shareOnFacebook.asObservable().subscribeNext { [weak self] shareOnFacebook in
             self?.keyValueStorage[.sellAutoShareOnFacebook] = shareOnFacebook

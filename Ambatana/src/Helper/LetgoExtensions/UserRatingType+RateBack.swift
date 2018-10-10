@@ -10,7 +10,6 @@ extension UserRatingType {
             case .buyer: return .seller
             case .report: return .report
             }
-            
         }
     }
 }

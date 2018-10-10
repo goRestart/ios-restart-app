@@ -5,6 +5,7 @@ import UIKit
 
 private struct AlertKeys {
     static var LoadingKey = 0
+    static var PresentingAlertKey = 0
 }
 public let kLetGoFadingAlertDismissalTime: Double = 2.5
 
@@ -27,6 +28,22 @@ public extension UIViewController {
         }
     }
 
+    private var presentingAlert: Bool? {
+        get {
+            let number = (objc_getAssociatedObject(self, &AlertKeys.PresentingAlertKey) as? NSNumber)
+            return number?.boolValue
+        }
+        set {
+            let number = NSNumber(booleanLiteral: newValue ?? false)
+            objc_setAssociatedObject(
+                self,
+                &AlertKeys.PresentingAlertKey,
+                number,
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+            )
+        }
+    }
+
 
     // Shows a loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert()
     func showLoadingMessageAlert(_ message: String? = R.Strings.commonLoading) {
@@ -41,20 +58,29 @@ public extension UIViewController {
         activityIndicator.startAnimating()
 
         self.loading = alert
-        present(alert, animated: true, completion: nil)
+        self.presentingAlert = true
+        present(alert, animated: true) { [weak self] in
+            self?.presentingAlert = false
+        }
     }
 
     // dismisses a previously shown loading alert message
     func dismissLoadingMessageAlert(_ completion: (() -> Void)? = nil) {
-        if let alert = self.loading {
-            self.loading = nil
-            if let _ = alert.presentingViewController {
-                alert.dismiss(animated: true, completion: completion)
+        if presentingAlert == true {
+            delay(0.1) { [weak self] in
+                self?.dismissLoadingMessageAlert(completion)
+            }
+        } else {
+            if let alert = self.loading {
+                self.loading = nil
+                if let _ = alert.presentingViewController {
+                    alert.dismiss(animated: true, completion: completion)
+                } else {
+                    completion?()
+                }
             } else {
                 completion?()
             }
-        } else {
-            completion?()
         }
     }
 

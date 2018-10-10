@@ -2,8 +2,8 @@ import LGCoreKit
 import LGComponents
 
 extension ListingPrice {
-    func stringValue(currency: Currency, isFreeEnabled: Bool) -> String {
-        if isFreeEnabled && isFree {
+    func stringValue(currency: Currency) -> String {
+        if isFree {
             return R.Strings.productFreePrice
         } else {
             return value > 0 ? formattedPrice(currency: currency) :  R.Strings.productNegotiablePrice
@@ -18,8 +18,7 @@ extension ListingPrice {
 
 
 extension ListingPrice {
-    func allowFreeFilters(freePostingModeAllowed: Bool) -> EventParameterBoolean {
-        guard freePostingModeAllowed else { return .notAvailable }
+    func allowFreeFilters() -> EventParameterBoolean {
         return isFree ? .trueParameter : .falseParameter
     }
 }

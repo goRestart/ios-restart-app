@@ -2144,6 +2144,8 @@ extension R {
     public static let postDescriptionNamePlaceholder = Strings.tr("Localizable", "post_description_name_placeholder")
     /// Save this listing!
     public static let postDescriptionSaveButtonText = Strings.tr("Localizable", "post_description_save_button_text")
+    /// Post your company’s logo or a photo that shows the job you’re offering
+    public static let postDetailsJobsCameraMessage = Strings.tr("Localizable", "post_details_jobs_camera_message")
     /// Post your company’s logo or a photo that shows the service or job you’re offering
     public static let postDetailsJobsServicesCameraMessage = Strings.tr("Localizable", "post_details_jobs_services_camera_message")
     /// by adding more details:
@@ -2610,6 +2612,8 @@ extension R {
     public static let productPostSelectCategoryCars = Strings.tr("Localizable", "product_post_select_category_cars")
     /// Housing for Rent / Sale
     public static let productPostSelectCategoryHousing = Strings.tr("Localizable", "product_post_select_category_housing")
+    /// Jobs
+    public static let productPostSelectCategoryJobs = Strings.tr("Localizable", "product_post_select_category_jobs")
     /// Jobs & Services
     public static let productPostSelectCategoryJobsServices = Strings.tr("Localizable", "product_post_select_category_jobs_services")
     /// Other Vehicles and Parts
@@ -3660,8 +3664,10 @@ extension R {
     public static func smoketestFeedbackSubtitle(_ p1: String) -> String {
       return Strings.tr("Localizable", "smoketest_feedback_subtitle", p1)
     }
-    /// Tell us more
+    /// Tell us more:
     public static let smoketestFeedbackTellUs = Strings.tr("Localizable", "smoketest_feedback_tell_us")
+    /// Enter your comments here
+    public static let smoketestFeedbackTellUsPlaceholder = Strings.tr("Localizable", "smoketest_feedback_tell_us_placeholder")
     /// Why wouldn’t you use it?
     public static let smoketestFeedbackTitle = Strings.tr("Localizable", "smoketest_feedback_title")
     /// Recommended

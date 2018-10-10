@@ -425,4 +425,12 @@ public extension UIViewController {
             view.leadingAnchor.constraint(equalTo: safeLeadingAnchor)
         ])
     }
+
+    func disableAutomaticAdjustScrollViewInsets(in scrollView: UIScrollView) {
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
+    }
 }

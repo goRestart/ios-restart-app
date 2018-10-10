@@ -10,14 +10,14 @@ import LGCoreKit
 protocol ProfileTabNavigator: TabNavigator, PublicProfileNavigator {
     func openSettings()
     func openEditUserBio()
-    func editListing(_ listing: Listing, pageType: EventParameterTypePage?)
+    func editListing(_ listing: Listing)
     func openUserVerificationView()
     func closeProfile()
     func openSmokeTest(feature: LGSmokeTestFeature, userAvatarInfo: UserAvatarInfo?)
 }
 
 protocol PublicProfileNavigator: class {
-    func openUserReport(source: EventParameterTypePage, userReportedId: String)
+    func openUserReport(source: EventParameterTypePage, userReportedId: String, rateData: RateUserData)
     func openListing(_ data: ListingDetailData,
                      source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
