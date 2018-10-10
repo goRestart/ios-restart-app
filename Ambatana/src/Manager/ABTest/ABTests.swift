@@ -193,6 +193,7 @@ extension ABTests {
     var multiDayBumpUp: LeanplumABVariable<Int> { return money.multiDayBumpUp }
     var multiAdRequestInChatSectionForUS: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForUS }
     var multiAdRequestInChatSectionForTR: LeanplumABVariable<Int> { return money.multiAdRequestInChatSectionForTR }
+    var bumpUpButtonOnConversationCells: LeanplumABVariable<Int> { return money.bumpUpButtonOnConversationCells }
     var bumpPromoAfterSellNoLimit: LeanplumABVariable<Int> { return money.bumpPromoAfterSellNoLimit }
     var polymorphFeedAdsUSA: LeanplumABVariable<Int> { return money.polymorphFeedAdsUSA }
     var showAdsInFeedWithRatio: LeanplumABVariable<Int> { return money.showAdsInFeedWithRatio }

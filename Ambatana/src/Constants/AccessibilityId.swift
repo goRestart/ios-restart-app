@@ -447,6 +447,7 @@ enum AccessibilityId: Equatable, Accessible {
     case conversationCellStatusLabel
     case conversationCellAssistantInfoLabel
     case conversationCellProfessionalTag
+    case conversationCellSellFasterButton
 
     // Chat Assistant Conversation Cell
     case assistantConversationCellContainer(conversationId: String?)
@@ -1683,6 +1684,8 @@ enum AccessibilityId: Equatable, Accessible {
             return "conversationCellAssistantInfoLabel"
         case .conversationCellProfessionalTag:
             return "conversationCellProfessionalTag"
+        case .conversationCellSellFasterButton:
+            return "conversationCellSellFasterButton"
 
         // Chat Assistant Conversation Cell
         case let .assistantConversationCellContainer(conversationId):

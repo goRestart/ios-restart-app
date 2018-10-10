@@ -62,6 +62,20 @@ struct VMPresentAlert {
     }
 }
 
+struct VMPresentAutofadingAlert {
+    let title: String?
+    let message: String
+    let time: TimeInterval
+
+    init(title: String?,
+         message: String,
+         time: TimeInterval = kLetGoFadingAlertDismissalTime) {
+        self.title = title
+        self.message = message
+        self.time = time
+    }
+}
+
 struct VMPresentLoadingMessage {
     let message: String
     
@@ -86,6 +100,7 @@ class ChatBaseViewModel: BaseViewModel {
     let rx_vmPresentAlert = PublishSubject<VMPresentAlert>()
     let rx_vmPresentLoadingMessage = PublishSubject<VMPresentLoadingMessage>()
     let rx_vmDismissLoadingMessage = PublishSubject<VMDismissLoadingMessage>()
+    let rx_vmPresentAutofadingAlert = PublishSubject<VMPresentAutofadingAlert>()
     
     private let reachability: ReachabilityProtocol
     let rx_isReachable = Variable<Bool>(true)

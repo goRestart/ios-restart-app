@@ -57,6 +57,14 @@ class ChatBaseViewController: BaseViewController {
                                                  afterMessageCompletion: vmDismissLoadingMessage.completion)
             }
             .disposed(by: bag)
+
+        viewModel.rx_vmPresentAutofadingAlert
+        .asObserver()
+            .bind { [weak self] vmAutofadingAlert in
+                self?.showAutoFadingOutMessageAlert(title: vmAutofadingAlert.title,
+                                                    message: vmAutofadingAlert.message,
+                                                    time: vmAutofadingAlert.time)
+        }.disposed(by: bag)
     }
     
 }

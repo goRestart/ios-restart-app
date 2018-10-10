@@ -47,6 +47,15 @@ enum ConversationCellStatus {
             return nil
         }
     }
+
+    var listingStatusIsAvailable: Bool {
+        switch self {
+        case .available, .forbidden, .userPendingDelete, .userDeleted, .userBlocked, .blockedByUser:
+            return true
+        case .listingSold, .listingGivenAway, .listingDeleted:
+            return false
+        }
+    }
 }
 
 extension ChatConversation {

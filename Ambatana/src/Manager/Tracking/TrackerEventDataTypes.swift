@@ -1208,6 +1208,7 @@ enum EventParameterListingVisitSource {
         case .external: return "external" // from push notification
         case .relatedListings: return "related-items-list" // related items when you don't find a push listing
         case .chat: return "chat" // from the chat
+        case .chatList: return "chat-list" // from the chat conversations list
         case .promoteBump: return "promote-bump-up" // from the promote bump up screen
         case .favourite: return "favourite" // from your private profile favourite's list
         case .map: return "map"
@@ -1259,6 +1260,7 @@ enum EventParameterListingVisitSource {
     case external
     case relatedListings
     case chat
+    case chatList
     case promoteBump
     case favourite
     case map

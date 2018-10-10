@@ -106,6 +106,7 @@ protocol FeatureFlaggeable: class {
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS { get }
     var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR { get }
     var multiAdRequestInChatSectionAdUnitId: String? { get }
+    var bumpUpButtonOnConversationCells: BumpUpButtonOnConversationCells { get }
     var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit { get }
     var polymorphFeedAdsUSA: PolymorphFeedAdsUSA { get }
     var googleUnifiedNativeAds: GoogleUnifiedNativeAds { get }
@@ -401,6 +402,10 @@ extension MultiAdRequestInChatSectionForTR {
         guard isActive else { return false }
         return createdIn?.isOlderThan(seconds: SharedConstants.newUserTimeThresholdForAds) ?? false
     }
+}
+
+extension BumpUpButtonOnConversationCells {
+    var isActive: Bool { return self == .active }
 }
 
 extension BumpPromoAfterSellNoLimit {
@@ -1291,6 +1296,13 @@ extension FeatureFlags {
         default:
             return nil
         }
+    }
+
+    var bumpUpButtonOnConversationCells: BumpUpButtonOnConversationCells {
+        if Bumper.enabled {
+            return Bumper.bumpUpButtonOnConversationCells
+        }
+        return BumpUpButtonOnConversationCells.fromPosition(abTests.bumpUpButtonOnConversationCells.value)
     }
 
     var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit {

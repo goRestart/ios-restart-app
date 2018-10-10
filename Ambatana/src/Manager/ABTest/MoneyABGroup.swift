@@ -18,6 +18,7 @@ struct MoneyABGroup: ABGroupType {
         static let multiDayBumpUp = "20180827MultiDayBumpUp"
         static let multiAdRequestInChatSectionForUS = "20180802MultiAdRequestInChatSectionForUS"
         static let multiAdRequestInChatSectionForTR = "20180802MultiAdRequestInChatSectionForTR"
+        static let bumpUpButtonOnConversationCells = "20180927BumpUpButtonOnConversationCells"
         static let bumpPromoAfterSellNoLimit = "20180925BumpPromoAfterSellNoLimit"
         static let polymorphFeedAdsUSA = "20180828PolymorphFeedAdsUSA"
         static let showAdsInFeedWithRatio = "20180111ShowAdsInFeedWithRatio"
@@ -39,6 +40,7 @@ struct MoneyABGroup: ABGroupType {
     let multiDayBumpUp: LeanplumABVariable<Int>
     let multiAdRequestInChatSectionForUS: LeanplumABVariable<Int>
     let multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>
+    let bumpUpButtonOnConversationCells: LeanplumABVariable<Int>
     let bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>
     let polymorphFeedAdsUSA: LeanplumABVariable<Int>
     let showAdsInFeedWithRatio: LeanplumABVariable<Int>
@@ -66,6 +68,7 @@ struct MoneyABGroup: ABGroupType {
          multiDayBumpUp: LeanplumABVariable<Int>,
          multiAdRequestInChatSectionForUS: LeanplumABVariable<Int>,
          multiAdRequestInChatSectionForTR: LeanplumABVariable<Int>,
+         bumpUpButtonOnConversationCells: LeanplumABVariable<Int>,
          bumpPromoAfterSellNoLimit: LeanplumABVariable<Int>,
          polymorphFeedAdsUSA: LeanplumABVariable<Int>,
          showAdsInFeedWithRatio: LeanplumABVariable<Int>,
@@ -86,6 +89,7 @@ struct MoneyABGroup: ABGroupType {
         self.multiDayBumpUp = multiDayBumpUp
         self.multiAdRequestInChatSectionForUS = multiAdRequestInChatSectionForUS
         self.multiAdRequestInChatSectionForTR = multiAdRequestInChatSectionForTR
+        self.bumpUpButtonOnConversationCells = bumpUpButtonOnConversationCells
         self.bumpPromoAfterSellNoLimit = bumpPromoAfterSellNoLimit
         self.polymorphFeedAdsUSA = polymorphFeedAdsUSA
         self.showAdsInFeedWithRatio = showAdsInFeedWithRatio
@@ -105,6 +109,7 @@ struct MoneyABGroup: ABGroupType {
                                          multiDayBumpUp,
                                          multiAdRequestInChatSectionForUS,
                                          multiAdRequestInChatSectionForTR,
+                                         bumpUpButtonOnConversationCells,
                                          bumpPromoAfterSellNoLimit,
                                          polymorphFeedAdsUSA,
                                          showAdsInFeedWithRatio,
@@ -130,6 +135,7 @@ struct MoneyABGroup: ABGroupType {
                             multiDayBumpUp: moneyIntFor(key: Keys.multiDayBumpUp),
                             multiAdRequestInChatSectionForUS: moneyIntFor(key: Keys.multiAdRequestInChatSectionForUS),
                             multiAdRequestInChatSectionForTR: moneyIntFor(key: Keys.multiAdRequestInChatSectionForTR),
+                            bumpUpButtonOnConversationCells: moneyIntFor(key: Keys.bumpUpButtonOnConversationCells),
                             bumpPromoAfterSellNoLimit: moneyIntFor(key: Keys.bumpPromoAfterSellNoLimit),
                             polymorphFeedAdsUSA: moneyIntFor(key: Keys.polymorphFeedAdsUSA),
                             showAdsInFeedWithRatio: moneyIntFor(key: Keys.showAdsInFeedWithRatio),

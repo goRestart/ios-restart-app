@@ -16,6 +16,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     private var websocketWasClosedDuringCurrentSession = false
     private var localChatCounter: Int = 0
     private let myUserRepository: MyUserRepository
+    private let monetizationRepository: MonetizationRepository
     var adData: ConversationAdCellData?
     
     let rx_navigationBarTitle = Variable<String?>(nil)
@@ -30,6 +31,7 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
     private let rx_filter = Variable<ChatConversationsListFilter>(.all)
     private let rx_inactiveConversationsCount = Variable<Int?>(nil)
     private let rx_wsChatStatus = Variable<WSChatStatus>(.closed)
+    private var bumpeableCheckInProgress: Bool = false
     private var conversationsFilterBag: DisposeBag? = DisposeBag()
 
     // MARK: Lifecycle
@@ -39,13 +41,15 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
          notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
          featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
          tracker: Tracker = TrackerProxy.sharedInstance,
-         myUserRepository: MyUserRepository = Core.myUserRepository) {
+         myUserRepository: MyUserRepository = Core.myUserRepository,
+         monetizationRepository: MonetizationRepository = Core.monetizationRepository) {
         self.chatRepository = chatRepository
         self.sessionManager = sessionManager
         self.notificationsManager = notificationsManager
         self.featureFlags = featureFlags
         self.tracker = tracker
         self.myUserRepository = myUserRepository
+        self.monetizationRepository = monetizationRepository
         super.init()
     }
     
@@ -93,6 +97,11 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
         rx_vmPresentAlert.onNext(VMPresentAlert(title: R.Strings.chatListDeleteAlertTitleOne,
                                                 message: R.Strings.chatListDeleteAlertTextOne,
                                                 actions: [cancelAction, okAction]))
+    }
+
+    private func presentNotBumpeableAlert() {
+        rx_vmPresentAutofadingAlert.onNext(VMPresentAutofadingAlert(title: nil,
+                                                message: R.Strings.bumpUpChatListFailAlert))
     }
     
     func openOptionsActionSheet() {
@@ -465,6 +474,30 @@ final class ChatConversationsListViewModel: ChatBaseViewModel, Paginable {
             self?.retrieveFirstPage()
         })
     }
+
+    func bumpUpPressedFor(listingId: String) {
+        guard !bumpeableCheckInProgress else { return }
+        bumpeableCheckInProgress = true
+        let bumpCheckOkCompletion = { [weak self] in
+            let data = ListingDetailData.id(listingId: listingId)
+            let actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchases: [],
+                                                                                       maxCountdown: 0,
+                                                                                       bumpUpType: nil,
+                                                                                       triggerBumpUpSource: .chatList,
+                                                                                       typePage: .chatList)
+            self?.navigator?.openListing(data, source: .chat, actionOnFirstAppear: actionOnFirstAppear)
+        }
+        monetizationRepository.retrieveBumpeableListingInfo(listingId: listingId,
+                                                            completion: { [weak self] result in
+                                                                if let _ = result.value {
+                                                                    bumpCheckOkCompletion()
+                                                                } else {
+                                                                    self?.presentNotBumpeableAlert()
+                                                                }
+                                                                self?.bumpeableCheckInProgress = false
+        })
+    }
+
 
     // MARK: - Trackings
 

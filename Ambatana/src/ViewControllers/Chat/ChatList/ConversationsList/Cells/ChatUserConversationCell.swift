@@ -4,7 +4,14 @@ import LGCoreKit
 import Lottie
 import LGComponents
 
+protocol ConversationCellDelegate: class {
+    func bumpUpPressedFor(listingId: String)
+}
+
 final class ChatUserConversationCell: UITableViewCell, ReusableCell {
+
+    weak var delegate: ConversationCellDelegate?
+    private var listingId: String?
 
     struct Layout {
         static let listingImageViewHeight: CGFloat = 64
@@ -17,6 +24,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         static let userTypingAnimationWidth: CGFloat = 40
         static let userTypingAnimationHeight: CGFloat = 24
         static let assistantBadgeMargin: CGFloat = 2
+        static let sellFasterButtonHeight: CGFloat = 20
     }
 
     private let listingImageView: ChatAvatarView = {
@@ -139,6 +147,35 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         return imageView
     }()
 
+    private let sellFasterViewContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .primaryColor
+        view.cornerRadius = Layout.assistantInfoHeight/2
+        return view
+    }()
+
+    private let sellFasterIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = R.Asset.Monetization.icLightning.image.withRenderingMode(.alwaysTemplate)
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        return imageView
+    }()
+
+    private let sellFasterLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(size: 13)
+        label.textColor = .white
+        label.textAlignment = .left
+        label.text = R.Strings.promoteBumpTitle
+        return label
+    }()
+
+    private var sellFasterBottomConstraint: NSLayoutConstraint?
+    private var sellFasterHeightConstraint: NSLayoutConstraint?
+    private var listingImageViewHeightConstraint: NSLayoutConstraint?
+
+
     // MARK: - Lifecycle
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -162,17 +199,26 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         layoutMargins = .zero
         selectionStyle = .none
         mainStackContainer.addArrangedSubviews([listingImageView, textsContainerView, userImageContainerView])
+        sellFasterViewContainer.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                            action: #selector(sellFasterPressed)))
+    }
+
+    @objc private func sellFasterPressed() {
+        guard let listingId = listingId else { return }
+        delegate?.bumpUpPressedFor(listingId: listingId)
     }
 
     func setupConstraints() {
 
         // left arranged subview
         listingImageView.translatesAutoresizingMaskIntoConstraints = false
-        listingImageView.layout().height(Layout.listingImageViewHeight).widthProportionalToHeight()
 
-        statusIcon.layout().height(Layout.statusIconHeight).widthProportionalToHeight()
-        listingTitleLabel.layout().height(Layout.listingTitleLabelHeight)
-        assistantInfoContainerView.layout().height(Layout.assistantInfoHeight)
+        let listingImageViewWidthConstraint = listingImageView.widthAnchor.constraint(equalToConstant: Layout.listingImageViewHeight)
+        let listingImageViewHeightConstraint = listingImageView
+            .heightAnchor
+            .constraint(equalToConstant: Layout.listingImageViewHeight)
+        self.listingImageViewHeightConstraint = listingImageViewHeightConstraint
+        NSLayoutConstraint.activate([listingImageViewHeightConstraint, listingImageViewWidthConstraint])
 
         contentView.addSubviewForAutoLayout(mainStackContainer)
 
@@ -201,8 +247,25 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
             assistantInfoLabel.trailingAnchor.constraint(equalTo: assistantInfoContainerView.trailingAnchor,
                                                          constant: -Metrics.shortMargin)
         ]
-
         NSLayoutConstraint.activate(assistantInfoConstraints)
+
+        sellFasterViewContainer.addSubviewsForAutoLayout([sellFasterIconView, sellFasterLabel])
+
+        let sellFasterConstraints = [
+            sellFasterIconView.leadingAnchor.constraint(equalTo: sellFasterViewContainer.leadingAnchor,
+                                                       constant: Metrics.shortMargin),
+            sellFasterIconView.topAnchor.constraint(equalTo: sellFasterViewContainer.topAnchor,
+                                                   constant: Metrics.veryShortMargin),
+            sellFasterIconView.bottomAnchor.constraint(equalTo: sellFasterViewContainer.bottomAnchor,
+                                                      constant: -Metrics.veryShortMargin),
+            sellFasterIconView.trailingAnchor.constraint(equalTo: sellFasterLabel.leadingAnchor),
+            sellFasterLabel.topAnchor.constraint(equalTo: sellFasterViewContainer.topAnchor),
+            sellFasterLabel.bottomAnchor.constraint(equalTo: sellFasterViewContainer.bottomAnchor),
+            sellFasterLabel.trailingAnchor.constraint(equalTo: sellFasterViewContainer.trailingAnchor,
+                                                         constant: -Metrics.shortMargin)
+        ]
+        NSLayoutConstraint.activate(sellFasterConstraints)
+
 
         textsContainerView.addSubviewsForAutoLayout([userNameLabel,
                                                      proUserTagView,
@@ -211,7 +274,15 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
                                                      timeLastMessageLabel,
                                                      statusIcon,
                                                      statusLabel,
-                                                     userIsTypingAnimationViewContainer])
+                                                     userIsTypingAnimationViewContainer,
+                                                     sellFasterViewContainer])
+
+        let sellFasterBottomConstraint = sellFasterViewContainer.bottomAnchor.constraint(equalTo: textsContainerView.bottomAnchor,
+                                                                                     constant: -Metrics.veryShortMargin)
+        self.sellFasterBottomConstraint = sellFasterBottomConstraint
+
+        let sellFasterHeightConstraint = sellFasterViewContainer.heightAnchor.constraint(equalToConstant: Layout.sellFasterButtonHeight)
+        self.sellFasterHeightConstraint = sellFasterHeightConstraint
 
         let textsContainerViewConstraints = [
             userNameLabel.topAnchor.constraint(equalTo: textsContainerView.topAnchor),
@@ -222,24 +293,33 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
             assistantInfoContainerView.leadingAnchor.constraint(equalTo: userNameLabel.trailingAnchor, constant: Metrics.margin),
             assistantInfoContainerView.trailingAnchor.constraint(lessThanOrEqualTo: textsContainerView.trailingAnchor, constant: -Metrics.margin),
             assistantInfoContainerView.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor),
+            assistantInfoContainerView.heightAnchor.constraint(equalToConstant: Layout.assistantInfoHeight),
 
             listingTitleLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,
                                                    constant: Metrics.veryShortMargin),
             listingTitleLabel.leadingAnchor.constraint(equalTo: textsContainerView.leadingAnchor, constant: Metrics.shortMargin),
             listingTitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: textsContainerView.trailingAnchor),
+            listingTitleLabel.heightAnchor.constraint(equalToConstant: Layout.listingTitleLabelHeight),
 
             timeLastMessageLabel.topAnchor.constraint(equalTo: listingTitleLabel.bottomAnchor,
                                                       constant: Metrics.veryShortMargin),
             timeLastMessageLabel.leadingAnchor.constraint(equalTo: textsContainerView.leadingAnchor, constant: Metrics.shortMargin),
             timeLastMessageLabel.trailingAnchor.constraint(lessThanOrEqualTo: textsContainerView.trailingAnchor),
-            timeLastMessageLabel.bottomAnchor.constraint(equalTo: textsContainerView.bottomAnchor, constant: Metrics.veryShortMargin),
 
             userIsTypingAnimationViewContainer.leadingAnchor.constraint(equalTo: textsContainerView.leadingAnchor, constant: Metrics.shortMargin),
             userIsTypingAnimationViewContainer.trailingAnchor.constraint(lessThanOrEqualTo: textsContainerView.trailingAnchor),
             userIsTypingAnimationViewContainer.centerYAnchor.constraint(equalTo: timeLastMessageLabel.centerYAnchor),
 
+            sellFasterViewContainer.topAnchor.constraint(equalTo: timeLastMessageLabel.bottomAnchor,
+                                                      constant: Metrics.veryShortMargin),
+            sellFasterViewContainer.leadingAnchor.constraint(equalTo: textsContainerView.leadingAnchor, constant: Metrics.shortMargin),
+            sellFasterViewContainer.trailingAnchor.constraint(lessThanOrEqualTo: textsContainerView.trailingAnchor),
+            sellFasterBottomConstraint,
+            sellFasterHeightConstraint,
+
             statusIcon.leadingAnchor.constraint(equalTo: textsContainerView.leadingAnchor, constant: Metrics.shortMargin),
             statusIcon.centerYAnchor.constraint(equalTo: timeLastMessageLabel.centerYAnchor),
+            statusIcon.heightAnchor.constraint(equalToConstant: Layout.statusIconHeight),
             statusLabel.leadingAnchor.constraint(equalTo: statusIcon.trailingAnchor, constant: Metrics.veryShortMargin),
             statusLabel.centerYAnchor.constraint(equalTo: statusIcon.centerYAnchor),
             statusLabel.trailingAnchor.constraint(lessThanOrEqualTo: textsContainerView.trailingAnchor)
@@ -283,6 +363,7 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         statusLabel.set(accessibilityId: .conversationCellStatusLabel)
         assistantInfoContainerView.set(accessibilityId: .conversationCellAssistantInfoLabel)
         proUserTagView.set(accessibilityId: .conversationCellProfessionalTag)
+        sellFasterViewContainer.set(accessibilityId: .conversationCellSellFasterButton)
     }
 
     func resetUI() {
@@ -296,10 +377,13 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         userImageView.image = nil
         statusIcon.image = nil
         statusLabel.text = nil
+
+        hideSellFasterButton()
     }
 
     func setupCellWith(data: ConversationCellData, indexPath: IndexPath) {
         tag = indexPath.hashValue
+        self.listingId = data.listingId
         userNameLabel.text = data.userName
         listingTitleLabel.text = data.listingName
         timeLastMessageLabel.text = data.messageDate?.relativeTimeString(false)
@@ -328,6 +412,33 @@ final class ChatUserConversationCell: UITableViewCell, ReusableCell {
         set(accessibilityId: .conversationCellContainer(conversationId: data.conversationId))
         userNameLabel.set(accessibilityId: .conversationCellUserLabel(interlocutorId: data.userId))
         listingTitleLabel.set(accessibilityId: .conversationCellListingLabel(listingId: data.listingId))
+
+        setupSellFasterButtonFor(data: data)
+    }
+
+    private func setupSellFasterButtonFor(data: ConversationCellData) {
+        let showSellFaster = data.amISelling && data.status.listingStatusIsAvailable
+        if !showSellFaster {
+            hideSellFasterButton()
+        } else {
+            showSellFasterButton()
+        }
+    }
+
+    private func hideSellFasterButton() {
+        sellFasterBottomConstraint?.constant = 0
+        sellFasterHeightConstraint?.constant = 0
+        sellFasterViewContainer.isHidden = true
+        listingImageViewHeightConstraint?.constant = Layout.listingImageViewHeight
+    }
+
+    private func showSellFasterButton() {
+        sellFasterBottomConstraint?.constant = -Metrics.veryShortMargin
+        sellFasterHeightConstraint?.constant = Layout.sellFasterButtonHeight
+        sellFasterViewContainer.isHidden = false
+        listingImageViewHeightConstraint?.constant = Layout.listingImageViewHeight +
+            Layout.sellFasterButtonHeight +
+            Metrics.veryShortMargin
     }
 
     private func setImageWith(url: URL?,

@@ -114,6 +114,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var multiAdRequestInChatSectionForUS: MultiAdRequestInChatSectionForUS = .control
     var multiAdRequestInChatSectionForTR: MultiAdRequestInChatSectionForTR = .control
     var multiAdRequestInChatSectionAdUnitId: String? = ""
+    var bumpUpButtonOnConversationCells: BumpUpButtonOnConversationCells = .control
     var bumpPromoAfterSellNoLimit: BumpPromoAfterSellNoLimit = .control
     var polymorphFeedAdsUSA: PolymorphFeedAdsUSA = .control
     var googleUnifiedNativeAds: GoogleUnifiedNativeAds = .control

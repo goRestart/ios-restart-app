@@ -4,7 +4,7 @@ import LGCoreKit
 import LGComponents
 import GoogleMobileAds
 
-final class ChatConversationsListViewController: ChatBaseViewController, ScrollableToTop {
+final class ChatConversationsListViewController: ChatBaseViewController, ScrollableToTop, ConversationCellDelegate {
     
     private let viewModel: ChatConversationsListViewModel
     private let contentView = ChatConversationsListView()
@@ -164,7 +164,7 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
             .disposed(by: bag)
     }
     
-    private static func dataSource() -> RxTableViewSectionedAnimatedDataSource<ChatConversationsListSectionModel> {
+    private static func dataSource(withCellDelegate delegate: ConversationCellDelegate) -> RxTableViewSectionedAnimatedDataSource<ChatConversationsListSectionModel> {
         let configureCell = { (
             dataSource: TableViewSectionedDataSource<ChatConversationsListSectionModel>,
             tableView: UITableView,
@@ -193,6 +193,7 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
                         return UITableViewCell()
                     }
                     cell.setupCellWith(data: conversationCellData, indexPath: indexPath)
+                    cell.delegate = delegate
                     return cell
                 }
                 
@@ -221,7 +222,7 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
     }
     
     private func setupTableViewRx() {
-        let dataSource = ChatConversationsListViewController.dataSource()
+        let dataSource = ChatConversationsListViewController.dataSource(withCellDelegate: self)
         dataSource.decideViewTransition = { (_, _, changeSet) in
             return RxDataSources.ViewTransition.reload
         }
@@ -302,7 +303,7 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
         self.bannerView = bannerView
         let sizeAd = bannerView.adSize.size
         contentView.resetDataSource()
-        let dataSource = ChatConversationsListViewController.dataSource()
+        let dataSource = ChatConversationsListViewController.dataSource(withCellDelegate: self)
         dataSource.decideViewTransition = { (_, _, changeSet) in
             return RxDataSources.ViewTransition.reload
         }
@@ -318,6 +319,13 @@ final class ChatConversationsListViewController: ChatBaseViewController, Scrolla
             .map { [ChatConversationsListSectionModel(conversations: $0, header: "conversations", adData: adData)] }
             .bind(to: contentView.rx_tableView.items(dataSource: dataSource))
             .disposed(by: bag)
+    }
+
+
+    // MARK: ConversationCellDelegate
+
+    func bumpUpPressedFor(listingId: String) {
+        viewModel.bumpUpPressedFor(listingId: listingId)
     }
 }
 
