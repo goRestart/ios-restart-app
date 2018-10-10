@@ -21,6 +21,8 @@ final class ReportUpdateViewModel: BaseViewModel {
     private let tracker: Tracker
     private let reportId: String
     private let reportedUserId: String
+    private let automaticCloseDelay: Double = 2
+
     weak var delegate: BaseViewModelDelegate?
 
     init(type: ReportUpdateType,
@@ -133,7 +135,7 @@ final class ReportUpdateViewModel: BaseViewModel {
     }
 
     private func automaticClose() {
-        delay(2) { [weak self] in
+        delay(automaticCloseDelay) { [weak self] in
             self?.navigator?.closeReportUpdate()
         }
     }
