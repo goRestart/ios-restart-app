@@ -13,5 +13,5 @@ struct SmokeTestSubscriptionPlan {
     let title: String
     let subtitle: String
     let isRecomended: Bool
-    let variant: String
+    let trackId: String
 }

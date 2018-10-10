@@ -20,7 +20,11 @@ extension ClickToTalk {
         let monthTitle = "$\(monthPrice) / " + R.Strings.paymentFrequencyPerMonth.capitalizedFirstLetterOnly
         let yearTitle = "$\(yearPrice) / " + R.Strings.paymentFrequencyPerYear.capitalizedFirstLetterOnly + " (\(R.Strings.clickToTalkSmoketestTwoMonthsFree))"
         let subtitle = R.Strings.clickToTalkSmoketestSevenDaysFree
-        return [SmokeTestSubscriptionPlan(title: monthTitle, subtitle: subtitle, isRecomended: false, variant: rawValue),
-                SmokeTestSubscriptionPlan(title: yearTitle, subtitle: subtitle, isRecomended: true, variant: rawValue)]
+        let monthTrackId = "\(monthPrice)-monthly"
+        let yearTrackId = "\(yearPrice)-yearly"
+        return [SmokeTestSubscriptionPlan(title: monthTitle, subtitle: subtitle, isRecomended: false, trackId: monthTrackId),
+                SmokeTestSubscriptionPlan(title: yearTitle, subtitle: subtitle, isRecomended: true, trackId: yearTrackId)]
     }
+    
+
 }

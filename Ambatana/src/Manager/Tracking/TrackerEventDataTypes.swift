@@ -522,6 +522,7 @@ enum EventParameterName: String {
     case testName = "test-name"
     case feedback = "feedback"
     case feedbackText = "feedback-text"
+    case feedbackId = "feedback-text-id"
     case stepName = "step-name"
 
     // Affiliation
@@ -1735,6 +1736,12 @@ enum EventParameterScreenshotType: String {
     case profileVisit       = "profile-visit"
     case listingDetailVisit = "product-detail-visit"
     case searchComplete     = "search-complete"
+}
+
+enum EventParameterSmokeTestOptions: String {
+    case tooExpensive       = "too-expensive"
+    case dontWantPhoneCalls = "dont-want-phone-calls"
+    case other              = "other"
 }
 
 struct EventParameters {

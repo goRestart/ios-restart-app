@@ -8,7 +8,7 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
     private let viewModel: LGSmokeTestFeedbackViewModel
     private let keyboardHelper: KeyboardHelper
     
-    private var selectedTitle: String?
+    private var selectedFeedback: Feedback?
     
     private lazy var sendButtonBottomConstraint: NSLayoutConstraint = {
         return sendButton.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -Metrics.margin)
@@ -93,7 +93,7 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
     init(viewModel: LGSmokeTestFeedbackViewModel, keyboardHelper: KeyboardHelper) {
         self.viewModel = viewModel
         self.keyboardHelper = keyboardHelper
-        self.selectionList = LGSingleSelectionList(titles: viewModel.feedbackOptions)
+        self.selectionList = LGSingleSelectionList(feedbacks: viewModel.feedbackOptions)
         super.init(viewModel: viewModel, nibName: nil)
         setupUI()
         setupRx()
@@ -132,8 +132,8 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
                                 tellUsTextView.rx.isUserInteractionEnabled]
         selectionBinders.forEach { selectionList.rx.selected.bind(to: $0).disposed(by: disposeBag) }
         
-        selectionList.rx.selectedTitle.subscribeNext { [weak self] title in
-            self?.selectedTitle = title
+        selectionList.rx.selectedFeedback.subscribeNext { [weak self] feedback in
+            self?.selectedFeedback = feedback
         }.disposed(by: disposeBag)
         
         keyboardHelper.rx_keyboardOrigin
@@ -201,8 +201,10 @@ final class LGSmokeTestFeedbackViewController: BaseViewController {
     }
     
     @objc private func sendFeedback() {
-        guard let selectedTitle = selectedTitle else { return }
-        viewModel.didTapSendFeedback(feedback: selectedTitle, feedbackDescription: tellUsTextView.text)
+        guard let selectedFeedback = selectedFeedback else { return }
+        viewModel.didTapSendFeedback(feedbackId: selectedFeedback.trackId,
+                                     feedback: selectedFeedback.title,
+                                     feedbackDescription: tellUsTextView.text)
     }
     
 }

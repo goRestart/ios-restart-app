@@ -52,9 +52,9 @@ final class LGSmokeTestDetailViewModel: BaseViewModel {
         navigator?.dismiss(animated: true, completion: openFeedbackAction)
     }
     
-    func sendFeedBack(feedback: String) {
+    func sendFeedBack(feedbackId: String, feedback: String) {
         keyValueStorage[.clickToTalkShown] = true
-        trackFeedback(feedback: feedback)
+        trackFeedback(feedbackId: feedbackId, feedback: feedback)
         navigator?.dismiss(animated: true, completion: openThankYouAction)
     }
     
@@ -68,8 +68,9 @@ final class LGSmokeTestDetailViewModel: BaseViewModel {
 
 extension LGSmokeTestDetailViewModel {
 
-    private func trackFeedback(feedback: String) {
+    private func trackFeedback(feedbackId: String, feedback: String) {
         let event = TrackerEvent.smokeTestFeedback(testType: feature.smokeTestType,
+                                                   feedbackId: feedbackId,
                                                    feedback: feedback,
                                                    feedbackDescription: nil)
         tracker.trackEvent(event)

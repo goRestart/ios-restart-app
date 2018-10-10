@@ -14,12 +14,12 @@ final class LGSingleSelectionList: UIView {
     }()
     private var featuresSubViews: [SelectableItem]
     
-    fileprivate var selectedTitle = Variable<String?>(nil)
+    fileprivate var selectedFeedback = BehaviorRelay<Feedback?>(value: nil)
     
     // MARK: - Lifecycle
     
-    init(titles: [String] = []) {
-        self.featuresSubViews = titles.map { SelectableItem(title: $0) }
+    init(feedbacks: [Feedback] = []) {
+        self.featuresSubViews = feedbacks.map { SelectableItem(feedback: $0) }
         super.init(frame: .zero)
         setupUI()
         addTargets()
@@ -54,7 +54,8 @@ final class LGSingleSelectionList: UIView {
     
     @objc private func tapped(_ sender: UIControl) {
         featuresSubViews.forEach { $0.isSelected = ($0.tag == sender.tag) }
-        selectedTitle.value = featuresSubViews.first{ $0.isSelected }?.title
+        guard let feedback = featuresSubViews.first(where: { $0.isSelected })?.feedback else { return }
+        selectedFeedback.accept(feedback)
     }
     
     enum Layout {
@@ -64,15 +65,15 @@ final class LGSingleSelectionList: UIView {
 }
 
 extension Reactive where Base == LGSingleSelectionList {
-    var selectedTitle: Observable<String?> { return base.selectedTitle.asObservable() }
-    var selected: Observable<Bool> { return base.selectedTitle.asObservable().map { return $0 != nil } }
+    var selectedFeedback: Observable<Feedback?> { return base.selectedFeedback.asObservable() }
+    var selected: Observable<Bool> { return base.selectedFeedback.asObservable().map { return $0 != nil } }
 }
 
 //  MARK: - ListItem
 
 private final class SelectableItem: UIControl {
     
-    let title: String
+    let feedback: Feedback
     private let disposeBag = DisposeBag()
     
     override var isSelected: Bool {
@@ -84,11 +85,11 @@ private final class SelectableItem: UIControl {
     
     // MARK: - Lifecycle
     
-    init(title: String) {
-        self.title = title
+    init(feedback: Feedback) {
+        self.feedback = feedback
         super.init(frame: .zero)
         setupUI()
-        populate(title)
+        populate(feedback.title)
     }
     
     @available (*, unavailable)

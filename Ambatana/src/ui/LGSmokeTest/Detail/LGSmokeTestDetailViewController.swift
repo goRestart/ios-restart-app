@@ -148,7 +148,7 @@ final class LGSmokeTestDetailViewController: BaseViewController {
     
     private func setupRx() {
         plansView.rx.selectedPlan.ignoreNil().subscribeNext { [weak self] plan in
-            self?.viewModel.sendFeedBack(feedback: plan.title)
+            self?.viewModel.sendFeedBack(feedbackId: plan.trackId, feedback: plan.title)
         }.disposed(by: disposeBag)
     }
     

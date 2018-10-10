@@ -1841,12 +1841,14 @@ struct TrackerEvent {
     }
     
     static func smokeTestFeedback(testType: EventParameterSmokeTestType,
+                                  feedbackId: String,
                                   feedback: String,
                                   feedbackDescription: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.testName] = testType.rawValue
         params[.feedback] = feedback
         params[.feedbackText] = feedbackDescription ?? notApply
+        params[.feedbackId] = feedbackId
         return TrackerEvent(name: .smokeTestFeedbak, params: params)
     }
     
