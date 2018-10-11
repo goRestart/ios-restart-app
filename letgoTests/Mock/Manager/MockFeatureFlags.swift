@@ -105,6 +105,7 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var advancedReputationSystem11: AdvancedReputationSystem11 = .control
     var advancedReputationSystem12: AdvancedReputationSystem12 = .control
     var advancedReputationSystem13: AdvancedReputationSystem13 = .control
+    var advancedReputationSystem14: AdvancedReputationSystem14 = .control
 
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers = .control
