@@ -25,6 +25,30 @@ final class UserProfileViewController: BaseViewController {
     private let listingView: ListingListView
     private let tableView = UITableView()
 
+    private let ctaButtonsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = Metrics.veryShortMargin
+        return stackView
+    }()
+
+    private let chatNowButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .primary(fontSize: .verySmall))
+        button.addTarget(self, action: #selector(didTapChatNow), for: .touchUpInside)
+        button.setTitle(R.Strings.chatUserProfileChatNow, for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: Metrics.shortMargin, left: 18, bottom: Metrics.shortMargin, right: 18)
+        return button
+    }()
+
+    private let askVerificationButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .secondary(fontSize: .verySmall, withBorder: true))
+        button.addTarget(self, action: #selector(didTapAskVerification), for: .touchUpInside)
+        button.setTitle(R.Strings.profileAskVerificationButtonDisabled, for: .disabled)
+        button.contentEdgeInsets = UIEdgeInsets(top: Metrics.shortMargin, left: 18, bottom: Metrics.shortMargin, right: 18)
+        return button
+    }()
+
     private let emptyReviewsLabel: UILabel = {
         let label = UILabel()
         label.font = .systemRegularFont(size: 17)
@@ -38,8 +62,8 @@ final class UserProfileViewController: BaseViewController {
     private var headerContainerTopConstraint: NSLayoutConstraint?
     private var userRelationViewHeightConstraint: NSLayoutConstraint?
     private var dummyViewHeightConstraint: NSLayoutConstraint?
+    private var ctaButtonsStackTopConstraint: NSLayoutConstraint?
     private var updatingUserRelation: Bool = false
-    private let emptyReviewsTopMargin: CGFloat = 90
 
     private var scrollableContentInset: UIEdgeInsets {
         let topInset = Layout.topMargin + headerContainerView.height
@@ -68,7 +92,7 @@ final class UserProfileViewController: BaseViewController {
     private let userNavBarAnimationDelta: CGFloat = 40.0
     private let userNavBarAnimationStartOffset: CGFloat = 44.0
 
-    private struct Layout {
+    private enum Layout {
         static let sideMargin: CGFloat = Metrics.bigMargin
         static let topMargin: CGFloat = Metrics.bigMargin
         static let tabsHeight: CGFloat = 54.0
@@ -77,6 +101,8 @@ final class UserProfileViewController: BaseViewController {
         static let headerBottomMargin: CGFloat = Metrics.margin
         static let bottomScrollableContentInset: CGFloat = 100
         static let navBarTitleHeight: CGFloat = 44
+        static let ctaButtonHeight: CGFloat = 34
+        static let emptyReviewsTopMargin: CGFloat = 90
     }
 
     // MARK: - Lifecycle
@@ -152,14 +178,14 @@ final class UserProfileViewController: BaseViewController {
         automaticallyAdjustsScrollViewInsets = false
 
         headerContainerView.addSubviewsForAutoLayout([headerView, dummyView, userRelationView,
-                                                      bioAndTrustView, tabsView])
+                                                      ctaButtonsStackView, bioAndTrustView, tabsView])
 
         if viewModel.shouldShowKarmaView {
             headerContainerView.addSubviewForAutoLayout(karmaView)
-
             let tap = UITapGestureRecognizer(target: self, action: #selector(didTapKarmaScore))
             karmaView.addGestureRecognizer(tap)
         }
+
         bioAndTrustView.onlyShowBioText = viewModel.shouldShowKarmaView
 
         view.addSubviewsForAutoLayout([tableView, listingView, headerContainerView])
@@ -264,13 +290,15 @@ final class UserProfileViewController: BaseViewController {
             headerView.topAnchor.constraint(equalTo: headerContainerView.topAnchor),
             headerView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             headerView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-            dummyView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Layout.headerBottomMargin),
+            ctaButtonsStackView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
+            ctaButtonsStackView.rightAnchor.constraint(lessThanOrEqualTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
+            dummyView.topAnchor.constraint(equalTo: ctaButtonsStackView.bottomAnchor, constant: Layout.headerBottomMargin),
             dummyView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
             dummyView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Metrics.shortMargin),
-            userRelationView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Layout.headerBottomMargin),
+            userRelationView.topAnchor.constraint(equalTo: ctaButtonsStackView.bottomAnchor, constant: Layout.headerBottomMargin),
             userRelationView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             userRelationView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
-            bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor, constant: 0) ,
+            bioAndTrustView.topAnchor.constraint(equalTo: userRelationView.bottomAnchor),
             bioAndTrustView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Layout.sideMargin),
             bioAndTrustView.rightAnchor.constraint(equalTo: headerContainerView.rightAnchor, constant: -Layout.sideMargin),
             tabsView.leftAnchor.constraint(equalTo: headerContainerView.leftAnchor, constant: Metrics.shortMargin),
@@ -285,7 +313,7 @@ final class UserProfileViewController: BaseViewController {
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            emptyReviewsLabel.topAnchor.constraint(equalTo: tableView.topAnchor, constant: emptyReviewsTopMargin),
+            emptyReviewsLabel.topAnchor.constraint(equalTo: tableView.topAnchor, constant: Layout.emptyReviewsTopMargin),
             emptyReviewsLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
         ]
 
@@ -313,6 +341,10 @@ final class UserProfileViewController: BaseViewController {
         let dummyViewHeight = dummyView.heightAnchor.constraint(equalToConstant: 0)
         dummyViewHeightConstraint = dummyViewHeight
         constraints.append(dummyViewHeight)
+
+        let ctaButtonStackViewTopConstraint = ctaButtonsStackView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Layout.headerBottomMargin)
+        ctaButtonsStackTopConstraint = ctaButtonStackViewTopConstraint
+        constraints.append(ctaButtonStackViewTopConstraint)
 
         headerView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         bioAndTrustView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
@@ -344,6 +376,14 @@ final class UserProfileViewController: BaseViewController {
 
     @objc private func didTapKarmaScore() {
         viewModel.didTapKarmaScoreView()
+    }
+
+    @objc private func didTapAskVerification() {
+        viewModel.didTapAskVerification()
+    }
+
+    @objc private func didTapChatNow() {
+        viewModel.openChatNow()
     }
 
     private func updateUIBasedOnHeaderResize() {
@@ -470,10 +510,6 @@ extension UserProfileViewController: UserProfileTabsViewDelegate {
 // MARK: - Header Delegate
 
 extension UserProfileViewController: UserProfileHeaderDelegate {
-    func didTapChatNow() {
-        viewModel.openChatNow()
-    }
-    
     func didTapEditAvatar() {
         guard viewModel.isPrivateProfile else { return }
         MediaPickerManager.showImagePickerIn(self)
@@ -595,10 +631,6 @@ extension UserProfileViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
-        viewModel.chatNowButtonIsHidden
-            .drive(headerView.rx.chatNowButtonIsHidden)
-            .disposed(by: disposeBag)
 
         Observable
             .combineLatest(viewModel.userAvatarURL.asObservable(), viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }
@@ -664,10 +696,34 @@ extension UserProfileViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.showBubbleNotification.asObserver().bind { [weak self] data in
-            guard let view = self?.view else { return }
-            self?.viewModel.showUndoBubble(inView: view, data: data)
-        }.disposed(by: disposeBag)
+        viewModel
+            .showBubbleNotification
+            .asDriver(onErrorJustReturn: nil)
+            .drive(onNext: { [weak self] data in
+                guard let view = self?.view, let data = data else { return }
+                self?.viewModel.showUndoBubble(inView: view, data: data)
+            }).disposed(by: disposeBag)
+
+        viewModel
+            .askVerificationProfileIsSent
+            .asDriver()
+            .drive(onNext: { [weak self] isSent in
+                self?.askVerificationButton.setState(isSent ? .disabled : .enabled)
+            }).disposed(by: disposeBag)
+
+        Driver
+            .combineLatest(viewModel.shouldShowChatNowButton, viewModel.shouldShowAskVerificationButton)
+            .drive(onNext: { [weak self] (showChatNow, showAskVerification) in
+                self?.updateCTAButtons(showChatNow: showChatNow, showAskVerification: showAskVerification)
+            }).disposed(by: disposeBag)
+
+        Driver
+            .combineLatest(viewModel.userName, viewModel.shouldShowChatNowButton, viewModel.shouldShowAskVerificationButton)
+            .drive(onNext: { [weak self] (userName, showChatNow, showAskVerification) in
+                let firstName = userName?.components(separatedBy: " ").first ?? userName ?? ""
+                self?.askVerificationButton.setTitle(showChatNow ? R.Strings.profileAskVerificationButtonEnabledShort
+                    : R.Strings.profileAskVerificationButtonEnabled(firstName), for: .normal)
+            }).disposed(by: disposeBag)
     }
 
     private func setupPushPermissionsRx() {
@@ -696,6 +752,24 @@ extension UserProfileViewController {
         } else {
             tableView.tableHeaderView = nil
         }
+    }
+
+    private func updateCTAButtons(showChatNow: Bool, showAskVerification: Bool) {
+        if showChatNow {
+            ctaButtonsStackView.addArrangedSubview(chatNowButton)
+        } else {
+            chatNowButton.removeFromSuperview()
+        }
+
+        if showAskVerification {
+            ctaButtonsStackView.addArrangedSubview(askVerificationButton)
+        } else {
+            askVerificationButton.removeFromSuperview()
+        }
+
+        ctaButtonsStackTopConstraint?.constant = (showChatNow || showAskVerification) ? Layout.headerBottomMargin : 0
+
+        headerContainerView.setNeedsLayout()
     }
 
     private func updateUserRelation(with text: String?) {

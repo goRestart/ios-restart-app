@@ -48,9 +48,7 @@ struct UsersABGroup: ABGroupType {
                                          offensiveReportAlert,
                                          // reportingFostaSesta - ABIOS-5296 - Activate when the feature is fully ready and tested
                                          community,
-                                         advancedReputationSystem11,
-                                         advancedReputationSystem12,
-                                         advancedReputationSystem13])
+                                         advancedReputationSystem11])
     }
 
     static func make() -> UsersABGroup {

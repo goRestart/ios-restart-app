@@ -4107,6 +4107,26 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("profileChatNowButtonTapped") {
+                beforeEach {
+                    sut = TrackerEvent.profileChatNowButtonTapped(userId: "1234")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-detail-ask-question"))
+                }
+                it("contains user-to-id param") {
+                    let userToId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(userToId).to(equal("1234"))
+                }
+            }
+
+            describe("profileAskVerificationTapped") {
+                it("has its event name") {
+                    sut = TrackerEvent.profileAskVerificationTapped()
+                    expect(sut.name.rawValue).to(equal("verification-request-sent"))
+                }
+            }
+
             describe("profileShareStart") {
                 beforeEach {
                     sut = TrackerEvent.profileShareStart(.publicParameter)
