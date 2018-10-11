@@ -196,9 +196,9 @@ final class LGWaterFallLayout: UICollectionViewLayout {
 
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
-        var cellAttrDict: [IndexPath: UICollectionViewLayoutAttributes] = [:]
-        var supplHeaderAttrDict: [IndexPath: UICollectionViewLayoutAttributes] = [:]
-        var supplFooterAttrDict: [IndexPath: UICollectionViewLayoutAttributes] = [:]
+        var cellAttrDict: [UICollectionViewLayoutAttributes] = []
+        var supplHeaderAttrDict: [UICollectionViewLayoutAttributes] = []
+        var supplFooterAttrDict: [UICollectionViewLayoutAttributes] = []
 
         // Saerch the specific place of the current union.
         var begin = 0
@@ -228,12 +228,12 @@ final class LGWaterFallLayout: UICollectionViewLayout {
                 switch attr.representedElementCategory {
                 case UICollectionElementCategory.supplementaryView:
                     if attr.representedElementKind == Element.sectionFooter.description {
-                        supplFooterAttrDict[attr.indexPath] = attr
+                        supplFooterAttrDict.append(attr)
                     } else if attr.representedElementKind == Element.sectionHeader.description {
-                        supplHeaderAttrDict[attr.indexPath] = attr
+                        supplHeaderAttrDict.append(attr)
                     }
                 case UICollectionElementCategory.cell:
-                    cellAttrDict[attr.indexPath] = attr
+                    cellAttrDict.append(attr)
                 case UICollectionElementCategory.decorationView:
                     break
                 }
@@ -241,9 +241,7 @@ final class LGWaterFallLayout: UICollectionViewLayout {
         }
                 
         // Generates and returns all the attributes, cells + headers + footers
-        return Array(cellAttrDict.values)
-            + Array(supplHeaderAttrDict.values)
-            + Array(supplFooterAttrDict.values)
+        return cellAttrDict + supplHeaderAttrDict + supplFooterAttrDict
     }
 
     override public func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {

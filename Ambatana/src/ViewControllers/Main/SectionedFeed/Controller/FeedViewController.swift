@@ -99,7 +99,6 @@ final class FeedViewController: BaseViewController {
         setBars(hidden: false)
     }
     
-    
     // MARK:- Private Methods
     
     private func loadFeed() {
@@ -152,7 +151,6 @@ final class FeedViewController: BaseViewController {
     private func setupNavBar() {
         defer {
             if showRightButtons { setupRightNavBarButtons() }
-            setupInviteNavBarButton()
             setLeftNavBarButtons()
         }
         
