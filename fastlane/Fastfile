@@ -178,7 +178,7 @@ lane :deploy_to_appstore do
 
 	rb_git_clone_clean()
 	bender(message: "Tim says everything okay. New Version uploaded to iTunes Connect: #{release_branch}", channels: [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]])
-	update_dsyms(version: version_number, build_number: build_number)
+	upload_dsyms_to_crashlytics(version: version_number, build_number: build_number)
 	bender(message: "Uploaded dsyms to fabric.", channels:[ENV["BENDER_SLACK_DEFAULT_CHANNEL"]])
 end
 
@@ -208,14 +208,16 @@ lane :clean do
 	lg_assets(repository_path: "./")
 end
 
-desc "Download all the given dSYM symbolication files from iTunes Connect and upload them to crashlytics."
-lane :update_dsyms do |options|
+desc "Uploads to a crashlytics the given dsym (either by downloading it or picking it from a path)"
+lane :upload_dsyms_to_crashlytics do |options|
 	lg_fetch_app_version
 	build_number = options[:build_number] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER]
 	version = options[:version] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
    
-	dsym_path = "com.letgo.ios-#{version}-#{build_number}.dSYM.zip"
-	download_dsyms(version: version, build_number: build_number)
+	dsym_path = options[:dsym_path] ||= "com.letgo.ios-#{version}-#{build_number}.dSYM.zip"
+	if options[:dsym_path].nil? 
+		download_dsyms(version: version, build_number: build_number)
+	end
 	upload_symbols_to_crashlytics(
 		dsym_path: dsym_path,
 		api_token: ENV["FABRIC_API_TOKEN"]
@@ -602,7 +604,7 @@ end
 
 desc "Upload last beta dsyms to fabric"
 lane :upload_last_beta_dsyms do 
-	dsyms_path = ENV["LAST_BETA_BUILD"] + '/LetGoGodMode.app.dSYM.zip'
+	dsym_path = ENV["LAST_BETA_BUILD"] + '/LetGoGodMode.app.dSYM.zip'
 	upload_symbols_to_crashlytics(                                                                                      
 		dsym_path: dsym_path,                                                                                           
 		api_token: ENV["FABRIC_API_TOKEN"]
