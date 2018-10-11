@@ -10,7 +10,10 @@ final class EmbeddedCollectionViewCell: UICollectionViewCell {
         view.alwaysBounceVertical = false
         view.alwaysBounceHorizontal = true
         view.showsHorizontalScrollIndicator = false
-        view.contentInset = SectionControllerLayout.sectionInset
+        view.contentInset = UIEdgeInsets(top: 0,
+                                         left: SectionControllerLayout.sectionInset.left,
+                                         bottom: 0,
+                                         right: SectionControllerLayout.sectionInset.right)
         return view
     }()
 

@@ -8,7 +8,8 @@ typealias FeedDelegate = PushPermissionsPresenterDelegate &
     LocationEditable &
     RetryFooterDelegate &
     HorizontalSectionDelegate &
-    AdUpdated
+    AdUpdated &
+    CategoriesHeaderCollectionViewDelegate
 
 final class SectionControllerFactory: NSObject {
     
@@ -35,13 +36,16 @@ final class SectionControllerFactory: NSObject {
     }
     
     func make(for object: Any) -> ListSectionController {
-        
         switch object {
         case is DiffableBox<ListingSectionModel>:
             let horizontalSectionController = HorizontalSectionController()
             horizontalSectionController.listingActionDelegate = delegate
             horizontalSectionController.delegate = delegate
             return horizontalSectionController
+        case let bubbleBarModel as DiffableBox<BubbleBarSectionModel>:
+            let categoryBubbleController = CategoryBubbleSectionController(categories: bubbleBarModel.value.items)
+            categoryBubbleController.delegate = delegate
+            return categoryBubbleController
         case let staticSectionString as String:
             guard let staticSectionType = StaticSectionType(rawValue: staticSectionString) else { return ListSectionController() }
             return staticSectionController(for: staticSectionType)
@@ -116,7 +120,6 @@ final class SectionControllerFactory: NSObject {
             return pushMessageSectionController
         }
     }
-    
 }
 
 extension SectionControllerFactory: GADUnifiedNativeAdDelegate {

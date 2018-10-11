@@ -1,5 +1,5 @@
 public struct MockFeedSectionLinks: FeedSectionLinks {
-    public var seeAll: FeedSectionSeeAllLink
+    public var seeAll: FeedSectionSeeAllLink?
 }
 
 extension MockFeedSectionLinks: MockFactory {

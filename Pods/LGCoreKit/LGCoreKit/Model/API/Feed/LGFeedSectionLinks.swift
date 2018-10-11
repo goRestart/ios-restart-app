@@ -1,6 +1,6 @@
 
 public struct LGFeedSectionLinks: FeedSectionLinks {
-    public let seeAll: FeedSectionSeeAllLink
+    public let seeAll: FeedSectionSeeAllLink?
 }
 
 extension LGFeedSectionLinks: Decodable {
@@ -11,6 +11,6 @@ extension LGFeedSectionLinks: Decodable {
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        seeAll = try values.decode(LGFeedSectionSeeAllLink.self, forKey: .seeAll)
+        seeAll = try values.decodeIfPresent(LGFeedSectionSeeAllLink.self, forKey: .seeAll)
     }
 }

@@ -35,3 +35,10 @@ extension LGReward: Decodable {
         points = try attributesContainer.decode(Int.self, forKey: .points)
     }
 }
+
+extension LGReward: Equatable {
+    
+    static public func ==(lhs: LGReward, rhs: LGReward) -> Bool {
+        return lhs.id == rhs.id && lhs.points == rhs.points && lhs.type.rawValue == rhs.type.rawValue
+    }
+}

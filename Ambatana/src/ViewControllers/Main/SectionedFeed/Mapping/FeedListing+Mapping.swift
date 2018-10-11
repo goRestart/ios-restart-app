@@ -3,6 +3,13 @@ import LGComponents
 
 extension Array where Element == FeedListing {
     
+    func toListingCategory() -> [ListingCategory] {
+        return compactMap { feedListing in
+            guard case let FeedListing.category(listingCategory) = feedListing else { return nil }
+            return listingCategory
+        }
+    }
+
     func toFeedListingData(cellMetrics: ListingCellSizeMetrics,
                            myUserRepository: MyUserRepository,
                            listingInterestStates: Set<String>,

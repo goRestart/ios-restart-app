@@ -1,27 +1,7 @@
 import LGCoreKit
+import IGListKit
+import LGComponents
 
-extension FeedSection {
-    func toSectionModel(cellMetrics: ListingCellSizeMetrics,
-                        myUserRepository: MyUserRepository,
-                        listingInterestStates: Set<String>,
-                        chatNowTitle: String,
-                        preventMessagesFromFeedToProUser: Bool,
-                        imageHasFixedSize: Bool,
-                        sectionPosition: SectionPosition) -> ListingSectionModel {
-        let feedListingDataItems = items.toFeedListingData(cellMetrics: cellMetrics,
-                                                           myUserRepository: myUserRepository,
-                                                           listingInterestStates: listingInterestStates,
-                                                           chatNowTitle: chatNowTitle,
-                                                           preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
-                                                           imageHasFixedSize: imageHasFixedSize)
-        return ListingSectionModel(id: id,
-                                   type: type.toListingSectionType,
-                                   title: localizedTitle,
-                                   links: links.toDictionary,
-                                   items: feedListingDataItems,
-                                   sectionPosition: sectionPosition)
-    }
-}
 
 extension Array where Element == FeedSection {
     func toSectionModel(cellMetrics: ListingCellSizeMetrics,
@@ -30,16 +10,38 @@ extension Array where Element == FeedSection {
                         chatNowTitle: String,
                         preventMessagesFromFeedToProUser: Bool,
                         imageHasFixedSize: Bool,
-                        pageNumber: Int) -> [ListingSectionModel] {
-        return enumerated().map { $0.element.toSectionModel(cellMetrics: cellMetrics,
-                                                            myUserRepository: myUserRepository,
-                                                            listingInterestStates: listingInterestStates,
-                                                            chatNowTitle: chatNowTitle,
-                                                            preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
-                                                            imageHasFixedSize: imageHasFixedSize,
-                                                            sectionPosition: SectionPosition(page: UInt(bitPattern: pageNumber),
-                                                                                             index: UInt(bitPattern: $0.offset))
-            )
+                        pageNumber: Int) -> [ListDiffable] {
+        
+        return enumerated().compactMap { (offset, element) -> ListDiffable? in
+            guard let sectionType = element.type else { return nil }
+            let id = element.id
+            let sectionPosition = SectionPosition(page: UInt(bitPattern: pageNumber),
+                                                  index: UInt(bitPattern: offset))
+            switch sectionType {
+            case .adBanner:
+                let adsData = AdDataFactory.make(adPosition: Int(sectionPosition.index),
+                                                 bannerHeight: LGUIKitConstants.sectionedFeedBannerAdDefaultHeight,
+                                                 type: .banner)
+                return adsData.listDiffable()
+            case .bubbleBar:
+                let listingCategories = element.items.toListingCategory()
+                return BubbleBarSectionModel(id: id,
+                                             sectionPosition: sectionPosition,
+                                             items: listingCategories).listDiffable()
+            case .verticalListing, .horizontalListing:
+                let feedListingDataItems = element.items.toFeedListingData(cellMetrics: cellMetrics,
+                                                                           myUserRepository: myUserRepository,
+                                                                           listingInterestStates: listingInterestStates,
+                                                                           chatNowTitle: chatNowTitle,
+                                                                           preventMessagesFromFeedToProUser: preventMessagesFromFeedToProUser,
+                                                                           imageHasFixedSize: imageHasFixedSize)
+                return ListingSectionModel(id: id,
+                                           type: sectionType.toListingSectionType,
+                                           title: element.localizedTitle,
+                                           links: element.links.toDictionary,
+                                           items: feedListingDataItems,
+                                           sectionPosition: sectionPosition).listDiffable()
+            }
         }
     }
 }
@@ -47,7 +49,11 @@ extension Array where Element == FeedSection {
 
 extension FeedSectionLinks {
     var toDictionary: [String : String] {
-        return [seeAll.localizedLinkTitle : seeAll.url.absoluteString]
+        guard let title = seeAll?.localizedLinkTitle,
+            let urlString = seeAll?.url.absoluteString else {
+                return [:]
+        }
+        return [title : urlString]
     }
 }
 
@@ -58,6 +64,10 @@ private extension FeedSectionType {
             return .vertical
         case .horizontalListing:
             return .horizontal
+        case .adBanner:
+            return .bannerAds
+        case .bubbleBar:
+            return .categoryBubble
         }
     }
 }

@@ -1,11 +1,12 @@
 import LGCoreKit
+import IGListKit
 
 extension Feed {
-    func horizontalSections(_ featureFlags: FeatureFlaggeable,
-                            _ myUserRepository: MyUserRepository,
-                            _ keyValueStorage: KeyValueStorageable,
-                            _ numberOfColumns: Int,
-                            _ pageNumber: Int) -> [ListingSectionModel] {
+    func horizontalSections(featureFlags: FeatureFlaggeable,
+                            myUserRepository: MyUserRepository,
+                            keyValueStorage: KeyValueStorageable,
+                            numberOfColumns: Int,
+                            pageNumber: Int) -> [ListDiffable] {
         let listingInterestStates = keyValueStorage.interestingListingIDs
         let cellMetrics = ListingCellSizeMetrics(numberOfColumns: numberOfColumns)
         return sections.toSectionModel(cellMetrics: cellMetrics,
@@ -14,13 +15,13 @@ extension Feed {
                                        chatNowTitle: featureFlags.chatNowButtonText,
                                        preventMessagesFromFeedToProUser: featureFlags.preventMessagesFromFeedToProUsers.isActive,
                                        imageHasFixedSize: true,
-                                       pageNumber: pageNumber).filter { $0.type == .horizontal }
+                                       pageNumber: pageNumber)
     }
     
-    func verticalItems(_ featureFlags: FeatureFlaggeable,
-                       _ myUserRepository: MyUserRepository,
-                       _ keyValueStorage: KeyValueStorageable,
-                       _ numberOfColumns: Int) -> [FeedListingData]  {
+    func verticalItems(featureFlags: FeatureFlaggeable,
+                       myUserRepository: MyUserRepository,
+                       keyValueStorage: KeyValueStorageable,
+                       numberOfColumns: Int) -> [FeedListingData]  {
         let listingInterestStates = keyValueStorage.interestingListingIDs
         let cellMetrics = ListingCellSizeMetrics(numberOfColumns: numberOfColumns)
         return items.toFeedListingData(cellMetrics: cellMetrics,

@@ -77,9 +77,7 @@ final class SectionTitleHeaderView: UICollectionReusableView {
                                                      maxLines: maxLines,
                                                      withFont: SectionTitleHeaderView.Style.titleFont)
             return CGSize(width: containerWidth,
-                          height: height + 2 * ((height <= Style.Constants.smallHeight) ?
-                            Metrics.shortMargin :
-                            Metrics.bigMargin))
+                          height: height + 2 * Metrics.shortMargin)
         }
     }
 

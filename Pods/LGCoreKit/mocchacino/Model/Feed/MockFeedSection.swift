@@ -1,7 +1,7 @@
 public struct MockFeedSection: FeedSection {
     public var id: String
-    public var type: FeedSectionType
-    public var localizedTitle: String
+    public var type: FeedSectionType?
+    public var localizedTitle: String?
     public var links: FeedSectionLinks
     public var items: [FeedListing]
 }

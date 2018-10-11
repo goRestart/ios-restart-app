@@ -15,6 +15,8 @@ public enum Challenge {
 
 public enum ChallengeStatus: String, Decodable {
     case ongoing, completed, pending, processing
+    
+    static let allValues: [ChallengeStatus] = [.ongoing, .completed, .pending, .processing]
 }
 
 public struct ChallengeMilestone {
@@ -39,6 +41,8 @@ public struct ChallengeJoinLetgoData {
         case phoneVerification = "phone_verification"
         case listingPosted = "listing_posted"
         case listingApproved = "listing_approved"
+        
+        static let allValues: [Step] = [.phoneVerification, .listingPosted, .listingApproved]
     }
     public let id: String
     public let stepsCount: Int
@@ -47,7 +51,7 @@ public struct ChallengeJoinLetgoData {
     public let status: ChallengeStatus
 }
 
-extension Challenge: Decodable {
+extension Challenge: Decodable, Equatable {
     
     enum ChallengeRootKeys: String, CodingKey {
         case type, id, attributes
@@ -69,9 +73,22 @@ extension Challenge: Decodable {
             self = .joinLetgo(challengeJoinLetgoData)
         }
     }
+    
+    static public func ==(lhs: Challenge, rhs: Challenge) -> Bool {
+        switch (lhs, rhs) {
+        case let (.inviteFriends(lhsValue), .inviteFriends(rhsValue)):
+            return lhsValue == rhsValue
+        case let (.joinLetgo(lhsValue), .joinLetgo(rhsValue)):
+            return lhsValue == rhsValue
+        case (.joinLetgo(_), .inviteFriends(_)):
+            return false
+        case (.inviteFriends(_), .joinLetgo(_)):
+            return false
+        }
+    }
 }
 
-extension ChallengeMilestone: Decodable {
+extension ChallengeMilestone: Decodable, Equatable {
     
     /*
      {
@@ -89,11 +106,21 @@ extension ChallengeMilestone: Decodable {
         stepIndex = try rootContainer.decode(Int.self, forKey: .stepIndex)
         pointsReward = try rootContainer.decode(Int.self, forKey: .pointsReward)
     }
+    
+    static public func ==(lhs: ChallengeMilestone, rhs: ChallengeMilestone) -> Bool {
+        guard
+            lhs.stepIndex == rhs.stepIndex,
+            lhs.pointsReward == rhs.pointsReward
+            else {
+                return false
+        }
+        return true
+    }
 }
 
 
 
-extension ChallengeInviteFriendsData: Decodable {
+extension ChallengeInviteFriendsData: Decodable, Equatable {
     
     /*
      "type": "referred_friend",
@@ -128,9 +155,22 @@ extension ChallengeInviteFriendsData: Decodable {
         status = try attributesContainer.decode(ChallengeStatus.self, forKey: .status)
         milestones = try attributesContainer.decode([ChallengeMilestone].self, forKey: .stepPoints)
     }
+    
+    public static func ==(lhs: ChallengeInviteFriendsData, rhs: ChallengeInviteFriendsData) -> Bool {
+        guard
+            lhs.id == rhs.id,
+            lhs.stepsCount == rhs.stepsCount,
+            lhs.status.rawValue == rhs.status.rawValue,
+            lhs.currentStep == rhs.currentStep,
+            lhs.milestones == rhs.milestones
+            else {
+                return false
+        }
+        return true
+    }
 }
 
-extension ChallengeJoinLetgoData: Decodable {
+extension ChallengeJoinLetgoData: Decodable, Equatable {
     
     /*
      "type": "join_letgo",
@@ -156,4 +196,18 @@ extension ChallengeJoinLetgoData: Decodable {
         status = try attributesContainer.decode(ChallengeStatus.self, forKey: .status)
         pointsReward = try attributesContainer.decode(Int.self, forKey: .points)
     }
+    
+    public static func ==(lhs: ChallengeJoinLetgoData, rhs: ChallengeJoinLetgoData) -> Bool {
+        guard
+            lhs.id == rhs.id,
+            lhs.stepsCount == rhs.stepsCount,
+            lhs.status.rawValue == rhs.status.rawValue,
+            lhs.stepsCompleted == rhs.stepsCompleted,
+            lhs.pointsReward == rhs.pointsReward
+            else {
+                return false
+        }
+        return true
+    }
 }
+

@@ -451,8 +451,16 @@ extension FeedViewModel {
     }
     
     private func updateFeedItems(withFeed feed: Feed) {
-        let horizontalSections = feed.horizontalSections(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount, pages.count)
-        let verticalSections = feed.verticalItems(featureFlags, myUserRepository, keyValueStorage, waterfallColumnCount)
+        
+        let horizontalSections = feed.horizontalSections(featureFlags: featureFlags,
+                                                         myUserRepository: myUserRepository,
+                                                         keyValueStorage: keyValueStorage,
+                                                         numberOfColumns: waterfallColumnCount,
+                                                         pageNumber: pages.count)
+        let verticalSections = feed.verticalItems(featureFlags: featureFlags,
+                                                  myUserRepository: myUserRepository,
+                                                  keyValueStorage: keyValueStorage,
+                                                  numberOfColumns: waterfallColumnCount)
         var duplications = feed.items.count - verticalSections.count
         let verticalItems = verticalSections.filter { feedListingData in
             guard let id = feedListingData.listingId else { return false }
@@ -461,8 +469,7 @@ extension FeedViewModel {
             return false
         }
         
-        let horizontalSectionsWithBannerAds = updateWithBannerAds(listDiffable: horizontalSections.listDiffable())
-        feedItems.append(contentsOf: horizontalSectionsWithBannerAds)
+        feedItems.append(contentsOf: horizontalSections)
         
         if locationSectionIndex == nil {
             feedItems.append(LocationData(locationString: locationText))
@@ -485,15 +492,6 @@ extension FeedViewModel {
         
         let positions = adsPaginationHelper.adIndexesPositions(withItemListCount: listDiffable.count)
         let ads = positions.reversed().map { AdDataFactory.make(adPosition: feedItems.count + $0).listDiffable() }
-        return listDiffable.insert(newList: ads, at: positions)
-    }
-    
-    private func updateWithBannerAds(listDiffable: [ListDiffable]) -> [ListDiffable] {
-        guard adsImpressionConfigurable.shouldShowAdsForUser, listDiffable.count > 0  else { return listDiffable }
-        let positions = adsPaginationHelper.bannerAdIndexesPositions(withItemListCount: listDiffable.count)
-        let ads = positions.reversed().map { AdDataFactory.make(adPosition: $0,
-                                                                bannerHeight: LGUIKitConstants.sectionedFeedBannerAdDefaultHeight,
-                                                                type: .banner).listDiffable() }
         return listDiffable.insert(newList: ads, at: positions)
     }
     
@@ -612,15 +610,8 @@ extension FeedViewModel: FiltersViewModelDataDelegate {
         // For the moment when the user wants to filter something the app
         // must jump directly to the old feed with the applied filters.
         // Story: https://ambatana.atlassian.net/browse/ABIOS-4525?filter=18022.
-        guard let safeNavigator = navigator else { return }
         guard !filters.hasOnlyPlace else { return }
-        wireframe?.openClassicFeed(
-            navigator: safeNavigator,
-            withSearchType: searchType,
-            listingFilters: filters,
-            shouldCloseOnRemoveAllFilters: true,
-            tagsDelegate: self
-        )
+        openClassicFeed(with: filters, shouldCloseOnRemoveAllFilters: true)
         self.filters = ListingFilters()
     }
 }
@@ -676,14 +667,7 @@ extension FeedViewModel: EditLocationDelegate, LocationEditable {
         newFiltersWithLocationAndDistance.place = place
         newFiltersWithLocationAndDistance.distanceRadius = distanceRadius
         filters.place = place
-        guard let safeNavigator = navigator else { return }
-        wireframe?.openClassicFeed(
-            navigator: safeNavigator,
-            withSearchType: searchType,
-            listingFilters: newFiltersWithLocationAndDistance,
-            shouldCloseOnRemoveAllFilters: true,
-            tagsDelegate: self
-        )
+        openClassicFeed(with: newFiltersWithLocationAndDistance, shouldCloseOnRemoveAllFilters: true)
         refreshFeedUponLocationChange()
     }
     
@@ -961,6 +945,35 @@ extension FeedViewModel: MainListingsTagsDelegate {
     func onCloseAllFilters(finalFiters newFilters: ListingFilters) {
         self.filters = newFilters
         refreshFeedUponLocationChange()
+    }
+}
+
+extension FeedViewModel: CategoriesHeaderCollectionViewDelegate {
+    
+    func categoryHeaderDidSelect(categoryHeaderInfo: CategoryHeaderInfo) {
+
+        switch categoryHeaderInfo.filterCategoryItem {
+        case .category(let category):
+            filters.selectedCategories = [category]
+        case .free:
+            filters.priceRange = .freePrice
+        }
+
+        tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
+                                                                     category: categoryHeaderInfo.filterCategoryItem))
+        openClassicFeed(with: filters, shouldCloseOnRemoveAllFilters: true)
+        filters = ListingFilters()
+    }
+    
+    private func openClassicFeed(with filters: ListingFilters, shouldCloseOnRemoveAllFilters: Bool) {
+        guard let navigator = navigator else { return }
+        wireframe?.openClassicFeed(
+            navigator: navigator,
+            withSearchType: searchType,
+            listingFilters: filters,
+            shouldCloseOnRemoveAllFilters: shouldCloseOnRemoveAllFilters,
+            tagsDelegate: self
+        )
     }
 }
 

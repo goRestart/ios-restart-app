@@ -1,8 +1,8 @@
 
 public struct LGFeedSection: FeedSection {
     public let id: String
-    public let type: FeedSectionType
-    public let localizedTitle: String
+    public let type: FeedSectionType?
+    public let localizedTitle: String?
     public let links: FeedSectionLinks
     public let items: [FeedListing]
 }
@@ -16,9 +16,14 @@ extension LGFeedSection: Decodable {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         id = try values.decode(String.self, forKey: .id)
-        type = try values.decode(FeedSectionType.self, forKey: .type)
-        localizedTitle = try values.decode(String.self, forKey: .localizedTitle)
+        type = try? values.decode(FeedSectionType.self, forKey: .type)
+        localizedTitle = try values.decodeIfPresent(String.self, forKey: .localizedTitle)
         links = try values.decode(LGFeedSectionLinks.self, forKey: .links)
-        items = try values.decode(FailableDecodableArray<FeedListing>.self, forKey: .items).validElements.filter { $0.hasLocation }
+        items = try values.decode(FailableDecodableArray<FeedListing>.self, forKey: .items).validElements.filter {
+            switch $0 {
+            case .category, .product: return true
+            case .emptyLocation: return false
+            }            
+        }
     }
 }

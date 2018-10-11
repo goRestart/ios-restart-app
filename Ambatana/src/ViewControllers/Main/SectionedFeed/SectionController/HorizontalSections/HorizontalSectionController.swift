@@ -34,6 +34,7 @@ final class HorizontalSectionController: ListSectionController {
         super.init()
         supplementaryViewSource = self
         minimumInteritemSpacing = SectionControllerLayout.fixedListingSpacing
+        inset = UIEdgeInsets(top: SectionControllerLayout.sectionInset.top, left: 0, bottom: 0, right: 0)
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
@@ -50,10 +51,8 @@ final class HorizontalSectionController: ListSectionController {
                                  at: index) as? EmbeddedCollectionViewCell
             else { fatalError() }
         adapter.collectionView = cell.collectionView
-
         cell.collectionView.setContentOffset(
-            CGPoint(x: scrollOffset,
-                    y: cell.collectionView.contentOffset.y),
+            CGPoint(x: scrollOffset, y: 0),
             animated: false
         )
         
@@ -66,7 +65,8 @@ final class HorizontalSectionController: ListSectionController {
     
     private func horizontalSectionHeight(forScreenWidth width: CGFloat) -> CGFloat {
         let variant = featureFlags.sectionedFeedABTestIntValue
-        return variant%2 == 0 ? width / Constants.bigCellVariation : width / Constants.smallCellVariation
+        let height = variant%2 == 0 ? width / Constants.bigCellVariation : width / Constants.smallCellVariation
+        return height
     }
 }
 

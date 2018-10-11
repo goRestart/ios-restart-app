@@ -851,7 +851,7 @@ final class MainListingsViewModel: BaseViewModel, FeedNavigatorOwnership {
         updateListView()
     }
     
-    func applyFilters(_ categoryHeaderInfo: CategoryHeaderInfo) {
+    private func applyFilters(_ categoryHeaderInfo: CategoryHeaderInfo) {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      category: categoryHeaderInfo.filterCategoryItem))
         delegate?.vmShowTags(tags: tags)

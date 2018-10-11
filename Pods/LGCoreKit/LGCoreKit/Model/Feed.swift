@@ -7,8 +7,8 @@ public protocol Feed {
 
 public protocol FeedSection {
     var id: String { get }
-    var type: FeedSectionType { get }
-    var localizedTitle: String { get }
+    var type: FeedSectionType? { get }
+    var localizedTitle: String? { get }
     var links: FeedSectionLinks { get }
     var items: [FeedListing] { get }
 }
@@ -16,10 +16,12 @@ public protocol FeedSection {
 public enum FeedSectionType: String, Decodable {
     case horizontalListing = "horizontal_listing"
     case verticalListing = "vertical_listing"
+    case adBanner = "ad_banner"
+    case bubbleBar = "bubble_bar"
 }
 
 public protocol FeedSectionLinks {
-    var seeAll: FeedSectionSeeAllLink { get }
+    var seeAll: FeedSectionSeeAllLink? { get }
 }
 
 public enum FeedLinkType: String {

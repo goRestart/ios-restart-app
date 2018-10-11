@@ -117,7 +117,7 @@ extension LGFeed: Decodable {
         let rootContainer = try decoder.container(keyedBy: FeedRootKeys.self)
         pagination = try rootContainer.decode(LGPaginationLinks.self, forKey: .links)
         let dataValues = try rootContainer.nestedContainer(keyedBy: FeedDataKeys.self, forKey: .data)
-        sections = try dataValues.decode([LGFeedSection].self, forKey: .sections)
+        sections = try dataValues.decode([LGFeedSection].self, forKey: .sections).filter { $0.type != nil }
         items = try dataValues.decode(FailableDecodableArray<FeedListing>.self, forKey: .items).validElements.filter { $0.hasLocation }
     }
 }

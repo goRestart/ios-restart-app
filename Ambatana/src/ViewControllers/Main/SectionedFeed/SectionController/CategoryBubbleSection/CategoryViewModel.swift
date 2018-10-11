@@ -8,20 +8,16 @@ protocol CategoriesBubblePresentable: CategoriesHeaderCollectionViewDelegate {
 final class CategoryViewModel: CategoriesBubblePresentable {
     
     private let featureFlags: FeatureFlaggeable
+    private(set) var categories: [FilterCategoryItem]
+    
+    var categoryHighlighted: FilterCategoryItem { return FilterCategoryItem(category: .services) }
+
     weak var delegate: CategoriesHeaderCollectionViewDelegate?
     
-    init(featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
+    init(featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
+         categories: [ListingCategory]) {
         self.featureFlags = featureFlags
-    }
-    
-    var categories: [FilterCategoryItem] { return FilterCategoryItem.makeForFeed(with: featureFlags) }
-    
-    var categoryHighlighted: FilterCategoryItem {
-        if featureFlags.realEstateEnabled.isActive {
-            return FilterCategoryItem(category: .realEstate)
-        } else {
-            return FilterCategoryItem(category: .cars)
-        }
+        self.categories = categories.map{ FilterCategoryItem.init(category: $0) }
     }
 }
 

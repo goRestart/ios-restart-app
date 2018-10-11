@@ -1,4 +1,5 @@
 import IGListKit
+import LGCoreKit
 
 final class CategoryBubbleSectionController: ListSectionController {
     
@@ -9,11 +10,13 @@ final class CategoryBubbleSectionController: ListSectionController {
             categoryViewModel.delegate = delegate
         }
     }
-    
-    init(featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
-        self.categoryViewModel = CategoryViewModel(featureFlags: featureFlags)
+
+    init(featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance,
+         categories: [ListingCategory]) {
+        self.categoryViewModel = CategoryViewModel(featureFlags: featureFlags,
+                                                   categories: categories)
         super.init()
-        inset = SectionControllerLayout.categoryBubbleSectionInset
+        inset = .zero
     }
     
     override func numberOfItems() -> Int {
