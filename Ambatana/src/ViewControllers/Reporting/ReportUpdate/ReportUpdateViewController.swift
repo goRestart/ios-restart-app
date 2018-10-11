@@ -187,13 +187,13 @@ final class ReportUpdateViewController: BaseViewController {
     }
 
     @objc private func didTapButton(sender: ReportUpdateButton) {
-        updateSelectedScoreUI(type: sender.type, completion: nil)
+        updateSelectedScoreUI(type: sender.type)
         viewModel.updateReport(with: sender.type) { [weak self] in
             self?.resetButtons()
         }
     }
 
-    private func updateSelectedScoreUI(type: ReportUpdateButtonType, completion: (() -> Void)?) {
+    private func updateSelectedScoreUI(type: ReportUpdateButtonType, completion: (() -> Void)? = nil) {
         feedbackButtons.forEach { button in
             button.set(selected: button.type == type)
         }
@@ -208,22 +208,21 @@ final class ReportUpdateViewController: BaseViewController {
 
     private func observeRx() {
         viewModel.reportStatus.asDriver().drive(onNext: {  [weak self] status in
-            guard let strongSelf = self else { return }
             switch status {
             case .loading:
-                strongSelf.feedbackContainerView.isHidden = true
+                self?.feedbackContainerView.isHidden = true
             case .pending:
-                strongSelf.feedbackContainerView.isHidden = false
+                self?.feedbackContainerView.isHidden = false
             case .completed(let score):
                 guard let type = ReportUpdateButtonType(rawValue: score) else { return }
-                strongSelf.updateSelectedScoreUI(type: type) {
-                    strongSelf.feedbackContainerView.isHidden = false
+                self?.updateSelectedScoreUI(type: type) {
+                    self?.feedbackContainerView.isHidden = false
                 }
             }
         }).disposed(by: disposeBag)
     }
 
-    private func updateFeedbackTitle(type: ReportUpdateButtonType, completion: (() -> Void)?) {
+    private func updateFeedbackTitle(type: ReportUpdateButtonType, completion: (() -> Void)? = nil) {
         UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             self.feedbackTitle.alpha = 0
         }) { completed in
