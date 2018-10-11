@@ -1,0 +1,45 @@
+module Fastlane
+  module Actions
+    # Raises an exception and stop the lane execution if the repo is not up to date.
+    class EnsureGitUpToDate < Action
+      def self.run(params)
+        Actions.sh("git fetch origin")
+		repo_up_to_date = Actions.sh("git diff @{u}") # diffs against upstream branch
+
+        if repo_up_to_date
+          UI.success('Branch is up to date, canoli fina tio! 💪')
+        else
+          error_message = "Git branch isn't up to date! Please ensure the branch is up to date with origin."
+          UI.user_error!(error_message)
+        end
+      end
+
+      def self.description
+        "Raises an exception if the branch isn't up to date with origin"
+      end
+
+      def self.details
+          "A sanity check to make sure you're branch is up to date with origin."
+      end
+
+      def self.author
+        ["facumenzella"]
+      end
+
+      def self.example_code
+        [
+          'lg_ensure_git_up_to_date'
+        ]
+      end
+
+      def self.category
+        :source_control
+      end
+
+      def self.is_supported?(platform)
+        true
+      end
+    end
+  end
+end
+

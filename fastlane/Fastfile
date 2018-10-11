@@ -476,6 +476,32 @@ end
 
 desc "Generates a new beta"
 lane :release_beta do |options|
+	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
+
+	begin
+		ensure_git_status_clean(
+			show_uncommitted_changes: true,
+			show_diff: true
+		)
+	rescue
+		bender(
+			message: "Please ensure the repo isn't dirty 🙏🏼.",
+			success: false,
+			channels: channels
+		)
+		UI.user_error!("Aborting due to dirty working copy")
+	end
+	begin
+		lg_ensure_git_up_to_date
+	rescue
+		bender(
+			message: 'Please ensure the branch is up to date before launching betas 🙏',
+			success: false,
+			channels: channels
+		)	
+		UI.user_error!("Aborting due to branch not being up to date")
+	end
+
 	lg_dependencies
 	
 	repository_path = 'tmp_lane_git_clone_folder'
@@ -484,9 +510,10 @@ lane :release_beta do |options|
 	new_version = options[:new_version] ||= Actions.lane_context[Actions::SharedValues::LG_VERSION_NUMBER]
 	new_build = options[:new_build] ||= Actions.lane_context[Actions::SharedValues::LG_BUILD_NUMBER].to_i + 1
 
-	message = "Crafting brand new version (#{new_version} - #{new_build})"
-	channels = [ENV["BENDER_SLACK_DEFAULT_CHANNEL"]]
-	bender(message: message, channels: channels)
+	bender(
+		message: "Crafting brand new version (#{new_version} - #{new_build})", 
+		channels: channels
+	)
 
 	release_branch = 'release-' + new_version.to_s
 		
@@ -532,27 +559,58 @@ lane :release_beta do |options|
 	build_beta(workspace: workspace, scheme: scheme)
 	
 	ipa_path = ENV["LAST_BETA_BUILD"]
-	upload_crashlytics(
-		beta_path: ipa_path, 
-		version_number: new_version.to_s, 
-		build_number: new_build.to_s
+	bender(
+		message: "Ok so I've started uploading this to crashlytics. Wait for it 👌",
+		success: true,
+		channels: channels
 	)
-
-	lg_push(
-		repository_path: repository_path,
-		version_number: new_version.to_s,
-		build_number: new_build.to_s
+	begin
+		upload_crashlytics(
+			beta_path: ipa_path, 
+			version_number: new_version.to_s, 
+			build_number: new_build.to_s
+		)
+	rescue
+		bender(
+			message: "I've failed in my duty to upload to Crashlytics.",
+			success: false,
+			channels: channels
+		)
+		UI.user_error!("Crashlytics upload failed")
+	end
+	bender(
+		message: "Okey the new beta (#{new_version} - #{new_build}) is in crashlytics. Thanks for nothing. Oh my god I need a beer🍻",
+		success: true,
+		channels: channels
 	)
+	begin
+		lg_push(
+			repository_path: repository_path,
+			version_number: new_version.to_s,
+			build_number: new_build.to_s
+		)
+	rescue
+		bender(
+			message: "Failed to push version commit",
+			success: false,
+			channels: ['ios-core']
+		)
+	end
 	rb_git_clone_clean()
-	success = "Okey the new beta (#{new_version} - #{new_build}) is in crashlytics. Thanks for nothing. Oh my god I need a beer🍻"
-	bender(message: success, channels: channels)
-
 	bender(
 		message: "I'll upload the dsyms to fabric so we can track bugs",
 		success: true,
 		channels: channels
 	)
-	upload_last_beta_dsyms
+	begin
+		upload_last_beta_dsyms
+	rescue
+		bender(
+			message: "I've failed my duty to upload the dsyms.",
+			success: false,
+			channels: channels
+		)
+	end
 end
 	
 desc "Upload build to appstore"
