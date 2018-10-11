@@ -10,6 +10,7 @@ struct UsersABGroup: ABGroupType {
         static let advancedReputationSystem11 = "20180828AdvancedReputationSystem11"
         static let advancedReputationSystem12 = "20180910AdvancedReputationSystem12"
         static let advancedReputationSystem13 = "20180913AdvancedReputationSystem13"
+        static let advancedReputationSystem14 = "20180913AdvancedReputationSystem14"
     }
 
     let showPasswordlessLogin: LeanplumABVariable<Int>
@@ -20,6 +21,7 @@ struct UsersABGroup: ABGroupType {
     let advancedReputationSystem11: LeanplumABVariable<Int>
     let advancedReputationSystem12: LeanplumABVariable<Int>
     let advancedReputationSystem13: LeanplumABVariable<Int>
+    let advancedReputationSystem14: LeanplumABVariable<Int>
 
     let group: ABGroup = .users
     var intVariables: [LeanplumABVariable<Int>] = []
@@ -34,7 +36,8 @@ struct UsersABGroup: ABGroupType {
          community: LeanplumABVariable<Int>,
          advancedReputationSystem11: LeanplumABVariable<Int>,
          advancedReputationSystem12: LeanplumABVariable<Int>,
-         advancedReputationSystem13: LeanplumABVariable<Int>) {
+         advancedReputationSystem13: LeanplumABVariable<Int>,
+         advancedReputationSystem14: LeanplumABVariable<Int>) {
         self.showPasswordlessLogin = showPasswordlessLogin
         self.emergencyLocate = emergencyLocate
         self.offensiveReportAlert = offensiveReportAlert
@@ -43,12 +46,15 @@ struct UsersABGroup: ABGroupType {
         self.advancedReputationSystem11 = advancedReputationSystem11
         self.advancedReputationSystem12 = advancedReputationSystem12
         self.advancedReputationSystem13 = advancedReputationSystem13
+        self.advancedReputationSystem14 = advancedReputationSystem14
         intVariables.append(contentsOf: [showPasswordlessLogin,
                                          emergencyLocate,
                                          offensiveReportAlert,
                                          // reportingFostaSesta - ABIOS-5296 - Activate when the feature is fully ready and tested
                                          community,
-                                         advancedReputationSystem11])
+                                         advancedReputationSystem11,
+//                                         advancedReputationSystem14 - ABIOS-5318 - Activate when feature is ready
+            ])
     }
 
     static func make() -> UsersABGroup {
@@ -74,6 +80,9 @@ struct UsersABGroup: ABGroupType {
                                                                  defaultValue: 0,
                                                                  groupType: .users),
                             advancedReputationSystem13: .makeInt(key: Keys.advancedReputationSystem13,
+                                                                 defaultValue: 0,
+                                                                 groupType: .users),
+                            advancedReputationSystem14: .makeInt(key: Keys.advancedReputationSystem14,
                                                                  defaultValue: 0,
                                                                  groupType: .users)
         )

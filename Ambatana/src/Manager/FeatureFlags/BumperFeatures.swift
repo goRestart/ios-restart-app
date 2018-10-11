@@ -89,6 +89,7 @@ extension Bumper  {
         flags.append(BoostSmokeTest.self)
         flags.append(PolymorphFeedAdsUSA.self)
         flags.append(GoogleUnifiedNativeAds.self)
+        flags.append(AdvancedReputationSystem14.self)
         Bumper.initialize(flags)
     } 
 
@@ -1037,6 +1038,19 @@ extension Bumper  {
     static var googleUnifiedNativeAdsObservable: Observable<GoogleUnifiedNativeAds> {
         return Bumper.observeValue(for: GoogleUnifiedNativeAds.key).map {
             GoogleUnifiedNativeAds(rawValue: $0 ?? "") ?? .control
+        }
+    }
+    #endif
+
+    static var advancedReputationSystem14: AdvancedReputationSystem14 {
+        guard let value = Bumper.value(for: AdvancedReputationSystem14.key) else { return .control }
+        return AdvancedReputationSystem14(rawValue: value) ?? .control 
+    } 
+
+    #if (RX_BUMPER)
+    static var advancedReputationSystem14Observable: Observable<AdvancedReputationSystem14> {
+        return Bumper.observeValue(for: AdvancedReputationSystem14.key).map {
+            AdvancedReputationSystem14(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -2200,6 +2214,22 @@ enum GoogleUnifiedNativeAds: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[MONEY] New unified Google Native Ads" } 
     static func fromPosition(_ position: Int) -> GoogleUnifiedNativeAds {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum AdvancedReputationSystem14: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AdvancedReputationSystem14.control.rawValue }
+    static var enumValues: [AdvancedReputationSystem14] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "[USERS] ARS v1.4" } 
+    static func fromPosition(_ position: Int) -> AdvancedReputationSystem14 {
         switch position { 
             case 0: return .control
             case 1: return .baseline

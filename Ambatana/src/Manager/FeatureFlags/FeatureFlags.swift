@@ -100,6 +100,7 @@ protocol FeatureFlaggeable: class {
     var advancedReputationSystem11: AdvancedReputationSystem11 { get }
     var advancedReputationSystem12: AdvancedReputationSystem12 { get }
     var advancedReputationSystem13: AdvancedReputationSystem13 { get }
+    var advancedReputationSystem14: AdvancedReputationSystem14 { get }
 
     // MARK: Money
     var preventMessagesFromFeedToProUsers: PreventMessagesFromFeedToProUsers { get }
@@ -316,6 +317,10 @@ extension AdvancedReputationSystem12 {
 }
 
 extension AdvancedReputationSystem13 {
+    var isActive: Bool { return self == .active }
+}
+
+extension AdvancedReputationSystem14 {
     var isActive: Bool { return self == .active }
 }
 
@@ -702,6 +707,14 @@ final class FeatureFlags: FeatureFlaggeable {
         }
         let cached = dao.retrieveAdvancedReputationSystem13()
         return cached ?? AdvancedReputationSystem13.fromPosition(abTests.advancedReputationSystem13.value)
+    }
+
+    var advancedReputationSystem14: AdvancedReputationSystem14 {
+        if Bumper.enabled {
+            return Bumper.advancedReputationSystem14
+        }
+        return AdvancedReputationSystem14.fromPosition(abTests.advancedReputationSystem14.value)
+
     }
 
     // MARK: - Country features
