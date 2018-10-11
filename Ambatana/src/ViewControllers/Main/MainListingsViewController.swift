@@ -212,10 +212,12 @@ final class MainListingsViewController: BaseViewController, ListingListViewScrol
 
         if (offset >= locationHeaderPosition - tagPositionCorrection) && stackHeader.isEmpty && !locationHeader.isHidden {
             stackHeader.submit(header: floatLocationHeader)
+            stackHeader.isHidden = false
             return
         }
         if offset < locationHeaderPosition - tagPositionCorrection && !stackHeader.isEmpty {
             stackHeader.removeAll()
+            stackHeader.isHidden = true
         }
     }
     

@@ -281,7 +281,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         case CHTCollectionElementKindSectionHeader, UICollectionElementKindSectionHeader:
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                     withReuseIdentifier: ListHeaderContainer.reusableID, for: indexPath) as? ListHeaderContainer
-                    else { return UICollectionReusableView() }
+                    else { return generateEmptyHeaderView() }
             headerDelegate?.setupViewsIn(header: header)
             return header
         default:
@@ -560,6 +560,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         case .collectionCell, .emptyCell, .listingCell, .promo:
             break
         }
+    }
+    
+    private func generateEmptyHeaderView() -> ListHeaderContainer {
+        let emptyHeader = ListHeaderContainer(frame: .zero)
+        headerDelegate?.setupViewsIn(header: emptyHeader)
+        return emptyHeader
     }
     
     enum Layout {
