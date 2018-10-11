@@ -2,17 +2,27 @@ import Foundation
 import LGComponents
 import LGCoreKit
 import RxSwift
+import RxCocoa
+
+enum ReportStatus {
+    case loading
+    case pending
+    case completed(score: Int)
+}
 
 final class ReportUpdateViewModel: BaseViewModel {
 
     let type: ReportUpdateType
     var navigator: ReportUpdateNavigator?
-    var report: Variable<Report?> = Variable<Report?>(nil)
 
+    let reportStatus = BehaviorRelay<ReportStatus>(value: .loading)
+    private var report: BehaviorRelay<Report?> = BehaviorRelay<Report?>(value: nil)
     private let reportingRepository: ReportingRepository
     private let tracker: Tracker
     private let reportId: String
     private let reportedUserId: String
+    private let automaticCloseDelay: Double = 2
+
     weak var delegate: BaseViewModelDelegate?
 
     init(type: ReportUpdateType,
@@ -26,6 +36,10 @@ final class ReportUpdateViewModel: BaseViewModel {
         self.reportingRepository = reportingRepository
         self.tracker = tracker
         super.init()
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
         retrieveReport()
     }
 
@@ -35,17 +49,21 @@ final class ReportUpdateViewModel: BaseViewModel {
 
     private func retrieveReport() {
         delegate?.vmShowLoading(nil)
+        reportStatus.accept(.loading)
         let completion: (ReportingResult) -> Void = { [weak self] result in
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-            self?.report.value = result.value
+            self?.report.accept(result.value)
             if let value = result.value {
                 // Check if the user already provided feedback for this Report or not.
-                if value.score == nil {
-                    self?.trackUpdateSent()
-                } else {
+                if let score = value.score {
+                    self?.reportStatus.accept(.completed(score: score))
                     self?.automaticClose()
+                } else {
+                    self?.reportStatus.accept(.pending)
+                    self?.trackUpdateSent()
                 }
             } else if let _ = result.error {
+                self?.reportStatus.accept(.pending)
                 self?.showErrorAlert(completion: { [weak self] in
                     self?.automaticClose()
                 })
@@ -117,7 +135,7 @@ final class ReportUpdateViewModel: BaseViewModel {
     }
 
     private func automaticClose() {
-        delay(1) { [weak self] in
+        delay(automaticCloseDelay) { [weak self] in
             self?.navigator?.closeReportUpdate()
         }
     }

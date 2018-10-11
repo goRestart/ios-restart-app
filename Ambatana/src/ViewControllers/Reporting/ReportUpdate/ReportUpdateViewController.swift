@@ -1,5 +1,7 @@
 import UIKit
 import LGComponents
+import RxSwift
+import RxCocoa
 
 final class ReportUpdateViewController: BaseViewController {
 
@@ -43,6 +45,7 @@ final class ReportUpdateViewController: BaseViewController {
     private let feedbackContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
+        view.clipsToBounds = true
         return view
     }()
 
@@ -77,6 +80,7 @@ final class ReportUpdateViewController: BaseViewController {
     private let neutralButton = ReportUpdateButton(type: .neutral)
     private let happyButton = ReportUpdateButton(type: .happy)
     private let veryHappyButton = ReportUpdateButton(type: .veryHappy)
+    private let disposeBag = DisposeBag()
 
     private var feedbackButtons: [ReportUpdateButton] {
         return [verySadButton, sadButton, neutralButton, happyButton, veryHappyButton]
@@ -121,6 +125,7 @@ final class ReportUpdateViewController: BaseViewController {
             button.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchUpInside)
         }
         setupConstraints()
+        observeRx()
     }
 
     private func setupConstraints() {
@@ -182,13 +187,17 @@ final class ReportUpdateViewController: BaseViewController {
     }
 
     @objc private func didTapButton(sender: ReportUpdateButton) {
-        feedbackButtons.forEach { button in
-            button.set(selected: button == sender)
-        }
-        updateFeedbackTitle(type: sender.type)
+        updateSelectedScoreUI(type: sender.type)
         viewModel.updateReport(with: sender.type) { [weak self] in
             self?.resetButtons()
         }
+    }
+
+    private func updateSelectedScoreUI(type: ReportUpdateButtonType, completion: (() -> Void)? = nil) {
+        feedbackButtons.forEach { button in
+            button.set(selected: button.type == type)
+        }
+        updateFeedbackTitle(type: type, completion: completion)
     }
 
     private func resetButtons() {
@@ -197,7 +206,23 @@ final class ReportUpdateViewController: BaseViewController {
         }
     }
 
-    private func updateFeedbackTitle(type: ReportUpdateButtonType) {
+    private func observeRx() {
+        viewModel.reportStatus.asDriver().drive(onNext: {  [weak self] status in
+            switch status {
+            case .loading:
+                self?.feedbackContainerView.isHidden = true
+            case .pending:
+                self?.feedbackContainerView.isHidden = false
+            case .completed(let score):
+                guard let type = ReportUpdateButtonType(rawValue: score) else { return }
+                self?.updateSelectedScoreUI(type: type) {
+                    self?.feedbackContainerView.isHidden = false
+                }
+            }
+        }).disposed(by: disposeBag)
+    }
+
+    private func updateFeedbackTitle(type: ReportUpdateButtonType, completion: (() -> Void)? = nil) {
         UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             self.feedbackTitle.alpha = 0
         }) { completed in
@@ -206,7 +231,7 @@ final class ReportUpdateViewController: BaseViewController {
             self.feedbackTitle.alpha = 1
             UIView.animate(withDuration: 0.25, delay: 0.05, options: .curveEaseOut, animations: {
                 self.feedbackTitle.transform = .identity
-            }, completion: nil
+            }, completion:  { _ in completion?() }
             )
         }
     }
