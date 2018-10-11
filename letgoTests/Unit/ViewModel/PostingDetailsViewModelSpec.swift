@@ -289,16 +289,7 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
                       uploadedImageSource: EventParameterMediaSource?,
                       uploadedVideoLength: TimeInterval?,
                       postingSource: PostingSource,
-                      postListingBasicInfo: PostListingBasicDetailViewModel) {
-        // FIXME: No idea what to do here
-    }
-
-    func startDetails(postListingState: PostListingState,
-                      uploadedImageSource: EventParameterMediaSource?,
-                      postingSource: PostingSource,
-                      postListingBasicInfo: PostListingBasicDetailViewModel) {
-        // FIXME: No idea what to do here
-    }
+                      postListingBasicInfo: PostListingBasicDetailViewModel) { /* Not used in PostingDetailsViewModel */ }
 
     func closePostProductAndPostLater(params: ListingCreationParams,
                                       images: [UIImage]?,
@@ -312,11 +303,7 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         cancelPostingCalled = true
         
     }
-    func startDetails(postListingState: PostListingState,
-                      uploadedImageSource: EventParameterMediaSource?,
-                      uploadedVideoLength: TimeInterval?,
-                      postingSource: PostingSource,
-                      postListingBasicInfo: PostListingBasicDetailViewModel) { }
+
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
                                uploadedImageSource: EventParameterMediaSource?,
