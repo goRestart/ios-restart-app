@@ -85,8 +85,9 @@ class ExpressChatViewController: BaseViewController {
         collectionView.dataSource = self
         collectionViewHeightConstraint.constant = viewModel.productListCount > 2 ?
             Layout.collectionHeight : Layout.collectionHeight/2
-        let cellNib = UINib(nibName: "ExpressChatCell", bundle: nil)
-        collectionView.register(cellNib, forCellWithReuseIdentifier: ExpressChatViewController.collectionCellIdentifier)
+        
+        collectionView.register(type: ExpressChatCell.self)
+        
         collectionView.allowsMultipleSelection = true
 
         for i in 0...viewModel.productListCount {
@@ -162,8 +163,7 @@ extension ExpressChatViewController: UICollectionViewDataSource, UICollectionVie
         let title = viewModel.titleForItemAtIndex(indexPath.item)
         let imageURL = viewModel.imageURLForItemAtIndex(indexPath.item)
         let price = viewModel.priceForItemAtIndex(indexPath.item)
-        let cellCornerRadius = viewModel.hideDontAskAgainButton ? LGUIKitConstants.mediumCornerRadius : LGUIKitConstants.smallCornerRadius
-        cell.configureCellWithTitle(title, imageUrl: imageURL, price: price, cornerRadius: cellCornerRadius)
+        cell.configure(with: title, price: price, imageUrl: imageURL)
         return cell
     }
 

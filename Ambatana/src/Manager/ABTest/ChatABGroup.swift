@@ -8,7 +8,6 @@ struct ChatABGroup: ABGroupType {
         static let showChatConnectionStatusBar = "20180621ShowChatConnectionStatusBar"
         static let showChatHeaderWithoutUser = "20180702ShowChatHeaderWithoutUser"
         static let enableCTAMessageType = "20180716enableCTAMessageType"
-        static let expressChatImprovement = "20180719ExpressChatImprovement"
         static let smartQuickAnswers = "20180806SmartQuickAnswers"
         static let openChatFromUserProfile = "20180807OpenChatFromUserProfile"
         static let markAsSoldQuickAnswerNewFlow = "20180926markAsSoldQuickAnswerNewFlow"
@@ -21,7 +20,6 @@ struct ChatABGroup: ABGroupType {
     let showChatConnectionStatusBar: LeanplumABVariable<Int>
     let showChatHeaderWithoutUser: LeanplumABVariable<Bool>
     let enableCTAMessageType: LeanplumABVariable<Bool>
-    let expressChatImprovement: LeanplumABVariable<Int>
     let smartQuickAnswers: LeanplumABVariable<Int>
     let openChatFromUserProfile: LeanplumABVariable<Int>
     let markAsSoldQuickAnswerNewFlow: LeanplumABVariable<Int>
@@ -39,7 +37,6 @@ struct ChatABGroup: ABGroupType {
          showChatConnectionStatusBar: LeanplumABVariable<Int>,
          showChatHeaderWithoutUser: LeanplumABVariable<Bool>,
          enableCTAMessageType: LeanplumABVariable<Bool>,
-         expressChatImprovement: LeanplumABVariable<Int>,
          smartQuickAnswers: LeanplumABVariable<Int>,
          openChatFromUserProfile: LeanplumABVariable<Int>,
          markAsSoldQuickAnswerNewFlow: LeanplumABVariable<Int>,
@@ -50,7 +47,6 @@ struct ChatABGroup: ABGroupType {
         self.showChatConnectionStatusBar = showChatConnectionStatusBar
         self.showChatHeaderWithoutUser = showChatHeaderWithoutUser
         self.enableCTAMessageType = enableCTAMessageType
-        self.expressChatImprovement = expressChatImprovement
         self.smartQuickAnswers = smartQuickAnswers
         self.openChatFromUserProfile = openChatFromUserProfile
         self.markAsSoldQuickAnswerNewFlow = markAsSoldQuickAnswerNewFlow
@@ -58,7 +54,6 @@ struct ChatABGroup: ABGroupType {
 
         intVariables.append(contentsOf: [chatNorris,
                                          showChatConnectionStatusBar,
-                                         expressChatImprovement,
                                          smartQuickAnswers,
                                          openChatFromUserProfile,
                                          markAsSoldQuickAnswerNewFlow])
@@ -89,9 +84,6 @@ struct ChatABGroup: ABGroupType {
                            enableCTAMessageType: .makeBool(key: Keys.enableCTAMessageType,
                                                            defaultValue: false,
                                                            groupType: .chat),
-                           expressChatImprovement: .makeInt(key: Keys.expressChatImprovement,
-                                                            defaultValue: 0,
-                                                            groupType: .chat),
                            smartQuickAnswers: .makeInt(key: Keys.smartQuickAnswers,
                                                        defaultValue: 0,
                                                        groupType: .chat),

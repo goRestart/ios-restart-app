@@ -835,11 +835,9 @@
 		2E97169E1D59E958009B3A32 /* ExpressChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */; };
 		2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
 		2E9716A31D5A0535009B3A32 /* ExpressChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716A11D5A0535009B3A32 /* ExpressChatCell.swift */; };
-		2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E9716A21D5A0535009B3A32 /* ExpressChatCell.xib */; };
 		2E9716A61D5A08AB009B3A32 /* ExpressChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716A51D5A08AB009B3A32 /* ExpressChatViewModel.swift */; };
 		2E9716A71D5A2840009B3A32 /* ExpressChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716A51D5A08AB009B3A32 /* ExpressChatViewModel.swift */; };
 		2E9716A81D5A284F009B3A32 /* ExpressChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716A11D5A0535009B3A32 /* ExpressChatCell.swift */; };
-		2E9716A91D5A284F009B3A32 /* ExpressChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E9716A21D5A0535009B3A32 /* ExpressChatCell.xib */; };
 		2E9716AA1D5A284F009B3A32 /* ExpressChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */; };
 		2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
 		2E9716AE1D5B2C59009B3A32 /* ChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716AD1D5B2C59009B3A32 /* ChatWrapper.swift */; };
@@ -3233,7 +3231,6 @@
 		2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatViewController.swift; sourceTree = "<group>"; };
 		2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressChatViewController.xib; sourceTree = "<group>"; };
 		2E9716A11D5A0535009B3A32 /* ExpressChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatCell.swift; sourceTree = "<group>"; };
-		2E9716A21D5A0535009B3A32 /* ExpressChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressChatCell.xib; sourceTree = "<group>"; };
 		2E9716A51D5A08AB009B3A32 /* ExpressChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatViewModel.swift; sourceTree = "<group>"; };
 		2E9716AD1D5B2C59009B3A32 /* ChatWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatWrapper.swift; path = ChatWrapper/ChatWrapper.swift; sourceTree = "<group>"; };
 		2EADE4DE20514AF60089D9F8 /* PostingCategoriesPickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostingCategoriesPickViewController.swift; path = Onboarding/PostingCategoriesPickViewController.swift; sourceTree = "<group>"; };
@@ -5772,7 +5769,6 @@
 			isa = PBXGroup;
 			children = (
 				2E9716A11D5A0535009B3A32 /* ExpressChatCell.swift */,
-				2E9716A21D5A0535009B3A32 /* ExpressChatCell.xib */,
 				2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */,
 				2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */,
 				2E9716A51D5A08AB009B3A32 /* ExpressChatViewModel.swift */,
@@ -9496,7 +9492,6 @@
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				2E9A899520A048D4009F6BB7 /* ChatOtherMeetingCell.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
-				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
 				6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
@@ -9587,7 +9582,6 @@
 				C727942B1D549334009C25AB /* SettingsCell.xib in Resources */,
 				6A38ADE61C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */,
 				C7DB425E1C5138B500400945 /* levelup.caf in Resources */,
-				2E9716A91D5A284F009B3A32 /* ExpressChatCell.xib in Resources */,
 				2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */,
 				A4CD2683215BDFB100EA61D3 /* lightBlueShape@2x.png in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostListingViewController.xib in Resources */,

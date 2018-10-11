@@ -3,9 +3,7 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
-    
-    
-    
+ 
     var rx_affiliationEnabled: Observable<AffiliationEnabled> { return .just(.control) }
 
     var trackingData: Observable<[(String, ABGroup)]?> {
@@ -72,7 +70,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar = .control
     var showChatHeaderWithoutUser: Bool = true
     var enableCTAMessageType: Bool = true
-    var expressChatImprovement: ExpressChatImprovement = .control
     var smartQuickAnswers: SmartQuickAnswers = .control
     var openChatFromUserProfile: OpenChatFromUserProfile = .control
     var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow = .control

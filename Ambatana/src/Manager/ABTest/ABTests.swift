@@ -167,7 +167,6 @@ extension ABTests {
     var showChatConnectionStatusBar: LeanplumABVariable<Int> { return chat.showChatConnectionStatusBar }
     var showChatHeaderWithoutUser: LeanplumABVariable<Bool> { return chat.showChatHeaderWithoutUser }
     var enableCTAMessageType: LeanplumABVariable<Bool> { return chat.enableCTAMessageType }
-    var expressChatImprovement: LeanplumABVariable<Int> { return chat.expressChatImprovement }
     var smartQuickAnswers: LeanplumABVariable<Int> { return chat.smartQuickAnswers }
     var openChatFromUserProfile: LeanplumABVariable<Int> { return chat.openChatFromUserProfile }
     var markAsSoldQuickAnswerNewFlow: LeanplumABVariable<Int> { return chat.markAsSoldQuickAnswerNewFlow }

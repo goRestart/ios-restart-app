@@ -64,7 +64,6 @@ protocol FeatureFlaggeable: class {
     var showChatConnectionStatusBar: ShowChatConnectionStatusBar { get }
     var showChatHeaderWithoutUser: Bool { get }
     var enableCTAMessageType: Bool { get }
-    var expressChatImprovement: ExpressChatImprovement { get }
     var smartQuickAnswers: SmartQuickAnswers { get }
     var openChatFromUserProfile: OpenChatFromUserProfile { get }
     var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow { get }
@@ -1033,10 +1032,6 @@ extension ShowChatConnectionStatusBar {
     var isActive: Bool { return self == .active }
 }
 
-extension ExpressChatImprovement {
-    var isActive: Bool { return self == .hideDontAsk || self == .newTitleAndHideDontAsk }
-}
-
 extension SmartQuickAnswers {
     var isActive: Bool { return self == .active }
 }
@@ -1089,19 +1084,13 @@ extension FeatureFlags {
         return abTests.enableCTAMessageType.value
     }
 
-    var expressChatImprovement: ExpressChatImprovement {
-        if Bumper.enabled {
-            return Bumper.expressChatImprovement
-        }
-        return  ExpressChatImprovement.fromPosition(abTests.expressChatImprovement.value)
-    }
-    
     var smartQuickAnswers: SmartQuickAnswers {
         if Bumper.enabled {
             return Bumper.smartQuickAnswers
         }
         return SmartQuickAnswers.fromPosition(abTests.smartQuickAnswers.value)
     }
+    
     var openChatFromUserProfile: OpenChatFromUserProfile {
         if Bumper.enabled {
             return Bumper.openChatFromUserProfile

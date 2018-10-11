@@ -175,11 +175,6 @@
         "description": "[Users] Show button/tab to open the new Community feature"
     },
     {
-        "name": "ExpressChatImprovement",
-        "values": ["control", "baseline", "hideDontAsk", "newTitleAndHideDontAsk"],
-        "description": "[CHAT] Express chat improvements"
-    },
-    {
         "name": "SmartQuickAnswers",
         "values": ["control", "baseline", "active"],
         "description": "Show smart quick answer events"
