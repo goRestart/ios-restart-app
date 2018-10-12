@@ -52,6 +52,7 @@ Pods/Local Podspecs/
 
 # fastlane
 build.log
+Preview.html
 
 # githooks
 jiraconfig.yml

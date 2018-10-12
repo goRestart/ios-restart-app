@@ -161,12 +161,8 @@ lane :deploy_to_appstore do
 	deliver(
 		username: "ios-automation@letgo.com",
 		app: "986339882",
-		skip_screenshots: true,
-		skip_metadata: true,
 		phased_release: true,
-		force: true,  # Set to true to skip PDF verification
-		submit_for_review: true,
-		automatic_release: false,
+		force: true,
 		submission_information: {
 			export_compliance_encryption_updated: false,
 			add_id_info_uses_idfa: true,
