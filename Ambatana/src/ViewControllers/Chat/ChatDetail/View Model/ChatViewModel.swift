@@ -547,13 +547,14 @@ class ChatViewModel: ChatBaseViewModel {
             .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
         
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
-                                        relatedListingsState.asObservable(), Observable.just(isUserDummy)) { chatEnabled, relatedState, isUserDummy in
- 
-                                            let shouldEnableCustomQuestionsForOpenChatFromProfile = self.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers
-                                                && (self.conversation.value.listing?.isFakeListing ?? false)
+                                        relatedListingsState.asObservable(), Observable.just(isUserDummy)) { [weak self] chatEnabled, relatedState, isUserDummy in
+                                            guard let strongSelf = self else { return .notAvailable }
+                                            
+                                            let shouldEnableCustomQuestionsForOpenChatFromProfile = strongSelf.featureFlags.openChatFromUserProfile == .variant2WithOneTimeQuickAnswers
+                                                && (strongSelf.conversation.value.listing?.isFakeListing ?? false)
                                             
                                             if shouldEnableCustomQuestionsForOpenChatFromProfile {
-                                                if (self.thereAreMessagesSent) {
+                                                if (strongSelf.thereAreMessagesSent) {
                                                     return .notAvailable
                                                 }
                                                 return .visible
