@@ -20,7 +20,7 @@ final class LGReportingRepository: ReportingRepository {
     }
 
     func retrieveProductReport(reportId: String, completion: ReportingCompletion?) {
-        dataSource.retrieveUserReport(reportId: reportId) { result in
+        dataSource.retrieveListingReport(reportId: reportId) { result in
             handleApiResult(result, completion: completion)
         }
     }
