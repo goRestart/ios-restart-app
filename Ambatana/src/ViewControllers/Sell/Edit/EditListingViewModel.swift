@@ -919,7 +919,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             if let newImages = imagesResult.value {
                 
                 guard let strongSelf = self else { return }
-                let updatedParams = editParams.updating(images: newImages + remoteImages + videoSnapshots)
+                let updatedParams = editParams.updating(images: videoSnapshots + newImages + remoteImages)
                     .updating(videos: remoteVideos)
 
                 strongSelf.listingRepository.update(listingParams: updatedParams,
