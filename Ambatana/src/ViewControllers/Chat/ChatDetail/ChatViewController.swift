@@ -131,6 +131,8 @@ final class ChatViewController: TextViewController {
 
         let topSpace = viewModel.thereAreMessagesSent ? 0 : quickAnswerBottomHeight
         tableView.contentInset.top = topSpace
+        
+        chatDetailHeader.invalidateIntrinsicContentSize()
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
