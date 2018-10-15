@@ -94,10 +94,6 @@ final class ListingCarouselViewModel: BaseViewModel {
         return !keyValueStorage[.listingMoreInfoTooltipDismissed]
     }
     
-    var shouldShowPaymentFrequency: Bool {
-        return featureFlags.servicesPaymentFrequency.isActive
-    }
-    
     let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
     let productInfo = Variable<ListingVMProductInfo?>(nil)

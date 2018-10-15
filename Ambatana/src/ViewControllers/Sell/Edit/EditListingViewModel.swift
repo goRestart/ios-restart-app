@@ -1034,9 +1034,7 @@ extension EditListingViewModel {
     }
     
     var shouldShowPaymentFrequency: Bool {
-        return featureFlags.servicesPaymentFrequency.isActive &&
-            !(isFreePosting.value) &&
-            category.value?.isServices ?? false
+        return !(isFreePosting.value) && category.value?.isServices ?? false
     }
     
     var shouldShowListingType: Bool {

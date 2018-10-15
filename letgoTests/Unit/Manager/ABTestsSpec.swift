@@ -100,24 +100,24 @@ final class ABTestsSpec: QuickSpec {
                     syncer.sync(variables: verticals.floatVariables)
                 }
                 it("the variables registered are correct") {
-                    expect(syncer.syncedCount) == 9
+                    expect(syncer.syncedCount) == 8
                 }
             }
 
             context("registering all the verticals variables") {
-                it("the retention int variable registered are correct") {
-                    expect(verticals.intVariables.count) == 9
+                it("the verticals int variable registered are correct") {
+                    expect(verticals.intVariables.count) == 8
                 }
 
-                it("the retention bool variable registered are correct") {
+                it("the verticals bool variable registered are correct") {
                     expect(verticals.boolVariables.count) == 0
                 }
 
-                it("the retention string variable registered are correct") {
+                it("the verticals string variable registered are correct") {
                     expect(verticals.stringVariables.count) == 0
                 }
 
-                it("the retention float variable registered are correct") {
+                it("the verticals float variable registered are correct") {
                     expect(verticals.floatVariables.count) == 0
                 }
             }

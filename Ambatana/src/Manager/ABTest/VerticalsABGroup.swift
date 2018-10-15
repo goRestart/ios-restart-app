@@ -1,6 +1,5 @@
 struct VerticalsABGroup: ABGroupType {
 
-    let servicesPaymentFrequency: LeanplumABVariable<Int>
     let jobsAndServicesEnabled: LeanplumABVariable<Int>
     let carPromoCells: LeanplumABVariable<Int>
     let servicesPromoCells: LeanplumABVariable<Int>
@@ -16,8 +15,7 @@ struct VerticalsABGroup: ABGroupType {
     var floatVariables: [LeanplumABVariable<Float>] = []
     var boolVariables: [LeanplumABVariable<Bool>] = []
     
-    private init(servicesPaymentFrequency: LeanplumABVariable<Int>,
-                 jobsAndServicesEnabled: LeanplumABVariable<Int>,
+    private init(jobsAndServicesEnabled: LeanplumABVariable<Int>,
                  carPromoCells: LeanplumABVariable<Int>,
                  servicesPromoCells: LeanplumABVariable<Int>,
                  realEstatePromoCells: LeanplumABVariable<Int>,
@@ -25,7 +23,6 @@ struct VerticalsABGroup: ABGroupType {
                  clickToTalk: LeanplumABVariable<Int>,
                  boostSmokeTest: LeanplumABVariable<Int>,
                  realEstateEnabled: LeanplumABVariable<Int>) {
-        self.servicesPaymentFrequency = servicesPaymentFrequency
         self.jobsAndServicesEnabled = jobsAndServicesEnabled
         self.carPromoCells = carPromoCells
         self.servicesPromoCells = servicesPromoCells
@@ -34,8 +31,7 @@ struct VerticalsABGroup: ABGroupType {
         self.clickToTalk = clickToTalk
         self.boostSmokeTest = boostSmokeTest
         self.realEstateEnabled = realEstateEnabled
-        intVariables.append(contentsOf: [servicesPaymentFrequency,
-                                         jobsAndServicesEnabled,
+        intVariables.append(contentsOf: [jobsAndServicesEnabled,
                                          carPromoCells,
                                          servicesPromoCells,
                                          realEstatePromoCells,
@@ -46,8 +42,7 @@ struct VerticalsABGroup: ABGroupType {
     }
     
     static func make() -> VerticalsABGroup {
-        return VerticalsABGroup(servicesPaymentFrequency: verticalsIntFor(key: Keys.servicesPaymentFrequency),
-                                jobsAndServicesEnabled: verticalsIntFor(key: Keys.jobsAndServicesEnabled),
+        return VerticalsABGroup(jobsAndServicesEnabled: verticalsIntFor(key: Keys.jobsAndServicesEnabled),
                                 carPromoCells: verticalsIntFor(key: Keys.carPromoCells),
                                 servicesPromoCells: verticalsIntFor(key: Keys.servicesPromoCells),
                                 realEstatePromoCells: verticalsIntFor(key: Keys.realEstatePromoCells),
@@ -63,7 +58,6 @@ struct VerticalsABGroup: ABGroupType {
 }
 
 private struct Keys {
-    static let servicesPaymentFrequency = "20180730servicesPriceType"
     static let jobsAndServicesEnabled = "20180806jobsAndServicesEnabled"
     static let carPromoCells = "20182308carPromoCells"
     static let servicesPromoCells = "20182408servicesPromoCells"

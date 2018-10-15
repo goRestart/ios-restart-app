@@ -53,7 +53,6 @@ extension Bumper  {
         flags.append(ShowCommunity.self)
         flags.append(SmartQuickAnswers.self)
         flags.append(AlwaysShowBumpBannerWithLoading.self)
-        flags.append(ServicesPaymentFrequency.self)
         flags.append(SearchAlertsDisableOldestIfMaximumReached.self)
         flags.append(ShowSellFasterInProfileCells.self)
         flags.append(BumpInEditCopys.self)
@@ -569,19 +568,6 @@ extension Bumper  {
     static var alwaysShowBumpBannerWithLoadingObservable: Observable<AlwaysShowBumpBannerWithLoading> {
         return Bumper.observeValue(for: AlwaysShowBumpBannerWithLoading.key).map {
             AlwaysShowBumpBannerWithLoading(rawValue: $0 ?? "") ?? .control
-        }
-    }
-    #endif
-
-    static var servicesPaymentFrequency: ServicesPaymentFrequency {
-        guard let value = Bumper.value(for: ServicesPaymentFrequency.key) else { return .control }
-        return ServicesPaymentFrequency(rawValue: value) ?? .control 
-    } 
-
-    #if (RX_BUMPER)
-    static var servicesPaymentFrequencyObservable: Observable<ServicesPaymentFrequency> {
-        return Bumper.observeValue(for: ServicesPaymentFrequency.key).map {
-            ServicesPaymentFrequency(rawValue: $0 ?? "") ?? .control
         }
     }
     #endif
@@ -1610,22 +1596,6 @@ enum AlwaysShowBumpBannerWithLoading: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "[MONEY] Always show bump banner with a loading till we get the info" } 
     static func fromPosition(_ position: Int) -> AlwaysShowBumpBannerWithLoading {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum ServicesPaymentFrequency: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ServicesPaymentFrequency.control.rawValue }
-    static var enumValues: [ServicesPaymentFrequency] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "[SERVICES] shows services paymentFrequency functionality (e.g 2 euro per day, etc.)" } 
-    static func fromPosition(_ position: Int) -> ServicesPaymentFrequency {
         switch position { 
             case 0: return .control
             case 1: return .baseline

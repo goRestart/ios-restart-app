@@ -3,7 +3,7 @@ import Foundation
 import RxSwift
 
 final class MockFeatureFlags: FeatureFlaggeable {
- 
+
     var rx_affiliationEnabled: Observable<AffiliationEnabled> { return .just(.control) }
 
     var trackingData: Observable<[(String, ABGroup)]?> {
@@ -75,7 +75,6 @@ final class MockFeatureFlags: FeatureFlaggeable {
     var markAsSoldQuickAnswerNewFlow: MarkAsSoldQuickAnswerNewFlow = .control
 
     // MARK:  Verticals
-    var servicesPaymentFrequency: ServicesPaymentFrequency = .control
     var jobsAndServicesEnabled: EnableJobsAndServicesCategory = .control
     var carPromoCells: CarPromoCells = .control
     var servicesPromoCells: ServicesPromoCells = .control

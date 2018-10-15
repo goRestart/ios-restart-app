@@ -712,13 +712,12 @@ extension ListingCarouselViewController {
             userInfo: ListingVMUserInfo?,
             isProfessional: Bool,
             userBadge: UserReputationBadge) in
-            let shouldShowPaymentFrequency = self?.viewModel.shouldShowPaymentFrequency ?? false
             let featureFlags = self?.viewModel.featureFlags ?? FeatureFlags.sharedInstance
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
                                      productTitle: productInfo?.titleViewModel(featureFlags: featureFlags),
                                      productPrice: productInfo?.price,
-                                     productPaymentFrequency: shouldShowPaymentFrequency ? productInfo?.paymentFrequency : nil,
+                                     productPaymentFrequency: productInfo?.paymentFrequency,
                                      userId: userInfo?.userId,
                                      isProfessional: isProfessional,
                                      userBadge: userBadge)

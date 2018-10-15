@@ -65,20 +65,18 @@ final class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDr
         featureFlags.showSellFasterInProfileCells.isActive &&
         isPrivateList && listingCanBeBumped
         
-        let canShowPaymentFrequency = featureFlags.servicesPaymentFrequency.isActive
-        
         if model.isFeatured {
             // According to the bussines login all the featured items (services, cards, real estates, etc),
             // must show the title, the description and the red button, that the reason of the hideProductDetail: false.
             cell.setupFeaturedListingInfo(withPrice: model.price,
-                                          paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
+                                          paymentFrequency: model.paymentFrequency,
                                           titleViewModel: model.titleViewModel(featureFlags: featureFlags),
                                           isMine: model.isMine,
                                           hideProductDetail: false,
                                           shouldShowBumpUpCTA: showBumpUpCTA)
         } else {
             cell.setupNonFeaturedProductInfoUnderImage(price: model.price,
-                                                       paymentFrequency: canShowPaymentFrequency ? model.paymentFrequency : nil,
+                                                       paymentFrequency: model.paymentFrequency,
                                                        titleViewModel: model.titleViewModel(featureFlags: featureFlags),
                                                        shouldShow: (style == .serviceList),
                                                        shouldShowBumpUpCTA: showBumpUpCTA);
