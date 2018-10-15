@@ -84,8 +84,8 @@ final class ChatMyMessageCell: ChatBubbleCell, ReusableCell {
             checkImageView.widthAnchor.constraint(equalToConstant: ChatBubbleLayout.checkImageSize),
             checkImageView.leftAnchor.constraint(equalTo: dateLabel.rightAnchor, constant: Metrics.shortMargin),
             checkImageView.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -Metrics.shortMargin),
-            disclosureImageView.widthAnchor.constraint(equalToConstant: Layout.disclosureHeight),
-            disclosureImageView.heightAnchor.constraint(equalToConstant: Layout.disclosureWidth),
+            disclosureImageView.widthAnchor.constraint(equalToConstant: Layout.disclosureWidth),
+            disclosureImageView.heightAnchor.constraint(equalToConstant: Layout.disclosureHeight),
             disclosureImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             disclosureImageView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -Metrics.margin)
         ]
